@@ -1,0 +1,11 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "spore:block/blomfung"
+    },
+    "hanging=true": {
+      "model": "spore:block/blomfung",
+      "x": 180
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    " R ",
+    " # "
+  ],
+  "key": {
+    "R": {
+      "item": "spore:living_pants"
+    },
+    "#": {
+      "item": "spore:plated_pants"
+    }
+  },
+  "result": {
+    "item": "spore:inf_pants"
+  }
+}

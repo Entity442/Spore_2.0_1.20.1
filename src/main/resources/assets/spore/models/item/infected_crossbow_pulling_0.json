@@ -1,0 +1,6 @@
+{
+    "parent": "spore:item/infected_crossbow",
+    "textures": {
+        "layer0": "spore:item/crossbow_p0"
+    }
+}

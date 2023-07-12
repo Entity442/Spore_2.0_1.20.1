@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "R#R",
+    "# #",
+    "R R"
+  ],
+  "key": {
+    "R": {
+      "item": "spore:plated_muscle"
+    },
+    "#": {
+      "item": "spore:tendons"
+    }
+  },
+  "result": {
+    "item": "spore:living_pants"
+  },
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "biomancy"
+      }
+    }
+  ]
+}

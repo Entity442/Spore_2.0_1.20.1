@@ -1,0 +1,36 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/fungal_stem"
+      },
+      {
+        "model": "spore:block/fungal_stem_bloom"
+      },
+      {
+        "model": "spore:block/fungal_stem",
+        "y": 90
+      },
+      {
+        "model": "spore:block/fungal_stem_bloom",
+        "y": 90
+      },
+      {
+        "model": "spore:block/fungal_stem",
+        "y": 180
+      },
+      {
+        "model": "spore:block/fungal_stem_bloom",
+        "y": 180
+      },
+      {
+        "model": "spore:block/fungal_stem",
+        "y": 270
+      },
+      {
+        "model": "spore:block/fungal_stem_bloom",
+        "y": 270
+      }
+    ]
+  }
+}

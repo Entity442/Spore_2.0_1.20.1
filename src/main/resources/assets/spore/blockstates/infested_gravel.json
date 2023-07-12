@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/infested_gravel"
+      },
+      {
+        "model": "spore:block/infested_gravel",
+        "y": 90
+      },
+      {
+        "model": "spore:block/infested_gravel",
+        "y": 180
+      },
+      {
+        "model": "spore:block/infested_gravel",
+        "y": 270
+      }
+    ]
+  }
+}

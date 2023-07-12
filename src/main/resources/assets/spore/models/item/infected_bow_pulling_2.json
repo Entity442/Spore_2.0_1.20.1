@@ -1,0 +1,6 @@
+{
+    "parent": "spore:item/infected_bow",
+    "textures": {
+        "layer0": "spore:item/infected_bow_pulling2"
+    }
+}

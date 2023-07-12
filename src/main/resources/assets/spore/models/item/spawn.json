@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "spore:item/calamity_spawn",
+    "layer1": "spore:item/calamity_spawn_overlay"
+  }
+}

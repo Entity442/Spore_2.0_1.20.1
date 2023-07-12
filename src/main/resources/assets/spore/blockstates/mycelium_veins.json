@@ -1,0 +1,18 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/veins",
+        "weight": 16
+      },
+      {
+        "model": "spore:block/veins_over",
+        "weight": 8
+      },
+      {
+        "model": "spore:block/bloomed_veins",
+        "weight": 1
+      }
+    ]
+  }
+}

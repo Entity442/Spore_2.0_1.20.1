@@ -1,0 +1,11 @@
+{
+  "type":"biomancy:bio_forging",
+  "bio_forge_tab":"biomancy:blocks",
+  "ingredient_quantities":
+  [
+    {"count":2,"ingredient":{"item":"spore:tendons"}},
+    {"count":2,"ingredient":{"item":"spore:plated_muscle"}}
+  ],
+  "result":{"count":1,"item":"spore:living_boots"
+  }
+}

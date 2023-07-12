@@ -1,0 +1,18 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "item": "minecraft:amethyst_shard"
+    }
+  ],
+  "processingTime": 300,
+  "results": [
+    {
+      "item": "spore:amethyst_dust"
+    },
+    {
+      "chance": 0.45,
+      "item": "spore:amethyst_dust"
+    }
+  ]
+}

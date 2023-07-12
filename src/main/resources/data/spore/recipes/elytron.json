@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "R#R",
+    "CTC",
+    "C C"
+  ],
+  "key": {
+    "R": {
+      "item": "spore:r_wing"
+    },
+    "#": {
+      "item": "spore:living_core"
+    },
+    "T": {
+      "item": "spore:armor_plate"
+    },
+    "C": {
+      "item": "spore:alveolic_sack"
+    }
+  },
+  "result": {
+    "item": "spore:r_elytron"
+  },
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "biomancy"
+      }
+    }
+  ]
+}

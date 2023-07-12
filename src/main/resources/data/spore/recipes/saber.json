@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " RT",
+    "R#T",
+    "RX "
+  ],
+  "key": {
+    "R": {
+      "item": "spore:claw"
+    },
+    "#": {
+      "item": "spore:living_core"
+    },
+    "T": {
+      "item": "spore:mutated_fiber"
+    },
+    "X": {
+      "item": "spore:fleshy_bone"
+    }
+},
+  "result": {
+    "item": "spore:saber"
+  },
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "biomancy"
+      }
+    }
+  ]
+}

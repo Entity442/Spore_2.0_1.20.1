@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TCX",
+    "#RR",
+    " RR"
+  ],
+  "key": {
+    "R": {
+      "item": "spore:sickle_fragment"
+    },
+    "C": {
+      "item": "spore:spine"
+    },
+    "#": {
+      "item": "spore:living_core"
+    },
+    "T": {
+      "item": "spore:mutated_fiber"
+    },
+    "X": {
+      "item": "spore:spine_fragment"
+    }
+},
+  "result": {
+    "item": "spore:sickle"
+  },
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "biomancy"
+      }
+    }
+  ]
+}

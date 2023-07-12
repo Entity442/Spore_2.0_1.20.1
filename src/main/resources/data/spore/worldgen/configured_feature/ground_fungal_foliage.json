@@ -1,0 +1,62 @@
+{
+  "type": "minecraft:flower",
+  "config": {
+    "feature": {
+      "feature": {
+        "type": "minecraft:simple_block",
+        "config": {
+          "to_place": {
+            "type": "minecraft:weighted_state_provider",
+            "entries": [
+              {
+                "data": {
+                  "Name": "spore:growths_big"
+                },
+                "weight": 4
+              },
+              {
+                "data": {
+                  "Name": "spore:growths_small"
+                },
+                "weight": 4
+              },
+              {
+                "data": {
+                  "Name": "spore:fungal_stem_sapling"
+                },
+                "weight": 2
+              },
+              {
+                "data": {
+                  "Name": "spore:blomfung"
+                },
+                "weight": 4
+              },
+              {
+                "data": {
+                  "Name": "spore:bloomfung2"
+                },
+                "weight": 4
+              },
+              {
+                "data": {
+                  "Name": "spore:remains"
+                },
+                "weight": 1
+              }
+            ]
+          }
+        }
+      },
+      "placement": [
+        {
+          "type": "minecraft:block_predicate_filter",
+          "predicate": {
+            "type": "minecraft:matching_blocks",
+            "blocks": "minecraft:air"
+          }
+        }
+      ]
+    }
+  }
+}

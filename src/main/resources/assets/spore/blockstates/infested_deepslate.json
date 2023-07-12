@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/infested_deepslate"
+      },
+      {
+        "model": "spore:block/infested_deepslate",
+        "y": 90
+      },
+      {
+        "model": "spore:block/infested_deepslate",
+        "y": 180
+      },
+      {
+        "model": "spore:block/infested_deepslate",
+        "y": 270
+      }
+    ]
+  }
+}

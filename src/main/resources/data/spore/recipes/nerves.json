@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "spore:cerebrum"
+    }
+  ],
+  "result": {
+    "item": "spore:nerves",
+    "count": 8
+  }
+}

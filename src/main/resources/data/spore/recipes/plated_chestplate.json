@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TCT",
+    "RTR",
+    "RTR"
+  ],
+  "key": {
+    "T": {
+      "item": "spore:armor_plate"
+    },
+    "R": {
+      "item": "spore:armor_fragment"
+    },
+    "C": {
+      "item": "spore:spine"
+    }
+  },
+  "result": {
+    "item": "spore:plated_chest"
+  }
+}

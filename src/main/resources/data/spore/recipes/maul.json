@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#R#",
+    "#T#",
+    " T "
+  ],
+  "key": {
+    "R": {
+      "item": "spore:living_core"
+    },
+    "#": {
+      "item": "spore:hardened_bind"
+    },
+    "T": {
+      "item": "spore:fleshy_bone"
+    }
+  },
+  "result": {
+    "item": "spore:maul"
+  },
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "biomancy"
+      }
+    }
+  ]
+}

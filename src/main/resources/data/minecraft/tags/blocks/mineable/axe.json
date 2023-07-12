@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "spore:rotten_log",
+    "spore:biomass_block",
+    "spore:rooted_biomass",
+    "spore:rooted_mycelium",
+    "spore:fungal_shell",
+    "spore:mycelium_block",
+    "spore:mycelium_slab"
+  ]
+}

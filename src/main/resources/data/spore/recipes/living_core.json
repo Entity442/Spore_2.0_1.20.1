@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "T#T",
+    "#R#",
+    "T#T"
+  ],
+  "key": {
+    "R": {
+      "item": "spore:mutated_heart"
+    },
+    "#": {
+      "item": "spore:mutated_fiber"
+    },
+    "T": {
+      "item": "spore:armor_fragment"
+    }
+  },
+  "result": {
+    "item": "spore:living_core"
+  },
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "biomancy"
+      }
+    }
+  ]
+}

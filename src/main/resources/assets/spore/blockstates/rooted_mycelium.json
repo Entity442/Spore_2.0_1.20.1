@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/rooted_mycelium"
+      },
+      {
+        "model": "spore:block/rooted_mycelium",
+        "y": 90
+      },
+      {
+        "model": "spore:block/rooted_mycelium",
+        "y": 180
+      },
+      {
+        "model": "spore:block/rooted_mycelium",
+        "y": 270
+      }
+    ]
+  }
+}

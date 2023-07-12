@@ -1,0 +1,15 @@
+
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 896836474,
+    "separation": 1,
+    "spacing": 3
+  },
+  "structures": [
+    {
+      "structure": "spore:biomass_tower",
+      "weight": 1
+    }
+  ]
+}

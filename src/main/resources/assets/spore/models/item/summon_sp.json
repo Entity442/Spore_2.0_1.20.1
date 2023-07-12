@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "spore:item/summon_special",
+    "layer1": "spore:item/summon_special_overlay"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/infested_end_stone"
+      },
+      {
+        "model": "spore:block/infested_end_stone",
+        "y": 90
+      },
+      {
+        "model": "spore:block/infested_end_stone",
+        "y": 180
+      },
+      {
+        "model": "spore:block/infested_end_stone",
+        "y": 270
+      }
+    ]
+  }
+}

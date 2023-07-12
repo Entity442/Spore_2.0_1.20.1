@@ -1,0 +1,20 @@
+
+{
+  "variants": {
+    "facing=north": {
+      "model": "spore:block/container"
+    },
+    "facing=east": {
+      "model": "spore:block/container",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "spore:block/container",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "spore:block/container",
+      "y": 270
+    }
+  }
+}

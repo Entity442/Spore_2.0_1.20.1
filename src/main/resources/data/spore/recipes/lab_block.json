@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " R ",
+    "R R",
+    " R "
+  ],
+  "key": {
+    "R": {
+      "item": "spore:compound_plate"
+    }
+  },
+  "result": {
+    "count": 4,
+    "item": "spore:lab_block"
+  }
+}

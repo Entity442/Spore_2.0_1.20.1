@@ -1,0 +1,26 @@
+{
+  "replace": false,
+  "values": [
+    "spore:knight",
+    "spore:griefer",
+    "spore:inf_human",
+    "spore:inf_wanderer",
+    "spore:braiomil",
+    "spore:inf_villager",
+    "spore:inf_witch",
+    "spore:inf_pillager",
+    "spore:spitter",
+    "spore:leaper",
+    "spore:slasher",
+    "spore:inf_vindicator",
+    "spore:inf_evoker",
+    "spore:howler",
+    "spore:stalker",
+    "spore:brute",
+    "spore:claw",
+    "spore:busser",
+    "spore:inf_drowned",
+    "spore:inf_player",
+    "spore:scamper"
+  ]
+}

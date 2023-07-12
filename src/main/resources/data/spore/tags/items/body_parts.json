@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "spore:claw_fragment",
+    "spore:armor_fragment",
+    "spore:mutated_heart",
+    "spore:mutated_fiber",
+    "spore:nerves",
+    "spore:spine_fragment",
+    "spore:alveolic_sack",
+    "spore:tendons",
+    "spore:corrosive_sack",
+    "spore:altered_spleen",
+    "spore:wing_membrane",
+    "spore:sickle_fragment",
+    "spore:innards",
+    "spore:tendons"
+  ]
+}

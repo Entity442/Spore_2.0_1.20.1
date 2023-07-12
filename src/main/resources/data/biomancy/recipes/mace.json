@@ -1,0 +1,13 @@
+{
+  "type":"biomancy:bio_forging",
+  "bio_forge_tab":"biomancy:blocks",
+  "ingredient_quantities":
+  [
+    {"count":1,"ingredient":{"item":"spore:living_core"}},
+    {"count":1,"ingredient":{"item":"spore:fleshy_bone"}},
+    {"count":2,"ingredient":{"item":"spore:fleshy_claw"}},
+    {"count":1,"ingredient":{"item":"spore:hardened_bind"}}
+  ],
+  "result":{"count":1,"item":"spore:mace"
+  }
+}

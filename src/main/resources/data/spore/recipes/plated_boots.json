@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    "R R",
+    "T T"
+  ],
+  "key": {
+    "T": {
+      "item": "spore:armor_plate"
+    },
+    "R": {
+      "item": "spore:armor_fragment"
+    }
+  },
+  "result": {
+    "item": "spore:plated_boots"
+  }
+}

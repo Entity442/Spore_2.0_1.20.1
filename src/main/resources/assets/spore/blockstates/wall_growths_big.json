@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "spore:block/wall_growths_big",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "spore:block/wall_growths_big"
+    },
+    "facing=south": {
+      "model": "spore:block/wall_growths_big",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "spore:block/wall_growths_big",
+      "y": 270
+    }
+  }
+}

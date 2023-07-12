@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "R R",
+    "RRR",
+    "R R"
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:iron_bars"
+    }
+  },
+  "result": {
+    "count": 5,
+    "item": "spore:iron_ladder"
+  }
+}

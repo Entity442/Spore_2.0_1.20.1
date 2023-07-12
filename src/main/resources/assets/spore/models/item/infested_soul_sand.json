@@ -1,0 +1,8 @@
+{
+  "parent": "spore:block/overground_block",
+  "textures": {
+    "0": "spore:block/mycelium_roots",
+    "1": "minecraft:block/soul_sand",
+    "particle": "minecraft:block/soul_sand"
+  }
+}

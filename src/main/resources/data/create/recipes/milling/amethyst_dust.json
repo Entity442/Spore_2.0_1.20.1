@@ -1,0 +1,14 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "item": "minecraft:amethyst_shard"
+    }
+  ],
+  "processingTime": 100,
+  "results": [
+    {
+      "item": "spore:amethyst_dust"
+    }
+  ]
+}

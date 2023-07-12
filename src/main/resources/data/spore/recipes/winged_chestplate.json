@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "addition": {
+    "item": "spore:r_elytron"
+  },
+  "base": {
+    "item": "spore:inf_chest"
+  },
+  "result": {
+    "item": "spore:inf_up_chest"
+  }
+}

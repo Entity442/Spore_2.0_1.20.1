@@ -1,0 +1,12 @@
+{
+  "type":"biomancy:bio_forging",
+  "bio_forge_tab":"biomancy:blocks",
+  "ingredient_quantities":
+  [
+    {"count":4,"ingredient":{"item":"spore:mutated_fiber"}},
+    {"count":1,"ingredient":{"item":"spore:mutated_heart"}},
+    {"count":4,"ingredient":{"item":"spore:armor_fragment"}}
+  ],
+  "result":{"count":1,"item":"spore:living_core"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type":"biomancy:digesting",
+  "ingredient":{
+    "tag":"spore:body_parts"
+  }, "result":{
+    "count":2,"item":"biomancy:nutrient_paste"
+  }, "time":351,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "biomancy"
+    }
+  ]
+}

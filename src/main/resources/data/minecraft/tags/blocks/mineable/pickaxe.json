@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "spore:lab_block",
+    "spore:lab_slab",
+    "spore:lab_stair",
+    "spore:iron_ladder",
+    "spore:container",
+    "spore:infested_stone",
+    "spore:infested_deepslate",
+    "spore:infested_end_stone",
+    "spore:infested_netherrack",
+
+
+    "spore:fungal_shell",
+    "spore:mycelium_block",
+    "spore:mycelium_slab"
+  ]
+}

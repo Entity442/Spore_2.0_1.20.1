@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "spore:claw_fragment",
+    "spore:armor_fragment",
+    "spore:mutated_fiber",
+    "spore:nerves",
+    "spore:spine_fragment",
+    "spore:tendons",
+    "spore:altered_spleen",
+    "spore:tendons"
+  ]
+}

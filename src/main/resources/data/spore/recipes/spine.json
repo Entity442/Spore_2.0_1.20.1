@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "spore:spine_fragment"
+    },
+    "C": {
+      "item": "spore:nerves"
+    }
+  },
+  "pattern": [
+    "C#C",
+    "C#C",
+    "C#C"
+  ],
+  "result": {
+    "item": "spore:spine"
+  },
+  "conditions": [
+  {
+    "type": "forge:not",
+    "value": {
+      "type": "forge:mod_loaded",
+      "modid": "biomancy"
+    }
+  }
+]
+}

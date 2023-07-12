@@ -1,0 +1,14 @@
+{
+  "type":"biomancy:bio_forging",
+  "bio_forge_tab":"biomancy:blocks",
+  "ingredient_quantities":
+  [
+    {"count":1,"ingredient":{"item":"spore:living_core"}},
+    {"count":1,"ingredient":{"item":"spore:mutated_fiber"}},
+    {"count":4,"ingredient":{"item":"spore:sickle_fragment"}},
+    {"count":1,"ingredient":{"item":"spore:spine_fragment"}},
+    {"count":1,"ingredient":{"item":"spore:spine"}}
+  ],
+  "result":{"count":1,"item":"spore:sickle"
+  }
+}

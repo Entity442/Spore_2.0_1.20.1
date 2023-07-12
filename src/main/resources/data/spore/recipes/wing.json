@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "T##",
+    "R##",
+    "T##"
+  ],
+  "key": {
+    "R": {
+      "item": "spore:spine"
+    },
+    "#": {
+      "item": "spore:wing_membrane"
+    },
+    "T": {
+      "item": "spore:armor_fragment"
+    }
+  },
+  "result": {
+    "item": "spore:r_wing"
+  },
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "biomancy"
+      }
+    }
+  ]
+}

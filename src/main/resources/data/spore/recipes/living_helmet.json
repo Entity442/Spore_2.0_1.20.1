@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    " R ",
+    " # "
+  ],
+  "key": {
+    "R": {
+      "item": "spore:living_helmet"
+    },
+    "#": {
+      "item": "spore:plated_helmet"
+    }
+  },
+  "result": {
+    "item": "spore:inf_helmet"
+  }
+}

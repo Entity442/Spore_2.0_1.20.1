@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    " R ",
+    " # "
+  ],
+  "key": {
+    "R": {
+      "item": "spore:living_boots"
+    },
+    "#": {
+      "item": "spore:plated_boots"
+    }
+  },
+  "result": {
+    "item": "spore:inf_boots"
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "display": {
+    "background": "minecraft:textures/block/iron_block.png",
+    "icon": {
+      "item": "spore:mutated_heart"
+    },
+    "title": "Spore",
+    "description": ""
+  },
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "spore:body_parts"
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "recipes": [
+      "spore:amethyst_dust",
+      "spore:biomass",
+      "spore:armads",
+      "spore:armor_plate",
+      "spore:bow",
+      "spore:claw",
+      "spore:compound",
+      "spore:compound_plate",
+      "spore:container",
+      "spore:crossbow",
+      "spore:dense_muscle",
+      "spore:elytron",
+      "spore:flesh_boots",
+      "spore:flesh_chestplate",
+      "spore:flesh_helmet",
+      "spore:flesh_pants",
+      "spore:fleshy_bone",
+      "spore:fleshy_claw",
+      "spore:greatsword",
+      "spore:hardened_bind",
+      "spore:knife",
+      "spore:lab_block",
+      "spore:lab_block_slab",
+      "spore:lab_slab",
+      "spore:lab_stair",
+      "spore:living_boots",
+      "spore:living_chest",
+      "spore:living_core",
+      "spore:living_helmet",
+      "spore:living_pants",
+      "spore:mace",
+      "spore:maul",
+      "spore:nerves",
+      "spore:plated_boots",
+      "spore:plated_chestplate",
+      "spore:plated_helmet",
+      "spore:plated_pants",
+      "spore:rapier",
+      "spore:saber",
+      "spore:scythe",
+      "spore:shovel",
+      "spore:sickle",
+      "spore:spear",
+      "spore:spine",
+      "spore:tumor",
+      "spore:wing",
+      "spore:winged_chestplate",
+      "spore:iron_ladder_recipe",
+
+
+
+      "biomancy:armads",
+      "biomancy:armor_plate",
+      "biomancy:bow",
+      "biomancy:crossbow",
+      "biomancy:dense_muscle_b",
+      "biomancy:elytron",
+      "biomancy:flesh_boots",
+      "biomancy:flesh_chestplate",
+      "biomancy:flesh_helmet",
+      "biomancy:flesh_pants",
+      "biomancy:fleshy_bone",
+      "biomancy:fleshy_claw",
+      "biomancy:greatsword",
+      "biomancy:hardened_bind",
+      "biomancy:living_core",
+      "biomancy:mace",
+      "biomancy:maul",
+      "biomancy:rapier",
+      "biomancy:saber",
+      "biomancy:scythe",
+      "biomancy:shovel",
+      "biomancy:sickle",
+      "biomancy:spear",
+      "biomancy:wing",
+      "biomancy:spine"
+    ]
+  }
+}

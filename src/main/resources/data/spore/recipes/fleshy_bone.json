@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " RM",
+    "RMR",
+    "MR "
+  ],
+  "key": {
+    "R": {
+      "item": "spore:mutated_fiber"
+    },
+    "M": {
+      "item": "minecraft:bone"
+    }
+  },
+  "result": {
+    "item": "spore:fleshy_bone"
+  },
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "biomancy"
+      }
+    }
+  ]
+}

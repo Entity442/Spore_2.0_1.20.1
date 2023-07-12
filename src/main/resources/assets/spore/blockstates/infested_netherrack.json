@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/infested_netherrack"
+      },
+      {
+        "model": "spore:block/infested_netherrack",
+        "y": 90
+      },
+      {
+        "model": "spore:block/infested_netherrack",
+        "y": 180
+      },
+      {
+        "model": "spore:block/infested_netherrack",
+        "y": 270
+      }
+    ]
+  }
+}

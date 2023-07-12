@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TCT",
+    "T T",
+    "R R"
+  ],
+  "key": {
+    "T": {
+      "item": "spore:armor_plate"
+    },
+    "R": {
+      "item": "spore:armor_fragment"
+    },
+    "C": {
+      "item": "spore:spine_fragment"
+    }
+  },
+  "result": {
+    "item": "spore:plated_pants"
+  }
+}

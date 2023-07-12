@@ -1,0 +1,16 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "spore:amethyst_dust"
+    }
+  ],
+  "results": [
+    {
+      "item": "spore:compound"
+    }
+  ]
+}

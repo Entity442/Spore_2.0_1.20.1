@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/hive_spawn"
+      },
+      {
+        "model": "spore:block/hive_spawn",
+        "y": 90
+      },
+      {
+        "model": "spore:block/hive_spawn",
+        "y": 180
+      },
+      {
+        "model": "spore:block/hive_spawn",
+        "y": 270
+      }
+    ]
+  }
+}

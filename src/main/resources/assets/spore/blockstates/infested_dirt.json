@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/infested_dirt"
+      },
+      {
+        "model": "spore:block/infested_dirt",
+        "y": 90
+      },
+      {
+        "model": "spore:block/infested_dirt",
+        "y": 180
+      },
+      {
+        "model": "spore:block/infested_dirt",
+        "y": 270
+      }
+    ]
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "spore:item/handheldweapon3",
+  "textures": {
+    "layer0": "spore:item/scythe"
+  }
+}

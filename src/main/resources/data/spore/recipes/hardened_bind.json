@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RTR",
+    "TTT",
+    "RTR"
+  ],
+  "key": {
+    "R": {
+      "item": "spore:claw_fragment"
+    },
+    "T": {
+      "item": "spore:mutated_fiber"
+    }
+  },
+  "result": {
+    "item": "spore:hardened_bind"
+  },
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "biomancy"
+      }
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "minecraft:sugar"
+    },
+    "R": {
+      "item": "spore:amethyst_dust"
+    }
+  },
+  "pattern": [
+    "   ",
+    "#R#",
+    "   "
+  ],
+  "result": {
+    "item": "spore:compound"
+  },
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "create"
+      }
+    }
+  ]
+}

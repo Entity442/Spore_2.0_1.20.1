@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/fungal_stem_sapling"
+      }
+    ]
+  }
+}

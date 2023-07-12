@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "spore:block/mycelium_block",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "spore:block/mycelium_block"
+    },
+    "axis=z": {
+      "model": "spore:block/mycelium_block",
+      "x": 90
+    }
+  }
+}

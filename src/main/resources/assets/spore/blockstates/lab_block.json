@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/lab_block"
+      },
+      {
+        "model": "spore:block/lab_block",
+        "y": 90
+      },
+      {
+        "model": "spore:block/lab_block",
+        "y": 180
+      },
+      {
+        "model": "spore:block/lab_block",
+        "y": 270
+      }
+    ]
+  }
+}

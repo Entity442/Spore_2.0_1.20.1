@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "spore:block/lab_slab"
+    },
+    "type=double": {
+      "model": "spore:block/lab_block"
+    },
+    "type=top": {
+      "model": "spore:block/lab_slab_top"
+    }
+  }
+}

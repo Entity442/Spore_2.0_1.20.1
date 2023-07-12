@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/acid"
+      },
+      {
+        "model": "spore:block/acid",
+        "y": 90
+      },
+      {
+        "model": "spore:block/acid",
+        "y": 180
+      },
+      {
+        "model": "spore:block/acid",
+        "y": 270
+      }
+    ]
+  }
+}

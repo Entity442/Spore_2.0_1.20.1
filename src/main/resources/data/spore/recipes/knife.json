@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  R",
+    "#C ",
+    "X  "
+  ],
+  "key": {
+    "R": {
+      "item": "spore:claw"
+    },
+    "C": {
+      "item": "spore:mutated_heart"
+    },
+    "#": {
+      "item": "spore:mutated_fiber"
+    },
+    "X": {
+      "item": "minecraft:bone"
+    }
+},
+  "result": {
+    "item": "spore:knife"
+  }
+}

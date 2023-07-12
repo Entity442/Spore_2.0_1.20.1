@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "spore:infested_dirt",
+    "spore:infested_sand",
+    "spore:infested_gravel",
+    "spore:infested_soul_sand"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+	"credit": "Made with Blockbench",
+	"render_type": "cutout",
+	"textures": {
+		"2": "spore:block/mycelium_roots",
+		"particle": "spore:block/mycelium_roots"
+	},
+	"elements": [
+		{
+			"from": [0, 0.1, 0],
+			"to": [16, 0.1, 16],
+			"faces": {
+				"up": {"uv": [16, 16, 0, 0], "texture": "#2"},
+				"down": {"uv": [16, 0, 0, 16], "texture": "#2", "cullface": "down"}
+			}
+		}
+	]
+}
