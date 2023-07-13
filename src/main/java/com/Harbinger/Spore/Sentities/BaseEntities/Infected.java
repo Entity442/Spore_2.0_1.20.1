@@ -100,23 +100,6 @@ public class Infected extends Monster{
 
     }
 
-    @Override
-    public void setTarget(@org.jetbrains.annotations.Nullable LivingEntity entity) {
-        if (ModList.get().isLoaded("fromanotherworld") && !SConfig.SERVER.faw_target.get()){
-            if (entity != null && entity.getType().is(TagKey.create(Registries.ENTITY_TYPE,
-                    new ResourceLocation("fromanotherworld:things")))){
-                super.setTarget(null);
-            }
-        }else if (ModList.get().isLoaded("sculkhorde") && !SConfig.SERVER.skulk_target.get()){
-            if (entity != null && entity.getType().is(TagKey.create(Registries.ENTITY_TYPE,
-                    new ResourceLocation("sculkhorde:sculk_entity")))){
-                super.setTarget(null);
-            }
-        }else{
-        super.setTarget(entity);
-     }
-    }
-
     public int getMaxAirSupply() {
         return 1200;
     }
@@ -185,12 +168,10 @@ public class Infected extends Monster{
             return SConfig.SERVER.whitelist.get().contains(en.getEncodeId()) || (en.hasEffect(Seffects.MARKER.get()) && !(en instanceof Infected || en instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(en.getEncodeId())));
         }));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, true, (en) -> {
-            return !(en instanceof Animal || en instanceof AbstractFish || en instanceof Infected || en instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(en.getEncodeId())) && SConfig.SERVER.at_mob.get();
+            return !(this.likedFellows(en) || this.otherWorld(en) || this.SkulkLove(en)) && SConfig.SERVER.at_mob.get();
         }));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, true, (en) -> {
-            return (ModList.get().isLoaded("fromanotherworld") && SConfig.SERVER.faw_target.get() && en.getType().is(TagKey.create(Registries.ENTITY_TYPE,
-                    new ResourceLocation("fromanotherworld:things")))) || (ModList.get().isLoaded("sculkhorde") && SConfig.SERVER.skulk_target.get() && en.getType().is(TagKey.create(Registries.ENTITY_TYPE,
-                    new ResourceLocation("sculkhorde:sculk_entity"))));
+            return this.otherWorld(en) || this.SkulkLove(en);
         }));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Animal.class, 5, false, true, (en) -> {
             return !SConfig.SERVER.blacklist.get().contains(en.getEncodeId()) && SConfig.SERVER.at_an.get();
@@ -204,6 +185,31 @@ public class Infected extends Monster{
         this.goalSelector.addGoal(9,new FollowOthersGoal(this, 1.2, ScentEntity.class ));
         this.goalSelector.addGoal(10,new FollowOthersGoal(this, 0.7 ));
     }
+
+
+
+
+    public boolean otherWorld(Entity entity){
+        return ModList.get().isLoaded("fromanotherworld") && SConfig.SERVER.faw_target.get() && entity.getType().is(TagKey.create(Registries.ENTITY_TYPE,
+                new ResourceLocation("fromanotherworld:things")));
+    }
+
+    public boolean SkulkLove(Entity entity){
+        return (ModList.get().isLoaded("sculkhorde") && SConfig.SERVER.skulk_target.get() && entity.getType().is(TagKey.create(Registries.ENTITY_TYPE,
+                new ResourceLocation("sculkhorde:sculk_entity"))));
+    }
+
+    public boolean likedFellows(Entity en){
+        return en instanceof Animal || en instanceof AbstractFish || en instanceof Infected || en instanceof UtilityEntity;
+    }
+
+
+
+
+
+
+
+
     public void aiStep() {
         super.aiStep();
 
