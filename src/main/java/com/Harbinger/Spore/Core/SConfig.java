@@ -29,6 +29,11 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Boolean> should_starve;
         public final ForgeConfigSpec.ConfigValue<Boolean> higher_thinking;
 
+
+        public final ForgeConfigSpec.ConfigValue<Boolean> faw_target;
+        public final ForgeConfigSpec.ConfigValue<Boolean> skulk_target;
+
+
         public final ForgeConfigSpec.ConfigValue<Integer> days;
         public final ForgeConfigSpec.ConfigValue<Integer> mob_cap;
         public final ForgeConfigSpec.ConfigValue<Boolean> spawn;
@@ -299,6 +304,12 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> evolved;
 
         public Server(ForgeConfigSpec.Builder builder) {
+
+            builder.push("Compatibilities");
+            this.faw_target = builder.comment("Default false").define("Should the infected attack mobs from FAW?",false);
+            this.skulk_target = builder.comment("Default false").define("Should the infected attack mobs from Sculk Infection?",false);
+            builder.pop();
+
 
             builder.push("Global Variables");
             this.global_damage = builder.define("Global Damage Modifier",1.0);

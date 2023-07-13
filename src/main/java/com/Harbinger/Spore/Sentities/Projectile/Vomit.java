@@ -37,7 +37,6 @@ public class Vomit extends AbstractArrow implements ItemSupplier {
         super(vomitEntityType,entity,world);
     }
 
-    @OnlyIn(Dist.CLIENT)
     public ItemStack getItem() {
         return new ItemStack(Sitems.ACID.get());
     }

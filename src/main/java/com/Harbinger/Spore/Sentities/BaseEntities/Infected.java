@@ -10,13 +10,16 @@ import com.Harbinger.Spore.Sentities.Projectile.AcidBall;
 import com.Harbinger.Spore.Sentities.Projectile.Vomit;
 import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
@@ -44,6 +47,7 @@ import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nullable;
@@ -98,6 +102,18 @@ public class Infected extends Monster{
 
     @Override
     public void setTarget(@org.jetbrains.annotations.Nullable LivingEntity entity) {
+        if (ModList.get().isLoaded("fromanotherworld") && !SConfig.SERVER.faw_target.get()){
+            if (entity != null && entity.getType().is(TagKey.create(Registries.ENTITY_TYPE,
+                    new ResourceLocation("fromanotherworld:things")))){
+                super.setTarget(null);
+            }
+        }
+        if (ModList.get().isLoaded("sculkhorde") && !SConfig.SERVER.skulk_target.get()){
+            if (entity != null && entity.getType().is(TagKey.create(Registries.ENTITY_TYPE,
+                    new ResourceLocation("sculkhorde:sculk_entity")))){
+                super.setTarget(null);
+            }
+        }
         super.setTarget(entity);
     }
 
@@ -355,4 +371,5 @@ public class Infected extends Monster{
         }
         super.die(source);
     }
+
 }

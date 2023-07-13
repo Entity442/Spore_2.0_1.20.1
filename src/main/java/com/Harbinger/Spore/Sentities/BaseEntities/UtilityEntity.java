@@ -1,5 +1,9 @@
 package com.Harbinger.Spore.Sentities.BaseEntities;
 
+import com.Harbinger.Spore.Core.SConfig;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -13,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.fml.ModList;
 
 public class UtilityEntity extends PathfinderMob {
     protected UtilityEntity(EntityType<? extends PathfinderMob> type, Level level) {
@@ -65,5 +70,23 @@ public class UtilityEntity extends PathfinderMob {
     }
     public DamageSource getCustomDamage(LivingEntity entity){
         return this.damageSources().mobAttack(this);
+    }
+
+
+    @Override
+    public void setTarget(@org.jetbrains.annotations.Nullable LivingEntity entity) {
+        if (ModList.get().isLoaded("fromanotherworld") && !SConfig.SERVER.faw_target.get()){
+            if (entity != null && entity.getType().is(TagKey.create(Registries.ENTITY_TYPE,
+                    new ResourceLocation("fromanotherworld:things")))){
+                super.setTarget(null);
+            }
+        }
+        if (ModList.get().isLoaded("sculkhorde") && !SConfig.SERVER.skulk_target.get()){
+            if (entity != null && entity.getType().is(TagKey.create(Registries.ENTITY_TYPE,
+                    new ResourceLocation("sculkhorde:sculk_entity")))){
+                super.setTarget(null);
+            }
+        }
+        super.setTarget(entity);
     }
 }

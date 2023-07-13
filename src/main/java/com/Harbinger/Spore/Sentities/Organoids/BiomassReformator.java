@@ -24,6 +24,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -34,7 +35,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.List;
 import java.util.Random;
 
-public class BiomassReformator extends UtilityEntity {
+public class BiomassReformator extends UtilityEntity implements Enemy {
     private static final EntityDataAccessor<Integer> COUNTER = SynchedEntityData.defineId(BiomassReformator.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> BIOMASS = SynchedEntityData.defineId(BiomassReformator.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> STATE = SynchedEntityData.defineId(BiomassReformator.class, EntityDataSerializers.INT);

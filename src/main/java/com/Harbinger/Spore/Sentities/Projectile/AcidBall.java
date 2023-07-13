@@ -37,7 +37,6 @@ public class AcidBall extends AbstractArrow implements ItemSupplier {
         super(acidBallEntityType,entity,world);
     }
 
-    @OnlyIn(Dist.CLIENT)
     public ItemStack getItem() {
         return new ItemStack(Sitems.ACID_BALL.get());
     }

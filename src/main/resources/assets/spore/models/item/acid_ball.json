@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "spore:entity/acid_ball"
+    "layer0": "spore:item/acid_ball"
   }
 }
