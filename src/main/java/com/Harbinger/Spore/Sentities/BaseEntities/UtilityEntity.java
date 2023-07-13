@@ -73,20 +73,4 @@ public class UtilityEntity extends PathfinderMob {
     }
 
 
-    @Override
-    public void setTarget(@org.jetbrains.annotations.Nullable LivingEntity entity) {
-        if (ModList.get().isLoaded("fromanotherworld") && !SConfig.SERVER.faw_target.get()){
-            if (entity != null && entity.getType().is(TagKey.create(Registries.ENTITY_TYPE,
-                    new ResourceLocation("fromanotherworld:things")))){
-                super.setTarget(null);
-            }
-        }
-        if (ModList.get().isLoaded("sculkhorde") && !SConfig.SERVER.skulk_target.get()){
-            if (entity != null && entity.getType().is(TagKey.create(Registries.ENTITY_TYPE,
-                    new ResourceLocation("sculkhorde:sculk_entity")))){
-                super.setTarget(null);
-            }
-        }
-        super.setTarget(entity);
-    }
 }

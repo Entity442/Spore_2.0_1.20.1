@@ -10,13 +10,16 @@ import com.Harbinger.Spore.Sentities.AI.HurtTargetGoal;
 import com.Harbinger.Spore.Sentities.Utility.InfectionTendril;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
@@ -35,6 +38,7 @@ import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fluids.FluidType;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.network.NetworkHooks;
 
 import java.util.EnumSet;
@@ -166,7 +170,7 @@ public class Calamity extends UtilityEntity implements Enemy {
     @Override
     public void registerGoals() {
         this.goalSelector.addGoal(1, new GoToLocation(this, 1.1));
-        this.goalSelector.addGoal(2, new HurtTargetGoal(this , Infected.class).setAlertOthers(Infected.class));
+        this.goalSelector.addGoal(2, new HurtTargetGoal(this ,(en -> {return !SConfig.SERVER.blacklist.get().contains(en.getEncodeId());}), Infected.class).setAlertOthers(Infected.class));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
                 (this, Player.class,  true));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, true, (en) -> {
@@ -174,6 +178,11 @@ public class Calamity extends UtilityEntity implements Enemy {
         }));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, true, (en) -> {
             return !(en instanceof Animal || en instanceof AbstractFish || en instanceof Infected || en instanceof UtilityEntity) && SConfig.SERVER.at_mob.get();
+        }));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, true, (en) -> {
+            return (ModList.get().isLoaded("fromanotherworld") && SConfig.SERVER.faw_target.get() && en.getType().is(TagKey.create(Registries.ENTITY_TYPE,
+                    new ResourceLocation("fromanotherworld:things")))) || (ModList.get().isLoaded("sculkhorde") && SConfig.SERVER.skulk_target.get() && en.getType().is(TagKey.create(Registries.ENTITY_TYPE,
+                    new ResourceLocation("sculkhorde:sculk_entity"))));
         }));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Animal.class, 5, false, true, (en) -> {
             return !SConfig.SERVER.blacklist.get().contains(en.getEncodeId()) && SConfig.SERVER.at_an.get();
