@@ -174,13 +174,17 @@ public class Calamity extends UtilityEntity implements Enemy {
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
                 (this, Player.class,  true));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, true, (en) -> {
-            return SConfig.SERVER.whitelist.get().contains(en.getEncodeId()) || (en.hasEffect(Seffects.MARKER.get()) && !likedFellows(en));
+            return SConfig.SERVER.whitelist.get().contains(en.getEncodeId()) || (en.hasEffect(Seffects.MARKER.get()) && !this.likedFellows(en));
         }));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, true, (en) -> {
-            return !(!this.otherWorld(en) || !this.SkulkLove(en) || this.likedFellows(en)) && SConfig.SERVER.at_mob.get();
+            return !(this.otherWorld(en) || this.SkulkLove(en) || this.likedFellows(en)) && SConfig.SERVER.at_mob.get();
         }));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Animal.class, 5, false, true, (en) -> {
-            return !this.likedFellows(en) && SConfig.SERVER.at_an.get();
+            return !SConfig.SERVER.blacklist.get().contains(en.getEncodeId()) && SConfig.SERVER.at_an.get();
+        }));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, true, (en) -> {
+            return !this.likedFellows(en) && SConfig.SERVER.at_mob.get() && ((this.otherWorld(en) && SConfig.SERVER.faw_target.get())
+                    || (this.SkulkLove(en) && SConfig.SERVER.skulk_target.get()));
         }));
 
         this.goalSelector.addGoal(6, new FloatDiveGoal(this));
@@ -189,13 +193,13 @@ public class Calamity extends UtilityEntity implements Enemy {
     }
 
     public boolean otherWorld(Entity entity){
-        return ModList.get().isLoaded("fromanotherworld") && SConfig.SERVER.faw_target.get() && entity.getType().is(TagKey.create(Registries.ENTITY_TYPE,
+        return entity.getType().is(TagKey.create(Registries.ENTITY_TYPE,
                 new ResourceLocation("fromanotherworld:things")));
     }
 
     public boolean SkulkLove(Entity entity){
-        return (ModList.get().isLoaded("sculkhorde") && SConfig.SERVER.skulk_target.get() && entity.getType().is(TagKey.create(Registries.ENTITY_TYPE,
-                new ResourceLocation("sculkhorde:sculk_entity"))));
+        return entity.getType().is(TagKey.create(Registries.ENTITY_TYPE,
+                new ResourceLocation("sculkhorde:sculk_entity")));
     }
 
     public boolean likedFellows(Entity en){

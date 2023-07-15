@@ -1,9 +1,6 @@
 package com.Harbinger.Spore.Sentities.Organoids;
 
-import com.Harbinger.Spore.Core.SConfig;
-import com.Harbinger.Spore.Core.Sblocks;
-import com.Harbinger.Spore.Core.Sentities;
-import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.HurtTargetGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
@@ -13,13 +10,16 @@ import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
@@ -80,13 +80,17 @@ public class Proto extends UtilityEntity implements Enemy {
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
                 (this, Player.class,  true));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, true, (en) -> {
-            return SConfig.SERVER.whitelist.get().contains(en.getEncodeId());
+            return SConfig.SERVER.whitelist.get().contains(en.getEncodeId()) || (en.hasEffect(Seffects.MARKER.get()) && !this.likedFellows(en));
         }));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, true, (en) -> {
-            return !(en instanceof Animal || en instanceof AbstractFish || en instanceof Infected || en instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(en.getEncodeId())) && SConfig.SERVER.at_mob.get();
+            return !(this.otherWorld(en) || this.SkulkLove(en) || this.likedFellows(en)) && SConfig.SERVER.at_mob.get();
         }));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Animal.class, 5, false, true, (en) -> {
             return !SConfig.SERVER.blacklist.get().contains(en.getEncodeId()) && SConfig.SERVER.at_an.get();
+        }));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, true, (en) -> {
+            return !this.likedFellows(en) && SConfig.SERVER.at_mob.get() && ((this.otherWorld(en) && SConfig.SERVER.faw_target.get())
+                    || (this.SkulkLove(en) && SConfig.SERVER.skulk_target.get()));
         }));
         this.goalSelector.addGoal(3,new ProtoScentDefense(this));
         this.goalSelector.addGoal(2,new ProtoTargeting(this));
@@ -94,6 +98,21 @@ public class Proto extends UtilityEntity implements Enemy {
         this.goalSelector.addGoal(4,new RandomLookAroundGoal(this));
         super.registerGoals();
     }
+
+    public boolean otherWorld(Entity entity){
+        return entity.getType().is(TagKey.create(Registries.ENTITY_TYPE,
+                new ResourceLocation("fromanotherworld:things")));
+    }
+
+    public boolean SkulkLove(Entity entity){
+        return entity.getType().is(TagKey.create(Registries.ENTITY_TYPE,
+                new ResourceLocation("sculkhorde:sculk_entity")));
+    }
+
+    public boolean likedFellows(Entity en){
+        return en instanceof Animal || en instanceof AbstractFish || en instanceof Infected || en instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(en.getEncodeId());
+    }
+
 
     public AABB seachbox(){
         return this.getBoundingBox().inflate(300);
