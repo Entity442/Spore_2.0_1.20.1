@@ -42,22 +42,18 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected {
     @Override
     protected void registerGoals() {
 
-        this.goalSelector.addGoal(2,new BusserFlyAndDrop(this,6));
-        this.goalSelector.addGoal(3, new TransportInfected<>(this, Mob.class, 0.8 ,
+
+        this.goalSelector.addGoal(4,new BusserFlyAndDrop(this,6));
+        this.goalSelector.addGoal(5, new TransportInfected<>(this, Mob.class, 0.8 ,
                 e -> { return SConfig.SERVER.can_be_carried.get().contains(e.getEncodeId()) || SConfig.SERVER.ranged.get().contains(e.getEncodeId());}));
 
-        this.goalSelector.addGoal(4, new CustomMeleeAttackGoal(this, 1.5, false) {
+        this.goalSelector.addGoal(5, new PullGoal(this, 32, 16));
+        this.goalSelector.addGoal(6, new CustomMeleeAttackGoal(this, 1.5, false) {
             @Override
             protected double getAttackReachSqr(LivingEntity entity) {
-                return 3.0 + entity.getBbWidth() * entity.getBbWidth();}});
-
-        this.goalSelector.addGoal(5,new LeapGoal(this,0.2F){
-            @Override
-            public boolean canUse() {
-                return super.canUse() && Busser.this.random.nextInt(0,10) == 5;
-            }
-        });
+                return 5.0 + entity.getBbWidth() * entity.getBbWidth();}});
         this.goalSelector.addGoal(6, new AerialChargeGoal(this ));
+
         this.goalSelector.addGoal(7 , new FlyingWanderAround(this , 1.0));
         super.registerGoals();
     }

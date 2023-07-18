@@ -149,7 +149,8 @@ public class Griefer extends EvolvedInfected {
                 .add(Attributes.MOVEMENT_SPEED, 0.2)
                 .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.griefer_damage.get() * SConfig.SERVER.global_damage.get())
                 .add(Attributes.FOLLOW_RANGE, 25)
-                .add(Attributes.ATTACK_KNOCKBACK, 0.3);
+                .add(Attributes.ATTACK_KNOCKBACK, 0.3)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 1);
 
     }
 
