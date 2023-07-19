@@ -379,12 +379,13 @@ public class Mound extends UtilityEntity implements Enemy {
     @Override
     public void die(DamageSource source) {
         if(this.getLinked() && source.getEntity() != null && this.getAge() > 3){
-            AABB searchbox = this.getBoundingBox().inflate(300);
+            AABB searchbox = this.getBoundingBox().inflate(SConfig.SERVER.proto_range.get());
             List<Entity> entities = this.level().getEntities(this, searchbox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
             for (Entity en : entities) {
                 if (en instanceof Proto proto){
                     proto.setSignal(true);
                     proto.setPlace(new BlockPos((int) this.getX(),(int) this.getY(),(int) this.getZ()));
+                    break;
                 }}
         }
         for (int i = 0;i <= this.getAge(); i++){

@@ -166,6 +166,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> proto_damage;
         public final ForgeConfigSpec.ConfigValue<Double> proto_dpsr;
         public final ForgeConfigSpec.ConfigValue<Double> proto_calamity;
+        public final ForgeConfigSpec.ConfigValue<Integer> proto_range;
 
         public final ForgeConfigSpec.ConfigValue<Double> how_hp;
         public final ForgeConfigSpec.ConfigValue<Double> how_damage;
@@ -492,6 +493,7 @@ public class SConfig {
             this.proto_armor = builder.comment("Default 10").defineInRange("Sets Proto Armor", 10, 1, Double.MAX_VALUE);
             this.proto_damage = builder.comment("Default 10").defineInRange("Sets Proto Melee damage", 10, 1, Double.MAX_VALUE);
             this.proto_dpsr = builder.comment("Default 20").defineInRange("Sets Proto Damage Cap , set to 0 to disable", 20, 1, Double.MAX_VALUE);
+            this.proto_range = builder.comment("Default 300").defineInRange("Sets the linking range", 300, 1, Integer.MAX_VALUE);
             this.proto_calamity = builder.comment("Default 5").defineInRange("Chance for the death of a linked evolved infected to trigger the hivemind", 5, 0, Double.MAX_VALUE);
             builder.pop();
 

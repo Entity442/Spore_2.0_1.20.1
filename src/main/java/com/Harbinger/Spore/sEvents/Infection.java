@@ -74,12 +74,13 @@ public class Infection {
         }
 
         if (entity instanceof EvolvedInfected evolvedInfected && event.getSource().getEntity() != null && evolvedInfected.getLinked() && Math.random() < (SConfig.SERVER.proto_calamity.get()/100)){
-            AABB searchbox = evolvedInfected.getBoundingBox().inflate(300);
+            AABB searchbox = evolvedInfected.getBoundingBox().inflate(SConfig.SERVER.proto_range.get());
             List<Entity> entities = entity.level().getEntities(entity, searchbox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
             for (Entity en : entities) {
                 if (en instanceof Proto proto){
                     proto.setSignal(true);
                     proto.setPlace(new BlockPos((int)entity.getX(),(int)entity.getY(),(int)entity.getZ()));
+                    break;
                 }}
         }
 

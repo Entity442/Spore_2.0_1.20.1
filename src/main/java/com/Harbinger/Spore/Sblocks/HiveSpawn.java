@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sblocks;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sentities;
+import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
 import com.Harbinger.Spore.SBlockEntities.HiveSpawnBlockEntity;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.Organoids.Proto;
@@ -60,6 +61,7 @@ public class HiveSpawn extends Block implements EntityBlock {
                 level.removeBlock(blockPos, true);
                 Proto proto = Sentities.PROTO.get().create(level);
                 if (proto != null) {
+                    ChunkLoaderHelper.forceLoadChunksInRadius(level, blockPos, level.getChunk(blockPos).getPos().x, level.getChunk(blockPos).getPos().z, 3);
                     proto.setPos(blockPos.getX(), blockPos.getY(), blockPos.getZ());
                     level.addFreshEntity(proto);
                 }
@@ -77,7 +79,8 @@ public class HiveSpawn extends Block implements EntityBlock {
     }
 
     boolean checkForOtherMinds(BlockPos blockPos,Level level){
-        AABB searchbox = AABB.ofSize(new Vec3(blockPos.getX(), blockPos.getY(), blockPos.getZ()), 300, 200, 300);
+        int e = SConfig.SERVER.proto_range.get();
+        AABB searchbox = AABB.ofSize(new Vec3(blockPos.getX(), blockPos.getY(), blockPos.getZ()), e, e, e);
         List<Proto> entities = level.getEntitiesOfClass(Proto.class, searchbox);
         for (Entity entity1 : entities) {
             if (entity1 instanceof Proto){

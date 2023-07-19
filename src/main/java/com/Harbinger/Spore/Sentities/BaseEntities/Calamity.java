@@ -38,7 +38,6 @@ import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fluids.FluidType;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.network.NetworkHooks;
 
 import java.util.EnumSet;
@@ -270,6 +269,7 @@ public class Calamity extends UtilityEntity implements Enemy {
             serverLevel.sendParticles(Sparticles.BLOOD_PARTICLE.get(), x0, y0, z0, 4, 0, 0, 0, 1);
         }
     }
+
 
     public int getDestroySpeed(){
         return 5;

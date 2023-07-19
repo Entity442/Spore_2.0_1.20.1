@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities.Organoids;
 
 import com.Harbinger.Spore.Core.*;
+import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.HurtTargetGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
@@ -115,7 +116,7 @@ public class Proto extends UtilityEntity implements Enemy {
 
 
     public AABB seachbox(){
-        return this.getBoundingBox().inflate(300);
+        return this.getBoundingBox().inflate(SConfig.SERVER.proto_range.get());
     }
     @Override
     public void tick() {
@@ -332,8 +333,9 @@ public class Proto extends UtilityEntity implements Enemy {
             double y0 = this.getY() + (random.nextFloat() - 0.25) * 1.25D * 5;
             double z0 = this.getZ() + (random.nextFloat() - 0.1) * 1.2D;
             serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x0, y0, z0, 4, 0, 0, 0, 1);
+            BlockPos pos = new BlockPos((int) this.getX(),(int) this.getY(),(int) this.getZ());
+            ChunkLoaderHelper.unloadChunksInRadius(serverLevel, pos, serverLevel.getChunk(pos).getPos().x, serverLevel.getChunk(pos).getPos().z, 5);
         }
-
         this.discard();
         AABB aabb = this.getBoundingBox().inflate(2.5);
         for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
