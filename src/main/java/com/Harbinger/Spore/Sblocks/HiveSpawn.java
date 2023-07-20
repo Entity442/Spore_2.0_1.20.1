@@ -61,7 +61,9 @@ public class HiveSpawn extends Block implements EntityBlock {
                 level.removeBlock(blockPos, true);
                 Proto proto = Sentities.PROTO.get().create(level);
                 if (proto != null) {
-                    ChunkLoaderHelper.forceLoadChunksInRadius(level, blockPos, level.getChunk(blockPos).getPos().x, level.getChunk(blockPos).getPos().z, 3);
+                    if (SConfig.SERVER.proto_chunk.get()) {
+                        ChunkLoaderHelper.forceLoadChunksInRadius(level, blockPos, level.getChunk(blockPos).getPos().x, level.getChunk(blockPos).getPos().z, 3);
+                    }
                     proto.setPos(blockPos.getX(), blockPos.getY(), blockPos.getZ());
                     level.addFreshEntity(proto);
                 }

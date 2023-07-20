@@ -333,8 +333,10 @@ public class Proto extends UtilityEntity implements Enemy {
             double y0 = this.getY() + (random.nextFloat() - 0.25) * 1.25D * 5;
             double z0 = this.getZ() + (random.nextFloat() - 0.1) * 1.2D;
             serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x0, y0, z0, 4, 0, 0, 0, 1);
-            BlockPos pos = new BlockPos((int) this.getX(),(int) this.getY(),(int) this.getZ());
-            ChunkLoaderHelper.unloadChunksInRadius(serverLevel, pos, serverLevel.getChunk(pos).getPos().x, serverLevel.getChunk(pos).getPos().z, 5);
+            if (SConfig.SERVER.proto_chunk.get()) {
+                BlockPos pos = new BlockPos((int) this.getX(), (int) this.getY(), (int) this.getZ());
+                ChunkLoaderHelper.unloadChunksInRadius(serverLevel, pos, serverLevel.getChunk(pos).getPos().x, serverLevel.getChunk(pos).getPos().z, 5);
+            }
         }
         this.discard();
         AABB aabb = this.getBoundingBox().inflate(2.5);
