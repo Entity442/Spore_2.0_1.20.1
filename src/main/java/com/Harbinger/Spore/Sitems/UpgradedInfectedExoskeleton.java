@@ -62,7 +62,7 @@ public class UpgradedInfectedExoskeleton extends ArmorItem {
 
             @Override
             public SoundEvent getEquipSound() {
-                return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(""));
+                return SoundEvents.ARMOR_EQUIP_LEATHER;
             }
 
             @Override
@@ -96,11 +96,11 @@ public class UpgradedInfectedExoskeleton extends ArmorItem {
     }
 
     public void geteffect(LivingEntity entity) {
-        if ((entity.getItemBySlot(EquipmentSlot.FEET).getItem() == Sitems.INF_BOOTS.get())
-                && (entity.getItemBySlot(EquipmentSlot.LEGS).getItem() == Sitems.INF_PANTS.get())
-                && (entity.getItemBySlot(EquipmentSlot.CHEST).getItem() == Sitems.INF_UP_CHESTPLATE.get())
-                && (entity.getItemBySlot(EquipmentSlot.HEAD).getItem() == Sitems.INF_HELMET.get())) {
-            if (!entity.hasEffect(Seffects.SYMBIOSIS.get())){
+        if (!entity.hasEffect(Seffects.SYMBIOSIS.get())){
+            if ((entity.getItemBySlot(EquipmentSlot.FEET).getItem() == Sitems.INF_BOOTS.get())
+                    && (entity.getItemBySlot(EquipmentSlot.LEGS).getItem() == Sitems.INF_PANTS.get())
+                    && (entity.getItemBySlot(EquipmentSlot.CHEST).getItem() == Sitems.INF_UP_CHESTPLATE.get())
+                    && (entity.getItemBySlot(EquipmentSlot.HEAD).getItem() == Sitems.INF_HELMET.get())) {
                 entity.addEffect(new MobEffectInstance(Seffects.SYMBIOSIS.get(), 200, 0, (false), (false)));
             }
         }

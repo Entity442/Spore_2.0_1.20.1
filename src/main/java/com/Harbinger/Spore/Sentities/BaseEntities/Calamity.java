@@ -7,6 +7,7 @@ import com.Harbinger.Spore.Core.Sparticles;
 import com.Harbinger.Spore.Sentities.AI.CalamityPathNavigation;
 import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.AI.HurtTargetGoal;
+import com.Harbinger.Spore.Sentities.MovementControls.CalamityMovementControl;
 import com.Harbinger.Spore.Sentities.Utility.InfectionTendril;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -57,6 +58,7 @@ public class Calamity extends UtilityEntity implements Enemy {
         this.setPathfindingMalus(BlockPathTypes.DANGER_POWDER_SNOW, 16.0F);
         this.setPathfindingMalus(BlockPathTypes.DANGER_POWDER_SNOW, -1.0F);
         this.navigation = new CalamityPathNavigation(this,level);
+        this.moveControl = new CalamityMovementControl(this,20);
         this.xpReward = 50;
     }
 
