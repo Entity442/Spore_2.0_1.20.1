@@ -47,12 +47,16 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected {
         this.goalSelector.addGoal(5, new TransportInfected<>(this, Mob.class, 0.8 ,
                 e -> { return SConfig.SERVER.can_be_carried.get().contains(e.getEncodeId()) || SConfig.SERVER.ranged.get().contains(e.getEncodeId());}));
 
-        this.goalSelector.addGoal(5, new PullGoal(this, 32, 16));
+        this.goalSelector.addGoal(6, new PullGoal(this, 32, 16){
+            @Override
+            public boolean canUse() {
+                return super.canUse() && !Busser.this.onGround();
+            }
+        });
         this.goalSelector.addGoal(6, new CustomMeleeAttackGoal(this, 1.5, false) {
             @Override
             protected double getAttackReachSqr(LivingEntity entity) {
                 return 5.0 + entity.getBbWidth() * entity.getBbWidth();}});
-        this.goalSelector.addGoal(6, new AerialChargeGoal(this ));
 
         this.goalSelector.addGoal(7 , new FlyingWanderAround(this , 1.0));
         super.registerGoals();
@@ -83,7 +87,7 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected {
 
     @Override
     protected PathNavigation createNavigation(Level level) {
-        if (this.onGround() || this.isVehicle()){
+        if (this.onGround()){
             GroundPathNavigation navigation = new GroundPathNavigation(this,level);
             navigation.canPassDoors();
             return navigation;
@@ -94,4 +98,17 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected {
         }
     }
 
+
+    @Override
+    protected void customServerAiStep() {
+        if (this.getMoveControl().hasWanted()){
+            double d0 = this.getMoveControl().getWantedX() - this.getX();
+            double d1 = this.getMoveControl().getWantedY() - this.getY();
+            double d2 = this.getMoveControl().getWantedZ() - this.getZ();
+            if (this.getRandom().nextInt(5)==0){
+                this.setDeltaMovement(this.getDeltaMovement().add(new Vec3(d0, d1, d2).normalize().scale(0.06D)));
+            }
+        }
+        super.customServerAiStep();
+    }
 }

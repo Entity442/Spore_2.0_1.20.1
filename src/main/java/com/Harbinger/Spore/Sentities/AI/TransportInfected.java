@@ -24,6 +24,7 @@ public class TransportInfected<T extends LivingEntity> extends Goal {
     public TransportInfected(Mob mob, Class<T> partnerClass, double speed) {
         this(mob ,partnerClass, speed, null);
     }
+
     public TransportInfected(Mob mob, Class<T> partnerClass, double speed, @Nullable Predicate<LivingEntity> en) {
         this.mob = mob;
         this.level = mob.level();
@@ -52,7 +53,9 @@ public class TransportInfected<T extends LivingEntity> extends Goal {
 
     @Override
     public boolean canUse() {
-        this.partner = this.getFreePartner();
+        if (this.mob.getRandom().nextInt(20) == 0){
+            this.partner = this.getFreePartner();
+        }
         return !mob.isVehicle() && mob.getTarget() == null && partner != null;
     }
 
