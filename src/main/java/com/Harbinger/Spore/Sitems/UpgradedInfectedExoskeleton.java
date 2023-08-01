@@ -182,7 +182,7 @@ public class UpgradedInfectedExoskeleton extends ArmorItem {
         }
         @Override
         public void onArmorTick(ItemStack stack, Level level, Player entity) {
-            if (entity.horizontalCollision && Screen.hasShiftDown() && level.isClientSide) {
+            if (entity.horizontalCollision && entity.isCrouching()) {
                 Vec3 initialVec = entity.getDeltaMovement();
                 Vec3 climbVec = new Vec3(initialVec.x, 0.2D, initialVec.z);
                 entity.setDeltaMovement(climbVec.x * 0.91D,

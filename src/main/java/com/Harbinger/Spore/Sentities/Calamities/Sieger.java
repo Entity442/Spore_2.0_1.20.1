@@ -82,7 +82,7 @@ public class Sieger extends Calamity implements RangedAttackMob {
 
         this.tickPart(this.tailbody, (double)(f2), 7.0D, (double)(-f15));
         this.tickPart(this.mainbody, (double)(f2 * -1.0F), 0.0D, (double)(-f15 * -1.0F));
-        this.tickPart(this.lowerbody, (double)(f2 * 4.0F), 0.0D, (double)(-f15 * 4.0F));
+        this.tickPart(this.lowerbody, (double)(f2 * 3.0F), 0.0D, (double)(-f15 * 3.0F));
         for(int l = 0; l < this.subEntities.length; ++l) {
             this.subEntities[l].xo = avec3[l].x;
             this.subEntities[l].yo = avec3[l].y;
@@ -131,7 +131,7 @@ public class Sieger extends Calamity implements RangedAttackMob {
         this.goalSelector.addGoal(4, new AOEMeleeAttackGoal(this, 1.5, false,2.5 ,6){
             protected double getAttackReachSqr(LivingEntity entity) {
                 float f = Sieger.this.getBbWidth();
-                return (double)(f * 3.0F * f * 3.0F + entity.getBbWidth());
+                return (double)(f * 4.0F * f * 4.0F + entity.getBbWidth());
             }
         });
         this.goalSelector.addGoal(7, new SwimToBlockGoal(this , 1.5, 16));

@@ -38,7 +38,7 @@ public class InfectedChestplate extends InfectedExoskeleton {
     @Override
     public void onArmorTick(ItemStack stack, Level level, Player player) {
         super.onArmorTick(stack, level, player);
-        if (player.horizontalCollision && Screen.hasShiftDown() && level.isClientSide) {
+        if (player.horizontalCollision && player.isCrouching()) {
             Vec3 initialVec = player.getDeltaMovement();
             Vec3 climbVec = new Vec3(initialVec.x, 0.2D, initialVec.z);
             player.setDeltaMovement(climbVec.x * 0.91D,

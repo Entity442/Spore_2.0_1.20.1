@@ -448,9 +448,9 @@ public class SConfig {
             builder.pop();
 
             builder.push("Phayres");
-            this.bus_hp = builder.comment("Default 30").defineInRange("Sets Phayres Max health", 30, 1, Double.MAX_VALUE);
+            this.bus_hp = builder.comment("Default 50").defineInRange("Sets Phayres Max health", 50, 1, Double.MAX_VALUE);
             this.bus_damage = builder.comment("Default 6").defineInRange("Sets Phayres Damage", 6, 1, Double.MAX_VALUE);
-            this.bus_armor = builder.comment("Default 4").defineInRange("Sets Phayres Armor", 4, 1, Double.MAX_VALUE);
+            this.bus_armor = builder.comment("Default 10").defineInRange("Sets Phayres Armor", 10, 1, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("Sieger");
