@@ -153,8 +153,6 @@ public class Scamper extends EvolvedInfected {
         if (!entity.level().isClientSide) {
             AreaEffectCloud areaeffectcloud = new AreaEffectCloud(entity.level(), entity.getX(), entity.getY(), entity.getZ());
             areaeffectcloud.setOwner(entity);
-
-            areaeffectcloud.setParticle(Sparticles.SPORE_PARTICLE.get());
             areaeffectcloud.setRadius(2.0F);
             areaeffectcloud.setDuration(600);
             areaeffectcloud.setRadiusPerTick((4.0F - areaeffectcloud.getRadius()) / (float)areaeffectcloud.getDuration());

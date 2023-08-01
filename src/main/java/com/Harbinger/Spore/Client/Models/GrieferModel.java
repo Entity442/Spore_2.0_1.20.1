@@ -206,6 +206,8 @@ public class GrieferModel<T extends Griefer> extends EntityModel<T> {
 			this.tumor4.yScale = 1 - Mth.sin(ageInTicks / 8) / 9;
 			this.tumor4.zScale = 1 + Mth.sin(ageInTicks / 8) / 9;
 		}
+
+
 		this.head.xRot = headPitch / (90F / (float) Math.PI);
 
 		this.head.getChild("jaw").xRot = Mth.sin(ageInTicks / 8) / 10;

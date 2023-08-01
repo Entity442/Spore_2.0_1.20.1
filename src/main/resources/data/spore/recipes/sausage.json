@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#R#",
+    "###"
+  ],
+  "key": {
+    "R": {
+      "item": "spore:innards"
+    },
+    "#": {
+      "item": "spore:mutated_fiber"
+    }
+  },
+  "result": {
+    "item": "spore:sausage",
+    "count": 4
+  }
+}

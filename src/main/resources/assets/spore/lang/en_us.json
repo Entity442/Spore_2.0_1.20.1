@@ -59,6 +59,8 @@
   "item.spore.sickle_fragment": "Sickle Fragment",
   "item.spore.innards": "Innards",
   "item.spore.r_wing": "Wing",
+  "item.spore.sausage": "Meaty Sausage",
+
 
   "item.spore.saber": "Infected Saber",
   "item.spore.infected_bow": "Infected Bow",
@@ -78,6 +80,7 @@
   "item.spore.amethyst_dust": "Amethyst Dust",
   "item.spore.compound": "Compound",
   "item.spore.compound_plate": "Compound Plate",
+  "item.spore.corrupted_record": "Corrupted Record",
 
   "item.spore.inf_helmet": "Living Helmet",
   "item.spore.inf_chest": "Living Chestplate",
@@ -203,6 +206,7 @@
   "sounds.spore.howler_growl": "The Howler is calling",
   "sounds.spore.fungal_burst": "A Fungus Bursts",
   "sounds.spore.puff": "Puff",
+  "sounds.spore.record": "Playing Corrupted Record",
 
   "item.line.shift": "A nutrient soup made out of animal matter.",
   "item.line.normal": "Press shift for more info.",
@@ -234,7 +238,7 @@
   "death.attack.calamity_damage3": "%1$s was dismantled by %2$s",
 
 
-
+  "item.spore.corrupted_record.desc": "Genesis Labs rec-1",
   "container.biohazard": "BCU",
   "block.spore.container": "BCU",
   "block.spore.lab_block": "Laboratory Block",

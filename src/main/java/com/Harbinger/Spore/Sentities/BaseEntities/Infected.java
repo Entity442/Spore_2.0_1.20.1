@@ -47,7 +47,6 @@ import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nullable;

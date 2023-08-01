@@ -1,4 +1,10 @@
 {
+  "corrupted_record" :{
+    "subtitle": "sounds.spore.record",
+    "sounds": [
+      "spore:corrupted_record"
+    ]
+  },
 "inf_damage" :{
   "subtitle": "sounds.spore.damage",
   "sounds": [

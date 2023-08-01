@@ -101,13 +101,11 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected {
 
     @Override
     protected void customServerAiStep() {
-        if (this.getMoveControl().hasWanted()){
-            double d0 = this.getMoveControl().getWantedX() - this.getX();
-            double d1 = this.getMoveControl().getWantedY() - this.getY();
-            double d2 = this.getMoveControl().getWantedZ() - this.getZ();
-            if (this.getRandom().nextInt(5)==0){
-                this.setDeltaMovement(this.getDeltaMovement().add(new Vec3(d0, d1, d2).normalize().scale(0.06D)));
-            }
+        if (!this.onGround() && this.getTarget() != null && this.getRandom().nextInt(5)==0){
+            double d0 = this.getTarget().getX() - this.getX();
+            double d1 = this.getTarget().getY() - this.getY();
+            double d2 = this.getTarget().getZ() - this.getZ();
+            this.setDeltaMovement(this.getDeltaMovement().add(new Vec3(d0, d1, d2).normalize().scale(0.06D)));
         }
         super.customServerAiStep();
     }

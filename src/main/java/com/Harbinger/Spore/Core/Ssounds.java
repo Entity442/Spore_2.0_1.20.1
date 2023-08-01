@@ -16,6 +16,7 @@ public class Ssounds {
     private static RegistryObject<SoundEvent> soundRegistry(String id){
         return SOUNDS.register(id, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Spore.MODID, id)));
     }
+    public static final RegistryObject<SoundEvent> CORRUPTED_RECORD = soundRegistry("corrupted_record");
 
     public static final RegistryObject<SoundEvent> INF_DAMAGE = soundRegistry("inf_damage");
 

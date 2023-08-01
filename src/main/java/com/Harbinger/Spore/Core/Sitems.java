@@ -3,6 +3,9 @@ package com.Harbinger.Spore.Core;
 import com.Harbinger.Spore.Client.ClientModEvents;
 import com.Harbinger.Spore.Sitems.*;
 import com.Harbinger.Spore.Spore;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -76,7 +79,9 @@ public class Sitems {
             () -> new BaseItem( new Item.Properties()));
     public  static final RegistryObject<Item> TUMOR = ITEMS.register("tumor",
             () -> new Tumor( new Item.Properties().stacksTo(16)));
-
+    public  static final RegistryObject<Item> SAUSAGE = ITEMS.register("sausage",
+            () -> new BaseItem( new Item.Properties().stacksTo(16).food(new FoodProperties.Builder().nutrition(8).saturationMod(0.8F).effect(()-> new MobEffectInstance(Seffects.MYCELIUM.get(),200,0),0.4f)
+                    .effect(()-> new MobEffectInstance(MobEffects.ABSORPTION,300,1),1f).meat().build())));
 
 
     public  static final RegistryObject<Item> INFECTED_HUMAN_SPAWNEGG = ITEMS.register("infected_human_spawnegg",
@@ -213,6 +218,9 @@ public class Sitems {
     public  static final RegistryObject<Item> INF_UP_CHESTPLATE = ITEMS.register("inf_up_chest",
             UpgradedInfectedExoskeleton.InfectedUpChestplate::new);
 
+
+    public  static final RegistryObject<Item> CORRUPTED_RECORD = ITEMS.register("corrupted_record",
+            CorruptedRecord::new);
     public  static final RegistryObject<Item> BIOMASS = ITEMS.register("biomass",
             Biomass::new);
     public  static final RegistryObject<Item> AMETHYST_DUST = ITEMS.register("amethyst_dust",

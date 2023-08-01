@@ -82,7 +82,7 @@ public class Mound extends UtilityEntity implements Enemy {
         if (this.isAlive() && this.getCounter() >= maxCounter && !level().isClientSide){
             Spread(this , this.level());
             this.setCounter(0);
-            if (entityData.get(TENDRILS) > 0 && entityData.get(AGE) >= 3 && checkForTendrils(this)){
+            if (entityData.get(TENDRILS) > 0 && entityData.get(AGE) >= 3){
                 this.entityData.set(TENDRILS , this.entityData.get(TENDRILS) -1);
                 SpreadKin(this,this.level());
             }
@@ -269,17 +269,6 @@ public class Mound extends UtilityEntity implements Enemy {
             }
         }
     }
-    boolean checkForTendrils(Entity entity){
-        AABB boundingBox = entity.getBoundingBox().inflate(80);
-        List<Entity> entities = entity.level().getEntities(entity, boundingBox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
-
-        for (Entity en : entities) {
-            if (en instanceof InfectionTendril){
-                return false;
-            }
-        }
-        return true;
-    }
 
 
     private void SpreadKin(Entity entity , Level level) {
@@ -329,8 +318,6 @@ public class Mound extends UtilityEntity implements Enemy {
             if (!entity.level().isClientSide) {
                 AreaEffectCloud areaeffectcloud = new AreaEffectCloud(entity.level(), entity.getX(), entity.getY(), entity.getZ());
                 areaeffectcloud.setOwner(entity);
-
-                areaeffectcloud.setParticle(Sparticles.SPORE_PARTICLE.get());
                 areaeffectcloud.setRadius(2.0F);
                 areaeffectcloud.setDuration(300);
                 areaeffectcloud.setRadiusPerTick(((1.5F * entityData.get(AGE)) - areaeffectcloud.getRadius()) / (float)areaeffectcloud.getDuration());
