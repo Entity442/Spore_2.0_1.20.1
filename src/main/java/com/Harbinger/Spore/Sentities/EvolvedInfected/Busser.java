@@ -26,9 +26,12 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class Busser extends EvolvedInfected implements Carrier, FlyingInfected {
     private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(Griefer.class, EntityDataSerializers.INT);
+    private int flytimeV;
+
     public Busser(EntityType<? extends Monster> type, Level level) {
         super(type, level);
         this.moveControl = new InfectedArialMovementControl(this , 20,true);
@@ -130,7 +133,10 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected {
             }
             if (this.isVehicle()){
                 this.setDeltaMovement(this.getDeltaMovement().add(0,0.025,0));
-                if (this.getRandom().nextInt(300) == 0){
+                if (this.flytimeV < 200){
+                    this.flytimeV++;
+                }else{
+                    this.flytimeV = 0;
                     this.ejectPassengers();
                 }
             }
@@ -164,6 +170,21 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected {
         this.entityData.set(DATA_ID_TYPE_VARIANT, tag.getInt("Variant"));
     }
 
+    @Override
+    public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor) {
+        if (DATA_ID_TYPE_VARIANT.equals(dataAccessor)){
+            this.refreshDimensions();
+        }
+        super.onSyncedDataUpdated(dataAccessor);
+    }
+
+    @Override
+    public EntityDimensions getDimensions(Pose pose) {
+        if (this.getVariant() == BusserVariants.ENHANCED){
+            return super.getDimensions(pose).scale(1.2f);
+        }
+        return super.getDimensions(pose);
+    }
 
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_146746_, DifficultyInstance p_146747_,

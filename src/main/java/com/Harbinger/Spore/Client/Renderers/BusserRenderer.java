@@ -51,7 +51,8 @@ public class BusserRenderer<Type extends Busser> extends MobRenderer<Type , Buss
     @Override
     protected void scale(Type type, PoseStack stack, float value) {
         if (type.getVariant() == BusserVariants.ENHANCED){
-            stack.scale(1.1f,1.1f,1.1f);
+            float size = 1.4f;
+            stack.scale(size,size,size);
         }
         super.scale(type, stack, value);
     }
