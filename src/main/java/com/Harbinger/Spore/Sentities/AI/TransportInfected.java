@@ -30,7 +30,7 @@ public class TransportInfected<T extends LivingEntity> extends Goal {
         this.level = mob.level();
         this.partnerClass = partnerClass;
         this.speed = speed;
-        partneerT = TargetingConditions.forNonCombat().range(this.mob.getAttributeBaseValue(Attributes.FOLLOW_RANGE)).selector(en);
+        partneerT = TargetingConditions.forNonCombat().range(16).selector(en);
         this.setFlags(EnumSet.of(Goal.Flag.TARGET));
     }
     @Nullable

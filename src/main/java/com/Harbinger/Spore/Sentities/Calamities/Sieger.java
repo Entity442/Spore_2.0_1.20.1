@@ -6,7 +6,6 @@ import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.CalamityInfectedCommand;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SporeBurstSupport;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SummonScentInCombat;
-import com.Harbinger.Spore.Sentities.AI.SwimToBlockGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
@@ -29,7 +28,6 @@ import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.entity.ai.goal.RangedAttackGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.monster.RangedAttackMob;
-import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -134,7 +132,6 @@ public class Sieger extends Calamity implements RangedAttackMob {
                 return (double)(f * 4.0F * f * 4.0F + entity.getBbWidth());
             }
         });
-        this.goalSelector.addGoal(7, new SwimToBlockGoal(this , 1.5, 16));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.2));
         this.goalSelector.addGoal(6,new CalamityInfectedCommand(this));
         this.goalSelector.addGoal(7,new SummonScentInCombat(this));

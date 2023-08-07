@@ -320,7 +320,7 @@ public class SConfig {
             this.weaktocold = builder.comment("Default true").define("Should the infected be weak to cold?",true);
             this.should_starve = builder.comment("Default true").define("Should the infected starve overtime?",true);
             this.higher_thinking = builder.comment("Default true").define("Should some infected have higher thinking such as opening doors or trying to break certain blocks?",true);
-            this.hunger = builder.define("Hunger in ticks",12000);
+            this.hunger = builder.define("Hunger in ticks",6000);
 
             builder.pop();
             builder.push("TargetingTasks");

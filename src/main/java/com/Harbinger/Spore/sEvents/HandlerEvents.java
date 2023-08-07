@@ -14,12 +14,15 @@ import com.Harbinger.Spore.Sentities.Organoids.BiomassReformator;
 import com.Harbinger.Spore.Sentities.Organoids.Mound;
 import com.Harbinger.Spore.Sentities.Organoids.Proto;
 import com.Harbinger.Spore.Sentities.Utility.InfEvoClaw;
+import com.Harbinger.Spore.Sitems.InfectedCombatShovel;
+import com.Harbinger.Spore.Sitems.InfectedMaul;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.PathfinderMob;
@@ -38,14 +41,17 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Mod.EventBusSubscriber(modid = Spore.MODID)
 public class HandlerEvents {
@@ -286,5 +292,53 @@ public class HandlerEvents {
         event.register(Sentities.BRUTE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,Infected::checkMonsterInfectedRules, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(Sentities.STALKER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,Infected::checkMonsterInfectedRules, SpawnPlacementRegisterEvent.Operation.AND);
 
+    }
+
+
+    private static final Set<BlockPos> HARVESTED_BLOCKS = new HashSet<>();
+    @SubscribeEvent
+    public static void onExtendedToolUsage(BlockEvent.BreakEvent event)
+    {
+        Player player = event.getPlayer();
+        ItemStack mainHandItem = player.getMainHandItem();
+
+        if(mainHandItem.getItem() instanceof InfectedMaul hammer && player instanceof ServerPlayer serverPlayer && !serverPlayer.isCrouching())
+        {
+            BlockPos initalBlockPos = event.getPos();
+            if (HARVESTED_BLOCKS.contains(initalBlockPos))
+            {
+                return;
+            }
+
+            for (BlockPos pos : InfectedMaul.getBlocksToBeDestroyed(1, initalBlockPos, serverPlayer))
+            {
+                if(pos == initalBlockPos || !hammer.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos)))
+                {
+                    continue;
+                }
+                HARVESTED_BLOCKS.add(pos);
+                serverPlayer.gameMode.destroyBlock(pos);
+                HARVESTED_BLOCKS.remove(pos);
+            }
+        }
+        if(mainHandItem.getItem() instanceof InfectedCombatShovel shovel && player instanceof ServerPlayer serverPlayer && !serverPlayer.isCrouching())
+        {
+            BlockPos initalBlockPos = event.getPos();
+            if (HARVESTED_BLOCKS.contains(initalBlockPos))
+            {
+                return;
+            }
+
+            for (BlockPos pos : InfectedCombatShovel.getBlocksToBeDestroyed(1, initalBlockPos, serverPlayer))
+            {
+                if(pos == initalBlockPos || !shovel.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos)))
+                {
+                    continue;
+                }
+                HARVESTED_BLOCKS.add(pos);
+                serverPlayer.gameMode.destroyBlock(pos);
+                HARVESTED_BLOCKS.remove(pos);
+            }
+        }
     }
 }

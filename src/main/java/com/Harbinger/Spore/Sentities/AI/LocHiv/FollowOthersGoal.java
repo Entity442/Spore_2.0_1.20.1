@@ -34,7 +34,7 @@ public class FollowOthersGoal extends Goal {
     this.mob = mob;
     this.speedModifier = speedModifier;
     this.partnerClass = partnerClass;
-    PARTNER_TARGETING = TargetingConditions.forNonCombat().range(this.mob.getAttributeBaseValue(Attributes.FOLLOW_RANGE)).selector(en);
+    PARTNER_TARGETING = TargetingConditions.forNonCombat().range(32).selector(en);
     this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
 }
 

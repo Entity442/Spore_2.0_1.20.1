@@ -1,14 +1,16 @@
 package com.Harbinger.Spore.Sentities.BaseEntities;
 
 import com.Harbinger.Spore.Core.*;
-import com.Harbinger.Spore.Sentities.AI.*;
+import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
+import com.Harbinger.Spore.Sentities.AI.HurtTargetGoal;
+import com.Harbinger.Spore.Sentities.AI.InfectedConsumeFromRemains;
+import com.Harbinger.Spore.Sentities.AI.InfectedPanicGoal;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.BufferAI;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.FollowOthersGoal;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.LocalTargettingGoal;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.SearchAreaGoal;
 import com.Harbinger.Spore.Sentities.Projectile.AcidBall;
 import com.Harbinger.Spore.Sentities.Projectile.Vomit;
-import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -179,10 +181,7 @@ public class Infected extends Monster{
         this.goalSelector.addGoal(5 , new InfectedPanicGoal(this , 1.5));
         this.goalSelector.addGoal(4 , new BufferAI(this ));
         this.goalSelector.addGoal(6,new FloatDiveGoal(this));
-        this.goalSelector.addGoal(7, new SwimToBlockGoal(this , 1.5, 8));
         this.goalSelector.addGoal(7, new InfectedConsumeFromRemains(this));
-        this.goalSelector.addGoal(8,new FollowOthersGoal(this, 1.2, Calamity.class ));
-        this.goalSelector.addGoal(9,new FollowOthersGoal(this, 1.2, ScentEntity.class ));
         this.goalSelector.addGoal(10,new FollowOthersGoal(this, 0.7,Infected.class));
     }
 
