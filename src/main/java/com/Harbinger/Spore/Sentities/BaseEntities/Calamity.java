@@ -229,7 +229,7 @@ public class Calamity extends UtilityEntity implements Enemy {
     }
 
     public AABB getMiningHitbox(){
-        if (this.getSearchArea() != BlockPos.ZERO && !this.isAggressive()){
+        if (this.getSearchArea() != BlockPos.ZERO && this.getTarget() == null){
             if (this.getSearchArea().getY() < this.getY()){
                 return this.getBoundingBox().inflate(1.5,0.0,1.5).move(0.0,-1.0,0.0);
             }else if (this.getSearchArea().getY() > this.getY()){

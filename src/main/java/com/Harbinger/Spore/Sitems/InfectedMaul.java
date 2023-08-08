@@ -46,7 +46,7 @@ public class InfectedMaul extends PickaxeItem {
 
             public float getAttackDamageBonus() {return  0;}
             public int getLevel() {
-                return 2;}
+                return 4;}
             public int getEnchantmentValue() {
                 return 3;}
 
