@@ -688,7 +688,7 @@ public class SConfig {
             this.armads_damage = builder.comment("Default 15").defineInRange("Damage", 15, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Maul");
-            this.maul_durability = builder.comment("Default 1500").define("Durability",1500);
+            this.maul_durability = builder.comment("Default 3000").define("Durability",3000);
             this.maul_damage = builder.comment("Default 7").defineInRange("Damage", 7, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Sickle");
@@ -700,7 +700,7 @@ public class SConfig {
             this.scythe_damage = builder.comment("Default 8").defineInRange("Damage", 8, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Combat Shovel");
-            this.shovel_durability = builder.comment("Default 1400").define("Durability",1400);
+            this.shovel_durability = builder.comment("Default 2800").define("Durability",2800);
             this.shovel_damage = builder.comment("Default 6").defineInRange("Damage", 6, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Rapier");

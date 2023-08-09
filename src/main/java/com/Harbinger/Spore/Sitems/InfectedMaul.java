@@ -1,7 +1,6 @@
 package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Core.SConfig;
-import com.Harbinger.Spore.Core.ScreativeTab;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Sitems;
 import com.google.common.collect.ImmutableMultimap;
@@ -127,6 +126,4 @@ public class InfectedMaul extends PickaxeItem {
         }
         return positions;
     }
-
-
 }

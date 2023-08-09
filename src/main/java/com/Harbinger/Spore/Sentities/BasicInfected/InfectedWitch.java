@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Sentities.BasicInfected;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.Sentities.AI.BuffAlliesGoal;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.RangedBuff;
@@ -130,9 +131,11 @@ public class InfectedWitch extends Infected implements RangedAttackMob , RangedB
 
     @Override
     public DamageSource getCustomDamage(LivingEntity entity) {
+        if (Math.random() < 0.3){
+            return SdamageTypes.infected_witch_damage(this);
+        }
         return super.getCustomDamage(entity);
     }
-
     @Override
     public void performRangedAttack(LivingEntity entity, float f) {
         Vec3 vec3 = entity.getDeltaMovement();

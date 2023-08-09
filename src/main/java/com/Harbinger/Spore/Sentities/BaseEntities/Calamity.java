@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Sparticles;
+import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.Sentities.AI.CalamityPathNavigation;
 import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.AI.HurtTargetGoal;
@@ -84,6 +85,16 @@ public class Calamity extends UtilityEntity implements Enemy {
             return false;
         }
     }
+    @Override
+    public DamageSource getCustomDamage(LivingEntity entity) {
+        if (Math.random() < 0.5){
+            return SdamageTypes.calamity_damage1(this);
+        }else if (Math.random() < 0.5){
+            return SdamageTypes.calamity_damage2(this);
+        }
+        return SdamageTypes.calamity_damage3(this);
+    }
+
 
     @Override
     public void awardKillScore(Entity entity, int i, DamageSource damageSource) {

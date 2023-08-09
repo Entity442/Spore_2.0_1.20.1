@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Effect;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
+import com.Harbinger.Spore.Damage.SdamageTypes;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,7 +14,7 @@ public class Corrosion extends MobEffect {
     public void applyEffectTick(LivingEntity entity, int p_19468_) {
         if (SConfig.SERVER.corrosion.get().contains(entity.getEncodeId())){
             if (this == Seffects.CORROSION.get()) {
-                entity.hurt(entity.damageSources().hotFloor(), 1.0F);
+                entity.hurt(SdamageTypes.acid(entity), 1.0F);
             }
         }
     }

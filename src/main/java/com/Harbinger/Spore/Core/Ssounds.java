@@ -40,6 +40,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> SIEGER_AMBIENT = soundRegistry("sieger_ambient");
 
+    public static final RegistryObject<SoundEvent> SIEGER_BITE = soundRegistry("sieger_bite");
+
     public static final RegistryObject<SoundEvent> WOMB_AMBIENT = soundRegistry("womb_ambient");
 
     public static final RegistryObject<SoundEvent> PROTO_AMBIENT = soundRegistry("proto_ambient");

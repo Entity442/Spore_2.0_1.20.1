@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.GrieferSwellGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
@@ -168,9 +169,11 @@ public class Griefer extends EvolvedInfected {
 
     @Override
     public DamageSource getCustomDamage(LivingEntity entity) {
+        if (Math.random() < 0.3){
+            return SdamageTypes.griefer_damage(this);
+        }
         return super.getCustomDamage(entity);
     }
-
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(1,new GrieferSwellGoal(this));

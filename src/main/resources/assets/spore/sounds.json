@@ -91,6 +91,12 @@
       "spore:sieger_ambient"
     ]
   },
+  "sieger_bite" :{
+    "subtitle": "sounds.spore.sieger_bite",
+    "sounds": [
+      "spore:sieger_bite"
+    ]
+  },
   "proto_ambient" :{
     "subtitle": "sounds.spore.proto_ambient",
     "sounds": [

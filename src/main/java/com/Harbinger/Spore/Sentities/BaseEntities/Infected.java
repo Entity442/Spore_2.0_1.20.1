@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities.BaseEntities;
 
 import com.Harbinger.Spore.Core.*;
+import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.AI.HurtTargetGoal;
 import com.Harbinger.Spore.Sentities.AI.InfectedConsumeFromRemains;
@@ -155,6 +156,13 @@ public class Infected extends Monster{
 
     }
     public DamageSource getCustomDamage(LivingEntity entity) {
+        if (Math.random() < 0.5){
+            return SdamageTypes.infected_damage1(entity);
+        }else if (Math.random() < 0.5){
+            return SdamageTypes.infected_damage2(entity);
+        }else  if (Math.random() < 0.5) {
+            return SdamageTypes.infected_damage3(entity);
+        }
         return this.damageSources().mobAttack(this);
     }
 

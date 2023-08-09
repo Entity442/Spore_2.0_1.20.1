@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Effect;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
+import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import net.minecraft.world.effect.MobEffect;
@@ -20,7 +21,7 @@ public class Mycelium extends MobEffect {
             if (!entity.getCommandSenderWorld().isClientSide && entity instanceof Player player && player.getFoodData().getFoodLevel() > 0 && intense < 1){
                 player.causeFoodExhaustion(1.0F);
             }else {
-                entity.hurt(entity.damageSources().generic(), 1.0F);
+                entity.hurt(SdamageTypes.mycelium_overtake(entity), 1.0F);
             }
         }
         }

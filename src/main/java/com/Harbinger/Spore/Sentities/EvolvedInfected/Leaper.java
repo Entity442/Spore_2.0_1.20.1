@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sentities.EvolvedInfected;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.LeapGoal;
 import com.Harbinger.Spore.Sentities.AI.TransportInfected;
@@ -66,9 +67,11 @@ public class Leaper extends EvolvedInfected implements Carrier {
 
     @Override
     public DamageSource getCustomDamage(LivingEntity entity) {
+        if (Math.random() < 0.3){
+            return SdamageTypes.leaper_damage(this);
+        }
         return super.getCustomDamage(entity);
     }
-
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, SConfig.SERVER.leap_hp.get() * SConfig.SERVER.global_health.get())

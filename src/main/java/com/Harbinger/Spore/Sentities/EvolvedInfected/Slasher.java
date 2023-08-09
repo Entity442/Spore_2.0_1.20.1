@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sentities.EvolvedInfected;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.PullGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
@@ -37,6 +38,9 @@ public class Slasher extends EvolvedInfected {
     }
     @Override
     public DamageSource getCustomDamage(LivingEntity entity) {
+        if (Math.random() < 0.3){
+            return SdamageTypes.slasher_damage(this);
+        }
         return super.getCustomDamage(entity);
     }
     @Override
