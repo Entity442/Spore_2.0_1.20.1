@@ -182,7 +182,7 @@ public class Calamity extends UtilityEntity implements Enemy {
     @Override
     public void registerGoals() {
         this.goalSelector.addGoal(1, new GoToLocation(this, 1.1));
-        this.goalSelector.addGoal(2, new HurtTargetGoal(this ,(en -> {return !likedFellows(en);}), Infected.class).setAlertOthers(Infected.class));
+        this.goalSelector.addGoal(2, new HurtTargetGoal(this ,(en -> {return !(SConfig.SERVER.blacklist.get().contains(en.getEncodeId()) || en instanceof UtilityEntity || en instanceof Infected);}), Infected.class).setAlertOthers(Infected.class));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
                 (this, Player.class,  true));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, true, (en) -> {

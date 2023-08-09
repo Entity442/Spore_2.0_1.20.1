@@ -170,7 +170,7 @@ public class Infected extends Monster{
     protected void registerGoals() {
         this.goalSelector.addGoal(4, new SearchAreaGoal(this, 1.2));
         this.goalSelector.addGoal(3,new LocalTargettingGoal(this));
-        this.goalSelector.addGoal(2, new HurtTargetGoal(this ,entity -> {return !likedFellows(entity);}, Infected.class).setAlertOthers(Infected.class));
+        this.goalSelector.addGoal(2, new HurtTargetGoal(this ,entity -> {return !(SConfig.SERVER.blacklist.get().contains(entity.getEncodeId()) || entity instanceof UtilityEntity || entity instanceof Infected);}, Infected.class).setAlertOthers(Infected.class));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
                 (this, Player.class,  true));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, true, (en) -> {

@@ -105,7 +105,7 @@ public class Sieger extends Calamity implements RangedAttackMob {
     }
 
     boolean calculateDistance(){
-        return this.getTarget() != null && this.distanceToSqr(this.getTarget()) > 200.0D;
+        return this.getTarget() != null && this.distanceToSqr(this.getTarget()) > 400.0D;
     }
 
     @Override
@@ -119,7 +119,7 @@ public class Sieger extends Calamity implements RangedAttackMob {
     @Override
     public void registerGoals() {
 
-        this.goalSelector.addGoal(3, new RangedAttackGoal(this,1.2,80,48){
+        this.goalSelector.addGoal(3, new RangedAttackGoal(this,1.5,80,48){
             @Override
             public boolean canUse() {
                 return super.canUse() && (calculateHeight() || calculateDistance());
