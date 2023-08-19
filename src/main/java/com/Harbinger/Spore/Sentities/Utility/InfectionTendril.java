@@ -43,7 +43,6 @@ public class InfectionTendril extends UtilityEntity {
         this.moveControl = new InfectedWallMovementControl(this);
         this.navigation = new WallClimberNavigation(this,level);
     }
-    private int counter;
 
     @Override
     public boolean removeWhenFarAway(double distanceToClosestPlayer) {
@@ -175,21 +174,10 @@ public class InfectionTendril extends UtilityEntity {
         if (this.isAlive() && this.entityData.get(LIFE)>0){
             this.entityData.set(LIFE, this.entityData.get(LIFE) - 1);
         }
-        if (this.getSearchArea() != BlockPos.ZERO){
-            if (counter < 200){
-                counter++;
-            }else{
-                if ((Math.abs(this.getSearchArea().getY())  - Math.abs(this.getY()) > 6)){
-                  if (this.getY() > this.getSearchArea().getY()){
-                    teleport(-1);
-                  }else if (this.getY() < this.getSearchArea().getY()){
-                    teleport(1);
-                  }else{
-                    teleport(0);
-                  }
-                  counter = 0;
+        if (this.getSearchArea() != BlockPos.ZERO && this.random.nextInt(40) == 0){
+                if ((Math.abs(this.getSearchArea().getX())  - Math.abs(this.getX()) < 6) && (Math.abs(this.getSearchArea().getZ())  - Math.abs(this.getZ()) < 6)){
+                  teleport();
                 }
-            }
         }
     }
 
@@ -210,11 +198,11 @@ public class InfectionTendril extends UtilityEntity {
         return false;
     }
 
-    protected boolean teleport(int c) {
+    protected boolean teleport() {
         if (!this.level().isClientSide() && this.isAlive()) {
-            double d0 = this.getX();
-            double d1 = this.getY() + (double)(this.random.nextInt(32) * c);
-            double d2 = this.getZ();
+            double d0 = this.getSearchArea().getX() + (double)(this.random.nextInt(8));
+            double d1 = this.getSearchArea().getY();
+            double d2 = this.getSearchArea().getZ() + (double)(this.random.nextInt(8));
             return this.randomTeleport(d0, d1, d2,true);
         } else {
             return false;

@@ -154,6 +154,7 @@ public class ScentEntity extends UtilityEntity {
                     if(waveentity instanceof Infected infected){
                         int k = SConfig.SERVER.scent_kills.get();
                         infected.setKills(random.nextInt(k ,k+3));
+                        infected.setEvoPoints(random.nextInt(k ,k+3));
                         infected.setEvolution(SConfig.SERVER.evolution_age_human.get() * 10);
                         infected.setLinked(true);
                     }

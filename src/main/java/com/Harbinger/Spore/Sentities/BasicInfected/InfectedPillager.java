@@ -188,11 +188,12 @@ public class InfectedPillager extends Infected implements CrossbowAttackMob , In
     @Override
     public void baseTick() {
         super.baseTick();
-        if (entityData.get(EVOLUTION) >= (20 * SConfig.SERVER.evolution_age_human.get()) && this.entityData.get(KILLS) >= SConfig.SERVER.min_kills.get()) {
-            this.entityData.set(KILLS,entityData.get(KILLS) - SConfig.SERVER.min_kills.get());
+
+        if (this.entityData.get(EVOLUTION) >= (20 * SConfig.SERVER.evolution_age_human.get()) && this.entityData.get(EVOLUTION_POINTS) >= SConfig.SERVER.min_kills.get()) {
+            this.entityData.set(EVOLUTION_POINTS,entityData.get(EVOLUTION_POINTS) - SConfig.SERVER.min_kills.get());
             EvolutionClass.Evolve(this,SConfig.SERVER.pil_ev.get());
         }else{
-            if (!isFreazing() && this.entityData.get(KILLS) >= SConfig.SERVER.min_kills.get()) {
+            if (!isFreazing() && this.entityData.get(EVOLUTION_POINTS) >= SConfig.SERVER.min_kills.get()) {
                 this.entityData.set(EVOLUTION,entityData.get(EVOLUTION) + 1);
             }
         }

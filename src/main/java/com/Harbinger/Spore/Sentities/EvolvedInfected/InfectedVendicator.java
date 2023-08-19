@@ -80,9 +80,11 @@ public class InfectedVendicator extends EvolvedInfected {
 
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.35F)
-                .add(Attributes.FOLLOW_RANGE, 28.0D).add(Attributes.MAX_HEALTH, SConfig.SERVER.inf_vin_hp.get() * SConfig.SERVER.global_health.get())
-                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.inf_vin_damage.get() *SConfig.SERVER.global_damage.get())
+        return Monster.createMonsterAttributes()
+                .add(Attributes.MOVEMENT_SPEED, 0.35F)
+                .add(Attributes.FOLLOW_RANGE, 28.0D)
+                .add(Attributes.MAX_HEALTH, SConfig.SERVER.inf_vin_hp.get() * SConfig.SERVER.global_health.get())
+                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.inf_vin_damage.get() * SConfig.SERVER.global_damage.get())
                 .add(Attributes.ARMOR,SConfig.SERVER.inf_vin_armor.get() * SConfig.SERVER.global_armor.get());
     }
     protected void populateDefaultEquipmentSlots(RandomSource p_219149_, DifficultyInstance p_219150_) {

@@ -162,6 +162,13 @@ public class BusserModel<T extends Busser> extends EntityModel<T> {
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		this.busser.getChild("RightArm").xScale = 1.65f;
+		this.busser.getChild("LeftArm").xScale = 1.65f;
+		this.busser.getChild("RightArm").yScale = 1.65f;
+		this.busser.getChild("LeftArm").yScale = 1.65f;
+		this.busser.getChild("RightArm").zScale = 1.65f;
+		this.busser.getChild("LeftArm").zScale = 1.65f;
+
 		if (entity.onGround() || entity.isInFluidType()){
 			this.busser.getChild("Tail").yRot = Mth.cos(limbSwing * 0.8F) * 0.8F * limbSwingAmount;
 			this.busser.getChild("Tail").getChild("Tail2").yRot = Mth.cos(limbSwing * 0.8F) * 0.8F * limbSwingAmount;

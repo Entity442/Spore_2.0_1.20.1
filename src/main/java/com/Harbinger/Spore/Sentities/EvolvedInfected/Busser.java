@@ -68,11 +68,20 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected {
                 return 5.0 + entity.getBbWidth() * entity.getBbWidth();
             }
         });
-        if (this.getTypeVariant() != 1) {
-            this.goalSelector.addGoal(5, new BusserFlyAndDrop(this, 6));
+            this.goalSelector.addGoal(5, new BusserFlyAndDrop(this, 6){
+                @Override
+                public boolean canUse() {
+                    return Busser.this.getTypeVariant() != 1 && super.canUse();
+                }
+            });
             this.goalSelector.addGoal(6, new TransportInfected<>(this, Mob.class, 0.8 ,
-                    e -> { return SConfig.SERVER.can_be_carried.get().contains(e.getEncodeId()) || SConfig.SERVER.ranged.get().contains(e.getEncodeId());}));
-        }
+                    e -> { return SConfig.SERVER.can_be_carried.get().contains(e.getEncodeId()) || SConfig.SERVER.ranged.get().contains(e.getEncodeId());}){
+                @Override
+                public boolean canUse() {
+                    return Busser.this.getTypeVariant() != 1 && super.canUse();
+                }
+            });
+
         this.goalSelector.addGoal(7 , new FlyingWanderAround(this , 1.0));
         super.registerGoals();
     }

@@ -131,6 +131,7 @@ public class HandlerEvents {
                                     player.displayClientMessage(Component.literal("Entity "+ infected.getEncodeId() + " " + infected.getCustomName()),false);
                                     player.displayClientMessage(Component.literal("Current Health " + infected.getHealth()),false);
                                     player.displayClientMessage(Component.literal("Kills " + infected.getKills()),false);
+                                    player.displayClientMessage(Component.literal("Evolution Points " + infected.getEvoPoints()),false);
                                     player.displayClientMessage(Component.literal("Position to be Searched " + infected.getSearchPos()),false);
                                     player.displayClientMessage(Component.literal("Buffs " + infected.getActiveEffects()),false);
                                     player.displayClientMessage(Component.literal("Ticks until evolution: " + infected.getEvolutionCoolDown() + "/" + (SConfig.SERVER.evolution_age_human.get() * 20)),false);
