@@ -4,7 +4,7 @@
       "model": "spore:block/bloomfung2"
     },
     "hanging=true": {
-      "model": "spore:block/bloomfung2",
+      "model": "spore:block/bloomfung2_hanging",
       "x": 180
     }
   }

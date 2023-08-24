@@ -40,11 +40,11 @@ import javax.annotation.Nullable;
 public class HangingPlant extends FlowerBlock {
     public static final BooleanProperty HANGING = BlockStateProperties.HANGING;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    protected static final VoxelShape AABB = Shapes.or(Block.box(4.0D, 0.0D, 4.0D, 12.0D, 7.0D, 12.0D));
-    protected static final VoxelShape HANGING_AABB = Shapes.or(Block.box(4.0D, 11.0D, 4.0D, 12.0D, 16.0D, 12.0D));
+    protected static final VoxelShape AABB = Shapes.or(box(4.0D, 0.0D, 4.0D, 12.0D, 6.0D, 12.0D));
+    protected static final VoxelShape HANGING_AABB = Shapes.or(box(4.0D, 4.0D, 4.0D, 12.0D, 10.0D, 12.0D),box(6.0D, 10.0D, 6.0D, 10.0D, 16.0D, 10.0D));
 
     public HangingPlant() {
-        super(MobEffects.WITHER, 1, BlockBehaviour.Properties.of().strength(0f, 0f).noCollission().noOcclusion().sound(SoundType.CROP).randomTicks());
+        super(MobEffects.WITHER, 1, BlockBehaviour.Properties.of().strength(0f, 0f).noCollission().sound(SoundType.CROP).randomTicks());
         this.registerDefaultState(this.stateDefinition.any().setValue(HANGING, Boolean.FALSE).setValue(WATERLOGGED, Boolean.FALSE));
     }
 
@@ -72,13 +72,14 @@ public class HangingPlant extends FlowerBlock {
         p_153490_.add(HANGING, WATERLOGGED);
     }
 
-    public boolean canSurvive(BlockState p_153479_, LevelReader p_153480_, BlockPos p_153481_) {
-        Direction direction = getConnectedDirection(p_153479_).getOpposite();
-        return Block.canSupportCenter(p_153480_, p_153481_.relative(direction), direction.getOpposite());
+    public boolean canSurvive(BlockState state, LevelReader levelReader, BlockPos pos) {
+        Direction direction = getConnectedDirection(state).getOpposite();
+        BlockState blockState = levelReader.getBlockState(pos.relative(direction));
+        return blockState.canOcclude();
     }
 
-    protected static Direction getConnectedDirection(BlockState p_153496_) {
-        return p_153496_.getValue(HANGING) ? Direction.DOWN : Direction.UP;
+    protected static Direction getConnectedDirection(BlockState state) {
+        return state.getValue(HANGING) ? Direction.DOWN : Direction.UP;
     }
 
     public PushReaction getPistonPushReaction(BlockState p_153494_) {

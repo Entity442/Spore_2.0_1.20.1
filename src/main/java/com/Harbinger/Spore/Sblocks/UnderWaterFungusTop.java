@@ -23,7 +23,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class UnderWaterFungusTop extends GenericFoliageBlock{
     public UnderWaterFungusTop() {
-        super(BlockBehaviour.Properties.of().sound(SoundType.CROP).strength(0f, 0f).noCollission().noOcclusion().sound(SoundType.CROP).randomTicks());
+        super(BlockBehaviour.Properties.of().sound(SoundType.CROP).strength(0f, 0f).noCollission().sound(SoundType.CROP).randomTicks());
         this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.TRUE));
     }
     @Override

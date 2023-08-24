@@ -7,11 +7,15 @@ import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.AirBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
@@ -35,6 +39,24 @@ public class HangingPlantBub extends HangingPlant{
                 }else {level.setBlock(blockpos, block2, 3);}}
             level.addFreshEntity(areaeffectcloud);
             level.playSound(null,blockpos, Ssounds.FUNGAL_BURST.get(), SoundSource.BLOCKS,1,1);
+        }
+    }
+
+    @Override
+    public boolean isRandomlyTicking(BlockState state) {
+        return state.getValue(HANGING);
+    }
+
+    @Override
+    public void randomTick(BlockState state, ServerLevel level, BlockPos blockpos, RandomSource randomSource) {
+        super.randomTick(state, level, blockpos, randomSource);
+        if (Math.random() < 0.2f){
+            BlockState blockState = level.getBlockState(blockpos.below());
+            if (blockState.getBlock() instanceof AirBlock){
+                BlockState block = Sblocks.BLOOM_GG.get().defaultBlockState();
+                level.setBlock(blockpos,Sblocks.HANGING_FUNGAL_STEM.get().defaultBlockState(), 2);
+                level.setBlock(blockpos.below(),block.setValue(HANGING,true),2);
+            }
         }
     }
 }

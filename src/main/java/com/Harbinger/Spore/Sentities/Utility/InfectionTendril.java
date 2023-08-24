@@ -178,6 +178,9 @@ public class InfectionTendril extends UtilityEntity {
                 if ((Math.abs(this.getSearchArea().getX())  - Math.abs(this.getX()) < 6) && (Math.abs(this.getSearchArea().getZ())  - Math.abs(this.getZ()) < 6)){
                   teleport();
                 }
+                if (!this.onGround() && this.horizontalCollision && this.verticalCollision){
+                    teleportAround();
+                }
         }
     }
 
@@ -186,8 +189,8 @@ public class InfectionTendril extends UtilityEntity {
         if (entityData.get(LIFE) == 0){
             this.discard();
         }
-        if (this.random.nextInt(0,10) == 7){
-        Spread(this,this.level());
+        if (this.random.nextInt(0,10) == 0){
+        Spread(this,this.level(),0.3);
         }
         super.aiStep();
     }
@@ -203,9 +206,21 @@ public class InfectionTendril extends UtilityEntity {
             double d0 = this.getSearchArea().getX() + (double)(this.random.nextInt(8));
             double d1 = this.getSearchArea().getY();
             double d2 = this.getSearchArea().getZ() + (double)(this.random.nextInt(8));
-            return this.randomTeleport(d0, d1, d2,true);
+            this.Spread(this,this.level(),1.2);
+            return this.randomTeleport(d0, d1, d2,false);
         } else {
             return false;
+        }
+    }
+
+    private void teleportAround(){
+        if (!this.level().isClientSide && this.isAlive()){
+            int x = (int) Math.abs(Math.abs(this.getSearchArea().getX()) + Math.abs(this.getX()));
+            int z = (int) Math.abs(Math.abs(this.getSearchArea().getZ()) + Math.abs(this.getZ()));
+            int randomX = this.random.nextInt(-x,x);
+            int randomZ = this.random.nextInt(-z,z);
+            this.Spread(this,this.level(),1.2);
+            this.randomTeleport(randomX, this.getSearchArea().getY(), randomZ,false);
         }
     }
 
@@ -218,8 +233,8 @@ public class InfectionTendril extends UtilityEntity {
 
     }
 
-    private void Spread(Entity entity , Level level){
-        AABB aabb = entity.getBoundingBox().inflate(0.3);
+    private void Spread(Entity entity , Level level,double value){
+        AABB aabb = entity.getBoundingBox().inflate(value);
         for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
             BlockState nord = level.getBlockState(blockpos.north());
             BlockState south = level.getBlockState(blockpos.south());

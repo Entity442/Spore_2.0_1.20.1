@@ -33,8 +33,8 @@ public class WallFolliage extends Block implements SimpleWaterloggedBlock {
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, Boolean.FALSE));
     }
 
-    public VoxelShape getShape(BlockState p_54372_, BlockGetter p_54373_, BlockPos p_54374_, CollisionContext p_54375_) {
-        switch ((Direction)p_54372_.getValue(FACING)) {
+    public VoxelShape getShape(BlockState state, BlockGetter p_54373_, BlockPos p_54374_, CollisionContext p_54375_) {
+        switch (state.getValue(FACING)) {
             case NORTH:
                 return NORTH_AABB;
             case SOUTH:

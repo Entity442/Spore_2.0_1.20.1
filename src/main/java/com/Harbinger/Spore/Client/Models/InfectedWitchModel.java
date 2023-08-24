@@ -129,7 +129,7 @@ public class InfectedWitchModel<T extends InfectedWitch> extends EntityModel<T> 
 	}
 
 	private ModelPart getArm(HumanoidArm arm) {
-		return arm == HumanoidArm.RIGHT ? this.LeftArm : this.LeftArm.getChild("LeftForArm").getChild("item");
+		return arm == HumanoidArm.RIGHT ? this.LeftArm : this.RightArm;
 	}
 	@Override
 	public void translateToHand(HumanoidArm arm, PoseStack stack) {

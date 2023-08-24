@@ -30,7 +30,7 @@ public class UnderWaterFungalStem extends GenericFoliageBlock{
         BlockState groundState = worldIn.getBlockState(blockpos);
         return this.mayPlaceOn(groundState, worldIn, blockpos);
     }
-    protected boolean mayPlaceOn(BlockState blockState, BlockGetter p_51043_, BlockPos p_51044_) {
+    protected boolean mayPlaceOn(BlockState blockState, BlockGetter getter, BlockPos blockPos) {
         return blockState.canOcclude() || blockState.getBlock() == Sblocks.UNDERWATER_FUNGAL_STEM.get();
     }
 
