@@ -14,11 +14,11 @@ public class InfectedWallMovementControl extends MoveControl {
     @Override
     public void tick() {
         super.tick();
-        if (mob.horizontalCollision) {
-            Vec3 initialVec = mob.getDeltaMovement();
-            Vec3 climbVec = new Vec3(initialVec.x, 0.2D, initialVec.z);
-            mob.setDeltaMovement(climbVec.x * 0.91D,
-                    climbVec.y * 0.98D, climbVec.z * 0.91D);
-        }
+            if (mob.horizontalCollision) {
+                Vec3 initialVec = mob.getDeltaMovement();
+                Vec3 climbVec = new Vec3(initialVec.x, 0.2D, initialVec.z);
+                mob.setDeltaMovement(climbVec.x * 0.91D,
+                        climbVec.y * 0.98D, climbVec.z * 0.91D);
+            }
     }
 }

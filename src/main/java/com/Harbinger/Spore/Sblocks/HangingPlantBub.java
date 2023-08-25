@@ -15,7 +15,6 @@ import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.AirBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
@@ -50,9 +49,11 @@ public class HangingPlantBub extends HangingPlant{
     @Override
     public void randomTick(BlockState state, ServerLevel level, BlockPos blockpos, RandomSource randomSource) {
         super.randomTick(state, level, blockpos, randomSource);
-        if (Math.random() < 0.2f){
+        if (Math.random() < 0.4f){
             BlockState blockState = level.getBlockState(blockpos.below());
-            if (blockState.getBlock() instanceof AirBlock){
+            BlockState blockState1 = level.getBlockState(blockpos.below(-1));
+            BlockState blockState2= level.getBlockState(blockpos.below(-2));
+            if (blockState.getBlock() instanceof AirBlock && blockState1.getBlock() instanceof AirBlock && blockState2.getBlock() instanceof AirBlock){
                 BlockState block = Sblocks.BLOOM_GG.get().defaultBlockState();
                 level.setBlock(blockpos,Sblocks.HANGING_FUNGAL_STEM.get().defaultBlockState(), 2);
                 level.setBlock(blockpos.below(),block.setValue(HANGING,true),2);
