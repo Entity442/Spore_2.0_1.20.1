@@ -51,8 +51,8 @@ public class HangingPlantBub extends HangingPlant{
         super.randomTick(state, level, blockpos, randomSource);
         if (Math.random() < 0.4f){
             BlockState blockState = level.getBlockState(blockpos.below());
-            BlockState blockState1 = level.getBlockState(blockpos.below(1));
-            BlockState blockState2= level.getBlockState(blockpos.below(2));
+            BlockState blockState1 = level.getBlockState(blockpos.below(2));
+            BlockState blockState2= level.getBlockState(blockpos.below(3));
             if (blockState.getBlock() instanceof AirBlock && blockState1.getBlock() instanceof AirBlock && blockState2.getBlock() instanceof AirBlock){
                 BlockState block = Sblocks.BLOOM_GG.get().defaultBlockState();
                 level.setBlock(blockpos,Sblocks.HANGING_FUNGAL_STEM.get().defaultBlockState(), 2);
