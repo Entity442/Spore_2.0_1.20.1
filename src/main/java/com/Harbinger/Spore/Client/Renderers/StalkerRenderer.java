@@ -53,24 +53,21 @@ public class StalkerRenderer<Type extends Stalker> extends MobRenderer<Type , St
             super(p_174490_);
             this.model = new StalkerModel<>(set.bakeLayer(StalkerModel.LAYER_LOCATION));
         }
+
         public void render(PoseStack p_116924_, MultiBufferSource p_116925_, int p_116926_, T entity, float p_116928_, float p_116929_, float p_116930_, float p_116931_, float p_116932_, float p_116933_) {
-            ResourceLocation STALKER_LAYER_LOCATION;
-            if (entity.getCamo() == 1){
-                STALKER_LAYER_LOCATION = new ResourceLocation(Spore.MODID,
-                        "textures/entity/stalker/stalker_moss_layer.png");
-            }else if (entity.getCamo() == 2){
-                STALKER_LAYER_LOCATION = new ResourceLocation(Spore.MODID,
-                        "textures/entity/stalker/stalker_snow_layer.png");
-            }else if (entity.getCamo() == 3){
-                STALKER_LAYER_LOCATION = new ResourceLocation(Spore.MODID,
-                        "textures/entity/stalker/stalker_sand_layer.png");
-            }else{
-                STALKER_LAYER_LOCATION = new ResourceLocation(Spore.MODID,
-                        "textures/entity/empty.png");
+            if (entity.getCamo() != 0){
+                int i = entity.getCamo();
+                float r = (float) (i >> 16 & 255) / 255.0F;
+                float g = (float) (i >> 8 & 255) / 255.0F;
+                float b = (float) (i & 255) / 255.0F;
+                ResourceLocation STALKER_LAYER_LOCATION = new ResourceLocation(Spore.MODID, "textures/entity/stalker/stalker_layer.png");
+                coloredCutoutModelCopyLayerRender(this.getParentModel(), this.model, STALKER_LAYER_LOCATION, p_116924_, p_116925_, p_116926_, entity,
+                        p_116928_, p_116929_, p_116931_, p_116932_, p_116933_, p_116930_, r, g, b);
             }
-            coloredCutoutModelCopyLayerRender(this.getParentModel(), this.model, STALKER_LAYER_LOCATION, p_116924_, p_116925_, p_116926_, entity, p_116928_, p_116929_, p_116931_, p_116932_, p_116933_, p_116930_, 1.0F, 1.0F, 1.0F);
         }
+
     }
+
 
     @Override
     protected boolean isShaking(Type type) {

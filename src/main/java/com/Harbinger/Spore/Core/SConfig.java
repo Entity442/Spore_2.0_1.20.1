@@ -464,8 +464,8 @@ public class SConfig {
             this.sieger_buffs = builder.comment("Default values: minecraft:speed|600|0 ,minecraft:mycelium|600|0 ,minecraft:resistance|600|1").defineList("Sieger buffs",
                     Lists.newArrayList("minecraft:speed|600|0" , "minecraft:strength|600|0","minecraft:resistance|600|1") , o -> o instanceof String);
 
-            this.sieger_debuffs = builder.comment("Default values: minecraft:weakness|600|0 ,spore:mycelium|600|0 ,minecraft:slowness|600|0").defineList("Sieger debuffs",
-                    Lists.newArrayList("minecraft:weakness|600|0" , "spore:mycelium_ef|600|0","minecraft:slowness|600|0") , o -> o instanceof String);
+            this.sieger_debuffs = builder.comment("Default values: minecraft:weakness|600|1 ,spore:mycelium|600|1 ,minecraft:slowness|600|1").defineList("Sieger debuffs",
+                    Lists.newArrayList("minecraft:weakness|600|1" , "spore:mycelium_ef|600|1","minecraft:slowness|600|1") , o -> o instanceof String);
 
             this.sieger_explosive_effects = builder.comment("Default values: minecraft:wither ,spore:mycelium ,minecraft:weakness").defineList("Sieger explosion ranged effects",
                     Lists.newArrayList("minecraft:wither" , "spore:mycelium_ef","minecraft:weakness") , o -> o instanceof String);
