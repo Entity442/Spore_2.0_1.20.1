@@ -260,7 +260,7 @@ public class Proto extends UtilityEntity implements Enemy {
         }
 
         public void Targeting(Entity entity){
-            AABB boundingBox = entity.getBoundingBox().inflate(64);
+            AABB boundingBox = entity.getBoundingBox().inflate(SConfig.SERVER.proto_range.get());
             List<Entity> entities = entity.level().getEntities(entity, boundingBox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
 
             for (Entity entity1 : entities) {
@@ -414,7 +414,7 @@ public class Proto extends UtilityEntity implements Enemy {
     public boolean checkForCalamities(BlockPos pos){
         List<Entity> entities = this.level().getEntities(this, seachbox() , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
         for (Entity en : entities) {
-            if (en instanceof Calamity calamity && calamity.getSearchArea() == BlockPos.ZERO){
+            if (en instanceof Calamity calamity && calamity.getSearchArea() == BlockPos.ZERO && Math.random() < 0.5){
                 calamity.setSearchArea(pos);
                 this.setSignal(false);
                 if (level().getServer() != null && !level().isClientSide()){

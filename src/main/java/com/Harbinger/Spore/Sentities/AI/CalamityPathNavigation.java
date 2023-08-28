@@ -7,6 +7,7 @@ import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.*;
+import net.minecraftforge.event.entity.EntityMobGriefingEvent;
 
 import javax.annotation.Nullable;
 
@@ -71,7 +72,10 @@ public class CalamityPathNavigation extends GroundPathNavigation {
 
     protected static class CalamityNodeEvaluator extends WalkNodeEvaluator{
         protected BlockPathTypes evaluateBlockPathType(BlockGetter getter, BlockPos pos, BlockPathTypes pathTypes) {
-            return pathTypes == BlockPathTypes.OPEN ? BlockPathTypes.BLOCKED : super.evaluateBlockPathType(getter, pos, pathTypes);
+            if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(mob.level(), mob)){
+                return pathTypes == BlockPathTypes.OPEN ? BlockPathTypes.BLOCKED : super.evaluateBlockPathType(getter, pos, pathTypes);
+            }
+            return BlockPathTypes.OPEN;
         }
     }
 
