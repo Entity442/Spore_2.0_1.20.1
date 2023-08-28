@@ -1,14 +1,12 @@
 package com.Harbinger.Spore.Sentities.BaseEntities;
 
-import com.Harbinger.Spore.Core.SConfig;
-import com.Harbinger.Spore.Core.Sblocks;
-import com.Harbinger.Spore.Core.Seffects;
-import com.Harbinger.Spore.Core.Sparticles;
+import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.Sentities.AI.CalamityPathNavigation;
 import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.AI.HurtTargetGoal;
 import com.Harbinger.Spore.Sentities.MovementControls.CalamityMovementControl;
+import com.Harbinger.Spore.Sentities.Organoids.Mound;
 import com.Harbinger.Spore.Sentities.Utility.InfectionTendril;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -340,6 +338,7 @@ public class Calamity extends UtilityEntity implements Enemy {
             }
             if (this.infected.getSearchArea() != BlockPos.ZERO && this.infected.getSearchArea().distToCenterSqr(this.infected.position()) < 20.0) {
                 infected.setSearchArea(BlockPos.ZERO);
+                infected.SummonMound(infected);
             }
         }
 
@@ -387,6 +386,12 @@ public class Calamity extends UtilityEntity implements Enemy {
             }
         }
         super.die(source);
+    }
+    private void SummonMound(Entity entity){
+        Mound mound = new Mound(Sentities.MOUND.get(),entity.level());
+        mound.moveTo(entity.getX(),entity.getY(),entity.getZ());
+        mound.setMaxAge(4);
+        entity.level().addFreshEntity(mound);
     }
 
 }
