@@ -75,7 +75,7 @@ public class BiomassReformator extends UtilityEntity implements Enemy {
             this.makeStuckInBlock(Blocks.AIR.defaultBlockState(), new Vec3(0, 1, 0));
         }
         if (this.entityData.get(BIOMASS) >= SConfig.SERVER.reconstructor_biomass.get()){
-            this.Summon(this);
+            this.Summon(this,false);
         }
         if (this.entityData.get(COUNTER) < (SConfig.SERVER.recontructor_clock.get() * 20)){
             this.entityData.set(COUNTER , this.entityData.get(COUNTER) + 1);
@@ -256,7 +256,7 @@ public class BiomassReformator extends UtilityEntity implements Enemy {
         }
     }
 
-    private void Summon(Entity entity){
+    private void Summon(Entity entity ,boolean value){
         List<? extends String> ev;
         if (entityData.get(STATE) == 1){
             ev = SConfig.SERVER.reconstructor_water.get();
@@ -271,11 +271,14 @@ public class BiomassReformator extends UtilityEntity implements Enemy {
             EntityType<?> randomElement = ForgeRegistries.ENTITY_TYPES.getValue(randomElement1);
             assert randomElement != null;
             Mob waveentity = (Mob) randomElement.create(level());
-            assert waveentity != null;
             waveentity.setPos(entity.getX(), entity.getY(), entity.getZ());
             if (waveentity instanceof Calamity calamity){
                 calamity.setSearchArea(this.getLocation());
+                if (value){
+                    calamity.setSecondsOnFire(3);
+                    calamity.setHealth(calamity.getMaxHealth() / 2);}
             }
+
             if (this.level() instanceof ServerLevel serverLevel){
             double x0 = this.getX() - (random.nextFloat() - 0.1) * 0.1D;
             double y0 = this.getY() + (random.nextFloat() - 0.25) * 0.15D * 5;
@@ -284,5 +287,13 @@ public class BiomassReformator extends UtilityEntity implements Enemy {
             }
             this.discard();
         level().addFreshEntity(waveentity);
+    }
+
+    @Override
+    public void die(DamageSource p_21014_) {
+        if (this.getBiomass() > (SConfig.SERVER.reconstructor_biomass.get()/2)){
+            Summon(this,true);
+        }
+        super.die(p_21014_);
     }
 }

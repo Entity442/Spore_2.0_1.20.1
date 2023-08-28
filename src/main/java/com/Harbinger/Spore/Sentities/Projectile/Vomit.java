@@ -45,7 +45,7 @@ public class Vomit extends AbstractArrow implements ItemSupplier {
     @Override
     public void tick() {
         super.tick();
-        if (this.inGround || this.isInWater())
+        if (this.inGround || this.isInFluidType())
             this.discard();
     }
 
@@ -84,10 +84,8 @@ public class Vomit extends AbstractArrow implements ItemSupplier {
 
     private void levels(Entity entity) {
 
-
-        if (entity instanceof LivingEntity _entity) {
-            LivingEntity _livEnt = (LivingEntity) entity;
-            _entity.addEffect(new MobEffectInstance(Seffects.CORROSION.get(), 300, 1 +
+        if (entity instanceof LivingEntity _livEnt) {
+            _livEnt.addEffect(new MobEffectInstance(Seffects.CORROSION.get(), 300, 1 +
                     (_livEnt.hasEffect(Seffects.CORROSION.get())
                     ? _livEnt.getEffect(Seffects.CORROSION.get()).getAmplifier() : 0)));
         }

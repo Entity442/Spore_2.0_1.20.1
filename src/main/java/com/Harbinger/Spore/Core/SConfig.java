@@ -927,7 +927,7 @@ public class SConfig {
                     Lists.newArrayList("minecraft:stone|spore:infested_stone","minecraft:grass_block|minecraft:mycelium","minecraft:dirt|spore:infested_dirt","minecraft:coarse_dirt|spore:infested_dirt"
                             ,"minecraft:podzol|spore:infested_dirt","minecraft:rooted_dirt|spore:infested_dirt","minecraft:podzol|spore:infested_dirt","minecraft:deepslate|spore:infested_deepslate"
                             ,"minecraft:sand|spore:infested_sand","minecraft:gravel|spore:infested_gravel","minecraft:netherrack|spore:infested_netherrack","minecraft:end_stone|spore:infested_end_stone"
-                            ,"minecraft:soulsand|spore:infested_soulsand","minecraft:soulsoil|spore:infested_soulsand") , o -> o instanceof String);
+                            ,"minecraft:soulsand|spore:infested_soulsand","minecraft:soulsoil|spore:infested_soulsand","minecraft:sculk|spore:rooted_mycelium") , o -> o instanceof String);
             builder.pop();
         }
     }
