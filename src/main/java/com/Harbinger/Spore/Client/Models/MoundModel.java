@@ -87,6 +87,7 @@ public class MoundModel<T extends Mound> extends EntityModel<T> {
 		this.body.yScale =1 -Mth.cos(ageInTicks/9)/6;
 		this.small_tendrils.visible = entity.getAge() >= 3;
 		this.tendrils.visible = entity.getAge() >= 4;
+		this.bb_main.visible = entity.onGround();
 
 		if (this.small_tendrils.visible){
 			this.small_tendrils.getChild("tendril5").zRot = -Mth.cos(ageInTicks/9)/6;

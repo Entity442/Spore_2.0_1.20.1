@@ -1,6 +1,9 @@
 package com.Harbinger.Spore.Sentities.Organoids;
 
 import com.Harbinger.Spore.Core.*;
+import com.Harbinger.Spore.Sentities.AI.HurtTargetGoal;
+import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
+import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.Utility.InfectionTendril;
 import net.minecraft.core.BlockPos;
@@ -34,6 +37,7 @@ import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
@@ -291,7 +295,12 @@ public class Mound extends UtilityEntity implements Enemy {
     }
 
 
-    private boolean checkForExtraTendrils(Entity entity ,Level level){
+    @Override
+    public boolean canDrownInFluidType(FluidType type) {
+        return false;
+    }
+
+    private boolean checkForExtraTendrils(Entity entity , Level level){
         AABB aabb = entity.getBoundingBox().inflate(SConfig.SERVER.mound_tendril_checker.get());
         List<InfectionTendril> entities = level.getEntitiesOfClass(InfectionTendril.class, aabb);
         return entities.size() <= 4;
@@ -354,8 +363,13 @@ public class Mound extends UtilityEntity implements Enemy {
         }
         super.onSyncedDataUpdated(dataAccessor);
     }
-
     @Override
+    public void registerGoals() {
+        this.goalSelector.addGoal(2, new HurtTargetGoal(this, (en -> {
+            return !(SConfig.SERVER.blacklist.get().contains(en.getEncodeId()) || en instanceof UtilityEntity || en instanceof Infected);
+        }), Infected.class).setAlertOthers(Infected.class));
+    }
+        @Override
     public EntityDimensions getDimensions(Pose pose) {
         return super.getDimensions(pose).scale(this.getAge() >= 1 ? (1.0F * this.getAge()) : 1.0F);
     }
