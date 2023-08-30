@@ -75,7 +75,7 @@ public class HangingPlant extends FlowerBlock {
     public boolean canSurvive(BlockState state, LevelReader levelReader, BlockPos pos) {
         Direction direction = getConnectedDirection(state).getOpposite();
         BlockState blockState = levelReader.getBlockState(pos.relative(direction));
-        return blockState.canOcclude();
+        return blockState.canOcclude() || blockState.getBlock() == Sblocks.HANGING_FUNGAL_STEM.get();
     }
 
     protected static Direction getConnectedDirection(BlockState state) {
