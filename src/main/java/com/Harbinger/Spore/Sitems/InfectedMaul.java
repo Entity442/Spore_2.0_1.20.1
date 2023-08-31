@@ -68,7 +68,7 @@ public class InfectedMaul extends PickaxeItem {
 
     @Override
     public boolean hurtEnemy(ItemStack itemstack, LivingEntity entity, LivingEntity sourceentity) {
-        itemstack.hurtAndBreak(2, sourceentity, (p_41007_) -> {
+        itemstack.hurtAndBreak(1, sourceentity, (p_41007_) -> {
             p_41007_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
         });
         entity.addEffect(new MobEffectInstance(Seffects.STUNT.get(), 40, 1));

@@ -7,6 +7,6 @@ import net.minecraft.world.level.block.Block;
 public class BlockItemBase extends BlockItem {
     public BlockItemBase(Block block, Properties properties) {
         super(block, properties);
-        Sitems.TECHNOLOGICAL_BLOCKS.add(this);
+        Sitems.TECHNOLOGICAL_ITEMS.add(this);
     }
 }

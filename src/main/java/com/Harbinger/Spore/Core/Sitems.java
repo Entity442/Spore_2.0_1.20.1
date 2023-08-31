@@ -19,8 +19,6 @@ import java.util.List;
 public class Sitems {
     public  static  final List<Item> BIOLOGICAL_ITEMS = new ArrayList<>();
     public  static  final List<Item> TECHNOLOGICAL_ITEMS = new ArrayList<>();
-    public  static  final List<Item> BIOLOGICAL_BLOCKS = new ArrayList<>();
-    public  static  final List<Item> TECHNOLOGICAL_BLOCKS = new ArrayList<>();
 
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, Spore.MODID);

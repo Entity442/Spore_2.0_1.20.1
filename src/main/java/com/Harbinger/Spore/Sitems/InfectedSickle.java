@@ -63,7 +63,7 @@ public class InfectedSickle extends Item implements Vanishable {
 
     public boolean mineBlock(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity entity) {
         if ((double)state.getDestroySpeed(level, pos) != 0.0D) {
-            stack.hurtAndBreak(2, entity, (ss) -> {
+            stack.hurtAndBreak(1, entity, (ss) -> {
                 ss.broadcastBreakEvent(EquipmentSlot.MAINHAND);
             });
         }

@@ -18,7 +18,6 @@ public class ScreativeTab {
             () -> CreativeModeTab.builder().title(Component.translatable("itemGroup.spore"))
                     .icon(Sitems.MUTATED_HEART.get()::getDefaultInstance).displayItems((parameters, output) -> {
                         Sitems.BIOLOGICAL_ITEMS.forEach(item -> output.accept(item.asItem()));
-                        Sitems.BIOLOGICAL_BLOCKS.forEach(item -> output.accept(item.asItem()));
                     }).build()
     );
 
@@ -30,7 +29,6 @@ public class ScreativeTab {
             () -> CreativeModeTab.builder().title(Component.translatable("itemGroup.spore_t"))
                     .icon(Sitems.CONTAINER.get()::getDefaultInstance).displayItems((parameters, output) -> {
                         Sitems.TECHNOLOGICAL_ITEMS.forEach(item -> output.accept(item.asItem()));
-                        Sitems.TECHNOLOGICAL_BLOCKS.forEach(item -> output.accept(item.asItem()));
                     }).build()
     );
 

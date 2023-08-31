@@ -216,13 +216,6 @@ public class Calamity extends UtilityEntity implements Enemy {
         return en instanceof Animal || en instanceof AbstractFish || en instanceof Infected || en instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(en.getEncodeId());
     }
 
-    @Override
-    public boolean hurt(DamageSource source, float value) {
-        if (source.getDirectEntity() != null && this.getSearchArea() != BlockPos.ZERO){
-            this.setSearchArea(new BlockPos((int)source.getDirectEntity().getX(),(int)source.getDirectEntity().getY(),(int)source.getDirectEntity().getZ()));
-        }
-        return super.hurt(source, value);
-    }
 
     public  boolean tryToDigDown(){
         if (this.getSearchArea() != BlockPos.ZERO && this.verticalCollisionBelow){

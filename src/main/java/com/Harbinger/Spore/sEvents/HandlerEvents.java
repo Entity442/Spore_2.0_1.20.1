@@ -1,7 +1,10 @@
 package com.Harbinger.Spore.sEvents;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Seffects;
+import com.Harbinger.Spore.Core.Senchantments;
 import com.Harbinger.Spore.Core.Sentities;
+import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.FollowOthersGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
@@ -30,17 +33,21 @@ import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -338,5 +345,30 @@ public class HandlerEvents {
                 HARVESTED_BLOCKS.remove(pos);
             }
         }
+    }
+
+
+    @SubscribeEvent
+    public static void Effects(TickEvent.PlayerTickEvent event){
+        if (event.player instanceof ServerPlayer player){
+            if (player.hasEffect(Seffects.CORROSION.get())){
+                if (player.tickCount % 60 == 0){
+                    player.getInventory().hurtArmor(SdamageTypes.acid(player),0.5f, Inventory.ALL_ARMOR_SLOTS);
+                }
+            }
+            if (player.hasEffect(Seffects.SYMBIOSIS.get())){
+                if (player.tickCount % 200 == 0){
+                    int size = player.getInventory().getContainerSize();
+                    for (int i = 0;i <= size;i++){
+                        ItemStack itemStack = player.getInventory().getItem(i);
+                        if (EnchantmentHelper.getTagEnchantmentLevel(Senchantments.SYMBIOTIC_RECONSTITUTION.get(),itemStack) != 0 && itemStack.isDamaged()){
+                            int l = itemStack.getDamageValue()-1;
+                            itemStack.setDamageValue(l);
+                        }
+                    }
+                }
+            }
+        }
+
     }
 }

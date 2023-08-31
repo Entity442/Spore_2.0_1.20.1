@@ -7,6 +7,6 @@ import net.minecraft.world.level.block.Block;
 public class BlockItemBase2 extends BlockItem {
     public BlockItemBase2(Block block, Properties properties) {
         super(block, properties);
-        Sitems.BIOLOGICAL_BLOCKS.add(this);
+        Sitems.BIOLOGICAL_ITEMS.add(this);
     }
 }
