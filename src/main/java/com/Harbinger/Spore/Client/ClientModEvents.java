@@ -51,6 +51,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(StalkerModel.LAYER_LOCATION, StalkerModel::createBodyLayer);
         event.registerLayerDefinition(BruteModel.LAYER_LOCATION, BruteModel::createBodyLayer);
         event.registerLayerDefinition(BusserModel.LAYER_LOCATION, BusserModel::createBodyLayer);
+        event.registerLayerDefinition(ExplodingBusserModel.LAYER_LOCATION, ExplodingBusserModel::createBodyLayer);
         event.registerLayerDefinition(InfectedDrownModel.LAYER_LOCATION, InfectedDrownModel::createBodyLayer);
         event.registerLayerDefinition(HostModel.LAYER_LOCATION, HostModel::createBodyLayer);
         event.registerLayerDefinition(InfectedPlayerModel.LAYER_LOCATION, InfectedPlayerModel::createBodyLayer);

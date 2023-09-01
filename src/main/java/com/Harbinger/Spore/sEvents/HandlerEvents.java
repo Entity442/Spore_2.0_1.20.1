@@ -357,7 +357,7 @@ public class HandlerEvents {
                 }
             }
             if (player.hasEffect(Seffects.SYMBIOSIS.get())){
-                if (player.tickCount % 200 == 0){
+                if (player.tickCount % 400 == 0){
                     int size = player.getInventory().getContainerSize();
                     for (int i = 0;i <= size;i++){
                         ItemStack itemStack = player.getInventory().getItem(i);

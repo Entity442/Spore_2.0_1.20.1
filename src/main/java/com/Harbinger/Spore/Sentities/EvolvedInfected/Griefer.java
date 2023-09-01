@@ -121,12 +121,6 @@ public class Griefer extends EvolvedInfected {
                 livingEntity.addEffect( new MobEffectInstance(MobEffects.WEAKNESS ,  400, 0));
             }
         }
-        if (this.level() instanceof ServerLevel serverLevel){
-            double x0 = this.getX() - (random.nextFloat() - 0.1) * 0.1D;
-            double y0 = this.getY() + (random.nextFloat() - 0.25) * 0.15D * 5;
-            double z0 = this.getZ() + (random.nextFloat() - 0.1) * 0.1D;
-            serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x0, y0, z0, 2, 0, 0, 0, 1);
-        }
     }
 
     private void explodeGriefer() {
@@ -135,7 +129,6 @@ public class Griefer extends EvolvedInfected {
             Level.ExplosionInteraction explosion$blockinteraction = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this) ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
             this.dead = true;
             this.level().explode(this, this.getX(), this.getY(), this.getZ(), (float)this.explosionRadius, explosion$blockinteraction);
-
             } else {
                 this.dead = true;
                 this.level().explode(this, this.getX(), this.getY(), this.getZ(), (float)this.explosionRadius, Level.ExplosionInteraction.NONE);

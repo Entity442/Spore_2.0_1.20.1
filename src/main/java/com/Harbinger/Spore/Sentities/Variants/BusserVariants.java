@@ -5,7 +5,8 @@ import java.util.Comparator;
 
 public enum BusserVariants {
     DEFAULT(0),
-    ENHANCED(1);
+    ENHANCED(1),
+    BOMBER(2);
 
     private static final BusserVariants[] BY_ID = Arrays.stream(values()).sorted(Comparator.
             comparingInt(BusserVariants::getId)).toArray(BusserVariants[]::new);
