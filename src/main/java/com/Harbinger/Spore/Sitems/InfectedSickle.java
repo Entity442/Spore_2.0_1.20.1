@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.ScreativeTab;
+import com.Harbinger.Spore.Core.Senchantments;
 import com.Harbinger.Spore.Core.Sitems;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
@@ -83,7 +84,7 @@ public class InfectedSickle extends Item implements Vanishable {
 
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-        return super.canApplyAtEnchantingTable(stack, enchantment) || ImmutableSet.of(Enchantments.SHARPNESS, Enchantments.FIRE_ASPECT , Enchantments.MOB_LOOTING , Enchantments.SMITE , Enchantments.BLOCK_FORTUNE).contains(enchantment);
+        return super.canApplyAtEnchantingTable(stack, enchantment) || ImmutableSet.of(Enchantments.SHARPNESS, Enchantments.FIRE_ASPECT , Enchantments.MOB_LOOTING , Enchantments.SMITE , Enchantments.BLOCK_FORTUNE).contains(enchantment) || Senchantments.SPORE_ENCHANTS.contains(enchantment);
     }
 
 

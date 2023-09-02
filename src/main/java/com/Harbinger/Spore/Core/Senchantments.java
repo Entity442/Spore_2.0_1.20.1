@@ -9,14 +9,20 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Senchantments {
     public static final DeferredRegister<Enchantment> ENCHANTMENTS = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, Spore.MODID);
     public static void register(IEventBus eventBus) {
         ENCHANTMENTS.register(eventBus);
     }
+    public  static  final List<Enchantment> SPORE_ENCHANTS = new ArrayList<>();
 
     public static final EnchantmentCategory FUNGAL_ITEMS =
             EnchantmentCategory.create("fungal_items",item -> {return Sitems.BIOLOGICAL_ITEMS.contains(item.asItem()) && item.canBeDepleted();});
+
+
     public static final RegistryObject<Enchantment> SYMBIOTIC_RECONSTITUTION = ENCHANTMENTS.register("symbiotic_reconstitution", SymbioticReconstitution::new);
 
 }

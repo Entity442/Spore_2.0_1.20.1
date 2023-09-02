@@ -1,10 +1,8 @@
 package com.Harbinger.Spore.Sitems;
 
-import com.Harbinger.Spore.Core.SConfig;
-import com.Harbinger.Spore.Core.ScreativeTab;
-import com.Harbinger.Spore.Core.Seffects;
-import com.Harbinger.Spore.Core.Sitems;
+import com.Harbinger.Spore.Core.*;
 import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -17,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.extensions.IForgeItem;
 
@@ -69,4 +68,11 @@ public class InfectedGreatSword extends SwordItem implements IForgeItem {
         entity.addEffect(new MobEffectInstance(Seffects.STUNT.get(), 40, 1));
         return  true;
     }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+        return super.canApplyAtEnchantingTable(stack, enchantment) || Senchantments.SPORE_ENCHANTS.contains(enchantment);
+    }
+
+
 }

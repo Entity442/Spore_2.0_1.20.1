@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.ScreativeTab;
+import com.Harbinger.Spore.Core.Senchantments;
 import com.Harbinger.Spore.Core.Sitems;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.resources.ResourceLocation;
@@ -70,9 +71,9 @@ public class InfectedKnife extends SwordItem {
         if (ModList.get().isLoaded("farmersdelight")){
             Enchantment enchantment1 = ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("farmersdelight:backstabbing"));
             if (enchantment1 != null){
-            return (super.canApplyAtEnchantingTable(stack, enchantment) || ImmutableSet.of(enchantment1).contains(enchantment))
+            return (super.canApplyAtEnchantingTable(stack, enchantment) || ImmutableSet.of(enchantment1).contains(enchantment) || Senchantments.SPORE_ENCHANTS.contains(enchantment))
                     && !ImmutableSet.of(Enchantments.MOB_LOOTING).contains(enchantment);}
         }
-        return super.canApplyAtEnchantingTable(stack, enchantment) && !ImmutableSet.of(Enchantments.MOB_LOOTING).contains(enchantment);
+        return (super.canApplyAtEnchantingTable(stack, enchantment) || Senchantments.SPORE_ENCHANTS.contains(enchantment)) && !ImmutableSet.of(Enchantments.MOB_LOOTING).contains(enchantment);
     }
 }
