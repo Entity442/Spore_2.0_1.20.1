@@ -20,6 +20,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
@@ -162,6 +163,7 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected {
         }
     }
 
+
     @Override
     protected PathNavigation createNavigation(Level level) {
         if (this.onGround()){
@@ -179,6 +181,13 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected {
     @Override
     protected void customServerAiStep() {
         if (this.getTypeVariant() == 1){
+                AttributeInstance health = this.getAttribute(Attributes.MAX_HEALTH);
+                assert health != null;
+                health.setBaseValue(SConfig.SERVER.mound_hp.get() * 2 * SConfig.SERVER.global_health.get());
+                AttributeInstance armor = this.getAttribute(Attributes.ARMOR);
+                assert armor != null;
+                armor.setBaseValue(SConfig.SERVER.mound_armor.get() * 2 * SConfig.SERVER.global_armor.get());
+
             if (this.isVehicle()){
                 this.setDeltaMovement(this.getDeltaMovement().add(0,0.03,0));
                 if (this.flytimeV < 200){
