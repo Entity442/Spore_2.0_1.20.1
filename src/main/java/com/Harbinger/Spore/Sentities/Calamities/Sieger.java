@@ -25,6 +25,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.RangedAttackGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.monster.RangedAttackMob;
@@ -142,6 +143,7 @@ public class Sieger extends Calamity implements RangedAttackMob {
                 chemAttack();
             }
         });
+        this.goalSelector.addGoal(9,new RandomStrollGoal(this , 1));
         super.registerGoals();
     }
 

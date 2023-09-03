@@ -23,6 +23,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
@@ -88,7 +89,18 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected {
                 }
             });
 
-        this.goalSelector.addGoal(7 , new FlyingWanderAround(this , 1.0));
+        this.goalSelector.addGoal(7 , new FlyingWanderAround(this , 1.0){
+            @Override
+            public boolean canUse() {
+                return super.canUse() && !Busser.this.onGround();
+            }
+        });
+        this.goalSelector.addGoal(7,new RandomStrollGoal(this ,1.0){
+            @Override
+            public boolean canUse() {
+                return super.canUse() && Busser.this.onGround();
+            }
+        });
         super.registerGoals();
     }
 
@@ -183,10 +195,10 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected {
         if (this.getTypeVariant() == 1){
                 AttributeInstance health = this.getAttribute(Attributes.MAX_HEALTH);
                 assert health != null;
-                health.setBaseValue(SConfig.SERVER.mound_hp.get() * 2 * SConfig.SERVER.global_health.get());
+                health.setBaseValue(SConfig.SERVER.bus_hp.get() * 2 * SConfig.SERVER.global_health.get());
                 AttributeInstance armor = this.getAttribute(Attributes.ARMOR);
                 assert armor != null;
-                armor.setBaseValue(SConfig.SERVER.mound_armor.get() * 2 * SConfig.SERVER.global_armor.get());
+                armor.setBaseValue(SConfig.SERVER.bus_armor.get() * 2 * SConfig.SERVER.global_armor.get());
 
             if (this.isVehicle()){
                 this.setDeltaMovement(this.getDeltaMovement().add(0,0.03,0));

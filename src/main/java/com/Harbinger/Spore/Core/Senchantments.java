@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Core;
 
 import com.Harbinger.Spore.Senchantments.SymbioticReconstitution;
+import com.Harbinger.Spore.Senchantments.UnwaveringNature;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
@@ -24,5 +25,6 @@ public class Senchantments {
 
 
     public static final RegistryObject<Enchantment> SYMBIOTIC_RECONSTITUTION = ENCHANTMENTS.register("symbiotic_reconstitution", SymbioticReconstitution::new);
+    public static final RegistryObject<Enchantment> UNWAVERING_NATURE = ENCHANTMENTS.register("unwavering_nature", UnwaveringNature::new);
 
 }

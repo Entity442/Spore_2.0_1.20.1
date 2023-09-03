@@ -136,7 +136,7 @@ public class HandlerEvents {
                             if(entity1 instanceof Infected infected) {
                                 if (entity instanceof Player player && !player.level().isClientSide){
                                     player.displayClientMessage(Component.literal("Entity "+ infected.getEncodeId() + " " + infected.getCustomName()),false);
-                                    player.displayClientMessage(Component.literal("Current Health " + infected.getHealth()),false);
+                                    player.displayClientMessage(Component.literal("Current Health " + infected.getHealth() + "/" + infected.getMaxHealth()),false);
                                     player.displayClientMessage(Component.literal("Kills " + infected.getKills()),false);
                                     player.displayClientMessage(Component.literal("Evolution Points " + infected.getEvoPoints()),false);
                                     player.displayClientMessage(Component.literal("Position to be Searched " + infected.getSearchPos()),false);
@@ -151,7 +151,7 @@ public class HandlerEvents {
                             }else if (entity1 instanceof Calamity calamity){
                                 if (entity instanceof Player player && !player.level().isClientSide){
                                     player.displayClientMessage(Component.literal("Entity "+ calamity.getEncodeId() + " " + calamity.getCustomName()),false);
-                                    player.displayClientMessage(Component.literal("Current Health " + calamity.getHealth()),false);
+                                    player.displayClientMessage(Component.literal("Current Health " + calamity.getHealth() + "/" + calamity.getMaxHealth()),false);
                                     player.displayClientMessage(Component.literal("Kills " + calamity.getKills()),false);
                                     player.displayClientMessage(Component.literal("Position to be Searched " + calamity.getSearchArea()),false);
                                     player.displayClientMessage(Component.literal("Buffs " + calamity.getActiveEffects()),false);
@@ -161,7 +161,7 @@ public class HandlerEvents {
                             }else if (entity1 instanceof Mound mound){
                                 if (entity instanceof Player player && !player.level().isClientSide){
                                     player.displayClientMessage(Component.literal("Entity "+ mound.getEncodeId() + " " + mound.getCustomName()),false);
-                                    player.displayClientMessage(Component.literal("Current Health " + mound.getHealth()),false);
+                                    player.displayClientMessage(Component.literal("Current Health " + mound.getHealth() + "/" + mound.getMaxHealth()),false);
                                     player.displayClientMessage(Component.literal("Is Linked ? " + mound.getLinked()),false);
                                     player.displayClientMessage(Component.literal("Age " + mound.getAge()),false);
                                     player.displayClientMessage(Component.literal("Ticks until growth " + mound.getAgeCounter() + "/" + SConfig.SERVER.mound_age.get()),false);
@@ -172,7 +172,7 @@ public class HandlerEvents {
                             }else if(entity1 instanceof Proto proto) {
                                 if (entity instanceof Player player && !player.level().isClientSide){
                                     player.displayClientMessage(Component.literal("Entity "+ proto.getEncodeId() + " " + proto.getCustomName()),false);
-                                    player.displayClientMessage(Component.literal("Current Health " + proto.getHealth()),false);
+                                    player.displayClientMessage(Component.literal("Current Health " + proto.getHealth() + "/" + proto.getMaxHealth()),false);
                                     player.displayClientMessage(Component.literal("Current Target " + proto.getTarget()),false);
                                     player.displayClientMessage(Component.literal("Buffs " + proto.getActiveEffects()),false);
                                     player.displayClientMessage(Component.literal("Mobs under control " + proto.getHosts()),false);
