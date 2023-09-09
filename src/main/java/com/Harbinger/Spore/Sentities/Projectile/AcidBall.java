@@ -25,7 +25,7 @@ public class AcidBall extends AbstractArrow implements ItemSupplier {
 
 
 
-    public AcidBall(PlayMessages.SpawnEntity spawnEntity, Level level) {
+    public AcidBall(Level level) {
         super(Sentities.ACID_BALL.get(),level);
     }
 

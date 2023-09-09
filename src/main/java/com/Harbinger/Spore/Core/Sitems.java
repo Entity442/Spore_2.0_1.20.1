@@ -139,6 +139,9 @@ public class Sitems {
     public  static final RegistryObject<Item> MOUND_SPAWNEGG = ITEMS.register("mound_spawnegg",
             () -> new SporeSpawnEgg(Sentities.MOUND,-5750208, new Item.Properties()));
 
+    public  static final RegistryObject<Item> VIGIL_SPAWNEGG = ITEMS.register("vigil_spawnegg",
+            () -> new SporeSpawnEgg(Sentities.VIGIL,-64160208, new Item.Properties()));
+
     public  static final RegistryObject<Item> RECONSTRUCTOR_SPAWNEGG = ITEMS.register("reconstructor_spawnegg",
             () -> new SporeSpawnEgg(Sentities.RECONSTRUCTOR,-2353208, new Item.Properties()));
 

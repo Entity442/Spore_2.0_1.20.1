@@ -217,9 +217,9 @@ public class Sieger extends Calamity implements RangedAttackMob {
         return super.hurt(source, amount);
     }
 
-    public boolean hurt(CalamityMultipart calamityMultipart, DamageSource damageSource, float amount) {
-        if (calamityMultipart == tailbody){
-            super.hurt(damageSource, amount * 2);
+    public boolean hurtPart(CalamityMultipart calamityMultipart, DamageSource damageSource, float amount) {
+        if (calamityMultipart == this.tailbody){
+            this.addEffect(new MobEffectInstance(MobEffects.WITHER,200,0));
         }
         return super.hurt(damageSource, amount);
     }

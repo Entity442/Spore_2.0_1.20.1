@@ -60,6 +60,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(WingedChestplate.LAYER_LOCATION, WingedChestplate::createBodyLayer);
         event.registerLayerDefinition(MoundModel.LAYER_LOCATION, MoundModel::createBodyLayer);
         event.registerLayerDefinition(BiomassReconstructorModel.LAYER_LOCATION, BiomassReconstructorModel::createBodyLayer);
+        event.registerLayerDefinition(VigilModel.LAYER_LOCATION, VigilModel::createBodyLayer);
         event.registerLayerDefinition(ProtoHivemindModel.LAYER_LOCATION, ProtoHivemindModel::createBodyLayer);
         event.registerLayerDefinition(SiegerModel.LAYER_LOCATION, SiegerModel::createBodyLayer);
     }
@@ -95,6 +96,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.MOUND.get(), MoundRenderer::new);
         event.registerEntityRenderer(Sentities.RECONSTRUCTOR.get(), BiomassReconfiguratorRenderer::new);
         event.registerEntityRenderer(Sentities.PROTO.get(), ProtoRenderer::new);
+        event.registerEntityRenderer(Sentities.VIGIL.get(), VigilRenderer::new);
         event.registerEntityRenderer(Sentities.SIEGER.get(), SiegerRenderer::new);
 
 

@@ -7,6 +7,7 @@ import com.Harbinger.Spore.Sentities.Host;
 import com.Harbinger.Spore.Sentities.Organoids.BiomassReformator;
 import com.Harbinger.Spore.Sentities.Organoids.Mound;
 import com.Harbinger.Spore.Sentities.Organoids.Proto;
+import com.Harbinger.Spore.Sentities.Organoids.Vigil;
 import com.Harbinger.Spore.Sentities.Projectile.AcidBall;
 import com.Harbinger.Spore.Sentities.Projectile.ThrownSpear;
 import com.Harbinger.Spore.Sentities.Projectile.ThrownTumor;
@@ -123,13 +124,17 @@ public class Sentities {
             () -> EntityType.Builder.of(InfectedDrowned::new, INFECTED).sized(0.6f, 2f)
                     .build(new ResourceLocation(Spore.MODID, "inf_drowned").toString()));
 
+    public static final RegistryObject<EntityType<Vigil>> VIGIL = SPORE_ENTITIES.register("vigil",
+            () -> EntityType.Builder.of(Vigil::new, INFECTED).sized(1f, 3f)
+                    .build(new ResourceLocation(Spore.MODID, "vigil").toString()));
+
     public static final RegistryObject<EntityType<Host>> HOST = SPORE_ENTITIES.register("host",
             () -> EntityType.Builder.of(Host::new, INFECTED).sized(0.6f, 2f)
                     .build(new ResourceLocation(Spore.MODID, "host").toString()));
 
 
     public static final RegistryObject<EntityType<AcidBall>> ACID_BALL = register("acid_ball",
-            EntityType.Builder.<AcidBall>of(AcidBall::new, MobCategory.MISC).setCustomClientFactory(AcidBall::new)
+            EntityType.Builder.<AcidBall>of(AcidBall::new, MobCategory.MISC).setCustomClientFactory((spawnEntity, level) -> new AcidBall(level))
                     .setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(0.5f, 0.5f));
 
     public static final RegistryObject<EntityType<Vomit>> ACID = register("acid",

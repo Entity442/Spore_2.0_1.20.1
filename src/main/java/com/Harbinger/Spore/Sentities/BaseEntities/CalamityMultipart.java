@@ -6,12 +6,11 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Pose;
 import net.minecraftforge.entity.PartEntity;
 
 public class CalamityMultipart extends PartEntity<Calamity> {
-    public final Mob parentMob;
+    public final Calamity parentMob;
     public final String name;
     private final EntityDimensions size;
     public CalamityMultipart(Calamity parent, String name, float s , float s2) {

@@ -1,26 +1,24 @@
 package com.Harbinger.Spore.Sentities.Organoids;
 
-import com.Harbinger.Spore.Core.*;
+import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Sblocks;
+import com.Harbinger.Spore.Core.Sentities;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
-import com.Harbinger.Spore.Sentities.AI.HurtTargetGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
-import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
-import com.Harbinger.Spore.Sentities.Calamities.Sieger;
+import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
 import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
@@ -31,13 +29,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.animal.AbstractFish;
-import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.monster.Enemy;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -45,8 +37,8 @@ import net.minecraft.world.phys.Vec3;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class Proto extends UtilityEntity implements Enemy {
-
+public class Proto extends Organoid {
+    private static final EntityDataAccessor<Integer> HOSTS = SynchedEntityData.defineId(Proto.class, EntityDataSerializers.INT);
     public Proto(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         setPersistenceRequired();
@@ -77,41 +69,12 @@ public class Proto extends UtilityEntity implements Enemy {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(2, new HurtTargetGoal(this , entity -> {return !(SConfig.SERVER.blacklist.get().contains(entity.getEncodeId()) || entity instanceof UtilityEntity || entity instanceof Infected);}, Infected.class).setAlertOthers(Infected.class));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
-                (this, Player.class,  true));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, true, (en) -> {
-            return SConfig.SERVER.whitelist.get().contains(en.getEncodeId()) || (en.hasEffect(Seffects.MARKER.get()) && !this.likedFellows(en));
-        }));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, true, (en) -> {
-            return !(this.otherWorld(en) || this.SkulkLove(en) || this.likedFellows(en)) && SConfig.SERVER.at_mob.get();
-        }));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Animal.class, 5, false, true, (en) -> {
-            return !SConfig.SERVER.blacklist.get().contains(en.getEncodeId()) && SConfig.SERVER.at_an.get();
-        }));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, true, (en) -> {
-            return !this.likedFellows(en) && SConfig.SERVER.at_mob.get() && ((this.otherWorld(en) && SConfig.SERVER.faw_target.get())
-                    || (this.SkulkLove(en) && SConfig.SERVER.skulk_target.get()));
-        }));
+        this.addTargettingGoals();
         this.goalSelector.addGoal(3,new ProtoScentDefense(this));
         this.goalSelector.addGoal(2,new ProtoTargeting(this));
         this.goalSelector.addGoal(2,new AOEMeleeAttackGoal(this,0,false,2.5,4));
         this.goalSelector.addGoal(4,new RandomLookAroundGoal(this));
         super.registerGoals();
-    }
-
-    public boolean otherWorld(Entity entity){
-        return entity.getType().is(TagKey.create(Registries.ENTITY_TYPE,
-                new ResourceLocation("fromanotherworld:things")));
-    }
-
-    public boolean SkulkLove(Entity entity){
-        return entity.getType().is(TagKey.create(Registries.ENTITY_TYPE,
-                new ResourceLocation("sculkhorde:sculk_entity")));
-    }
-
-    public boolean likedFellows(Entity en){
-        return en instanceof Animal || en instanceof AbstractFish || en instanceof Infected || en instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(en.getEncodeId());
     }
 
 
@@ -121,9 +84,6 @@ public class Proto extends UtilityEntity implements Enemy {
     @Override
     public void tick() {
         super.tick();
-        if (this.onGround()){
-            this.makeStuckInBlock(Blocks.AIR.defaultBlockState(),new Vec3(0,1,0));
-        }
         if (counter <1200){
             counter++;
         }else{
@@ -275,7 +235,7 @@ public class Proto extends UtilityEntity implements Enemy {
     protected int calculateFallDamage(float p_149389_, float p_149390_) {
         return super.calculateFallDamage(p_149389_, p_149390_) - 60;
     }
-    private static final EntityDataAccessor<Integer> HOSTS = SynchedEntityData.defineId(Mound.class, EntityDataSerializers.INT);
+
 
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
@@ -301,11 +261,6 @@ public class Proto extends UtilityEntity implements Enemy {
         entityData.set(HOSTS,i);
     }
 
-
-    @Override
-    public boolean dampensVibrations() {
-        return true;
-    }
 
     @Override
     public boolean hurt(DamageSource source, float amount) {

@@ -5,7 +5,7 @@ import com.Harbinger.Spore.Core.Sparticles;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
-import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
+import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -24,19 +24,16 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 import java.util.Random;
 
-public class BiomassReformator extends UtilityEntity implements Enemy {
+public class BiomassReformator extends Organoid {
     private static final EntityDataAccessor<Integer> COUNTER = SynchedEntityData.defineId(BiomassReformator.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> BIOMASS = SynchedEntityData.defineId(BiomassReformator.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> STATE = SynchedEntityData.defineId(BiomassReformator.class, EntityDataSerializers.INT);
@@ -72,9 +69,6 @@ public class BiomassReformator extends UtilityEntity implements Enemy {
     @Override
     public void tick() {
         super.tick();
-        if (this.onGround()){
-            this.makeStuckInBlock(Blocks.AIR.defaultBlockState(), new Vec3(0, 1, 0));
-        }
         if (this.entityData.get(BIOMASS) >= SConfig.SERVER.reconstructor_biomass.get()){
             this.Summon(this,false);
         }

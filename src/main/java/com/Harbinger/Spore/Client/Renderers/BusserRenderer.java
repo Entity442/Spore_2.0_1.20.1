@@ -36,7 +36,6 @@ public class BusserRenderer extends MobRenderer<Busser , EntityModel<Busser>> {
                         new ResourceLocation(Spore.MODID, "textures/entity/busserbomber.png"));
             });
 
-
     public BusserRenderer(EntityRendererProvider.Context context) {
         super(context, new BusserModel<>(context.bakeLayer(BusserModel.LAYER_LOCATION)), 0.5f);
         explodingBusser = new ExplodingBusserModel<>(context.bakeLayer(ExplodingBusserModel.LAYER_LOCATION));

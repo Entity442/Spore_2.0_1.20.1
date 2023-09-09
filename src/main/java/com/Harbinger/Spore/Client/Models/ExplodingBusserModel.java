@@ -240,7 +240,7 @@ public class ExplodingBusserModel<T extends Busser> extends EntityModel<T> {
 		this.busser.getChild("Tail").getChild("claws2").xRot = Mth.sin(ageInTicks/4)/2;
 
 		this.busser.getChild("body").getChild("BodyTumors").xScale = 1 + Mth.sin(ageInTicks / 6) / 5;
-		this.busser.getChild("body").getChild("BodyTumors").yScale = 1 - Mth.sin(ageInTicks / 7) / 7;
+		this.busser.getChild("body").getChild("BodyTumors").yScale = 1 - Mth.sin(ageInTicks / 7) / 8;
 		this.busser.getChild("body").getChild("BodyTumors").zScale = 1 + Mth.sin(ageInTicks / 6) / 8;
 
 		this.busser.getChild("Tail").getChild("Tail2").getChild("Tail3").getChild("Tail4").getChild("Payload").xScale = 1 + Mth.sin(ageInTicks / 5) / 4;

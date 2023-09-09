@@ -40,7 +40,6 @@ import java.util.Objects;
 
 public class InfectedEvoker extends EvolvedInfected implements InventoryCarrier {
     private static final EntityDataAccessor<Boolean> HAS_ARM = SynchedEntityData.defineId(InfectedEvoker.class, EntityDataSerializers.BOOLEAN);
-
     public InfectedEvoker(EntityType<? extends Monster> type, Level level) {
         super(type, level);
     }
@@ -78,7 +77,6 @@ public class InfectedEvoker extends EvolvedInfected implements InventoryCarrier 
     public void setArm(boolean b){
         entityData.set(HAS_ARM,b);
     }
-
 
 
     public void addAdditionalSaveData(CompoundTag tag) {
@@ -163,7 +161,9 @@ public class InfectedEvoker extends EvolvedInfected implements InventoryCarrier 
         this.goalSelector.addGoal(1, new PullGoal(this, 32, 8){
             @Override
             public boolean canUse() {
-                return switchy();}});
+                return switchy();
+            }
+        });
 
 
         this.goalSelector.addGoal(3, new RandomStrollGoal(this, 0.8));
