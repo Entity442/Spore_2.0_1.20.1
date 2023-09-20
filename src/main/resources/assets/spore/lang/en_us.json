@@ -81,6 +81,7 @@
   "item.spore.rapier": "Infected Rapier",
 
   "item.spore.amethyst_dust": "Amethyst Dust",
+  "item.spore.gas_mask": "Gas Mask",
   "item.spore.compound": "Compound",
   "item.spore.compound_plate": "Compound Plate",
   "item.spore.corrupted_record": "Corrupted Record",
@@ -159,6 +160,8 @@
   "entity.spore.proto": "Proto Hivemind",
   "entity.spore.reconstructor": "Womb",
   "entity.spore.sieger": "Sieger",
+  "entity.spore.sieger_tail": "Sieger Tail",
+
 
 
   "entity.spore.thrown_tumor": "Tumor",
@@ -176,6 +179,8 @@
   "effect.spore.marker": "Marker",
   "effect.spore.corrosion": "Corrosion",
   "effect.spore.symbiosis": "Symbiosis",
+  "effect.spore.uneasy": "Uneasy",
+
 
   "item.minecraft.splash_potion.effect.mycelium_potion": "Mycelium Infection Splash Potion",
   "item.minecraft.potion.effect.mycelium_potion": "Mycelium Infection Potion",
@@ -215,6 +220,7 @@
   "sounds.spore.howler_growl": "The Howler is calling",
   "sounds.spore.fungal_burst": "A Fungus Bursts",
   "sounds.spore.puff": "Puff",
+  "sounds.spore.limb_slash": "Limb got slashed",
   "sounds.spore.record": "Playing Corrupted Record",
 
   "item.line.shift": "A nutrient soup made out of animal matter.",
@@ -223,6 +229,8 @@
   "hivemind_summon_message": "Endure...",
   "calamity_summon_message": "Prepare...",
   "calamity_coming_message": "Incoming...",
+  "vigil.message": "You are feeling watched...",
+  "uneasy.message": "You can't seem to fall asleep...",
 
   "death.attack.mycelium.overtake.player": "%1$s has succumbed to the infection",
   "death.attack.mycelium.overtake": "%1$s has succumbed to the infection",

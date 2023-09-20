@@ -87,6 +87,12 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> reconstructor_air;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> reconstructor_water;
 
+        public final ForgeConfigSpec.ConfigValue<Double> vigil_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> vigil_armor;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> vigil_base_wave;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> vigil_middle_wave;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> vigil_max_wave;
+
         public final ForgeConfigSpec.ConfigValue<Double> inf_evo_hp;
         public final ForgeConfigSpec.ConfigValue<Double> inf_evo_damage;
         public final ForgeConfigSpec.ConfigValue<Double> inf_evo_armor;
@@ -169,6 +175,8 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> proto_calamity;
         public final ForgeConfigSpec.ConfigValue<Integer> proto_range;
         public final ForgeConfigSpec.ConfigValue<Boolean> proto_chunk;
+        public final ForgeConfigSpec.ConfigValue<Boolean> proto_raid;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> proto_sapient_target;
 
         public final ForgeConfigSpec.ConfigValue<Double> how_hp;
         public final ForgeConfigSpec.ConfigValue<Double> how_damage;
@@ -454,6 +462,23 @@ public class SConfig {
             this.bus_armor = builder.comment("Default 10").defineInRange("Sets Phayres Armor", 10, 1, Double.MAX_VALUE);
             builder.pop();
 
+            builder.push("Vigil");
+            this.vigil_hp = builder.comment("Default 50").defineInRange("Sets Vigil Max health", 60, 1, Double.MAX_VALUE);
+            this.vigil_armor = builder.comment("Default 6").defineInRange("Sets Vigil Armor", 5, 1, Double.MAX_VALUE);
+            this.vigil_base_wave = builder.comment("The base wave of infected a vigil can summon").defineList("Vigil min wave",
+                    Lists.newArrayList("spore:inf_human" , "spore:inf_villager","spore:inf_pillager","spore:inf_drowned") , o -> o instanceof String);
+
+            this.vigil_middle_wave = builder.comment("The mixed wave of infected a vigil can summon").defineList("Vigil mix wave",
+                    Lists.newArrayList("spore:inf_human" , "spore:inf_villager","spore:inf_pillager","spore:inf_wanderer"
+                            ,"spore:knight","spore:griefer","spore:leaper","spore:inf_evoker","spore:spitter") , o -> o instanceof String);
+
+            this.vigil_max_wave = builder.comment("The max wave of infected a vigil can summon").defineList("Vigil max wave",
+                    Lists.newArrayList("spore:inf_vindicator" , "spore:busser","spore:inf_witch","spore:brute"
+                            ,"spore:knight","spore:griefer","spore:leaper","spore:inf_evoker","spore:spitter","spore:stalker"
+                            ,"spore:howler","spore:braiomil") , o -> o instanceof String);
+
+            builder.pop();
+
             builder.push("Sieger");
             this.sieger_hp = builder.comment("Default 300").defineInRange("Sets Sieger Max health", 300, 1, Double.MAX_VALUE);
             this.sieger_damage = builder.comment("Default 25").defineInRange("Sets Sieger Damage", 25, 1, Double.MAX_VALUE);
@@ -499,6 +524,10 @@ public class SConfig {
             this.proto_range = builder.comment("Default 300").defineInRange("Sets the linking range", 300, 1, Integer.MAX_VALUE);
             this.proto_calamity = builder.comment("Default 5").defineInRange("Chance for the death of a linked evolved infected to trigger the hivemind", 5, 0, Double.MAX_VALUE);
             this.proto_chunk = builder.comment("Default true").define("Should the hivemind generate a chunkloader at its location?",true);
+            this.proto_raid = builder.comment("Default true").define("Should the hivemind send Vigils to raid?",true);
+            this.proto_sapient_target = builder.defineList("Sentient Mobs targeted by the hivemind",
+                    Lists.newArrayList("minecraft:villager","minecraft:pillager","guardvillagers:guard","minecraft:evoker","minecraft:vindicator",
+                            "recruits:recruit","recruits:bowman","recruits:recruit_shieldman", "recruits:nomad","recruits:horseman","roamers:roamer") , o -> o instanceof String);
             builder.pop();
 
             builder.push("Howler");
@@ -810,6 +839,8 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_player_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sca_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_tail_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> vigil_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> proto_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> mound_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> organite_loot;
@@ -881,12 +912,20 @@ public class SConfig {
             this.sieger_loot = builder.defineList("Sieger ",
                     Lists.newArrayList("spore:mutated_fiber|100|33|75","spore:armor_fragment|100|15|38","spore:mutated_heart|70|3|7","spore:tumor|100|2|5","spore:cerebrum|70|2|7","spore:spine_fragment|56|4|9") , o -> o instanceof String);
 
+            this.sieger_tail_loot = builder.defineList("Sieger Tail",
+                    Lists.newArrayList("spore:mutated_fiber|100|10|25","spore:armor_fragment|100|3|10","spore:tumor|100|7|22") , o -> o instanceof String);
+
+
             this.proto_loot = builder.defineList("Proto Hivemind ",
                     Lists.newArrayList("spore:mutated_fiber|100|10|20","spore:armor_fragment|80|4|14","spore:mutated_heart|80|1|6","spore:cerebrum|100|2|11","spore:spine_fragment|80|2|8") , o -> o instanceof String);
 
 
             this.mound_loot = builder.defineList("Mound ",
                     Lists.newArrayList("spore:mutated_fiber|70|2|5") , o -> o instanceof String);
+
+            this.vigil_loot = builder.defineList("Vigil",
+                    Lists.newArrayList("spore:mutated_fiber|100|6|15","spore:mutated_heart|30|1|1") , o -> o instanceof String);
+
 
             this.organite_loot = builder.defineList("Organite Block",
                     Lists.newArrayList("spore:mutated_fiber|50|1|4","spore:spine|80|1|3","spore:innards|70|1|5") , o -> o instanceof String);

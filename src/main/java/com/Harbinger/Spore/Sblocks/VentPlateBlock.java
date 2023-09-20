@@ -30,8 +30,10 @@ public class VentPlateBlock extends MultifaceBlock {
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
         BlockState blockState = level.getBlockState(pos.above());
-        if (player.getPose()  != Pose.SWIMMING && blockState.isSolidRender(level,pos.above())){
-            player.setPose(Pose.SWIMMING);
+        if (player.getPose()  != Pose.SWIMMING && player.isCrouching()){
+            if (blockState.isSolidRender(level,pos.above())){
+                player.setPose(Pose.SWIMMING);
+            }
             player.moveTo(pos.getX()+0.5,pos.getY(),pos.getZ() +0.5);
         }
         return super.use(state, level, pos, player, hand, result);

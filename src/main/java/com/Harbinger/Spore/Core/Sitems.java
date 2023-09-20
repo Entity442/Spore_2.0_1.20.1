@@ -219,6 +219,8 @@ public class Sitems {
 
     public  static final RegistryObject<Item> CORRUPTED_RECORD = ITEMS.register("corrupted_record",
             CorruptedRecord::new);
+    public  static final RegistryObject<Item> GAS_MASK = ITEMS.register("gas_mask",
+            () -> new GasMaskItem());
     public  static final RegistryObject<Item> SCANNER = ITEMS.register("scanner",
             () -> new ScannerItem( new Item.Properties()));
     public  static final RegistryObject<Item> BIOMASS = ITEMS.register("biomass",

@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Core;
 import com.Harbinger.Spore.Sentities.BasicInfected.*;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.*;
+import com.Harbinger.Spore.Sentities.FallenMultipart.SiegerTail;
 import com.Harbinger.Spore.Sentities.Host;
 import com.Harbinger.Spore.Sentities.Organoids.BiomassReformator;
 import com.Harbinger.Spore.Sentities.Organoids.Mound;
@@ -174,6 +175,9 @@ public class Sentities {
                     .build(new ResourceLocation(Spore.MODID, "tendril").toString()));
 
     public static final RegistryObject<EntityType<Sieger>> SIEGER = SPORE_ENTITIES.register("sieger",
-            () -> EntityType.Builder.of(Sieger::new, INFECTED).sized(1.2f, 3f)
+            () -> EntityType.Builder.of(Sieger::new, INFECTED).sized(2.5f, 3f)
                     .build(new ResourceLocation(Spore.MODID, "sieger").toString()));
+    public static final RegistryObject<EntityType<SiegerTail>> SIEGER_TAIL = SPORE_ENTITIES.register("sieger_tail",
+            () -> EntityType.Builder.of(SiegerTail::new, MobCategory.MISC).sized(2.1f, 1f)
+                    .build(new ResourceLocation(Spore.MODID, "sieger_tail").toString()));
 }

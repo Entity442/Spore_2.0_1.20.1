@@ -102,6 +102,12 @@
     "sounds": [
       "spore:proto_ambient"
     ]
+  },
+  "limb_slash" :{
+    "subtitle": "sounds.spore.limb_slash",
+    "sounds": [
+      "spore:limb_slash"
+    ]
   }
 
 }

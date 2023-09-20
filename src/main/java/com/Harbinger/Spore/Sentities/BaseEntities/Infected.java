@@ -222,22 +222,17 @@ public class Infected extends Monster{
         super.aiStep();
 
         if (SConfig.SERVER.weaktocold.get()){
-        if (!this.level().isClientSide && this.getRandom().nextInt(0, 10) == 3 && (this.isInPowderSnow || this.isFreazing())) {
+        if (!this.level().isClientSide && this.getRandom().nextInt(10) == 0 && (this.isInPowderSnow || this.isFreazing())) {
             this.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 1, false, false), Infected.this);
             this.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0, false, false), Infected.this);
         }}
 
-        if (SConfig.SERVER.should_starve.get()){
-            if (!(this instanceof EvolvedInfected) && entityData.get(HUNGER) < SConfig.SERVER.hunger.get() && entityData.get(EVOLUTION_POINTS) <= 0 && SConfig.SERVER.starve.get()) {
-                int i;
-                if (this.isInPowderSnow || this.isFreazing()) {
-                    i = 2;
-                } else {
-                    i = 1;
-                }
+        if (SConfig.SERVER.should_starve.get() && !(this instanceof EvolvedInfected)){
+            if (SConfig.SERVER.starve.get() && entityData.get(HUNGER) < SConfig.SERVER.hunger.get() && entityData.get(EVOLUTION_POINTS) <= 0) {
+                int i = this.isInPowderSnow || this.isFreazing() ? 2:1;
                 entityData.set(HUNGER, entityData.get(HUNGER) + i);
-            } else if (!(this instanceof EvolvedInfected) && entityData.get(HUNGER) >= SConfig.SERVER.hunger.get() &&
-                    !this.hasEffect(Seffects.STARVATION.get()) && this.random.nextInt(0, 7) == 3 && SConfig.SERVER.starve.get()) {
+            } else if (entityData.get(HUNGER) >= SConfig.SERVER.hunger.get() &&
+                    !this.hasEffect(Seffects.STARVATION.get()) && this.random.nextInt(20) == 0) {
                 this.addEffect(new MobEffectInstance(Seffects.STARVATION.get(), 100, 0));
             }
         }
@@ -268,17 +263,16 @@ public class Infected extends Monster{
 
     @Override
     public boolean removeWhenFarAway(double p_21542_) {
-        return this.entityData.get(KILLS) <= 0 && !this.entityData.get(PERSISTENT);
+        return !this.entityData.get(PERSISTENT);
     }
 
     public boolean isFreazing(){
         int i = Mth.floor(this.getX());
         int j = Mth.floor(this.getY());
         int k = Mth.floor(this.getZ());
-        Entity entity = this;
         BlockPos blockpos = new BlockPos(i, j, k);
         Biome biome = this.level().getBiome(blockpos).value();
-        return (SConfig.SERVER.weaktocold.get() && this.random.nextInt(20) == 0  && biome.getBaseTemperature() <= 0.2) && (!entity.isOnFire());
+        return (SConfig.SERVER.weaktocold.get() && this.random.nextInt(20) == 0  && biome.getBaseTemperature() <= 0.2);
     }
 
     @Override

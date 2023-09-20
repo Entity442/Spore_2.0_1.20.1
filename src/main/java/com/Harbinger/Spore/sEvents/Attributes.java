@@ -5,6 +5,7 @@ import com.Harbinger.Spore.Sentities.*;
 import com.Harbinger.Spore.Sentities.BasicInfected.*;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.*;
+import com.Harbinger.Spore.Sentities.FallenMultipart.SiegerTail;
 import com.Harbinger.Spore.Sentities.Organoids.BiomassReformator;
 import com.Harbinger.Spore.Sentities.Organoids.Vigil;
 import com.Harbinger.Spore.Sentities.Utility.InfEvoClaw;
@@ -50,6 +51,7 @@ public class Attributes {
         event.put(Sentities.VIGIL.get(), Vigil.createAttributes().build());
         event.put(Sentities.TENDRIL.get(), InfectionTendril.createAttributes().build());
         event.put(Sentities.SIEGER.get(), Sieger.createAttributes().build());
+        event.put(Sentities.SIEGER_TAIL.get(), SiegerTail.createAttributes().build());
     }
 }
 

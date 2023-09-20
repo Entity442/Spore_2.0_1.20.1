@@ -1,9 +1,6 @@
 package com.Harbinger.Spore.sEvents;
 
-import com.Harbinger.Spore.Core.SConfig;
-import com.Harbinger.Spore.Core.Seffects;
-import com.Harbinger.Spore.Core.Senchantments;
-import com.Harbinger.Spore.Core.Sentities;
+import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.FollowOthersGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
@@ -13,9 +10,11 @@ import com.Harbinger.Spore.Sentities.BasicInfected.*;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import com.Harbinger.Spore.Sentities.Carrier;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.*;
+import com.Harbinger.Spore.Sentities.FallenMultipart.SiegerTail;
 import com.Harbinger.Spore.Sentities.Organoids.BiomassReformator;
 import com.Harbinger.Spore.Sentities.Organoids.Mound;
 import com.Harbinger.Spore.Sentities.Organoids.Proto;
+import com.Harbinger.Spore.Sentities.Organoids.Vigil;
 import com.Harbinger.Spore.Sentities.Utility.InfEvoClaw;
 import com.Harbinger.Spore.Sitems.InfectedCombatShovel;
 import com.Harbinger.Spore.Sitems.InfectedMaul;
@@ -28,7 +27,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
@@ -36,21 +35,20 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -161,6 +159,9 @@ public class HandlerEvents {
                                     player.displayClientMessage(Component.literal("Position to be Searched " + calamity.getSearchArea()),false);
                                     player.displayClientMessage(Component.literal("Buffs " + calamity.getActiveEffects()),false);
                                     player.displayClientMessage(Component.literal("Target ? " + calamity.getTarget()),false);
+                                    if (calamity instanceof Sieger sieger){
+                                        player.displayClientMessage(Component.literal("Tail health "+ sieger.getTailHp()+"/"+sieger.getMaxTailHp()),false);
+                                    }
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
                                 }
                             }else if (entity1 instanceof Mound mound){
@@ -192,6 +193,16 @@ public class HandlerEvents {
                                     player.displayClientMessage(Component.literal("Buffs " + reformator.getActiveEffects()),false);
                                     player.displayClientMessage(Component.literal("Biomass " + reformator.getBiomass()),false);
                                     player.displayClientMessage(Component.literal("State " + reformator.getState()),false);
+                                    player.displayClientMessage(Component.literal("-------------------------"),false);
+                                }
+                            }else if(entity1 instanceof Vigil vigil) {
+                                if (entity instanceof Player player && !player.level().isClientSide){
+                                    player.displayClientMessage(Component.literal("Entity "+ vigil.getEncodeId() + " " + vigil.getCustomName()),false);
+                                    player.displayClientMessage(Component.literal("Current Health " + vigil.getHealth()),false);
+                                    player.displayClientMessage(Component.literal("Buffs " + vigil.getActiveEffects()),false);
+                                    player.displayClientMessage(Component.literal("State " + vigil.getTrigger()),false);
+                                    player.displayClientMessage(Component.literal("Horde size " + vigil.getWaveSize()),false);
+                                    player.displayClientMessage(Component.literal("Time until it leaves " + vigil.getTimer()+"/6000"),false);
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
                                 }
                             }
@@ -255,6 +266,10 @@ public class HandlerEvents {
                 lootList = SConfig.DATAGEN.sieger_loot.get();
             }else if (event.getEntity() instanceof Proto){
                 lootList = SConfig.DATAGEN.proto_loot.get();
+            }else if (event.getEntity() instanceof SiegerTail){
+                lootList = SConfig.DATAGEN.sieger_tail_loot.get();
+            }else if (event.getEntity() instanceof Vigil){
+                lootList = SConfig.DATAGEN.vigil_loot.get();
             }
             else{
                 lootList = null;
@@ -387,6 +402,24 @@ public class HandlerEvents {
                 infectedDrowned.setTarget(event.getEntity());
                 event.getEntity().level().addFreshEntity(infectedDrowned);
             }
+        }
+    }
+    @SubscribeEvent
+    public static void ProtectFromEffect(MobEffectEvent.Applicable event)
+    {
+        if (event.getEntity() != null && event.getEntity().getItemBySlot(EquipmentSlot.HEAD).getItem() == Sitems.GAS_MASK.get()){
+            event.getEffectInstance();
+            if (event.getEffectInstance().getEffect() == Seffects.MYCELIUM.get()){
+                event.setResult(Event.Result.DENY);
+           }
+        }
+    }
+
+    @SubscribeEvent
+    public static void NoSleep(PlayerSleepInBedEvent event){
+        if(event.getEntity() instanceof ServerPlayer player && player.hasEffect(Seffects.UNEASY.get())){
+            player.displayClientMessage(Component.translatable("uneasy.message"),true);
+            event.setResult(Player.BedSleepingProblem.OTHER_PROBLEM);
         }
     }
 }

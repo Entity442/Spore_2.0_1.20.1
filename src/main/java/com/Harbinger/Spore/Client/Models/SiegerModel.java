@@ -617,7 +617,7 @@ public class SiegerModel<T extends Sieger> extends EntityModel<T> {
 
 		this.jaw.xRot =  Mth.sin(ageInTicks/8)/10;
 
-
+		this.tail.visible = entity.getTailHp() > 0;
 		this.tail.getChild("tailjoint").xRot = Mth.sin(ageInTicks/8)/10;
 		this.tail.getChild("tailjoint").getChild("tail2").getChild("tailjoint2").xRot = Mth.sin(ageInTicks/8)/10;
 		this.tail.getChild("tailjoint").getChild("tail2").getChild("tailjoint2").getChild("tail3").getChild("tailjoint3").xRot = Mth.sin(ageInTicks/8)/10;

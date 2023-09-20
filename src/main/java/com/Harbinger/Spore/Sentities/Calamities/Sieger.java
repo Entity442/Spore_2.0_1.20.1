@@ -1,6 +1,8 @@
 package com.Harbinger.Spore.Sentities.Calamities;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Sentities;
+import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.CalamityInfectedCommand;
@@ -10,9 +12,14 @@ import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
+import com.Harbinger.Spore.Sentities.FallenMultipart.SiegerTail;
 import com.Harbinger.Spore.Sentities.Projectile.ThrownTumor;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -38,16 +45,17 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.List;
 
 public class Sieger extends Calamity implements RangedAttackMob {
+    public static final EntityDataAccessor<Float> TAIL_HP = SynchedEntityData.defineId(Sieger.class, EntityDataSerializers.FLOAT);
     private final CalamityMultipart[] subEntities;
     public final CalamityMultipart lowerbody;
-    public final CalamityMultipart mainbody;
-    public final CalamityMultipart tailbody;
+    public final CalamityMultipart head;
+    public CalamityMultipart tail;
     public Sieger(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         this.lowerbody = new CalamityMultipart(this, "lowerbody", 3.0F, 3.0F);
-        this.tailbody = new CalamityMultipart(this, "tail", 1.0F, 1.0F);
-        this.mainbody = new CalamityMultipart(this, "mainbody", 3F, 4F);
-        this.subEntities = new CalamityMultipart[]{ this.lowerbody, this.tailbody,this.mainbody};
+        this.tail = new CalamityMultipart(this, "tail", 1.0F, 1.0F);
+        this.head = new CalamityMultipart(this, "head", 1.4F, 1.4F);
+        this.subEntities = new CalamityMultipart[]{ this.lowerbody, this.tail,this.head};
         this.setMaxUpStep(1.5F);
         this.setId(ENTITY_COUNTER.getAndAdd(this.subEntities.length + 1) + 1);
     }
@@ -59,6 +67,10 @@ public class Sieger extends Calamity implements RangedAttackMob {
             this.subEntities[i].setId(p_20235_ + i + 1);
     }
 
+    @Override
+    public double setInflation() {
+        return 1.0;
+    }
 
     @Override
     public void tick() {
@@ -67,6 +79,12 @@ public class Sieger extends Calamity implements RangedAttackMob {
             this.addEffect(new MobEffectInstance(MobEffects.REGENERATION,600,0));
             this.setKills(this.getKills()-1);
         }
+        if (this.getHealth() >= this.getMaxHealth() && this.getTailHp() < this.getMaxTailHp()){
+            if (this.tickCount % 40 == 0){
+                this.setTailHp(this.getTailHp() +1);
+            }
+        }
+
     }
 
     @Override
@@ -78,9 +96,12 @@ public class Sieger extends Calamity implements RangedAttackMob {
         for(int j = 0; j < this.subEntities.length; ++j) {
             avec3[j] = new Vec3(this.subEntities[j].getX(), this.subEntities[j].getY(), this.subEntities[j].getZ());
         }
-
-        this.tickPart(this.tailbody, (double)(f2), 7.0D, (double)(-f15));
-        this.tickPart(this.mainbody, (double)(f2 * -1.0F), 0.0D, (double)(-f15 * -1.0F));
+        if (this.getTailHp() > 0){
+            this.tickPart(this.tail, (double)(f2), 7.0D, (double)(-f15));
+        }else{
+            this.tickPart(this.tail, (double)(f2 * 2.0F), 1.0D, (double)(-f15 * 2.0F));
+        }
+        this.tickPart(this.head, (double)(f2 * -2.5F), 1.4D, (double)(-f15 * -2.5F));
         this.tickPart(this.lowerbody, (double)(f2 * 3.0F), 0.0D, (double)(-f15 * 3.0F));
         for(int l = 0; l < this.subEntities.length; ++l) {
             this.subEntities[l].xo = avec3[l].x;
@@ -123,6 +144,9 @@ public class Sieger extends Calamity implements RangedAttackMob {
         this.goalSelector.addGoal(3, new RangedAttackGoal(this,1.5,80,48){
             @Override
             public boolean canUse() {
+                if (Sieger.this.getTailHp() <= 0){
+                    return false;
+                }
                 return super.canUse() && (calculateHeight() || calculateDistance());
             }
         });
@@ -130,7 +154,7 @@ public class Sieger extends Calamity implements RangedAttackMob {
         this.goalSelector.addGoal(4, new AOEMeleeAttackGoal(this, 1.5, false,2.5 ,6){
             protected double getAttackReachSqr(LivingEntity entity) {
                 float f = Sieger.this.getBbWidth();
-                return (double)(f * 4.0F * f * 4.0F + entity.getBbWidth());
+                return (double)(f * 3.0F * f * 3.0F + entity.getBbWidth());
             }
         });
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.2));
@@ -169,6 +193,9 @@ public class Sieger extends Calamity implements RangedAttackMob {
     }
 
     protected SoundEvent getAmbientSound() {
+        if (this.getTarget() != null && this.distanceToSqr(this.getTarget()) > 200){
+            return null;
+        }
         return Ssounds.SIEGER_AMBIENT.get();
     }
 
@@ -217,13 +244,6 @@ public class Sieger extends Calamity implements RangedAttackMob {
         return super.hurt(source, amount);
     }
 
-    public boolean hurtPart(CalamityMultipart calamityMultipart, DamageSource damageSource, float amount) {
-        if (calamityMultipart == this.tailbody){
-            this.addEffect(new MobEffectInstance(MobEffects.WITHER,200,0));
-        }
-        return super.hurt(damageSource, amount);
-    }
-
     @Override
     public void performRangedAttack(LivingEntity livingEntity, float p_33318_) {
         if(!level().isClientSide){
@@ -253,7 +273,7 @@ public class Sieger extends Calamity implements RangedAttackMob {
         AABB boundingBox = this.getBoundingBox().inflate(16);
         List<Entity> entities = this.level().getEntities(this, boundingBox);
         for (Entity entity : entities) {
-            if (entity instanceof LivingEntity livingEntity && !(entity instanceof Infected || entity instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(entity.getEncodeId()))) {
+            if (entity instanceof LivingEntity livingEntity && !(entity instanceof Infected || entity instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(entity.getEncodeId()) || livingEntity.getItemBySlot(EquipmentSlot.HEAD).getItem() == Sitems.GAS_MASK.get())) {
                 for (String str : SConfig.SERVER.sieger_debuffs.get()){
                     String[] string = str.split("\\|" );
                     MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(string[0]));
@@ -278,5 +298,52 @@ public class Sieger extends Calamity implements RangedAttackMob {
         this.playSound(Ssounds.SIEGER_BITE.get());
         return super.doHurtTarget(entity);
     }
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(TAIL_HP, this.getMaxTailHp());
+    }
+    @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putFloat("tail_hp", entityData.get(TAIL_HP));
+    }
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        entityData.set(TAIL_HP, tag.getFloat("tail_hp"));
+    }
+    public float getTailHp(){
+        return entityData.get(TAIL_HP);
+    }
+    public void setTailHp(float i){
+        entityData.set(TAIL_HP,i);
+    }
 
+    public float getMaxTailHp(){
+        return (float) (SConfig.SERVER.sieger_hp.get()/4.0f);
+    }
+
+    public boolean hurt(CalamityMultipart calamityMultipart, DamageSource source, float value) {
+        if (calamityMultipart == this.tail){
+            if (this.getTailHp() > 0 && value > this.getTailHp()){
+                this.playSound(Ssounds.LIMB_SLASH.get());
+                SummonDetashedTail();
+            }
+            this.hurt(source,value * 2);
+            this.setTailHp(value > this.getTailHp() ? 0 : this.getTailHp() - value);
+        }if (calamityMultipart == this.head){
+            this.hurt(source,value * 0.75f);
+        }else{
+            this.hurt(source,value );
+        }
+        return true;
+    }
+
+
+    private void SummonDetashedTail(){
+        SiegerTail siegerTail = new SiegerTail(Sentities.SIEGER_TAIL.get(),this.level());
+        Vec3 vec3 = (new Vec3(-1.7D, 0.0D, 0.0D)).yRot(-this.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
+        siegerTail.moveTo(this.getX() + vec3.x, this.getY() + 1.6,this.getZ()+ vec3.z);
+        this.level().addFreshEntity(siegerTail);
+    }
 }

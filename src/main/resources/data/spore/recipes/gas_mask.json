@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RRR",
+    "R R",
+    "#A#"
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:black_wool"
+    },
+    "#": {
+      "item": "minecraft:sponge"
+    },
+    "A": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "spore:gas_mask"
+  }
+}

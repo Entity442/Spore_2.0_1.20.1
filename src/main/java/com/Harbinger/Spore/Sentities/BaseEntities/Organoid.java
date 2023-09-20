@@ -3,9 +3,12 @@ package com.Harbinger.Spore.Sentities.BaseEntities;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Sentities.AI.HurtTargetGoal;
+import com.Harbinger.Spore.Sentities.Projectile.AcidBall;
+import com.Harbinger.Spore.Sentities.Projectile.Vomit;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -22,6 +25,7 @@ import net.minecraft.world.phys.Vec3;
 public class Organoid extends UtilityEntity implements Enemy {
     protected Organoid(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
+        this.xpReward = 25;
     }
 
     @Override
@@ -68,5 +72,13 @@ public class Organoid extends UtilityEntity implements Enemy {
 
     public boolean likedFellows(Entity en){
         return en instanceof Animal || en instanceof AbstractFish || en instanceof Infected || en instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(en.getEncodeId());
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float p_21017_) {
+        if (source.getDirectEntity() instanceof AcidBall || source.getDirectEntity() instanceof Vomit){
+            return  false;
+        }
+        return super.hurt(source, p_21017_);
     }
 }

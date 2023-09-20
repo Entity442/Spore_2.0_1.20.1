@@ -29,6 +29,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -106,6 +107,18 @@ public class Proto extends Organoid {
                         setHosts(getHosts()+1);
                     }
                 }
+                if (SConfig.SERVER.proto_raid.get()){
+                    if (Math.random() < 0.05 && (en instanceof Player || SConfig.SERVER.proto_sapient_target.get().contains(en.getEncodeId()))){
+                        int x = random.nextInt(-30,30);
+                        int z = random.nextInt(-30,30);
+                        Vigil vigil = new Vigil(Sentities.VIGIL.get(),this.level());
+                        vigil.randomTeleport(en.getX() + x,en.getY(),en.getZ() + z,false);
+                        vigil.tickEmerging();
+                        level().addFreshEntity(vigil);
+                        break;
+                    }
+                }
+
                 counter = 0;
             }
         }

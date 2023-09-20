@@ -23,6 +23,7 @@
     "recipes": [
       "spore:amethyst_dust",
       "spore:biomass",
+      "spore:sausage",
       "spore:armads",
       "spore:armor_plate",
       "spore:bow",
@@ -69,6 +70,8 @@
       "spore:wing",
       "spore:winged_chestplate",
       "spore:iron_ladder_recipe",
+      "spore:gas_mask",
+
 
 
 
