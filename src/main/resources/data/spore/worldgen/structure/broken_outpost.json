@@ -1,13 +1,13 @@
 {
   "type": "minecraft:jigsaw",
 
-  "start_pool": "spore:biomass_tower/start_pool",
+  "start_pool": "spore:broken_outpost/start_pool",
 
   "size": 2,
 
   "max_distance_from_center": 1,
 
-  "biomes": "minecraft:mushroom_fields",
+  "biomes": "#minecraft:is_forest",
 
   "step": "surface_structures",
 
@@ -27,6 +27,18 @@
       "spawns": [
         {
           "type": "spore:inf_human",
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 4
+        },
+        {
+          "type": "spore:inf_villager",
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 4
+        },
+        {
+          "type": "spore:inf_pillager",
           "weight": 1,
           "minCount": 1,
           "maxCount": 4

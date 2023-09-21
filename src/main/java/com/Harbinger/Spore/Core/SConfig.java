@@ -89,6 +89,7 @@ public class SConfig {
 
         public final ForgeConfigSpec.ConfigValue<Double> vigil_hp;
         public final ForgeConfigSpec.ConfigValue<Double> vigil_armor;
+        public final ForgeConfigSpec.ConfigValue<Integer> vigil_wave_size;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> vigil_base_wave;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> vigil_middle_wave;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> vigil_max_wave;
@@ -465,6 +466,7 @@ public class SConfig {
             builder.push("Vigil");
             this.vigil_hp = builder.comment("Default 50").defineInRange("Sets Vigil Max health", 60, 1, Double.MAX_VALUE);
             this.vigil_armor = builder.comment("Default 6").defineInRange("Sets Vigil Armor", 5, 1, Double.MAX_VALUE);
+            this.vigil_wave_size = builder.comment("Default 15").defineInRange("Sets the maximum size of the wave", 155, 1, Integer.MAX_VALUE);
             this.vigil_base_wave = builder.comment("The base wave of infected a vigil can summon").defineList("Vigil min wave",
                     Lists.newArrayList("spore:inf_human" , "spore:inf_villager","spore:inf_pillager","spore:inf_drowned") , o -> o instanceof String);
 

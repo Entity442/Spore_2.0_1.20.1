@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "#R#",
+    " # "
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:iron_trapdoor"
+    },
+    "#": {
+      "item": "spore:vent_plate"
+    }
+},
+  "result": {
+    "item": "spore:vent_door"
+  }
+}

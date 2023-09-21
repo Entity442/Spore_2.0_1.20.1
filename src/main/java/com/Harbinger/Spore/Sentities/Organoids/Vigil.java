@@ -254,7 +254,8 @@ public class Vigil extends Organoid {
             super.start();
             if (this.vigil.getTarget() != null && this.vigil.getWaveSize() <= 0){
                 LivingEntity target = this.vigil.getTarget();
-                int e = target.getMaxHealth() > 50 ? 10 : (int) (target.getMaxHealth() / 5);
+                int l = SConfig.SERVER.vigil_wave_size.get();
+                int e = target.getMaxHealth() > l*5 ? l : (int) (target.getMaxHealth() / 5) + (target.getArmorValue()/4);
                 this.vigil.setWaveSize(e);
                 this.vigil.setTrigger(this.vigil.getTrigger() +1);
             }
