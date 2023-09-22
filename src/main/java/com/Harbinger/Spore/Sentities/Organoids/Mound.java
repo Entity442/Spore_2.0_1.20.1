@@ -156,20 +156,21 @@ public class Mound extends Organoid {
         } else {
             range = SConfig.SERVER.mound_range_default.get();
         }
+
+        BlockState block1 =  (ForgeRegistries.BLOCKS.tags().getTag(BlockTags.create(new ResourceLocation("spore:ground_foliage")))
+                .getRandomElement(RandomSource.create()).orElse(Blocks.AIR)).defaultBlockState();
+        BlockState block2 =  (ForgeRegistries.BLOCKS.tags().getTag(BlockTags.create(new ResourceLocation("spore:roof_foliage")))
+                .getRandomElement(RandomSource.create()).orElse(Blocks.AIR)).defaultBlockState();
+        BlockState block3 =  (ForgeRegistries.BLOCKS.tags().getTag(BlockTags.create(new ResourceLocation("spore:wall_foliage")))
+                .getRandomElement(RandomSource.create()).orElse(Blocks.AIR)).defaultBlockState();
+        BlockState block4 =  (ForgeRegistries.BLOCKS.tags().getTag(BlockTags.create(new ResourceLocation("spore:block_st")))
+                .getRandomElement(RandomSource.create()).orElse(Blocks.AIR)).defaultBlockState();
+        BlockState block5 =  (ForgeRegistries.BLOCKS.tags().getTag(BlockTags.create(new ResourceLocation("spore:underwater_blocks")))
+                .getRandomElement(RandomSource.create()).orElse(Blocks.WATER)).defaultBlockState();
+
         AABB aabb = entity.getBoundingBox().inflate(range);
-        for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
-
-            BlockState block1 =  (ForgeRegistries.BLOCKS.tags().getTag(BlockTags.create(new ResourceLocation("spore:ground_foliage")))
-                    .getRandomElement(RandomSource.create()).orElse(Blocks.AIR)).defaultBlockState();
-            BlockState block2 =  (ForgeRegistries.BLOCKS.tags().getTag(BlockTags.create(new ResourceLocation("spore:roof_foliage")))
-                    .getRandomElement(RandomSource.create()).orElse(Blocks.AIR)).defaultBlockState();
-            BlockState block3 =  (ForgeRegistries.BLOCKS.tags().getTag(BlockTags.create(new ResourceLocation("spore:wall_foliage")))
-                    .getRandomElement(RandomSource.create()).orElse(Blocks.AIR)).defaultBlockState();
-            BlockState block4 =  (ForgeRegistries.BLOCKS.tags().getTag(BlockTags.create(new ResourceLocation("spore:block_st")))
-                    .getRandomElement(RandomSource.create()).orElse(Blocks.AIR)).defaultBlockState();
-            BlockState block5 =  (ForgeRegistries.BLOCKS.tags().getTag(BlockTags.create(new ResourceLocation("spore:underwater_blocks")))
-                    .getRandomElement(RandomSource.create()).orElse(Blocks.WATER)).defaultBlockState();
-
+        if (SConfig.SERVER.mound_foliage.get()){
+            for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
 
             BlockState nord = level.getBlockState(blockpos.north());
             BlockState south = level.getBlockState(blockpos.south());
@@ -256,6 +257,22 @@ public class Mound extends Organoid {
                     if (east.isAir()){
                         level.setBlock(blockpos.east(),block3.setValue(directionProperty,direction3),3);
                     }
+                }
+            }
+          }
+        }else{
+            for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+                BlockState blockstate = level.getBlockState(blockpos);
+                BlockState above = level.getBlockState(blockpos.above());
+                if (above.isAir() && blockstate.isSolidRender(level ,blockpos) && Math.random() < 0.01 && entityData.get(STRUCTURE) && entityData.get(AGE) >= entityData.get(MAX_AGE) && this.distanceToSqr(blockpos.getX(),blockpos.getY(),blockpos.getZ()) > 80){
+                    level.setBlock(blockpos.above(),block4,3);
+                    entityData.set(STRUCTURE,false);
+                }
+            }
+            List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, aabb);
+            for (LivingEntity en : entities) {
+                if (!(en instanceof Infected || en instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(en.getEncodeId()) || en.getItemBySlot(EquipmentSlot.HEAD).getItem() == Sitems.GAS_MASK.get())){
+                    en.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),600,1));
                 }
             }
         }

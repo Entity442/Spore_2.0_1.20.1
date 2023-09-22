@@ -166,7 +166,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> mound_range_age2;
         public final ForgeConfigSpec.ConfigValue<Double> mound_range_age3;
         public final ForgeConfigSpec.ConfigValue<Double> mound_range_age4;
-
+        public final ForgeConfigSpec.ConfigValue<Boolean> mound_foliage;
 
 
         public final ForgeConfigSpec.ConfigValue<Double> proto_hp;
@@ -516,6 +516,7 @@ public class SConfig {
             this.mound_range_age2 = builder.comment("Default 10").defineInRange("Sets Mound range at the age of 2", 10, 1, Double.MAX_VALUE);
             this.mound_range_age3 = builder.comment("Default 15").defineInRange("Sets Mound range at the age of 3", 15, 1, Double.MAX_VALUE);
             this.mound_range_age4 = builder.comment("Default 20").defineInRange("Sets Mound range at the age of 4", 20, 1, Double.MAX_VALUE);
+            this.mound_foliage = builder.comment("Default true").define("Should the mound spread hybrid foliage?",true);
             builder.pop();
 
             builder.push("Proto Hivemind");
