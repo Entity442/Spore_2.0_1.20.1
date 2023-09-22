@@ -108,6 +108,12 @@
     "sounds": [
       "spore:limb_slash"
     ]
+  },
+  "heart_beat" :{
+    "subtitle": "sounds.spore.heart_beat",
+    "sounds": [
+      "spore:heart_beat"
+    ]
   }
 
 }

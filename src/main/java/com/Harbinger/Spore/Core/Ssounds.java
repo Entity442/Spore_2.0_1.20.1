@@ -50,6 +50,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> FUNGAL_BURST = soundRegistry("fungal_burst");
 
+    public static final RegistryObject<SoundEvent> HEART_BEAT = soundRegistry("heart_beat");
+
     public static final RegistryObject<SoundEvent> PUFF = soundRegistry("puff");
 
     private Ssounds() {

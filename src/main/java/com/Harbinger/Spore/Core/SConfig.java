@@ -464,9 +464,9 @@ public class SConfig {
             builder.pop();
 
             builder.push("Vigil");
-            this.vigil_hp = builder.comment("Default 50").defineInRange("Sets Vigil Max health", 60, 1, Double.MAX_VALUE);
-            this.vigil_armor = builder.comment("Default 6").defineInRange("Sets Vigil Armor", 5, 1, Double.MAX_VALUE);
-            this.vigil_wave_size = builder.comment("Default 15").defineInRange("Sets the maximum size of the wave", 155, 1, Integer.MAX_VALUE);
+            this.vigil_hp = builder.comment("Default 60").defineInRange("Sets Vigil Max health", 60, 1, Double.MAX_VALUE);
+            this.vigil_armor = builder.comment("Default 5").defineInRange("Sets Vigil Armor", 5, 1, Double.MAX_VALUE);
+            this.vigil_wave_size = builder.comment("Default 15").defineInRange("Sets the maximum size of the wave", 15, 1, Integer.MAX_VALUE);
             this.vigil_base_wave = builder.comment("The base wave of infected a vigil can summon").defineList("Vigil min wave",
                     Lists.newArrayList("spore:inf_human" , "spore:inf_villager","spore:inf_pillager","spore:inf_drowned") , o -> o instanceof String);
 
