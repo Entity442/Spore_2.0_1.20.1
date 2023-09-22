@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sblocks;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
+import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import net.minecraft.core.BlockPos;
@@ -10,6 +11,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -38,7 +40,7 @@ public class OrganiteBlock extends Block {
         AABB searchbox = AABB.ofSize(new Vec3(blockPos.getX(), blockPos.getY(), blockPos.getZ()), 35, 35, 35);
         List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, searchbox);
         for (Entity entity1 : entities) {
-            if (entity1 instanceof LivingEntity entity && !entity.hasEffect(Seffects.MYCELIUM.get()) && !(entity1 instanceof Infected || entity1 instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(entity1.getEncodeId()))) {
+            if (entity1 instanceof LivingEntity entity && !entity.hasEffect(Seffects.MYCELIUM.get()) && !(entity instanceof Infected || entity instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(entity.getEncodeId()) || entity.getItemBySlot(EquipmentSlot.HEAD).getItem() == Sitems.GAS_MASK.get())) {
                 entity.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get() ,200,0));
             }
         }

@@ -1,6 +1,5 @@
 package com.Harbinger.Spore.Sitems;
 
-import com.Harbinger.Spore.Core.ScreativeTab;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
