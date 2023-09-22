@@ -24,7 +24,7 @@ public class FallenMultipartEntity extends UtilityEntity implements Enemy {
             for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
                 BlockState blockState = level().getBlockState(blockpos);
                 BlockState above = level().getBlockState(blockpos.above());
-                if (!level().isClientSide() && blockState.isSolidRender(level(),blockpos) && !above.isSolidRender(level(),blockpos)){
+                if (!level().isClientSide() && blockState.isSolidRender(level(),blockpos) && above.isAir()){
                     if (Math.random() < 0.1){
                         if (Math.random() < 0.5) {
                             level().setBlock(blockpos.above(), Sblocks.GROWTHS_BIG.get().defaultBlockState(), 3);
