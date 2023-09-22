@@ -24,6 +24,8 @@
   "block.spore.remains": "Человеческие останки",
   "block.spore.hive_spawn": "Перестроенный разум",
   "block.spore.acid": "Кислотная ванна",
+  "block.spore.vent_plate": "Вентиляционная пластина",
+  "block.spore.vent_door": "Вентиляционная дверь",
 
   "block.spore.infested_dirt": "Заражённая земля",
   "block.spore.infested_stone": "Заражённый камень",
@@ -119,6 +121,7 @@
   "item.spore.scamper_spawnegg": "Бегун",
   "item.spore.mound_spawnegg": "Холм",
   "item.spore.reconstructor_spawnegg": "Чрево",
+  "item.spore.vigil_spawnegg": "наблюдатель",
   "item.spore.proto_spawnegg": "Прото-разум улья",
   "item.spore.sieger_spawnegg": "Осадник",
 
@@ -148,11 +151,13 @@
   "entity.spore.busser": "Фаурес",
   "entity.spore.inf_drowned": "Заражённый утопленник",
   "entity.spore.inf_player": "Заражённый путешественник",
-  "entity.spore.scamper": "Бегун",
+  "entity.spore.scamper": "Скампер",
   "entity.spore.mound": "Холм из плоти",
   "entity.spore.proto": "Прото-разум улья",
+  "entity.spore.vigil": "наблюдатель",
   "entity.spore.reconstructor": "Чрево",
-  "entity.spore.sieger": "Осадник",
+  "entity.spore.sieger": "Зигер",
+  "entity.spore.sieger_tail": "Зигер Хвост",
 
 
   "entity.spore.thrown_tumor": "Опухоль",
@@ -167,6 +172,7 @@
   "effect.spore.marker": "Маркер",
   "effect.spore.corrosion": "Коррозия",
   "effect.spore.symbiosis": "Симбиоз",
+  "effect.spore.uneasy": "Uneasy",
 
   "item.minecraft.splash_potion.effect.mycelium_potion": "Взрывное зелье мицелиевой инфекции",
   "item.minecraft.potion.effect.mycelium_potion": "Зелье мицелиевой инфекции",
@@ -205,6 +211,8 @@
   "sounds.spore.howler_growl": "Воющий зовёт",
   "sounds.spore.fungal_burst": "Грибковые выстрелы",
   "sounds.spore.puff": "Фух",
+  "sounds.spore.limb_slash": "Конечность была порезана",
+  "sounds.spore.heart_beat": "Сердцебиение",
   "sounds.spore.record": "Проигрываю заражённую пластинку",
 
   "item.line.shift": "Питательный суп, приготовленный из животной материи.",
@@ -213,6 +221,8 @@
   "hivemind_summon_message": "Выдержи...",
   "calamity_summon_message": "Приготовься...",
   "calamity_coming_message": "Оно идёт...",
+  "vigil.message": "Вы чувствуете, что за вами наблюдают...",
+  "uneasy.message": "Кажется, ты не можешь заснуть...",
 
   "death.attack.mycelium.overtake.player": "%1$s поддался инфекции",
   "death.attack.mycelium.overtake": "%1$s поддался инфекции",
