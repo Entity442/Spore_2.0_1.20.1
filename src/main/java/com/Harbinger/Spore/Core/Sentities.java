@@ -46,7 +46,7 @@ public class Sentities {
     public  static  final List<Entity> INFECTED_ENTITIES = new ArrayList<>();
 
     public static final RegistryObject<EntityType<InfectedHuman>> INF_HUMAN = SPORE_ENTITIES.register("inf_human",
-            () -> EntityType.Builder.of((EntityType<InfectedHuman> p_33002_, Level level) -> new InfectedHuman(level), INFECTED).sized(0.6f, 2f)
+            () -> EntityType.Builder.of((EntityType<InfectedHuman> p_33002_, Level level) -> new InfectedHuman(level), INFECTED).sized(0.6f, 1.9f)
                     .build(new ResourceLocation(Spore.MODID, "inf_human").toString()));
 
     public static final RegistryObject<EntityType<InfectedPlayer>> INF_PLAYER = SPORE_ENTITIES.register("inf_player",
