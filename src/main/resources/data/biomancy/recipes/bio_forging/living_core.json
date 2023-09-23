@@ -1,0 +1,13 @@
+{
+  "type":"biomancy:bio_forging",
+  "bio_forge_tab":"biomancy:misc",
+  "ingredients":
+  [
+    {"count":4,"item":"spore:mutated_fiber"},
+    {"count":1,"item":"spore:mutated_heart"},
+    {"count":4,"item":"spore:armor_fragment"}
+  ],
+  "nutrientsCost":5,
+  "result":{"count":1,"item":"spore:living_core"
+  }
+}

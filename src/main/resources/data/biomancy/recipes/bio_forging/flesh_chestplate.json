@@ -1,0 +1,15 @@
+{
+  "type":"biomancy:bio_forging",
+  "bio_forge_tab":"biomancy:weapons",
+  "ingredients":
+  [
+    {"count":4,"item":"spore:plated_muscle"},
+    {"count":1,"item":"spore:living_core"},
+    {"count":2,"item":"spore:alveolic_sack"},
+    {"count":1,"item":"spore:innards"},
+    {"count":1,"item":"spore:altered_spleen"}
+  ],
+  "nutrientsCost":5,
+  "result":{"count":1,"item":"spore:living_chest"
+  }
+}

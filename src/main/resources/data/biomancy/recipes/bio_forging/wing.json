@@ -1,0 +1,13 @@
+{
+  "type":"biomancy:bio_forging",
+  "bio_forge_tab":"biomancy:misc",
+  "ingredients":
+  [
+    {"count":1,"item":"spore:spine"},
+    {"count":6,"item":"spore:wing_membrane"},
+    {"count":2,"item":"spore:armor_fragment"}
+  ],
+  "nutrientsCost":5,
+  "result":{"count":1,"item":"spore:r_wing"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type":"biomancy:bio_forging",
+  "bio_forge_tab":"biomancy:weapons",
+  "ingredients":
+  [
+    {"count":3,"item":"spore:tendons"},
+    {"count":4,"item":"spore:plated_muscle"}
+  ],
+  "nutrientsCost":5,
+  "result":{"count":1,"item":"spore:living_pants"
+  }
+}

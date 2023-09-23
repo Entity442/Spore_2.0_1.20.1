@@ -1,0 +1,13 @@
+{
+  "type":"biomancy:bio_forging",
+  "bio_forge_tab":"biomancy:misc",
+  "ingredients":
+  [
+    {"count":2,"item":"spore:nerves"},
+    {"count":3,"item":"spore:mutated_fiber"},
+    {"count":4,"item":"spore:armor_fragment"}
+  ],
+  "nutrientsCost":5,
+  "result":{"count":1,"item":"spore:armor_plate"
+  }
+}

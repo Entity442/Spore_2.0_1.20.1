@@ -1,0 +1,11 @@
+{
+  "type":"biomancy:bio_forging",
+  "bio_forge_tab":"biomancy:misc",
+  "ingredients":
+  [
+    {"count":4,"item":"spore:mutated_fiber"}
+  ],
+  "nutrientsCost":5,
+  "result":{"count":1,"item":"spore:plated_muscle"
+  }
+}

@@ -108,7 +108,7 @@ public class Proto extends Organoid {
                     }
                 }
                 if (SConfig.SERVER.proto_raid.get()){
-                    if (Math.random() < 0.05 && (en instanceof Player || SConfig.SERVER.proto_sapient_target.get().contains(en.getEncodeId()))){
+                    if (Math.random() < (SConfig.SERVER.proto_raid_chance.get()/100f) && (en instanceof Player || SConfig.SERVER.proto_sapient_target.get().contains(en.getEncodeId()))){
                         int x = random.nextInt(-30,30);
                         int z = random.nextInt(-30,30);
                         Vigil vigil = new Vigil(Sentities.VIGIL.get(),this.level());
