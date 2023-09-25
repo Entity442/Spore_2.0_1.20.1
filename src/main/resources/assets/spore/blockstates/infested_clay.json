@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/infested_clay"
+      },
+      {
+        "model": "spore:block/infested_clay",
+        "y": 90
+      },
+      {
+        "model": "spore:block/infested_clay",
+        "y": 180
+      },
+      {
+        "model": "spore:block/infested_clay",
+        "y": 270
+      }
+    ]
+  }
+}

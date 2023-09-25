@@ -422,4 +422,5 @@ public class HandlerEvents {
             event.setResult(Player.BedSleepingProblem.OTHER_PROBLEM);
         }
     }
+
 }

@@ -36,6 +36,13 @@
   "block.spore.infested_sand": "Infested Sand",
   "block.spore.infested_gravel": "Infested Gravel",
   "block.spore.infested_deepslate": "Infested Deepslate",
+  "block.spore.infested_red_sand": "Infested Red Sand",
+  "block.spore.infested_clay": "Infested Clay",
+  "block.spore.infested_cobblestone": "Infested Cobblestone",
+  "block.spore.infested_cobbled_deepslate": "Infested Cobbled Deepslate",
+  "block.spore.infested_laboratory_block": "Infested Laboratory Block",
+
+
 
   "item.spore.claw": "Claw",
   "item.spore.claw_fragment": "Claw Fragment",

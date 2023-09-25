@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/infested_red_sand"
+      },
+      {
+        "model": "spore:block/infested_red_sand",
+        "y": 90
+      },
+      {
+        "model": "spore:block/infested_red_sand",
+        "y": 180
+      },
+      {
+        "model": "spore:block/infested_red_sand",
+        "y": 270
+      }
+    ]
+  }
+}

@@ -9,10 +9,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class SelectableFallingBlock extends FallingBlock {
-    public ItemStack stack;
-    public SelectableFallingBlock(ItemStack stack1, Properties properties) {
+    public SelectableFallingBlock(Properties properties) {
         super(properties);
-        this.stack = stack1;
     }
 
 
@@ -22,6 +20,6 @@ public class SelectableFallingBlock extends FallingBlock {
         List<ItemStack> dropsOriginal = super.getDrops(state, builder);
         if (!dropsOriginal.isEmpty())
             return dropsOriginal;
-        return Collections.singletonList(stack);
+        return Collections.singletonList(new ItemStack(this,1));
     }
 }

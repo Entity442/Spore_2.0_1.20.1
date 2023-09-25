@@ -129,7 +129,7 @@ public class SlasherModel<T extends Slasher> extends EntityModel<T> {
 
 
 		if (entity.attackAnim > 0) {
-			float f1 = 1.0F - Mth.abs(10 - 3 * entity.attackAnim) / 10.0F;
+			float f1 = 1.0F - Mth.abs(10 - 2 * entity.attackAnim) / 6.5F;
 			this.Marm.xRot = Mth.sin(f1) * 2.0F;
 			this.Marm.getChild("MarmJoint").getChild("MArm2").xRot = -Mth.sin(f1) * 3.0F;
 		}

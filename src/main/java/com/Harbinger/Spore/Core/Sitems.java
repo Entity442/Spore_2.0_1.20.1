@@ -287,6 +287,11 @@ public class Sitems {
     public static final RegistryObject<Item> INFESTED_SAND = block(Sblocks.INFESTED_SAND);
     public static final RegistryObject<Item> INFESTED_SOUL_SAND = block(Sblocks.INFESTED_SOUL_SAND);
     public static final RegistryObject<Item> INFESTED_STONE = block(Sblocks.INFESTED_STONE);
+    public static final RegistryObject<Item> INFESTED_RED_SAND = block(Sblocks.INFESTED_RED_SAND);
+    public static final RegistryObject<Item> INFESTED_CLAY = block(Sblocks.INFESTED_CLAY);
+    public static final RegistryObject<Item> INFESTED_COBBLESTONE = block(Sblocks.INFESTED_COBBLESTONE);
+    public static final RegistryObject<Item> INFESTED_COBBLED_DEEPSLATE = block(Sblocks.INFESTED_COBBLED_DEEPSLATE);
+    public static final RegistryObject<Item> INFESTED_LABORATORY_BLOCK = block(Sblocks.INFESTED_LABORATORY_BLOCK);
 
     public static final RegistryObject<Item> REMAINS = block(Sblocks.REMAINS);
     public static final RegistryObject<Item> BIOMASS_LUMP = block(Sblocks.BIOMASS_LUMP);
