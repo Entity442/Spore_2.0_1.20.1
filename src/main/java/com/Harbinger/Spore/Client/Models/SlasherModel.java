@@ -4,6 +4,7 @@ package com.Harbinger.Spore.Client.Models;// Made with Blockbench 4.7.2
 
 
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Slasher;
+import com.Harbinger.Spore.Sentities.Variants.SlasherVariants;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -130,6 +131,9 @@ public class SlasherModel<T extends Slasher> extends EntityModel<T> {
 
 		if (entity.attackAnim > 0) {
 			float f1 = 1.0F - Mth.abs(10 - 2 * entity.attackAnim) / 6.5F;
+			if (entity.getVariant() == SlasherVariants.PIERCER){
+				f1 = -1.0F + Mth.abs(10 - 2 * entity.attackAnim) / 6.5F;
+			}
 			this.Marm.xRot = Mth.sin(f1) * 2.0F;
 			this.Marm.getChild("MarmJoint").getChild("MArm2").xRot = -Mth.sin(f1) * 3.0F;
 		}

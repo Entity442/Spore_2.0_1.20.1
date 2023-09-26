@@ -252,6 +252,8 @@
   "death.attack.braiomil_damage": "%1$s forgot how bad %2$s smelled",
   "death.attack.leaper_damage": "%1$s got jumped by %2$s",
   "death.attack.slasher_damage": "%2$s was happy to remove %1$s limbs",
+  "death.attack.slasher_piercing_damage": "%1$s was impaled by %2$s",
+
 
 
   "death.attack.infected_damage1": "%1$s was eaten alive by %2$s",

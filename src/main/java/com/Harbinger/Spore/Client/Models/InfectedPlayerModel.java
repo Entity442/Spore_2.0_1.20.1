@@ -14,6 +14,8 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.BowItem;
 
 public class InfectedPlayerModel<T extends InfectedPlayer> extends HumanoidModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -74,8 +76,13 @@ public class InfectedPlayerModel<T extends InfectedPlayer> extends HumanoidModel
 		this.head.xRot = headPitch /  ( 90F / (float) Math.PI);
 		this.head.getChild("jaw").xRot = Mth.sin(ageInTicks/8)/10;
 
+		if (entity.getItemBySlot(EquipmentSlot.MAINHAND).getItem() instanceof BowItem){
+			this.right_arm.xRot = -89.5F;
+		}
+		if (entity.getItemBySlot(EquipmentSlot.OFFHAND).getItem() instanceof BowItem){
+			this.left_arm.xRot = -89.5F;
+		}
 		if (entity.isAggressive()) {
-			this.head.getChild("jaw").xRot = (Mth.sin(ageInTicks / 6) / 10) + 0.4F;
 			this.right_arm.xRot = -90F - (Mth.sin(ageInTicks / 4) / 7);
 		}
 		else if (!(limbSwingAmount > -0.15F && limbSwingAmount < 0.15F)){

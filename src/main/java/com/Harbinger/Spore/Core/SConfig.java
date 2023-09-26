@@ -957,9 +957,9 @@ public class SConfig {
             this.player_b = builder.defineList("Boots Slot",
                     Lists.newArrayList("minecraft:leather_boots|50","minecraft:iron_boots|20","minecraft:chainmail_boots|20") , o -> o instanceof String);
             this.player_hm = builder.defineList("MainHand Slot",
-                    Lists.newArrayList("minecraft:stone_sword|50" , "minecraft:stone_axe|20", "minecraft:pickaxe|20" , "minecraft:iron_sword|30") , o -> o instanceof String);
+                    Lists.newArrayList("minecraft:stone_sword|50" , "minecraft:stone_axe|20","minecraft:bow|25", "minecraft:pickaxe|20" , "minecraft:iron_sword|30") , o -> o instanceof String);
             this.player_ho = builder.defineList("OffHand Slot",
-                    Lists.newArrayList("minecraft:torch|50","minecraft:shield|30") , o -> o instanceof String);
+                    Lists.newArrayList("minecraft:torch|50","minecraft:shield|30","minecraft:bow|45") , o -> o instanceof String);
 
             builder.pop();
             builder.push("Structure data");

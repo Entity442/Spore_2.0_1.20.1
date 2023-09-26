@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities.BasicInfected;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
@@ -13,16 +14,18 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
-import net.minecraft.world.entity.ai.goal.OpenDoorGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.util.GoalUtils;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.RangedAttackMob;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -33,7 +36,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-public class InfectedPlayer extends Infected {
+public class InfectedPlayer extends Infected implements RangedAttackMob {
 
     public InfectedPlayer(EntityType<? extends Monster> type, Level level) {
         super(type, level);
@@ -52,18 +55,23 @@ public class InfectedPlayer extends Infected {
     @Override
     protected void registerGoals() {
 
-
-        this.goalSelector.addGoal(1, new LeapAtTargetGoal(this,0.3F));
-        this.goalSelector.addGoal(2, new CustomMeleeAttackGoal(this, 1.5, false) {
+        this.goalSelector.addGoal(3, new RangedBowAttackGoal<InfectedPlayer>(this,1.0D, 20, 15.0F){
+            @Override
+            public boolean canUse() {
+                return super.canUse() && InfectedPlayer.this.getTarget() != null && InfectedPlayer.this.distanceToSqr(InfectedPlayer.this.getTarget()) > 20;
+            }
+        });
+        this.goalSelector.addGoal(4, new LeapAtTargetGoal(this,0.3F));
+        this.goalSelector.addGoal(4, new CustomMeleeAttackGoal(this, 1.5, false) {
             @Override
             protected double getAttackReachSqr(LivingEntity entity) {
                 return 3.0 + entity.getBbWidth() * entity.getBbWidth();
             }
         });
 
-        this.goalSelector.addGoal(3, new RandomStrollGoal(this, 0.8));
-        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(3, new OpenDoorGoal(this, true) {
+        this.goalSelector.addGoal(4, new RandomStrollGoal(this, 0.8));
+        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(4, new OpenDoorGoal(this, true) {
             @Override
             public void start() {
                 this.mob.swing(InteractionHand.MAIN_HAND);
@@ -185,5 +193,27 @@ public class InfectedPlayer extends Infected {
 
     protected SoundEvent getStepSound() {
         return SoundEvents.ZOMBIE_STEP;
+    }
+
+    @Override
+    public void performRangedAttack(LivingEntity entity, float value) {
+        ItemStack itemstack = this.getProjectile(this.getItemInHand(ProjectileUtil.getWeaponHoldingHand(this, item -> item instanceof net.minecraft.world.item.BowItem)));
+        AbstractArrow abstractarrow = this.getArrow(itemstack, value);
+        if (this.getMainHandItem().getItem() instanceof net.minecraft.world.item.BowItem)
+            abstractarrow = ((net.minecraft.world.item.BowItem)this.getMainHandItem().getItem()).customArrow(abstractarrow);
+        double d0 = entity.getX() - this.getX();
+        double d1 = entity.getY(0.3333333333333333D) - abstractarrow.getY();
+        double d2 = entity.getZ() - this.getZ();
+        double d3 = Math.sqrt(d0 * d0 + d2 * d2);
+        if(abstractarrow instanceof Arrow arrow){
+            arrow.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(), 600));
+        }
+        abstractarrow.shoot(d0, d1 + d3 * (double)0.2F, d2, 1.6F, (float)(14 - this.level().getDifficulty().getId() * 4));
+        this.playSound(SoundEvents.CROSSBOW_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+        this.level().addFreshEntity(abstractarrow);
+    }
+
+    protected AbstractArrow getArrow(ItemStack p_32156_, float p_32157_) {
+        return ProjectileUtil.getMobArrow(this, p_32156_, p_32157_);
     }
 }
