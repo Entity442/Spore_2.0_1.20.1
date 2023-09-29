@@ -64,6 +64,7 @@ public class HiveSpawn extends Block implements EntityBlock {
                     if (SConfig.SERVER.proto_chunk.get()) {
                         ChunkLoaderHelper.forceLoadChunksInRadius(level, blockPos, level.getChunk(blockPos).getPos().x, level.getChunk(blockPos).getPos().z, 3);
                     }
+                    proto.tickEmerging();
                     proto.setPos(blockPos.getX(), blockPos.getY(), blockPos.getZ());
                     level.addFreshEntity(proto);
                 }

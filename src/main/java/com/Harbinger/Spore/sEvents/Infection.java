@@ -41,11 +41,12 @@ public class Infection {
         if (entity instanceof Infected infected && SConfig.SERVER.scent_spawn.get()) {
             if (world instanceof ServerLevel _level) {
                 if (Math.random() < (SConfig.SERVER.scent_spawn_chance.get() / 100f)) {
+                    AABB aabb = infected.getBoundingBox().inflate(16);
+                    List<ScentEntity> entities = infected.level().getEntitiesOfClass(ScentEntity.class, aabb);
+                    if (entities.size() < SConfig.SERVER.scent_cap.get())
                     {
                         ScentEntity entityToSpawn = new ScentEntity(Sentities.SCENT.get(), _level);
-                        if (infected.getLinked()){
-                            entityToSpawn.setOvercharged(true);
-                        }
+                        entityToSpawn.setOvercharged(infected.getLinked());
                         entityToSpawn.moveTo(x, y + 4, z, world.getRandom().nextFloat() * 360F, 0);
                         world.addFreshEntity(entityToSpawn);
                     }

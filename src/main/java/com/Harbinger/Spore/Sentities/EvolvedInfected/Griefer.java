@@ -147,7 +147,7 @@ public class Griefer extends EvolvedInfected {
 
 
     private void summonScent(LevelAccessor world, double x, double y, double z) {
-        if (world instanceof ServerLevel _level) {
+        if (world instanceof ServerLevel _level && SConfig.SERVER.scent_spawn.get()) {
                 {
                     ScentEntity entityToSpawn = new ScentEntity(Sentities.SCENT.get(), _level);
                     entityToSpawn.moveTo(x, y, z, world.getRandom().nextFloat() * 360F, 0);

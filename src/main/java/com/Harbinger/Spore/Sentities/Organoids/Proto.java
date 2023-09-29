@@ -17,6 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
@@ -31,11 +32,14 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Proto extends Organoid {
@@ -72,6 +76,7 @@ public class Proto extends Organoid {
     protected void registerGoals() {
         this.addTargettingGoals();
         this.goalSelector.addGoal(3,new ProtoScentDefense(this));
+        this.goalSelector.addGoal(3,new ProtoDefense(this));
         this.goalSelector.addGoal(2,new ProtoTargeting(this));
         this.goalSelector.addGoal(2,new AOEMeleeAttackGoal(this,0,false,2.5,4));
         this.goalSelector.addGoal(4,new RandomLookAroundGoal(this));
@@ -164,18 +169,14 @@ public class Proto extends Organoid {
 
         private boolean checkForScent() {
             AABB hitbox = this.proto.getBoundingBox().inflate(3);
-            List<Entity> entities = this.proto.level().getEntities(this.proto, hitbox ,EntitySelector.NO_CREATIVE_OR_SPECTATOR);
-            for (Entity en : entities) {
-                if (en instanceof ScentEntity){
-                    return false;
-                }
+            List<ScentEntity> entities = this.proto.level().getEntitiesOfClass(ScentEntity.class, hitbox);
+            if (entities.size() >= 1){
+                return false;
             }
             AABB aabb = this.proto.getBoundingBox().inflate(8);
             List<Entity> entities1 = this.proto.level().getEntities(this.proto, aabb ,EntitySelector.NO_CREATIVE_OR_SPECTATOR);
-            for (Entity en : entities1) {
-                if (en instanceof Infected){
-                    return false;
-                }
+            if (entities1.size() >= 3){
+                return false;
             }
             return true;
         }
@@ -191,6 +192,42 @@ public class Proto extends Organoid {
             scent.setOvercharged(true);
             scent.moveTo(this.proto.getX(),this.proto.getY(),this.proto.getZ());
             this.proto.level().addFreshEntity(scent);
+        }
+    }
+
+     class ProtoDefense extends Goal{
+        public Proto proto;
+        public ProtoDefense(Proto proto1){
+            this.proto = proto1;
+        }
+
+        @Override
+        public boolean canUse() {
+            return this.proto.getTarget() != null &&  this.proto.random.nextInt(150) == 0;
+        }
+        @Override
+        public void start() {
+            SummonDefense();
+            super.start();
+        }
+
+
+    }
+    private void SummonDefense() {
+        List<? extends String> summons = SConfig.SERVER.proto_summonable_troops.get();
+        LivingEntity target = this.getTarget();
+        int x = random.nextInt(-10,10);
+        int z = random.nextInt(-10,10);
+        if (target != null && this.level() instanceof ServerLevelAccessor world){
+            RandomSource rand = RandomSource.create();
+            int randomIndex = rand.nextInt(summons.size());
+            ResourceLocation randomElement1 = new ResourceLocation(summons.get(randomIndex));
+            EntityType<?> randomElement = ForgeRegistries.ENTITY_TYPES.getValue(randomElement1);
+            Mob waveentity = (Mob) randomElement.create(this.level());
+            assert waveentity != null;
+            waveentity.randomTeleport(target.getX() + x,target.getY(),target.getZ() + z,false);
+            waveentity.finalizeSpawn(world, this.level().getCurrentDifficultyAt(new BlockPos((int) this.getX(),(int)  this.getY(),(int)  this.getZ())), MobSpawnType.NATURAL, null, null);
+            this.level().addFreshEntity(waveentity);
         }
     }
 
@@ -364,11 +401,11 @@ public class Proto extends Organoid {
                 if (pos.getY() > 120){
                     creature.setState(2);
                 }else if (pos.getY()<63){
-
                     creature.setState(1);
                 }else {
                     creature.setState(0);
                 }
+                creature.tickEmerging();
                 creature.setPos(entity.getX()+a,entity.getY()+c,entity.getZ()+b);
                 level.addFreshEntity(creature);
                 if (level.getServer() != null && !level.isClientSide()){
@@ -392,5 +429,14 @@ public class Proto extends Organoid {
             }
         }
         return true;
+    }
+
+    @Override
+    public int getEmerge_tick() {
+        return 120;
+    }
+
+    public int getNumberOfParticles(){
+        return 6;
     }
 }

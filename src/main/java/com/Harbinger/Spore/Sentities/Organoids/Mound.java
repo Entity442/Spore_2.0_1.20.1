@@ -410,4 +410,10 @@ public class Mound extends Organoid {
             this.addEffect(new MobEffectInstance(MobEffects.REGENERATION,200,0));
         }
     }
+
+
+    @Override
+    public int getEmerge_tick() {
+        return 40;
+    }
 }

@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Sentities.AI.CalamitiesAI;
 
+import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
@@ -19,6 +20,9 @@ public class SummonScentInCombat extends Goal {
     }
     @Override
     public boolean canUse() {
+        if (!SConfig.SERVER.scent_spawn.get()){
+            return false;
+        }
         return this.calamity.isAlive() && calamity.getRandom().nextInt(400) == 0 && calamity.isAggressive() && checkForScent();
     }
 
@@ -37,12 +41,7 @@ public class SummonScentInCombat extends Goal {
 
     private boolean checkForScent() {
         AABB hitbox = this.calamity.getBoundingBox().inflate(8);
-        List<Entity> entities = this.calamity.level().getEntities(this.calamity, hitbox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
-        for (Entity en : entities) {
-            if (en instanceof ScentEntity){
-                return false;
-            }
-        }
-        return true;
+        List<ScentEntity> entities = calamity.level().getEntitiesOfClass(ScentEntity.class, hitbox);
+        return entities.size() < 2;
     }
 }

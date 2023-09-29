@@ -45,6 +45,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Integer> scent_summon_cooldown;
         public final ForgeConfigSpec.ConfigValue<Boolean> scent_particles;
         public final ForgeConfigSpec.ConfigValue<Integer> scent_life;
+        public final ForgeConfigSpec.ConfigValue<Integer> scent_cap;
         public final ForgeConfigSpec.ConfigValue<Integer> scent_kills;
         public final ForgeConfigSpec.ConfigValue<Integer> scent_spawn_chance;
 
@@ -179,6 +180,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Boolean> proto_raid;
         public final ForgeConfigSpec.ConfigValue<Double> proto_raid_chance;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> proto_sapient_target;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> proto_summonable_troops;
 
         public final ForgeConfigSpec.ConfigValue<Double> how_hp;
         public final ForgeConfigSpec.ConfigValue<Double> how_damage;
@@ -533,6 +535,9 @@ public class SConfig {
             this.proto_sapient_target = builder.defineList("Sentient Mobs targeted by the hivemind",
                     Lists.newArrayList("minecraft:villager","minecraft:pillager","guardvillagers:guard","minecraft:evoker","minecraft:vindicator",
                             "recruits:recruit","recruits:bowman","recruits:recruit_shieldman", "recruits:nomad","recruits:horseman","roamers:roamer") , o -> o instanceof String);
+            this.proto_summonable_troops = builder.defineList("Mobs that the proto can summon to defend itself",
+                    Lists.newArrayList("spore:mound","spore:vigil") , o -> o instanceof String);
+
             builder.pop();
 
             builder.push("Howler");
@@ -571,6 +576,7 @@ public class SConfig {
             this.scent_spawn = builder.comment("Default true").define("Should scent spawn?",true);
             this.scent_particles = builder.comment("Default true").define("Should scent have particles?",true);
             this.scent_life = builder.comment("Default 4000").define("Scent life",4000);
+            this.scent_cap = builder.comment("Default 5").define("The average amount of scents that can spawn in an area",5);
             this.scent_effects_buff = builder.defineList("Overcharged Scent buff effect list",
                     Lists.newArrayList("minecraft:regeneration","minecraft:speed","minecraft:health_boost","minecraft:strength","minecraft:resistance" ) , o -> o instanceof String);
             this.scent_kills = builder.comment("Default 4").define("OverCharged Scent bonus kill points",4);
