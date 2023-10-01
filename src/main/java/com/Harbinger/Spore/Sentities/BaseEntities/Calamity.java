@@ -184,7 +184,7 @@ public class Calamity extends UtilityEntity implements Enemy {
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
                 (this, Player.class,  true));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, true, (en) -> {
-            return SConfig.SERVER.whitelist.get().contains(en.getEncodeId()) || (en.hasEffect(Seffects.MARKER.get()) && !this.likedFellows(en));
+            return SConfig.SERVER.whitelist.get().contains(en.getEncodeId()) || en.hasEffect(Seffects.MARKER.get());
         }));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, true, (en) -> {
             return !(this.otherWorld(en) || this.SkulkLove(en) || this.likedFellows(en)) && SConfig.SERVER.at_mob.get();
