@@ -31,7 +31,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import javax.annotation.Nullable;
 
 public class Slasher extends EvolvedInfected {
-    private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(Griefer.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(Slasher.class, EntityDataSerializers.INT);
     public Slasher(EntityType<? extends Monster> type, Level level) {
         super(type, level);
     }
