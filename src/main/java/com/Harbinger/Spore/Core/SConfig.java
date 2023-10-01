@@ -471,7 +471,7 @@ public class SConfig {
             this.vigil_armor = builder.comment("Default 5").defineInRange("Sets Vigil Armor", 5, 1, Double.MAX_VALUE);
             this.vigil_wave_size = builder.comment("Default 15").defineInRange("Sets the maximum size of the wave", 15, 1, Integer.MAX_VALUE);
             this.vigil_base_wave = builder.comment("The base wave of infected a vigil can summon").defineList("Vigil min wave",
-                    Lists.newArrayList("spore:inf_human" , "spore:inf_villager","spore:inf_pillager","spore:inf_drowned") , o -> o instanceof String);
+                    Lists.newArrayList("spore:inf_human" ,"spore:inf_drowned" , "spore:inf_villager","spore:inf_pillager","spore:inf_drowned") , o -> o instanceof String);
 
             this.vigil_middle_wave = builder.comment("The mixed wave of infected a vigil can summon").defineList("Vigil mix wave",
                     Lists.newArrayList("spore:inf_human" , "spore:inf_villager","spore:inf_pillager","spore:inf_wanderer"
@@ -694,7 +694,7 @@ public class SConfig {
             this.days = builder.comment("Default 3").define("Days before infected start spawning",3);
             this.spawns = builder.defineList("mob|weight|minimum|maximum",
                     Lists.newArrayList("spore:inf_human|80|2|5","spore:inf_drowned|10|1|2","spore:inf_pillager|40|1|3","spore:inf_villager|70|1|3","spore:inf_player|20|1|2"
-                            ,"spore:inf_wanderer|25|1|2","spore:inf_witch|25|1|2","spore:inf_vindicator|1|1|2","spore:inf_evoker|5|1|2") , o -> o instanceof String);
+                            ,"spore:inf_wanderer|25|1|2","spore:inf_witch|25|1|2") , o -> o instanceof String);
             builder.pop();
 
 

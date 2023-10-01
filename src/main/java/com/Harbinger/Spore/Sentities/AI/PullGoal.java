@@ -22,10 +22,15 @@ public class PullGoal extends Goal {
     }
 
     public boolean canUse() {
-        if (this.mob.getTarget() != null) {
-            double d0 = this.mob.distanceToSqr(this.mob.getTarget());
-            if ((d0 < (mob.getBbWidth() + range)) && (d0 > (mob.getBbWidth() + range_min)) && this.mob.hasLineOfSight(this.mob.getTarget())) {
-                if (!this.mob.getTarget().onGround()) {
+        LivingEntity livingEntity = this.mob.getTarget();
+        if (livingEntity != null) {
+            double d0 = this.mob.distanceToSqr(livingEntity);
+            if (this.mob.hasLineOfSight(livingEntity)){
+                return false;
+            }else if (livingEntity.isBlocking()){
+                return false;
+            }else if ((d0 < (mob.getBbWidth() + range)) && (d0 > (mob.getBbWidth() + range_min))) {
+                if (!livingEntity.onGround()) {
                     return false;
                 } else {
                     return this.mob.getTarget().getRandom().nextInt(reducedTickDelay(5)) == 0;

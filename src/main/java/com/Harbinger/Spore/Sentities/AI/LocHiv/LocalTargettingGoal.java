@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities.AI.LocHiv;
 
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
+import com.Harbinger.Spore.Sentities.Organoids.Proto;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -16,7 +17,7 @@ public class LocalTargettingGoal extends Goal {
     }
     @Override
     public boolean canUse() {
-        return (mob.getTarget() != null || mob.getSearchPos() != null) && mob.getLinked() && this.mob.getRandom().nextInt(0,10) == 7;
+        return (mob.getTarget() != null || mob.getSearchPos() != null) && mob.getLinked() && this.mob.getRandom().nextInt(10) == 0;
     }
 
     @Override
@@ -39,15 +40,12 @@ public class LocalTargettingGoal extends Goal {
         }
 
         AABB boundingBox = entity.getBoundingBox().inflate(range);
-        List<Entity> entities = entity.level().getEntities(entity, boundingBox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
-
-        for (Entity entity1 : entities) {
-            if(entity1 instanceof Infected livingEntity) {
-                if (livingEntity.getTarget() == null && this.mob.getTarget() != null && this.mob.getTarget().isAlive() && !this.mob.getTarget().isInvulnerable()){
-                    livingEntity.setTarget(mob.getTarget());
-                }else if (livingEntity.getSearchPos() == null && this.mob.getSearchPos() != null){
-                    livingEntity.setSearchPos(this.mob.getSearchPos());
-                }
+        List<Infected> entities = entity.level().getEntitiesOfClass(Infected.class, boundingBox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
+        for (Infected livingEntity : entities) {
+            if (livingEntity.getTarget() == null && this.mob.getTarget() != null && this.mob.getTarget().isAlive() && !this.mob.getTarget().isInvulnerable()){
+                livingEntity.setTarget(mob.getTarget());
+            }else if (livingEntity.getSearchPos() == null && this.mob.getSearchPos() != null){
+                livingEntity.setSearchPos(this.mob.getSearchPos());
             }
         }
     }
