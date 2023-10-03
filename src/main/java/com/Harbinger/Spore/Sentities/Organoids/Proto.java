@@ -164,7 +164,7 @@ public class Proto extends Organoid {
 
         @Override
         public boolean canUse() {
-            return this.proto.getTarget() != null && checkForScent() && this.proto.random.nextInt(0,20) == 10;
+            return this.proto.getTarget() != null && checkForScent() && this.proto.random.nextInt(20) == 0;
         }
 
         private boolean checkForScent() {
@@ -226,6 +226,9 @@ public class Proto extends Organoid {
             Mob waveentity = (Mob) randomElement.create(this.level());
             assert waveentity != null;
             waveentity.randomTeleport(target.getX() + x,target.getY(),target.getZ() + z,false);
+            if (waveentity instanceof Mound mound){
+                mound.setMaxAge(1);
+            }
             waveentity.finalizeSpawn(world, this.level().getCurrentDifficultyAt(new BlockPos((int) this.getX(),(int)  this.getY(),(int)  this.getZ())), MobSpawnType.NATURAL, null, null);
             this.level().addFreshEntity(waveentity);
         }

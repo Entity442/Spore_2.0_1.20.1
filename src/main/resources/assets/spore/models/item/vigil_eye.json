@@ -1,0 +1,69 @@
+{
+	"credit": "Made with Blockbench",
+	"texture_size": [32, 32],
+	"textures": {
+		"0": "spore:item/vigil_eye",
+		"particle": "spore:item/vigil_eye"
+	},
+	"elements": [
+		{
+			"name": "EyeBase",
+			"from": [5, 0, 4],
+			"to": [11, 6, 10],
+			"faces": {
+				"north": {"uv": [4, 4, 8, 8], "texture": "#0"},
+				"east": {"uv": [0, 4, 4, 8], "texture": "#0"},
+				"south": {"uv": [12, 4, 16, 8], "texture": "#0"},
+				"west": {"uv": [8, 4, 12, 8], "texture": "#0"},
+				"up": {"uv": [8, 4, 4, 0], "texture": "#0"},
+				"down": {"uv": [12, 0, 8, 4], "texture": "#0"}
+			}
+		},
+		{
+			"name": "Pupal (how do you spell that)",
+			"from": [6.5, 1, 3],
+			"to": [9.5, 4, 4],
+			"faces": {
+				"north": {"uv": [1.5, 13.5, 4, 16], "texture": "#0"},
+				"east": {"uv": [0, 13.5, 1.5, 16], "texture": "#0"},
+				"south": {"uv": [5.5, 13.5, 8, 16], "texture": "#0"},
+				"west": {"uv": [4, 13.5, 5.5, 16], "texture": "#0"},
+				"up": {"uv": [4, 13.5, 1.5, 12], "texture": "#0"},
+				"down": {"uv": [6.5, 12, 4, 13.5], "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [40, 0, 0],
+			"translation": [0, 2, 2.75],
+			"scale": [0.8, 0.8, 0.8]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [40, 0, 0],
+			"translation": [0, 2, 2.75],
+			"scale": [0.8, 0.8, 0.8]
+		},
+		"firstperson_righthand": {
+			"translation": [0, 4, 0]
+		},
+		"firstperson_lefthand": {
+			"translation": [0, 4, 0]
+		},
+		"ground": {
+			"translation": [0, 4, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"gui": {
+			"rotation": [23, 160, 0],
+			"translation": [0, 3.75, 0]
+		},
+		"head": {
+			"translation": [-4.25, 4.5, -3.75],
+			"scale": [0.8, 0.8, 0.8]
+		},
+		"fixed": {
+			"translation": [0, 5.5, 3]
+		}
+	}
+}

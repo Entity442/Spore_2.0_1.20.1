@@ -1,5 +1,5 @@
-package com.Harbinger.Spore.Client.Models;// Made with Blockbench 4.4.3
-// Exported for Minecraft version 1.17 - 1.18 with Mojang mappings
+package com.Harbinger.Spore.Client.Models;// Made with Blockbench 4.8.3
+// Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
 
@@ -18,17 +18,19 @@ import net.minecraft.util.Mth;
 public class InfEvoClawModel<T extends InfEvoClaw> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "infevoclawmodel"), "main");
-	private final ModelPart base;
+	private final ModelPart baseJoint;
 
 	public InfEvoClawModel(ModelPart root) {
-		this.base = root.getChild("base");
+		this.baseJoint = root.getChild("baseJoint");
 	}
 
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition base = partdefinition.addOrReplaceChild("base", CubeListBuilder.create().texOffs(0, 15).addBox(-1.5F, -6.0F, -1.5F, 3.0F, 6.0F, 3.0F, new CubeDeformation(0.2F)), PartPose.offset(0.0F, 24.0F, 0.0F));
+		PartDefinition baseJoint = partdefinition.addOrReplaceChild("baseJoint", CubeListBuilder.create(), PartPose.offset(0.0F, 24.0F, 7.0F));
+
+		PartDefinition base = baseJoint.addOrReplaceChild("base", CubeListBuilder.create().texOffs(0, 15).addBox(-1.5F, -6.0F, -1.5F, 3.0F, 6.0F, 3.0F, new CubeDeformation(0.2F)), PartPose.offsetAndRotation(0.0F, -1.25F, 0.0F, -1.5708F, 3.1416F, 0.0F));
 
 		PartDefinition cube_r1 = base.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(10, 9).addBox(-1.5F, -6.0F, -1.5F, 3.0F, 6.0F, 3.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(0.0F, -6.0F, 0.0F, -0.2182F, 0.0F, 0.0F));
 
@@ -87,29 +89,28 @@ public class InfEvoClawModel<T extends InfEvoClaw> extends EntityModel<T> {
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		this.base.getChild("middleF").xRot = Mth.sin(ageInTicks/8)/6;
-		this.base.getChild("middleF").getChild("middleF2").xRot = Mth.sin(ageInTicks/8)/6;
-		this.base.getChild("middleF").getChild("middleF2").getChild("middleF3").xRot = Mth.sin(ageInTicks/8)/6;
+		this.baseJoint.getChild("base").getChild("middleF").xRot = Mth.sin(ageInTicks/8)/6;
+		this.baseJoint.getChild("base").getChild("middleF").getChild("middleF2").xRot = Mth.sin(ageInTicks/8)/6;
+		this.baseJoint.getChild("base").getChild("middleF").getChild("middleF2").getChild("middleF3").xRot = Mth.sin(ageInTicks/8)/6;
 
-		this.base.getChild("fingerT").yRot = Mth.sin(ageInTicks/8)/6;
-		this.base.getChild("fingerT2").yRot = Mth.sin(ageInTicks/8)/6;
-		this.base.getChild("fingerT3").yRot = -Mth.sin(ageInTicks/8)/6;
-		this.base.getChild("fingerT4").yRot = -Mth.sin(ageInTicks/8)/6;
+		this.baseJoint.getChild("base").getChild("fingerT").yRot = Mth.sin(ageInTicks/8)/6;
+		this.baseJoint.getChild("base").getChild("fingerT2").yRot = Mth.sin(ageInTicks/8)/6;
+		this.baseJoint.getChild("base").getChild("fingerT3").yRot = -Mth.sin(ageInTicks/8)/6;
+		this.baseJoint.getChild("base").getChild("fingerT4").yRot = -Mth.sin(ageInTicks/8)/6;
 
-		this.base.getChild("fingerT").zRot = -Mth.sin(ageInTicks/8)/8;
-		this.base.getChild("fingerT2").zRot = -Mth.sin(ageInTicks/8)/7;
-		this.base.getChild("fingerT3").zRot = Mth.sin(ageInTicks/8)/9;
-		this.base.getChild("fingerT4").zRot = -Mth.sin(ageInTicks/8)/6;
+		this.baseJoint.getChild("base").getChild("fingerT").zRot = -Mth.sin(ageInTicks/8)/8;
+		this.baseJoint.getChild("base").getChild("fingerT2").zRot = -Mth.sin(ageInTicks/8)/7;
+		this.baseJoint.getChild("base").getChild("fingerT3").zRot = Mth.sin(ageInTicks/8)/9;
+		this.baseJoint.getChild("base").getChild("fingerT4").zRot = -Mth.sin(ageInTicks/8)/6;
 
-		this.base.getChild("fingerT").getChild("jointT").getChild("fingerG").yRot = Mth.sin(ageInTicks/8)/6;
-		this.base.getChild("fingerT2").getChild("jointT2").getChild("fingerG2").yRot = Mth.sin(ageInTicks/8)/6;
-		this.base.getChild("fingerT3").getChild("jointT3").getChild("fingerG3").yRot = -Mth.sin(ageInTicks/8)/6;
-		this.base.getChild("fingerT4").getChild("jointT4").getChild("fingerG4").yRot = -Mth.sin(ageInTicks/8)/6;
-
+		this.baseJoint.getChild("base").getChild("fingerT").getChild("jointT").getChild("fingerG").yRot = Mth.sin(ageInTicks/8)/6;
+		this.baseJoint.getChild("base").getChild("fingerT2").getChild("jointT2").getChild("fingerG2").yRot = Mth.sin(ageInTicks/8)/6;
+		this.baseJoint.getChild("base").getChild("fingerT3").getChild("jointT3").getChild("fingerG3").yRot = -Mth.sin(ageInTicks/8)/6;
+		this.baseJoint.getChild("base").getChild("fingerT4").getChild("jointT4").getChild("fingerG4").yRot = -Mth.sin(ageInTicks/8)/6;
 	}
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		base.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		baseJoint.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 }

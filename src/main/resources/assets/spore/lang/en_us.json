@@ -26,7 +26,12 @@
   "block.spore.hive_spawn": "Reconstructed Mind",
   "block.spore.acid": "Acid pool",
   "block.spore.vent_plate": "Vent Plate",
+  "block.spore.rusted_vent_plate": "Rusted Vent Door",
   "block.spore.vent_door": "Vent Door",
+  "block.spore.reinforced_door": "Reinforced Door",
+  "block.spore.rusted_reinforced_door": "Rusted Reinforced Door",
+  "block.spore.frozen_reinforced_door": "Frozen Reinforced Door",
+
 
   "block.spore.infested_dirt": "Infested Dirt",
   "block.spore.infested_stone": "Infested Stone",
@@ -69,6 +74,7 @@
   "item.spore.sickle_fragment": "Sickle Fragment",
   "item.spore.innards": "Innards",
   "item.spore.r_wing": "Wing",
+  "item.spore.vigil_eye": "The Eye of the Vigil",
   "item.spore.sausage": "Meaty Sausage",
 
 

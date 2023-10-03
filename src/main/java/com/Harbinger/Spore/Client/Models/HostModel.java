@@ -17,7 +17,7 @@ import net.minecraft.util.Mth;
 
 public class HostModel<T extends Host> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "infevoclawmodel"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "hostmodel"), "main");
 	private final ModelPart base;
 
 	public HostModel(ModelPart root) {

@@ -1,6 +1,5 @@
 package com.Harbinger.Spore.Sblocks;
 
-import com.Harbinger.Spore.Core.Sitems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -46,6 +45,6 @@ public class VentPlateBlock extends MultifaceBlock {
 
     @Override
     public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
-        return context.getItemInHand().is(Sitems.VENT_PLATE.get());
+        return context.getItemInHand().getItem() == this.asItem();
     }
 }

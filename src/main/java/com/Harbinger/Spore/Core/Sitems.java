@@ -184,6 +184,8 @@ public class Sitems {
             InfectedKnife::new);
     public  static final RegistryObject<Item> RAPIER = ITEMS.register("rapier",
             InfectedRapier::new);
+    public  static final RegistryObject<Item> VIGIL_EYE = ITEMS.register("vigil_eye",
+            VigilEye::new);
 
     public  static final RegistryObject<Item> INF_HELMET = ITEMS.register("inf_helmet",
             InfectedHelmet::new);
@@ -259,7 +261,11 @@ public class Sitems {
     public static final RegistryObject<Item> LAB_STAIR = Techblock(Sblocks.LAB_STAIR);
     public static final RegistryObject<Item> IRON_LADDER = Techblock(Sblocks.IRON_LADDER);
     public static final RegistryObject<Item> VENT_PLATE = Techblock(Sblocks.VENT_PLATE);
+    public static final RegistryObject<Item> RUSTED_VENT_PLATE = Techblock(Sblocks.RUSTED_VENT_PLATE);
     public static final RegistryObject<Item> VENT_DOOR = Techblock(Sblocks.VENT_DOOR);
+    public static final RegistryObject<Item> REINFORCED_DOOR = Techblock(Sblocks.REINFORCED_DOOR);
+    public static final RegistryObject<Item> FROZEN_REINFORCED_DOOR = Techblock(Sblocks.FROZEN_REINFORCED_DOOR);
+    public static final RegistryObject<Item> RUSTED_REINFORCED_DOOR = Techblock(Sblocks.RUSTED_REINFORCED_DOOR);
 
     public static final RegistryObject<Item> GROWTHS_BIG = block(Sblocks.GROWTHS_BIG);
     public static final RegistryObject<Item> GROWTHS_SMALL = block(Sblocks.GROWTHS_SMALL);

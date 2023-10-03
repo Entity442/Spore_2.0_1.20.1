@@ -935,7 +935,7 @@ public class SConfig {
                     Lists.newArrayList("spore:mutated_fiber|70|2|5") , o -> o instanceof String);
 
             this.vigil_loot = builder.defineList("Vigil",
-                    Lists.newArrayList("spore:mutated_fiber|100|6|15","spore:mutated_heart|30|1|1") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mutated_fiber|100|6|15","spore:vigil_eye|100|1|1","spore:mutated_heart|30|1|1") , o -> o instanceof String);
 
 
             this.organite_loot = builder.defineList("Organite Block",

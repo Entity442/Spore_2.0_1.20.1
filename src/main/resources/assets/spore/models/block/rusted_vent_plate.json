@@ -1,0 +1,21 @@
+{
+  "render_type": "cutout",
+  "textures": {
+    "particle": "spore:block/rusted_vent_plate",
+    "body": "spore:block/rusted_vent_plate"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 0],
+      "to": [16, 16, 0.1],
+      "faces": {
+        "north": {"uv": [0, 0, 16, 16], "texture": "#body","cullface": "north"},
+        "east": {"uv": [0, 0, 0.1, 16], "texture": "#body"},
+        "south": {"uv": [0, 0, 16, 16], "texture": "#body"},
+        "west": {"uv": [0, 0, 0.1, 16], "texture": "#body"},
+        "up": {"uv": [0, 0, 16, 0.1], "texture": "#body"},
+        "down": {"uv": [0, 0, 16, 0.1], "texture": "#body"}
+      }
+    }
+  ]
+}
