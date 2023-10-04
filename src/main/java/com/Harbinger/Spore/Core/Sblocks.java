@@ -28,9 +28,9 @@ public class Sblocks {
     public static final RegistryObject<Block> RUSTED_VENT_PLATE = BLOCKS.register("rusted_vent_plate", VentPlateBlock::new);
     public static final RegistryObject<Block> VENT_DOOR = BLOCKS.register("vent_door",() -> new TrapDoorBlock(BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(2f, 4f).noOcclusion().sound(SoundType.METAL), BlockSetType.STONE));
 
-    public static final RegistryObject<Block> REINFORCED_DOOR = BLOCKS.register("reinforced_door",() -> new DoorBlock(BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(2f, 4f).noOcclusion().sound(SoundType.METAL), BlockSetType.IRON));
-    public static final RegistryObject<Block> RUSTED_REINFORCED_DOOR = BLOCKS.register("rusted_reinforced_door",() -> new DoorBlock(BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(2f, 4f).noOcclusion().sound(SoundType.METAL), BlockSetType.IRON));
-    public static final RegistryObject<Block> FROZEN_REINFORCED_DOOR = BLOCKS.register("frozen_reinforced_door",() -> new DoorBlock(BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(2f, 4f).noOcclusion().sound(SoundType.METAL), BlockSetType.IRON));
+    public static final RegistryObject<Block> REINFORCED_DOOR = BLOCKS.register("reinforced_door",() -> new DoorBlock(BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(20f, 1200.0F).noOcclusion().sound(SoundType.METAL).noParticlesOnBreak(), BlockSetType.IRON));
+    public static final RegistryObject<Block> RUSTED_REINFORCED_DOOR = BLOCKS.register("rusted_reinforced_door",() -> new DoorBlock(BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(10f, 600.0F).noOcclusion().sound(SoundType.METAL).noParticlesOnBreak(), BlockSetType.IRON));
+    public static final RegistryObject<Block> FROZEN_REINFORCED_DOOR = BLOCKS.register("frozen_reinforced_door",() -> new DoorBlock(BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(15f, 800.0F).noOcclusion().sound(SoundType.METAL).noParticlesOnBreak(), BlockSetType.IRON));
 
 
     public static final RegistryObject<Block> GROWTHS_BIG = BLOCKS.register("growths_big", () -> new GenericFoliageBlock( BlockBehaviour.Properties.of().sound(SoundType.CROP).strength(0f, 0f).noCollission().noOcclusion().sound(SoundType.CROP)));

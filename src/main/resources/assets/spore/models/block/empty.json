@@ -1,0 +1,6 @@
+{
+  "texture_size": [16, 16],
+  "textures": {
+    "particle": "spore:item/reinforced_door"
+  }
+}

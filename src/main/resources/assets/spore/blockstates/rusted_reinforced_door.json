@@ -15,17 +15,17 @@
       "y": 270
     },
     "facing=east,half=upper,hinge=left,open=false": {
-      "model": "minecraft:block/air"
+      "model": "spore:block/empty"
     },
     "facing=east,half=upper,hinge=left,open=true": {
-      "model": "minecraft:block/air",
+      "model": "spore:block/empty",
       "y": 90
     },
     "facing=east,half=upper,hinge=right,open=false": {
-      "model": "minecraft:block/air"
+      "model": "spore:block/empty"
     },
     "facing=east,half=upper,hinge=right,open=true": {
-      "model": "minecraft:block/air",
+      "model": "spore:block/empty",
       "y": 270
     },
     "facing=north,half=lower,hinge=left,open=false": {
@@ -44,18 +44,18 @@
       "y": 180
     },
     "facing=north,half=upper,hinge=left,open=false": {
-      "model": "minecraft:block/air",
+      "model": "spore:block/empty",
       "y": 270
     },
     "facing=north,half=upper,hinge=left,open=true": {
-      "model": "minecraft:block/air"
+      "model": "spore:block/empty"
     },
     "facing=north,half=upper,hinge=right,open=false": {
-      "model": "minecraft:block/air",
+      "model": "spore:block/empty",
       "y": 270
     },
     "facing=north,half=upper,hinge=right,open=true": {
-      "model": "minecraft:block/air",
+      "model": "spore:block/empty",
       "y": 180
     },
     "facing=south,half=lower,hinge=left,open=false": {
@@ -74,19 +74,19 @@
       "model": "spore:block/rusted_reinforced_door_open"
     },
     "facing=south,half=upper,hinge=left,open=false": {
-      "model": "minecraft:block/air",
+      "model": "spore:block/empty",
       "y": 90
     },
     "facing=south,half=upper,hinge=left,open=true": {
-      "model": "minecraft:block/air",
+      "model": "spore:block/empty",
       "y": 180
     },
     "facing=south,half=upper,hinge=right,open=false": {
-      "model": "minecraft:block/air",
+      "model": "spore:block/empty",
       "y": 90
     },
     "facing=south,half=upper,hinge=right,open=true": {
-      "model": "minecraft:block/air"
+      "model": "spore:block/empty"
     },
     "facing=west,half=lower,hinge=left,open=false": {
       "model": "spore:block/rusted_reinforced_door",
@@ -105,19 +105,19 @@
       "y": 90
     },
     "facing=west,half=upper,hinge=left,open=false": {
-      "model": "minecraft:block/air",
+      "model": "spore:block/empty",
       "y": 180
     },
     "facing=west,half=upper,hinge=left,open=true": {
-      "model": "minecraft:block/air",
+      "model": "spore:block/empty",
       "y": 270
     },
     "facing=west,half=upper,hinge=right,open=false": {
-      "model": "minecraft:block/air",
+      "model": "spore:block/empty",
       "y": 180
     },
     "facing=west,half=upper,hinge=right,open=true": {
-      "model": "minecraft:block/air",
+      "model": "spore:block/empty",
       "y": 90
     }
   }
