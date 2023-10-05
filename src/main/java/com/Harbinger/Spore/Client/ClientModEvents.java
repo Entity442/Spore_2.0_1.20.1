@@ -14,10 +14,7 @@ import com.Harbinger.Spore.Spore;
 import com.Harbinger.Spore.sEvents.SItemProperties;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.client.renderer.entity.ArmorStandRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
-import net.minecraft.client.renderer.entity.player.PlayerRenderer;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -36,6 +33,7 @@ public class ClientModEvents {
     @SubscribeEvent
     public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(InfectedModel.LAYER_LOCATION, InfectedModel::createBodyLayer);
+        event.registerLayerDefinition(InfectedHuskModel.LAYER_LOCATION, InfectedHuskModel::createBodyLayer);
         event.registerLayerDefinition(KnightModel.LAYER_LOCATION, KnightModel::createBodyLayer);
         event.registerLayerDefinition(GrieferModel.LAYER_LOCATION, GrieferModel::createBodyLayer);
         event.registerLayerDefinition(BraionmilModel.LAYER_LOCATION, BraionmilModel::createBodyLayer);
@@ -62,6 +60,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(ElytrumModel.LAYER_LOCATION, ElytrumModel::createBodyLayer);
         event.registerLayerDefinition(WingedChestplate.LAYER_LOCATION, WingedChestplate::createBodyLayer);
         event.registerLayerDefinition(MoundModel.LAYER_LOCATION, MoundModel::createBodyLayer);
+        event.registerLayerDefinition(VolatileModel.LAYER_LOCATION, VolatileModel::createBodyLayer);
         event.registerLayerDefinition(BiomassReconstructorModel.LAYER_LOCATION, BiomassReconstructorModel::createBodyLayer);
         event.registerLayerDefinition(VigilModel.LAYER_LOCATION, VigilModel::createBodyLayer);
         event.registerLayerDefinition(GasMaskModel.LAYER_LOCATION, GasMaskModel::createBodyLayer);
@@ -76,6 +75,7 @@ public class ClientModEvents {
     @SubscribeEvent
     public static void registerRenderers(final EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(Sentities.INF_HUMAN.get(), InfectedHumanRenderer::new);
+        event.registerEntityRenderer(Sentities.INF_HUSK.get(), InfectedHuskRenderer::new);
         event.registerEntityRenderer(Sentities.KNIGHT.get(), KnightRenderer::new);
         event.registerEntityRenderer(Sentities.GRIEFER.get(), GrieferRenderer::new);
         event.registerEntityRenderer(Sentities.BRAIOMIL.get(), BraioRenderer::new);
@@ -94,6 +94,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.STALKER.get(), StalkerRenderer::new);
         event.registerEntityRenderer(Sentities.BRUTE.get(), BruteRenderer::new);
         event.registerEntityRenderer(Sentities.BUSSER.get(), BusserRenderer::new);
+        event.registerEntityRenderer(Sentities.VOLATILE.get(), VolatileRenderer::new);
         event.registerEntityRenderer(Sentities.INF_DROWNED.get(), InfectedDrownRenderer::new);
         event.registerEntityRenderer(Sentities.HOST.get(), HostRenderer::new);
         event.registerEntityRenderer(Sentities.INF_PLAYER.get(), InfectedPlayerRenderer::new);

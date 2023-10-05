@@ -81,6 +81,8 @@ public class Sitems {
 
     public  static final RegistryObject<Item> INFECTED_HUMAN_SPAWNEGG = ITEMS.register("infected_human_spawnegg",
             () -> new SporeSpawnEgg(Sentities.INF_HUMAN,-9357608, new Item.Properties()));
+    public  static final RegistryObject<Item> INFECTED_HUSK_SPAWNEGG = ITEMS.register("inf_husk_spawnegg",
+            () -> new SporeSpawnEgg(Sentities.INF_HUSK,-875608, new Item.Properties()));
     public  static final RegistryObject<Item> INF_VILLAGER_SPAWNEGG = ITEMS.register("inf_villager_spawnegg",
             () -> new SporeSpawnEgg(Sentities.INF_VILLAGER,-6639718, new Item.Properties()));
     public  static final RegistryObject<Item> INF_WITCH_SPAWNEGG = ITEMS.register("inf_witch_spawnegg",
@@ -125,6 +127,10 @@ public class Sitems {
             () -> new SporeSpawnEgg(Sentities.STALKER,-42364818, new Item.Properties()));
     public  static final RegistryObject<Item> BRUTE_SPAWNEGG = ITEMS.register("brute_spawnegg",
             () -> new SporeSpawnEgg(Sentities.BRUTE,-1235818, new Item.Properties()));
+
+    public  static final RegistryObject<Item> VOLATILE_SPAWNEGG = ITEMS.register("volatile_spawnegg",
+            () -> new SporeSpawnEgg(Sentities.VOLATILE,-976435818, new Item.Properties()));
+
 
 
     public  static final RegistryObject<Item> SCENT_SPAWNEGG = ITEMS.register("scent_spawnegg",

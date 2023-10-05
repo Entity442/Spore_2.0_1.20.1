@@ -117,7 +117,9 @@
 
   "item.spore.knight_spawnegg": "Knight",
   "item.spore.infected_human_spawnegg": "Infected Human",
+  "item.spore.inf_husk_spawnegg": "Infected Husk",
   "item.spore.griefer_spawnegg": "Griefer",
+  "item.spore.volatile_spawnegg": "Volatile",
   "item.spore.braio_spawnegg": "Braiomil",
   "item.spore.inf_villager_spawnegg": "Infected Villager",
   "item.spore.inf_wanderer_spawnegg": "Infected Wandering Trader",
@@ -165,6 +167,7 @@
   "entity.spore.scent": "Scent",
   "entity.spore.claw": "Claw",
   "entity.spore.busser": "Phayres",
+  "entity.spore.volatile": "Volatile",
   "entity.spore.inf_drowned": "Infected Drowned",
   "entity.spore.inf_player": "Infected Adventurer",
   "entity.spore.scamper": "Scamper",

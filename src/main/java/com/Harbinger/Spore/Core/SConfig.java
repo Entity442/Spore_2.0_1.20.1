@@ -53,6 +53,10 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> inf_human_damage;
         public final ForgeConfigSpec.ConfigValue<Double> inf_human_armor;
 
+        public final ForgeConfigSpec.ConfigValue<Double> inf_husk_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> inf_husk_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> inf_husk_armor;
+
         public final ForgeConfigSpec.ConfigValue<Double> inf_vil_hp;
         public final ForgeConfigSpec.ConfigValue<Double> inf_vil_damage;
         public final ForgeConfigSpec.ConfigValue<Double> inf_vil_armor;
@@ -156,6 +160,12 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> sla_hp;
         public final ForgeConfigSpec.ConfigValue<Double> sla_damage;
         public final ForgeConfigSpec.ConfigValue<Double> sla_armor;
+
+        public final ForgeConfigSpec.ConfigValue<Double> vola_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> vola_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> vola_armor;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> vola_debuffs;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> vola_buffs;
 
         public final ForgeConfigSpec.ConfigValue<Double> mound_hp;
         public final ForgeConfigSpec.ConfigValue<Double> mound_armor;
@@ -292,6 +302,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> human_ev;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> villager_ev;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> pil_ev;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> wit_ev;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> undespawn;
         public final ForgeConfigSpec.ConfigValue<Boolean> starve;
 
@@ -371,7 +382,7 @@ public class SConfig {
                     Lists.newArrayList("spore:inf_witch","spore:braiomil","spore:howler","spore:busser") , o -> o instanceof String);
 
             this.can_be_carried = builder.defineList("Disposable",
-                    Lists.newArrayList("spore:inf_human","spore:inf_villager","spore:inf_wanderer","spore:knight","spore:griefer","spore:slasher","spore:inf_vindicator","minecraft:creeper") , o -> o instanceof String);
+                    Lists.newArrayList("spore:inf_human","spore:inf_villager","spore:inf_wanderer","spore:knight","spore:griefer","spore:slasher","spore:volatile","spore:inf_vindicator","minecraft:creeper") , o -> o instanceof String);
 
             this.ranged = builder.defineList("Ranged",
                     Lists.newArrayList("spore:spitter","spore:inf_pillager","spore:braiomil","spore:inf_evoker") , o -> o instanceof String);
@@ -398,6 +409,9 @@ public class SConfig {
                             "spore:howler",
                                      "spore:stalker",
                                      "spore:brute") , o -> o instanceof String);
+            this.wit_ev = builder.defineList("Infected Pillager Evolutions",
+                    Lists.newArrayList(
+                            "spore:volatile") , o -> o instanceof String);
 
             this.undespawn = builder.defineList("Mobs that won't despawn after being created from assimilation",
                     Lists.newArrayList("spore:inf_villager", "spore:inf_pillager", "spore:inf_witch") , o -> o instanceof String);
@@ -638,6 +652,11 @@ public class SConfig {
             this.inf_human_damage = builder.comment("Default 6").defineInRange("Sets Infected Human Damage", 6, 1, Double.MAX_VALUE);
             this.inf_human_armor = builder.comment("Default 1").defineInRange("Sets Infected Human Armor", 1, 0, Double.MAX_VALUE);
             builder.pop();
+            builder.push("Infected Husk");
+            this.inf_husk_hp = builder.comment("Default 21").defineInRange("Sets Infected Husk Max health", 21, 1, Double.MAX_VALUE);
+            this.inf_husk_damage = builder.comment("Default 6").defineInRange("Sets Infected Husk Damage", 6, 1, Double.MAX_VALUE);
+            this.inf_husk_armor = builder.comment("Default 3").defineInRange("Sets Infected Husk Armor", 3, 0, Double.MAX_VALUE);
+            builder.pop();
             builder.push("Knight ");
             this.knight_hp = builder.comment("Default 25").defineInRange("Sets Knight Max health", 25, 1, Double.MAX_VALUE);
             this.knight_damage = builder.comment("Default 7").defineInRange("Sets Knight Damage", 7, 1, Double.MAX_VALUE);
@@ -653,6 +672,16 @@ public class SConfig {
             this.sla_hp = builder.comment("Default 35").defineInRange("Sets Slasher Max health", 35, 1, Double.MAX_VALUE);
             this.sla_damage = builder.comment("Default 10").defineInRange("Sets Slasher Damage", 10, 1, Double.MAX_VALUE);
             this.sla_armor = builder.comment("Default 2").defineInRange("Sets Slasher Armor", 2, 1, Double.MAX_VALUE);
+            builder.pop();
+
+            builder.push("Volatile ");
+            this.vola_hp = builder.comment("Default 60").defineInRange("Sets Volatile Max health", 60, 1, Double.MAX_VALUE);
+            this.vola_damage = builder.comment("Default 10").defineInRange("Sets Volatile Damage", 10, 1, Double.MAX_VALUE);
+            this.vola_armor = builder.comment("Default 4").defineInRange("Sets Volatile Armor", 4, 1, Double.MAX_VALUE);
+            this.vola_buffs = builder.defineList("Buffs the Volatile might get when hurt",
+                    Lists.newArrayList("minecraft:regeneration","minecraft:speed","minecraft:resistance","minecraft:fire_resistance") , o -> o instanceof String);
+            this.vola_debuffs = builder.defineList("Buffs the Volatile might give to its target",
+                    Lists.newArrayList("minecraft:poison","minecraft:weakness","minecraft:hunger","spore:marker") , o -> o instanceof String);
             builder.pop();
 
             builder.push("Scamper ");

@@ -49,6 +49,10 @@ public class Sentities {
             () -> EntityType.Builder.of((EntityType<InfectedHuman> p_33002_, Level level) -> new InfectedHuman(level), INFECTED).sized(0.6f, 1.9f)
                     .build(new ResourceLocation(Spore.MODID, "inf_human").toString()));
 
+    public static final RegistryObject<EntityType<InfectedHusk>> INF_HUSK = SPORE_ENTITIES.register("inf_husk",
+            () -> EntityType.Builder.of((EntityType<InfectedHusk> p_33002_, Level level) -> new InfectedHusk(level), INFECTED).sized(0.6f, 2.1f)
+                    .build(new ResourceLocation(Spore.MODID, "inf_husk").toString()));
+
     public static final RegistryObject<EntityType<InfectedPlayer>> INF_PLAYER = SPORE_ENTITIES.register("inf_player",
             () -> EntityType.Builder.of(InfectedPlayer::new, INFECTED).sized(0.6f, 1.9f)
                     .build(new ResourceLocation(Spore.MODID, "inf_player").toString()));
@@ -120,6 +124,10 @@ public class Sentities {
     public static final RegistryObject<EntityType<Busser>> BUSSER = SPORE_ENTITIES.register("busser",
             () -> EntityType.Builder.of(Busser::new, INFECTED).sized(0.6f, 1.9f)
                     .build(new ResourceLocation(Spore.MODID, "busser").toString()));
+
+    public static final RegistryObject<EntityType<Volatile>> VOLATILE = SPORE_ENTITIES.register("volatile",
+            () -> EntityType.Builder.of(Volatile::new, INFECTED).sized(0.6f, 2.3f)
+                    .build(new ResourceLocation(Spore.MODID, "volatile").toString()));
 
     public static final RegistryObject<EntityType<InfectedDrowned>> INF_DROWNED = SPORE_ENTITIES.register("inf_drowned",
             () -> EntityType.Builder.of(InfectedDrowned::new, INFECTED).sized(0.6f, 2f)
