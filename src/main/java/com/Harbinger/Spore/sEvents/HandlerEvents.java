@@ -272,6 +272,10 @@ public class HandlerEvents {
                 lootList = SConfig.DATAGEN.sieger_tail_loot.get();
             }else if (event.getEntity() instanceof Vigil){
                 lootList = SConfig.DATAGEN.vigil_loot.get();
+            }else if (event.getEntity() instanceof InfectedHusk){
+                lootList = SConfig.DATAGEN.inf_husk_loot.get();
+            }else if (event.getEntity() instanceof Volatile){
+                lootList = SConfig.DATAGEN.inf_volatile_loot.get();
             }
             else{
                 lootList = null;

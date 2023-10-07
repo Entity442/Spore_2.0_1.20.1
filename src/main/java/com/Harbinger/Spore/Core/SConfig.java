@@ -409,7 +409,7 @@ public class SConfig {
                             "spore:howler",
                                      "spore:stalker",
                                      "spore:brute") , o -> o instanceof String);
-            this.wit_ev = builder.defineList("Infected Pillager Evolutions",
+            this.wit_ev = builder.defineList("Infected Witch Evolutions",
                     Lists.newArrayList(
                             "spore:volatile") , o -> o instanceof String);
 
@@ -423,7 +423,7 @@ public class SConfig {
             this.inf_player = builder.comment("Default true").define("Should the player be infected on death?",true);
             this.inf_human_conv = builder.defineList("Mobs and their infected counterparts",
                     Lists.newArrayList(
-                            "minecraft:zombie|spore:inf_human","minecraft:husk|spore:inf_human","minecraft:drowned|spore:inf_drowned"
+                            "minecraft:zombie|spore:inf_human","minecraft:husk|spore:inf_husk","minecraft:drowned|spore:inf_drowned"
                             ,"minecraft:pillager|spore:inf_pillager","minecraft:villager|spore:inf_villager","guardvillagers:guard|spore:inf_villager",
                             "recruits:recruit|spore:inf_villager","recruits:bowman|spore:inf_villager","recruits:recruit_shieldman|spore:inf_villager",
                             "recruits:nomad|spore:inf_villager","recruits:horseman|spore:inf_villager",
@@ -877,6 +877,8 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_bus_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_drow_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_player_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_husk_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_volatile_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sca_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_tail_loot;
@@ -922,6 +924,9 @@ public class SConfig {
                     Lists.newArrayList("spore:mutated_fiber|50|1|3","spore:armor_fragment|80|1|2","spore:claw_fragment|80|2|6") , o -> o instanceof String);
             this.inf_player_loot = builder.defineList("Infected Adventurer",
                     Lists.newArrayList("spore:mutated_fiber|50|2|5","spore:mutated_heart|10|1|1") , o -> o instanceof String);
+            this.inf_husk_loot = builder.defineList("Infected Husk",
+                    Lists.newArrayList("spore:mutated_fiber|50|5|7","spore:mutated_heart|10|1|1") , o -> o instanceof String);
+
 
             this.inf_braio_loot = builder.defineList("Braiomil ",
                     Lists.newArrayList("spore:mutated_fiber|80|1|3","spore:armor_fragment|50|1|2","spore:mutated_heart|10|1|1","spore:alveolic_sack|40|1|3") , o -> o instanceof String);
@@ -945,6 +950,10 @@ public class SConfig {
                     Lists.newArrayList("spore:mutated_fiber|70|1|5","spore:armor_fragment|80|3|6","spore:mutated_heart|10|1|1","spore:claw_fragment|80|1|4","spore:cerebrum|20|1|1","spore:spine_fragment|15|1|3","spore:altered_spleen|30|1|1") , o -> o instanceof String);
             this.inf_brute_loot = builder.defineList("Brute ",
                     Lists.newArrayList("spore:mutated_fiber|50|2|5","spore:innards|50|1|1","spore:armor_fragment|80|5|12","spore:mutated_heart|10|1|1","spore:cerebrum|20|1|1","spore:spine_fragment|15|1|3") , o -> o instanceof String);
+
+            this.inf_volatile_loot = builder.defineList("Volatile ",
+                    Lists.newArrayList("spore:mutated_fiber|70|1|5","spore:armor_fragment|80|2|6","spore:mutated_heart|10|1|1","spore:claw_fragment|80|6|9","spore:innards|50|1|1","spore:tumor|100|2|4") , o -> o instanceof String);
+
 
             this.sca_loot = builder.defineList("Scamper ",
                     Lists.newArrayList("spore:mutated_fiber|50|1|4","spore:armor_fragment|80|1|3","spore:mutated_heart|10|1|1","spore:tumor|100|1|1") , o -> o instanceof String);
