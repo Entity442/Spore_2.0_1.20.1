@@ -78,17 +78,17 @@ public class InfectedPlayerModel<T extends InfectedPlayer> extends HumanoidModel
 		this.head.getChild("jaw").xRot = Mth.sin(ageInTicks/8)/10;
 
 		if (entity.getItemBySlot(EquipmentSlot.MAINHAND) != ItemStack.EMPTY){
-			this.right_arm.xRot = -89.5F;
+			this.right_arm.xRot = -89.5F + headPitch /  ( 90F / (float) Math.PI);;
 		}else if (entity.getItemBySlot(EquipmentSlot.OFFHAND) != ItemStack.EMPTY){
-			this.left_arm.xRot = -89.5F;
-		}else {
-			if (entity.isAggressive()) {
-				this.right_arm.xRot = -90F - (Mth.sin(ageInTicks / 4) / 7);
-			}
-		}
-		if (!(limbSwingAmount > -0.15F && limbSwingAmount < 0.15F)){
+			this.left_arm.xRot = -89.5F + headPitch /  ( 90F / (float) Math.PI);;
+		}else if (entity.isAggressive()) {
+			this.right_arm.xRot = -90F - (Mth.sin(ageInTicks / 4) / 7);
+		}else{
 			this.right_arm.xRot = Mth.cos(limbSwing * 0.8F) * 0.8F * limbSwingAmount;
 			this.left_arm.xRot = Mth.cos(limbSwing * 0.8F) * -0.8F * limbSwingAmount;
+		}
+
+		if (!(limbSwingAmount > -0.15F && limbSwingAmount < 0.15F)){
 			this.right_arm.zRot = 0;
 			this.left_arm.zRot = 0;
 		} else {
