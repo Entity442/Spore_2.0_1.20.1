@@ -79,7 +79,7 @@ public class Vomit extends AbstractArrow implements ItemSupplier {
 
     @Override
     protected ItemStack getPickupItem() {
-        return null;
+        return ItemStack.EMPTY;
     }
 
     private void levels(Entity entity) {

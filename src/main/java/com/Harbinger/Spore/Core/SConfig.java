@@ -972,7 +972,7 @@ public class SConfig {
             this.mound_loot = builder.defineList("Mound ",
                     Lists.newArrayList("spore:mutated_fiber|70|2|5") , o -> o instanceof String);
 
-            this.vigil_loot = builder.defineList("Vigil",
+            this.vigil_loot = builder.defineList("Vigil ",
                     Lists.newArrayList("spore:mutated_fiber|100|6|15","spore:vigil_eye|100|1|1","spore:mutated_heart|30|1|1") , o -> o instanceof String);
 
 
@@ -1003,7 +1003,7 @@ public class SConfig {
             this.player_hm = builder.defineList("MainHand Slot",
                     Lists.newArrayList("minecraft:stone_sword|50" , "minecraft:stone_axe|20","minecraft:bow|25", "minecraft:pickaxe|20" , "minecraft:iron_sword|30") , o -> o instanceof String);
             this.player_ho = builder.defineList("OffHand Slot",
-                    Lists.newArrayList("minecraft:torch|50","minecraft:shield|30","minecraft:bow|45") , o -> o instanceof String);
+                    Lists.newArrayList("minecraft:torch|50","minecraft:shield|30","minecraft:flint_and_steel|30","minecraft:bow|45") , o -> o instanceof String);
 
             builder.pop();
             builder.push("Structure data");

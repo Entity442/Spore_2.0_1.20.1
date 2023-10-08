@@ -26,7 +26,9 @@ import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -215,5 +217,15 @@ public class InfectedPlayer extends Infected implements RangedAttackMob {
 
     protected AbstractArrow getArrow(ItemStack p_32156_, float p_32157_) {
         return ProjectileUtil.getMobArrow(this, p_32156_, p_32157_);
+    }
+
+
+    @Override
+    public boolean doHurtTarget(Entity entity) {
+        Item item = Items.FLINT_AND_STEEL;
+        if (getMainHandItem().getItem() == item || getOffhandItem().getItem() == item){
+            entity.setSecondsOnFire(10);
+        }
+        return super.doHurtTarget(entity);
     }
 }

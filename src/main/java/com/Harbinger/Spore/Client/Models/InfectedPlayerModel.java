@@ -16,6 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.BowItem;
+import net.minecraft.world.item.ItemStack;
 
 public class InfectedPlayerModel<T extends InfectedPlayer> extends HumanoidModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -76,16 +77,16 @@ public class InfectedPlayerModel<T extends InfectedPlayer> extends HumanoidModel
 		this.head.xRot = headPitch /  ( 90F / (float) Math.PI);
 		this.head.getChild("jaw").xRot = Mth.sin(ageInTicks/8)/10;
 
-		if (entity.getItemBySlot(EquipmentSlot.MAINHAND).getItem() instanceof BowItem){
+		if (entity.getItemBySlot(EquipmentSlot.MAINHAND) != ItemStack.EMPTY){
 			this.right_arm.xRot = -89.5F;
-		}
-		if (entity.getItemBySlot(EquipmentSlot.OFFHAND).getItem() instanceof BowItem){
+		}else if (entity.getItemBySlot(EquipmentSlot.OFFHAND) != ItemStack.EMPTY){
 			this.left_arm.xRot = -89.5F;
+		}else {
+			if (entity.isAggressive()) {
+				this.right_arm.xRot = -90F - (Mth.sin(ageInTicks / 4) / 7);
+			}
 		}
-		if (entity.isAggressive()) {
-			this.right_arm.xRot = -90F - (Mth.sin(ageInTicks / 4) / 7);
-		}
-		else if (!(limbSwingAmount > -0.15F && limbSwingAmount < 0.15F)){
+		if (!(limbSwingAmount > -0.15F && limbSwingAmount < 0.15F)){
 			this.right_arm.xRot = Mth.cos(limbSwing * 0.8F) * 0.8F * limbSwingAmount;
 			this.left_arm.xRot = Mth.cos(limbSwing * 0.8F) * -0.8F * limbSwingAmount;
 			this.right_arm.zRot = 0;
