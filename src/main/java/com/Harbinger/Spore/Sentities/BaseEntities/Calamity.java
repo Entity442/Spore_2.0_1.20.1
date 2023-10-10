@@ -219,7 +219,9 @@ public class Calamity extends UtilityEntity implements Enemy {
 
     public  boolean tryToDigDown(){
         if (this.getSearchArea() != BlockPos.ZERO && this.verticalCollisionBelow){
-            return this.getSearchArea().getY() < this.getY() && (Math.abs(this.getSearchArea().getX())  - Math.abs(this.getX()) < 6) && (Math.abs(this.getSearchArea().getZ()) - Math.abs(this.getZ()) < 6);
+            double x = Math.abs(this.getSearchArea().getX())  - Math.abs(this.getX());
+            double z = Math.abs(this.getSearchArea().getZ()) - Math.abs(this.getZ());
+            return this.getSearchArea().getY() < this.getY() && (Math.abs(x) < 6) && (Math.abs(z) < 6);
         }
         return false;
     }

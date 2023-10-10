@@ -2,6 +2,7 @@ package com.Harbinger.Spore.sEvents;
 
 import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Damage.SdamageTypes;
+import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.FollowOthersGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
@@ -21,6 +22,7 @@ import com.Harbinger.Spore.Sitems.InfectedMaul;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.SectionPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -45,7 +47,9 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
@@ -408,6 +412,31 @@ public class HandlerEvents {
                 infectedDrowned.setTarget(event.getEntity());
                 event.getEntity().level().addFreshEntity(infectedDrowned);
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void LoadCalamity(EntityEvent.EnteringSection event){
+        if (event.getEntity() instanceof Calamity calamity && calamity.level() instanceof ServerLevel level){
+            SectionPos OldChunk = event.getOldPos();
+            SectionPos NewChunk = event.getNewPos();
+            if (event.didChunkChange() && OldChunk != NewChunk){
+                BlockPos position = new BlockPos((int)calamity.getX(),(int)calamity.getY(),(int)calamity.getZ());
+                if (NewChunk != null){
+                    ChunkLoaderHelper.forceLoadChunk(level,position, NewChunk.x(), NewChunk.z(), true);
+                }
+                if (OldChunk != null){
+                    ChunkLoaderHelper.unloadChunk(level,position,OldChunk.x(), OldChunk.z(), true);
+                }
+            }
+        }
+    }
+    @SubscribeEvent
+    public static void UnloadAround(EntityLeaveLevelEvent event){
+        if (event.getEntity() instanceof Calamity calamity && calamity.level() instanceof ServerLevel level){
+            BlockPos position = new BlockPos((int)calamity.getX(),(int)calamity.getY(),(int)calamity.getZ());
+            SectionPos chunk = SectionPos.of(position);
+            ChunkLoaderHelper.unloadChunksInRadius(level,position, chunk.x(), chunk.z(), 1);
         }
     }
     @SubscribeEvent
