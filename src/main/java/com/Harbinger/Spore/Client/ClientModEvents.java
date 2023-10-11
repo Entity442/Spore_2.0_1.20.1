@@ -15,6 +15,7 @@ import com.Harbinger.Spore.sEvents.SItemProperties;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -144,4 +145,13 @@ public class ClientModEvents {
                 BloodParticle.Provider::new);
     }
 
+
+    @SubscribeEvent
+    public static void addLayers(final EntityRenderersEvent.AddLayers event) {
+        event.getSkins().forEach(name -> {
+            if(event.getSkin(name) instanceof PlayerRenderer renderer) {
+                renderer.addLayer(new TendrilOverlay<>(renderer));
+            }
+        });
+    }
 }
