@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sentities.BaseEntities;
 
 import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Damage.SdamageTypes;
+import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
 import com.Harbinger.Spore.Sentities.AI.CalamityPathNavigation;
 import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.AI.HurtTargetGoal;
@@ -9,6 +10,7 @@ import com.Harbinger.Spore.Sentities.MovementControls.CalamityMovementControl;
 import com.Harbinger.Spore.Sentities.Organoids.Mound;
 import com.Harbinger.Spore.Sentities.Utility.InfectionTendril;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.SectionPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -335,6 +337,10 @@ public class Calamity extends UtilityEntity implements Enemy {
                 this.infected.getNavigation().moveTo(this.infected.getSearchArea().getX(), this.infected.getSearchArea().getY(), this.infected.getSearchArea().getZ(), 1);
             }
             if (this.infected.getSearchArea() != BlockPos.ZERO && this.infected.getSearchArea().distToCenterSqr(this.infected.position()) < 20.0) {
+                if(infected.level() instanceof ServerLevel serverLevel){
+                    SectionPos pos = SectionPos.of(infected.getSearchArea());
+                    ChunkLoaderHelper.unloadChunk(serverLevel,infected.getSearchArea(),pos.x(),pos.z(),true);
+                }
                 infected.setSearchArea(BlockPos.ZERO);
                 infected.SummonMound(infected);
             }

@@ -417,7 +417,7 @@ public class HandlerEvents {
 
     @SubscribeEvent
     public static void LoadCalamity(EntityEvent.EnteringSection event){
-        if (event.getEntity() instanceof Calamity calamity && calamity.level() instanceof ServerLevel level){
+        if (event.getEntity() instanceof Calamity calamity && calamity.level() instanceof ServerLevel level && calamity.getSearchArea() != BlockPos.ZERO){
             SectionPos OldChunk = event.getOldPos();
             SectionPos NewChunk = event.getNewPos();
             if (event.didChunkChange() && OldChunk != NewChunk){
