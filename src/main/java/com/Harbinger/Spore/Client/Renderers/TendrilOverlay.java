@@ -20,7 +20,6 @@ public class TendrilOverlay<E extends LivingEntity, M extends EntityModel<E>> ex
     @Override
     public void render(PoseStack stack, MultiBufferSource bufferSource, int value, E entity, float value1, float value2, float value3, float value4, float value5, float value6) {
         if (entity.hasEffect(Seffects.MYCELIUM.get()) && entity.getHealth() < entity.getMaxHealth()){
-            M m = this.getParentModel();
             if (entity.getHealth() < entity.getMaxHealth()/4){
                 TEXTURE = new ResourceLocation(Spore.MODID, "textures/tendril_overlay/tendril4.png");
             }else if (entity.getHealth() < entity.getMaxHealth()/3){
@@ -30,7 +29,7 @@ public class TendrilOverlay<E extends LivingEntity, M extends EntityModel<E>> ex
             }else{
                 TEXTURE = new ResourceLocation(Spore.MODID, "textures/tendril_overlay/tendril1.png");
             }
-            renderColoredCutoutModel(m,TEXTURE,stack,bufferSource,value,entity,1.0F, 1.0F, 1.0F);
+            renderColoredCutoutModel(this.getParentModel(),TEXTURE,stack,bufferSource,value,entity,1.0F, 1.0F, 1.0F);
         }
     }
 }
