@@ -5,10 +5,7 @@ import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.*;
 import com.Harbinger.Spore.Sentities.FallenMultipart.SiegerTail;
 import com.Harbinger.Spore.Sentities.Host;
-import com.Harbinger.Spore.Sentities.Organoids.BiomassReformator;
-import com.Harbinger.Spore.Sentities.Organoids.Mound;
-import com.Harbinger.Spore.Sentities.Organoids.Proto;
-import com.Harbinger.Spore.Sentities.Organoids.Vigil;
+import com.Harbinger.Spore.Sentities.Organoids.*;
 import com.Harbinger.Spore.Sentities.Projectile.AcidBall;
 import com.Harbinger.Spore.Sentities.Projectile.ThrownSpear;
 import com.Harbinger.Spore.Sentities.Projectile.ThrownTumor;
@@ -136,6 +133,10 @@ public class Sentities {
     public static final RegistryObject<EntityType<Vigil>> VIGIL = SPORE_ENTITIES.register("vigil",
             () -> EntityType.Builder.of(Vigil::new, INFECTED).sized(1f, 3f)
                     .build(new ResourceLocation(Spore.MODID, "vigil").toString()));
+
+    public static final RegistryObject<EntityType<Umarmer>> UMARMED = SPORE_ENTITIES.register("umarmed",
+            () -> EntityType.Builder.of(Umarmer::new, INFECTED).sized(1f, 3f)
+                    .build(new ResourceLocation(Spore.MODID, "umarmed").toString()));
 
     public static final RegistryObject<EntityType<Host>> HOST = SPORE_ENTITIES.register("host",
             () -> EntityType.Builder.of(Host::new, INFECTED).sized(0.6f, 2f)
