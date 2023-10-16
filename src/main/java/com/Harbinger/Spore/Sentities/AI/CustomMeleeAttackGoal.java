@@ -19,7 +19,7 @@ public class CustomMeleeAttackGoal extends Goal {
     private double pathedTargetY;
     private double pathedTargetZ;
     private int ticksUntilNextPathRecalculation;
-    private int ticksUntilNextAttack;
+    public int ticksUntilNextAttack;
     private final int attackInterval = 20;
     private long lastCanUseCheck;
     private static final long COOLDOWN_BETWEEN_CAN_USE_CHECKS = 20L;
@@ -152,7 +152,7 @@ public class CustomMeleeAttackGoal extends Goal {
     }
 
     protected void resetAttackCooldown() {
-        this.ticksUntilNextAttack = this.adjustedTickDelay(20);
+        this.ticksUntilNextAttack = this.adjustedTickDelay(attackInterval);
     }
 
     protected boolean isTimeToAttack() {
@@ -164,7 +164,7 @@ public class CustomMeleeAttackGoal extends Goal {
     }
 
     protected int getAttackInterval() {
-        return this.adjustedTickDelay(20);
+        return this.adjustedTickDelay(attackInterval);
     }
 
     protected double getAttackReachSqr(LivingEntity p_25556_) {

@@ -96,11 +96,6 @@ public class Vigil extends Organoid {
 
     @Override
     public void tick() {
-        if (this.isEmerging()){
-            this.tickEmerging();
-        } else if (this.isBurrowing()){
-            this.tickBurrowing();
-        }
         if (this.getTarget() == null && this.entityData.get(TIMER) < 6000){
             if (this.entityData.get(TIMER) % 300 == 0){
                 this.setTrigger(0);

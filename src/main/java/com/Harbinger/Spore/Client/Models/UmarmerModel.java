@@ -3,7 +3,7 @@ package com.Harbinger.Spore.Client.Models;// Made with Blockbench 4.8.3
 // Paste this class into your mod and generate all required imports
 
 
-import com.Harbinger.Spore.Sentities.Animations.UmarmerAnimations;
+import com.Harbinger.Spore.Client.Animations.UmarmerAnimations;
 import com.Harbinger.Spore.Sentities.Organoids.Umarmer;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -469,7 +469,8 @@ public class UmarmerModel<T extends Umarmer> extends HierarchicalModel<T> {
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
-		this.animate(entity.idleAnimationState, UmarmerAnimations.UMARMER_IDLE, ageInTicks, 1.0F);
+			this.animate(entity.attackAnimationState,UmarmerAnimations.UMARMER_SLAM,ageInTicks,1.0F);
+			this.animate(entity.idleAnimationState, UmarmerAnimations.UMARMER_IDLE, ageInTicks, 1.0F);
 	}
 
 	@Override
