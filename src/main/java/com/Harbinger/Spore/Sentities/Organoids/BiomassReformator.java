@@ -293,11 +293,6 @@ public class BiomassReformator extends Organoid {
     }
 
     @Override
-    public boolean canDrownInFluidType(FluidType type) {
-        return false;
-    }
-
-    @Override
     public int getEmerge_tick() {
         return 60;
     }

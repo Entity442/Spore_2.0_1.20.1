@@ -13,7 +13,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
@@ -26,6 +25,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.fluids.FluidType;
 
 import javax.annotation.Nullable;
 
@@ -43,9 +43,6 @@ public class Organoid extends UtilityEntity implements Enemy {
         if (this.onGround()){
             this.makeStuckInBlock(Blocks.AIR.defaultBlockState(), new Vec3(0, 1, 0));
         }
-        if (this.getHealth() < this.getMaxHealth() && !this.hasEffect(MobEffects.REGENERATION)){
-            this.addEffect(new MobEffectInstance(MobEffects.REGENERATION,0,600));
-        }
         if (this.isEmerging()){
             this.tickEmerging();
         } else if (this.isBurrowing()){
@@ -53,6 +50,10 @@ public class Organoid extends UtilityEntity implements Enemy {
         }
     }
 
+    @Override
+    public boolean canDrownInFluidType(FluidType type) {
+        return false;
+    }
 
     @Override
     public boolean dampensVibrations() {
@@ -107,6 +108,14 @@ public class Organoid extends UtilityEntity implements Enemy {
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_33282_, DifficultyInstance p_33283_, MobSpawnType p_33284_, @Nullable SpawnGroupData p_33285_, @Nullable CompoundTag p_33286_) {
         this.tickEmerging();
         return super.finalizeSpawn(p_33282_, p_33283_, p_33284_, p_33285_, p_33286_);
+    }
+
+    @Override
+    protected void customServerAiStep() {
+        super.customServerAiStep();
+        if (this.getHealth() < this.getMaxHealth() && !this.hasEffect(MobEffects.REGENERATION)){
+            this.addEffect(new MobEffectInstance(MobEffects.REGENERATION,600,1));
+        }
     }
 
     @Override

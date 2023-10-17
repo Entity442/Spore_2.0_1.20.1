@@ -118,6 +118,7 @@ public class Proto extends Organoid {
                         int z = random.nextInt(-30,30);
                         Vigil vigil = new Vigil(Sentities.VIGIL.get(),this.level());
                         vigil.randomTeleport(en.getX() + x,en.getY(),en.getZ() + z,false);
+                        vigil.setProto(this);
                         vigil.tickEmerging();
                         level().addFreshEntity(vigil);
                         break;
@@ -164,7 +165,8 @@ public class Proto extends Organoid {
 
         @Override
         public boolean canUse() {
-            return this.proto.getTarget() != null && checkForScent() && this.proto.random.nextInt(20) == 0;
+            Entity target = this.proto.getTarget();
+            return  target != null  && this.proto.random.nextInt(20) == 0 && checkForScent() ;
         }
 
         private boolean checkForScent() {
@@ -229,6 +231,9 @@ public class Proto extends Organoid {
             if (waveentity instanceof Mound mound){
                 mound.setMaxAge(1);
             }
+            if (waveentity instanceof Vigil vigil){
+                vigil.setProto(this);
+            }
             waveentity.finalizeSpawn(world, this.level().getCurrentDifficultyAt(new BlockPos((int) this.getX(),(int)  this.getY(),(int)  this.getZ())), MobSpawnType.NATURAL, null, null);
             this.level().addFreshEntity(waveentity);
         }
@@ -239,14 +244,10 @@ public class Proto extends Organoid {
         super.aiStep();
         if (this.isOnFire() && !hasEffect(MobEffects.FIRE_RESISTANCE)){
             this.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE,200,0));
-        }else if (this.getLastDamageSource() == this.damageSources().drown() && !hasEffect(MobEffects.WATER_BREATHING)){
-            this.addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING,200,0));
         }else if (this.getLastDamageSource() == damageSources().freeze()){
             this.addEffect(new MobEffectInstance(MobEffects.WEAKNESS,400,0));
         }else if (this.getHealth() < (this.getMaxHealth()/2) && !(hasEffect(MobEffects.WEAKNESS) || hasEffect(MobEffects.DAMAGE_RESISTANCE))){
             this.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE,100,0));
-        }else if (this.getHealth() < this.getMaxHealth() && !this.hasEffect(MobEffects.REGENERATION)){
-            this.addEffect(new MobEffectInstance(MobEffects.REGENERATION,100,0));
         }
     }
 

@@ -30,13 +30,16 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
-public class Vigil extends Organoid {
+public class Vigil extends Organoid implements TraceableEntity{
     private static final EntityDataAccessor<Integer> TRIGGER = SynchedEntityData.defineId(Vigil.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> WAVE_SIZE = SynchedEntityData.defineId(Vigil.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> TIMER = SynchedEntityData.defineId(Vigil.class, EntityDataSerializers.INT);
     private int summon_counter;
+    @Nullable
+    private Proto proto;
     public Vigil(EntityType<? extends UtilityEntity> type, Level level) {
         super(type, level);
         setPersistenceRequired();
@@ -89,6 +92,11 @@ public class Vigil extends Organoid {
         entityData.set(WAVE_SIZE,i);
     }
     public int getTimer(){return entityData.get(TIMER);}
+
+    @Nullable
+    public void setProto(Proto entity){
+        this.proto = entity;
+    }
     @Override
     public boolean isNoAi() {
         return this.isBurrowing() || this.isEmerging();
@@ -175,6 +183,12 @@ public class Vigil extends Organoid {
         }
     }
 
+    @org.jetbrains.annotations.Nullable
+    @Override
+    public Entity getOwner() {
+        return this.proto;
+    }
+
     private static class WatchTargetGoat extends Goal{
         private final Vigil vigil;
 
@@ -199,6 +213,17 @@ public class Vigil extends Organoid {
                     player.displayClientMessage(Component.translatable("vigil.message"),true);
                 }
             }
+        }
+
+        @Override
+        public void start() {
+            super.start();
+            if (this.vigil.getTarget() != null && this.vigil.proto != null){
+                if (this.vigil.proto.getTarget() == null){
+                    this.vigil.proto.setTarget(this.vigil.getTarget());
+                }
+            }
+
         }
     }
 

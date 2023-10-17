@@ -213,6 +213,7 @@ public class HandlerEvents {
                                     player.displayClientMessage(Component.literal("Entity "+ umarmer.getEncodeId() + " " + umarmer.getCustomName()),false);
                                     player.displayClientMessage(Component.literal("Current Health " + umarmer.getHealth()),false);
                                     player.displayClientMessage(Component.literal("Buffs " + umarmer.getActiveEffects()),false);
+                                    player.displayClientMessage(Component.literal("Time until it leaves " + umarmer.getTimer()+"/2400"),false);
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
                                 }
                             }

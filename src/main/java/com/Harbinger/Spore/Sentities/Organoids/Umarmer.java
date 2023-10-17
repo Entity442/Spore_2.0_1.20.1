@@ -51,7 +51,7 @@ public class Umarmer extends Organoid {
                 .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.umarmed_damage.get() * SConfig.SERVER.global_damage.get())
                 .add(Attributes.MAX_HEALTH, SConfig.SERVER.umarmed_hp.get() * SConfig.SERVER.global_health.get())
                 .add(Attributes.ARMOR, SConfig.SERVER.umarmed_armor.get() * SConfig.SERVER.global_armor.get())
-                .add(Attributes.FOLLOW_RANGE, 16)
+                .add(Attributes.FOLLOW_RANGE, 32)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1);
 
     }
@@ -67,6 +67,9 @@ public class Umarmer extends Organoid {
         super.readAdditionalSaveData(tag);
         entityData.set(TIMER, tag.getInt("timer"));
     }
+    public int getTimer(){
+        return entityData.get(TIMER);
+    }
 
     @Override
     public void tick() {
@@ -74,9 +77,9 @@ public class Umarmer extends Organoid {
         if (this.level().isClientSide()) {
             this.setupAnimationStates();
         }
-        if (this.getTarget() == null && this.entityData.get(TIMER) < 1200){
+        if (this.getTarget() == null && this.entityData.get(TIMER) < 2400){
             this.entityData.set(TIMER,this.entityData.get(TIMER) + 1);
-        }else if (this.entityData.get(TIMER) >= 1200){
+        }else if (this.entityData.get(TIMER) >= 2400){
             tickBurrowing();
         }
     }

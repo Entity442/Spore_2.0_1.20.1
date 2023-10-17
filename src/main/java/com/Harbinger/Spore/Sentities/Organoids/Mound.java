@@ -307,11 +307,6 @@ public class Mound extends Organoid {
     }
 
 
-    @Override
-    public boolean canDrownInFluidType(FluidType type) {
-        return false;
-    }
-
     private boolean checkForExtraTendrils(Entity entity , Level level){
         AABB aabb = entity.getBoundingBox().inflate(SConfig.SERVER.mound_tendril_checker.get());
         List<InfectionTendril> entities = level.getEntitiesOfClass(InfectionTendril.class, aabb);
@@ -400,14 +395,6 @@ public class Mound extends Organoid {
         }
         for (int i = 0;i <= this.getAge(); i++){
             super.die(source);
-        }
-    }
-
-    @Override
-    public void aiStep() {
-        super.aiStep();
-        if (this.getHealth() < this.getMaxHealth() && !this.hasEffect(MobEffects.REGENERATION)){
-            this.addEffect(new MobEffectInstance(MobEffects.REGENERATION,200,0));
         }
     }
 
