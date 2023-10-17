@@ -140,6 +140,7 @@
   "item.spore.mound_spawnegg": "Mound",
   "item.spore.reconstructor_spawnegg": "Womb",
   "item.spore.vigil_spawnegg": "Vigil",
+  "item.spore.umarmed_spawnegg": "Vigil",
   "item.spore.proto_spawnegg": "Proto Hivemind",
   "item.spore.sieger_spawnegg": "Sieger",
 
@@ -173,6 +174,7 @@
   "entity.spore.scamper": "Scamper",
   "entity.spore.mound": "Flesh Mound",
   "entity.spore.vigil": "Vigil",
+  "entity.spore.umarmed": "Umarmed",
   "entity.spore.proto": "Proto Hivemind",
   "entity.spore.reconstructor": "Womb",
   "entity.spore.sieger": "Sieger",
