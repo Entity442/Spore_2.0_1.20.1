@@ -163,7 +163,7 @@ public class Umarmer extends Organoid {
 
         @Override
         protected double getAttackReachSqr(LivingEntity entity) {
-            return 12.0 + entity.getBbWidth() * entity.getBbWidth();}
+            return 16.0 + entity.getBbWidth() * entity.getBbWidth();}
 
 
         @Override
