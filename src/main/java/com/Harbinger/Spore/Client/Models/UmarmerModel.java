@@ -469,7 +469,7 @@ public class UmarmerModel<T extends Umarmer> extends HierarchicalModel<T> {
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
-			this.animate(entity.attackAnimationState,UmarmerAnimations.UMARMER_SLAM,ageInTicks,1.0F);
+			this.animate(entity.attackAnimationState,UmarmerAnimations.UMARMER_SLAM,ageInTicks,1.1F);
 			this.animate(entity.idleAnimationState, UmarmerAnimations.UMARMER_IDLE, ageInTicks, 1.0F);
 	}
 
