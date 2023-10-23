@@ -41,6 +41,9 @@ public class Umarmer extends Organoid {
     private int idleShieldTimeout = 0;
     private int startShieldTimeout = 0;
     private int endShieldTimeout = 0;
+
+    private boolean start_shield = false;
+    private boolean end_shield = false;
     public Umarmer(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
     }
@@ -121,30 +124,31 @@ public class Umarmer extends Organoid {
         } else {
             --this.idlePinTimeout;
         }
-        if (this.shieldSlide()){
-            if (this.startShieldTimeout >= 0){
-                --this.startShieldTimeout;
-            }else  {
-                this.shield_start.start(this.tickCount);
-            }
-            if (this.endShieldTimeout >= 0){
-                --this.endShieldTimeout;
-            }else {
-                this.shield_end.start(this.tickCount);
-            }
-        } else{
-            if (this.isShielding() && this.idleShieldTimeout <= 0) {
-                this.idleShieldTimeout = 30;
-                this.shield_idle.start(this.tickCount);
-            } else {
-                --this.idleShieldTimeout;
-            }
-            if (this.startShieldTimeout <= 0){
-                this.shield_start.stop();
-            }
-            if (this.endShieldTimeout <= 0){
-                this.shield_end.stop();
-            }
+        if (this.start_shield && this.startShieldTimeout <= 0){
+            this.startShieldTimeout = 30;
+            this.shield_start.start(this.tickCount);
+        }else  {
+            --this.startShieldTimeout;
+            this.start_shield = false;
+        }
+        if (this.end_shield && this.endShieldTimeout <= 0){
+            this.endShieldTimeout = 30;
+            this.shield_end.start(this.tickCount);
+        }else {
+            --this.endShieldTimeout;
+            this.end_shield = false;
+        }
+        if (this.isShielding() && this.idleShieldTimeout <= 0) {
+            this.idleShieldTimeout = 30;
+            this.shield_idle.start(this.tickCount);
+        } else {
+            --this.idleShieldTimeout;
+        }
+        if (this.startShieldTimeout <= 0){
+            this.shield_start.stop();
+        }
+        if (this.endShieldTimeout <= 0){
+            this.shield_end.stop();
         }
         if (this.IsAttacking() && this.attackAnimationTimeout <= 0){
             this.attackAnimationTimeout = 20;
@@ -172,10 +176,6 @@ public class Umarmer extends Organoid {
         }
     }
 
-
-    boolean shieldSlide(){
-        return this.startShieldTimeout > 0 && this.endShieldTimeout > 0;
-    }
 
 
     @Override
@@ -489,9 +489,9 @@ public class Umarmer extends Organoid {
         }
         if (SHIELDING.equals(dataAccessor)){
             if (isShielding()){
-                this.startShieldTimeout = 30;
+                this.start_shield = true;
             }else{
-                this.endShieldTimeout = 30;
+                this.end_shield = true;
             }
         }
         super.onSyncedDataUpdated(dataAccessor);
@@ -500,7 +500,7 @@ public class Umarmer extends Organoid {
     @Override
     public EntityDimensions getDimensions(Pose pose) {
         if (this.isPinned()){
-            return super.getDimensions(pose).scale(3.0F,1.0F);
+            return super.getDimensions(pose).scale(2.75F,0.35F);
         }
         return super.getDimensions(pose);
     }
