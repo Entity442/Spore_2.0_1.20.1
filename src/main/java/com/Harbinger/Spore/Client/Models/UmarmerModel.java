@@ -17,7 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class UmarmerModel<T extends Umarmer> extends HierarchicalModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "umarmermodel"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "organoid_tendril1"), "main");
 	private final ModelPart Tendril_organoid1;
 
 	public UmarmerModel(ModelPart root) {
@@ -163,11 +163,11 @@ public class UmarmerModel<T extends Umarmer> extends HierarchicalModel<T> {
 
 		PartDefinition MT2Seg2_r1 = MT2Seg2.addOrReplaceChild("MT2Seg2_r1", CubeListBuilder.create().texOffs(0, 22).addBox(-1.0F, -3.15F, -1.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(-0.65F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.5455F, -0.261F, 0.0782F));
 
-		PartDefinition MT3 = mouthtendril1.addOrReplaceChild("MT3", CubeListBuilder.create(), PartPose.offsetAndRotation(2.4074F, -33.8024F, 6.7065F, 2.9543F, -0.8126F, -2.8863F));
+		PartDefinition MT3 = mouthtendril1.addOrReplaceChild("MT3", CubeListBuilder.create(), PartPose.offsetAndRotation(2.4074F, -31.8024F, 6.7065F, 2.9543F, -0.8126F, -2.8863F));
 
-		PartDefinition MT2Seg2_r2 = MT3.addOrReplaceChild("MT2Seg2_r2", CubeListBuilder.create().texOffs(33, 0).addBox(-1.0F, -1.5F, -1.0F, 2.0F, 3.0F, 2.0F, new CubeDeformation(-0.5F)), PartPose.offsetAndRotation(0.1389F, 1.1419F, -0.4404F, -0.1745F, -0.3054F, 0.0F));
+		PartDefinition MT2Seg2_r2 = MT3.addOrReplaceChild("MT2Seg2_r2", CubeListBuilder.create().texOffs(33, 0).addBox(-1.0F, -1.5F, -1.0F, 2.0F, 3.0F, 2.0F, new CubeDeformation(-0.5F)), PartPose.offsetAndRotation(0.1389F, -0.8581F, -0.4404F, -0.1745F, -0.3054F, 0.0F));
 
-		PartDefinition MT3Seg3 = MT3.addOrReplaceChild("MT3Seg3", CubeListBuilder.create(), PartPose.offset(0.0867F, 0.1571F, -0.2748F));
+		PartDefinition MT3Seg3 = MT3.addOrReplaceChild("MT3Seg3", CubeListBuilder.create(), PartPose.offset(0.0867F, -1.8429F, -0.2748F));
 
 		PartDefinition MT3Seg3_r1 = MT3Seg3.addOrReplaceChild("MT3Seg3_r1", CubeListBuilder.create().texOffs(0, 22).addBox(-1.0F, -3.3F, -1.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(-0.65F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.4521F, -0.4435F, -0.5447F));
 
@@ -227,7 +227,9 @@ public class UmarmerModel<T extends Umarmer> extends HierarchicalModel<T> {
 
 		PartDefinition TorsoDetails = H5Torso.addOrReplaceChild("TorsoDetails", CubeListBuilder.create(), PartPose.offset(0.0F, -7.25F, 2.0F));
 
-		PartDefinition tendril1 = TorsoDetails.addOrReplaceChild("tendril1", CubeListBuilder.create(), PartPose.offset(-1.1692F, -0.5473F, -0.1867F));
+		PartDefinition TorsoTendies = TorsoDetails.addOrReplaceChild("TorsoTendies", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
+
+		PartDefinition tendril1 = TorsoTendies.addOrReplaceChild("tendril1", CubeListBuilder.create(), PartPose.offset(-1.1692F, -0.5473F, -0.1867F));
 
 		PartDefinition Tendril1Seg1_r1 = tendril1.addOrReplaceChild("Tendril1Seg1_r1", CubeListBuilder.create().texOffs(69, 0).addBox(-1.0F, -1.0F, -0.5F, 2.0F, 2.0F, 3.0F, new CubeDeformation(-0.5F)), PartPose.offsetAndRotation(0.0653F, -0.6126F, -0.1785F, -0.1309F, 0.0F, 0.5672F));
 
@@ -235,7 +237,7 @@ public class UmarmerModel<T extends Umarmer> extends HierarchicalModel<T> {
 
 		PartDefinition Tendril1Seg2_r1 = Tendril1Seg2.addOrReplaceChild("Tendril1Seg2_r1", CubeListBuilder.create().texOffs(27, 24).addBox(-1.1F, -1.1F, -0.95F, 2.0F, 2.0F, 5.0F, new CubeDeformation(-0.65F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.5642F, 0.1776F, 0.1189F));
 
-		PartDefinition tendril2 = TorsoDetails.addOrReplaceChild("tendril2", CubeListBuilder.create(), PartPose.offsetAndRotation(0.964F, 2.4873F, -0.5694F, 0.0F, 0.0F, 1.3963F));
+		PartDefinition tendril2 = TorsoTendies.addOrReplaceChild("tendril2", CubeListBuilder.create(), PartPose.offsetAndRotation(0.964F, 2.4873F, -0.5694F, 0.0F, 0.0F, 1.3963F));
 
 		PartDefinition Tendril2Seg1_r1 = tendril2.addOrReplaceChild("Tendril2Seg1_r1", CubeListBuilder.create().texOffs(69, 0).addBox(-1.0F, -1.0F, -0.5F, 2.0F, 2.0F, 3.0F, new CubeDeformation(-0.5F)), PartPose.offsetAndRotation(-0.2204F, -0.4159F, -0.2958F, -0.1309F, 0.0F, 0.5672F));
 
@@ -243,7 +245,7 @@ public class UmarmerModel<T extends Umarmer> extends HierarchicalModel<T> {
 
 		PartDefinition Tendril2Seg2_r1 = Tendril2Seg2.addOrReplaceChild("Tendril2Seg2_r1", CubeListBuilder.create().texOffs(27, 24).addBox(-1.0F, -1.0F, -0.75F, 2.0F, 2.0F, 5.0F, new CubeDeformation(-0.65F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.297F, 0.3091F, 1.3145F));
 
-		PartDefinition tendril3 = TorsoDetails.addOrReplaceChild("tendril3", CubeListBuilder.create(), PartPose.offsetAndRotation(0.7035F, -0.7048F, -0.5391F, 0.2704F, -0.4881F, 1.6075F));
+		PartDefinition tendril3 = TorsoTendies.addOrReplaceChild("tendril3", CubeListBuilder.create(), PartPose.offsetAndRotation(0.7035F, -0.7048F, -0.5391F, 0.2704F, -0.4881F, 1.6075F));
 
 		PartDefinition Tendril3Seg1_r1 = tendril3.addOrReplaceChild("Tendril3Seg1_r1", CubeListBuilder.create().texOffs(69, 0).addBox(-1.0F, -1.0F, -0.5F, 2.0F, 2.0F, 3.0F, new CubeDeformation(-0.5F)), PartPose.offsetAndRotation(0.5486F, -0.0979F, -0.1867F, -0.1309F, 0.0F, 0.5672F));
 
@@ -251,7 +253,7 @@ public class UmarmerModel<T extends Umarmer> extends HierarchicalModel<T> {
 
 		PartDefinition Tendril3Seg2_r1 = Tendril3Seg2.addOrReplaceChild("Tendril3Seg2_r1", CubeListBuilder.create().texOffs(27, 24).addBox(-1.25F, -1.0F, -0.75F, 2.0F, 2.0F, 5.0F, new CubeDeformation(-0.65F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.6867F, 0.1617F, 1.8025F));
 
-		PartDefinition tendril4 = TorsoDetails.addOrReplaceChild("tendril4", CubeListBuilder.create(), PartPose.offsetAndRotation(-1.1418F, 2.1683F, -0.7908F, -0.0739F, 0.2976F, 0.6146F));
+		PartDefinition tendril4 = TorsoTendies.addOrReplaceChild("tendril4", CubeListBuilder.create(), PartPose.offsetAndRotation(-1.1418F, 2.1683F, -0.7908F, -0.0739F, 0.2976F, 0.6146F));
 
 		PartDefinition Tendril3Seg2_r2 = tendril4.addOrReplaceChild("Tendril3Seg2_r2", CubeListBuilder.create().texOffs(69, 0).addBox(-1.0F, -1.0F, -0.5F, 2.0F, 2.0F, 3.0F, new CubeDeformation(-0.5F)), PartPose.offsetAndRotation(-0.3078F, -0.2621F, -0.0837F, -0.1309F, 0.0F, 0.5672F));
 
@@ -469,8 +471,13 @@ public class UmarmerModel<T extends Umarmer> extends HierarchicalModel<T> {
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
-			this.animate(entity.attackAnimationState,UmarmerAnimations.UMARMER_SLAM,ageInTicks,1.1F);
-			this.animate(entity.idleAnimationState, UmarmerAnimations.UMARMER_IDLE, ageInTicks, 1.0F);
+		this.animate(entity.attackAnimationState, UmarmerAnimations.UMARMER_SLAM,ageInTicks,1.1F);
+		this.animate(entity.pin_start,UmarmerAnimations.UMARMER_PIN_START,ageInTicks,1.0F);
+		this.animate(entity.pin_idle, UmarmerAnimations.UMARMER_PIN_IDLE, ageInTicks, 1.0F);
+		this.animate(entity.shield_start, UmarmerAnimations.UMARMER_SHIELD_START, ageInTicks, 1.0F);
+		this.animate(entity.shield_end, UmarmerAnimations.UMARMER_SHIELD_END, ageInTicks, 1.0F);
+		this.animate(entity.shield_idle, UmarmerAnimations.UMARMER_SHIELD_IDLE, ageInTicks, 1.0F);
+		this.animate(entity.idleAnimationState, UmarmerAnimations.UMARMER_IDLE, ageInTicks, 1.0F);
 	}
 
 	@Override
@@ -480,6 +487,6 @@ public class UmarmerModel<T extends Umarmer> extends HierarchicalModel<T> {
 
 	@Override
 	public ModelPart root() {
-		return Tendril_organoid1;
+		return this.Tendril_organoid1;
 	}
 }

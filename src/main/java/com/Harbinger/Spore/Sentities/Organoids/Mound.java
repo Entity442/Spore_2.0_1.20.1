@@ -376,7 +376,7 @@ public class Mound extends Organoid {
             return !(SConfig.SERVER.blacklist.get().contains(en.getEncodeId()) || en instanceof UtilityEntity || en instanceof Infected);
         }), Infected.class).setAlertOthers(Infected.class));
     }
-        @Override
+    @Override
     public EntityDimensions getDimensions(Pose pose) {
         return super.getDimensions(pose).scale(this.getAge() >= 1 ? (1.0F * this.getAge()) : 1.0F);
     }
