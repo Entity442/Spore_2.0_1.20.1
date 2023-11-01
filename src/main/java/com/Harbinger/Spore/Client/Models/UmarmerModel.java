@@ -4,6 +4,7 @@ package com.Harbinger.Spore.Client.Models;// Made with Blockbench 4.8.3
 
 
 import com.Harbinger.Spore.Client.Animations.UmarmerAnimations;
+import com.Harbinger.Spore.Client.Animations.UmarmerExtraAnimations;
 import com.Harbinger.Spore.Sentities.Organoids.Umarmer;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -471,13 +472,15 @@ public class UmarmerModel<T extends Umarmer> extends HierarchicalModel<T> {
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
-		this.animate(entity.attackAnimationState, UmarmerAnimations.UMARMER_SLAM,ageInTicks,1.1F);
-		this.animate(entity.pin_start,UmarmerAnimations.UMARMER_PIN_START,ageInTicks,1.0F);
+		this.animate(entity.attackAnimationState, UmarmerExtraAnimations.UMARMER_SLAM,ageInTicks,1.1F);
+		this.animate(entity.pin_start,UmarmerExtraAnimations.UMARMER_PIN_START,ageInTicks,1.0F);
 		this.animate(entity.pin_idle, UmarmerAnimations.UMARMER_PIN_IDLE, ageInTicks, 1.0F);
+		this.animate(entity.pin_end, UmarmerAnimations.UMARMER_PIN_END, ageInTicks, 1.0F);
 		this.animate(entity.shield_start, UmarmerAnimations.UMARMER_SHIELD_START, ageInTicks, 1.0F);
 		this.animate(entity.shield_end, UmarmerAnimations.UMARMER_SHIELD_END, ageInTicks, 1.0F);
 		this.animate(entity.shield_idle, UmarmerAnimations.UMARMER_SHIELD_IDLE, ageInTicks, 1.0F);
-		this.animate(entity.idleAnimationState, UmarmerAnimations.UMARMER_IDLE, ageInTicks, 1.0F);
+		this.animate(entity.squeeze_idle, UmarmerAnimations.UMARMER_SQUEEZE_IDLE, ageInTicks, 1.0F);
+		this.animate(entity.idleAnimationState, UmarmerExtraAnimations.UMARMER_IDLE, ageInTicks, 1.0F);
 	}
 
 	@Override

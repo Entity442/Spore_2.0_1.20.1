@@ -17,6 +17,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -30,20 +31,25 @@ public class Umarmer extends Organoid {
     public final AnimationState idleAnimationState = new AnimationState();
     public AnimationState attackAnimationState = new AnimationState();
     public AnimationState pin_start = new AnimationState();
+    public AnimationState pin_end = new AnimationState();
     public AnimationState pin_idle = new AnimationState();
     public AnimationState shield_idle = new AnimationState();
     public AnimationState shield_start = new AnimationState();
     public AnimationState shield_end = new AnimationState();
+    public AnimationState squeeze_idle = new AnimationState();
     private int idleAnimationTimeout = 0;
     private int attackAnimationTimeout = 0;
     private int SlamAttackAnimationTimeout = 0;
+    private int SlamAttackAnimationEndTimeout = 0;
     private int idlePinTimeout = 0;
     private int idleShieldTimeout = 0;
     private int startShieldTimeout = 0;
     private int endShieldTimeout = 0;
+    private int squeezeTimeout = 0;
 
     private boolean start_shield = false;
     private boolean end_shield = false;
+    private boolean end_pin = false;
     public Umarmer(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
     }
@@ -131,12 +137,25 @@ public class Umarmer extends Organoid {
             --this.startShieldTimeout;
             this.start_shield = false;
         }
+        if (this.end_pin && this.SlamAttackAnimationEndTimeout <= 0){
+            this.SlamAttackAnimationEndTimeout = 40;
+            this.pin_end.start(this.tickCount);
+        }else  {
+            --this.SlamAttackAnimationEndTimeout;
+            this.end_pin = false;
+        }
         if (this.end_shield && this.endShieldTimeout <= 0){
             this.endShieldTimeout = 30;
             this.shield_end.start(this.tickCount);
         }else {
             --this.endShieldTimeout;
             this.end_shield = false;
+        }
+        if (this.isVehicle() && !this.isPinned() && this.squeezeTimeout <= 0){
+            this.squeezeTimeout = 40;
+            this.squeeze_idle.start(this.tickCount);
+        }else {
+            --this.squeezeTimeout;
         }
         if (this.isShielding() && this.idleShieldTimeout <= 0) {
             this.idleShieldTimeout = 30;
@@ -171,6 +190,9 @@ public class Umarmer extends Organoid {
         if (!this.isPinned()){
             pin_idle.stop();
         }
+        if (!this.isVehicle()){
+            squeeze_idle.stop();
+        }
         if (!this.isShielding()){
             shield_idle.stop();
         }
@@ -201,6 +223,7 @@ public class Umarmer extends Organoid {
     @Override
     protected void registerGoals() {
         this.addTargettingGoals();
+        this.goalSelector.addGoal(3,new GrabTarget(this));
         this.goalSelector.addGoal(3, new PinAttack(this, 0, false));
         this.goalSelector.addGoal(4, new UmarmedMeleeAttack(this, 0, false));
         this.goalSelector.addGoal(5,new RandomLookAroundGoal(this){
@@ -258,11 +281,13 @@ public class Umarmer extends Organoid {
 
     @Override
     public boolean isVehicle() {
-        if (this.isPinned() && this.getFirstPassenger() != null){
+        if (this.getFirstPassenger() != null){
             Entity entity = this.getFirstPassenger();
-            this.getLookControl().setLookAt(entity.getX(), entity.getEyeY(), entity.getZ());
             if (entity instanceof LivingEntity livingEntity){
-                livingEntity.setPose(Pose.SWIMMING);
+                if (this.isPinned()){
+                    this.getLookControl().setLookAt(entity.getX(), entity.getEyeY(), entity.getZ());
+                    livingEntity.setPose(Pose.SWIMMING);
+                }
                 livingEntity.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),600,2),this);
                 livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,400,1),this);
             }
@@ -307,6 +332,9 @@ public class Umarmer extends Organoid {
         @Override
         public boolean canUse() {
             if (this.mob.isPinned()){
+                return false;
+            }
+            if (this.mob.isVehicle()){
                 return false;
             }
             return super.canUse();
@@ -397,6 +425,9 @@ public class Umarmer extends Organoid {
             if (this.mob.isPinned()){
                 return false;
             }
+            if (this.mob.isVehicle()){
+                return false;
+            }
             return super.canUse() && this.mob.random.nextInt(10) == 0;
         }
 
@@ -480,11 +511,36 @@ public class Umarmer extends Organoid {
         }
     }
 
+    static class GrabTarget extends Goal{
+        Umarmer umarmer;
+        public GrabTarget(Umarmer umarmer1){
+            umarmer = umarmer1;
+        }
+
+        @Override
+        public boolean canUse() {
+            return umarmer.getTarget() != null && umarmer.random.nextInt(5) == 0;
+        }
+
+        @Override
+        public void start() {
+            super.start();
+            if (umarmer.getTarget() != null){
+                if (this.umarmer.distanceToSqr(this.umarmer.getTarget()) < 5.0D){
+                    this.umarmer.getTarget().startRiding(umarmer);
+                }
+            }
+        }
+    }
+
 
 
     @Override
     public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor) {
         if (PINNED.equals(dataAccessor)){
+            if (!this.isPinned()){
+                end_pin = true;
+            }
             this.refreshDimensions();
         }
         if (SHIELDING.equals(dataAccessor)){
