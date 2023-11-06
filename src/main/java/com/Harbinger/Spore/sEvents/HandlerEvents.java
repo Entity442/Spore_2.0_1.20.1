@@ -287,6 +287,8 @@ public class HandlerEvents {
                 lootList = SConfig.DATAGEN.inf_husk_loot.get();
             }else if (event.getEntity() instanceof Volatile){
                 lootList = SConfig.DATAGEN.inf_volatile_loot.get();
+            }else if (event.getEntity() instanceof Umarmer){
+                lootList = SConfig.DATAGEN.umarmer_loot.get();
             }
             else{
                 lootList = null;

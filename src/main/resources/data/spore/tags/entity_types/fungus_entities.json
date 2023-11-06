@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "spore:inf_human",
+    "spore:inf_husk",
     "spore:inf_player",
     "spore:knight",
     "spore:griefer",
@@ -20,12 +21,14 @@
     "spore:stalker",
     "spore:brute",
     "spore:busser",
+    "spore:volatile",
     "spore:inf_drowned",
     "spore:claw",
     "spore:mound",
     "spore:reconstructor",
     "spore:proto",
     "spore:vigil",
+    "spore:umarmed",
     "spore:sieger"
 
   ]}

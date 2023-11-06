@@ -893,6 +893,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_tail_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> vigil_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> umarmer_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> proto_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> mound_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> organite_loot;
@@ -984,6 +985,9 @@ public class SConfig {
 
             this.vigil_loot = builder.defineList("Vigil ",
                     Lists.newArrayList("spore:mutated_fiber|100|6|15","spore:vigil_eye|100|1|1","spore:mutated_heart|30|1|1") , o -> o instanceof String);
+
+            this.umarmer_loot = builder.defineList("Umarmer ",
+                    Lists.newArrayList("spore:mutated_fiber|100|6|15","spore:armor_fragment|80|1|8","spore:mutated_heart|30|1|1") , o -> o instanceof String);
 
 
             this.organite_loot = builder.defineList("Organite Block",
