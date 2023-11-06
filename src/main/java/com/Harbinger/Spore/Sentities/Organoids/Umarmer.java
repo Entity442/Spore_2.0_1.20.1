@@ -513,21 +513,39 @@ public class Umarmer extends Organoid {
 
     static class GrabTarget extends Goal{
         Umarmer umarmer;
+        int damage;
         public GrabTarget(Umarmer umarmer1){
             umarmer = umarmer1;
         }
 
         @Override
         public boolean canUse() {
-            return umarmer.getTarget() != null && umarmer.random.nextInt(5) == 0;
+            if (this.umarmer.isVehicle() && !this.umarmer.isPinned()){
+                return true;
+            }
+            return umarmer.getTarget() != null && umarmer.random.nextInt(15) == 0;
         }
 
         @Override
         public void start() {
             super.start();
-            if (umarmer.getTarget() != null){
+            if (umarmer.getTarget() != null && !this.umarmer.isVehicle()){
                 if (this.umarmer.distanceToSqr(this.umarmer.getTarget()) < 5.0D){
                     this.umarmer.getTarget().startRiding(umarmer);
+                }
+            }
+        }
+
+        @Override
+        public void tick() {
+            super.tick();
+            Entity target = this.umarmer.getTarget();
+            if (target != null && this.umarmer.getFirstPassenger() == target){
+                if (this.damage >= 10){
+                    umarmer.doHurtTarget(target);
+                    this.damage = 0;
+                }else{
+                    this.damage++;
                 }
             }
         }
