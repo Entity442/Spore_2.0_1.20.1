@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Sentities.BaseEntities;
 
+import com.Harbinger.Spore.Sentities.Calamities.Gazenbrecher;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -60,6 +61,9 @@ public class CalamityMultipart extends PartEntity<Calamity> {
     public boolean hurt(DamageSource source, float amount) {
         if (this.parentMob instanceof Sieger sieger){
             return !this.isInvulnerableTo(source) && sieger.hurt(this,source, amount);
+        }
+        if (this.parentMob instanceof Gazenbrecher gazenbrecher){
+            return !this.isInvulnerableTo(source) && gazenbrecher.hurt(this,source, amount);
         }
         return !this.isInvulnerableTo(source) && this.parentMob.hurt(source, amount);
     }
