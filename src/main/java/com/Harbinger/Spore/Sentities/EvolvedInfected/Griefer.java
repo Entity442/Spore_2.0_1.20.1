@@ -1,7 +1,6 @@
 package com.Harbinger.Spore.Sentities.EvolvedInfected;
 
 import com.Harbinger.Spore.Core.SConfig;
-import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Damage.SdamageTypes;
@@ -12,18 +11,18 @@ import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
 import com.Harbinger.Spore.Sentities.Variants.GrieferVariants;
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -32,13 +31,14 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -48,8 +48,6 @@ public class Griefer extends EvolvedInfected {
     private static final EntityDataAccessor<Integer> DATA_SWELL_DIR = SynchedEntityData.defineId(Griefer.class, EntityDataSerializers.INT);
     private int swell;
     private final int maxSwell = 30;
-    private final int explosionRadius = SConfig.SERVER.explosion.get();
-
 
     public Griefer(EntityType<? extends Monster> type, Level level) {
         super(type, level);
@@ -64,7 +62,6 @@ public class Griefer extends EvolvedInfected {
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putShort("Fuse", (short)this.maxSwell);
-        tag.putByte("ExplosionRadius", (byte)this.explosionRadius);
         tag.putInt("Variant", this.getTypeVariant());
     }
 
@@ -91,6 +88,26 @@ public class Griefer extends EvolvedInfected {
             if (this.swell >= this.maxSwell) {
                 this.swell = this.maxSwell;
                     this.explodeGriefer();
+            }
+
+            if (this.getVariant() == GrieferVariants.RADIOACTIVE){
+                if (this.tickCount % 30 == 0){
+                    AABB boundingBox = this.getBoundingBox().inflate(6);
+                    List<Entity> entities = this.level().getEntities(this, boundingBox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
+                    for (Entity entity1 : entities) {
+                        if(entity1 instanceof LivingEntity livingEntity) {
+                            if (!(livingEntity instanceof Infected || livingEntity instanceof UtilityEntity)){
+                                if (ModList.get().isLoaded("alexscaves")){
+                                    MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation("alexscaves:irradiated"));
+                                    if (effect != null)
+                                    livingEntity.addEffect(new MobEffectInstance(effect,200,0));
+                                }else{
+                                    livingEntity.hurt(SdamageTypes.radiation_damage(this),4);
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
         super.tick();
@@ -125,13 +142,14 @@ public class Griefer extends EvolvedInfected {
 
     private void explodeGriefer() {
         if (!this.level().isClientSide) {
+            int explosionRadius = this.getTypeVariant() == 2 ? 2 * SConfig.SERVER.explosion.get() : SConfig.SERVER.explosion.get();
             if (SConfig.SERVER.explosion_on.get()){
             Level.ExplosionInteraction explosion$blockinteraction = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this) ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
             this.dead = true;
-            this.level().explode(this, this.getX(), this.getY(), this.getZ(), (float)this.explosionRadius, explosion$blockinteraction);
+            this.level().explode(this, this.getX(), this.getY(), this.getZ(), (float)explosionRadius, explosion$blockinteraction);
             } else {
                 this.dead = true;
-                this.level().explode(this, this.getX(), this.getY(), this.getZ(), (float)this.explosionRadius, Level.ExplosionInteraction.NONE);
+                this.level().explode(this, this.getX(), this.getY(), this.getZ(), (float)explosionRadius, Level.ExplosionInteraction.NONE);
             }
             if (SConfig.SERVER.scent_spawn.get()){
                 this.summonScent(this.level(), this.getX(), this.getY(), this.getZ());
@@ -140,7 +158,6 @@ public class Griefer extends EvolvedInfected {
                 explodeToxicTumor();
             }
             this.discard();
-
         }
 
     }
@@ -222,7 +239,9 @@ public class Griefer extends EvolvedInfected {
         this.playSound(this.getStepSound(), 0.15F, 1.0F);
     }
 
-
+    private boolean checkForNucMod(){
+        return ModList.get().isLoaded("alexscaves") || ModList.get().isLoaded("bigreactors");
+    }
 
 
     @Override
@@ -230,6 +249,9 @@ public class Griefer extends EvolvedInfected {
                                         MobSpawnType p_146748_, @Nullable SpawnGroupData p_146749_,
                                         @Nullable CompoundTag p_146750_) {
         GrieferVariants variant = Math.random() < 0.2 ? GrieferVariants.TOXIC : GrieferVariants.DEFAULT;
+        if (checkForNucMod()){
+            variant = Math.random() < 0.3 ? GrieferVariants.RADIOACTIVE : GrieferVariants.DEFAULT;
+        }
         setVariant(variant);
         return super.finalizeSpawn(p_146746_, p_146747_, p_146748_, p_146749_, p_146750_);
     }

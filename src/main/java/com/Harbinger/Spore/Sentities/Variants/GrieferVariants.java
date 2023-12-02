@@ -5,7 +5,9 @@ import java.util.Comparator;
 
 public enum GrieferVariants {
     DEFAULT(0),
-    TOXIC(1);
+    TOXIC(1),
+    RADIOACTIVE(2);
+
 
     private static final GrieferVariants[] BY_ID = Arrays.stream(values()).sorted(Comparator.
             comparingInt(GrieferVariants::getId)).toArray(GrieferVariants[]::new);

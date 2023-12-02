@@ -35,6 +35,7 @@ public class SdamageTypes {
 
     public static final ResourceKey<DamageType> INFECTED_WITCH_DAMAGE = create("infected_witch_damage");
     public static final ResourceKey<DamageType> GRIEFER_DAMAGE = create("griefer_damage");
+    public static final ResourceKey<DamageType> RADIATION_DAMAGE = create("radiation_damage");
     public static final ResourceKey<DamageType> KNIGHT_DAMAGE = create("knight_damage");
     public static final ResourceKey<DamageType> BRAIOMIL_DAMAGE = create("braiomil_damage");
     public static final ResourceKey<DamageType> LEAPER_DAMAGE = create("leaper_damage");
@@ -80,6 +81,9 @@ public class SdamageTypes {
     }
     public static DamageSource griefer_damage(LivingEntity entity){
         return damageSource(entity,GRIEFER_DAMAGE,entity);
+    }
+    public static DamageSource radiation_damage(LivingEntity entity){
+        return damageSource(entity,RADIATION_DAMAGE,entity);
     }
     public static DamageSource knight_damage(LivingEntity entity){
         return damageSource(entity,KNIGHT_DAMAGE,entity);
