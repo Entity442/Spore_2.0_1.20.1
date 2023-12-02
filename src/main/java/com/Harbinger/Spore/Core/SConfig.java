@@ -23,6 +23,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> global_armor;
         public final ForgeConfigSpec.ConfigValue<Integer> hunger;
         public final ForgeConfigSpec.ConfigValue<Boolean> at_mob;
+        public final ForgeConfigSpec.ConfigValue<Boolean> costumes;
         public final ForgeConfigSpec.ConfigValue<Boolean> inf_player;
         public final ForgeConfigSpec.ConfigValue<Boolean> at_an;
         public final ForgeConfigSpec.ConfigValue<Boolean> weaktocold;
@@ -347,6 +348,7 @@ public class SConfig {
             this.global_armor = builder.define("Global Armor Modifier",1.0);
             this.weaktocold = builder.comment("Default true").define("Should the infected be weak to cold?",true);
             this.should_starve = builder.comment("Default true").define("Should the infected starve overtime?",true);
+            this.costumes = builder.comment("Default true").define("Should certain mobs wear costumes on occasions?",true);
             this.higher_thinking = builder.comment("Default true").define("Should some infected have higher thinking such as opening doors or trying to break certain blocks?",true);
             this.hunger = builder.define("Hunger in ticks",6000);
 
