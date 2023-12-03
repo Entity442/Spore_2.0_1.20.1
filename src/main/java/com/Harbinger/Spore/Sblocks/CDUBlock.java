@@ -70,7 +70,7 @@ public class CDUBlock extends BaseEntityBlock {
         BlockEntity entity = level.getBlockEntity(pos);
         if (entity instanceof CDUBlockEntity blockEntity){
             ItemStack item = player.getItemInHand(hand);
-            if (item.getItem() == Items.STICK){
+            if (item.getItem() == Items.BLUE_ICE){
                 if (blockEntity.getFuel() > 0){
                     player.displayClientMessage(Component.literal("Current fuel " + blockEntity.getFuel() + "/" + blockEntity.maxFuel),true);
                 }else{
@@ -112,7 +112,7 @@ public class CDUBlock extends BaseEntityBlock {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable BlockGetter getter, List<Component> components, TooltipFlag tooltipFlag) {
         super.appendHoverText(stack, getter, components, tooltipFlag);
-        components.add(Component.translatable("cdu.line").withStyle(ChatFormatting.DARK_BLUE));
+        components.add(Component.translatable("cdu.line").withStyle(ChatFormatting.BLUE));
         components.add(Component.literal(this.getFuelTag(stack) +"/12000").withStyle(ChatFormatting.DARK_BLUE));
     }
 
