@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -89,14 +90,14 @@ public class CDUBlockEntity extends BlockEntity{
                             }
                         }
                     }
-                    if (Math.random() < 0.1){
+                    if (Math.random() < 0.001){
                         BlockState blockState1 = level.getBlockState(blockpos.above());
                         if (state.isSolidRender(level,blockPos) && blockState1.isAir()){
                             RandomSource randomSource = RandomSource.create();
                             int layer = randomSource.nextInt(1,4);
                             BlockState snowState = Blocks.SNOW.defaultBlockState();
-                            snowState.setValue(BlockStateProperties.LAYERS,layer);
-                            level.setBlock(blockpos.above(),snowState,3);
+                            if (snowState.getBlock().getStateDefinition().getProperty("layers") instanceof IntegerProperty property)
+                            level.setBlock(blockpos.above(),snowState.setValue(property,layer),3);
                         }
                     }
                 }
