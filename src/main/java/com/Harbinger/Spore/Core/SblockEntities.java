@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Core;
 
 import com.Harbinger.Spore.SBlockEntities.BiomassLumpEntity;
+import com.Harbinger.Spore.SBlockEntities.CDUBlockEntity;
 import com.Harbinger.Spore.SBlockEntities.ContainerBlockEntity;
 import com.Harbinger.Spore.SBlockEntities.HiveSpawnBlockEntity;
 import com.Harbinger.Spore.Spore;
@@ -27,6 +28,10 @@ public class SblockEntities {
             BLOCK_ENTITIES.register("hive_spawn", () ->
                     BlockEntityType.Builder.of(HiveSpawnBlockEntity::new,
                             Sblocks.HIVE_SPAWN.get()).build(null));
+    public static final RegistryObject<BlockEntityType<CDUBlockEntity>> CDU =
+            BLOCK_ENTITIES.register("cdu", () ->
+                    BlockEntityType.Builder.of(CDUBlockEntity::new,
+                            Sblocks.CDU.get()).build(null));
 
 
     public static void register(IEventBus eventBus) {

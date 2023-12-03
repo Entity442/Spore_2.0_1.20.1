@@ -230,6 +230,7 @@ public class Sitems {
 
     public  static final RegistryObject<Item> CORRUPTED_RECORD = ITEMS.register("corrupted_record",
             CorruptedRecord::new);
+
     public  static final RegistryObject<Item> GAS_MASK = ITEMS.register("gas_mask",
             GasMaskItem::new);
     public  static final RegistryObject<Item> SCANNER = ITEMS.register("scanner",
@@ -265,6 +266,7 @@ public class Sitems {
     }
 
     public static final RegistryObject<Item> CONTAINER = Techblock(Sblocks.CONTAINER);
+    public static final RegistryObject<Item> CDU = Techblock(Sblocks.CDU);
     public static final RegistryObject<Item> LAB_BLOCK = Techblock(Sblocks.LAB_BLOCK);
     public static final RegistryObject<Item> LAB_SLAB = Techblock(Sblocks.LAB_SLAB);
     public static final RegistryObject<Item> LAB_STAIR = Techblock(Sblocks.LAB_STAIR);

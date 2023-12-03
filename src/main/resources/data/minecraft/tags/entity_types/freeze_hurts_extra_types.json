@@ -1,27 +1,34 @@
 {
   "replace": false,
   "values": [
+    "spore:inf_human",
+    "spore:inf_husk",
+    "spore:inf_player",
     "spore:knight",
     "spore:griefer",
-    "spore:inf_human",
-    "spore:inf_wanderer",
     "spore:braiomil",
     "spore:inf_villager",
+    "spore:inf_wanderer",
     "spore:inf_witch",
-    "spore:inf_pillager",
-    "spore:spitter",
     "spore:leaper",
     "spore:slasher",
+    "spore:spitter",
+    "spore:scamper",
+    "spore:inf_pillager",
     "spore:inf_vindicator",
     "spore:inf_evoker",
     "spore:howler",
     "spore:stalker",
     "spore:brute",
-    "spore:claw",
     "spore:busser",
+    "spore:volatile",
     "spore:inf_drowned",
-    "spore:inf_player",
-    "spore:scamper",
-    "spore:vigil"
-  ]
-}
+    "spore:claw",
+    "spore:mound",
+    "spore:reconstructor",
+    "spore:proto",
+    "spore:vigil",
+    "spore:umarmed",
+    "spore:sieger"
+
+  ]}

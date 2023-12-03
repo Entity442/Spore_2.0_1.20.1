@@ -2,7 +2,6 @@ package com.Harbinger.Spore.Core;
 
 import com.Harbinger.Spore.Sblocks.*;
 import com.Harbinger.Spore.Spore;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
@@ -27,6 +26,7 @@ public class Sblocks {
     public static final RegistryObject<Block> VENT_PLATE = BLOCKS.register("vent_plate", VentPlateBlock::new);
     public static final RegistryObject<Block> RUSTED_VENT_PLATE = BLOCKS.register("rusted_vent_plate", VentPlateBlock::new);
     public static final RegistryObject<Block> VENT_DOOR = BLOCKS.register("vent_door",() -> new TrapDoorBlock(BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(2f, 4f).noOcclusion().sound(SoundType.METAL), BlockSetType.STONE));
+    public static final RegistryObject<Block> CDU = BLOCKS.register("cdu", () -> new CDUBlock(BlockBehaviour.Properties.of().sound(SoundType.STONE).strength(6f, 20f)));
 
     public static final RegistryObject<Block> REINFORCED_DOOR = BLOCKS.register("reinforced_door",() -> new DoorBlock(BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(20f, 1200.0F).noOcclusion().sound(SoundType.METAL).noParticlesOnBreak(), BlockSetType.IRON));
     public static final RegistryObject<Block> RUSTED_REINFORCED_DOOR = BLOCKS.register("rusted_reinforced_door",() -> new DoorBlock(BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(10f, 600.0F).noOcclusion().sound(SoundType.METAL).noParticlesOnBreak(), BlockSetType.IRON));
