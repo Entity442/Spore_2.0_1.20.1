@@ -264,9 +264,12 @@ public class Sitems {
     private static RegistryObject<Item> Techblock(RegistryObject<Block> block) {
         return ITEMS.register(block.getId().getPath(), () -> new BlockItemBase(block.get(), new Item.Properties()));
     }
+    private static RegistryObject<Item> Exceptions(RegistryObject<Block> block) {
+        return ITEMS.register(block.getId().getPath(), () -> new BlockItemCBU(block.get()));
+    }
 
     public static final RegistryObject<Item> CONTAINER = Techblock(Sblocks.CONTAINER);
-    public static final RegistryObject<Item> CDU = Techblock(Sblocks.CDU);
+    public static final RegistryObject<Item> CDU = Exceptions(Sblocks.CDU);
     public static final RegistryObject<Item> LAB_BLOCK = Techblock(Sblocks.LAB_BLOCK);
     public static final RegistryObject<Item> LAB_SLAB = Techblock(Sblocks.LAB_SLAB);
     public static final RegistryObject<Item> LAB_STAIR = Techblock(Sblocks.LAB_STAIR);
