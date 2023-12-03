@@ -9,18 +9,22 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
+import java.util.Random;
 
 public class CDUBlockEntity extends BlockEntity{
     public final int maxFuel = 12000;
@@ -83,6 +87,16 @@ public class CDUBlockEntity extends BlockEntity{
                                     level.setBlock(blockpos,blockItem.getBlock().defaultBlockState(),3);
                                 }
                             }
+                        }
+                    }
+                    if (Math.random() < 0.1){
+                        BlockState blockState1 = level.getBlockState(blockpos.above());
+                        if (state.isSolidRender(level,blockPos) && blockState1.isAir()){
+                            RandomSource randomSource = RandomSource.create();
+                            int layer = randomSource.nextInt(1,4);
+                            BlockState snowState = Blocks.SNOW.defaultBlockState();
+                            snowState.setValue(BlockStateProperties.LAYERS,layer);
+                            level.setBlock(blockpos.above(),snowState,3);
                         }
                     }
                 }
