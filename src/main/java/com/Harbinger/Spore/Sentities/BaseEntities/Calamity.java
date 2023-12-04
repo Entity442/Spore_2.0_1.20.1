@@ -26,6 +26,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
@@ -182,41 +183,10 @@ public class Calamity extends UtilityEntity implements Enemy {
     @Override
     public void registerGoals() {
         this.goalSelector.addGoal(1, new GoToLocation(this, 1.1));
-        this.goalSelector.addGoal(2, new HurtTargetGoal(this ,(en -> {return !(SConfig.SERVER.blacklist.get().contains(en.getEncodeId()) || en instanceof UtilityEntity || en instanceof Infected);}), Infected.class).setAlertOthers(Infected.class));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
-                (this, Player.class,  true));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, true, (en) -> {
-            return (SConfig.SERVER.whitelist.get().contains(en.getEncodeId()) || en.hasEffect(Seffects.MARKER.get())) && !(en instanceof Infected || en instanceof UtilityEntity);
-        }));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, true, (en) -> {
-            return !(this.otherWorld(en) || this.SkulkLove(en) || this.likedFellows(en)) && SConfig.SERVER.at_mob.get();
-        }));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Animal.class, 5, false, true, (en) -> {
-            return !SConfig.SERVER.blacklist.get().contains(en.getEncodeId()) && SConfig.SERVER.at_an.get();
-        }));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, true, (en) -> {
-            return !this.likedFellows(en) && SConfig.SERVER.at_mob.get() && ((this.otherWorld(en) && SConfig.SERVER.faw_target.get())
-                    || (this.SkulkLove(en) && SConfig.SERVER.skulk_target.get()));
-        }));
-
+        this.addTargettingGoals();
         this.goalSelector.addGoal(6, new FloatDiveGoal(this));
-
-
     }
 
-    public boolean otherWorld(Entity entity){
-        return entity.getType().is(TagKey.create(Registries.ENTITY_TYPE,
-                new ResourceLocation("fromanotherworld:things")));
-    }
-
-    public boolean SkulkLove(Entity entity){
-        return entity.getType().is(TagKey.create(Registries.ENTITY_TYPE,
-                new ResourceLocation("sculkhorde:sculk_entity")));
-    }
-
-    public boolean likedFellows(Entity en){
-        return en instanceof Animal || en instanceof AbstractFish || en instanceof Infected || en instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(en.getEncodeId());
-    }
 
 
     public  boolean tryToDigDown(){
@@ -285,6 +255,10 @@ public class Calamity extends UtilityEntity implements Enemy {
             double y0 = this.getY() + (random.nextFloat() - 0.25) * 1.25D * 5;
             double z0 = this.getZ() + (random.nextFloat() - 0.1) * 1.2D;
             serverLevel.sendParticles(Sparticles.BLOOD_PARTICLE.get(), x0, y0, z0, 4, 0, 0, 0, 1);
+        }
+        if (this.getHealth() < this.getMaxHealth() && !this.hasEffect(MobEffects.REGENERATION) && this.getKills() > 0){
+            this.addEffect(new MobEffectInstance(MobEffects.REGENERATION,600,0));
+            this.setKills(this.getKills()-1);
         }
     }
 

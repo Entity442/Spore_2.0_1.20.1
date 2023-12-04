@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "minecraft:dispenser"
+    },
+    "D": {
+      "item": "spore:compound_plate"
+    },
+    "E": {
+      "item": "minecraft:iron_trapdoor"
+    },
+    "F": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "pattern": [
+    "DED",
+    "DCD",
+    "FFF"
+  ],
+  "result": {
+    "count": 1,
+    "item": "spore:cdu"
+  }
+}

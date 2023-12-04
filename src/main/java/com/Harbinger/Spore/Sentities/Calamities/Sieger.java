@@ -75,10 +75,6 @@ public class Sieger extends Calamity implements RangedAttackMob {
     @Override
     public void tick() {
         super.tick();
-        if (this.getHealth() < this.getMaxHealth() && !this.hasEffect(MobEffects.REGENERATION) && this.getKills() > 0){
-            this.addEffect(new MobEffectInstance(MobEffects.REGENERATION,600,0));
-            this.setKills(this.getKills()-1);
-        }
         if (this.getHealth() >= this.getMaxHealth() && this.getTailHp() < this.getMaxTailHp()){
             if (this.tickCount % 40 == 0){
                 this.setTailHp(this.getTailHp() +1);

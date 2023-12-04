@@ -29,14 +29,19 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
+import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 
 public class Gazenbrecher extends Calamity implements WaterInfected {
+    protected final WaterBoundPathNavigation waterNavigation;
+    protected final GroundPathNavigation groundNavigation;
     public static final EntityDataAccessor<Float> TONGUE = SynchedEntityData.defineId(Gazenbrecher.class, EntityDataSerializers.FLOAT);
     private final CalamityMultipart[] subEntities;
     public final CalamityMultipart lowerbody;
@@ -49,9 +54,37 @@ public class Gazenbrecher extends Calamity implements WaterInfected {
         this.tail = new CalamityMultipart(this, "tail", 2.5F, 2.5F);
         this.tongue = new CalamityMultipart(this, "tongue", 2.0F, 2.0F);
         this.subEntities = new CalamityMultipart[]{ this.lowerbody, this.tail,this.tongue};
-
         this.setMaxUpStep(1.5F);
         this.setId(ENTITY_COUNTER.getAndAdd(this.subEntities.length + 1) + 1);
+        this.waterNavigation = new WaterBoundPathNavigation(this, this.level());
+        this.groundNavigation = new GroundPathNavigation(this, this.level());
+    }
+    public void updateSwimming() {
+        if (!this.level().isClientSide) {
+            if (this.isEffectiveAi() && this.isInFluidType()) {
+                this.navigation = this.waterNavigation;
+                this.setSwimming(true);
+            } else {
+                this.navigation = this.groundNavigation;
+                this.setSwimming(false);
+            }
+        }
+
+    }
+
+    @Override
+    public boolean canDrownInFluidType(FluidType type) {
+        return false;
+    }
+
+    public void travel(Vec3 p_32858_) {
+        if (this.isEffectiveAi() && this.isInFluidType()) {
+            this.moveRelative(0.1F, p_32858_);
+            this.move(MoverType.SELF, this.getDeltaMovement());
+            this.setDeltaMovement(this.getDeltaMovement().scale(1.2D));
+        } else {
+            super.travel(p_32858_);
+        }
     }
 
     @Override
@@ -70,17 +103,13 @@ public class Gazenbrecher extends Calamity implements WaterInfected {
     @Override
     public void tick() {
         super.tick();
-        if (this.getHealth() < this.getMaxHealth() && !this.hasEffect(MobEffects.REGENERATION) && this.getKills() > 0){
-            this.addEffect(new MobEffectInstance(MobEffects.REGENERATION,600,0));
-            this.setKills(this.getKills()-1);
-        }
         if (this.getHealth() >= this.getMaxHealth() && this.getTongueHp() < this.getMaxTongueHp()){
             if (this.tickCount % 40 == 0){
                 this.setTongueHp(this.getTongueHp() +1);
             }
         }
-
     }
+
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(TONGUE, this.getMaxTongueHp());
@@ -110,7 +139,7 @@ public class Gazenbrecher extends Calamity implements WaterInfected {
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, SConfig.SERVER.sieger_hp.get() * SConfig.SERVER.global_health.get())
-                .add(Attributes.MOVEMENT_SPEED, 0.25)
+                .add(Attributes.MOVEMENT_SPEED, 0.15)
                 .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.sieger_damage.get() * SConfig.SERVER.global_damage.get())
                 .add(Attributes.ARMOR, SConfig.SERVER.sieger_armor.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.FOLLOW_RANGE, 64)
@@ -239,4 +268,7 @@ public class Gazenbrecher extends Calamity implements WaterInfected {
         }
         return true;
     }
+
+
+
 }

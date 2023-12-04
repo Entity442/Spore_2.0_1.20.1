@@ -15,7 +15,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class GazenRenderer<Type extends Gazenbrecher> extends MobRenderer<Type , GazenbrecherModel<Type>> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
-            "textures/entity/blank.png");
+            "textures/entity/gazen.png");
 
 
     public GazenRenderer(EntityRendererProvider.Context context) {
@@ -23,7 +23,7 @@ public class GazenRenderer<Type extends Gazenbrecher> extends MobRenderer<Type ,
         this.addLayer(new GazenRenderer.Eyes<>(this));
     }
     private static class Eyes<Type extends Gazenbrecher,M extends GazenbrecherModel<Type>> extends EyesLayer<Type,M> {
-        private static final RenderType EYES = RenderType.eyes(new ResourceLocation(Spore.MODID,"textures/entity/blank.png"));
+        private static final RenderType EYES = RenderType.eyes(new ResourceLocation(Spore.MODID,"textures/entity/eyes/gazen.png"));
         public Eyes(RenderLayerParent layer) {
             super(layer);
         }

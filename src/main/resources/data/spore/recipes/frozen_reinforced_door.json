@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "minecraft:iron_door"
+    },
+    "D": {
+      "item": "spore:vent_plate"
+    }
+  },
+  "pattern": [
+    "D D",
+    "D D",
+    "DCD"
+  ],
+  "result": {
+    "count": 1,
+    "item": "spore:frozen_reinforced_door"
+  }
+}

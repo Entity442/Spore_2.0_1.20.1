@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "spore:vent_plate"
+    }
+  ],
+  "result": {
+    "item": "spore:rusted_vent_plate"
+  }
+}
