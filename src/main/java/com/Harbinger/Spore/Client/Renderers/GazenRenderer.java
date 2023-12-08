@@ -42,4 +42,5 @@ public class GazenRenderer<Type extends Gazenbrecher> extends MobRenderer<Type ,
     protected boolean isShaking(Type type) {
         return type.isStunned();
     }
+
 }

@@ -8,6 +8,7 @@ import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.BasicInfected.*;
+import com.Harbinger.Spore.Sentities.Calamities.Gazenbrecher;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import com.Harbinger.Spore.Sentities.Carrier;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.*;
@@ -164,6 +165,9 @@ public class HandlerEvents {
                                     player.displayClientMessage(Component.literal("Target ? " + calamity.getTarget()),false);
                                     if (calamity instanceof Sieger sieger){
                                         player.displayClientMessage(Component.literal("Tail health "+ sieger.getTailHp()+"/"+sieger.getMaxTailHp()),false);
+                                    }
+                                    if (calamity instanceof Gazenbrecher sieger){
+                                        player.displayClientMessage(Component.literal("Tongue health "+ sieger.getTongueHp()+"/"+sieger.getMaxTongueHp()),false);
                                     }
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
                                 }

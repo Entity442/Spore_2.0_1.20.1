@@ -68,7 +68,7 @@ public class CDUBlockEntity extends BlockEntity{
         if (e.getFuel() > 0 && !level.isClientSide){
             e.fuel--;
             if (e.getFuel() % 60 == 0){
-                int range = SConfig.DATAGEN.cryo_range.get();
+                int range =2 * SConfig.DATAGEN.cryo_range.get();
                 AABB aabb = AABB.ofSize(new Vec3(blockPos.getX(), blockPos.getY(), blockPos.getZ()), range, range, range);
                 List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, aabb);
 

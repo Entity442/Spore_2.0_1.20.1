@@ -158,6 +158,14 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_debuffs;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_explosive_effects;
 
+        public final ForgeConfigSpec.ConfigValue<Double> gazen_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> gazen_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> gazen_armor;
+        public final ForgeConfigSpec.ConfigValue<Double> gazen_dpsr;
+        public final ForgeConfigSpec.ConfigValue<Integer> gazen_block_damage;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> gazen_buffs;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> gazen_debuffs;
+
         public final ForgeConfigSpec.ConfigValue<Double> leap_hp;
         public final ForgeConfigSpec.ConfigValue<Double> leap_damage;
         public final ForgeConfigSpec.ConfigValue<Double> leap_armor;
@@ -517,7 +525,7 @@ public class SConfig {
             this.sieger_dpsr = builder.comment("Default 70").defineInRange("Sets Sieger Damage Cap , set to 0 to disable", 70, 1, Double.MAX_VALUE);
             this.sieger_block_damage = builder.comment("Default 5").defineInRange("Sets Sieger maximum hardness for a block to be broken", 5, 1, Integer.MAX_VALUE);
 
-            this.sieger_buffs = builder.comment("Default values: minecraft:speed|600|0 ,minecraft:mycelium|600|0 ,minecraft:resistance|600|1").defineList("Sieger buffs",
+            this.sieger_buffs = builder.comment("Default values: minecraft:speed|600|0 ,minecraft:strength|600|0 ,minecraft:resistance|600|1").defineList("Sieger buffs",
                     Lists.newArrayList("minecraft:speed|600|0" , "minecraft:strength|600|0","minecraft:resistance|600|1") , o -> o instanceof String);
 
             this.sieger_debuffs = builder.comment("Default values: minecraft:weakness|600|1 ,spore:mycelium|600|1 ,minecraft:slowness|600|1").defineList("Sieger debuffs",
@@ -525,6 +533,21 @@ public class SConfig {
 
             this.sieger_explosive_effects = builder.comment("Default values: minecraft:wither ,spore:mycelium ,minecraft:weakness").defineList("Sieger explosion ranged effects",
                     Lists.newArrayList("minecraft:wither" , "spore:mycelium_ef","minecraft:weakness") , o -> o instanceof String);
+
+            builder.pop();
+
+            builder.push("GazenBreacher");
+            this.gazen_hp = builder.comment("Default 300").defineInRange("Sets GazenBreacher Max health", 350, 1, Double.MAX_VALUE);
+            this.gazen_damage = builder.comment("Default 25").defineInRange("Sets GazenBreacher Damage", 20, 1, Double.MAX_VALUE);
+            this.gazen_armor = builder.comment("Default 25").defineInRange("Sets GazenBreacher Armor", 15, 1, Double.MAX_VALUE);
+            this.gazen_dpsr = builder.comment("Default 70").defineInRange("Sets GazenBreacher Damage Cap , set to 0 to disable", 100, 1, Double.MAX_VALUE);
+            this.gazen_block_damage = builder.comment("Default 5").defineInRange("Sets GazenBreacher maximum hardness for a block to be broken", 5, 1, Integer.MAX_VALUE);
+
+            this.gazen_buffs = builder.comment("Default values: minecraft:speed|600|0 ,minecraft:conduit_power|600|0 ,minecraft:resistance|600|1").defineList("Sieger buffs",
+                    Lists.newArrayList("minecraft:speed|600|0" , "minecraft:conduit_power|600|0","minecraft:resistance|600|1") , o -> o instanceof String);
+
+            this.gazen_debuffs = builder.comment("Default values: minecraft:darkness|600|0 ,spore:mycelium|600|1 ,minecraft:hunger|600|1").defineList("Sieger debuffs",
+                    Lists.newArrayList("minecraft:darkness|600|0" , "spore:mycelium_ef|600|1","minecraft:hunger|600|1") , o -> o instanceof String);
 
             builder.pop();
 

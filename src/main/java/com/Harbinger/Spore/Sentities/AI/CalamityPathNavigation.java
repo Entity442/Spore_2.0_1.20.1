@@ -1,11 +1,13 @@
 package com.Harbinger.Spore.Sentities.AI;
 
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
+import com.Harbinger.Spore.Sentities.WaterInfected;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.*;
 import net.minecraftforge.event.entity.EntityMobGriefingEvent;
 
@@ -59,14 +61,24 @@ public class CalamityPathNavigation extends GroundPathNavigation {
 
     @Override
     protected PathFinder createPathFinder(int value) {
-        this.nodeEvaluator = new CalamityNodeEvaluator();
-        this.nodeEvaluator.setCanPassDoors(true);
-        this.nodeEvaluator.canFloat();
-        return new PathFinder(this.nodeEvaluator, value) {
-            protected float distance(Node node, Node node1) {
-                return node.distanceManhattan(node1);
-            }
-        };
+        if (this.mob instanceof WaterInfected){
+            this.nodeEvaluator = new WaterCalamityNodeEvaluator();
+            this.nodeEvaluator.setCanPassDoors(true);
+            return new PathFinder(this.nodeEvaluator,value) {
+                protected float distance(Node node, Node node1) {
+                    return node.distanceManhattan(node1);
+                }
+            };
+        }else{
+            this.nodeEvaluator = new CalamityNodeEvaluator();
+            this.nodeEvaluator.setCanPassDoors(true);
+            this.nodeEvaluator.canFloat();
+            return new PathFinder(this.nodeEvaluator, value) {
+                protected float distance(Node node, Node node1) {
+                    return node.distanceManhattan(node1);
+                }
+            };
+        }
     }
 
 
@@ -76,6 +88,28 @@ public class CalamityPathNavigation extends GroundPathNavigation {
                 return pathTypes == BlockPathTypes.OPEN ? BlockPathTypes.BLOCKED : super.evaluateBlockPathType(getter, pos, pathTypes);
             }
             return BlockPathTypes.OPEN;
+        }
+    }
+
+    protected static class WaterCalamityNodeEvaluator extends SwimNodeEvaluator{
+        public WaterCalamityNodeEvaluator() {
+            super(true);
+        }
+
+        @Override
+        public BlockPathTypes getBlockPathType(BlockGetter getter, int value, int value2, int value3) {
+            BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+            BlockState blockstate1 = getter.getBlockState(blockpos$mutableblockpos);
+            if (blockstate1.isPathfindable(getter,blockpos$mutableblockpos,PathComputationType.WATER)){
+                return BlockPathTypes.WATER;
+            }else if (blockstate1.isPathfindable(getter,blockpos$mutableblockpos,PathComputationType.LAND)){
+                return BlockPathTypes.OPEN;
+            }else {
+                if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(mob.level(), mob)){
+                    return BlockPathTypes.BLOCKED;
+                }
+            }
+            return super.getBlockPathType(getter, value, value2, value3);
         }
     }
 

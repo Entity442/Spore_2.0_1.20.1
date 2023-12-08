@@ -21,6 +21,7 @@ public class GazenbrecherModel<T extends Gazenbrecher> extends HierarchicalModel
 	private final ModelPart Gazenbreacher;
 	private final ModelPart Segment2;
 	private final ModelPart Segment3;
+	private final ModelPart Segment4;
 	private final ModelPart TopJaw;
 	private final ModelPart RightJaw;
 	private final ModelPart LeftJaw;
@@ -29,21 +30,46 @@ public class GazenbrecherModel<T extends Gazenbrecher> extends HierarchicalModel
 	private final ModelPart SmolL1;
 	private final ModelPart SmolL2;
 	private final ModelPart SmolL3;
+	private final ModelPart RightFin;
+	private final ModelPart LeftFin;
+	private final ModelPart BackRightFin;
+	private final ModelPart BackLeftFin;
+	private final ModelPart Tumors;
+	private final ModelPart Licker1;
+	private final ModelPart Licker2;
+	private final ModelPart Head;
+	private final ModelPart RightArm;
+	private final ModelPart LeftArm;
 
 	public GazenbrecherModel(ModelPart root) {
 		this.Gazenbreacher = root.getChild("Gazenbreacher");
-		this.Segment2 = root.getChild("Gazenbreacher").getChild("FrontSeg1").getChild("CenterBaseGroup");
-		this.Segment3 = root.getChild("Gazenbreacher").getChild("FrontSeg1").getChild("CenterBaseGroup").getChild("BackSeg1");
+		this.Segment2 = Gazenbreacher.getChild("FrontSeg1").getChild("CenterBaseGroup");
+		this.Segment3 = Segment2.getChild("BackSeg1");
+		this.Segment4 = Segment3.getChild("BackSeg2");
 
-		this.TopJaw = root.getChild("Gazenbreacher").getChild("FrontSeg1").getChild("FrontSeg2").getChild("Head").getChild("Jaw").getChild("TopJaw");
-		this.RightJaw = root.getChild("Gazenbreacher").getChild("FrontSeg1").getChild("FrontSeg2").getChild("Head").getChild("Jaw").getChild("RightJaw");
-		this.LeftJaw = root.getChild("Gazenbreacher").getChild("FrontSeg1").getChild("FrontSeg2").getChild("Head").getChild("Jaw").getChild("LeftJaw");
+		this.TopJaw = Gazenbreacher.getChild("FrontSeg1").getChild("FrontSeg2").getChild("Head").getChild("Jaw").getChild("TopJaw");
+		this.RightJaw = Gazenbreacher.getChild("FrontSeg1").getChild("FrontSeg2").getChild("Head").getChild("Jaw").getChild("RightJaw");
+		this.LeftJaw = Gazenbreacher.getChild("FrontSeg1").getChild("FrontSeg2").getChild("Head").getChild("Jaw").getChild("LeftJaw");
 
-		this.LeftLeg = root.getChild("Gazenbreacher").getChild("FrontSeg1").getChild("FrontSeg2").getChild("FrontSeg2BaseGroup").getChild("Limbs").getChild("LeftLimb");
-		this.RightLeg = root.getChild("Gazenbreacher").getChild("FrontSeg1").getChild("FrontSeg2").getChild("FrontSeg2BaseGroup").getChild("Limbs").getChild("RightLimb");
-		this.SmolL1 = root.getChild("Gazenbreacher").getChild("FrontSeg1").getChild("FrontSeg2").getChild("FrontSeg2BaseGroup").getChild("Limbs").getChild("Smoll1");
-		this.SmolL2 = root.getChild("Gazenbreacher").getChild("FrontSeg1").getChild("FrontSeg2").getChild("FrontSeg2BaseGroup").getChild("Limbs").getChild("Smoll2");
-		this.SmolL3 = root.getChild("Gazenbreacher").getChild("FrontSeg1").getChild("FrontSeg2").getChild("FrontSeg2BaseGroup").getChild("Limbs").getChild("Smoll3");
+		this.LeftLeg = Gazenbreacher.getChild("FrontSeg1").getChild("FrontSeg2").getChild("FrontSeg2BaseGroup").getChild("Limbs").getChild("LeftLimb");
+		this.RightLeg = Gazenbreacher.getChild("FrontSeg1").getChild("FrontSeg2").getChild("FrontSeg2BaseGroup").getChild("Limbs").getChild("RightLimb");
+		this.SmolL1 = Gazenbreacher.getChild("FrontSeg1").getChild("FrontSeg2").getChild("FrontSeg2BaseGroup").getChild("Limbs").getChild("Smoll1");
+		this.SmolL2 = Gazenbreacher.getChild("FrontSeg1").getChild("FrontSeg2").getChild("FrontSeg2BaseGroup").getChild("Limbs").getChild("Smoll2");
+		this.SmolL3 = Gazenbreacher.getChild("FrontSeg1").getChild("FrontSeg2").getChild("FrontSeg2BaseGroup").getChild("Limbs").getChild("Smoll3");
+
+		this.LeftFin = Gazenbreacher.getChild("FrontSeg1").getChild("FrontSeg2").getChild("FrontSeg2BaseGroup").getChild("BackSegFin").getChild("LeftFin");
+		this.RightFin = Gazenbreacher.getChild("FrontSeg1").getChild("FrontSeg1BaseGroup").getChild("FrontSeg1Fin").getChild("RightSidefin");
+
+		this.BackRightFin = Segment4.getChild("BackSeg3").getChild("Tail").getChild("RightTail");
+		this.BackLeftFin = Segment4.getChild("BackSeg3").getChild("Tail").getChild("LeftTail");
+
+		this.Tumors = Gazenbreacher.getChild("FrontSeg1").getChild("FrontSeg2").getChild("Head").getChild("Jaw").getChild("Licker").getChild("Tumors");
+		this.Licker1 = Gazenbreacher.getChild("FrontSeg1").getChild("FrontSeg2").getChild("Head").getChild("Jaw").getChild("Licker").getChild("LickerSeg2");
+		this.Licker2 = Licker1.getChild("LickerSeg3");
+		this.Head = Licker2.getChild("ToungeHead");
+		this.RightArm = Licker2.getChild("RightArm");
+		this.LeftArm = Licker2.getChild("LeftArm");
+
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -1202,25 +1228,52 @@ public class GazenbrecherModel<T extends Gazenbrecher> extends HierarchicalModel
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		this.root().getAllParts().forEach(ModelPart::resetPose);
+		this.Gazenbreacher.y = -0.2f;
 		this.TopJaw.xRot = -0.2f + Mth.cos(ageInTicks/8)/10;
 		this.RightJaw.xRot = Mth.sin(ageInTicks/7)/5;
 		this.LeftJaw.xRot = Mth.sin(ageInTicks/7)/6;
+		this.LeftFin.yRot = 0.75f+Mth.cos(ageInTicks/8)/10;
+		this.RightFin.yRot = -0.75f+Mth.cos(ageInTicks/8)/10;
+
+		this.BackLeftFin.xRot = Mth.cos(ageInTicks/5)/5;
+		this.BackRightFin.xRot = -Mth.cos(ageInTicks/6)/6;
+
+		this.Tumors.xScale = 1f + Mth.sin(ageInTicks/8)/4;
+		this.Tumors.zScale = 1f + Mth.sin(ageInTicks/8)/4;
+		this.Tumors.yScale = 1f + Mth.sin(ageInTicks/8)/4;
+
+		if (entity.getTongueHp() <= 0){
+			this.Licker1.visible = false;
+		}else{
+			this.Licker1.visible = true;
+			this.Licker1.yRot = Mth.sin(ageInTicks/7)/8;
+			this.Licker2.xRot = Mth.sin(ageInTicks/9)/8;
+			this.RightArm.xRot = Mth.cos(ageInTicks/5)/6;
+			this.LeftArm.xRot = -Mth.cos(ageInTicks/6)/5;
+
+			this.Head.zRot = Mth.sin(ageInTicks/8)/8;
+		}
+
+
+		if (entity.isInFluidType()){
+			this.RightLeg.yRot =1.8f + Mth.cos(ageInTicks/6)/6;
+			this.LeftLeg.yRot =-1.8f + Mth.cos(ageInTicks/6)/6;
+			this.Segment2.yRot = Mth.cos(ageInTicks/8)/10;
+			this.Segment3.yRot = Mth.cos(ageInTicks/8)/10;
+		}
 
 		if (!(limbSwingAmount > -0.15F && limbSwingAmount < 0.15F)){
 			if (entity.isInFluidType()){
 				this.Segment2.yRot = Mth.cos(ageInTicks/6)/6;
 				this.Segment3.yRot = Mth.cos(ageInTicks/6)/6;
-
-				this.RightLeg.yRot =1.8f + Mth.cos(ageInTicks/6)/6;
-				this.LeftLeg.xRot =1.6f + Mth.cos(ageInTicks/6)/6;
-				this.LeftLeg.zRot =1.2f;
 			}
 			else{
-				this.RightLeg.xRot = Mth.cos(limbSwing * 0.1F) * -0.6F * limbSwingAmount;
+				this.RightLeg.xRot = Mth.cos(limbSwing * 0.2F) * -1F * limbSwingAmount;
 				this.RightLeg.yRot = Mth.cos(limbSwing * 0.2F) * -0.2F * limbSwingAmount;
 
 
-				this.LeftLeg.xRot = Mth.sin(limbSwing * 0.2F) * 0.6F * limbSwingAmount;
+				this.LeftLeg.xRot = Mth.sin(limbSwing * 0.2F) * 0.8F * limbSwingAmount;
 				this.LeftLeg.yRot = Mth.sin(limbSwing * 0.2F) * -0.4F * limbSwingAmount;
 
 
@@ -1230,6 +1283,11 @@ public class GazenbrecherModel<T extends Gazenbrecher> extends HierarchicalModel
 				this.Segment2.yRot = Mth.cos(ageInTicks/8)/10;
 				this.Segment3.yRot = Mth.cos(ageInTicks/8)/10;
 			}
+		}else if (!entity.isInFluidType()){
+			this.Segment2.zRot = 0.35f;
+			this.Segment3.zRot = 0.35f;
+			this.Segment4.zRot = 0.35f;
+			this.Segment4.xRot = Mth.cos(ageInTicks/8)/8;
 		}
 	}
 
