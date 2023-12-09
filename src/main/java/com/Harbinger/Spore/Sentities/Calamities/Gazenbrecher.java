@@ -12,7 +12,6 @@ import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.Projectile.BileProjectile;
-import com.Harbinger.Spore.Sentities.Projectile.ThrownTumor;
 import com.Harbinger.Spore.Sentities.WaterInfected;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
@@ -291,8 +290,9 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
             double dx = livingEntity.getX() - this.getX();
             double dy = livingEntity.getY() + livingEntity.getEyeHeight();
             double dz = livingEntity.getZ() - this.getZ();
+            tumor.setDamage((float) (SConfig.SERVER.gazen_ranged_damage.get() * 1f));
             tumor.moveTo(this.getX() + vec3.x, this.getY()+1D ,this.getZ()+ vec3.z);
-            tumor.shoot(dx, dy - tumor.getY() + Math.hypot(dx, dz) * 0.05F, dz, 2f, 6.0F);
+            tumor.shoot(dx, dy - tumor.getY() + Math.hypot(dx, dz) * 0.01F, dz, 2f, 6.0F);
             level().addFreshEntity(tumor);
         }
     }

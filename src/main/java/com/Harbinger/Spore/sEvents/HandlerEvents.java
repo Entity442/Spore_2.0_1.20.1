@@ -293,6 +293,8 @@ public class HandlerEvents {
                 lootList = SConfig.DATAGEN.inf_volatile_loot.get();
             }else if (event.getEntity() instanceof Umarmer){
                 lootList = SConfig.DATAGEN.umarmer_loot.get();
+            }else if (event.getEntity() instanceof Gazenbrecher){
+                lootList = SConfig.DATAGEN.gazen_loot.get();
             }
             else{
                 lootList = null;

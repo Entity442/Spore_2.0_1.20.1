@@ -163,6 +163,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> gazen_armor;
         public final ForgeConfigSpec.ConfigValue<Double> gazen_dpsr;
         public final ForgeConfigSpec.ConfigValue<Integer> gazen_block_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> gazen_ranged_damage;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> gazen_buffs;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> gazen_debuffs;
 
@@ -537,11 +538,12 @@ public class SConfig {
             builder.pop();
 
             builder.push("GazenBreacher");
-            this.gazen_hp = builder.comment("Default 300").defineInRange("Sets GazenBreacher Max health", 350, 1, Double.MAX_VALUE);
-            this.gazen_damage = builder.comment("Default 25").defineInRange("Sets GazenBreacher Damage", 20, 1, Double.MAX_VALUE);
-            this.gazen_armor = builder.comment("Default 25").defineInRange("Sets GazenBreacher Armor", 15, 1, Double.MAX_VALUE);
-            this.gazen_dpsr = builder.comment("Default 70").defineInRange("Sets GazenBreacher Damage Cap , set to 0 to disable", 100, 1, Double.MAX_VALUE);
+            this.gazen_hp = builder.comment("Default 350").defineInRange("Sets GazenBreacher Max health", 350, 1, Double.MAX_VALUE);
+            this.gazen_damage = builder.comment("Default 20").defineInRange("Sets GazenBreacher Damage", 20, 1, Double.MAX_VALUE);
+            this.gazen_armor = builder.comment("Default 15").defineInRange("Sets GazenBreacher Armor", 15, 1, Double.MAX_VALUE);
+            this.gazen_dpsr = builder.comment("Default 100").defineInRange("Sets GazenBreacher Damage Cap , set to 0 to disable", 100, 1, Double.MAX_VALUE);
             this.gazen_block_damage = builder.comment("Default 5").defineInRange("Sets GazenBreacher maximum hardness for a block to be broken", 5, 1, Integer.MAX_VALUE);
+            this.gazen_ranged_damage = builder.comment("Default 10").defineInRange("Sets GazenBreacher bile damage", 10, 1, Double.MAX_VALUE);
 
             this.gazen_buffs = builder.comment("Default values: minecraft:speed|600|0 ,minecraft:conduit_power|600|0 ,minecraft:resistance|600|1").defineList("Sieger buffs",
                     Lists.newArrayList("minecraft:speed|600|0" , "minecraft:conduit_power|600|0","minecraft:resistance|600|1") , o -> o instanceof String);
@@ -916,6 +918,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_volatile_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sca_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> gazen_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_tail_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> vigil_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> umarmer_loot;
@@ -999,6 +1002,9 @@ public class SConfig {
 
             this.sieger_loot = builder.defineList("Sieger ",
                     Lists.newArrayList("spore:mutated_fiber|100|33|75","spore:armor_fragment|100|15|38","spore:mutated_heart|70|3|7","spore:tumor|100|2|5","spore:cerebrum|70|2|7","spore:spine_fragment|56|4|9") , o -> o instanceof String);
+
+            this.gazen_loot = builder.defineList("Gazen ",
+                    Lists.newArrayList("spore:mutated_fiber|100|33|75","spore:armor_fragment|100|15|38","spore:mutated_heart|70|3|7","spore:cerebrum|70|4|9","spore:spine_fragment|56|7|15") , o -> o instanceof String);
 
             this.sieger_tail_loot = builder.defineList("Sieger Tail",
                     Lists.newArrayList("spore:mutated_fiber|100|10|25","spore:armor_fragment|100|3|10","spore:tumor|100|7|22") , o -> o instanceof String);

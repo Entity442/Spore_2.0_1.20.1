@@ -1,8 +1,11 @@
 package com.Harbinger.Spore.Sentities.Projectile;
 
+import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Sentities;
+import com.Harbinger.Spore.Core.Sitems;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ItemSupplier;
@@ -58,6 +61,8 @@ public class BileProjectile extends Projectile implements ItemSupplier {
         if (!this.level().isClientSide()) {
             if (entityHitResult.getEntity() instanceof LivingEntity livingEntity){
                 livingEntity.hurt(this.level().damageSources().mobProjectile(this, (LivingEntity) this.getOwner()), getDamage());
+                livingEntity.addEffect(new MobEffectInstance(Seffects.STUNT.get(),80,1));
+                livingEntity.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),60,2));
             }
         }else{
             super.onHitEntity(entityHitResult);
@@ -84,6 +89,6 @@ public class BileProjectile extends Projectile implements ItemSupplier {
 
     @Override
     public ItemStack getItem() {
-        return new ItemStack(Items.EGG);
+        return new ItemStack(Sitems.BILE.get());
     }
 }

@@ -160,8 +160,13 @@ public class Sitems {
     public  static final RegistryObject<Item> SIEGER_SPAWNEGG = ITEMS.register("sieger_spawnegg",
             () -> new SporeSpawnEgg(Sentities.SIEGER,244208, new Item.Properties()));
 
+    public  static final RegistryObject<Item> GAZEN_SPAWNEGG = ITEMS.register("gazen_spawnegg",
+            () -> new SporeSpawnEgg(Sentities.GAZENBREACHER,865020865, new Item.Properties()));
+
 
     public  static final RegistryObject<Item> ACID = ITEMS.register("acid",
+            () -> new Item( new Item.Properties()));
+    public  static final RegistryObject<Item> BILE = ITEMS.register("bile",
             () -> new Item( new Item.Properties()));
     public  static final RegistryObject<Item> ACID_BALL = ITEMS.register("acid_ball",
             () -> new Item( new Item.Properties()));

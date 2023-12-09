@@ -144,6 +144,7 @@
   "item.spore.umarmed_spawnegg": "Umarmed",
   "item.spore.proto_spawnegg": "Proto Hivemind",
   "item.spore.sieger_spawnegg": "Sieger",
+  "item.spore.gazen_spawnegg": "Gazenbreacher",
 
 
   "item.spore.scent_spawnegg": "Scent",
@@ -179,6 +180,7 @@
   "entity.spore.proto": "Proto Hivemind",
   "entity.spore.reconstructor": "Womb",
   "entity.spore.sieger": "Sieger",
+  "entity.spore.gazenbreacher": "GazenBreacher",
   "entity.spore.sieger_tail": "Sieger Tail",
 
 
@@ -186,6 +188,7 @@
   "entity.spore.thrown_tumor": "Tumor",
   "entity.spore.thrown_spear": "Infected Spear",
   "entity.spore.acid_ball": "Acid Ball",
+  "entity.spore.bile": "Bile",
   "entity.spore.acid": "Acid",
 
 
