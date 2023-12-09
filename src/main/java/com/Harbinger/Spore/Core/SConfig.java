@@ -619,7 +619,7 @@ public class SConfig {
             this.reconstructor_air = builder.defineList("Mobs that are summoned for air support",
                     Lists.newArrayList("spore:sieger" ) , o -> o instanceof String);
             this.reconstructor_water = builder.defineList("Mobs that are summoned for water support",
-                    Lists.newArrayList("spore:sieger" ) , o -> o instanceof String);
+                    Lists.newArrayList("spore:gazenbreacher" ) , o -> o instanceof String);
             builder.pop();
 
 
@@ -1035,7 +1035,7 @@ public class SConfig {
             this.name = builder.defineList("Infected Player possible names",
                     Lists.newArrayList(
                             "The_Harbinger69", "ABucketOfFriedChicken", "LoneGuy", "cheesepuff", "Sire_AwfulThe1st", "Azami",
-                            "Deyvid", "Dany_Why", "Technoblade", "Ike", "Hypnotizd", "SaDrOcK:(", "JhonOK22", "hacie", "WhisperFire26",
+                            "Deyvid", "Dany_Why", "Technoblade", "Ike", "Hypnotizd", "That_Insane_Guy", "JhonOK22", "hacie", "WhisperFire26",
                             "Pajera", "Gistique", "Demonid", "Bowser", "Mad_Dog", "Ripley", "Kraken", "Zero", "Joker_de_Coeur", "bartsek009 ",
                             "xXFuryXx", "Nova69", "Belladonna","Entity","Keymind","Whisper","Helldwin",
                             "Mademoiselle2016") , o -> o instanceof String);
