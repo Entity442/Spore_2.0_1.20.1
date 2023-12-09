@@ -13,6 +13,7 @@ import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.Projectile.BileProjectile;
 import com.Harbinger.Spore.Sentities.WaterInfected;
+import com.Harbinger.Spore.Sitems.PlatedBoots;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -29,6 +30,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.RangedAttackGoal;
 import net.minecraft.world.entity.monster.RangedAttackMob;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -39,6 +41,7 @@ import java.util.List;
 
 public class Gazenbrecher extends Calamity implements WaterInfected , RangedAttackMob {
     public static final EntityDataAccessor<Float> TONGUE = SynchedEntityData.defineId(Gazenbrecher.class, EntityDataSerializers.FLOAT);
+    private int radar;
     private final CalamityMultipart[] subEntities;
     public final CalamityMultipart lowerbody;
     public final CalamityMultipart head;
@@ -87,6 +90,22 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
         if (this.getHealth() >= this.getMaxHealth() && this.getTongueHp() < this.getMaxTongueHp()){
             if (this.tickCount % 40 == 0){
                 this.setTongueHp(this.getTongueHp() +1);
+            }
+        }
+        if (this.isInFluidType()){
+            if (this.getTarget() == null &&  this.radar >= 1200){
+                this.radar = 0;
+                AABB boundingBox = this.getBoundingBox().inflate(64);
+                List<Entity> entities = this.level().getEntities(this, boundingBox);
+                for (Entity entity : entities) {
+                    if (SConfig.SERVER.whitelist.get().contains(entity.getEncodeId()) || entity instanceof Player player && !player.getAbilities().instabuild){
+                        if (entity instanceof LivingEntity livingEntity  && livingEntity.isAlive()){
+                            this.setTarget(livingEntity);
+                        }
+                    }
+                }
+            }else{
+                this.radar++;
             }
         }
     }
@@ -292,7 +311,7 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
             double dz = livingEntity.getZ() - this.getZ();
             tumor.setDamage((float) (SConfig.SERVER.gazen_ranged_damage.get() * 1f));
             tumor.moveTo(this.getX() + vec3.x, this.getY()+1D ,this.getZ()+ vec3.z);
-            tumor.shoot(dx, dy - tumor.getY() + Math.hypot(dx, dz) * 0.01F, dz, 2f, 6.0F);
+            tumor.shoot(dx, dy - tumor.getY() + Math.hypot(dx, dz) * 0.001F, dz, 2f, 6.0F);
             level().addFreshEntity(tumor);
         }
     }
