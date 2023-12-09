@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities.Calamities;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
@@ -11,6 +12,8 @@ import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
+import com.Harbinger.Spore.Sentities.FallenMultipart.Licker;
+import com.Harbinger.Spore.Sentities.FallenMultipart.SiegerTail;
 import com.Harbinger.Spore.Sentities.Projectile.BileProjectile;
 import com.Harbinger.Spore.Sentities.WaterInfected;
 import com.Harbinger.Spore.Sitems.PlatedBoots;
@@ -275,6 +278,10 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
     public boolean hurt(CalamityMultipart calamityMultipart, DamageSource source, float value) {
         if (calamityMultipart == this.tongue){
             if (this.getTongueHp() > 0 && value > this.getTongueHp()){
+                if (this.getTongueHp() > 0 && value > this.getTongueHp()){
+                    this.playSound(Ssounds.LIMB_SLASH.get());
+                    SummonDetashedTongue();
+                }
                 this.playSound(Ssounds.LIMB_SLASH.get());
             }
             this.hurt(source,value * 1.5f);
@@ -314,5 +321,12 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
             tumor.shoot(dx, dy - tumor.getY() + Math.hypot(dx, dz) * 0.001F, dz, 2f, 6.0F);
             level().addFreshEntity(tumor);
         }
+    }
+
+    private void SummonDetashedTongue(){
+        Licker licker = new Licker(Sentities.LICKER.get(),this.level());
+        Vec3 vec3 = (new Vec3(4D, 0.0D, 0.0D)).yRot(-this.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
+        licker.moveTo(this.getX() + vec3.x, this.getY() + 1.6,this.getZ()+ vec3.z);
+        this.level().addFreshEntity(licker);
     }
 }

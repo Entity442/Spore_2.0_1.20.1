@@ -11,6 +11,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ItemSupplier;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -63,6 +64,9 @@ public class BileProjectile extends Projectile implements ItemSupplier {
                 livingEntity.hurt(this.level().damageSources().mobProjectile(this, (LivingEntity) this.getOwner()), getDamage());
                 livingEntity.addEffect(new MobEffectInstance(Seffects.STUNT.get(),80,1));
                 livingEntity.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),60,2));
+            }
+            if (entityHitResult.getEntity() instanceof Boat boat){
+                boat.hurt(this.level().damageSources().mobProjectile(this,(LivingEntity) this.getOwner()),40);
             }
         }else{
             super.onHitEntity(entityHitResult);

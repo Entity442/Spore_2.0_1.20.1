@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Sentities.BasicInfected.*;
 import com.Harbinger.Spore.Sentities.Calamities.Gazenbrecher;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.*;
+import com.Harbinger.Spore.Sentities.FallenMultipart.Licker;
 import com.Harbinger.Spore.Sentities.FallenMultipart.SiegerTail;
 import com.Harbinger.Spore.Sentities.Host;
 import com.Harbinger.Spore.Sentities.Organoids.*;
@@ -194,4 +195,8 @@ public class Sentities {
     public static final RegistryObject<EntityType<Gazenbrecher>> GAZENBREACHER = SPORE_ENTITIES.register("gazenbreacher",
             () -> EntityType.Builder.of(Gazenbrecher::new, INFECTED).sized(3.5f, 3f)
                     .build(new ResourceLocation(Spore.MODID, "gazenbreacher").toString()));
+
+    public static final RegistryObject<EntityType<Licker>> LICKER = SPORE_ENTITIES.register("licker",
+            () -> EntityType.Builder.of(Licker::new, MobCategory.MISC).sized(1.4f, 1f)
+                    .build(new ResourceLocation(Spore.MODID, "sieger_tail").toString()));
 }

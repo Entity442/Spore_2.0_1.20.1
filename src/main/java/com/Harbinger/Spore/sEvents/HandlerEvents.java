@@ -12,6 +12,7 @@ import com.Harbinger.Spore.Sentities.Calamities.Gazenbrecher;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import com.Harbinger.Spore.Sentities.Carrier;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.*;
+import com.Harbinger.Spore.Sentities.FallenMultipart.Licker;
 import com.Harbinger.Spore.Sentities.FallenMultipart.SiegerTail;
 import com.Harbinger.Spore.Sentities.Organoids.*;
 import com.Harbinger.Spore.Sentities.Utility.InfEvoClaw;
@@ -295,6 +296,8 @@ public class HandlerEvents {
                 lootList = SConfig.DATAGEN.umarmer_loot.get();
             }else if (event.getEntity() instanceof Gazenbrecher){
                 lootList = SConfig.DATAGEN.gazen_loot.get();
+            }else if (event.getEntity() instanceof Licker){
+                lootList = SConfig.DATAGEN.gazen_tongue_loot.get();
             }
             else{
                 lootList = null;

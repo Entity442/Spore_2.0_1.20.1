@@ -920,6 +920,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> gazen_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_tail_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> gazen_tongue_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> vigil_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> umarmer_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> proto_loot;
@@ -1008,6 +1009,9 @@ public class SConfig {
 
             this.sieger_tail_loot = builder.defineList("Sieger Tail",
                     Lists.newArrayList("spore:mutated_fiber|100|10|25","spore:armor_fragment|100|3|10","spore:tumor|100|7|22") , o -> o instanceof String);
+
+            this.gazen_tongue_loot = builder.defineList("Gazen Tongue",
+                    Lists.newArrayList("spore:mutated_fiber|100|5|14","spore:tumor|100|1|4") , o -> o instanceof String);
 
 
             this.proto_loot = builder.defineList("Proto Hivemind ",
