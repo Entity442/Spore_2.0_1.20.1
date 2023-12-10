@@ -104,7 +104,7 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
                 for (Entity entity : entities) {
                     if (SConfig.SERVER.whitelist.get().contains(entity.getEncodeId()) || entity instanceof Player player && !player.getAbilities().instabuild){
                         if (entity instanceof LivingEntity livingEntity  && livingEntity.isAlive()){
-                            this.playSound(Ssounds.SIGNAL.get());
+                            this.playSound(Ssounds.SIGNAL.get(),2f,1f);
                             this.setTarget(livingEntity);
                         }
                     }
