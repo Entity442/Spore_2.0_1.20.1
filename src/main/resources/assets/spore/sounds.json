@@ -114,6 +114,24 @@
     "sounds": [
       "spore:heart_beat"
     ]
+  },
+  "gazen_ambient" :{
+    "subtitle": "sounds.spore.gazen_ambient",
+    "sounds": [
+      "spore:gazen_ambient"
+    ]
+  },
+  "sonar" :{
+    "subtitle": "sounds.spore.sonar",
+    "sounds": [
+      "spore:sonar"
+    ]
+  },
+  "signal" :{
+    "subtitle": "sounds.spore.signal",
+    "sounds": [
+      "spore:signal"
+    ]
   }
 
 }

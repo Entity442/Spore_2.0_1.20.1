@@ -13,16 +13,16 @@ import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.FallenMultipart.Licker;
-import com.Harbinger.Spore.Sentities.FallenMultipart.SiegerTail;
 import com.Harbinger.Spore.Sentities.Projectile.BileProjectile;
 import com.Harbinger.Spore.Sentities.WaterInfected;
-import com.Harbinger.Spore.Sitems.PlatedBoots;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
@@ -97,12 +97,14 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
         }
         if (this.isInFluidType()){
             if (this.getTarget() == null &&  this.radar >= 1200){
+                this.playSound(Ssounds.SONAR.get());
                 this.radar = 0;
                 AABB boundingBox = this.getBoundingBox().inflate(64);
                 List<Entity> entities = this.level().getEntities(this, boundingBox);
                 for (Entity entity : entities) {
                     if (SConfig.SERVER.whitelist.get().contains(entity.getEncodeId()) || entity instanceof Player player && !player.getAbilities().instabuild){
                         if (entity instanceof LivingEntity livingEntity  && livingEntity.isAlive()){
+                            this.playSound(Ssounds.SIGNAL.get());
                             this.setTarget(livingEntity);
                         }
                     }
@@ -328,5 +330,33 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
         Vec3 vec3 = (new Vec3(4D, 0.0D, 0.0D)).yRot(-this.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
         licker.moveTo(this.getX() + vec3.x, this.getY() + 1.6,this.getZ()+ vec3.z);
         this.level().addFreshEntity(licker);
+    }
+
+    @Override
+    public boolean doHurtTarget(Entity entity) {
+        this.playSound(Ssounds.SIEGER_BITE.get());
+        return super.doHurtTarget(entity);
+    }
+
+    protected SoundEvent getHurtSound(DamageSource p_34327_) {
+        return Ssounds.INF_DAMAGE.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return Ssounds.INF_DAMAGE.get();
+    }
+
+    protected SoundEvent getStepSound() {
+        if (this.onGround()){
+            return SoundEvents.RAVAGER_STEP;
+        }
+        return SoundEvents.GENERIC_SWIM;
+    }
+
+    protected SoundEvent getAmbientSound() {
+        if (this.getTarget() != null && this.distanceToSqr(this.getTarget()) > 200){
+            return null;
+        }
+        return Ssounds.GAZEN_AMBIENT.get();
     }
 }

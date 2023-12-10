@@ -42,6 +42,12 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> SIEGER_BITE = soundRegistry("sieger_bite");
 
+    public static final RegistryObject<SoundEvent> GAZEN_AMBIENT = soundRegistry("gazen_ambient");
+
+    public static final RegistryObject<SoundEvent> SONAR = soundRegistry("sonar");
+
+    public static final RegistryObject<SoundEvent> SIGNAL = soundRegistry("signal");
+
     public static final RegistryObject<SoundEvent> WOMB_AMBIENT = soundRegistry("womb_ambient");
 
     public static final RegistryObject<SoundEvent> LIMB_SLASH = soundRegistry("limb_slash");
