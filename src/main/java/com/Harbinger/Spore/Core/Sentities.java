@@ -198,5 +198,5 @@ public class Sentities {
 
     public static final RegistryObject<EntityType<Licker>> LICKER = SPORE_ENTITIES.register("licker",
             () -> EntityType.Builder.of(Licker::new, MobCategory.MISC).sized(1.4f, 1f)
-                    .build(new ResourceLocation(Spore.MODID, "sieger_tail").toString()));
+                    .build(new ResourceLocation(Spore.MODID, "licker").toString()));
 }
