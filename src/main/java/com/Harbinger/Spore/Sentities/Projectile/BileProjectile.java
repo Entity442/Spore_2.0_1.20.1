@@ -1,10 +1,14 @@
 package com.Harbinger.Spore.Sentities.Projectile;
 
+import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Sitems;
+import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
+import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -60,13 +64,16 @@ public class BileProjectile extends Projectile implements ItemSupplier {
     @Override
     protected void onHitEntity(EntityHitResult entityHitResult) {
         if (!this.level().isClientSide()) {
-            if (entityHitResult.getEntity() instanceof LivingEntity livingEntity){
-                livingEntity.hurt(this.level().damageSources().mobProjectile(this, (LivingEntity) this.getOwner()), getDamage());
+            Entity entity = entityHitResult.getEntity();
+            if (!(entity instanceof PartEntity || entity instanceof Infected || entity instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(entity.getEncodeId()))){
+                entity.hurt(this.level().damageSources().mobProjectile(this,(LivingEntity) this.getOwner()),this.getDamage());
+            }
+            if (entity instanceof LivingEntity livingEntity){
                 livingEntity.addEffect(new MobEffectInstance(Seffects.STUNT.get(),80,1));
                 livingEntity.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),60,2));
             }
-            if (entityHitResult.getEntity() instanceof Boat boat){
-                boat.hurt(this.level().damageSources().mobProjectile(this,(LivingEntity) this.getOwner()),40);
+            if (entity instanceof Boat boat){
+                boat.setDamage(50);
             }
         }else{
             super.onHitEntity(entityHitResult);
