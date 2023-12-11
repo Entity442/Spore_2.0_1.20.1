@@ -58,7 +58,7 @@ public class BileProjectile extends Projectile implements ItemSupplier {
 
     @Override
     protected boolean canHitEntity(Entity entity) {
-        return entity != getOwner() || entity instanceof PartEntity;
+        return entity != getOwner();
     }
 
     @Override
