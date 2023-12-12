@@ -129,10 +129,6 @@ public class InfectedPillager extends Infected implements CrossbowAttackMob , In
         this.setCanPickUpLoot(true);
     }
 
-    public float getWalkTargetValue(BlockPos p_33288_, LevelReader p_33289_) {
-        return 0.0F;
-    }
-
     protected void populateDefaultEquipmentSlots(RandomSource p_219059_, DifficultyInstance p_219060_) {
         if (Math.random() < 0.5) {
               this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.CROSSBOW));
