@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "spore:lab_block3"
+    }
+  ],
+  "result": {
+    "item": "spore:lab_block"
+  }
+}

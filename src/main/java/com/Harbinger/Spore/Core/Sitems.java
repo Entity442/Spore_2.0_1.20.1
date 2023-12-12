@@ -276,7 +276,13 @@ public class Sitems {
     public static final RegistryObject<Item> CONTAINER = Techblock(Sblocks.CONTAINER);
     public static final RegistryObject<Item> CDU = Exceptions(Sblocks.CDU);
     public static final RegistryObject<Item> LAB_BLOCK = Techblock(Sblocks.LAB_BLOCK);
+    public static final RegistryObject<Item> LAB_BLOCK1 = Techblock(Sblocks.LAB_BLOCK1);
+    public static final RegistryObject<Item> LAB_BLOCK2 = Techblock(Sblocks.LAB_BLOCK2);
+    public static final RegistryObject<Item> LAB_BLOCK3 = Techblock(Sblocks.LAB_BLOCK3);
     public static final RegistryObject<Item> LAB_SLAB = Techblock(Sblocks.LAB_SLAB);
+    public static final RegistryObject<Item> LAB_SLAB1 = Techblock(Sblocks.LAB_SLAB1);
+    public static final RegistryObject<Item> LAB_SLAB2 = Techblock(Sblocks.LAB_SLAB2);
+    public static final RegistryObject<Item> LAB_SLAB3 = Techblock(Sblocks.LAB_SLAB3);
     public static final RegistryObject<Item> LAB_STAIR = Techblock(Sblocks.LAB_STAIR);
     public static final RegistryObject<Item> IRON_LADDER = Techblock(Sblocks.IRON_LADDER);
     public static final RegistryObject<Item> VENT_PLATE = Techblock(Sblocks.VENT_PLATE);

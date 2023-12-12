@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "spore:block/laboratory_block2",
+    "top": "spore:block/laboratory_block2",
+    "side": "spore:block/laboratory_block2"
+  }
+}

@@ -11,7 +11,7 @@
               "add": false,
               "conditions": [
                 {
-                  "block": "spore:lab_slab",
+                  "block": "spore:lab_slab2",
                   "condition": "minecraft:block_state_property",
                   "properties": {
                     "type": "double"
@@ -25,11 +25,11 @@
               "function": "minecraft:explosion_decay"
             }
           ],
-          "name": "spore:lab_slab"
+          "name": "spore:lab_slab2"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "spore:lab_slab"
+  "random_sequence": "spore:lab_slab2"
 }

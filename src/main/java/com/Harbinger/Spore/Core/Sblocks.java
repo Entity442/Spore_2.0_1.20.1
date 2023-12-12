@@ -20,7 +20,14 @@ public class Sblocks {
     public static final RegistryObject<Block> ACID = BLOCKS.register("acid", Acid::new);
     public static final RegistryObject<Block> CONTAINER = BLOCKS.register("container", Container::new);
     public static final RegistryObject<Block> LAB_BLOCK = BLOCKS.register("lab_block", () -> new Block(BlockBehaviour.Properties.of().sound(SoundType.STONE).strength(6f, 20f)));
+    public static final RegistryObject<Block> LAB_BLOCK1 = BLOCKS.register("lab_block1", () -> new Block(BlockBehaviour.Properties.of().sound(SoundType.STONE).strength(6f, 20f)));
+    public static final RegistryObject<Block> LAB_BLOCK2 = BLOCKS.register("lab_block2", () -> new Block(BlockBehaviour.Properties.of().sound(SoundType.STONE).strength(6f, 20f)));
+    public static final RegistryObject<Block> LAB_BLOCK3 = BLOCKS.register("lab_block3", () -> new Block(BlockBehaviour.Properties.of().sound(SoundType.STONE).strength(6f, 20f)));
     public static final RegistryObject<Block> LAB_SLAB = BLOCKS.register("lab_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(Sblocks.LAB_BLOCK.get())));
+    public static final RegistryObject<Block> LAB_SLAB1 = BLOCKS.register("lab_slab1", () -> new SlabBlock(BlockBehaviour.Properties.copy(Sblocks.LAB_BLOCK1.get())));
+    public static final RegistryObject<Block> LAB_SLAB2 = BLOCKS.register("lab_slab2", () -> new SlabBlock(BlockBehaviour.Properties.copy(Sblocks.LAB_BLOCK2.get())));
+    public static final RegistryObject<Block> LAB_SLAB3 = BLOCKS.register("lab_slab3", () -> new SlabBlock(BlockBehaviour.Properties.copy(Sblocks.LAB_BLOCK3.get())));
+
     public static final RegistryObject<Block> LAB_STAIR = BLOCKS.register("lab_stair", () -> new StairBlock(()-> LAB_BLOCK.get().defaultBlockState(),BlockBehaviour.Properties.copy(Sblocks.LAB_BLOCK.get())));
     public static final RegistryObject<Block> IRON_LADDER = BLOCKS.register("iron_ladder", () -> new IronLadderBlock(BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(2f, 4f).noOcclusion().sound(SoundType.METAL)));
     public static final RegistryObject<Block> VENT_PLATE = BLOCKS.register("vent_plate", VentPlateBlock::new);

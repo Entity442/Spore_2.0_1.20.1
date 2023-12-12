@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "spore:lab_slab3"
+    }
+  },
+  "pattern": [
+    "   ",
+    " # ",
+    " # "
+  ],
+  "result": {
+    "count": 1,
+    "item": "spore:lab_block3"
+  }
+}

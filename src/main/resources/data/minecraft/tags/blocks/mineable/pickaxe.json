@@ -2,7 +2,13 @@
   "replace": false,
   "values": [
     "spore:lab_block",
+    "spore:lab_block1",
+    "spore:lab_block2",
+    "spore:lab_block3",
     "spore:lab_slab",
+    "spore:lab_slab1",
+    "spore:lab_slab2",
+    "spore:lab_slab3",
     "spore:lab_stair",
     "spore:iron_ladder",
     "spore:container",
@@ -13,6 +19,7 @@
     "spore:infested_cobblestone",
     "spore:infested_cobbled_deepslate",
     "spore:infested_laboratory_block",
+    "spore:cdu",
 
     "spore:vent_plate",
     "spore:rusted_vent_plate",

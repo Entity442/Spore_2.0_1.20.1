@@ -33,6 +33,14 @@
   "block.spore.rusted_reinforced_door": "Rusted Reinforced Door",
   "block.spore.frozen_reinforced_door": "Frozen Reinforced Door",
 
+  "block.spore.lab_block1": "Laboratory Block",
+  "block.spore.lab_block2": "Laboratory Block",
+  "block.spore.lab_block3": "Laboratory Block",
+  "block.spore.lab_slab1": "Laboratory Slab",
+  "block.spore.lab_slab2": "Laboratory Slab",
+  "block.spore.lab_slab3": "Laboratory Slab",
+
+
 
   "block.spore.infested_dirt": "Infested Dirt",
   "block.spore.infested_stone": "Infested Stone",
