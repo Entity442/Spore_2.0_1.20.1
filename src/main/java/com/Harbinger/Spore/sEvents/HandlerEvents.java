@@ -29,10 +29,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -50,6 +47,7 @@ import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
+import net.minecraftforge.event.entity.living.LivingChangeTargetEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
@@ -127,7 +125,6 @@ public class HandlerEvents {
             }}
         }
     }
-
 
     @SubscribeEvent
     public static  void Command(RegisterCommandsEvent event){
