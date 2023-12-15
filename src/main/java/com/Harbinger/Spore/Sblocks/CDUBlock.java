@@ -124,6 +124,7 @@ public class CDUBlock extends BaseEntityBlock {
     public void appendHoverText(ItemStack stack, @Nullable BlockGetter getter, List<Component> components, TooltipFlag tooltipFlag) {
         super.appendHoverText(stack, getter, components, tooltipFlag);
         components.add(Component.translatable("cdu.line").withStyle(ChatFormatting.BLUE));
+        components.add(Items.BLUE_ICE.getDescription());
         components.add(Component.literal(this.getFuelTag(stack) +"/12000").withStyle(ChatFormatting.DARK_BLUE));
     }
 

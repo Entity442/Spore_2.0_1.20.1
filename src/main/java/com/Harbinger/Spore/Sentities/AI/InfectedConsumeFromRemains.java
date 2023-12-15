@@ -43,6 +43,7 @@ public class InfectedConsumeFromRemains extends Goal {
         super.start();
         this.infected.playSound(SoundEvents.GENERIC_EAT);
         this.infected.setHunger(0);
+        this.infected.setEvoPoints(infected.getEvoPoints()+1);
         this.infected.removeEffect(Seffects.STARVATION.get());
     }
 }
