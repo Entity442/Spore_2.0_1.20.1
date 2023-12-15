@@ -71,14 +71,37 @@ public class HandlerEvents {
     public static void onLivingSpawned(EntityJoinLevelEvent event) {
         if (event != null && event.getEntity() != null) {
             if (event.getEntity() instanceof PathfinderMob mob){
-            if (SConfig.SERVER.attack.get().contains(event.getEntity().getEncodeId())) {
-                mob.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(mob, Infected.class, false));
-                mob.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(mob, Calamity.class, false));
-            }
 
-            if (SConfig.SERVER.flee.get().contains(event.getEntity().getEncodeId())) {
-                mob.goalSelector.addGoal(4, new AvoidEntityGoal<>(mob, Infected.class, 6.0F, 1.0D, 0.9D));
-                mob.goalSelector.addGoal(4, new AvoidEntityGoal<>(mob, UtilityEntity.class, 8.0F, 1.0D, 0.9D));
+            for (String string : SConfig.SERVER.attack.get()){
+                if (string.endsWith(":")){
+                    String[] mod = string.split(":");
+                    String[] iterations = mob.getEncodeId().split(":");
+                    if (Objects.equals(mod[0], iterations[0])){
+                        mob.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(mob, Infected.class, false));
+                        mob.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(mob, Calamity.class, false));
+                    }
+                }else{
+                    if (SConfig.SERVER.attack.get().contains(mob.getEncodeId())){
+                        mob.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(mob, Infected.class, false));
+                        mob.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(mob, Calamity.class, false));
+                    }
+                }
+            }
+            for (String string : SConfig.SERVER.flee.get()){
+                    if (string.endsWith(":")){
+                        String[] mod = string.split(":");
+                        String[] iterations = mob.getEncodeId().split(":");
+                        if (Objects.equals(mod[0], iterations[0])){
+                            mob.goalSelector.addGoal(4, new AvoidEntityGoal<>(mob, Infected.class, 6.0F, 1.0D, 0.9D));
+                            mob.goalSelector.addGoal(4, new AvoidEntityGoal<>(mob, UtilityEntity.class, 8.0F, 1.0D, 0.9D));
+                        }
+                    }else{
+                        if (SConfig.SERVER.flee.get().contains(mob.getEncodeId())){
+                            mob.goalSelector.addGoal(4, new AvoidEntityGoal<>(mob, Infected.class, 6.0F, 1.0D, 0.9D));
+                            mob.goalSelector.addGoal(4, new AvoidEntityGoal<>(mob, UtilityEntity.class, 8.0F, 1.0D, 0.9D));
+
+                        }
+                    }
             }
 
             if (SConfig.SERVER.basic.get().contains(event.getEntity().getEncodeId())) {

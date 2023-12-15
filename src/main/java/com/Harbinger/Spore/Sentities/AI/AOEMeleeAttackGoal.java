@@ -166,13 +166,28 @@ public class AOEMeleeAttackGoal extends Goal {
             AABB hitbox = entity.getBoundingBox().inflate(box);
             List<Entity> targets = entity.level().getEntities(entity , hitbox);
             for (Entity en : targets) {
-                if (en instanceof LivingEntity && !(en.is(mob) || SConfig.SERVER.blacklist.get().contains(en.getEncodeId()) || en instanceof Infected || en instanceof UtilityEntity)){
+                if (en instanceof LivingEntity && !(en.is(mob) || this.blacklist(en) || en instanceof Infected || en instanceof UtilityEntity)){
                     en.hurt(mob.damageSources().mobAttack(mob) , (float) Objects.requireNonNull(mob.getAttribute(Attributes.ATTACK_DAMAGE)).getBaseValue());
                     ((LivingEntity) en).knockback(Objects.requireNonNull(mob.getAttribute(Attributes.ATTACK_KNOCKBACK)).getBaseValue() ,Mth.sin(mob.getYRot() * ((float) Math.PI / 180F)), (-Mth.cos(mob.getYRot() * ((float) Math.PI / 180F))));
                 }
             }
         }
 
+    }
+
+    public boolean blacklist(Entity entity){
+        for (String string : SConfig.SERVER.blacklist.get()){
+            if (string.endsWith(":")){
+                String[] modid = string.split(":");
+                String[] instance = entity.getEncodeId().split(":");
+                if (Objects.equals(modid[0], instance[0])){
+                    return true;
+                }
+            }else{
+                return SConfig.SERVER.blacklist.get().contains(entity.getEncodeId());
+            }
+        }
+        return false;
     }
 
     protected void resetAttackCooldown() {

@@ -95,7 +95,7 @@ public class Griefer extends EvolvedInfected {
                     AABB boundingBox = this.getBoundingBox().inflate(6);
                     List<Entity> entities = this.level().getEntities(this, boundingBox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
                     for (Entity entity1 : entities) {
-                        if(entity1 instanceof LivingEntity livingEntity) {
+                        if(entity1 instanceof LivingEntity livingEntity && !this.blacklist(livingEntity)) {
                             if (!(livingEntity instanceof Infected || livingEntity instanceof UtilityEntity)){
                                 if (ModList.get().isLoaded("alexscaves")){
                                     MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation("alexscaves:irradiated"));
@@ -112,6 +112,8 @@ public class Griefer extends EvolvedInfected {
         }
         super.tick();
     }
+
+
 
     public int getSwellDir() {
         return this.entityData.get(DATA_SWELL_DIR);

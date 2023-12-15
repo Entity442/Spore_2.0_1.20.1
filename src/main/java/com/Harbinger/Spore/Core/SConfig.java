@@ -368,15 +368,15 @@ public class SConfig {
 
             this.blacklist = builder.defineList("Mobs Not Targeted",
                     Lists.newArrayList(
-                            "minecraft:creeper","minecraft:squid","minecraft:bat") , o -> o instanceof String);
+                            "minecraft:creeper","minecraft:squid","minecraft:bat","creeperoverhaul:") , o -> o instanceof String);
 
             this.whitelist = builder.defineList("Mobs ALWAYS Targeted",
-                    Lists.newArrayList("minecraft:villager","minecraft:wandering_trader","minecraft:iron_golem","roamers:roamer","roamers:bandit") , o -> o instanceof String);
+                    Lists.newArrayList("minecraft:villager","minecraft:wandering_trader","minecraft:iron_golem","roamers:","recruits:") , o -> o instanceof String);
 
             this.attack = builder.defineList("Mobs that will target infected",
                     Lists.newArrayList(
                             "minecraft:iron_golem",
-                            "guardvillagers:guard" , "roamers:roamer") , o -> o instanceof String);
+                            "guardvillagers:guard" , "roamers:roamer","recruits:") , o -> o instanceof String);
 
             this.flee = builder.defineList("Mobs that will run from infected",
                     Lists.newArrayList(
