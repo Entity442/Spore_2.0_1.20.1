@@ -1068,14 +1068,16 @@ public class SConfig {
                             ,"minecraft:podzol|spore:infested_dirt","minecraft:rooted_dirt|spore:infested_dirt","minecraft:podzol|spore:infested_dirt","minecraft:deepslate|spore:infested_deepslate"
                             ,"minecraft:sand|spore:infested_sand","minecraft:gravel|spore:infested_gravel","minecraft:netherrack|spore:infested_netherrack","minecraft:end_stone|spore:infested_end_stone"
                             ,"minecraft:soul_sand|spore:infested_soul_sand","minecraft:soul_soil|spore:infested_soul_sand","minecraft:sculk|spore:rooted_mycelium","minecraft:red_sand|spore:infested_red_sand"
-                            ,"minecraft:clay|spore:infested_clay","minecraft:cobblestone|spore:infested_cobblestone","minecraft:cobbled_deepslate|spore:infested_cobbled_deepslate","spore:lab_block|spore:infested_laboratory_block") , o -> o instanceof String);
+                            ,"minecraft:clay|spore:infested_clay","minecraft:cobblestone|spore:infested_cobblestone","minecraft:cobbled_deepslate|spore:infested_cobbled_deepslate","spore:lab_block|spore:infested_laboratory_block"
+                            ,"spore:lab_block1|spore:infested_laboratory_block1","spore:lab_block2|spore:infested_laboratory_block2","spore:lab_block3|spore:infested_laboratory_block3") , o -> o instanceof String);
             builder.pop();
             builder.push("Cryogenic machine parameters");
             this.block_cleaning = builder.defineList("Blocks and their cleaned counterparts",
                     Lists.newArrayList("spore:infested_stone|minecraft:stone","minecraft:mycelium|minecraft:dirt","spore:infested_dirt|minecraft:dirt","spore:infested_deepslate|minecraft:deepslate"
                             ,"spore:infested_sand|minecraft:sand","spore:infested_gravel|minecraft:gravel","spore:infested_netherrack|minecraft:netherrack","spore:infested_end_stone|minecraft:end_stone"
                             ,"spore:infested_soul_sand|minecraft:soul_sand","spore:infested_red_sand|minecraft:red_sand","spore:infested_clay|minecraft:clay","spore:infested_cobblestone|minecraft:cobblestone"
-                            ,"spore:infested_cobbled_deepslate|minecraft:cobbled_deepslate","spore:infested_laboratory_block|spore:lab_block") , o -> o instanceof String);
+                            ,"spore:infested_cobbled_deepslate|minecraft:cobbled_deepslate","spore:infested_laboratory_block|spore:lab_block","spore:infested_laboratory_block1|spore:lab_block1"
+                            ,"spore:infested_laboratory_block2|spore:lab_block2","spore:infested_laboratory_block3|spore:lab_block3") , o -> o instanceof String);
             this.cryo_range = builder.comment("Default 20").defineInRange("Range", 20, 0, Integer.MAX_VALUE);
             builder.pop();
         }

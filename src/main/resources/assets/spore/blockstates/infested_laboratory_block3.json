@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/infested_laboratory_block3"
+      }
+    ]
+  }
+}

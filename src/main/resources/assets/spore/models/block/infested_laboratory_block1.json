@@ -1,0 +1,8 @@
+{
+  "parent": "spore:block/overground_block",
+  "textures": {
+    "0": "spore:block/mycelium_roots",
+    "1": "spore:block/laboratory_block1",
+    "particle": "spore:block/laboratory_block1"
+  }
+}
