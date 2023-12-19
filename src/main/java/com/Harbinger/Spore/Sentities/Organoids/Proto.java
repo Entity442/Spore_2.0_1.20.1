@@ -22,6 +22,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -442,5 +443,19 @@ public class Proto extends Organoid {
 
     public int getNumberOfParticles(){
         return 6;
+    }
+
+    @Nullable
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance p_33283_, MobSpawnType p_33284_, @Nullable SpawnGroupData p_33285_, @Nullable CompoundTag p_33286_) {
+        this.tickEmerging();
+        this.loadChunks();
+        return super.finalizeSpawn(serverLevelAccessor, p_33283_, p_33284_, p_33285_, p_33286_);
+    }
+
+    public void loadChunks(){
+        if (SConfig.SERVER.proto_chunk.get() && this.level() instanceof ServerLevel serverLevel) {
+            BlockPos pos = new BlockPos(this.getBlockX(),this.getBlockY(),this.getBlockZ());
+            ChunkLoaderHelper.forceLoadChunksInRadius(serverLevel, pos, this.level().getChunk(pos).getPos().x, this.level().getChunk(pos).getPos().z, 3);
+        }
     }
 }

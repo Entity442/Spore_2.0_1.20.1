@@ -2,7 +2,6 @@ package com.Harbinger.Spore.Sblocks;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sentities;
-import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
 import com.Harbinger.Spore.SBlockEntities.HiveSpawnBlockEntity;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.Organoids.Proto;
@@ -61,11 +60,9 @@ public class HiveSpawn extends Block implements EntityBlock {
                 level.removeBlock(blockPos, true);
                 Proto proto = Sentities.PROTO.get().create(level);
                 if (proto != null) {
-                    if (SConfig.SERVER.proto_chunk.get()) {
-                        ChunkLoaderHelper.forceLoadChunksInRadius(level, blockPos, level.getChunk(blockPos).getPos().x, level.getChunk(blockPos).getPos().z, 3);
-                    }
                     proto.tickEmerging();
                     proto.setPos(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+                    proto.loadChunks();
                     level.addFreshEntity(proto);
                 }
                 if (!level.isClientSide()){

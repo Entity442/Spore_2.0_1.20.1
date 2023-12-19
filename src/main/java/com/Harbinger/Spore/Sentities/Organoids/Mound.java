@@ -387,15 +387,16 @@ public class Mound extends Organoid {
         if(this.getLinked() && source.getEntity() != null && this.getAge() > 3){
             if (this.isInPowderSnow && this.Cold()){
                 return;
-            }
+            } else
+            {
             AABB searchbox = this.getBoundingBox().inflate(SConfig.SERVER.proto_range.get());
-            List<Entity> entities = this.level().getEntities(this, searchbox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
-            for (Entity en : entities) {
-                if (en instanceof Proto proto){
+            List<Proto> entities = this.level().getEntitiesOfClass(Proto.class,searchbox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
+            for (Proto proto : entities) {
                     proto.setSignal(true);
                     proto.setPlace(new BlockPos((int) this.getX(),(int) this.getY(),(int) this.getZ()));
                     break;
-                }}
+                }
+            }
         }
         for (int i = 0;i <= this.getAge(); i++){
             super.die(source);
