@@ -28,6 +28,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -384,6 +385,9 @@ public class Mound extends Organoid {
     @Override
     public void die(DamageSource source) {
         if(this.getLinked() && source.getEntity() != null && this.getAge() > 3){
+            if (this.isInPowderSnow && this.Cold()){
+                return;
+            }
             AABB searchbox = this.getBoundingBox().inflate(SConfig.SERVER.proto_range.get());
             List<Entity> entities = this.level().getEntities(this, searchbox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
             for (Entity en : entities) {

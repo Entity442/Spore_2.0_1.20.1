@@ -65,9 +65,10 @@ public class InfectedHazmat extends Infected {
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, SConfig.SERVER.inf_vil_hp.get() * SConfig.SERVER.global_health.get())
+                .add(Attributes.MAX_HEALTH, SConfig.SERVER.inf_hazmat_hp.get() * SConfig.SERVER.global_health.get())
+                .add(Attributes.ARMOR, SConfig.SERVER.inf_hazmat_armor.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.MOVEMENT_SPEED, 0.2)
-                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.inf_vil_damage.get() * SConfig.SERVER.global_damage.get())
+                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.inf_hazmat_damage.get() * SConfig.SERVER.global_damage.get())
                 .add(Attributes.FOLLOW_RANGE, 16)
                 .add(Attributes.ATTACK_KNOCKBACK, 0.3);
 

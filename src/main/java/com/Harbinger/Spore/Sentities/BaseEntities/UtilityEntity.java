@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Sentities.BaseEntities;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Sentities.AI.HurtTargetGoal;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -22,6 +23,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 
 public class UtilityEntity extends PathfinderMob {
     protected UtilityEntity(EntityType<? extends PathfinderMob> type, Level level) {
@@ -107,5 +109,11 @@ public class UtilityEntity extends PathfinderMob {
 
     public boolean likedFellows(Entity en){
         return en instanceof Animal || en instanceof AbstractFish || en instanceof Infected || en instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(en.getEncodeId());
+    }
+
+    protected boolean Cold(){
+        BlockPos pos = new BlockPos(this.getBlockX(),this.getBlockY(),this.getBlockZ());
+        Biome biome = level().getBiome(pos).value();
+        return SConfig.SERVER.weaktocold.get() && biome.getBaseTemperature() <= 0.2;
     }
 }

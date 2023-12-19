@@ -62,6 +62,10 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> inf_vil_damage;
         public final ForgeConfigSpec.ConfigValue<Double> inf_vil_armor;
 
+        public final ForgeConfigSpec.ConfigValue<Double> inf_hazmat_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> inf_hazmat_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> inf_hazmat_armor;
+
         public final ForgeConfigSpec.ConfigValue<Double> inf_dr_hp;
         public final ForgeConfigSpec.ConfigValue<Double> inf_dr_damage;
         public final ForgeConfigSpec.ConfigValue<Double> inf_dr_armor;
@@ -645,8 +649,12 @@ public class SConfig {
             this.inf_vil_hp = builder.comment("Default 20").defineInRange("Sets Infected Villager Max health", 20, 1, Double.MAX_VALUE);
             this.inf_vil_damage = builder.comment("Default 6").defineInRange("Sets Infected Villager Damage", 6, 1, Double.MAX_VALUE);
             this.inf_vil_armor = builder.comment("Default 1").defineInRange("Sets Infected Villager Armor", 1, 0, Double.MAX_VALUE);
+            builder.pop();
 
-
+            builder.push("Infected Hazmat");
+            this.inf_hazmat_hp = builder.comment("Default 20").defineInRange("Sets Infected Hazmat Max health", 20, 1, Double.MAX_VALUE);
+            this.inf_hazmat_damage = builder.comment("Default 6").defineInRange("Sets Infected Hazmat Damage", 6, 1, Double.MAX_VALUE);
+            this.inf_hazmat_armor = builder.comment("Default 1").defineInRange("Sets Infected Hazmat Armor", 6, 0, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("Stalker");
