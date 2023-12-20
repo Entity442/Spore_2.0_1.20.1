@@ -18,6 +18,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -41,6 +42,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Mound extends Organoid {
     private static final EntityDataAccessor<Integer> AGE = SynchedEntityData.defineId(Mound.class, EntityDataSerializers.INT);
@@ -385,7 +387,7 @@ public class Mound extends Organoid {
     @Override
     public void die(DamageSource source) {
         if(this.getLinked() && source.getEntity() != null && this.getAge() > 3){
-            if (this.isInPowderSnow && this.Cold()){
+            if (this.isInPowderSnow || this.Cold() || Objects.requireNonNull(this.getLastDamageSource()).is(DamageTypes.FREEZE)){
                 return;
             } else
             {
