@@ -14,7 +14,7 @@
   "min_inclusive": { "above_bottom": 32 },
 
    "start_height": {
-    "absolute": 0
+    "absolute": -3
   },
 
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
