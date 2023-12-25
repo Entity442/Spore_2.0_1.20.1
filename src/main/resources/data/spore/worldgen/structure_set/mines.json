@@ -1,0 +1,15 @@
+
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 4761645,
+    "separation": 15,
+    "spacing": 25
+  },
+  "structures": [
+    {
+      "structure": "spore:mines",
+      "weight": 1
+    }
+  ]
+}
