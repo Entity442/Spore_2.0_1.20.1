@@ -25,7 +25,19 @@
   "block.spore.hive_spawn": "Перестроенный разум",
   "block.spore.acid": "Кислотная ванна",
   "block.spore.vent_plate": "Вентиляционная пластина",
+  "block.spore.rusted_vent_plate": "Rzhavaya bентиляционная пластина",
   "block.spore.vent_door": "Вентиляционная дверь",
+  "block.spore.cdu": "CDU",
+  "block.spore.reinforced_door": "Yсиленная дверь",
+  "block.spore.rusted_reinforced_door": "Yсиленная дверь",
+  "block.spore.frozen_reinforced_door": "Yсиленная дверь",
+
+  "block.spore.lab_block1": "Лабораторный блок",
+  "block.spore.lab_block2": "Лабораторный блок",
+  "block.spore.lab_block3": "Лабораторный блок",
+  "block.spore.lab_slab1": "Лабораторная плита",
+  "block.spore.lab_slab2": "Лабораторная плита",
+  "block.spore.lab_slab3": "Лабораторная плита",
 
   "block.spore.infested_dirt": "Заражённая земля",
   "block.spore.infested_stone": "Заражённый камень",
@@ -35,6 +47,15 @@
   "block.spore.infested_sand": "Заражённый песок",
   "block.spore.infested_gravel": "Заражённый гравий",
   "block.spore.infested_deepslate": "Заражённый глубинный сланец",
+  "block.spore.infested_red_sand": "Заражённый красный песок",
+  "block.spore.infested_clay": "Заражённый глина",
+  "block.spore.infested_cobblestone": "Заражённый булыжник",
+  "block.spore.infested_cobbled_deepslate": "Заражённый мощеный сланец",
+  "block.spore.infested_laboratory_block": "Заражённый Лабораторный блок",
+  "block.spore.infested_laboratory_block1": "Заражённый Лабораторный блок",
+  "block.spore.infested_laboratory_block2": "Заражённый Лабораторный блок",
+  "block.spore.infested_laboratory_block3": "Заражённый Лабораторный блок",
+
 
   "item.spore.claw": "Коготь",
   "item.spore.claw_fragment": "Фрагмент когтя",
@@ -124,6 +145,8 @@
   "item.spore.vigil_spawnegg": "наблюдатель",
   "item.spore.proto_spawnegg": "Прото-разум улья",
   "item.spore.sieger_spawnegg": "Осадник",
+  "item.spore.umarmed_spawnegg": "Umarmer",
+  "item.spore.gazen_spawnegg": "Gazenbreacher",
 
 
   "item.spore.scent_spawnegg": "Споры",
@@ -152,12 +175,15 @@
   "entity.spore.inf_drowned": "Заражённый утопленник",
   "entity.spore.inf_player": "Заражённый путешественник",
   "entity.spore.scamper": "Скампер",
+  "entity.spore.volatile": "Неустойчивый",
   "entity.spore.mound": "Холм из плоти",
   "entity.spore.proto": "Прото-разум улья",
   "entity.spore.vigil": "наблюдатель",
+  "entity.spore.umarmed": "Хаггер",
   "entity.spore.reconstructor": "Чрево",
   "entity.spore.sieger": "Зигер",
   "entity.spore.sieger_tail": "Зигер Хвост",
+  "entity.spore.gazenbreacher": "Разрушитель приливов",
 
 
   "entity.spore.thrown_tumor": "Опухоль",
@@ -172,7 +198,7 @@
   "effect.spore.marker": "Маркер",
   "effect.spore.corrosion": "Коррозия",
   "effect.spore.symbiosis": "Симбиоз",
-  "effect.spore.uneasy": "Uneasy",
+  "effect.spore.uneasy": "Hепростой",
 
   "item.minecraft.splash_potion.effect.mycelium_potion": "Взрывное зелье мицелиевой инфекции",
   "item.minecraft.potion.effect.mycelium_potion": "Зелье мицелиевой инфекции",
@@ -254,6 +280,6 @@
   "block.spore.lab_slab": "Лабораторная плита",
   "block.spore.lab_stair": "Лабораторные ступени",
   "container.line.normal": "Зажми SHIFT для информации.",
-  "container.line.shift": "Ячейка Хранилища Биологической Опасности - прекрасное дополнение для хранения органических материалов."
-
+  "container.line.shift": "Ячейка Хранилища Биологической Опасности - прекрасное дополнение для хранения органических материалов.",
+  "cdu.line": "Криогенный дозатор"
 }
