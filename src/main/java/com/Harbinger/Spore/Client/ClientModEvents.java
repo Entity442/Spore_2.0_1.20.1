@@ -155,14 +155,4 @@ public class ClientModEvents {
                 BloodParticle.Provider::new);
     }
 
-
-    @SubscribeEvent
-    public static void addLayers(final EntityRenderersEvent.AddLayers event) {
-        event.getSkins().forEach(name -> {
-            if(event.getSkin(name) instanceof PlayerRenderer renderer) {
-                renderer.addLayer(new TendrilOverlay<>(renderer));
-            }
-        });
-    }
-
 }
