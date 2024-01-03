@@ -15,10 +15,16 @@ import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.AirBlock;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
 public class HangingPlantBub extends HangingPlant{
+    public static final BooleanProperty GROWABLE = BooleanProperty.create("growable");
+    public HangingPlantBub(){
+        this.registerDefaultState(this.stateDefinition.any().setValue(GROWABLE, Boolean.FALSE));
+    }
 
 
     @Override
@@ -43,7 +49,7 @@ public class HangingPlantBub extends HangingPlant{
 
     @Override
     public boolean isRandomlyTicking(BlockState state) {
-        return state.getValue(HANGING);
+        return state.getValue(HANGING) && state.getValue(GROWABLE);
     }
 
     @Override
@@ -56,8 +62,16 @@ public class HangingPlantBub extends HangingPlant{
             if (blockState.getBlock() instanceof AirBlock && blockState1.getBlock() instanceof AirBlock && blockState2.getBlock() instanceof AirBlock){
                 BlockState block = Sblocks.BLOOM_GG.get().defaultBlockState();
                 level.setBlock(blockpos,Sblocks.HANGING_FUNGAL_STEM.get().defaultBlockState(), 2);
-                level.setBlock(blockpos.below(),block.setValue(HANGING,true),2);
+                block.setValue(HANGING,true);
+                if (Math.random() < 0.05){
+                    block.setValue(GROWABLE,false);
+                }
+                level.setBlock(blockpos.below(),block,2);
             }
         }
+    }
+
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateBuilder) {
+        stateBuilder.add(GROWABLE);
     }
 }
