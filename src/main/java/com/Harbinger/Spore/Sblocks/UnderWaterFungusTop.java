@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
@@ -25,10 +26,10 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class UnderWaterFungusTop extends GenericFoliageBlock{
-    public static final BooleanProperty GROWABLE = BooleanProperty.create("growable");
+    public static final BooleanProperty PERSISTENT = BlockStateProperties.PERSISTENT;
     public UnderWaterFungusTop() {
         super(BlockBehaviour.Properties.of().sound(SoundType.CROP).strength(0f, 0f).noCollission().sound(SoundType.CROP).randomTicks());
-        this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.TRUE).setValue(GROWABLE, Boolean.FALSE));
+        this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.TRUE).setValue(PERSISTENT, Boolean.TRUE));
     }
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
@@ -70,20 +71,16 @@ public class UnderWaterFungusTop extends GenericFoliageBlock{
             if (blockState.getFluidState().is(Fluids.WATER)){
                 level.setBlock(pos,Sblocks.UNDERWATER_FUNGAL_STEM.get().defaultBlockState(),3);
                 BlockState block = Sblocks.UNDERWATER_FUNGAL_STEM_TOP.get().defaultBlockState();
-                if (Math.random() < 0.05){
-                    block.setValue(GROWABLE,false);
-                }
-                level.setBlock(pos.above(),block,3);
+                level.setBlock(pos.above(),block.setValue(PERSISTENT,!(Math.random() < 0.3)),3);
             }
 
     }
-
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateBuilder) {
-        stateBuilder.add(GROWABLE);
+        stateBuilder.add(WATERLOGGED,PERSISTENT);
     }
 
     @Override
     public boolean isRandomlyTicking(BlockState state) {
-        return state.getValue(GROWABLE);
+        return state.getValue(PERSISTENT) && state.getValue(WATERLOGGED);
     }
 }
