@@ -391,10 +391,8 @@ public class Mound extends Organoid {
             AABB searchbox = this.getBoundingBox().inflate(SConfig.SERVER.proto_range.get());
             List<Proto> entities = this.level().getEntitiesOfClass(Proto.class,searchbox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
             for (Proto proto : entities) {
-                BlockPos pos = source.getEntity() != null ? new BlockPos((int)source.getEntity().getX(),(int) source.getEntity().getY(),(int) source.getEntity().getZ())
-                        : new BlockPos((int) this.getX(),(int) this.getY(),(int) this.getZ());
                 proto.setSignal(true);
-                proto.setPlace(pos);
+                proto.setPlace(new BlockPos((int) this.getX(),(int) this.getY(),(int) this.getZ()));
                 break;
                 }
             }

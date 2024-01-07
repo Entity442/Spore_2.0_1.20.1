@@ -78,15 +78,8 @@ public class Infection {
             AABB searchbox = evolvedInfected.getBoundingBox().inflate(SConfig.SERVER.proto_range.get());
             List<Proto> entities = entity.level().getEntitiesOfClass(Proto.class, searchbox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
             for (Proto en : entities) {
-                BlockPos pos;
-                Entity target = event.getEntity();
-                if (target != null){
-                    pos = new BlockPos((int)target.getX(),(int)target.getY(),(int)target.getZ());
-                }else{
-                    pos = new BlockPos((int)entity.getX(),(int)entity.getY(),(int)entity.getZ());
-                }
                 en.setSignal(true);
-                en.setPlace(pos);
+                en.setPlace(new BlockPos((int)entity.getX(),(int)entity.getY(),(int)entity.getZ()));
                 break;
             }
         }

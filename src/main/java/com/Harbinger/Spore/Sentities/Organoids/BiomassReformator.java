@@ -252,13 +252,11 @@ public class BiomassReformator extends Organoid {
     }
 
     private void Summon(Entity entity ,boolean value){
-        List<? extends String> ev;
+        List<? extends String> ev = SConfig.SERVER.reconstructor_terrain.get();
         if (entityData.get(STATE) == 1){
             ev = SConfig.SERVER.reconstructor_water.get();
-        }else if (entityData.get(STATE) >=2){
+        }if (entityData.get(STATE) == 2){
             ev = SConfig.SERVER.reconstructor_air.get();
-        }else {
-            ev = SConfig.SERVER.reconstructor_terrain.get();
         }
         Random rand = new Random();
             int randomIndex = rand.nextInt(ev.size());
