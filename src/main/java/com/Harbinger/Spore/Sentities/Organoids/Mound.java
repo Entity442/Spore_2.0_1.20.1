@@ -20,7 +20,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -29,7 +28,6 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -37,7 +35,6 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
@@ -394,9 +391,11 @@ public class Mound extends Organoid {
             AABB searchbox = this.getBoundingBox().inflate(SConfig.SERVER.proto_range.get());
             List<Proto> entities = this.level().getEntitiesOfClass(Proto.class,searchbox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
             for (Proto proto : entities) {
-                    proto.setSignal(true);
-                    proto.setPlace(new BlockPos((int) this.getX(),(int) this.getY(),(int) this.getZ()));
-                    break;
+                BlockPos pos = source.getEntity() != null ? new BlockPos((int)source.getEntity().getX(),(int) source.getEntity().getY(),(int) source.getEntity().getZ())
+                        : new BlockPos((int) this.getX(),(int) this.getY(),(int) this.getZ());
+                proto.setSignal(true);
+                proto.setPlace(pos);
+                break;
                 }
             }
         }
