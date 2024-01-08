@@ -17,6 +17,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.Container;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -29,6 +30,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
@@ -283,27 +285,24 @@ public class Mound extends Organoid {
         AABB aabb = entity.getBoundingBox().inflate(SConfig.SERVER.mound_tendril_checker.get());
         for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
             BlockState blockState = level.getBlockState(blockpos);
-            if (blockState.is(Sblocks.REMAINS.get()) && Math.random() < 0.4){
+
+            if (blockState.is(Sblocks.REMAINS.get()) || blockState.is(Sblocks.HIVE_SPAWN.get()) || isChestWithFood(blockpos) || blockState.is(Sblocks.BIOMASS_LUMP.get())){
                 InfectionTendril tendril = new InfectionTendril(Sentities.TENDRIL.get(),level);
                 tendril.setAgeM(this.getMaxAge() -1);
                 tendril.setSearchArea(blockpos);
                 tendril.setPos(this.getX(),this.getY()+0.5D,this.getZ());
                 level.addFreshEntity(tendril);
                 break;
-            }else if (blockState.is(Sblocks.HIVE_SPAWN.get()) && Math.random() < 0.5){
-                InfectionTendril tendril = new InfectionTendril(Sentities.TENDRIL.get(),level);
-                tendril.setPos(this.getX(),this.getY()+0.5D,this.getZ());
-                tendril.setSearchArea(blockpos);
-                level.addFreshEntity(tendril);
-                break;
-            }else if (blockState.is(Sblocks.BIOMASS_LUMP.get()) && Math.random() < 0.2){
-                InfectionTendril tendril = new InfectionTendril(Sentities.TENDRIL.get(),level);
-                tendril.setPos(this.getX(),this.getY()+0.5D,this.getZ());
-                tendril.setSearchArea(blockpos);
-                level.addFreshEntity(tendril);
-                break;
             }
         }
+    }
+
+    private boolean isChestWithFood(BlockPos pos){
+        BlockEntity blockEntity = this.level().getBlockEntity(pos);
+        if (blockEntity instanceof Container container){
+            return container.hasAnyMatching((ItemStack::isEdible));
+        }
+        return false;
     }
 
 
