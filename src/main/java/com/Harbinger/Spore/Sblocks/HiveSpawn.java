@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Sblocks;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.SBlockEntities.HiveSpawnBlockEntity;
+import com.Harbinger.Spore.SBlockEntities.LivingStructureBlocks;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.Organoids.Proto;
 import com.Harbinger.Spore.Spore;
@@ -48,15 +49,15 @@ public class HiveSpawn extends Block implements EntityBlock {
     public void tick(BlockState state, ServerLevel level, BlockPos blockPos, RandomSource random) {
         BlockEntity entity = level.getBlockEntity(blockPos);
         level.scheduleTick(blockPos, this, 80);
-        if (entity != null){
+        if (entity instanceof LivingStructureBlocks structureBlocks){
             AABB searchbox = AABB.ofSize(new Vec3(blockPos.getX(), blockPos.getY(), blockPos.getZ()), 50, 50, 50);
             List<Infected> entities = level.getEntitiesOfClass(Infected.class, searchbox);
             for (Entity entity1 : entities) {
-                if (entity1 instanceof Infected infected && infected.getKills() > 1 && entity.getPersistentData().getInt("kills") <= SConfig.DATAGEN.hive_spawn_kills.get()) {
+                if (entity1 instanceof Infected infected && infected.getKills() > 1 && structureBlocks.getKills() <= SConfig.DATAGEN.hive_spawn_kills.get()) {
                     infected.setSearchPos(blockPos);
                 }
             }
-            if (entity.getPersistentData().getInt("kills") >= SConfig.DATAGEN.hive_spawn_kills.get() && checkForOtherMinds(blockPos,level)) {
+            if (structureBlocks.getKills() >= SConfig.DATAGEN.hive_spawn_kills.get() && checkForOtherMinds(blockPos,level)) {
                 level.removeBlock(blockPos, true);
                 Proto proto = Sentities.PROTO.get().create(level);
                 if (proto != null) {
@@ -68,7 +69,7 @@ public class HiveSpawn extends Block implements EntityBlock {
                 if (!level.isClientSide()){
                     level.getServer().getPlayerList().broadcastSystemMessage(Component.translatable("hivemind_summon_message"), false);
                 }
-            }else if (entity.getPersistentData().getInt("kills") >= SConfig.DATAGEN.hive_spawn_kills.get() && !checkForOtherMinds(blockPos,level)){
+            }else if (structureBlocks.getKills() >= SConfig.DATAGEN.hive_spawn_kills.get() && !checkForOtherMinds(blockPos,level)){
                 StructureTemplate template = level.getStructureManager().getOrCreate(new ResourceLocation(Spore.MODID, "mega_biomass_tower"));
                 BlockPos pos = new BlockPos(blockPos.getX() - 4, blockPos.getY() - 4, blockPos.getZ() - 4);
                 template.placeInWorld(level, pos, pos, new StructurePlaceSettings().setIgnoreEntities(true), random, 3);
@@ -93,9 +94,9 @@ public class HiveSpawn extends Block implements EntityBlock {
     @Override
     public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
         BlockEntity blockEntity = level.getBlockEntity(pos);
-        if (blockEntity != null && entity instanceof Infected infected && infected.getKills() > 1){
+        if (blockEntity instanceof LivingStructureBlocks structureBlocks && entity instanceof Infected infected && infected.getKills() > 1){
             infected.setKills(infected.getKills() -1);
-            blockEntity.getPersistentData().putInt("kills",blockEntity.getPersistentData().getInt("kills") + 1);
+            structureBlocks.addKills();
         }
         super.entityInside(state, level, pos, entity);
     }

@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities.Organoids;
 
 import com.Harbinger.Spore.Core.*;
+import com.Harbinger.Spore.SBlockEntities.LivingStructureBlocks;
 import com.Harbinger.Spore.Sentities.AI.HurtTargetGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
@@ -286,7 +287,7 @@ public class Mound extends Organoid {
         for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
             BlockState blockState = level.getBlockState(blockpos);
 
-            if (blockState.is(Sblocks.REMAINS.get()) || blockState.is(Sblocks.HIVE_SPAWN.get()) || isChestWithFood(blockpos) || blockState.is(Sblocks.BIOMASS_LUMP.get())){
+            if (isStructureBlock(blockpos) || isChestWithFood(blockpos) || blockState.is(Sblocks.BIOMASS_LUMP.get())){
                 InfectionTendril tendril = new InfectionTendril(Sentities.TENDRIL.get(),level);
                 tendril.setAgeM(this.getMaxAge() -1);
                 tendril.setSearchArea(blockpos);
@@ -303,6 +304,10 @@ public class Mound extends Organoid {
             return container.hasAnyMatching((ItemStack::isEdible));
         }
         return false;
+    }
+    private boolean isStructureBlock(BlockPos pos){
+        BlockEntity blockEntity = this.level().getBlockEntity(pos);
+        return blockEntity instanceof LivingStructureBlocks;
     }
 
 
