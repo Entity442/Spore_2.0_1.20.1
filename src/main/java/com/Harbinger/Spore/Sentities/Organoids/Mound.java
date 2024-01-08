@@ -387,16 +387,17 @@ public class Mound extends Organoid {
 
     @Override
     public void die(DamageSource source) {
-        if(this.getLinked() && source.getEntity() != null && this.getAge() > 3){
-            if (this.isInPowderSnow || this.Cold() || Objects.requireNonNull(this.getLastDamageSource()).is(DamageTypes.FREEZE)){
+        if(this.getLinked() && this.getAge() > 3 && source.getEntity() != null){
+            if (this.isInPowderSnow || this.Cold() || (this.getLastDamageSource() != null && this.getLastDamageSource().is(DamageTypes.FREEZE))){
                 return;
             } else
             {
             AABB searchbox = this.getBoundingBox().inflate(SConfig.SERVER.proto_range.get());
             List<Proto> entities = this.level().getEntitiesOfClass(Proto.class,searchbox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
             for (Proto proto : entities) {
+                int y = source.getDirectEntity() != null ? (int)  source.getDirectEntity().getY() :(int)  this.getY();
                 proto.setSignal(true);
-                proto.setPlace(new BlockPos((int) this.getX(),(int) this.getY(),(int) this.getZ()));
+                proto.setPlace(new BlockPos((int) this.getX(),y,(int) this.getZ()));
                 break;
                 }
             }
