@@ -114,7 +114,7 @@ public class ScentEntity extends UtilityEntity {
             for (int l = 0; l < 14; ++l) {
                 blockpos$mutableblockpos.set(i + Mth.nextInt(randomSource, -6, 6), j + Mth.nextInt(randomSource, -6, 6), k + Mth.nextInt(randomSource, -6, 6));
                 BlockState blockstate = world.getBlockState(blockpos$mutableblockpos);
-                if (!blockstate.isCollisionShapeFullBlock(world, blockpos$mutableblockpos)) {
+                if (!blockstate.isSolidRender(world, blockpos$mutableblockpos)) {
                     world.addParticle(Sparticles.SPORE_PARTICLE.get(), (double) blockpos$mutableblockpos.getX() + randomSource.nextDouble(), (double) blockpos$mutableblockpos.getY() + randomSource.nextDouble(), (double) blockpos$mutableblockpos.getZ() + randomSource.nextDouble(), 0.0D, 0.1D, 0.0D);
                     if (getOvercharged()){
                         world.addParticle(Sparticles.BLOOD_PARTICLE.get(), (double) blockpos$mutableblockpos.getX() + randomSource.nextDouble(), (double) blockpos$mutableblockpos.getY() + randomSource.nextDouble(), (double) blockpos$mutableblockpos.getZ() + randomSource.nextDouble(), 0.0D, 0.1D, 0.0D);

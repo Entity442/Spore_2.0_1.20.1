@@ -143,7 +143,7 @@ public class Scamper extends EvolvedInfected {
                 .add(Attributes.MOVEMENT_SPEED, 0.2)
                 .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.scamper_damage.get() * SConfig.SERVER.global_damage.get())
                 .add(Attributes.ARMOR, SConfig.SERVER.scamper_armor.get() * SConfig.SERVER.global_armor.get())
-                .add(Attributes.FOLLOW_RANGE, 36)
+                .add(Attributes.FOLLOW_RANGE, 8)
                 .add(Attributes.ATTACK_KNOCKBACK, 0);
 
     }

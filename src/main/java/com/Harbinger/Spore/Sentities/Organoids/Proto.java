@@ -398,8 +398,8 @@ public class Proto extends Organoid {
         int b = randomSource.nextInt(-12,12);
         int c = randomSource.nextInt(-4,4);
         BlockPos blockPos = new BlockPos((int) entity.getX()+a,(int) entity.getY()+c,(int) entity.getZ()+b);
-        BlockPos blockPosTop = new BlockPos((int) entity.getX()+a,(int) entity.getY()+c+1,(int) entity.getZ()+b);
-        if (level instanceof  ServerLevel serverLevel && serverLevel.isEmptyBlock(blockPos) && serverLevel.isEmptyBlock(blockPosTop)){
+        BlockPos blockPosTop = blockPos.above();
+        if (level instanceof  ServerLevel serverLevel && serverLevel.isEmptyBlock(blockPos) && (serverLevel.isEmptyBlock(blockPosTop) || serverLevel.getBlockState(blockPosTop).liquid())){
             if (pos != null){
                 BiomassReformator creature = new BiomassReformator(Sentities.RECONSTRUCTOR.get(),level);
                 creature.setLocation(pos);

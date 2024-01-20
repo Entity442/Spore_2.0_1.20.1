@@ -3,6 +3,7 @@
   "values": [
     "spore:inf_human",
     "spore:inf_husk",
+    "spore:inf_hazmat",
     "spore:inf_player",
     "spore:knight",
     "spore:griefer",
@@ -29,6 +30,8 @@
     "spore:proto",
     "spore:vigil",
     "spore:umarmed",
-    "spore:sieger"
+    "spore:sieger",
+    "spore:gazenbreacher",
+    "spore:licker"
 
   ]}

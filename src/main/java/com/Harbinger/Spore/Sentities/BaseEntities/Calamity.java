@@ -6,6 +6,7 @@ import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Sparticles;
 import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
+import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.CalamityVigilCall;
 import com.Harbinger.Spore.Sentities.AI.CalamityPathNavigation;
 import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.MovementControls.CalamityMovementControl;
@@ -180,6 +181,7 @@ public class Calamity extends UtilityEntity implements Enemy {
         this.goalSelector.addGoal(1, new GoToLocation(this, 1.1));
         this.addTargettingGoals();
         this.goalSelector.addGoal(6, new FloatDiveGoal(this));
+        this.goalSelector.addGoal(7,new CalamityVigilCall(this));
     }
 
 

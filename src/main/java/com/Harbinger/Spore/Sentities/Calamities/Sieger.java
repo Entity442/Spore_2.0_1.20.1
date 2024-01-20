@@ -6,6 +6,7 @@ import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.CalamityInfectedCommand;
+import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.ScatterShotRangedGoal;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SporeBurstSupport;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SummonScentInCombat;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
@@ -137,7 +138,7 @@ public class Sieger extends Calamity implements RangedAttackMob {
     @Override
     public void registerGoals() {
 
-        this.goalSelector.addGoal(3, new RangedAttackGoal(this,1.5,80,48){
+        this.goalSelector.addGoal(3, new ScatterShotRangedGoal(this,1.5,80,48,3,6){
             @Override
             public boolean canUse() {
                 if (Sieger.this.getTailHp() <= 0){
@@ -259,9 +260,7 @@ public class Sieger extends Calamity implements RangedAttackMob {
             tumor.setExplode(Level.ExplosionInteraction.MOB);
             tumor.moveTo(this.getX(),this.getY()+8.2,this.getZ());
             tumor.shoot(dx, dy - tumor.getY() + Math.hypot(dx, dz) * 0.05F, dz, 1f * 2, 12.0F);
-            for (int l = 0;l < 3;l++){
-                level().addFreshEntity(tumor);
-            }
+            level().addFreshEntity(tumor);
         }
     }
 
