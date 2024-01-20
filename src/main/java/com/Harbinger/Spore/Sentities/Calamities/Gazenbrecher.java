@@ -6,6 +6,7 @@ import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.CalamityInfectedCommand;
+import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.ScatterShotRangedGoal;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SporeBurstSupport;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SummonScentInCombat;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
@@ -249,7 +250,7 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
     public void registerGoals() {
 
 
-        this.goalSelector.addGoal(3, new RangedAttackGoal(this,1.3,60,32){
+        this.goalSelector.addGoal(3, new ScatterShotRangedGoal(this,1.3,60,32,1,3){
             @Override
             public boolean canUse() {
                 if (Gazenbrecher.this.getTongueHp() <= 0){
