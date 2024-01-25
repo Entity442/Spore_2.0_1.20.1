@@ -10,11 +10,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.Util;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.client.renderer.entity.RenderLayerParent;
-import net.minecraft.client.renderer.entity.layers.EyesLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -22,10 +18,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
-public class BusserRenderer extends MobRenderer<Busser , EntityModel<Busser>> {
+public class BusserRenderer extends BaseInfectedRenderer<Busser , EntityModel<Busser>> {
     private final EntityModel<Busser> normalBusser = this.getModel();
     private final EntityModel<Busser> explodingBusser;
-
+    private static final ResourceLocation EYES_TEXTURE = new ResourceLocation(Spore.MODID,
+            "textures/entity/eyes/busser.png");
     public static final Map<BusserVariants, ResourceLocation> TEXTURE =
             Util.make(Maps.newEnumMap(BusserVariants.class), (p_114874_) -> {
                 p_114874_.put(BusserVariants.DEFAULT,
@@ -39,24 +36,15 @@ public class BusserRenderer extends MobRenderer<Busser , EntityModel<Busser>> {
     public BusserRenderer(EntityRendererProvider.Context context) {
         super(context, new BusserModel<>(context.bakeLayer(BusserModel.LAYER_LOCATION)), 0.5f);
         explodingBusser = new ExplodingBusserModel<>(context.bakeLayer(ExplodingBusserModel.LAYER_LOCATION));
-        this.addLayer(new Eyes(this));
-    }
-
-
-    private static class Eyes<Type extends Busser,M extends BusserModel<Type>> extends EyesLayer<Type,M> {
-        private static final RenderType EYES = RenderType.eyes(new ResourceLocation(Spore.MODID,"textures/entity/eyes/busser.png"));
-        public Eyes(RenderLayerParent layer) {
-            super(layer);
-        }
-        public RenderType renderType() {
-            return EYES;
-        }
     }
     @Override
     public ResourceLocation getTextureLocation(Busser entity) {
         return TEXTURE.get(entity.getVariant());
     }
-
+    @Override
+    public ResourceLocation eyeLayerTexture() {
+        return EYES_TEXTURE;
+    }
     @Override
     protected void scale(Busser type, PoseStack stack, float value) {
         if (type.getVariant() == BusserVariants.ENHANCED){
@@ -78,8 +66,5 @@ public class BusserRenderer extends MobRenderer<Busser , EntityModel<Busser>> {
         super.render(busser, p_115456_, p_115457_, stack, bufferSource, p_115460_);
     }
 
-    @Override
-    protected boolean isShaking(Busser type) {
-        return type.isFreazing();
-    }
+
 }

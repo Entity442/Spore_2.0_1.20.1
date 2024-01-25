@@ -13,27 +13,16 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class VolatileRenderer<Type extends Volatile> extends MobRenderer<Type , VolatileModel<Type>> {
+public class VolatileRenderer<Type extends Volatile> extends BaseInfectedRenderer<Type , VolatileModel<Type>> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/volatile.png");
+    private static final ResourceLocation EYES_TEXTURE = new ResourceLocation(Spore.MODID,
+            "textures/entity/eyes/volatile.png");
 
 
     public VolatileRenderer(EntityRendererProvider.Context context) {
         super(context, new VolatileModel<>(context.bakeLayer(VolatileModel.LAYER_LOCATION)), 0.5f);
-
-        this.addLayer(new Eyes<>(this));
     }
-
-    private  class Eyes<Type extends Volatile,M extends VolatileModel<Type>> extends EyesLayer<Type,M>{
-        private static final RenderType EYES = RenderType.eyes(new ResourceLocation(Spore.MODID,"textures/entity/eyes/volatile.png"));
-        public Eyes(RenderLayerParent layer) {
-            super(layer);
-        }
-        public RenderType renderType() {
-            return EYES;
-        }
-    }
-
 
     @Override
     public ResourceLocation getTextureLocation(Type entity) {
@@ -42,7 +31,7 @@ public class VolatileRenderer<Type extends Volatile> extends MobRenderer<Type , 
 
 
     @Override
-    protected boolean isShaking(Type type) {
-        return type.isFreazing();
+    public ResourceLocation eyeLayerTexture() {
+        return EYES_TEXTURE;
     }
 }

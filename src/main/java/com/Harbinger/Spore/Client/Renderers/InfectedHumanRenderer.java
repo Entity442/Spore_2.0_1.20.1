@@ -13,30 +13,23 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class InfectedHumanRenderer <Type extends InfectedHuman> extends MobRenderer<Type , InfectedModel<Type>> {
+public class InfectedHumanRenderer <Type extends InfectedHuman> extends BaseInfectedRenderer<Type , InfectedModel<Type>> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/infected.png");
+    private static final ResourceLocation EYES_TEXTURE = new ResourceLocation(Spore.MODID,
+            "textures/entity/eyes/infected.png");
     public InfectedHumanRenderer(EntityRendererProvider.Context context) {
         super(context, new InfectedModel<>(context.bakeLayer(InfectedModel.LAYER_LOCATION)), 0.5f);
-        this.addLayer(new Eyes<>(this));
     }
 
-    private  class Eyes<Type extends InfectedHuman,M extends InfectedModel<Type>> extends EyesLayer<Type,M> {
-        private static final RenderType EYES = RenderType.eyes(new ResourceLocation(Spore.MODID,"textures/entity/eyes/infected.png"));
-        public Eyes(RenderLayerParent layer) {
-            super(layer);
-        }
-        public RenderType renderType() {
-            return EYES;
-        }
-    }
     @Override
     public ResourceLocation getTextureLocation(Type entity) {
         return TEXTURE;
     }
 
+
     @Override
-    protected boolean isShaking(Type type) {
-        return type.isFreazing();
+    public ResourceLocation eyeLayerTexture() {
+        return EYES_TEXTURE;
     }
 }

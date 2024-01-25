@@ -12,26 +12,22 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class InfectedDrownRenderer<Type extends InfectedDrowned> extends MobRenderer<Type , InfectedDrownModel<Type>> {
+public class InfectedDrownRenderer<Type extends InfectedDrowned> extends BaseInfectedRenderer<Type , InfectedDrownModel<Type>> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/inf_drowned.png");
+    private static final ResourceLocation EYES_TEXTURE = new ResourceLocation(Spore.MODID,
+            "textures/entity/eyes/infected.png");
     public InfectedDrownRenderer(EntityRendererProvider.Context context) {
         super(context, new InfectedDrownModel<>(context.bakeLayer(InfectedDrownModel.LAYER_LOCATION)), 0.5f);
-        this.addLayer(new Eyes<>(this));
     }
 
-    private static class Eyes<Type extends InfectedDrowned,M extends InfectedDrownModel<Type>> extends EyesLayer<Type,M> {
-        private static final RenderType EYES = RenderType.eyes(new ResourceLocation(Spore.MODID,"textures/entity/eyes/infected.png"));
-        public Eyes(RenderLayerParent layer) {
-            super(layer);
-        }
-        public RenderType renderType() {
-            return EYES;
-        }
-    }
     @Override
     public ResourceLocation getTextureLocation(Type entity) {
         return TEXTURE;
     }
 
+    @Override
+    public ResourceLocation eyeLayerTexture() {
+        return EYES_TEXTURE;
+    }
 }
