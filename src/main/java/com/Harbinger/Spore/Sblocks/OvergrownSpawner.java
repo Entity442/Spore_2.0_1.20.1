@@ -1,9 +1,11 @@
 package com.Harbinger.Spore.Sblocks;
 
 import com.Harbinger.Spore.Core.SblockEntities;
-import com.Harbinger.Spore.SBlockEntities.CDUBlockEntity;
+import com.Harbinger.Spore.Core.Sparticles;
 import com.Harbinger.Spore.SBlockEntities.OvergrownSpawnerEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -51,6 +53,22 @@ public class OvergrownSpawner extends BaseEntityBlock {
         Vec3 offset = state.getOffset(world, pos);
         {
             return box(0.1, 0, 0.1, 15.9, 16, 15.9).move(offset.x, offset.y, offset.z);
+        }
+    }
+
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource randomSource) {
+        super.animateTick(state, level, pos, randomSource);
+        BlockEntity entity = level.getBlockEntity(pos);
+        if (entity instanceof OvergrownSpawnerEntity blockEntity && blockEntity.getTime() > (blockEntity.getMaxTime() - 60)){
+        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+        for (int l = 0; l < 10; ++l) {
+            blockpos$mutableblockpos.set(pos.getX() + Mth.nextInt(randomSource, -3, 3), pos.getY() + Mth.nextInt(randomSource, -3, 3), pos.getZ() + Mth.nextInt(randomSource, -3, 3));
+            BlockState blockstate = level.getBlockState(blockpos$mutableblockpos);
+            if (!blockstate.isSolidRender(level, blockpos$mutableblockpos)) {
+                level.addParticle(Sparticles.BLOOD_PARTICLE.get(), (double) blockpos$mutableblockpos.getX() + randomSource.nextDouble(), (double) blockpos$mutableblockpos.getY() + randomSource.nextDouble(), (double) blockpos$mutableblockpos.getZ() + randomSource.nextDouble(), 0.0D, 0.1D, 0.0D);
+            }
+          }
         }
     }
 }

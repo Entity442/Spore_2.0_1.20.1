@@ -5,6 +5,7 @@ import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.SBlockEntities.BiomassLumpEntity;
 import com.Harbinger.Spore.SBlockEntities.HiveSpawnBlockEntity;
+import com.Harbinger.Spore.SBlockEntities.LivingStructureBlocks;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.MovementControls.InfectedWallMovementControl;
 import com.Harbinger.Spore.Sentities.Organoids.Mound;
@@ -27,6 +28,7 @@ import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -287,10 +289,13 @@ public class InfectionTendril extends UtilityEntity {
                 level.removeBlock(blockpos.above(),false);
                 this.discard();
             }else if (blockstate.is(Sblocks.HIVE_SPAWN.get()) || blockstate.is(Sblocks.BIOMASS_LUMP.get()) ){
-                if (blockEntity instanceof HiveSpawnBlockEntity || blockEntity instanceof BiomassLumpEntity){
-                    blockEntity.getPersistentData().putInt("kills",blockEntity.getPersistentData().getInt("kills") + SConfig.SERVER.mound_tendril_feed.get());
+                if (blockEntity instanceof LivingStructureBlocks structureBlocks){
+                    structureBlocks.setKills(structureBlocks.getKills() + SConfig.SERVER.mound_tendril_feed.get());
                     this.discard();
                 }
+            }else if (blockstate.is(Blocks.SPAWNER)){
+                level.setBlock(blockpos,Sblocks.OVERGROWN_SPAWNER.get().defaultBlockState(), 2);
+                this.discard();
             }
         }
     }
