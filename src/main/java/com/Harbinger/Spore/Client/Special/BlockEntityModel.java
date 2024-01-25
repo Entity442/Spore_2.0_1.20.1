@@ -15,6 +15,6 @@ public abstract class BlockEntityModel<T extends BlockEntity> extends Model {
         this(RenderType::entityCutout);
     }
 
-    public abstract void setupAnim(T p_102618_, float p_102621_);
+    public abstract void setupAnim(T entity, float ageInTicks);
 
 }

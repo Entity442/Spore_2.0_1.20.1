@@ -22,16 +22,19 @@ public class OvergrownSpawnerModel<T extends OvergrownSpawnerEntity> extends Blo
 	private final ModelPart tumor;
 
 	public OvergrownSpawnerModel() {
-		ModelPart root = createBodyLayer().bakeRoot();
+		ModelPart root = createBodyLayer().bakeRoot();;
 		this.body = root.getChild("body");
 		this.tumor = root.getChild("tumor");
 	}
+
+
 
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 0).addBox(-8.0F, -16.0F, -8.0F, 16.0F, 16.0F, 16.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
+		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 0).addBox(-8.0F, -16.0F, -8.0F, 16.0F, 16.0F, 16.0F, new CubeDeformation(0.0F))
+		.texOffs(22, 50).addBox(-7.0F, -0.05F, -7.0F, 14.0F, 0.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
 
 		PartDefinition tumor = partdefinition.addOrReplaceChild("tumor", CubeListBuilder.create().texOffs(24, 32).addBox(-3.0F, -4.85F, -3.0F, 6.0F, 4.0F, 6.0F, new CubeDeformation(0.0F))
 		.texOffs(48, 32).addBox(-2.0F, -10.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.75F, 0.0F));
@@ -40,9 +43,9 @@ public class OvergrownSpawnerModel<T extends OvergrownSpawnerEntity> extends Blo
 
 		PartDefinition cube_r2 = tumor.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(0, 0).addBox(0.0F, -11.25F, -1.75F, 4.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.3927F));
 
-		PartDefinition cube_r3 = tumor.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(20, 42).addBox(-2.25F, -13.25F, -0.5F, 4.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.2618F, 0.0F, 0.0F));
+		PartDefinition cube_r3 = tumor.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(0, 43).addBox(-2.25F, -13.25F, -0.5F, 4.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.2618F, 0.0F, 0.0F));
 
-		PartDefinition cube_r4 = tumor.addOrReplaceChild("cube_r4", CubeListBuilder.create().texOffs(36, 42).addBox(-4.0F, -13.0F, -1.5F, 4.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.3054F));
+		PartDefinition cube_r4 = tumor.addOrReplaceChild("cube_r4", CubeListBuilder.create().texOffs(0, 43).addBox(-4.0F, -13.0F, -1.5F, 4.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.3054F));
 
 		PartDefinition cube_r5 = tumor.addOrReplaceChild("cube_r5", CubeListBuilder.create().texOffs(0, 43).addBox(-2.5F, -12.0F, -3.5F, 4.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.3491F, 0.0F, 0.0F));
 
