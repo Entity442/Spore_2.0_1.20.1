@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Client.Renderers;
 
 import com.Harbinger.Spore.Client.Models.SpitterModel;
+import com.Harbinger.Spore.Client.Special.BaseInfectedRenderer;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Spitter;
 import com.Harbinger.Spore.Sentities.Variants.SpitterVariants;
 import com.Harbinger.Spore.Spore;

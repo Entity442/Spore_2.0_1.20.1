@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Client.Renderers;
 
 import com.Harbinger.Spore.Client.Models.GrieferModel;
+import com.Harbinger.Spore.Client.Special.BaseInfectedRenderer;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Griefer;
 import com.Harbinger.Spore.Sentities.Variants.GrieferVariants;
 import com.Harbinger.Spore.Spore;

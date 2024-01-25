@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Client.Renderers;
 
 
 import com.Harbinger.Spore.Client.Models.InfectedEvokerModel;
+import com.Harbinger.Spore.Client.Special.BaseInfectedRenderer;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.InfectedEvoker;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

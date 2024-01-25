@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Client.Renderers;
 
 import com.Harbinger.Spore.Client.Models.BusserModel;
 import com.Harbinger.Spore.Client.Models.ExplodingBusserModel;
+import com.Harbinger.Spore.Client.Special.BaseInfectedRenderer;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Busser;
 import com.Harbinger.Spore.Sentities.Variants.BusserVariants;
 import com.Harbinger.Spore.Spore;

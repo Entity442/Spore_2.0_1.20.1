@@ -1,9 +1,6 @@
 package com.Harbinger.Spore.Core;
 
-import com.Harbinger.Spore.SBlockEntities.BiomassLumpEntity;
-import com.Harbinger.Spore.SBlockEntities.CDUBlockEntity;
-import com.Harbinger.Spore.SBlockEntities.ContainerBlockEntity;
-import com.Harbinger.Spore.SBlockEntities.HiveSpawnBlockEntity;
+import com.Harbinger.Spore.SBlockEntities.*;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -32,6 +29,10 @@ public class SblockEntities {
             BLOCK_ENTITIES.register("cdu", () ->
                     BlockEntityType.Builder.of(CDUBlockEntity::new,
                             Sblocks.CDU.get()).build(null));
+    public static final RegistryObject<BlockEntityType<OvergrownSpawnerEntity>> OVERGROWN_SPAWNER =
+            BLOCK_ENTITIES.register("overgrown_spawner", () ->
+                    BlockEntityType.Builder.of(OvergrownSpawnerEntity::new,
+                            Sblocks.OVERGROWN_SPAWNER.get()).build(null));
 
 
     public static void register(IEventBus eventBus) {

@@ -1,4 +1,4 @@
-package com.Harbinger.Spore.Client.Renderers;
+package com.Harbinger.Spore.Client.Special;
 
 import com.Harbinger.Spore.Client.Layers.EyeLayer;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;

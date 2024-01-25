@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Client.Renderers;
 
 import com.Harbinger.Spore.Client.Models.InfectedPlayerModel;
+import com.Harbinger.Spore.Client.Special.BaseInfectedRenderer;
 import com.Harbinger.Spore.Sentities.BasicInfected.InfectedPlayer;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.client.model.HumanoidArmorModel;

@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Client;
 import com.Harbinger.Spore.Client.Models.*;
 import com.Harbinger.Spore.Client.Renderers.*;
 import com.Harbinger.Spore.Core.SMenu;
+import com.Harbinger.Spore.Core.SblockEntities;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Sparticles;
 import com.Harbinger.Spore.Particles.AcidParticle;
@@ -15,7 +16,6 @@ import com.Harbinger.Spore.sEvents.SItemProperties;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
-import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -73,6 +73,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(SiegerTailModel.LAYER_LOCATION, SiegerTailModel::createBodyLayer);
         event.registerLayerDefinition(LickerModel.LAYER_LOCATION, LickerModel::createBodyLayer);
         event.registerLayerDefinition(SantaModel.LAYER_LOCATION, SantaModel::createBodyLayer);
+        event.registerLayerDefinition(OvergrownSpawnerModel.LAYER_LOCATION, OvergrownSpawnerModel::createBodyLayer);
     }
 
 
@@ -124,7 +125,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.SCENT.get(), ScentEntityRenderer::new);
         event.registerEntityRenderer(Sentities.TENDRIL.get(), TendrilRenderer::new);
 
-
+        event.registerBlockEntityRenderer(SblockEntities.OVERGROWN_SPAWNER.get(), model -> new OvergrownSpawnerRenderer());
     }
 
     @SubscribeEvent
