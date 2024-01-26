@@ -35,9 +35,11 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.util.FakePlayerFactory;
@@ -49,6 +51,7 @@ import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.entity.living.LivingChangeTargetEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
@@ -451,6 +454,17 @@ public class HandlerEvents {
                 infectedDrowned.setKills(1);
                 infectedDrowned.setTarget(event.getEntity());
                 event.getEntity().level().addFreshEntity(infectedDrowned);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void ExplosiveBite(LivingEntityUseItemEvent.Finish event){
+        if (event != null && Math.random() < 0.2){
+            ItemStack item = event.getItem();
+            if (item.getItem() == Sitems.ROASTED_TUMOR.get()){
+                LivingEntity entity = event.getEntity();
+                entity.level().explode(null,entity.getX(),entity.getY(),entity.getZ(),0.5f, Level.ExplosionInteraction.NONE);
             }
         }
     }
