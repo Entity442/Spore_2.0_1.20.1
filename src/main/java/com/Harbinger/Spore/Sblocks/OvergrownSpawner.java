@@ -1,11 +1,18 @@
 package com.Harbinger.Spore.Sblocks;
 
 import com.Harbinger.Spore.Core.SblockEntities;
+import com.Harbinger.Spore.Core.Seffects;
+import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Sparticles;
 import com.Harbinger.Spore.SBlockEntities.OvergrownSpawnerEntity;
+import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.AreaEffectCloud;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -16,6 +23,7 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -70,5 +78,14 @@ public class OvergrownSpawner extends BaseEntityBlock {
             }
           }
         }
+    }
+
+    @Override
+    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
+        ScentEntity scent = new ScentEntity(Sentities.SCENT.get(),level);
+        scent.setOvercharged(true);
+        scent.moveTo(pos.getX(),pos.getY(),pos.getZ());
+        level.addFreshEntity(scent);
+        return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
     }
 }
