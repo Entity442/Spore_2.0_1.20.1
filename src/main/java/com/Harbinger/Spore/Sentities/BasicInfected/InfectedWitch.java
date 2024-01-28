@@ -121,11 +121,6 @@ public class InfectedWitch extends Infected implements RangedAttackMob , RangedB
         tickEvolution(this,SConfig.SERVER.wit_ev.get());
     }
 
-    @Override
-    public void tickEvolution(Infected infected, List<? extends String> value) {
-        EvolvingInfected.super.tickEvolution(infected, value);
-    }
-
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.inf_witch_melee_damage.get() * SConfig.SERVER.global_damage.get())

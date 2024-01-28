@@ -185,9 +185,4 @@ public class InfectedPillager extends Infected implements CrossbowAttackMob , In
         super.baseTick();
         tickEvolution(this,SConfig.SERVER.pil_ev.get());
     }
-
-    @Override
-    public void tickEvolution(Infected infected, List<? extends String> value) {
-        EvolvingInfected.super.tickEvolution(infected, value);
-    }
 }

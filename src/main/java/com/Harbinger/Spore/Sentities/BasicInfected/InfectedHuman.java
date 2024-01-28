@@ -70,11 +70,6 @@ public class InfectedHuman extends Infected implements EvolvingInfected {
         tickEvolution(this,SConfig.SERVER.human_ev.get());
     }
 
-    @Override
-    public void tickEvolution(Infected infected, List<? extends String> value) {
-        EvolvingInfected.super.tickEvolution(infected, value);
-    }
-
     @Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_33282_, DifficultyInstance p_33283_, MobSpawnType p_33284_, @Nullable SpawnGroupData p_33285_, @Nullable CompoundTag p_33286_) {
         RandomSource randomsource = p_33282_.getRandom();

@@ -84,11 +84,6 @@ public class InfectedVillager extends Infected implements EvolvingInfected {
         tickEvolution(this,SConfig.SERVER.villager_ev.get());
     }
 
-    @Override
-    public void tickEvolution(Infected infected, List<? extends String> value) {
-        EvolvingInfected.super.tickEvolution(infected, value);
-    }
-
     protected SoundEvent getAmbientSound() {
         return Ssounds.INF_GROWL.get();
     }

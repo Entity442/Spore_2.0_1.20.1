@@ -93,9 +93,4 @@ public class InfectedWanderingTrader extends Infected implements EvolvingInfecte
         super.baseTick();
         tickEvolution(this,SConfig.SERVER.villager_ev.get());
     }
-
-    @Override
-    public void tickEvolution(Infected infected, List<? extends String> value) {
-        EvolvingInfected.super.tickEvolution(infected, value);
-    }
 }
