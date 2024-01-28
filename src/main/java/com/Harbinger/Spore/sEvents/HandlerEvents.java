@@ -3,7 +3,6 @@ package com.Harbinger.Spore.sEvents;
 import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
-import com.Harbinger.Spore.Sentities.AI.LocHiv.FollowOthersGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
@@ -35,7 +34,6 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.GameRules;
@@ -49,7 +47,6 @@ import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
-import net.minecraftforge.event.entity.living.LivingChangeTargetEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
@@ -104,28 +101,7 @@ public class HandlerEvents {
                         }
                     }
             }
-
-            if (SConfig.SERVER.basic.get().contains(event.getEntity().getEncodeId())) {
-                mob.goalSelector.addGoal(8, new FollowOthersGoal(mob, 0.8, PathfinderMob.class, entity -> {
-                    return SConfig.SERVER.evolved.get().contains(event.getEntity().getEncodeId());
-                }));
             }
-            if (SConfig.SERVER.ranged.get().contains(event.getEntity().getEncodeId())) {
-                mob.goalSelector.addGoal(6, new FollowOthersGoal(mob, 0.8, PathfinderMob.class, entity -> {
-                    return entity instanceof Carrier;
-                }));
-            }
-            if (SConfig.SERVER.can_be_carried.get().contains(event.getEntity().getEncodeId())) {
-                mob.goalSelector.addGoal(7, new FollowOthersGoal(mob, 0.8, PathfinderMob.class, entity -> {
-                    return entity instanceof Carrier;
-                }));
-            }
-            if (SConfig.SERVER.support.get().contains(event.getEntity().getEncodeId())) {
-                mob.goalSelector.addGoal(6, new FollowOthersGoal(mob, 0.8, PathfinderMob.class, entity -> {
-                    return
-                            SConfig.SERVER.evolved.get().contains(event.getEntity().getEncodeId());
-                }));
-            }}
         }
     }
 
@@ -176,6 +152,7 @@ public class HandlerEvents {
                                     player.displayClientMessage(Component.literal("Seconds until starvation: " + infected.getHunger() + "/" + (SConfig.SERVER.hunger.get())),false);
                                     player.displayClientMessage(Component.literal("Is Linked ? " + infected.getLinked()),false);
                                     player.displayClientMessage(Component.literal("Target ? " + infected.getTarget()),false);
+                                    player.displayClientMessage(Component.literal("Partner ? " + infected.getFollowPartner()),false);
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
 
                                 }

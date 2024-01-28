@@ -10,6 +10,7 @@ import com.Harbinger.Spore.Sentities.AI.LocHiv.BufferAI;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.FollowOthersGoal;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.LocalTargettingGoal;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.SearchAreaGoal;
+import com.Harbinger.Spore.Sentities.EvolvingInfected;
 import com.Harbinger.Spore.Sentities.Projectile.AcidBall;
 import com.Harbinger.Spore.Sentities.Projectile.Vomit;
 import net.minecraft.core.BlockPos;
@@ -53,7 +54,6 @@ import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nullable;
-import java.util.Objects;
 
 public class Infected extends Monster{
     public static final EntityDataAccessor<Integer> HUNGER = SynchedEntityData.defineId(Infected.class, EntityDataSerializers.INT);
@@ -64,7 +64,8 @@ public class Infected extends Monster{
     public static final EntityDataAccessor<Boolean> PERSISTENT = SynchedEntityData.defineId(Infected.class, EntityDataSerializers.BOOLEAN);
     @Nullable
     BlockPos searchPos;
-
+    @Nullable
+    protected LivingEntity  partner;
     public Infected(EntityType<? extends Monster> type, Level level) {
         super(type, level);
         this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 16.0F);
@@ -98,6 +99,13 @@ public class Infected extends Monster{
             super.travel(p_32858_);
         }
 
+    }
+
+    public void setFollowPartner(@Nullable LivingEntity followPartner) {
+        this.partner = followPartner;
+    }
+    public LivingEntity getFollowPartner(){
+        return this.partner;
     }
 
     public int getMaxAirSupply() {
@@ -188,7 +196,12 @@ public class Infected extends Monster{
         this.goalSelector.addGoal(4 , new BufferAI(this ));
         this.goalSelector.addGoal(6,new FloatDiveGoal(this));
         this.goalSelector.addGoal(7, new InfectedConsumeFromRemains(this));
-        this.goalSelector.addGoal(10,new FollowOthersGoal(this, 0.7,Infected.class));
+        this.goalSelector.addGoal(4,new FollowOthersGoal(this,Infected.class,entity ->{
+            return true;
+        }));
+        this.goalSelector.addGoal(4,new FollowOthersGoal(this,Calamity.class,entity ->{
+            return this instanceof EvolvingInfected;
+        }));
     }
 
 
