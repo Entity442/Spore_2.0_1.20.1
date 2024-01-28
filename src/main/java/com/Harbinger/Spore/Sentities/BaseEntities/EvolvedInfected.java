@@ -20,6 +20,11 @@ public class EvolvedInfected extends Infected {
     }
 
     @Override
+    public boolean canStarve() {
+        return false;
+    }
+
+    @Override
     public boolean removeWhenFarAway(double p_21542_) {
         return this.getLinked() && !(this instanceof Scamper);
     }
