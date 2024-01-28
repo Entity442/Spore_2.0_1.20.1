@@ -5,7 +5,7 @@ import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
-import com.Harbinger.Spore.Sentities.EvolutionClass;
+import com.Harbinger.Spore.Sentities.EvolvingInfected;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
@@ -13,7 +13,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -26,8 +25,9 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
-public class InfectedHusk extends Infected {
+public class InfectedHusk extends Infected implements EvolvingInfected {
     public InfectedHusk(Level level) {
         super(Sentities.INF_HUSK.get(), level);
     }
@@ -71,17 +71,13 @@ public class InfectedHusk extends Infected {
     @Override
     public void baseTick() {
         super.baseTick();
-
-        if (this.entityData.get(EVOLUTION) >= (20 * SConfig.SERVER.evolution_age_human.get()) && this.entityData.get(EVOLUTION_POINTS) >= SConfig.SERVER.min_kills.get()) {
-            this.entityData.set(EVOLUTION_POINTS,entityData.get(EVOLUTION_POINTS) - SConfig.SERVER.min_kills.get());
-            EvolutionClass.Evolve(this,SConfig.SERVER.human_ev.get());
-        }else{
-            if (!isFreazing() && this.entityData.get(EVOLUTION_POINTS) >= SConfig.SERVER.min_kills.get()) {
-                this.entityData.set(EVOLUTION,entityData.get(EVOLUTION) + 1);
-            }
-        }
+        tickEvolution(this,SConfig.SERVER.human_ev.get());
     }
 
+    @Override
+    public void tickEvolution(Infected infected, List<? extends String> value) {
+        EvolvingInfected.super.tickEvolution(infected, value);
+    }
 
     @Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_33282_, DifficultyInstance p_33283_, MobSpawnType p_33284_, @Nullable SpawnGroupData p_33285_, @Nullable CompoundTag p_33286_) {

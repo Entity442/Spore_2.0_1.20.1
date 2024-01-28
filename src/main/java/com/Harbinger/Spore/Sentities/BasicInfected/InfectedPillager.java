@@ -5,8 +5,7 @@ import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
-import com.Harbinger.Spore.Sentities.EvolutionClass;
-import net.minecraft.core.BlockPos;
+import com.Harbinger.Spore.Sentities.EvolvingInfected;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -30,12 +29,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
-public class InfectedPillager extends Infected implements CrossbowAttackMob , InventoryCarrier {
+public class InfectedPillager extends Infected implements CrossbowAttackMob , InventoryCarrier , EvolvingInfected {
     private static final EntityDataAccessor<Boolean> IS_CHARGING_CROSSBOW = SynchedEntityData.defineId(InfectedPillager.class, EntityDataSerializers.BOOLEAN);
     private static final int INVENTORY_SIZE = 5;
     private static final int SLOT_OFFSET = 300;
@@ -184,16 +183,11 @@ public class InfectedPillager extends Infected implements CrossbowAttackMob , In
     @Override
     public void baseTick() {
         super.baseTick();
-
-        if (this.entityData.get(EVOLUTION) >= (20 * SConfig.SERVER.evolution_age_human.get()) && this.entityData.get(EVOLUTION_POINTS) >= SConfig.SERVER.min_kills.get()) {
-            this.entityData.set(EVOLUTION_POINTS,entityData.get(EVOLUTION_POINTS) - SConfig.SERVER.min_kills.get());
-            EvolutionClass.Evolve(this,SConfig.SERVER.pil_ev.get());
-        }else{
-            if (!isFreazing() && this.entityData.get(EVOLUTION_POINTS) >= SConfig.SERVER.min_kills.get()) {
-                this.entityData.set(EVOLUTION,entityData.get(EVOLUTION) + 1);
-            }
-        }
+        tickEvolution(this,SConfig.SERVER.pil_ev.get());
     }
 
-
+    @Override
+    public void tickEvolution(Infected infected, List<? extends String> value) {
+        EvolvingInfected.super.tickEvolution(infected, value);
+    }
 }

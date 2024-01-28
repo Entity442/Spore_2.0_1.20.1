@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Sentities;
 
+import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
@@ -20,8 +21,20 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
-public class EvolutionClass {
-    public static void Evolve(Infected livingEntity, List<? extends String> value){
+public interface EvolvingInfected {
+    default void tickEvolution(Infected infected, List<? extends String> value){
+        if (infected.tickCount % 20 == 0){
+            if (infected.getEvoPoints() >= SConfig.SERVER.min_kills.get()){
+                if (infected.getEvolutionCoolDown() >= SConfig.SERVER.evolution_age_human.get()){
+                    this.Evolve(infected,value);
+                }else{
+                    infected.setEvolution(infected.getEvolutionCoolDown()+1);
+                }
+            }
+        }
+    }
+
+    default  void Evolve(Infected livingEntity, List<? extends String> value){
         if (livingEntity != null && value != null && livingEntity.level() instanceof ServerLevel world){
             Level level = livingEntity.level();
             RandomSource random = RandomSource.create();
@@ -74,7 +87,4 @@ public class EvolutionClass {
             }
         }
     }
-
-
-
 }

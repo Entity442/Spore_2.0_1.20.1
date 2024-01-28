@@ -8,7 +8,7 @@ import com.Harbinger.Spore.Sentities.AI.BuffAlliesGoal;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.RangedBuff;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
-import com.Harbinger.Spore.Sentities.EvolutionClass;
+import com.Harbinger.Spore.Sentities.EvolvingInfected;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -37,7 +37,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.List;
 import java.util.Random;
 
-public class InfectedWitch extends Infected implements RangedAttackMob , RangedBuff {
+public class InfectedWitch extends Infected implements RangedAttackMob , RangedBuff, EvolvingInfected {
 
     private Potion potion = null;
 
@@ -114,18 +114,16 @@ public class InfectedWitch extends Infected implements RangedAttackMob , RangedB
 
     @Override
     public void tick() {
+        super.tick();
         if (isAlive() && potion != null && this.getMainHandItem() != PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), potion)){
             this.setItemSlot(EquipmentSlot.OFFHAND,PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), potion));
         }
-        if (this.entityData.get(EVOLUTION) >= (20 * SConfig.SERVER.evolution_age_human.get()) && this.entityData.get(EVOLUTION_POINTS) >= SConfig.SERVER.min_kills.get()) {
-            this.entityData.set(EVOLUTION_POINTS,entityData.get(EVOLUTION_POINTS) - SConfig.SERVER.min_kills.get());
-            EvolutionClass.Evolve(this,SConfig.SERVER.wit_ev.get());
-        }else{
-            if (!isFreazing() && this.entityData.get(EVOLUTION_POINTS) >= SConfig.SERVER.min_kills.get()) {
-                this.entityData.set(EVOLUTION,entityData.get(EVOLUTION) + 1);
-            }
-        }
-        super.tick();
+        tickEvolution(this,SConfig.SERVER.wit_ev.get());
+    }
+
+    @Override
+    public void tickEvolution(Infected infected, List<? extends String> value) {
+        EvolvingInfected.super.tickEvolution(infected, value);
     }
 
     public static AttributeSupplier.Builder createAttributes() {

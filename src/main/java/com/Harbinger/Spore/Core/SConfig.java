@@ -363,7 +363,7 @@ public class SConfig {
             this.should_starve = builder.comment("Default true").define("Should the infected starve overtime?",true);
             this.costumes = builder.comment("Default true").define("Should certain mobs wear costumes on occasions?",true);
             this.higher_thinking = builder.comment("Default true").define("Should some infected have higher thinking such as opening doors or trying to break certain blocks?",true);
-            this.hunger = builder.define("Hunger in ticks",6000);
+            this.hunger = builder.define("Hunger in seconds",300);
 
             builder.pop();
             builder.push("TargetingTasks");
@@ -435,7 +435,7 @@ public class SConfig {
             this.undespawn = builder.defineList("Mobs that won't despawn after being created from assimilation",
                     Lists.newArrayList("spore:inf_villager", "spore:inf_pillager", "spore:inf_witch") , o -> o instanceof String);
             this.starve = builder.comment("Default true").define("Should mobs with no kills starve?",true);
-            this.evolution_age_human = builder.comment("Default 150").define("Evolution Timer in seconds",300);
+            this.evolution_age_human = builder.comment("Default 300").define("Evolution Timer in seconds",300);
             this.min_kills = builder.comment("Default 1").define("Minimum amount of kills to start the evolution",1);
             builder.pop();
             builder.push("Infections");
