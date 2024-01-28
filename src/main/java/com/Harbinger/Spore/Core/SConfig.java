@@ -762,7 +762,7 @@ public class SConfig {
 
             builder.push("Spawns");
             this.spawn = builder.comment("Default false").define("Should mobs spawn after a few days?",false);
-            this.mob_cap = builder.comment("Default 30").define("MobCap",30);
+            this.mob_cap = builder.comment("Default 40").define("MobCap",40);
             this.dimension_parameters = builder.comment("Default minecraft:is_overworld").defineList("Dictates in what biome the infected spawn",
                     Lists.newArrayList("minecraft:is_overworld") , o -> o instanceof String);
             this.days = builder.comment("Default 3").define("Days before infected start spawning",3);
