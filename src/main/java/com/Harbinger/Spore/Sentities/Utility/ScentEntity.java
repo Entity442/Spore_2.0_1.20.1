@@ -155,7 +155,7 @@ public class ScentEntity extends UtilityEntity {
                         int k = SConfig.SERVER.scent_kills.get();
                         infected.setKills(random.nextInt(k ,k+3));
                         infected.setEvoPoints(random.nextInt(k ,k+3));
-                        infected.setEvolution(SConfig.SERVER.evolution_age_human.get() * 10);
+                        infected.setEvolution(SConfig.SERVER.evolution_age_human.get()/2);
                         infected.setLinked(true);
                     }
                     for (int l = 0; l < 1; ++l) {

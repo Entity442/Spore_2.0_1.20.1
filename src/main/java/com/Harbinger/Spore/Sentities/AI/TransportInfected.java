@@ -2,7 +2,6 @@ package com.Harbinger.Spore.Sentities.AI;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.level.Level;
@@ -21,10 +20,6 @@ public class TransportInfected<T extends LivingEntity> extends Goal {
     @Nullable
     protected T partner;
 
-    public TransportInfected(Mob mob, Class<T> partnerClass, double speed) {
-        this(mob ,partnerClass, speed, null);
-    }
-
     public TransportInfected(Mob mob, Class<T> partnerClass, double speed, @Nullable Predicate<LivingEntity> en) {
         this.mob = mob;
         this.level = mob.level();
@@ -35,7 +30,7 @@ public class TransportInfected<T extends LivingEntity> extends Goal {
     }
     @Nullable
     private T getFreePartner() {
-        List<T> list = this.level.getNearbyEntities(this.partnerClass, partneerT, this.mob, this.mob.getBoundingBox().inflate(this.mob.getAttributeBaseValue(Attributes.FOLLOW_RANGE)));
+        List<T> list = this.level.getNearbyEntities(this.partnerClass, partneerT, this.mob, this.mob.getBoundingBox().inflate(32));
         double d0 = Double.MAX_VALUE;
         T inf = null;
 
@@ -53,7 +48,7 @@ public class TransportInfected<T extends LivingEntity> extends Goal {
 
     @Override
     public boolean canUse() {
-        if (this.mob.getRandom().nextInt(20) == 0){
+        if (this.mob.tickCount % 20 == 0){
             this.partner = this.getFreePartner();
         }
         return !mob.isVehicle() && mob.getTarget() == null && partner != null;
