@@ -97,7 +97,7 @@ public class InfectedHazmat extends Infected {
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_146746_, DifficultyInstance p_146747_,
                                         MobSpawnType p_146748_, @javax.annotation.Nullable SpawnGroupData p_146749_,
                                         @javax.annotation.Nullable CompoundTag p_146750_) {
-        HazmatVariant variant = Math.random() < 0.3 ? HazmatVariant.TANK : HazmatVariant.DEFAULT;
+        HazmatVariant variant = Math.random() < 0.4 ? HazmatVariant.TANK : HazmatVariant.DEFAULT;
         setVariant(variant);
         return super.finalizeSpawn(p_146746_, p_146747_, p_146748_, p_146749_, p_146750_);
     }
@@ -115,7 +115,7 @@ public class InfectedHazmat extends Infected {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (Math.random() < 0.2){
+        if (Math.random() < 0.5){
             this.tickExplosion();
         }
         return super.hurt(source, amount);
