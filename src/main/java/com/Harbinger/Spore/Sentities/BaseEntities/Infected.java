@@ -196,10 +196,10 @@ public class Infected extends Monster{
         this.goalSelector.addGoal(4 , new BufferAI(this ));
         this.goalSelector.addGoal(6,new FloatDiveGoal(this));
         this.goalSelector.addGoal(7, new InfectedConsumeFromRemains(this));
-        this.goalSelector.addGoal(4,new FollowOthersGoal(this,Infected.class,entity ->{
+        this.goalSelector.addGoal(10,new FollowOthersGoal(this,Infected.class,entity ->{
             return true;
         }));
-        this.goalSelector.addGoal(4,new FollowOthersGoal(this,Calamity.class,entity ->{
+        this.goalSelector.addGoal(10,new FollowOthersGoal(this,Calamity.class,entity ->{
             return this instanceof EvolvingInfected;
         }));
     }
