@@ -126,7 +126,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.SCENT.get(), ScentEntityRenderer::new);
         event.registerEntityRenderer(Sentities.TENDRIL.get(), TendrilRenderer::new);
 
-        event.registerBlockEntityRenderer(SblockEntities.OVERGROWN_SPAWNER.get(), model -> new OvergrownSpawnerRenderer());
+        event.registerBlockEntityRenderer(SblockEntities.OVERGROWN_SPAWNER.get(), new OvergrownSpawnerRenderer());
     }
 
     @SubscribeEvent
@@ -139,10 +139,6 @@ public class ClientModEvents {
             MenuScreens.register(SMenu.CONTAINER.get(), ContainerScreen::new);
         });
 
-    }
-
-    public static <T extends Item> Supplier<T> getElytraItem() {
-        return () -> (T) new Elytron.InfectedElytron();
     }
 
     @SubscribeEvent

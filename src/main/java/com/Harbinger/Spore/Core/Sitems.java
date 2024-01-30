@@ -240,7 +240,7 @@ public class Sitems {
             LivingLeggings::new);
     public  static final RegistryObject<Item> LIVING_BOOTS = ITEMS.register("living_boots",
             LivingBoots::new);
-    public  static final RegistryObject<Item> R_ELYTRON = ITEMS.register("r_elytron", ClientModEvents.getElytraItem());
+    public  static final RegistryObject<Item> R_ELYTRON = ITEMS.register("r_elytron", Elytron.InfectedElytron::new);
 
     public  static final RegistryObject<Item> INF_UP_CHESTPLATE = ITEMS.register("inf_up_chest",
             UpgradedInfectedExoskeleton.InfectedUpChestplate::new);
