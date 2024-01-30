@@ -75,12 +75,9 @@ public class Scamper extends EvolvedInfected {
 
     @Override
     public void tick() {
-        if (this.isAlive() && deployClock > 0)
-        {deployClock = deployClock - 1;}
-        if (this.deployClock == 0){
-            deploying = false;}
-
-        if (this.isAlive()){
+        if (this.isAlive() && deployClock > 0) {deployClock--;}
+        if (this.deployClock == 0){deploying = false;}
+        if (this.isAlive() && this.tickCount % 20 == 0){
             this.setAge(this.getAge()+1);
             if (this.getAge() >= SConfig.SERVER.scamper_age.get()) {
                 if (!level().isClientSide){

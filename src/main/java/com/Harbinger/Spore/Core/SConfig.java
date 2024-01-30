@@ -733,7 +733,7 @@ public class SConfig {
             this.scamper_hp = builder.comment("Default 35").defineInRange("Sets Scamper Max health", 25, 1, Double.MAX_VALUE);
             this.scamper_damage = builder.comment("Default 10").defineInRange("Sets Scamper Damage", 6, 1, Double.MAX_VALUE);
             this.scamper_armor = builder.comment("Default 2").defineInRange("Sets Scamper Armor", 3, 1, Double.MAX_VALUE);
-            this.scamper_age = builder.comment("Default 12000").defineInRange("Sets Scamper Age", 12000, 1, Integer.MAX_VALUE);
+            this.scamper_age = builder.comment("Default 600").defineInRange("Sets Scamper Age", 600, 1, Integer.MAX_VALUE);
             this.scamper_summon = builder.comment("Default true").define("Should a Scamper Summon Mounds on death?",true);
             builder.pop();
 

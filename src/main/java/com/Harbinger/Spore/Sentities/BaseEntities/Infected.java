@@ -243,7 +243,7 @@ public class Infected extends Monster{
             if (entityData.get(HUNGER) < SConfig.SERVER.hunger.get()) {
                 int i = this.isInPowderSnow || this.isFreazing() ? 2:1;
                 entityData.set(HUNGER, entityData.get(HUNGER) + i);
-            } else if (entityData.get(HUNGER) >= SConfig.SERVER.hunger.get()) {
+            } else if (entityData.get(HUNGER) >= SConfig.SERVER.hunger.get() && !this.hasEffect(Seffects.STARVATION.get())) {
                 this.addEffect(new MobEffectInstance(Seffects.STARVATION.get(), 100, 0));
             }
         }

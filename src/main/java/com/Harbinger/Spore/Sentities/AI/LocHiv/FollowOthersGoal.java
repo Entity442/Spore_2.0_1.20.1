@@ -56,7 +56,7 @@ public class FollowOthersGoal extends Goal {
         List<? extends LivingEntity> list = infected.level().getEntitiesOfClass(desired_partner, this.infected.getBoundingBox().inflate(32),PARTNER_TARGETING);
         double d0 = Double.MAX_VALUE;
         for(LivingEntity inf1 : list) {
-            if (this.infected.distanceToSqr(inf1) < d0) {
+            if (this.infected.distanceToSqr(inf1) < d0 && inf1 != this.infected) {
                 infected.setFollowPartner(inf1);
                 d0 = this.infected.distanceToSqr(inf1);
             }

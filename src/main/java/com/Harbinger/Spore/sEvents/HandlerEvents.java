@@ -153,6 +153,9 @@ public class HandlerEvents {
                                     player.displayClientMessage(Component.literal("Is Linked ? " + infected.getLinked()),false);
                                     player.displayClientMessage(Component.literal("Target ? " + infected.getTarget()),false);
                                     player.displayClientMessage(Component.literal("Partner ? " + infected.getFollowPartner()),false);
+                                    if (infected instanceof Scamper scamper){
+                                        player.displayClientMessage(Component.literal("Time before overtake ? " + scamper.getAge()+"/"+SConfig.SERVER.scamper_age.get()),false);
+                                    }
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
 
                                 }
