@@ -115,7 +115,7 @@ public class InfectedHazmat extends Infected {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (Math.random() < 0.5){
+        if (this.getVariant() == HazmatVariant.TANK && Math.random() < 0.5){
             this.tickExplosion();
         }
         return super.hurt(source, amount);
@@ -124,14 +124,16 @@ public class InfectedHazmat extends Infected {
     @Override
     public void tick() {
         super.tick();
-        if(this.getBlowTime() == 1){
-            this.playSound(SoundEvents.TNT_PRIMED);
-        }
-        if (this.getBlowTime() > 0){
-            tickExplosion();
-        }
-        if (this.getBlowTime() >= 60){
-            explodeTank();
+        if (this.getVariant() == HazmatVariant.TANK){
+            if(this.getBlowTime() == 1){
+                this.playSound(SoundEvents.TNT_PRIMED);
+            }
+            if (this.getBlowTime() > 0){
+                tickExplosion();
+            }
+            if (this.getBlowTime() >= 60){
+                explodeTank();
+            }
         }
     }
 
