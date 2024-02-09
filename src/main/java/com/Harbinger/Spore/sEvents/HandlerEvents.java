@@ -3,6 +3,9 @@ package com.Harbinger.Spore.sEvents;
 import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
+import com.Harbinger.Spore.SBlockEntities.BrainRemnantBlockEntity;
+import com.Harbinger.Spore.SBlockEntities.CDUBlockEntity;
+import com.Harbinger.Spore.SBlockEntities.LivingStructureBlocks;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
@@ -27,6 +30,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
@@ -38,6 +42,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.util.FakePlayerFactory;
@@ -193,6 +198,7 @@ public class HandlerEvents {
                                     player.displayClientMessage(Component.literal("Current Target " + proto.getTarget()),false);
                                     player.displayClientMessage(Component.literal("Buffs " + proto.getActiveEffects()),false);
                                     player.displayClientMessage(Component.literal("Mobs under control " + proto.getHosts()),false);
+                                    player.displayClientMessage(Component.literal("Targeted individuals " + proto.readTargets()),false);
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
                                 }
                             }
@@ -232,6 +238,30 @@ public class HandlerEvents {
                     return 0;
                 }));
 
+        event.getDispatcher().register(Commands.literal(Spore.MODID+":check_block_entity")
+                .executes(arguments -> {
+                    ServerLevel world = arguments.getSource().getLevel();
+                    Entity entity = arguments.getSource().getEntity();
+                    if (entity == null)
+                        entity = FakePlayerFactory.getMinecraft(world);
+                    if (entity != null) {
+                        AABB aabb = entity.getBoundingBox().inflate(5);
+                        for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+                            BlockEntity blockEntity = entity.level().getBlockEntity(blockpos);
+                            if (entity instanceof Player player && !player.level().isClientSide) {
+                                if (blockEntity instanceof LivingStructureBlocks structureBlocks){
+                                    player.displayClientMessage(Component.literal("Structure block with " + structureBlocks.getKills() + " kills"), false);
+                                }else if (blockEntity instanceof BrainRemnantBlockEntity block){
+                                    player.displayClientMessage(Component.literal("Brain with source " + block.getSource() +", time"+ block.getTime()+ " and UUID "+block.getUUID()), false);
+                                }else if (blockEntity instanceof CDUBlockEntity block){
+                                    player.displayClientMessage(Component.literal("Fuel " + block.fuel), false);
+                                }
+                            }
+
+                        }
+                        }
+                    return 0;
+                }));
 
     }
     @SubscribeEvent

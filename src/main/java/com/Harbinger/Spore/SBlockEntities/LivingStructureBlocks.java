@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class LivingStructureBlocks extends BlockEntity {
-    private int kills;
+    int kills;
     public LivingStructureBlocks(BlockEntityType<?> p_155228_, BlockPos pos, BlockState state) {
         super(p_155228_, pos, state);
     }
@@ -17,6 +17,7 @@ public class LivingStructureBlocks extends BlockEntity {
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         tag.putInt("kills",this.getKills());
+
     }
 
     @Override
@@ -24,6 +25,7 @@ public class LivingStructureBlocks extends BlockEntity {
         super.load(tag);
         this.setKills(tag.getInt("kills"));
     }
+
 
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {

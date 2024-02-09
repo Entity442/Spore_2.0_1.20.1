@@ -5,14 +5,19 @@ import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
+import com.Harbinger.Spore.SBlockEntities.BrainRemnantBlockEntity;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
+import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -34,6 +39,7 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -42,14 +48,16 @@ import net.minecraftforge.registries.ForgeRegistries;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public class Proto extends Organoid {
     private static final EntityDataAccessor<Integer> HOSTS = SynchedEntityData.defineId(Proto.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Optional<UUID>> TARGET = SynchedEntityData.defineId(Proto.class, EntityDataSerializers.OPTIONAL_UUID);
     public Proto(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         setPersistenceRequired();
     }
-
     int counter;
     int breakCounter;
     @Nullable
@@ -100,18 +108,14 @@ public class Proto extends Organoid {
                 if (en instanceof Infected infected){
                     if (!infected.getLinked()){
                         infected.setLinked(true);
-                        setHosts(getHosts() + 1);
-                    }else{
-                        setHosts(getHosts()+1);
                     }
+                    setHosts(getHosts() + 1);
                 }
                 if (en instanceof Mound mound){
                     if (!mound.getLinked()){
                         mound.setLinked(true);
-                        setHosts(getHosts()+1);
-                    }else{
-                        setHosts(getHosts()+1);
                     }
+                    setHosts(getHosts()+1);
                 }
                 if (SConfig.SERVER.proto_raid.get()){
                     if (Math.random() < (SConfig.SERVER.proto_raid_chance.get()/100f) && (en instanceof Player || SConfig.SERVER.proto_sapient_target.get().contains(en.getEncodeId()))){
@@ -178,10 +182,7 @@ public class Proto extends Organoid {
             }
             AABB aabb = this.proto.getBoundingBox().inflate(8);
             List<Entity> entities1 = this.proto.level().getEntities(this.proto, aabb ,EntitySelector.NO_CREATIVE_OR_SPECTATOR);
-            if (entities1.size() >= 3){
-                return false;
-            }
-            return true;
+            return entities1.size() < 3;
         }
 
         @Override
@@ -290,24 +291,39 @@ public class Proto extends Organoid {
     protected int calculateFallDamage(float p_149389_, float p_149390_) {
         return super.calculateFallDamage(p_149389_, p_149390_) - 60;
     }
-
+    @Nullable
+    public void addTargets(@Nullable UUID uuid) {
+        this.entityData.set(TARGET, Optional.ofNullable(uuid));
+    }
+    @Nullable
+    public UUID readTargets() {
+        return this.entityData.get(TARGET).orElse((UUID)null);
+    }
 
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt("hosts",entityData.get(HOSTS));
+
+        if (this.readTargets() != null) {
+            tag.putUUID("victim", this.readTargets());
+        }
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         entityData.set(HOSTS, tag.getInt("hosts"));
+        if (tag.hasUUID("victim")){
+            this.addTargets(tag.getUUID("victim"));
+        }
     }
 
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
         entityData.define(HOSTS,0);
+        this.entityData.define(TARGET, Optional.empty());
     }
     public int getHosts(){
         return entityData.get(HOSTS);
@@ -365,7 +381,14 @@ public class Proto extends Organoid {
                         level().setBlock(blockpos.above(), Sblocks.ROOTED_BIOMASS.get().defaultBlockState(), 2);
                     }
                     if (Math.random() < 0.15) {
-                        level().setBlock(blockpos.above(), Sblocks.FUNGAL_SHELL.get().defaultBlockState(), 2);
+                        level().setBlock(blockpos, Sblocks.BRAIN_REMNANTS.get().defaultBlockState(), 2);
+                        BlockEntity blockEntity = level().getBlockEntity(blockpos);
+                        if (blockEntity instanceof BrainRemnantBlockEntity block){
+                            if (source.getDirectEntity() instanceof LivingEntity living){
+                                block.setUUID(living.getUUID());
+                            }
+                            block.setSource(source);
+                        }
                     }
                 }
 

@@ -33,6 +33,10 @@ public class SblockEntities {
             BLOCK_ENTITIES.register("overgrown_spawner", () ->
                     BlockEntityType.Builder.of(OvergrownSpawnerEntity::new,
                             Sblocks.OVERGROWN_SPAWNER.get()).build(null));
+    public static final RegistryObject<BlockEntityType<BrainRemnantBlockEntity>> BRAIN_REMNANTS =
+            BLOCK_ENTITIES.register("brain_remnants", () ->
+                    BlockEntityType.Builder.of(BrainRemnantBlockEntity::new,
+                            Sblocks.BRAIN_REMNANTS.get()).build(null));
 
 
     public static void register(IEventBus eventBus) {
