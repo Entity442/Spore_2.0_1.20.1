@@ -2,6 +2,8 @@ package com.Harbinger.Spore.Sentities.Calamities;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sitems;
+import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.AerialRangedGoal;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.CalamityInfectedCommand;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SporeBurstSupport;
@@ -30,7 +32,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.LookControl;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.level.Level;
@@ -57,7 +58,6 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
         this.mouth = new CalamityMultipart(this, "mouth", 3.0F, 0.5F);
         this.subEntities = new CalamityMultipart[]{ this.lowerbody, this.forwardbody,this.rightcannon,this.leftcannon,this.mouth};
         this.moveControl = new HindenMovementController(this );
-        this.navigation = new FlyingPathNavigation(this,level);
         this.lookControl = new HindenLookControl(this);
         this.setId(ENTITY_COUNTER.getAndAdd(this.subEntities.length + 1) + 1);
     }
@@ -110,6 +110,7 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
                 .add(Attributes.MOVEMENT_SPEED, 0.25)
                 .add(Attributes.FLYING_SPEED, 0.25)
                 .add(Attributes.ARMOR, SConfig.SERVER.hinden_armor.get() * SConfig.SERVER.global_armor.get())
+                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.hinden_damage.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.FOLLOW_RANGE, 64)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1)
                 .add(Attributes.ATTACK_KNOCKBACK, 2);
@@ -156,6 +157,13 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
 
     @Override
     public void registerGoals() {
+        this.goalSelector.addGoal(3, new AOEMeleeAttackGoal(this,1,true,2,4){
+            @Override
+            public boolean canUse() {
+                return super.canUse() && this.mob.getTarget() != null && (!Hinderburg.this.hasLineOfSight(this.mob.getTarget())
+                || this.mob.distanceToSqr(this.mob.getTarget()) < 10);
+            }
+        });
         this.goalSelector.addGoal(4,new NukeMob(this));
         this.goalSelector.addGoal(5,new AerialRangedGoal(this,1.3,40,16,3,8){
             @Override
@@ -247,13 +255,28 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
 
         @Override
         public void tick() {
+            super.tick();
             if (mob.getTarget() != null){
                 this.mob.getNavigation().moveTo(mob.getTarget() ,1.5);
-                if (mob.tryToSummonNUKE(mob.getTarget())){
+            }
+        }
+
+        @Override
+        public void start() {
+            super.start();
+            if (mob.getTarget() != null){
+                if (tryToSummonNUKE(mob.getTarget())){
                     mob.SummonNuke();
                 }
             }
-            super.tick();
+        }
+        public  boolean tryToSummonNUKE(Entity entity){
+            if (entity != null && this.mob.isArmed()){
+                double x = Math.abs(entity.getX())  - Math.abs(this.mob.getX());
+                double z = Math.abs(entity.getZ()) - Math.abs(this.mob.getZ());
+                return entity.getY() < this.mob.getY() && (Math.abs(x) < 6) && (Math.abs(z) < 6);
+            }
+            return false;
         }
     }
 
@@ -277,13 +300,8 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
                 if (this.floatDuration-- <= 0) {
                     this.floatDuration += this.mob.getRandom().nextInt(4) + 2;
                     Vec3 vec3 = new Vec3(this.wantedX - this.mob.getX(), this.wantedY - this.mob.getY(), this.wantedZ - this.mob.getZ());
-                    double d0 = vec3.length();
                     vec3 = vec3.normalize();
-                    if (this.canReach(vec3, Mth.ceil(d0))) {
-                        this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(vec3.scale(0.1D)));
-                    } else {
-                        this.operation = MoveControl.Operation.WAIT;
-                    }
+                    this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(vec3.scale(0.1D)));
                 }
 
             }
@@ -292,19 +310,6 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
                     this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0,-0.01,0));
                 }
             }
-        }
-
-        private boolean canReach(Vec3 p_32771_, int p_32772_) {
-            AABB aabb = this.mob.getBoundingBox();
-
-            for(int i = 1; i < p_32772_; ++i) {
-                aabb = aabb.move(p_32771_);
-                if (!this.mob.level().noCollision(this.mob, aabb)) {
-                    return false;
-                }
-            }
-
-            return true;
         }
     }
 
@@ -396,12 +401,9 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
     }
 
 
-    public  boolean tryToSummonNUKE(Entity entity){
-        if (entity != null && this.isArmed()){
-            double x = Math.abs(entity.getX())  - Math.abs(this.getX());
-            double z = Math.abs(entity.getZ()) - Math.abs(this.getZ());
-            return entity.getY() < this.getY() && (Math.abs(x) < 6) && (Math.abs(z) < 6);
-        }
-        return false;
+    @Override
+    public boolean doHurtTarget(Entity entity) {
+        this.playSound(Ssounds.SIEGER_BITE.get());
+        return super.doHurtTarget(entity);
     }
 }

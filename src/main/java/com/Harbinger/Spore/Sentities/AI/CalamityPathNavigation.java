@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities.AI;
 
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
+import com.Harbinger.Spore.Sentities.FlyingInfected;
 import com.Harbinger.Spore.Sentities.WaterInfected;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -73,6 +74,14 @@ public class CalamityPathNavigation extends GroundPathNavigation {
                     return node.distanceManhattan(node1);
                 }
             };
+        }else if (this.mob instanceof FlyingInfected){
+            this.nodeEvaluator = new AirCalamityNodeEvaluator();
+            this.nodeEvaluator.setCanPassDoors(true);
+            return new PathFinder(this.nodeEvaluator,value) {
+                protected float distance(Node node, Node node1) {
+                    return node.distanceManhattan(node1);
+                }
+            };
         }else{
             this.nodeEvaluator = new CalamityNodeEvaluator();
             this.nodeEvaluator.setCanPassDoors(true);
@@ -87,6 +96,15 @@ public class CalamityPathNavigation extends GroundPathNavigation {
 
 
     protected static class CalamityNodeEvaluator extends WalkNodeEvaluator{
+        protected BlockPathTypes evaluateBlockPathType(BlockGetter getter, BlockPos pos, BlockPathTypes pathTypes) {
+            if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(mob.level(), mob)){
+                return pathTypes == BlockPathTypes.OPEN ? BlockPathTypes.BLOCKED : super.evaluateBlockPathType(getter, pos, pathTypes);
+            }
+            return BlockPathTypes.OPEN;
+        }
+    }
+
+    protected static class AirCalamityNodeEvaluator extends FlyNodeEvaluator{
         protected BlockPathTypes evaluateBlockPathType(BlockGetter getter, BlockPos pos, BlockPathTypes pathTypes) {
             if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(mob.level(), mob)){
                 return pathTypes == BlockPathTypes.OPEN ? BlockPathTypes.BLOCKED : super.evaluateBlockPathType(getter, pos, pathTypes);

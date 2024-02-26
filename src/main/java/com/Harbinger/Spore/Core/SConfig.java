@@ -172,6 +172,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> gazen_debuffs;
 
         public final ForgeConfigSpec.ConfigValue<Double> hinden_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> hinden_damage;
         public final ForgeConfigSpec.ConfigValue<Double> hinden_armor;
         public final ForgeConfigSpec.ConfigValue<Double> hinden_dpsr;
         public final ForgeConfigSpec.ConfigValue<Integer> hinden_block_damage;
@@ -551,6 +552,7 @@ public class SConfig {
 
             builder.push("HindenBurg");
             this.hinden_hp = builder.comment("Default 400").defineInRange("Sets HindenBurg Max health", 400, 1, Double.MAX_VALUE);
+            this.hinden_damage = builder.comment("Default 400").defineInRange("Sets HindenBurg Danage", 15, 1, Double.MAX_VALUE);
             this.hinden_armor = builder.comment("Default 5").defineInRange("Sets HindenBurg Armor", 5, 1, Double.MAX_VALUE);
             this.hinden_dpsr = builder.comment("Default 40").defineInRange("Sets HindenBurg Damage Cap , set to 0 to disable", 40, 1, Double.MAX_VALUE);
             this.hinden_block_damage = builder.comment("Default 4").defineInRange("Sets Sieger maximum hardness for a block to be broken", 4, 1, Integer.MAX_VALUE);
