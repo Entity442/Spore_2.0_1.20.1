@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Core;
 
 import com.Harbinger.Spore.Sentities.BasicInfected.*;
 import com.Harbinger.Spore.Sentities.Calamities.Gazenbrecher;
+import com.Harbinger.Spore.Sentities.Calamities.Hinderburg;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.*;
 import com.Harbinger.Spore.Sentities.FallenMultipart.Licker;
@@ -203,4 +204,8 @@ public class Sentities {
     public static final RegistryObject<EntityType<Licker>> LICKER = SPORE_ENTITIES.register("licker",
             () -> EntityType.Builder.of(Licker::new, MobCategory.MISC).sized(1.4f, 1f)
                     .build(new ResourceLocation(Spore.MODID, "licker").toString()));
+
+    public static final RegistryObject<EntityType<Hinderburg>> HINDENBURG = SPORE_ENTITIES.register("hindenburg",
+            () -> EntityType.Builder.of(Hinderburg::new, INFECTED).sized(5f, 5f)
+                    .build(new ResourceLocation(Spore.MODID, "hindenburg").toString()));
 }

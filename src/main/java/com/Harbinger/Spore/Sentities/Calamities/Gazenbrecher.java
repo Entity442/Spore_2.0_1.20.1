@@ -15,6 +15,7 @@ import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.FallenMultipart.Licker;
 import com.Harbinger.Spore.Sentities.Projectile.BileProjectile;
+import com.Harbinger.Spore.Sentities.TrueCalamity;
 import com.Harbinger.Spore.Sentities.WaterInfected;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
@@ -43,7 +44,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 
-public class Gazenbrecher extends Calamity implements WaterInfected , RangedAttackMob {
+public class Gazenbrecher extends Calamity implements WaterInfected , RangedAttackMob , TrueCalamity {
     public static final EntityDataAccessor<Float> TONGUE = SynchedEntityData.defineId(Gazenbrecher.class, EntityDataSerializers.FLOAT);
     private int radar;
     private final CalamityMultipart[] subEntities;
@@ -184,10 +185,6 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
         super.aiStep();
     }
 
-
-    private void tickPart(CalamityMultipart part, double e, double i, double o) {
-        part.setPos(this.getX() + e, this.getY() + i, this.getZ() + o);
-    }
     public CalamityMultipart[] getSubEntities() {
         return this.subEntities;
     }
@@ -221,7 +218,7 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
     }
 
 
-    private void chemAttack() {
+    public void chemAttack() {
         AABB boundingBox = this.getBoundingBox().inflate(16);
         List<Entity> entities = this.level().getEntities(this, boundingBox);
         for (Entity entity : entities) {
@@ -268,13 +265,7 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
         this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.2));
         this.goalSelector.addGoal(6,new CalamityInfectedCommand(this));
         this.goalSelector.addGoal(7,new SummonScentInCombat(this));
-        this.goalSelector.addGoal(8,new SporeBurstSupport(this){
-            @Override
-            public void start() {
-                super.start();
-                chemAttack();
-            }
-        });
+        this.goalSelector.addGoal(8,new SporeBurstSupport(this));
         super.registerGoals();
     }
 

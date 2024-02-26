@@ -11,6 +11,7 @@ import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.BasicInfected.*;
 import com.Harbinger.Spore.Sentities.Calamities.Gazenbrecher;
+import com.Harbinger.Spore.Sentities.Calamities.Hinderburg;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import com.Harbinger.Spore.Sentities.Carrier;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.*;
@@ -177,6 +178,9 @@ public class HandlerEvents {
                                     }
                                     if (calamity instanceof Gazenbrecher sieger){
                                         player.displayClientMessage(Component.literal("Tongue health "+ sieger.getTongueHp()+"/"+sieger.getMaxTongueHp()),false);
+                                    }
+                                    if (calamity instanceof Hinderburg sieger){
+                                        player.displayClientMessage(Component.literal("Is armed "+ sieger.isArmed()),false);
                                     }
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
                                 }

@@ -104,20 +104,6 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected {
         super.registerGoals();
     }
 
-    @Override
-    public boolean hurt(DamageSource source, float amount) {
-        double damage;
-        if (this.getTypeVariant() == 1){
-            damage = 0.1;
-        }else {
-            damage = 0.3;
-        }
-        if (Math.random() < damage && this.isVehicle()){
-            this.ejectPassengers();
-        }
-        return super.hurt(source, amount);
-    }
-
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, SConfig.SERVER.bus_hp.get() * SConfig.SERVER.global_health.get())

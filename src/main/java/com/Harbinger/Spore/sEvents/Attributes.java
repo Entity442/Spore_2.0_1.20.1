@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Sentities.*;
 import com.Harbinger.Spore.Sentities.BasicInfected.*;
 import com.Harbinger.Spore.Sentities.Calamities.Gazenbrecher;
+import com.Harbinger.Spore.Sentities.Calamities.Hinderburg;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.*;
 import com.Harbinger.Spore.Sentities.FallenMultipart.Licker;
@@ -57,6 +58,7 @@ public class Attributes {
         event.put(Sentities.GAZENBREACHER.get(), Gazenbrecher.createAttributes().build());
         event.put(Sentities.SIEGER_TAIL.get(), SiegerTail.createAttributes().build());
         event.put(Sentities.LICKER.get(), Licker.createAttributes().build());
+        event.put(Sentities.HINDENBURG.get(), Hinderburg.createAttributes().build());
     }
 }
 

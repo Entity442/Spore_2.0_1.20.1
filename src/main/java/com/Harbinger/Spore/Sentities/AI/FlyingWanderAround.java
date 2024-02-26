@@ -19,7 +19,7 @@ public class FlyingWanderAround extends Goal {
     }
 
     public boolean canUse() {
-        return mob.getNavigation().isDone() && mob.getRandom().nextInt(1,10) == 3;
+        return mob.getNavigation().isDone() && mob.tickCount % 40 == 0;
     }
 
     public boolean canContinueToUse() {

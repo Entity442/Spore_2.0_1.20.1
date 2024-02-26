@@ -9,7 +9,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.*;
-import net.minecraftforge.event.entity.EntityMobGriefingEvent;
+import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 
@@ -41,6 +41,10 @@ public class CalamityPathNavigation extends GroundPathNavigation {
             this.speedModifier = value;
             return true;
         }
+    }
+
+    protected boolean canMoveDirectly(Vec3 vec3, Vec3 vec31) {
+        return isClearForMovementBetween(this.mob, vec3, vec31, true);
     }
 
     public void tick() {

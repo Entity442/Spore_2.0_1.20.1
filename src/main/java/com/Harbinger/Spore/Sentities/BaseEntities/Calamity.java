@@ -93,6 +93,10 @@ public class Calamity extends UtilityEntity implements Enemy {
     }
 
 
+    protected void tickPart(CalamityMultipart part, double e, double i, double o) {
+        part.setPos(this.getX() + e, this.getY() + i, this.getZ() + o);
+    }
+
     @Override
     public void awardKillScore(Entity entity, int i, DamageSource damageSource) {
         this.entityData.set(KILLS, entityData.get(KILLS) + 1);
@@ -305,7 +309,7 @@ public class Calamity extends UtilityEntity implements Enemy {
             super.tick();
             ++this.tryTicks;
             if (this.infected.getSearchArea() != BlockPos.ZERO && shouldRecalculatePath()) {
-                this.infected.getNavigation().moveTo(this.infected.getSearchArea().getX(), this.infected.getSearchArea().getY(), this.infected.getSearchArea().getZ(), 1);
+                this.moveMobToBlock();
             }
             if (this.infected.getSearchArea() != BlockPos.ZERO && this.infected.getSearchArea().distToCenterSqr(this.infected.position()) < 20.0) {
                 if(infected.level() instanceof ServerLevel serverLevel){

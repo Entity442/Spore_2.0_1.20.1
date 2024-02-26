@@ -1,14 +1,11 @@
 package com.Harbinger.Spore.Sentities.MovementControls;
 
+import com.Harbinger.Spore.Sentities.FlyingInfected;
 import com.Harbinger.Spore.Sentities.WaterInfected;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.fluids.FluidType;
-import net.minecraftforge.fluids.ForgeFlowingFluid;
 
 public class CalamityMovementControl extends MoveControl {
     private final int maxTurn;
@@ -37,8 +34,8 @@ public class CalamityMovementControl extends MoveControl {
                 this.mob.setYya(d1 > 0.0D ? f1 : -f1);
             }
         }
-        if (this.mob instanceof WaterInfected && this.mob.isInFluidType()){
-            if (mob.getRandom().nextInt(10)==0 && this.mob.horizontalCollision){
+        if ((this.mob instanceof WaterInfected && this.mob.isInFluidType())){
+            if (mob.tickCount % 10 ==0 && this.mob.horizontalCollision){
                 this.mob.getJumpControl().jump();
             }
             if (this.wantedY > this.mob.getY()){
@@ -48,4 +45,5 @@ public class CalamityMovementControl extends MoveControl {
             }
         }
     }
+
 }

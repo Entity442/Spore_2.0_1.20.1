@@ -15,6 +15,7 @@ import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.FallenMultipart.SiegerTail;
 import com.Harbinger.Spore.Sentities.Projectile.ThrownTumor;
+import com.Harbinger.Spore.Sentities.TrueCalamity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
@@ -45,7 +46,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 
-public class Sieger extends Calamity implements RangedAttackMob {
+public class Sieger extends Calamity implements RangedAttackMob, TrueCalamity {
     public static final EntityDataAccessor<Float> TAIL_HP = SynchedEntityData.defineId(Sieger.class, EntityDataSerializers.FLOAT);
     private final CalamityMultipart[] subEntities;
     public final CalamityMultipart lowerbody;
@@ -110,10 +111,6 @@ public class Sieger extends Calamity implements RangedAttackMob {
         }
         super.aiStep();
     }
-
-    private void tickPart(CalamityMultipart part, double e, double i, double o) {
-        part.setPos(this.getX() + e, this.getY() + i, this.getZ() + o);
-    }
     public CalamityMultipart[] getSubEntities() {
         return this.subEntities;
     }
@@ -157,13 +154,7 @@ public class Sieger extends Calamity implements RangedAttackMob {
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.2));
         this.goalSelector.addGoal(6,new CalamityInfectedCommand(this));
         this.goalSelector.addGoal(7,new SummonScentInCombat(this));
-        this.goalSelector.addGoal(8,new SporeBurstSupport(this){
-            @Override
-            public void start() {
-                super.start();
-                chemAttack();
-            }
-        });
+        this.goalSelector.addGoal(8,new SporeBurstSupport(this));
         this.goalSelector.addGoal(9,new RandomStrollGoal(this , 1));
         super.registerGoals();
     }
@@ -264,7 +255,7 @@ public class Sieger extends Calamity implements RangedAttackMob {
         }
     }
 
-    private void chemAttack() {
+    public void chemAttack() {
         AABB boundingBox = this.getBoundingBox().inflate(16);
         List<Entity> entities = this.level().getEntities(this, boundingBox);
         for (Entity entity : entities) {

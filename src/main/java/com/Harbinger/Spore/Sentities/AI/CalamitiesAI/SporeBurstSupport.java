@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities.AI.CalamitiesAI;
 
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
+import com.Harbinger.Spore.Sentities.TrueCalamity;
 import net.minecraft.world.entity.ai.goal.Goal;
 
 public class SporeBurstSupport extends Goal {
@@ -18,6 +19,9 @@ public class SporeBurstSupport extends Goal {
     @Override
     public void start() {
         this.calamity.setStun(60);
+        if (calamity instanceof TrueCalamity trueCalamity){
+            trueCalamity.chemAttack();
+        }
         super.start();
     }
 
