@@ -157,11 +157,11 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
 
     @Override
     public void registerGoals() {
-        this.goalSelector.addGoal(3, new AOEMeleeAttackGoal(this,1,true,2,4){
+        this.goalSelector.addGoal(3, new AOEMeleeAttackGoal(this,1,true,2,6){
             @Override
             public boolean canUse() {
                 return super.canUse() && this.mob.getTarget() != null && (!Hinderburg.this.hasLineOfSight(this.mob.getTarget())
-                || this.mob.distanceToSqr(this.mob.getTarget()) < 10);
+                || this.mob.distanceToSqr(this.mob.getTarget()) < 30);
             }
         });
         this.goalSelector.addGoal(4,new NukeMob(this));
