@@ -2,7 +2,6 @@ package com.Harbinger.Spore.Sentities.BaseEntities;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
-import com.Harbinger.Spore.Sentities.AI.ExtendedNearestAttackableTargetGoal;
 import com.Harbinger.Spore.Sentities.AI.HurtTargetGoal;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -15,6 +14,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
@@ -24,6 +24,10 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.phys.AABB;
+
+import java.util.Objects;
+import java.util.function.Predicate;
 
 public class UtilityEntity extends PathfinderMob {
     protected UtilityEntity(EntityType<? extends PathfinderMob> type, Level level) {
@@ -78,24 +82,6 @@ public class UtilityEntity extends PathfinderMob {
         return this.damageSources().mobAttack(this);
     }
 
-    protected void addTargettingGoals(){
-        this.goalSelector.addGoal(2, new HurtTargetGoal(this , entity -> {return !SConfig.SERVER.blacklist.get().contains(entity.getEncodeId()) || entity instanceof UtilityEntity || entity instanceof Infected;}, Infected.class).setAlertOthers(Infected.class));
-        this.targetSelector.addGoal(1, new ExtendedNearestAttackableTargetGoal<>
-                (this, Player.class,  true));
-        this.targetSelector.addGoal(1, new ExtendedNearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, true, (en) -> {
-            return (SConfig.SERVER.whitelist.get().contains(en.getEncodeId()) || en.hasEffect(Seffects.MARKER.get())) && !(en instanceof Infected || en instanceof UtilityEntity);
-        }));
-        this.targetSelector.addGoal(1, new ExtendedNearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, true, (en) -> {
-            return !(this.otherWorld(en) || this.SkulkLove(en) || this.likedFellows(en)) && SConfig.SERVER.at_mob.get();
-        }));
-        this.targetSelector.addGoal(1, new ExtendedNearestAttackableTargetGoal<>(this, Animal.class, 5, false, true, (en) -> {
-            return !SConfig.SERVER.blacklist.get().contains(en.getEncodeId()) && SConfig.SERVER.at_an.get();
-        }));
-        this.targetSelector.addGoal(1, new ExtendedNearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, true, (en) -> {
-            return !this.likedFellows(en) && SConfig.SERVER.at_mob.get() && ((this.otherWorld(en) && SConfig.SERVER.faw_target.get())
-                    || (this.SkulkLove(en) && SConfig.SERVER.skulk_target.get()));
-        }));
-    }
 
     public boolean otherWorld(Entity entity){
         return entity.getType().is(TagKey.create(Registries.ENTITY_TYPE,
@@ -107,9 +93,44 @@ public class UtilityEntity extends PathfinderMob {
                 new ResourceLocation("sculkhorde:sculk_entity")));
     }
 
-    public boolean likedFellows(Entity en){
-        return en instanceof Animal || en instanceof AbstractFish || en instanceof Infected || en instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(en.getEncodeId());
+    public Predicate<LivingEntity> TARGET_SELECTOR = (entity) -> {
+        if (entity instanceof Player){
+            return true;
+        }else if (entity instanceof Infected || entity instanceof UtilityEntity){
+            return false;
+        }else if (SConfig.SERVER.whitelist.get().contains(entity.getEncodeId()) || entity.hasEffect(Seffects.MARKER.get())){
+            return true;
+        }else if (!SConfig.SERVER.blacklist.get().isEmpty()){
+            for(String string : SConfig.SERVER.blacklist.get()){
+                if (string.endsWith(":")){
+                    String[] mod = string.split(":");
+                    String[] iterations = entity.getEncodeId().split(":");
+                    if (Objects.equals(mod[0], iterations[0])){
+                        return false;
+                    }
+                }
+            }
+            return !SConfig.SERVER.blacklist.get().contains(entity.getEncodeId());
+        }else if ((entity instanceof Animal || entity instanceof AbstractFish) && !SConfig.SERVER.at_an.get()){
+            return false;
+        } else if (this.otherWorld(entity) && SConfig.SERVER.faw_target.get()){
+            return false;
+        }else if (this.SkulkLove(entity) && SConfig.SERVER.skulk_target.get()){
+            return false;
+        }else return SConfig.SERVER.at_mob.get();
+    };
+
+    protected void addTargettingGoals(){
+        this.goalSelector.addGoal(2, new HurtTargetGoal(this ,livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}, Infected.class).setAlertOthers(Infected.class));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
+                (this, LivingEntity.class,  true, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}){
+            @Override
+            protected AABB getTargetSearchArea(double value) {
+                return this.mob.getBoundingBox().inflate(value, value, value);
+            }
+        });
     }
+
 
     protected boolean Cold(){
         BlockPos pos = new BlockPos(this.getBlockX(),this.getBlockY(),this.getBlockZ());

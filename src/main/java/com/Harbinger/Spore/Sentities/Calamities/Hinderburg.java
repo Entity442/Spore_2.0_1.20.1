@@ -31,7 +31,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.LookControl;
 import net.minecraft.world.entity.ai.control.MoveControl;
-import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.level.Level;
@@ -191,7 +190,7 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
             avec3[j] = new Vec3(this.subEntities[j].getX(), this.subEntities[j].getY(), this.subEntities[j].getZ());
         }
 
-        this.tickPart(this.forwardbody, (double)(f2 * -5F), 0.0D, (double)(f15 * 5F));
+        this.tickPart(this.forwardbody, (double)(f2 * -5F), 0.0D, (double)(f15 * -5F));
         this.tickPart(this.lowerbody, (double)(f2 * 5.0F), 0.0D, (double)(-f15 * 5.0F));
         this.tickPart(this.mouth, (double)(f2 * -0.5F), -0.5D, (double)(f15 * 0.5F));
 

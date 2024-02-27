@@ -54,6 +54,8 @@ import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nullable;
+import java.util.Objects;
+import java.util.function.Predicate;
 
 public class Infected extends Monster{
     public static final EntityDataAccessor<Integer> HUNGER = SynchedEntityData.defineId(Infected.class, EntityDataSerializers.INT);
@@ -172,39 +174,6 @@ public class Infected extends Monster{
         return this.damageSources().mobAttack(this);
     }
 
-    @Override
-    protected void registerGoals() {
-        this.goalSelector.addGoal(4, new SearchAreaGoal(this, 1.2));
-        this.goalSelector.addGoal(3,new LocalTargettingGoal(this));
-        this.goalSelector.addGoal(2, new HurtTargetGoal(this ,entity -> {return !(SConfig.SERVER.blacklist.get().contains(entity.getEncodeId()) || entity instanceof UtilityEntity || entity instanceof Infected);}, Infected.class).setAlertOthers(Infected.class));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
-                (this, Player.class,  true));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, true, (en) -> {
-            return (SConfig.SERVER.whitelist.get().contains(en.getEncodeId()) || en.hasEffect(Seffects.MARKER.get())) && !(en instanceof Infected || en instanceof UtilityEntity);
-        }));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, true, (en) -> {
-            return !(this.otherWorld(en) || this.SkulkLove(en) || this.likedFellows(en)) && SConfig.SERVER.at_mob.get();
-        }));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Animal.class, 5, false, true, (en) -> {
-            return !SConfig.SERVER.blacklist.get().contains(en.getEncodeId()) && SConfig.SERVER.at_an.get();
-        }));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, true, (en) -> {
-            return !this.likedFellows(en) && SConfig.SERVER.at_mob.get() && ((this.otherWorld(en) && SConfig.SERVER.faw_target.get())
-            || (this.SkulkLove(en) && SConfig.SERVER.skulk_target.get()));
-        }));
-        this.goalSelector.addGoal(5 , new InfectedPanicGoal(this , 1.5));
-        this.goalSelector.addGoal(4 , new BufferAI(this ));
-        this.goalSelector.addGoal(6,new FloatDiveGoal(this));
-        this.goalSelector.addGoal(7, new InfectedConsumeFromRemains(this));
-        this.goalSelector.addGoal(10,new FollowOthersGoal(this,Infected.class,entity ->{
-            return true;
-        }));
-        this.goalSelector.addGoal(10,new FollowOthersGoal(this,Calamity.class,entity ->{
-            return this instanceof EvolvingInfected;
-        }));
-    }
-
-
 
 
     public boolean otherWorld(Entity entity){
@@ -217,11 +186,55 @@ public class Infected extends Monster{
                 new ResourceLocation("sculkhorde:sculk_entity")));
     }
 
-    public boolean likedFellows(Entity en){
-        return en instanceof Animal || en instanceof AbstractFish || en instanceof Infected || en instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(en.getEncodeId());
+    public Predicate<LivingEntity> TARGET_SELECTOR = (entity) -> {
+        if (entity instanceof Player){
+            return true;
+        }else if (entity instanceof Infected || entity instanceof UtilityEntity){
+            return false;
+        }else if (SConfig.SERVER.whitelist.get().contains(entity.getEncodeId()) || entity.hasEffect(Seffects.MARKER.get())){
+            return true;
+        }else if (!SConfig.SERVER.blacklist.get().isEmpty()){
+            for(String string : SConfig.SERVER.blacklist.get()){
+                if (string.endsWith(":")){
+                    String[] mod = string.split(":");
+                    String[] iterations = entity.getEncodeId().split(":");
+                    if (Objects.equals(mod[0], iterations[0])){
+                        return false;
+                    }
+                }
+            }
+            return !SConfig.SERVER.blacklist.get().contains(entity.getEncodeId());
+        }else if ((entity instanceof Animal || entity instanceof AbstractFish) && !SConfig.SERVER.at_an.get()){
+            return false;
+        } else if (this.otherWorld(entity) && SConfig.SERVER.faw_target.get()){
+            return false;
+        }else if (this.SkulkLove(entity) && SConfig.SERVER.skulk_target.get()){
+            return false;
+        }else return SConfig.SERVER.at_mob.get();
+    };
+
+    protected void addTargettingGoals(){
+        this.goalSelector.addGoal(2, new HurtTargetGoal(this ,livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}, Infected.class).setAlertOthers(Infected.class));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
+                (this, LivingEntity.class,  true, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
     }
 
-
+    @Override
+    protected void registerGoals() {
+        addTargettingGoals();
+        this.goalSelector.addGoal(3,new LocalTargettingGoal(this));
+        this.goalSelector.addGoal(4 , new BufferAI(this ));
+        this.goalSelector.addGoal(4, new SearchAreaGoal(this, 1.2));
+        this.goalSelector.addGoal(5 , new InfectedPanicGoal(this , 1.5));
+        this.goalSelector.addGoal(6,new FloatDiveGoal(this));
+        this.goalSelector.addGoal(7, new InfectedConsumeFromRemains(this));
+        this.goalSelector.addGoal(10,new FollowOthersGoal(this,Infected.class,entity ->{
+            return true;
+        }));
+        this.goalSelector.addGoal(10,new FollowOthersGoal(this,Calamity.class,entity ->{
+            return this instanceof EvolvingInfected;
+        }));
+    }
 
 
     public boolean canStarve(){

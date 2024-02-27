@@ -13,7 +13,6 @@ import com.Harbinger.Spore.Sentities.BasicInfected.*;
 import com.Harbinger.Spore.Sentities.Calamities.Gazenbrecher;
 import com.Harbinger.Spore.Sentities.Calamities.Hinderburg;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
-import com.Harbinger.Spore.Sentities.Carrier;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.*;
 import com.Harbinger.Spore.Sentities.FallenMultipart.Licker;
 import com.Harbinger.Spore.Sentities.FallenMultipart.SiegerTail;
@@ -516,6 +515,9 @@ public class HandlerEvents {
                 event.setResult(Event.Result.DENY);
            }
         }else if (event.getEntity() != null){
+            if (SConfig.SERVER.blacklist.get().contains(event.getEntity().getEncodeId())){
+                event.setResult(Event.Result.DENY);
+            }
             if (SConfig.SERVER.faw_target.get() && event.getEntity().getType().is(TagKey.create(Registries.ENTITY_TYPE,
                     new ResourceLocation("fromanotherworld:things")))){
                 if (event.getEffectInstance().getEffect() == Seffects.MARKER.get()){
