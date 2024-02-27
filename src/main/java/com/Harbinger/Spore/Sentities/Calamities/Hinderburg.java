@@ -157,9 +157,7 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
     public boolean goMelee(){
         Entity entity = this.getTarget();
         if (entity != null){
-            if (this.distanceToSqr(entity) < 9){
-                return true;
-            }else return !entity.onGround() || !entity.isInFluidType();
+            return !entity.onGround() || !entity.isInFluidType();
         }
         return false;
     }
