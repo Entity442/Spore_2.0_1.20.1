@@ -155,26 +155,29 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
         }
     }
 
+    public boolean goMelee(){
+        Entity entity = this.getTarget();
+        if (entity != null){
+            if (this.distanceToSqr(entity) < 9){
+                return true;
+            }else return !entity.onGround() || !entity.isInFluidType();
+        }
+        return false;
+    }
+
     @Override
     public void registerGoals() {
-        this.goalSelector.addGoal(3, new AOEMeleeAttackGoal(this,1,true,2,6){
+        this.goalSelector.addGoal(4, new AOEMeleeAttackGoal(this,1,true,2,6){
             @Override
             public boolean canUse() {
-                return super.canUse() && this.mob.getTarget() != null && (!Hinderburg.this.hasLineOfSight(this.mob.getTarget())
-                || this.mob.distanceToSqr(this.mob.getTarget()) < 30);
+                return super.canUse() && Hinderburg.this.goMelee();
             }
         });
-        this.goalSelector.addGoal(4,new NukeMob(this));
-        this.goalSelector.addGoal(5,new AerialRangedGoal(this,1.3,40,16,3,8){
-            @Override
-            public boolean canUse() {
-                return super.canUse() && !Hinderburg.this.isArmed();
-            }
-        });
+        this.goalSelector.addGoal(5,new AerialRangedGoal(this,1.3,40,16,3,8));
         this.goalSelector.addGoal(6,new CalamityInfectedCommand(this));
         this.goalSelector.addGoal(7,new SummonScentInCombat(this));
         this.goalSelector.addGoal(8,new SporeBurstSupport(this));
-        this.goalSelector.addGoal(9,new FlyingWanderAround(this,1));
+        this.goalSelector.addGoal(9,new FlyingWanderAround(this,0.5));
         super.registerGoals();
     }
 
@@ -243,43 +246,14 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
         return super.hurt(source, amount);
     }
 
-    private static class NukeMob extends Goal{
-        private final Hinderburg mob;
-        public NukeMob(Hinderburg mob){
-            this.mob = mob;
+    public  boolean tryToSummonNUKE(Entity entity){
+        if (entity != null && this.isArmed()){
+            double x = Math.abs(entity.getX())  - Math.abs(this.getX());
+            double z = Math.abs(entity.getZ()) - Math.abs(this.getZ());
+            return entity.getY() < this.getY() && (Math.abs(x) < 10) && (Math.abs(z) < 10);
         }
-        @Override
-        public boolean canUse() {
-            return mob.getTarget() != null && mob.isArmed();
-        }
-
-        @Override
-        public void tick() {
-            super.tick();
-            if (mob.getTarget() != null){
-                this.mob.getNavigation().moveTo(mob.getTarget() ,1.5);
-            }
-        }
-
-        @Override
-        public void start() {
-            super.start();
-            if (mob.getTarget() != null){
-                if (tryToSummonNUKE(mob.getTarget())){
-                    mob.SummonNuke();
-                }
-            }
-        }
-        public  boolean tryToSummonNUKE(Entity entity){
-            if (entity != null && this.mob.isArmed()){
-                double x = Math.abs(entity.getX())  - Math.abs(this.mob.getX());
-                double z = Math.abs(entity.getZ()) - Math.abs(this.mob.getZ());
-                return entity.getY() < this.mob.getY() && (Math.abs(x) < 6) && (Math.abs(z) < 6);
-            }
-            return false;
-        }
+        return false;
     }
-
     public void SummonNuke(){
         PrimedTnt tnt = new PrimedTnt(this.level(),this.getX(),this.getY(),this.getZ(),this);
         this.level().addFreshEntity(tnt);
@@ -323,9 +297,11 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
         public void tick() {
             super.tick();
             if (this.mob.getTarget() == null) {
-                Vec3 vec3 = this.mob.getDeltaMovement();
-                this.mob.setYRot(-((float)Mth.atan2(vec3.x, vec3.z)) * (180F / (float)Math.PI));
-                this.mob.yBodyRot = this.mob.getYRot();
+                if (this.mob.tickCount % 40 == 0){
+                    Vec3 vec3 = this.mob.getDeltaMovement();
+                    this.mob.setYRot(-((float)Mth.atan2(vec3.x, vec3.z)) * (180F / (float)Math.PI));
+                    this.mob.yBodyRot = this.mob.getYRot();
+                }
             } else {
                 LivingEntity livingentity = this.mob.getTarget();
                 if (livingentity.distanceToSqr(this.mob) < 4096.0D) {
@@ -397,6 +373,9 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
             tumor.shoot(dx, dy - tumor.getY() + Math.hypot(dx, dz) * 0.05F, dz, 1f * 2, 12.0F);
             level().addFreshEntity(tumor);
             this.setDeltaMovement(this.getDeltaMovement().add(new Vec3(dx, dy, dz).normalize().scale(0.2D)));
+            if (tryToSummonNUKE(livingEntity)){
+                SummonNuke();
+            }
         }
     }
 
