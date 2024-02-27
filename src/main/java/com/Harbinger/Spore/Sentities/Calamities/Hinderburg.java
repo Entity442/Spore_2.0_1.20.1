@@ -22,6 +22,8 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
@@ -42,6 +44,7 @@ import java.util.List;
 
 public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamity , RangedAttackMob {
     public static final EntityDataAccessor<Integer> BOMB = SynchedEntityData.defineId(Hinderburg.class, EntityDataSerializers.INT);
+    private int bomb_timer = -1;
     private final CalamityMultipart[] subEntities;
     public final CalamityMultipart lowerbody;
     public final CalamityMultipart forwardbody;
@@ -101,6 +104,23 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
         if(this.getBomb() < 2450){
             this.setBomb(this.getBomb() +1);
         }
+        if (this.getBombTimer() >= 0){
+            tickBomb();
+            if (this.getBombTimer() == 1){
+                this.playSound(Ssounds.HINDEN_NUKE.get());
+            }
+            if (this.getBombTimer() >= 80){
+                this.SummonNuke();
+                this.bomb_timer = -1;
+            }
+        }
+    }
+
+    public int getBombTimer(){
+        return this.bomb_timer;
+    }
+    public void tickBomb(){
+        this.bomb_timer++;
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -252,11 +272,9 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
         return false;
     }
     public void SummonNuke(){
-        if (tryToSummonNUKE(this.getTarget())){
             PrimedTnt tnt = new PrimedTnt(this.level(),this.getX(),this.getY(),this.getZ(),this);
             this.level().addFreshEntity(tnt);
             this.setBomb(0);
-        }
     }
 
     private static class HindenMovementController extends MoveControl{
@@ -286,6 +304,26 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
         }
     }
 
+    @Override
+    public int getAmbientSoundInterval() {
+        return 200;
+    }
+
+    protected SoundEvent getAmbientSound() {
+        return Ssounds.HINDEN_AMBIENT.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource p_34327_) {
+        return Ssounds.INF_DAMAGE.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return Ssounds.INF_DAMAGE.get();
+    }
+
+    protected SoundEvent getStepSound() {
+        return SoundEvents.RAVAGER_STEP;
+    }
 
     private static class HindenLookControl extends LookControl{
         public HindenLookControl(Mob mob) {

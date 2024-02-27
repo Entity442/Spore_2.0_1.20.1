@@ -103,6 +103,18 @@
       "spore:proto_ambient"
     ]
   },
+  "hinden_ambient" :{
+    "subtitle": "sounds.spore.hinden_ambient",
+    "sounds": [
+      "spore:hinden_ambient"
+    ]
+  },
+  "hinden_nuke" :{
+    "subtitle": "sounds.spore.hinden_nuke",
+    "sounds": [
+      "spore:hinden_nuke"
+    ]
+  },
   "limb_slash" :{
     "subtitle": "sounds.spore.limb_slash",
     "sounds": [
