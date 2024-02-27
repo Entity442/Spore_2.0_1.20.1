@@ -106,8 +106,8 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, SConfig.SERVER.hinden_hp.get() * SConfig.SERVER.global_health.get())
-                .add(Attributes.MOVEMENT_SPEED, 0.25)
-                .add(Attributes.FLYING_SPEED, 0.25)
+                .add(Attributes.MOVEMENT_SPEED, 0.2)
+                .add(Attributes.FLYING_SPEED, 0.2)
                 .add(Attributes.ARMOR, SConfig.SERVER.hinden_armor.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.hinden_damage.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.FOLLOW_RANGE, 64)
@@ -254,9 +254,11 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
         return false;
     }
     public void SummonNuke(){
-        PrimedTnt tnt = new PrimedTnt(this.level(),this.getX(),this.getY(),this.getZ(),this);
-        this.level().addFreshEntity(tnt);
-        this.setBomb(0);
+        if (tryToSummonNUKE(this.getTarget())){
+            PrimedTnt tnt = new PrimedTnt(this.level(),this.getX(),this.getY(),this.getZ(),this);
+            this.level().addFreshEntity(tnt);
+            this.setBomb(0);
+        }
     }
 
     private static class HindenMovementController extends MoveControl{
@@ -372,9 +374,6 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
             tumor.shoot(dx, dy - tumor.getY() + Math.hypot(dx, dz) * 0.05F, dz, 1f * 2, 12.0F);
             level().addFreshEntity(tumor);
             this.setDeltaMovement(this.getDeltaMovement().add(new Vec3(dx, dy, dz).normalize().scale(0.2D)));
-            if (tryToSummonNUKE(livingEntity)){
-                SummonNuke();
-            }
         }
     }
 

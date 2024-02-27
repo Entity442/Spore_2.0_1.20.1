@@ -51,6 +51,9 @@ public class AerialRangedGoal extends ScatterShotRangedGoal {
 
             this.mob.getLookControl().setLookAt(this.target, 30.0F, 30.0F);
             if (--this.attackTime == 0) {
+                if (mob instanceof Hinderburg hinderburg){
+                    hinderburg.SummonNuke();
+                }
                 if (!flag) {
                     return;
                 }
