@@ -26,6 +26,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
@@ -141,8 +142,10 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
         if (calamityMultipart == this.mouth){
             this.hurt(source,value * 2f);
         }else if(calamityMultipart == this.rightcannon || calamityMultipart == this.leftcannon){
-            this.level().explode(this,this.getX(),this.getY(),this.getZ(),2, Level.ExplosionInteraction.NONE);
-            this.hurt(source,value * 1.5f);
+            if (!source.is(DamageTypes.EXPLOSION)){
+                this.level().explode(this,this.getX(),this.getY(),this.getZ(),2, Level.ExplosionInteraction.NONE);
+                this.hurt(source,value * 1.5f);
+            }
         }else {
             this.hurt(source,value);
         }
@@ -187,7 +190,12 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
         this.goalSelector.addGoal(4, new AOEMeleeAttackGoal(this,1,true,2,6){
             @Override
             public boolean canUse() {
-                return super.canUse() && Hinderburg.this.goMelee();
+                return Hinderburg.this.goMelee() && super.canUse();
+            }
+
+            @Override
+            public boolean canContinueToUse() {
+                return Hinderburg.this.goMelee() && super.canContinueToUse();
             }
         });
         this.goalSelector.addGoal(5,new AerialRangedGoal(this,1.3,40,16,3,8));
