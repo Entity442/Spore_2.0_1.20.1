@@ -14,7 +14,7 @@ public class HindieRenderer<Type extends Hinderburg> extends BaseInfectedRendere
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/hindie.png");
     private static final ResourceLocation EYE_TEXTURE = new ResourceLocation(Spore.MODID,
-            "textures/entity/eyes/gazen.png");
+            "textures/entity/eyes/hindie.png");
 
 
     public HindieRenderer(EntityRendererProvider.Context context) {
