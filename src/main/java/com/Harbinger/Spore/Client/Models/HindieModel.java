@@ -62,13 +62,14 @@ public class HindieModel<T extends Hinderburg> extends EntityModel<T> {
 		this.BackTendrils3 = this.Hindie.getChild("Center").getChild("Back1").getChild("Back1Bottom").getChild("B1Tendrils").getChild("B1Tendril3");
 		this.BackTendrils4 = this.Hindie.getChild("Center").getChild("Back1").getChild("Back1Bottom").getChild("B1Tendrils").getChild("B1Tendril4");
 		this.BackTendrils5 = this.Hindie.getChild("Center").getChild("Back1").getChild("Back1Bottom").getChild("B1Tendrils").getChild("B1Tendril4");
+
 	}
 
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition Hindie = partdefinition.addOrReplaceChild("Hindie", CubeListBuilder.create(), PartPose.offset(0.0F, -77.0F, 0.0F));
+		PartDefinition Hindie = partdefinition.addOrReplaceChild("Hindie", CubeListBuilder.create(), PartPose.offset(0.0F, -22.0F, 0.0F));
 
 		PartDefinition Center = Hindie.addOrReplaceChild("Center", CubeListBuilder.create().texOffs(0, 72).addBox(-35.0F, -146.4F, -34.988F, 70.0F, 2.0F, 70.0F, new CubeDeformation(0.0F))
 		.texOffs(0, 0).addBox(-35.0F, -75.4F, -34.988F, 70.0F, 2.0F, 70.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 101.4F, -0.012F));
@@ -830,7 +831,7 @@ public class HindieModel<T extends Hinderburg> extends EntityModel<T> {
 
 		PartDefinition Front1Tendrils = Front1Bottom.addOrReplaceChild("Front1Tendrils", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		PartDefinition F1Tendril1 = Front1Tendrils.addOrReplaceChild("F1Tendril1", CubeListBuilder.create().texOffs(257, 4).addBox(-3.5F, -1.0F, -3.5F, 7.0F, 11.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-14.5F, 113.0F, 19.5F, 0.2618F, 0.0F, 0.0F));
+		PartDefinition F1Tendril1 = Front1Tendrils.addOrReplaceChild("F1Tendril1", CubeListBuilder.create().texOffs(257, 4).addBox(-3.5F, -1.0F, -3.5F, 7.0F, 11.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(-14.5F, 113.0F, 19.5F));
 
 		PartDefinition Tumor3_r4 = F1Tendril1.addOrReplaceChild("Tumor3_r4", CubeListBuilder.create().texOffs(155, 312).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.1651F, 2.3916F, 1.0289F, -0.4842F, -0.6882F, -1.0092F));
 
