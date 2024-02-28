@@ -191,7 +191,9 @@ public class Infected extends Monster{
             return true;
         }else if (entity instanceof Infected || entity instanceof UtilityEntity || entity instanceof AbstractFish || entity instanceof Animal){
             return false;
-        }else if (SConfig.SERVER.whitelist.get().contains(entity.getEncodeId()) || entity.hasEffect(Seffects.MARKER.get())){
+        }else if (this.otherWorld(entity) || this.SkulkLove(entity)){
+          return false;
+        } else if (SConfig.SERVER.whitelist.get().contains(entity.getEncodeId()) || entity.hasEffect(Seffects.MARKER.get())){
             return true;
         }else if (!SConfig.SERVER.blacklist.get().isEmpty()){
             for(String string : SConfig.SERVER.blacklist.get()){
@@ -204,11 +206,6 @@ public class Infected extends Monster{
                 }
             }
             return !SConfig.SERVER.blacklist.get().contains(entity.getEncodeId());
-        }
-        else if (this.otherWorld(entity) && SConfig.SERVER.faw_target.get()){
-            return false;
-        }else if (this.SkulkLove(entity) && SConfig.SERVER.skulk_target.get()) {
-            return false;
         }else return  SConfig.SERVER.at_mob.get();
     };
 
@@ -216,6 +213,9 @@ public class Infected extends Monster{
         this.goalSelector.addGoal(2, new HurtTargetGoal(this ,livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}, Infected.class).setAlertOthers(Infected.class));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
                 (this, LivingEntity.class,  true, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
+                (this, LivingEntity.class,  true, livingEntity -> {return (!SConfig.SERVER.faw_target.get() && this.otherWorld(livingEntity))
+                        || (!SConfig.SERVER.skulk_target.get() && this.SkulkLove(livingEntity));}));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
                 (this, Animal.class,  true, livingEntity -> {return SConfig.SERVER.at_an.get();}));
     }

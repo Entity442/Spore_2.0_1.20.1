@@ -98,9 +98,12 @@ public class UtilityEntity extends PathfinderMob {
             return true;
         }else if (entity instanceof Infected || entity instanceof UtilityEntity || entity instanceof AbstractFish || entity instanceof Animal){
             return false;
+        }else if (this.otherWorld(entity) || this.SkulkLove(entity)){
+            return false;
         }else if (SConfig.SERVER.whitelist.get().contains(entity.getEncodeId()) || entity.hasEffect(Seffects.MARKER.get())){
             return true;
-        }else if (!SConfig.SERVER.blacklist.get().isEmpty()){
+        }
+        else if (!SConfig.SERVER.blacklist.get().isEmpty()){
             for(String string : SConfig.SERVER.blacklist.get()){
                 if (string.endsWith(":")){
                     String[] mod = string.split(":");
@@ -111,11 +114,6 @@ public class UtilityEntity extends PathfinderMob {
                 }
             }
             return !SConfig.SERVER.blacklist.get().contains(entity.getEncodeId());
-        }
-        else if (this.otherWorld(entity) && SConfig.SERVER.faw_target.get()){
-            return false;
-        }else if (this.SkulkLove(entity) && SConfig.SERVER.skulk_target.get()) {
-            return false;
         }else return  SConfig.SERVER.at_mob.get();
     };
 
@@ -123,6 +121,14 @@ public class UtilityEntity extends PathfinderMob {
         this.goalSelector.addGoal(2, new HurtTargetGoal(this ,livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}, Infected.class).setAlertOthers(Infected.class));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
                 (this, LivingEntity.class,  true, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}){
+            @Override
+            protected AABB getTargetSearchArea(double value) {
+                return this.mob.getBoundingBox().inflate(value, value, value);
+            }
+        });
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
+                (this, LivingEntity.class,  true, livingEntity -> {return (!SConfig.SERVER.faw_target.get() && this.otherWorld(livingEntity))
+                        || (!SConfig.SERVER.skulk_target.get() && this.SkulkLove(livingEntity));}){
             @Override
             protected AABB getTargetSearchArea(double value) {
                 return this.mob.getBoundingBox().inflate(value, value, value);
