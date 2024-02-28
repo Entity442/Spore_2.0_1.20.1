@@ -1646,7 +1646,7 @@ public class HindieModel<T extends Hinderburg> extends EntityModel<T> {
 		this.LeftTumor.yScale = 1 + Mth.sin(ageInTicks/6)/6;
 		this.LeftTumor.zScale = 1 + Mth.sin(ageInTicks/7)/6;
 
-		this.RightTumor.xRot = headPitch /  ( 90F / (float) Math.PI);
+		this.RightCannon.xRot = headPitch /  ( 90F / (float) Math.PI);
 		this.LeftCannon.xRot = headPitch /  ( 90F / (float) Math.PI);
 		this.FrontTendril1.xRot = Mth.sin(ageInTicks/5)/4;
 		this.FrontTendril2.xRot = Mth.cos(ageInTicks/6)/4;

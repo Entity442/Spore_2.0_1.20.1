@@ -142,10 +142,7 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
         if (calamityMultipart == this.mouth){
             this.hurt(source,value * 2f);
         }else if(calamityMultipart == this.rightcannon || calamityMultipart == this.leftcannon){
-            if (!source.is(DamageTypes.EXPLOSION)){
-                this.level().explode(this,this.getX(),this.getY(),this.getZ(),2, Level.ExplosionInteraction.NONE);
-                this.hurt(source,value * 1.5f);
-            }
+            this.hurt(source,value * 3f);
         }else {
             this.hurt(source,value);
         }
@@ -177,28 +174,15 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
         }
     }
 
-    public boolean goMelee(){
-        Entity entity = this.getTarget();
-        if (entity != null){
-            return !entity.onGround() || !entity.isInFluidType();
-        }
-        return false;
-    }
-
     @Override
     public void registerGoals() {
-        this.goalSelector.addGoal(4, new AOEMeleeAttackGoal(this,1,true,2,6){
+        this.goalSelector.addGoal(5,new AerialRangedGoal(this,1.3,40,16,3,8){
             @Override
             public boolean canUse() {
-                return Hinderburg.this.goMelee() && super.canUse();
-            }
-
-            @Override
-            public boolean canContinueToUse() {
-                return Hinderburg.this.goMelee() && super.canContinueToUse();
+                return super.canUse() && (this.target != null && (this.target.onGround() || this.target.isInFluidType()));
             }
         });
-        this.goalSelector.addGoal(5,new AerialRangedGoal(this,1.3,40,16,3,8));
+        this.goalSelector.addGoal(6, new AOEMeleeAttackGoal(this,1,true,2,6));
         this.goalSelector.addGoal(6,new CalamityInfectedCommand(this));
         this.goalSelector.addGoal(7,new SummonScentInCombat(this));
         this.goalSelector.addGoal(8,new SporeBurstSupport(this));
