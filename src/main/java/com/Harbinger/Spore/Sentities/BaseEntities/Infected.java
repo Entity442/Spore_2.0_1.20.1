@@ -189,7 +189,7 @@ public class Infected extends Monster{
     public Predicate<LivingEntity> TARGET_SELECTOR = (entity) -> {
         if (entity instanceof Player){
             return true;
-        }else if (entity instanceof Infected || entity instanceof UtilityEntity){
+        }else if (entity instanceof Infected || entity instanceof UtilityEntity || entity instanceof AbstractFish || entity instanceof Animal){
             return false;
         }else if (SConfig.SERVER.whitelist.get().contains(entity.getEncodeId()) || entity.hasEffect(Seffects.MARKER.get())){
             return true;
@@ -204,19 +204,20 @@ public class Infected extends Monster{
                 }
             }
             return !SConfig.SERVER.blacklist.get().contains(entity.getEncodeId());
-        }else if ((entity instanceof Animal || entity instanceof AbstractFish) && !SConfig.SERVER.at_an.get()){
+        }
+        else if (this.otherWorld(entity) && SConfig.SERVER.faw_target.get()){
             return false;
-        } else if (this.otherWorld(entity) && SConfig.SERVER.faw_target.get()){
+        }else if (this.SkulkLove(entity) && SConfig.SERVER.skulk_target.get()) {
             return false;
-        }else if (this.SkulkLove(entity) && SConfig.SERVER.skulk_target.get()){
-            return false;
-        }else return SConfig.SERVER.at_mob.get();
+        }else return  SConfig.SERVER.at_mob.get();
     };
 
     protected void addTargettingGoals(){
         this.goalSelector.addGoal(2, new HurtTargetGoal(this ,livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}, Infected.class).setAlertOthers(Infected.class));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
                 (this, LivingEntity.class,  true, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
+                (this, Animal.class,  true, livingEntity -> {return SConfig.SERVER.at_an.get();}));
     }
 
     @Override
