@@ -127,8 +127,8 @@ public class UtilityEntity extends PathfinderMob {
             }
         });
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
-                (this, LivingEntity.class,  true, livingEntity -> {return (!SConfig.SERVER.faw_target.get() && this.otherWorld(livingEntity))
-                        || (!SConfig.SERVER.skulk_target.get() && this.SkulkLove(livingEntity));}){
+                (this, LivingEntity.class,  true, livingEntity -> {return (SConfig.SERVER.faw_target.get() && this.otherWorld(livingEntity))
+                        || (SConfig.SERVER.skulk_target.get() && this.SkulkLove(livingEntity));}){
             @Override
             protected AABB getTargetSearchArea(double value) {
                 return this.mob.getBoundingBox().inflate(value, value, value);

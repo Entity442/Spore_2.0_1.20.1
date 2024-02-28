@@ -214,8 +214,8 @@ public class Infected extends Monster{
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
                 (this, LivingEntity.class,  true, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
-                (this, LivingEntity.class,  true, livingEntity -> {return (!SConfig.SERVER.faw_target.get() && this.otherWorld(livingEntity))
-                        || (!SConfig.SERVER.skulk_target.get() && this.SkulkLove(livingEntity));}));
+                (this, LivingEntity.class,  true, livingEntity -> {return (SConfig.SERVER.faw_target.get() && this.otherWorld(livingEntity))
+                        || (SConfig.SERVER.skulk_target.get() && this.SkulkLove(livingEntity));}));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
                 (this, Animal.class,  true, livingEntity -> {return SConfig.SERVER.at_an.get();}));
     }
