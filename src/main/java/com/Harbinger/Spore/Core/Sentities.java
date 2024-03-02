@@ -13,6 +13,7 @@ import com.Harbinger.Spore.Sentities.Projectile.*;
 import com.Harbinger.Spore.Sentities.Utility.InfEvoClaw;
 import com.Harbinger.Spore.Sentities.Utility.InfectionTendril;
 import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
+import com.Harbinger.Spore.Sentities.Utility.TumoroidNuke;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -189,6 +190,10 @@ public class Sentities {
     public static final RegistryObject<EntityType<InfectionTendril>> TENDRIL = SPORE_ENTITIES.register("tendril",
             () -> EntityType.Builder.of(InfectionTendril::new, MobCategory.MISC).sized(0.8f, 0.1f)
                     .build(new ResourceLocation(Spore.MODID, "tendril").toString()));
+
+    public static final RegistryObject<EntityType<TumoroidNuke>> TUMOROID_NUKE = SPORE_ENTITIES.register("tumoroid_hive",
+            () -> EntityType.Builder.of((EntityType.EntityFactory<TumoroidNuke>) TumoroidNuke::new, MobCategory.MISC).sized(3f, 3f)
+                    .build(new ResourceLocation(Spore.MODID, "tumoroid_hive").toString()));
 
     public static final RegistryObject<EntityType<Sieger>> SIEGER = SPORE_ENTITIES.register("sieger",
             () -> EntityType.Builder.of(Sieger::new, INFECTED).sized(2.5f, 3f)

@@ -16,6 +16,7 @@ import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.FlyingInfected;
 import com.Harbinger.Spore.Sentities.Projectile.ThrownTumor;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
+import com.Harbinger.Spore.Sentities.Utility.TumoroidNuke;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -26,7 +27,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
@@ -34,6 +34,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.LookControl;
 import net.minecraft.world.entity.ai.control.MoveControl;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.animal.Ocelot;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.level.Level;
@@ -176,6 +178,7 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
 
     @Override
     public void registerGoals() {
+        this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, TumoroidNuke.class, 10.0F, 1.0D, 1.2D));
         this.goalSelector.addGoal(5,new AerialRangedGoal(this,1.3,40,16,3,8){
             @Override
             public boolean canUse() {
@@ -264,7 +267,7 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
         return false;
     }
     public void SummonNuke(){
-            PrimedTnt tnt = new PrimedTnt(this.level(),this.getX(),this.getY(),this.getZ(),this);
+            TumoroidNuke tnt = new TumoroidNuke(this.level(),this);
             this.level().addFreshEntity(tnt);
             this.setBomb(0);
     }

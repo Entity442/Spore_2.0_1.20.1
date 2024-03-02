@@ -59,6 +59,7 @@ public class Attributes {
         event.put(Sentities.SIEGER_TAIL.get(), SiegerTail.createAttributes().build());
         event.put(Sentities.LICKER.get(), Licker.createAttributes().build());
         event.put(Sentities.HINDENBURG.get(), Hinderburg.createAttributes().build());
+        event.put(Sentities.TUMOROID_NUKE.get(), Hinderburg.createAttributes().build());
     }
 }
 
