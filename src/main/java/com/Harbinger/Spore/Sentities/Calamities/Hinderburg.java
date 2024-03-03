@@ -35,8 +35,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.LookControl;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.world.entity.animal.Ocelot;
-import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -415,4 +413,5 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
         this.playSound(Ssounds.SIEGER_BITE.get());
         return super.doHurtTarget(entity);
     }
+
 }
