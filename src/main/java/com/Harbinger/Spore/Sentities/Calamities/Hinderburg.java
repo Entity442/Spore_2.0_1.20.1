@@ -110,7 +110,8 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
         if (this.getBombTimer() >= 0){
             tickBomb();
             if (this.getBombTimer() == 1){
-                this.playSound(Ssounds.HINDEN_NUKE.get());
+                Entity entity = this.getTarget() != null ? this.getTarget() : this;
+                entity.playSound(Ssounds.HINDEN_NUKE.get());
             }
             if (this.getBombTimer() >= 80){
                 this.SummonNuke();
