@@ -208,8 +208,8 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
         this.tickPart(this.lowerbody, (double)(f2 * 5.0F), 0.0D, (double)(f15 * -5.0F));
         this.tickPart(this.mouth, (double)(f2 * -0.5F), -0.5D, (double)(f15 * 0.5F));
 
-        this.tickPart(this.rightcannon, (double)(f2 * -4.0F), 0.3D, (double)(f15 * -4.0F));
-        this.tickPart(this.leftcannon, (double)(f2 * 4.0F), 0.3D, (double)(f15 * 4.0F));
+        this.tickPart(this.rightcannon, (double)(f2 * 4.0F), 0.3D, (double)(f15 * 4.0F));
+        this.tickPart(this.leftcannon, (double)(f2 * -4.0F), 0.3D, (double)(f15 * -4.0F));
         for(int l = 0; l < this.subEntities.length; ++l) {
             this.subEntities[l].xo = avec3[l].x;
             this.subEntities[l].yo = avec3[l].y;
