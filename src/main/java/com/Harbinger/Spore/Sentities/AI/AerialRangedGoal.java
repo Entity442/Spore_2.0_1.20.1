@@ -19,7 +19,7 @@ public class AerialRangedGoal extends ScatterShotRangedGoal {
         super(mob, speed, interval, range, min, max);
         this.pathNav = mob.getNavigation();
         this.setFlags(EnumSet.of(Flag.MOVE));
-        this.setFlags(EnumSet.of(Flag.TARGET));
+
     }
     public BlockPos getRandomPosition(){
         int x = this.mob.getBlockX() + this.mob.getRandom().nextInt(-20,20);

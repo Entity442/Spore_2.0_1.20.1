@@ -35,7 +35,7 @@ public class ScatterShotRangedGoal extends Goal {
 
     public boolean canUse() {
         LivingEntity livingentity = this.mob.getTarget();
-        if (livingentity != null && livingentity.isAlive()) {
+        if (livingentity != null) {
             this.target = livingentity;
             return true;
         } else {
@@ -44,7 +44,7 @@ public class ScatterShotRangedGoal extends Goal {
     }
 
     public boolean canContinueToUse() {
-        return this.canUse() || this.target.isAlive() && !this.mob.getNavigation().isDone();
+        return this.canUse() || this.target != null && !this.mob.getNavigation().isDone();
     }
 
     public void stop() {
