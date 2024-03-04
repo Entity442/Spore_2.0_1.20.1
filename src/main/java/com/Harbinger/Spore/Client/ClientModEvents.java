@@ -55,7 +55,6 @@ public class ClientModEvents {
         event.registerLayerDefinition(BusserModel.LAYER_LOCATION, BusserModel::createBodyLayer);
         event.registerLayerDefinition(ExplodingBusserModel.LAYER_LOCATION, ExplodingBusserModel::createBodyLayer);
         event.registerLayerDefinition(InfectedDrownModel.LAYER_LOCATION, InfectedDrownModel::createBodyLayer);
-        event.registerLayerDefinition(HostModel.LAYER_LOCATION, HostModel::createBodyLayer);
         event.registerLayerDefinition(InfectedPlayerModel.LAYER_LOCATION, InfectedPlayerModel::createBodyLayer);
         event.registerLayerDefinition(ScamperModel.LAYER_LOCATION, ScamperModel::createBodyLayer);
         event.registerLayerDefinition(UmarmerModel.LAYER_LOCATION, UmarmerModel::createBodyLayer);
@@ -109,7 +108,6 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.VOLATILE.get(), VolatileRenderer::new);
         event.registerEntityRenderer(Sentities.INF_DROWNED.get(), InfectedDrownRenderer::new);
         event.registerEntityRenderer(Sentities.INF_HAZMAT.get(), InfectedHazmatRenderer::new);
-        event.registerEntityRenderer(Sentities.HOST.get(), HostRenderer::new);
         event.registerEntityRenderer(Sentities.INF_PLAYER.get(), InfectedPlayerRenderer::new);
         event.registerEntityRenderer(Sentities.SCAMPER.get(), ScamperHumanRenderer::new);
         event.registerEntityRenderer(Sentities.MOUND.get(), MoundRenderer::new);

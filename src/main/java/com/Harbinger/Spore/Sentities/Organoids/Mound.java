@@ -61,7 +61,7 @@ public class Mound extends Organoid {
     }
     @Override
     public boolean removeWhenFarAway(double distanceToClosestPlayer) {
-        return false;
+        return this.getLinked() && this.getMaxAge() <= 2;
     }
     @Override
     public void tick() {

@@ -7,7 +7,6 @@ import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.*;
 import com.Harbinger.Spore.Sentities.FallenMultipart.Licker;
 import com.Harbinger.Spore.Sentities.FallenMultipart.SiegerTail;
-import com.Harbinger.Spore.Sentities.Host;
 import com.Harbinger.Spore.Sentities.Organoids.*;
 import com.Harbinger.Spore.Sentities.Projectile.*;
 import com.Harbinger.Spore.Sentities.Utility.InfEvoClaw;
@@ -142,10 +141,6 @@ public class Sentities {
     public static final RegistryObject<EntityType<Umarmer>> UMARMED = SPORE_ENTITIES.register("umarmed",
             () -> EntityType.Builder.of(Umarmer::new, INFECTED).sized(1f, 3f)
                     .build(new ResourceLocation(Spore.MODID, "umarmed").toString()));
-
-    public static final RegistryObject<EntityType<Host>> HOST = SPORE_ENTITIES.register("host",
-            () -> EntityType.Builder.of(Host::new, INFECTED).sized(0.6f, 2f)
-                    .build(new ResourceLocation(Spore.MODID, "host").toString()));
 
 
     public static final RegistryObject<EntityType<AcidBall>> ACID_BALL = register("acid_ball",
