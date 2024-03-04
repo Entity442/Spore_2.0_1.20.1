@@ -36,6 +36,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Objects;
 
 public class InfectedEvoker extends EvolvedInfected implements InventoryCarrier {
@@ -55,7 +56,10 @@ public class InfectedEvoker extends EvolvedInfected implements InventoryCarrier 
                 .add(Attributes.ATTACK_KNOCKBACK, 1);
 
     }
-
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.inf_evoker_loot.get();
+    }
 
     public void defineSynchedData() {
         super.defineSynchedData();

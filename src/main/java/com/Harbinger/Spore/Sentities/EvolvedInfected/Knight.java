@@ -20,6 +20,8 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.List;
+
 public class Knight extends EvolvedInfected {
     public Knight(EntityType<? extends Monster> p_33002_, Level p_33003_) {
         super(p_33002_, p_33003_);
@@ -37,7 +39,10 @@ public class Knight extends EvolvedInfected {
 
         super.registerGoals();
     }
-
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.inf_knight_loot.get();
+    }
     @Override
     public DamageSource getCustomDamage(LivingEntity entity) {
         if (Math.random() < 0.3){

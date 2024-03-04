@@ -44,7 +44,10 @@ public class Braionmil extends EvolvedInfected {
     private int swell;
     private final int maxSwell = 40;
 
-
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.inf_braio_loot.get();
+    }
     public void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(DATA_SWELL_DIR, -1);

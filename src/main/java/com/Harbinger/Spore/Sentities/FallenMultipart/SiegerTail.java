@@ -9,11 +9,16 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 
+import java.util.List;
+
 public class SiegerTail extends FallenMultipartEntity {
     public SiegerTail(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
     }
-
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.sieger_tail_loot.get();
+    }
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, (SConfig.SERVER.sieger_hp.get()/4) * SConfig.SERVER.global_health.get())

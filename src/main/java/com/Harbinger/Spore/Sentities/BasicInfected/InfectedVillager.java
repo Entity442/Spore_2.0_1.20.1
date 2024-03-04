@@ -59,7 +59,10 @@ public class InfectedVillager extends Infected implements EvolvingInfected {
         super.registerGoals();
     }
 
-
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.inf_villager_loot.get();
+    }
     protected void customServerAiStep() {
         if (!this.isNoAi() && GoalUtils.hasGroundPathNavigation(this) && SConfig.SERVER.higher_thinking.get()) {
             ((GroundPathNavigation)this.getNavigation()).setCanOpenDoors(true);

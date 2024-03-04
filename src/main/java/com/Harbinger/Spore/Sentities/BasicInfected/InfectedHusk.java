@@ -50,6 +50,11 @@ public class InfectedHusk extends Infected implements EvolvingInfected {
     }
 
     @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.inf_husk_loot.get();
+    }
+
+    @Override
     public boolean doHurtTarget(Entity entity) {
         if (entity instanceof LivingEntity living){
             living.addEffect(new MobEffectInstance(MobEffects.HUNGER,1200,0));

@@ -58,7 +58,10 @@ public class Griefer extends EvolvedInfected {
         this.entityData.define(DATA_SWELL_DIR, -1);
         this.entityData.define(DATA_ID_TYPE_VARIANT, 0);
     }
-
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.inf_griefer_loot.get();
+    }
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putShort("Fuse", (short)this.maxSwell);

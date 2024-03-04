@@ -63,7 +63,10 @@ public class Proto extends Organoid {
     @Nullable
     public boolean signal;
     public BlockPos position;
-
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.proto_loot.get();
+    }
     @Override
     public boolean removeWhenFarAway(double distanceToClosestPlayer) {
         return false;

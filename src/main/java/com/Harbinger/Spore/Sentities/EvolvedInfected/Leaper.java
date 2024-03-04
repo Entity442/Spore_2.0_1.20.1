@@ -28,13 +28,18 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.List;
+
 public class Leaper extends EvolvedInfected implements Carrier {
     public Leaper(EntityType<? extends Monster> type, Level level) {
         super(type, level);
         this.moveControl = new InfectedWallMovementControl(this);
         this.navigation = new WallClimberNavigation(this,level);
     }
-
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.inf_leap_loot.get();
+    }
     @Override
     protected void registerGoals() {
 

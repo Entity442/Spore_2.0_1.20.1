@@ -65,7 +65,10 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
     public boolean canDrownInFluidType(FluidType type) {
         return false;
     }
-
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.gazen_loot.get();
+    }
     public void travel(Vec3 vec) {
         if (this.isEffectiveAi() && this.isInFluidType()) {
             this.moveRelative(0.1F, vec);

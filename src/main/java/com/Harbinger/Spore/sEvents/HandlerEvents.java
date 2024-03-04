@@ -9,15 +9,12 @@ import com.Harbinger.Spore.SBlockEntities.LivingStructureBlocks;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
-import com.Harbinger.Spore.Sentities.BasicInfected.*;
+import com.Harbinger.Spore.Sentities.BasicInfected.InfectedDrowned;
 import com.Harbinger.Spore.Sentities.Calamities.Gazenbrecher;
 import com.Harbinger.Spore.Sentities.Calamities.Hinderburg;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
-import com.Harbinger.Spore.Sentities.EvolvedInfected.*;
-import com.Harbinger.Spore.Sentities.FallenMultipart.Licker;
-import com.Harbinger.Spore.Sentities.FallenMultipart.SiegerTail;
+import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
 import com.Harbinger.Spore.Sentities.Organoids.*;
-import com.Harbinger.Spore.Sentities.Utility.InfEvoClaw;
 import com.Harbinger.Spore.Sitems.InfectedCombatShovel;
 import com.Harbinger.Spore.Sitems.InfectedMaul;
 import com.Harbinger.Spore.Spore;
@@ -272,68 +269,10 @@ public class HandlerEvents {
         if (event != null && event.getEntity() != null && event.getEntity().level().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
             RandomSource random = RandomSource.create();
             List<? extends String> lootList;
-            if (event.getEntity() instanceof InfectedHuman){
-                lootList = SConfig.DATAGEN.inf_human_loot.get();
-            }else if (event.getEntity() instanceof InfectedVendicator){
-                lootList = SConfig.DATAGEN.inf_vin_loot.get();
-            }else if (event.getEntity() instanceof InfectedVillager){
-                lootList = SConfig.DATAGEN.inf_villager_loot.get();
-            }else if (event.getEntity() instanceof InfectedPillager){
-                lootList = SConfig.DATAGEN.inf_pillager_loot.get();
-            }else if (event.getEntity() instanceof InfectedEvoker){
-                lootList = SConfig.DATAGEN.inf_evoker_loot.get();
-            }else if (event.getEntity() instanceof InfectedWanderingTrader){
-                lootList = SConfig.DATAGEN.inf_wan_loot.get();
-            }else if (event.getEntity() instanceof InfectedWitch){
-                lootList = SConfig.DATAGEN.inf_witch_loot.get();
-            }else if (event.getEntity() instanceof Knight){
-                lootList = SConfig.DATAGEN.inf_knight_loot.get();
-            }else if (event.getEntity() instanceof Braionmil){
-                lootList = SConfig.DATAGEN.inf_braio_loot.get();
-            }else if (event.getEntity() instanceof Griefer){
-                lootList = SConfig.DATAGEN.inf_griefer_loot.get();
-            }else if (event.getEntity() instanceof Spitter){
-                lootList = SConfig.DATAGEN.inf_spitter_loot.get();
-            }else if (event.getEntity() instanceof Slasher){
-                lootList = SConfig.DATAGEN.inf_slasher_loot.get();
-            }else if (event.getEntity() instanceof Leaper){
-                lootList = SConfig.DATAGEN.inf_leap_loot.get();
-            }else if (event.getEntity() instanceof InfEvoClaw){
-                lootList = SConfig.DATAGEN.inf_claw_loot.get();
-            }else if (event.getEntity() instanceof Howler){
-                lootList = SConfig.DATAGEN.inf_howler_loot.get();
-            }else if (event.getEntity() instanceof Stalker){
-                lootList = SConfig.DATAGEN.inf_stalker_loot.get();
-            }else if (event.getEntity() instanceof Brute){
-                lootList = SConfig.DATAGEN.inf_brute_loot.get();
-            }else if (event.getEntity() instanceof InfectedDrowned){
-                lootList = SConfig.DATAGEN.inf_drow_loot.get();
-            }else if (event.getEntity() instanceof Busser){
-                lootList = SConfig.DATAGEN.inf_bus_loot.get();
-            }else if (event.getEntity() instanceof Scamper){
-                lootList = SConfig.DATAGEN.sca_loot.get();
-            }else if (event.getEntity() instanceof InfectedPlayer){
-                lootList = SConfig.DATAGEN.inf_player_loot.get();
-            }else if (event.getEntity() instanceof Mound){
-                lootList = SConfig.DATAGEN.mound_loot.get();
-            }else if (event.getEntity() instanceof Sieger){
-                lootList = SConfig.DATAGEN.sieger_loot.get();
-            }else if (event.getEntity() instanceof Proto){
-                lootList = SConfig.DATAGEN.proto_loot.get();
-            }else if (event.getEntity() instanceof SiegerTail){
-                lootList = SConfig.DATAGEN.sieger_tail_loot.get();
-            }else if (event.getEntity() instanceof Vigil){
-                lootList = SConfig.DATAGEN.vigil_loot.get();
-            }else if (event.getEntity() instanceof InfectedHusk){
-                lootList = SConfig.DATAGEN.inf_husk_loot.get();
-            }else if (event.getEntity() instanceof Volatile){
-                lootList = SConfig.DATAGEN.inf_volatile_loot.get();
-            }else if (event.getEntity() instanceof Umarmer){
-                lootList = SConfig.DATAGEN.umarmer_loot.get();
-            }else if (event.getEntity() instanceof Gazenbrecher){
-                lootList = SConfig.DATAGEN.gazen_loot.get();
-            }else if (event.getEntity() instanceof Licker){
-                lootList = SConfig.DATAGEN.gazen_tongue_loot.get();
+            if (event.getEntity() instanceof Infected infected){
+                lootList = infected.getDropList();
+            }else if (event.getEntity() instanceof UtilityEntity entity){
+                lootList = entity.getDropList();
             }
             else{
                 lootList = null;

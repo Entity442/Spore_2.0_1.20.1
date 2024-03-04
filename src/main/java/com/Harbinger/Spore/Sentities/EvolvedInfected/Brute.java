@@ -45,6 +45,10 @@ public class Brute extends EvolvedInfected implements Carrier, RangedAttackMob {
     }
 
     @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.inf_brute_loot.get();
+    }
+    @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(1,new TransportInfected<>(this,Mob.class, 1.1, entity -> {
             return SConfig.SERVER.ranged.get().contains(entity.getEncodeId());

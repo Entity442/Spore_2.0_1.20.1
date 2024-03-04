@@ -56,6 +56,10 @@ public class InfectedWanderingTrader extends Infected implements EvolvingInfecte
         super.registerGoals();
     }
 
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.inf_wan_loot.get();
+    }
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()

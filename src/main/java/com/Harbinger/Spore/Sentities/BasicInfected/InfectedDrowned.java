@@ -33,6 +33,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.fluids.FluidType;
 
+import java.util.List;
+
 public class InfectedDrowned extends Infected implements WaterInfected {
     protected final WaterBoundPathNavigation waterNavigation;
     protected final GroundPathNavigation groundNavigation;
@@ -54,6 +56,10 @@ public class InfectedDrowned extends Infected implements WaterInfected {
         } else {
             super.travel(p_32858_);
         }
+    }
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.inf_drow_loot.get();
     }
 
     @Override

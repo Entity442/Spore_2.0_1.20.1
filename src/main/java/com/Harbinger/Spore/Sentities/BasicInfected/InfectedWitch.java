@@ -113,6 +113,11 @@ public class InfectedWitch extends Infected implements RangedAttackMob , RangedB
     }
 
     @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.inf_witch_loot.get();
+    }
+
+    @Override
     public void tick() {
         super.tick();
         if (isAlive() && potion != null && this.getMainHandItem() != PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), potion)){

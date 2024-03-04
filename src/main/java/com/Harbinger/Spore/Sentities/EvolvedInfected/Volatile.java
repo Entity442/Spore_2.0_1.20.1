@@ -50,7 +50,10 @@ public class Volatile extends EvolvedInfected {
         super.registerGoals();
     }
 
-
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.inf_volatile_loot.get();
+    }
     public void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(DATA_SWELL_DIR, -1);

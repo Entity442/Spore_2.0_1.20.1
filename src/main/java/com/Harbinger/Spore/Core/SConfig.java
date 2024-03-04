@@ -552,7 +552,7 @@ public class SConfig {
 
             builder.push("HindenBurg");
             this.hinden_hp = builder.comment("Default 400").defineInRange("Sets HindenBurg Max health", 400, 1, Double.MAX_VALUE);
-            this.hinden_damage = builder.comment("Default 30").defineInRange("Sets HindenBurg Danage", 30, 1, Double.MAX_VALUE);
+            this.hinden_damage = builder.comment("Default 400").defineInRange("Sets HindenBurg Danage", 15, 1, Double.MAX_VALUE);
             this.hinden_armor = builder.comment("Default 5").defineInRange("Sets HindenBurg Armor", 5, 1, Double.MAX_VALUE);
             this.hinden_dpsr = builder.comment("Default 40").defineInRange("Sets HindenBurg Damage Cap , set to 0 to disable", 40, 1, Double.MAX_VALUE);
             this.hinden_block_damage = builder.comment("Default 4").defineInRange("Sets Sieger maximum hardness for a block to be broken", 4, 1, Integer.MAX_VALUE);
@@ -953,6 +953,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sca_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> gazen_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> hindie_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_tail_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> gazen_tongue_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> vigil_loot;
@@ -1007,13 +1008,13 @@ public class SConfig {
 
 
             this.inf_braio_loot = builder.defineList("Braiomil ",
-                    Lists.newArrayList("spore:mutated_fiber|80|1|3","spore:armor_fragment|50|1|2","spore:mutated_heart|10|1|1","spore:alveolic_sack|40|1|3") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mutated_fiber|80|1|3","spore:armor_fragment|50|1|2","spore:claw_fragment|80|1|3","spore:mutated_heart|10|1|1","spore:alveolic_sack|40|1|3") , o -> o instanceof String);
             this.inf_knight_loot = builder.defineList("Knight ",
                     Lists.newArrayList("spore:mutated_fiber|70|1|5","spore:armor_fragment|80|4|9","spore:mutated_heart|10|1|1","spore:claw_fragment|80|6|9") , o -> o instanceof String);
             this.inf_griefer_loot = builder.defineList("Griefer ",
                     Lists.newArrayList("spore:mutated_fiber|50|2|5","spore:armor_fragment|80|2|4","spore:mutated_heart|10|1|1","spore:claw_fragment|80|3|6","spore:tumor|100|1|3","spore:innards|50|1|1") , o -> o instanceof String);
             this.inf_bus_loot = builder.defineList("Phayres ",
-                    Lists.newArrayList("spore:mutated_fiber|80|1|3","spore:armor_fragment|50|1|2","spore:mutated_heart|10|1|1","spore:wing_membrane|60|1|3") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mutated_fiber|80|1|3","spore:armor_fragment|50|1|2","spore:claw_fragment|80|1|3","spore:mutated_heart|10|1|1","spore:wing_membrane|60|1|3") , o -> o instanceof String);
 
             this.inf_spitter_loot = builder.defineList("Spitter ",
                     Lists.newArrayList("spore:mutated_fiber|80|1|3","spore:armor_fragment|50|1|2","spore:mutated_heart|10|1|1","spore:cerebrum|20|1|1","spore:spine_fragment|15|1|3","spore:corrosive_sack|30|1|1") , o -> o instanceof String);
@@ -1023,7 +1024,7 @@ public class SConfig {
                     Lists.newArrayList("spore:mutated_fiber|50|2|5","spore:innards|50|1|1","spore:armor_fragment|80|2|4","spore:mutated_heart|10|1|1","spore:claw_fragment|80|3|6","spore:cerebrum|20|1|1","spore:spine_fragment|15|1|3","spore:tendons|60|3|7") , o -> o instanceof String);
 
             this.inf_howler_loot = builder.defineList("Howler ",
-                    Lists.newArrayList("spore:mutated_fiber|80|1|3","spore:armor_fragment|50|1|2","spore:mutated_heart|10|1|1","spore:cerebrum|20|1|1","spore:spine_fragment|15|1|3") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mutated_fiber|80|1|3","spore:claw_fragment|80|1|3","spore:armor_fragment|50|1|2","spore:mutated_heart|10|1|1","spore:cerebrum|20|1|1","spore:spine_fragment|15|1|3") , o -> o instanceof String);
             this.inf_stalker_loot = builder.defineList("Stalker ",
                     Lists.newArrayList("spore:mutated_fiber|70|1|5","spore:armor_fragment|80|3|6","spore:mutated_heart|10|1|1","spore:claw_fragment|80|1|4","spore:cerebrum|20|1|1","spore:spine_fragment|15|1|3","spore:altered_spleen|30|1|1") , o -> o instanceof String);
             this.inf_brute_loot = builder.defineList("Brute ",
@@ -1041,6 +1042,9 @@ public class SConfig {
 
             this.gazen_loot = builder.defineList("Gazen ",
                     Lists.newArrayList("spore:mutated_fiber|100|33|75","spore:armor_fragment|100|15|38","spore:mutated_heart|70|3|7","spore:cerebrum|70|4|9","spore:spine_fragment|56|7|15") , o -> o instanceof String);
+
+            this.hindie_loot = builder.defineList("Hindie ",
+                    Lists.newArrayList("spore:mutated_fiber|100|33|75","spore:armor_fragment|100|1|4","spore:mutated_heart|70|3|7","spore:cerebrum|70|1|4","spore:spine_fragment|56|7|15","spore:tumor|100|7|22") , o -> o instanceof String);
 
             this.sieger_tail_loot = builder.defineList("Sieger Tail",
                     Lists.newArrayList("spore:mutated_fiber|100|10|25","spore:armor_fragment|100|3|10","spore:tumor|100|7|22") , o -> o instanceof String);

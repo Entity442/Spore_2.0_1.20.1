@@ -64,6 +64,10 @@ public class Mound extends Organoid {
         return this.getLinked() && this.getMaxAge() <= 2;
     }
     @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.mound_loot.get();
+    }
+    @Override
     public void tick() {
         super.tick();
         if (this.isAlive() && entityData.get(AGE) < entityData.get(MAX_AGE)){

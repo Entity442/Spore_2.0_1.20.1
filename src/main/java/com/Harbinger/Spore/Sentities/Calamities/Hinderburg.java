@@ -149,7 +149,10 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
         }
         return true;
     }
-
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.hindie_loot.get();
+    }
     @Override
     public void chemAttack() {
         AABB boundingBox = this.getBoundingBox().inflate(32);

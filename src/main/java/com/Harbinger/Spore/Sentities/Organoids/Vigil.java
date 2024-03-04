@@ -44,7 +44,10 @@ public class Vigil extends Organoid implements TraceableEntity{
         super(type, level);
         setPersistenceRequired();
     }
-
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.vigil_loot.get();
+    }
     @Override
     public boolean removeWhenFarAway(double distanceToClosestPlayer) {
         return false;

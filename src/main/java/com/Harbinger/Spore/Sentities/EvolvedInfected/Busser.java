@@ -35,6 +35,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class Busser extends EvolvedInfected implements Carrier, FlyingInfected {
     private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(Griefer.class, EntityDataSerializers.INT);
@@ -50,7 +51,10 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected {
         return false;
     }
 
-
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.inf_bus_loot.get();
+    }
     @Override
     protected void positionRider(Entity entity, MoveFunction p_19958_) {
         super.positionRider(entity, p_19958_);

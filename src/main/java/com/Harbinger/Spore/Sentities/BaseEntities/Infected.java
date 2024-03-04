@@ -54,6 +54,7 @@ import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
@@ -79,7 +80,9 @@ public class Infected extends Monster{
         this.xpReward = 5;
         Sentities.INFECTED_ENTITIES.add(this);
     }
-
+    public List<? extends String> getDropList(){
+        return null;
+    }
     @Nullable
     public BlockPos getSearchPos() {
         return searchPos;

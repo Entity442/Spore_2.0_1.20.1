@@ -10,11 +10,16 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.FluidType;
 
+import java.util.List;
+
 public class Licker extends FallenMultipartEntity {
     public Licker(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
     }
-
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.gazen_tongue_loot.get();
+    }
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, (SConfig.SERVER.gazen_hp.get()/6) * SConfig.SERVER.global_health.get())

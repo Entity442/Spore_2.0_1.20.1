@@ -16,6 +16,8 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.level.Level;
 
+import java.util.List;
+
 public class InfEvoClaw extends UtilityEntity implements Enemy{
     public InfEvoClaw(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
@@ -32,6 +34,10 @@ public class InfEvoClaw extends UtilityEntity implements Enemy{
         this.goalSelector.addGoal(2, new PullGoal(this, 64, 4));
 
         super.registerGoals();
+    }
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.inf_claw_loot.get();
     }
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()

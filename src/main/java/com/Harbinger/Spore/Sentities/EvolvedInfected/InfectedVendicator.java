@@ -28,6 +28,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class InfectedVendicator extends EvolvedInfected {
     public InfectedVendicator(EntityType<? extends Monster> type, Level level) {
@@ -35,7 +36,10 @@ public class InfectedVendicator extends EvolvedInfected {
     }
 
 
-
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.inf_vin_loot.get();
+    }
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new CustomMeleeAttackGoal(this, 1.5, false) {

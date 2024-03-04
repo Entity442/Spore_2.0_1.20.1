@@ -26,6 +26,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.phys.AABB;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
@@ -36,7 +37,9 @@ public class UtilityEntity extends PathfinderMob {
     protected boolean shouldDespawnInPeaceful() {
         return true;
     }
-
+    public List<? extends String> getDropList(){
+        return null;
+    }
 
     @Override
     public boolean doHurtTarget(Entity entity) {

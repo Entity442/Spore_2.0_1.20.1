@@ -52,6 +52,10 @@ public class InfectedHuman extends Infected implements EvolvingInfected {
          super.registerGoals();
     }
 
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.inf_human_loot.get();
+    }
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()

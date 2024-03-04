@@ -53,7 +53,10 @@ public class InfectedPlayer extends Infected implements RangedAttackMob {
         }
         super.customServerAiStep();
     }
-
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.inf_player_loot.get();
+    }
     @Override
     protected void registerGoals() {
 

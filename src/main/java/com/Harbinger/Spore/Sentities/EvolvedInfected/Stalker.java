@@ -28,6 +28,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.List;
+
 public class Stalker extends EvolvedInfected {
     public static final EntityDataAccessor<Integer> CAMO = SynchedEntityData.defineId(Stalker.class, EntityDataSerializers.INT);
     private int camo;
@@ -40,7 +42,10 @@ public class Stalker extends EvolvedInfected {
         this.setSprinting(isAggressive() && this.getTarget() != null && (this.getTarget().isSprinting() || this.getTarget().getHealth() < this.getTarget().getMaxHealth()/2));
         this.spawnSprintParticle();
     }
-
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.inf_stalker_loot.get();
+    }
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new LeapAtTargetGoal(this,0.3F));

@@ -66,7 +66,10 @@ public class InfectedPillager extends Infected implements CrossbowAttackMob , In
         super.defineSynchedData();
         this.entityData.define(IS_CHARGING_CROSSBOW, false);
     }
-
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.inf_pillager_loot.get();
+    }
     @Override
     public boolean startRiding(Entity entity) {
         if (!this.getMainHandItem().equals(new ItemStack(Items.CROSSBOW))){
