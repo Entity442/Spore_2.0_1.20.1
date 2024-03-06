@@ -15,14 +15,35 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
 public class UmarmerModel<T extends Umarmer> extends HierarchicalModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "organoid_tendril1"), "main");
 	private final ModelPart Tendril_organoid1;
+	private final ModelPart Biomass;
+	private final ModelPart Body;
+	private final ModelPart Body2;
+	private final ModelPart Body3;
+	private final ModelPart Body4;
+	private final ModelPart Body5;
+	private final ModelPart Head3;
+	private final ModelPart Head4;
+	private final ModelPart Ribs;
+
 
 	public UmarmerModel(ModelPart root) {
 		this.Tendril_organoid1 = root.getChild("Tendril_organoid1");
+		this.Biomass = Tendril_organoid1.getChild("Base").getChild("Biomass");
+		this.Body = Tendril_organoid1.getChild("Base").getChild("tendril").getChild("tendrilbase");
+		this.Body2 = this.Body.getChild("Human1").getChild("Human2");
+		this.Body3 = this.Body2.getChild("Human3");
+		this.Body4 = this.Body3.getChild("Human4");
+		this.Body5 = this.Body4.getChild("Human5NoPivot").getChild("H5Torso");
+		this.Head3 = this.Body3.getChild("H3Torso").getChild("H3Head");
+		this.Head4 = this.Body4.getChild("H4Torso").getChild("H4Head");
+		this.Ribs = this.Body5.getChild("Rib");
+
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -468,10 +489,62 @@ public class UmarmerModel<T extends Umarmer> extends HierarchicalModel<T> {
 
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
+	public void animateTumor(ModelPart part,float value){
+		part.xScale =1+ Mth.sin(value/6)/6;
+		part.yScale =1+ Mth.cos(value/6)/6;
+		part.zScale =1+ Mth.sin(value/6)/6;
+	}
+	public void animateTendril(ModelPart part,float value){
+		part.yRot = Mth.sin(value/6)/5;
+		part.xRot = Mth.cos(value/5)/4;
+		part.zRot = Mth.cos(value/8)/8;
+	}
+	public void animateRibs(ModelPart part,float value){
+		part.yRot = Mth.sin(value/4)/5;
+		part.xRot = Mth.cos(value/6)/7;
+	}
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
+		this.animateTumor(Biomass,ageInTicks);
+		this.animateTumor(this.Head4.getChild("Tumors"),ageInTicks);
+		this.animateTumor(this.Body5.getChild("TorsoDetails").getChild("H5Tumors"),ageInTicks/2);
+		this.Biomass.getChild("Biomass1").yRot = Mth.sin(ageInTicks/6)/6;
+		this.Biomass.getChild("Biomass3").xRot = Mth.cos(ageInTicks/6)/7;
+		this.Body.getChild("Human1").getChild("H1Torso").getChild("H1Head").getChild("H1Jaw").xRot = Mth.sin(ageInTicks/6)/6;
+		this.Body.yRot = netHeadYaw / (180F / (float) Math.PI);
+		this.Head3.yRot = Mth.sin(ageInTicks/4)/7;
+		this.Head4.yRot = Mth.sin(ageInTicks/6)/5;
+		this.animateTendril(this.Head3.getChild("mouthtendrils").getChild("mouthtendril1").getChild("MT1"),ageInTicks);
+		this.animateTendril(this.Head3.getChild("mouthtendrils").getChild("mouthtendril1").getChild("MT2"),-ageInTicks);
+		this.animateTendril(this.Head3.getChild("mouthtendrils").getChild("mouthtendril1").getChild("MT3"),ageInTicks);
+		this.Head4.getChild("H4Jaw").yRot = Mth.sin(ageInTicks/4)/5;
+		this.Body5.yRot = Mth.sin(ageInTicks/7)/7;
+		this.Body5.getChild("H5Head").yRot = netHeadYaw / (180F / (float) Math.PI);
+		this.animateTendril(this.Body5.getChild("TorsoDetails").getChild("TorsoTendies").getChild("tendril1"),ageInTicks);
+		this.animateTendril(this.Body5.getChild("TorsoDetails").getChild("TorsoTendies").getChild("tendril2"),-ageInTicks);
+		this.animateTendril(this.Body5.getChild("TorsoDetails").getChild("TorsoTendies").getChild("tendril3"),ageInTicks/3);
+		this.animateTendril(this.Body5.getChild("TorsoDetails").getChild("TorsoTendies").getChild("tendril4"),-ageInTicks/2);
+		this.animateTendril(this.Body5.getChild("H5Head").getChild("HeadNoPivotPoint").getChild("MouthDetails").getChild("MouthGrowth1"),ageInTicks);
+		this.animateTendril(this.Body5.getChild("H5Head").getChild("HeadNoPivotPoint").getChild("MouthDetails").getChild("MouthGrowth2"),-ageInTicks/2);
+		this.animateTendril(this.Body5.getChild("H5Head").getChild("HeadNoPivotPoint").getChild("MouthDetails").getChild("MouthGrowth3"),ageInTicks/2);
+		this.animateTendril(this.Body5.getChild("H5Head").getChild("HeadNoPivotPoint").getChild("MouthDetails").getChild("MouthGrowth4"),-ageInTicks);
+		this.animateRibs(this.Ribs.getChild("Rib1"),ageInTicks);
+		this.animateRibs(this.Ribs.getChild("Rib2"),-ageInTicks/4);
+		this.animateRibs(this.Ribs.getChild("Rib3"),ageInTicks);
+		this.animateRibs(this.Ribs.getChild("Rib4"),-ageInTicks/2);
+		this.animateRibs(this.Ribs.getChild("Rib5"),ageInTicks);
+		this.animateRibs(this.Ribs.getChild("Rib6"),-ageInTicks);
+		this.animateRibs(this.Ribs.getChild("Rib7"),ageInTicks/3);
+		this.animateRibs(this.Ribs.getChild("Rib1").getChild("Rib1Seg1").getChild("Rib1Seg2"),ageInTicks/2);
+		this.animateRibs(this.Ribs.getChild("Rib2").getChild("Rib2Seg1").getChild("Rib2Seg2"),-ageInTicks);
+		this.animateRibs(this.Ribs.getChild("Rib3").getChild("Rib3Seg1").getChild("Rib3Seg2"),ageInTicks);
+		this.animateRibs(this.Ribs.getChild("Rib4").getChild("Rib4Seg1").getChild("Rib4Seg2"),-ageInTicks/3);
+		this.animateRibs(this.Ribs.getChild("Rib5").getChild("Rib5Seg1").getChild("Rib5Seg2"),ageInTicks);
+		this.animateRibs(this.Ribs.getChild("Rib6").getChild("Rib6Seg1").getChild("Rib6Seg2"),-ageInTicks);
+		this.animateRibs(this.Ribs.getChild("Rib7").getChild("Rib7Seg1").getChild("Rib7Seg2"),ageInTicks);
+
 		this.animate(entity.attackAnimationState, UmarmerExtraAnimations.UMARMER_SLAM,ageInTicks,1.1F);
 		this.animate(entity.pin_start,UmarmerExtraAnimations.UMARMER_PIN_START,ageInTicks,1.0F);
 		this.animate(entity.pin_idle, UmarmerAnimations.UMARMER_PIN_IDLE, ageInTicks, 1.0F);
@@ -480,7 +553,6 @@ public class UmarmerModel<T extends Umarmer> extends HierarchicalModel<T> {
 		this.animate(entity.shield_end, UmarmerAnimations.UMARMER_SHIELD_END, ageInTicks, 1.0F);
 		this.animate(entity.shield_idle, UmarmerAnimations.UMARMER_SHIELD_IDLE, ageInTicks, 1.0F);
 		this.animate(entity.squeeze_idle, UmarmerAnimations.UMARMER_SQUEEZE_IDLE, ageInTicks, 1.0F);
-		this.animate(entity.idleAnimationState, UmarmerExtraAnimations.UMARMER_IDLE, ageInTicks, 1.0F);
 	}
 
 	@Override

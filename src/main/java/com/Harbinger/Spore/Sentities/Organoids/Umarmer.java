@@ -30,7 +30,6 @@ public class Umarmer extends Organoid {
     public static final EntityDataAccessor<Boolean> HARD_ATTACK = SynchedEntityData.defineId(Umarmer.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> PINNED = SynchedEntityData.defineId(Umarmer.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> SHIELDING = SynchedEntityData.defineId(Umarmer.class, EntityDataSerializers.BOOLEAN);
-    public final AnimationState idleAnimationState = new AnimationState();
     public AnimationState attackAnimationState = new AnimationState();
     public AnimationState pin_start = new AnimationState();
     public AnimationState pin_end = new AnimationState();
@@ -39,7 +38,6 @@ public class Umarmer extends Organoid {
     public AnimationState shield_start = new AnimationState();
     public AnimationState shield_end = new AnimationState();
     public AnimationState squeeze_idle = new AnimationState();
-    private int idleAnimationTimeout = 0;
     private int attackAnimationTimeout = 0;
     private int SlamAttackAnimationTimeout = 0;
     private int SlamAttackAnimationEndTimeout = 0;
@@ -123,12 +121,6 @@ public class Umarmer extends Organoid {
     }
 
     private void setupAnimationStates() {
-        if (this.idleAnimationTimeout <= 0) {
-            this.idleAnimationTimeout = 120;
-            this.idleAnimationState.start(this.tickCount);
-        } else {
-            --this.idleAnimationTimeout;
-        }
         if (this.isPinned() && this.idlePinTimeout <= 0) {
             this.idlePinTimeout = 40;
             this.pin_idle.start(this.tickCount);
