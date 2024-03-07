@@ -52,6 +52,10 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> SIGNAL = soundRegistry("signal");
 
+    public static final RegistryObject<SoundEvent> UMARMER_AMBIENT = soundRegistry("umarmer_ambient");
+
+    public static final RegistryObject<SoundEvent> VIGIL_AMBIENT = soundRegistry("vigil_ambient");
+
     public static final RegistryObject<SoundEvent> WOMB_AMBIENT = soundRegistry("womb_ambient");
 
     public static final RegistryObject<SoundEvent> LIMB_SLASH = soundRegistry("limb_slash");

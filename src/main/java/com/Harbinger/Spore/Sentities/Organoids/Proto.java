@@ -235,6 +235,7 @@ public class Proto extends Organoid {
             waveentity.randomTeleport(target.getX() + x,target.getY(),target.getZ() + z,false);
             if (waveentity instanceof Mound mound){
                 mound.setMaxAge(1);
+                mound.setLinked(true);
             }
             if (waveentity instanceof Vigil vigil){
                 vigil.setProto(this);

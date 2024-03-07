@@ -91,6 +91,18 @@
       "spore:sieger_ambient"
     ]
   },
+  "umarmer_ambient" :{
+    "subtitle": "sounds.spore.umarmer_ambient",
+    "sounds": [
+      "spore:umarmer_ambient"
+    ]
+  },
+  "vigil_ambient" :{
+    "subtitle": "sounds.spore.vigil_ambient",
+    "sounds": [
+      "spore:vigil_ambient"
+    ]
+  },
   "sieger_bite" :{
     "subtitle": "sounds.spore.sieger_bite",
     "sounds": [
