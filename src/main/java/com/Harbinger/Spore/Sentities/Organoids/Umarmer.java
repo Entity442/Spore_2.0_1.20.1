@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
+import com.Harbinger.Spore.Sentities.Utility.WaveEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -46,6 +47,7 @@ public class Umarmer extends Organoid {
     private int startShieldTimeout = 0;
     private int endShieldTimeout = 0;
     private int squeezeTimeout = 0;
+    private int chargeWave = 0;
 
     private boolean start_shield = false;
     private boolean end_shield = false;
@@ -109,6 +111,9 @@ public class Umarmer extends Organoid {
             this.setupAnimationStates();
         }
         if (!this.level().isClientSide){
+            if (this.getTarget() != null && this.chargeWave < 61){
+                this.chargeWave++;
+            }
             if (this.getTarget() == null && this.entityData.get(TIMER) < 2400){
                 this.entityData.set(TIMER,this.entityData.get(TIMER) + 1);
             }else if (this.entityData.get(TIMER) >= 2400){
@@ -221,9 +226,9 @@ public class Umarmer extends Organoid {
     protected void registerGoals() {
         this.addTargettingGoals();
         this.goalSelector.addGoal(3,new GrabTarget(this));
-        this.goalSelector.addGoal(3, new PinAttack(this, 0, false));
         this.goalSelector.addGoal(4, new UmarmedMeleeAttack(this, 0, false));
-        this.goalSelector.addGoal(5,new RandomLookAroundGoal(this){
+        this.goalSelector.addGoal(4, new PinAttack(this, 0, false));
+        this.goalSelector.addGoal(6,new RandomLookAroundGoal(this){
             @Override
             public boolean canUse() {
                 return super.canUse() && !Umarmer.this.isVehicle();
@@ -328,10 +333,14 @@ public class Umarmer extends Organoid {
 
         @Override
         public boolean canUse() {
+            LivingEntity target = this.mob.getTarget();
             if (this.mob.isPinned()){
                 return false;
             }
             if (this.mob.isVehicle()){
+                return false;
+            }
+            if (target != null && this.mob.distanceToSqr(target) > getAttackReachSqr(target)){
                 return false;
             }
             return super.canUse();
@@ -424,13 +433,15 @@ public class Umarmer extends Organoid {
             }
             if (this.mob.isVehicle()){
                 return false;
+            }if (mob.chargeWave >= 60){
+                return true;
             }
-            return super.canUse() && this.mob.random.nextInt(10) == 0;
+            return super.canUse();
         }
 
         @Override
         protected double getAttackReachSqr(LivingEntity entity) {
-            return 16.0 + entity.getBbWidth() * entity.getBbWidth();}
+            return 8.0 + entity.getBbWidth() * entity.getBbWidth();}
 
 
         @Override
@@ -447,7 +458,18 @@ public class Umarmer extends Organoid {
                     this.mob.getLookControl().setLookAt(entity.getX(), entity.getEyeY(), entity.getZ());
                     performAttack(entity);
                 }
-            } else {
+            } else if(!isEnemyWithinAttackDistance(entity, at) && this.mob.chargeWave >= 60){
+                shouldCountTillNextAttack = true;
+                if(isTimeToStartAttackAnimation()) {
+                    mob.SetHardAttacking(true);
+                    mob.setShielding(false);
+                    if(isTimeToAttack()) {
+                    WaveEntity waveEntity = new WaveEntity(this.mob.level(), this.mob);
+                    this.mob.level().addFreshEntity(waveEntity);
+                    this.mob.chargeWave = 0;
+                    }
+                }
+            }else {
                 resetAttackCooldown();
                 shouldCountTillNextAttack = false;
                 mob.SetHardAttacking(false);

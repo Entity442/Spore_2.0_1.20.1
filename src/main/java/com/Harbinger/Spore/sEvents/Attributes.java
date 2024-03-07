@@ -13,6 +13,7 @@ import com.Harbinger.Spore.Sentities.Organoids.*;
 import com.Harbinger.Spore.Sentities.Utility.InfEvoClaw;
 import com.Harbinger.Spore.Sentities.Utility.InfectionTendril;
 import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
+import com.Harbinger.Spore.Sentities.Utility.WaveEntity;
 import com.Harbinger.Spore.Spore;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -59,6 +60,7 @@ public class Attributes {
         event.put(Sentities.LICKER.get(), Licker.createAttributes().build());
         event.put(Sentities.HINDENBURG.get(), Hinderburg.createAttributes().build());
         event.put(Sentities.TUMOROID_NUKE.get(), Hinderburg.createAttributes().build());
+        event.put(Sentities.WAVE.get(), WaveEntity.createAttributes().build());
     }
 }
 
