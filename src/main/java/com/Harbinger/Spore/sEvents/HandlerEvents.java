@@ -132,6 +132,26 @@ public class HandlerEvents {
              }
             return 0;
         }));
+        event.getDispatcher().register(Commands.literal(Spore.MODID+":feed")
+                .executes(arguments -> {
+                    ServerLevel world = arguments.getSource().getLevel();
+                    Entity entity = arguments.getSource().getEntity();
+                    if (entity == null)
+                        entity = FakePlayerFactory.getMinecraft(world);
+                    if (entity != null){
+                        AABB hitbox = entity.getBoundingBox().inflate(20);
+                        List<Entity> entities = entity.level().getEntities(entity, hitbox);
+                        for (Entity entity1 : entities) {
+                            if(entity1 instanceof Infected infected) {
+                                infected.setKills(infected.getKills()+1);
+                                infected.setEvoPoints(infected.getEvoPoints()+1);
+                            }else if (entity1 instanceof Calamity calamity){
+                                calamity.setKills(calamity.getKills()+1);
+                            }
+                        }
+                    }
+                    return 0;
+                }));
         event.getDispatcher().register(Commands.literal(Spore.MODID+":check_entity")
                 .executes(arguments -> {
                     ServerLevel world = arguments.getSource().getLevel();
