@@ -21,14 +21,5 @@
 },
   "result": {
     "item": "spore:rapier"
-  },
-  "conditions": [
-    {
-      "type": "forge:not",
-      "value": {
-        "type": "forge:mod_loaded",
-        "modid": "biomancy"
-      }
-    }
-  ]
+  }
 }

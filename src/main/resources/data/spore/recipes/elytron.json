@@ -21,14 +21,5 @@
   },
   "result": {
     "item": "spore:r_elytron"
-  },
-  "conditions": [
-    {
-      "type": "forge:not",
-      "value": {
-        "type": "forge:mod_loaded",
-        "modid": "biomancy"
-      }
-    }
-  ]
+  }
 }

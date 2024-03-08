@@ -18,14 +18,5 @@
   },
   "result": {
     "item": "spore:living_core"
-  },
-  "conditions": [
-    {
-      "type": "forge:not",
-      "value": {
-        "type": "forge:mod_loaded",
-        "modid": "biomancy"
-      }
-    }
-  ]
+  }
 }
