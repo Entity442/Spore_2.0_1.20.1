@@ -1,9 +1,6 @@
 package com.Harbinger.Spore.Sentities.BaseEntities;
 
-import com.Harbinger.Spore.Core.Sblocks;
-import com.Harbinger.Spore.Core.Seffects;
-import com.Harbinger.Spore.Core.Sentities;
-import com.Harbinger.Spore.Core.Sparticles;
+import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.CalamityVigilCall;
@@ -187,8 +184,17 @@ public class Calamity extends UtilityEntity implements Enemy {
         this.goalSelector.addGoal(6, new FloatDiveGoal(this));
         this.goalSelector.addGoal(7,new CalamityVigilCall(this));
     }
+    public double getDamageCap(){
+        return 0;
+    }
 
-
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        if(amount > getDamageCap() && getDamageCap() > 0){
+            return super.hurt(source, (float) getDamageCap());
+        }
+        return super.hurt(source, amount);
+    }
 
     public  boolean tryToDigDown(){
         if (this.getSearchArea() != BlockPos.ZERO && this.verticalCollisionBelow){

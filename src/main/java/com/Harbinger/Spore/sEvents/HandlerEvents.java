@@ -194,6 +194,7 @@ public class HandlerEvents {
                                     }
                                     if (calamity instanceof Gazenbrecher sieger){
                                         player.displayClientMessage(Component.literal("Tongue health "+ sieger.getTongueHp()+"/"+sieger.getMaxTongueHp()),false);
+                                        player.displayClientMessage(Component.literal("Is adapted to fire "+ sieger.isAdaptedToFire() + " fire points" + sieger.getAdaptationCount()),false);
                                     }
                                     if (calamity instanceof Hinderburg sieger){
                                         player.displayClientMessage(Component.literal("Is armed "+ sieger.isArmed()),false);

@@ -253,11 +253,8 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
-        if(amount > SConfig.SERVER.hinden_dpsr.get() && SConfig.SERVER.hinden_dpsr.get() > 0){
-            return super.hurt(source, (float) (SConfig.SERVER.hinden_dpsr.get() * 1F));
-        }
-        return super.hurt(source, amount);
+    public double getDamageCap() {
+        return SConfig.SERVER.hinden_dpsr.get();
     }
 
     public  boolean tryToSummonNUKE(Entity entity){

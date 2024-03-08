@@ -13,6 +13,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class GazenRenderer<Type extends Gazenbrecher> extends BaseInfectedRenderer<Type , GazenbrecherModel<Type>> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/gazen.png");
+    private static final ResourceLocation ADAPTED_TEXTURE = new ResourceLocation(Spore.MODID,
+            "textures/entity/gazen.png");
     private static final ResourceLocation EYE_TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/eyes/gazen.png");
 
@@ -24,6 +26,9 @@ public class GazenRenderer<Type extends Gazenbrecher> extends BaseInfectedRender
 
     @Override
     public ResourceLocation getTextureLocation(Type entity) {
+        if (entity.isAdaptedToFire()){
+            return ADAPTED_TEXTURE;
+        }else
         return TEXTURE;
     }
 

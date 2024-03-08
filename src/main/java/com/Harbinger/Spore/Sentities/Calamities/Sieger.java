@@ -29,13 +29,11 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.RangedAttackGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.level.Level;
@@ -229,11 +227,8 @@ public class Sieger extends Calamity implements RangedAttackMob, TrueCalamity {
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
-        if(amount > SConfig.SERVER.sieger_dpsr.get() && SConfig.SERVER.sieger_dpsr.get() > 0){
-            return super.hurt(source, (float) (SConfig.SERVER.sieger_dpsr.get() * 1F));
-        }
-        return super.hurt(source, amount);
+    public double getDamageCap() {
+        return SConfig.SERVER.sieger_dpsr.get();
     }
 
     @Override

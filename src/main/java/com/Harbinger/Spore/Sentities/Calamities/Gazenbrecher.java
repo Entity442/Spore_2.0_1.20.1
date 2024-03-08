@@ -33,7 +33,6 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.RangedAttackGoal;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -45,6 +44,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.List;
 
 public class Gazenbrecher extends Calamity implements WaterInfected , RangedAttackMob , TrueCalamity {
+    public static final EntityDataAccessor<Integer> ADAPTATION = SynchedEntityData.defineId(Gazenbrecher.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Float> TONGUE = SynchedEntityData.defineId(Gazenbrecher.class, EntityDataSerializers.FLOAT);
     private int radar;
     private final CalamityMultipart[] subEntities;
@@ -118,21 +118,27 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
                 this.radar++;
             }
         }
+        if (this.tickCount % 40 == 0 && this.isOnFire()){
+            this.entityData.set(ADAPTATION,this.entityData.get(ADAPTATION)+1);
+        }
     }
 
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(TONGUE, this.getMaxTongueHp());
+        this.entityData.define(ADAPTATION, 0);
     }
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putFloat("tongue_hp", entityData.get(TONGUE));
+        tag.putInt("adaptation",entityData.get(ADAPTATION));
     }
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         entityData.set(TONGUE, tag.getFloat("tongue_hp"));
+        entityData.set(ADAPTATION,tag.getInt("adaptation"));
     }
     public float getTongueHp(){
         return entityData.get(TONGUE);
@@ -212,12 +218,21 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
         }
 
     }
+    public boolean isAdaptedToFire(){
+        return entityData.get(ADAPTATION) > 20;
+    }
+    public int getAdaptationCount(){
+        return entityData.get(ADAPTATION);
+    }
+
     @Override
-    public boolean hurt(DamageSource source, float amount) {
-        if(amount > SConfig.SERVER.gazen_dpsr.get() && SConfig.SERVER.gazen_dpsr.get() > 0){
-            return super.hurt(source, (float) (SConfig.SERVER.gazen_dpsr.get() * 1F));
-        }
-        return super.hurt(source, amount);
+    public boolean fireImmune() {
+        return this.isAdaptedToFire();
+    }
+
+    @Override
+    public double getDamageCap() {
+        return SConfig.SERVER.gazen_dpsr.get();
     }
 
 
