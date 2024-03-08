@@ -118,7 +118,7 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
                 this.radar++;
             }
         }
-        if (this.tickCount % 40 == 0 && this.isOnFire()){
+        if (!this.isAdaptedToFire() &&(this.tickCount % 40 == 0 && this.isOnFire())){
             this.entityData.set(ADAPTATION,this.entityData.get(ADAPTATION)+1);
         }
     }
