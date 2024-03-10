@@ -90,7 +90,7 @@ public class Mound extends Organoid {
                 double x0 = this.getX() - (random.nextFloat() - 0.2) * 0.2D;
                 double y0 = this.getY() + (random.nextFloat() - 0.5) * 0.5D * 10;
                 double z0 = this.getZ() + (random.nextFloat() - 0.2) * 0.2D;
-                serverLevel.sendParticles(Sparticles.SPORE_PARTICLE.get(), x0, y0, z0, 3,0, 0, 0,1);
+                serverLevel.sendParticles(Sparticles.SPORE_PARTICLE.get(), x0, y0, z0, 9,0, 0, 0,1);
             }
             if (this.getCounter() == (maxCounter - 2)){
                 this.playSound(Ssounds.PUFF.get());
