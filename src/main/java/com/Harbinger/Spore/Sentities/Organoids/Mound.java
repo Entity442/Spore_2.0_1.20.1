@@ -42,7 +42,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class Mound extends Organoid {
     private static final EntityDataAccessor<Integer> AGE = SynchedEntityData.defineId(Mound.class, EntityDataSerializers.INT);
@@ -69,35 +68,38 @@ public class Mound extends Organoid {
     @Override
     public void tick() {
         super.tick();
-        if (this.isAlive() && entityData.get(AGE) < entityData.get(MAX_AGE)){
-            this.getPersistentData().putInt("age", 1 + this.getPersistentData().getInt("age"));
-            if (this.getPersistentData().getInt("age") >= SConfig.SERVER.mound_age.get()) {
-                this.getPersistentData().putInt("age",0);
-                entityData.set(AGE,entityData.get(AGE) + 1);
+        if (this.tickCount % 20 == 0){
+            if (this.isAlive() && entityData.get(AGE) < entityData.get(MAX_AGE)){
+                this.getPersistentData().putInt("age", 1 + this.getPersistentData().getInt("age"));
+                if (this.getPersistentData().getInt("age") >= SConfig.SERVER.mound_age.get()) {
+                    this.getPersistentData().putInt("age",0);
+                    entityData.set(AGE,entityData.get(AGE) + 1);
+                }
             }
-        }
-        if (entityData.get(COUNTER) < maxCounter){
-            this.setCounter(this.getCounter() + 1);
-        }
-        if (this.isAlive() && this.getCounter() >= maxCounter && !level().isClientSide){
-            Spread(this , this.level());
-            this.setCounter(0);
-            if (this.random.nextInt(10) == 0 && entityData.get(AGE) >= 3 && checkForExtraTendrils(this,this.level())){
-                SpreadKin(this,this.level());
+            if (entityData.get(COUNTER) < maxCounter){
+                this.setCounter(this.getCounter() + 1);
+            }
+            if (this.isAlive() && this.getCounter() >= maxCounter && !level().isClientSide){
+                Spread(this , this.level());
+                this.setCounter(0);
+                if (this.random.nextInt(10) == 0 && entityData.get(AGE) >= 3 && checkForExtraTendrils(this,this.level())){
+                    SpreadKin(this,this.level());
+                }
+            }
+            if (this.getCounter() > (maxCounter - 2) && this.getCounter() < maxCounter && this.level() instanceof ServerLevel serverLevel){
+                double x0 = this.getX() - (random.nextFloat() - 0.2) * 0.2D;
+                double y0 = this.getY() + (random.nextFloat() - 0.5) * 0.5D * 10;
+                double z0 = this.getZ() + (random.nextFloat() - 0.2) * 0.2D;
+                serverLevel.sendParticles(Sparticles.SPORE_PARTICLE.get(), x0, y0, z0, 3,0, 0, 0,1);
+            }
+            if (this.getCounter() == (maxCounter - 2)){
+                this.playSound(Ssounds.PUFF.get());
             }
         }
         if (this.isAlive() && attack_counter > 0){
             attack_counter = attack_counter - 1;
         }
-        if (this.getCounter() > (maxCounter - 40) && this.getCounter() < maxCounter && this.level() instanceof ServerLevel serverLevel){
-                double x0 = this.getX() - (random.nextFloat() - 0.2) * 0.2D;
-                double y0 = this.getY() + (random.nextFloat() - 0.5) * 0.5D * 10;
-                double z0 = this.getZ() + (random.nextFloat() - 0.2) * 0.2D;
-                serverLevel.sendParticles(Sparticles.SPORE_PARTICLE.get(), x0, y0, z0, 3,0, 0, 0,1);
-        }
-        if (this.getCounter() == (maxCounter - 40)){
-            this.playSound(Ssounds.PUFF.get());
-        }
+
     }
     public int getAge(){
         return entityData.get(AGE);

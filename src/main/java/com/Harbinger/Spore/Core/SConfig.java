@@ -592,8 +592,8 @@ public class SConfig {
             builder.push("Mound");
             this.mound_hp = builder.comment("Default 20").defineInRange("Sets Mound Max health", 20, 1, Double.MAX_VALUE);
             this.mound_armor = builder.comment("Default 2").defineInRange("Sets Mound Armor", 2, 1, Double.MAX_VALUE);
-            this.mound_cooldown = builder.comment("Default 600").defineInRange("Sets Mound Infection Cooldown", 600, 1, Integer.MAX_VALUE);
-            this.mound_age = builder.comment("Default 12000").defineInRange("Sets Mound Ageing Cooldown", 18000, 1, Integer.MAX_VALUE);
+            this.mound_cooldown = builder.comment("Default 30").defineInRange("Sets Mound Infection Cooldown", 30, 1, Integer.MAX_VALUE);
+            this.mound_age = builder.comment("Default 900").defineInRange("Sets Mound Ageing Cooldown", 900, 1, Integer.MAX_VALUE);
             this.mound_tendril_checker = builder.comment("Default 80").defineInRange("Sets the range in which a mound checks for feedable blocks", 80, 1, Integer.MAX_VALUE);
             this.mound_tendril_feed = builder.comment("Default 2").defineInRange("Sets the amount of biomass a mound can feed a structure block at once", 2, 1, Integer.MAX_VALUE);
             this.mound_range_default = builder.comment("Default 5").defineInRange("Sets Mound default range", 5, 1, Double.MAX_VALUE);
