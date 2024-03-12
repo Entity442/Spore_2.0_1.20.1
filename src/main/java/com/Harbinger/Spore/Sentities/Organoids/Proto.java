@@ -136,6 +136,7 @@ public class Proto extends Organoid {
                     if (en.getUUID() == this.readTargets()){
                         this.setSignal(true);
                         this.setPlace(en.getOnPos());
+                        this.addTargets(null);
                     }
                 }
 
