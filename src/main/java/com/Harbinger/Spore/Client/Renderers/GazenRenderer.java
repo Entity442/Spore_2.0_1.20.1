@@ -14,7 +14,7 @@ public class GazenRenderer<Type extends Gazenbrecher> extends BaseInfectedRender
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/gazen.png");
     private static final ResourceLocation ADAPTED_TEXTURE = new ResourceLocation(Spore.MODID,
-            "textures/entity/gazen.png");
+            "textures/entity/burned_gazen.png");
     private static final ResourceLocation EYE_TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/eyes/gazen.png");
 
