@@ -28,6 +28,7 @@
   "block.spore.rusted_vent_plate": "Rzhavaya bентиляционная пластина",
   "block.spore.vent_door": "Вентиляционная дверь",
   "block.spore.cdu": "CDU",
+  "block.spore.brain_remnants": "Остатки мозга",
   "block.spore.reinforced_door": "Yсиленная дверь",
   "block.spore.rusted_reinforced_door": "Yсиленная дверь",
   "block.spore.frozen_reinforced_door": "Yсиленная дверь",
@@ -84,6 +85,10 @@
   "item.spore.innards": "Внутренности",
   "item.spore.r_wing": "Крыло",
   "item.spore.sausage": "Мясистая сосиска",
+  "item.spore.fiber_stew": "Клетчатка тушеная",
+  "item.spore.heart_kebab": "Сердце Кебаб",
+  "item.spore.roasted_heart_kebab": "Кебаб из жареного сердца",
+  "item.spore.roasted_tumor": "Жареная опухоль",
 
   "item.spore.saber": "Заражённая сабля",
   "item.spore.infected_bow": "Заражённый лук",
@@ -146,8 +151,9 @@
   "item.spore.vigil_spawnegg": "наблюдатель",
   "item.spore.proto_spawnegg": "Прото-разум улья",
   "item.spore.sieger_spawnegg": "Осадник",
-  "item.spore.umarmed_spawnegg": "Umarmer",
-  "item.spore.gazen_spawnegg": "Gazenbreacher",
+  "item.spore.umarmed_spawnegg": "Умармер",
+  "item.spore.gazen_spawnegg": "Газенбричер",
+  "item.spore.hinden_spawnegg": "Гинденбург",
 
 
   "item.spore.scent_spawnegg": "Споры",
@@ -187,6 +193,9 @@
   "entity.spore.sieger_tail": "Зигер Хвост",
   "entity.spore.licker": "Ликер",
   "entity.spore.gazenbreacher": "Разрушитель приливов",
+  "entity.spore.hindenburg": "Гинденбург",
+  "entity.spore.tumoroid_nuke": "Опухолевая бомба",
+  "entity.spore.wave": "волна",
 
 
   "entity.spore.thrown_tumor": "Опухоль",
@@ -242,6 +251,8 @@
   "sounds.spore.puff": "Фух",
   "sounds.spore.limb_slash": "Конечность была порезана",
   "sounds.spore.heart_beat": "Сердцебиение",
+  "sounds.spore.umarmer_ambient": "Умармер растрескивается",
+  "sounds.spore.vigil_ambient": "Дыхание бдения",
   "sounds.spore.record": "Проигрываю заражённую пластинку",
 
   "item.line.shift": "Питательный суп, приготовленный из животной материи.",
