@@ -7,7 +7,6 @@ import net.minecraftforge.common.world.ForgeChunkManager;
 
 public class ChunkLoaderHelper {
     public static void forceLoadChunk(ServerLevel world, BlockPos owner, int chunkX, int chunkZ, boolean tickingWithoutPlayer) {
-
         ForgeChunkManager.forceChunk(world, Spore.MODID, owner, chunkX, chunkZ, true, true);
     }
 
@@ -34,7 +33,6 @@ public class ChunkLoaderHelper {
     }
 
     public static void unloadChunk(ServerLevel world, BlockPos owner, int chunkX, int chunkZ, boolean tickingWithoutPlayer) {
-
         ForgeChunkManager.forceChunk(world, Spore.MODID, owner, chunkX, chunkZ, false, false);
     }
 

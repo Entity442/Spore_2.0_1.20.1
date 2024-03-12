@@ -132,6 +132,12 @@ public class Proto extends Organoid {
                         break;
                     }
                 }
+                if (this.readTargets() != null){
+                    if (en.getUUID() == this.readTargets()){
+                        this.setSignal(true);
+                        this.setPlace(en.getOnPos());
+                    }
+                }
 
                 counter = 0;
             }
