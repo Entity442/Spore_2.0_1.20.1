@@ -152,6 +152,26 @@ public class HandlerEvents {
                     }
                     return 0;
                 }));
+        event.getDispatcher().register(Commands.literal(Spore.MODID+":evolve")
+                .executes(arguments -> {
+                    ServerLevel world = arguments.getSource().getLevel();
+                    Entity entity = arguments.getSource().getEntity();
+                    if (entity == null)
+                        entity = FakePlayerFactory.getMinecraft(world);
+                    if (entity != null){
+                        AABB hitbox = entity.getBoundingBox().inflate(20);
+                        List<Entity> entities = entity.level().getEntities(entity, hitbox);
+                        for (Entity entity1 : entities) {
+                            if(entity1 instanceof Infected infected) {
+                                infected.setEvolution(SConfig.SERVER.evolution_age_human.get());
+                                infected.setEvoPoints(SConfig.SERVER.min_kills.get());
+                            }else if (entity1 instanceof Mound mound){
+                                mound.setAge(mound.getAge()+1);
+                            }
+                        }
+                    }
+                    return 0;
+                }));
         event.getDispatcher().register(Commands.literal(Spore.MODID+":check_entity")
                 .executes(arguments -> {
                     ServerLevel world = arguments.getSource().getLevel();

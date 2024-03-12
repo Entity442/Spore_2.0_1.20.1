@@ -104,6 +104,7 @@ public class Mound extends Organoid {
     public int getAge(){
         return entityData.get(AGE);
     }
+    public void setAge(int e){entityData.set(AGE,e);}
 
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {

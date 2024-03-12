@@ -15,6 +15,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class LickerRenderer<Type extends Licker> extends MobRenderer<Type , LickerModel<Type>> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/gazen.png");
+    private static final ResourceLocation BURNED = new ResourceLocation(Spore.MODID,
+            "textures/entity/burned_gazen.png");
 
 
     public LickerRenderer(EntityRendererProvider.Context context) {
@@ -25,6 +27,9 @@ public class LickerRenderer<Type extends Licker> extends MobRenderer<Type , Lick
 
     @Override
     public ResourceLocation getTextureLocation(Type entity) {
+        if (entity.getBurned()){
+            return BURNED;
+        }
         return TEXTURE;
     }
 

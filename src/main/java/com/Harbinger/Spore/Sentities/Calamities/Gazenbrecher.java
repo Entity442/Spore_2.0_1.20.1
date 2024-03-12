@@ -338,7 +338,9 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
     private void SummonDetashedTongue(){
         Licker licker = new Licker(Sentities.LICKER.get(),this.level());
         Vec3 vec3 = (new Vec3(4D, 0.0D, 0.0D)).yRot(-this.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
+        licker.setBurned(this.isAdaptedToFire());
         licker.moveTo(this.getX() + vec3.x, this.getY() + 1.6,this.getZ()+ vec3.z);
+        licker.setYBodyRot(this.getYRot());
         this.level().addFreshEntity(licker);
     }
 
