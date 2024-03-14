@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities.BaseEntities;
 
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Monster;
@@ -17,6 +18,16 @@ public class EvolvedInfected extends Infected {
             return super.canRide(entity);
         }
         return false;
+    }
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        if(amount > getDamageCap() && getDamageCap() > 0){
+            return super.hurt(source, (float) getDamageCap());
+        }
+        return super.hurt(source, amount);
+    }
+    public double getDamageCap(){
+        return 15;
     }
 
     @Override
