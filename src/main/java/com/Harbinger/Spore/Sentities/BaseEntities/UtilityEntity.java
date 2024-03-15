@@ -97,9 +97,7 @@ public class UtilityEntity extends PathfinderMob {
     }
 
     public Predicate<LivingEntity> TARGET_SELECTOR = (entity) -> {
-        if (entity instanceof Player){
-            return true;
-        }else if (entity instanceof Infected || entity instanceof UtilityEntity || entity instanceof AbstractFish || entity instanceof Animal){
+        if (entity instanceof Infected || entity instanceof UtilityEntity || entity instanceof AbstractFish || entity instanceof Animal){
             return false;
         }else if (this.otherWorld(entity) || this.SkulkLove(entity)){
             return false;
@@ -108,7 +106,7 @@ public class UtilityEntity extends PathfinderMob {
         }
         else if (!SConfig.SERVER.blacklist.get().isEmpty()){
             for(String string : SConfig.SERVER.blacklist.get()){
-                if (string.endsWith(":")){
+                if (string.endsWith(":") && entity.getEncodeId() != null){
                     String[] mod = string.split(":");
                     String[] iterations = entity.getEncodeId().split(":");
                     if (Objects.equals(mod[0], iterations[0])){
@@ -117,13 +115,21 @@ public class UtilityEntity extends PathfinderMob {
                 }
             }
             return !SConfig.SERVER.blacklist.get().contains(entity.getEncodeId());
-        }else return  SConfig.SERVER.at_mob.get();
+        }
+        return true;
     };
 
     protected void addTargettingGoals(){
         this.goalSelector.addGoal(2, new HurtTargetGoal(this ,livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}, Infected.class).setAlertOthers(Infected.class));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
-                (this, LivingEntity.class,  true, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}){
+                (this, Player.class,  true){
+            @Override
+            protected AABB getTargetSearchArea(double value) {
+                return this.mob.getBoundingBox().inflate(value, value, value);
+            }
+        });
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
+                (this, LivingEntity.class,  true, livingEntity -> {return SConfig.SERVER.at_mob.get() && TARGET_SELECTOR.test(livingEntity);}){
             @Override
             protected AABB getTargetSearchArea(double value) {
                 return this.mob.getBoundingBox().inflate(value, value, value);
