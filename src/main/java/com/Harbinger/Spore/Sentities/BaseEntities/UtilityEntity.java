@@ -101,10 +101,7 @@ public class UtilityEntity extends PathfinderMob {
             return false;
         }else if (this.otherWorld(entity) || this.SkulkLove(entity)){
             return false;
-        }else if (SConfig.SERVER.whitelist.get().contains(entity.getEncodeId()) || entity.hasEffect(Seffects.MARKER.get())){
-            return true;
-        }
-        else if (!SConfig.SERVER.blacklist.get().isEmpty()){
+        } else if (!SConfig.SERVER.blacklist.get().isEmpty()){
             for(String string : SConfig.SERVER.blacklist.get()){
                 if (string.endsWith(":") && entity.getEncodeId() != null){
                     String[] mod = string.split(":");
@@ -122,7 +119,7 @@ public class UtilityEntity extends PathfinderMob {
     protected void addTargettingGoals(){
         this.goalSelector.addGoal(2, new HurtTargetGoal(this ,livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}, Infected.class).setAlertOthers(Infected.class));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
-                (this, Player.class,  true){
+                (this, LivingEntity.class,  true,livingEntity -> {return livingEntity instanceof Player || SConfig.SERVER.whitelist.get().contains(livingEntity.getEncodeId());}){
             @Override
             protected AABB getTargetSearchArea(double value) {
                 return this.mob.getBoundingBox().inflate(value, value, value);

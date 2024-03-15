@@ -181,7 +181,7 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
     @Override
     public void registerGoals() {
         this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, TumoroidNuke.class, 10.0F, 1.0D, 1.2D));
-        this.goalSelector.addGoal(5,new AerialRangedGoal(this,1.3,40,16,3,8){
+        this.goalSelector.addGoal(5,new AerialRangedGoal(this,1.3,40,16,5,10){
             @Override
             public boolean canUse() {
                 return super.canUse() && (this.target != null && (this.target.onGround() || this.target.isInFluidType()));
@@ -385,11 +385,14 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
             double dy = livingEntity.getY() + livingEntity.getEyeHeight() - 1.5;
             double dz = livingEntity.getZ() - this.getZ();
             Vec3 vec3;
-            if (random.nextFloat() < 0.5f){
-                vec3 = (new Vec3(2D, 0.0D, 5D)).yRot(-this.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
+            if (random.nextFloat() < 0.3f){
+                vec3 = (new Vec3(2D, 1.3D, 5D)).yRot(-this.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
+            }else if (random.nextFloat() < 0.3f){
+                vec3 = (new Vec3(2D, 1.3D, -5D)).yRot(-this.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
             }else{
-                vec3 = (new Vec3(2D, 0.0D, -5D)).yRot(-this.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
+                vec3 = (new Vec3(0D, -2.0D, 0D)).yRot(-this.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
             }
+
             if (SConfig.SERVER.hinden_explosive_effects != null){
                 List<? extends String> ev = SConfig.SERVER.hinden_explosive_effects.get();
                 for (int i = 0; i < 1; ++i) {
@@ -400,7 +403,7 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
                 }
             }
             tumor.setExplode(Level.ExplosionInteraction.MOB);
-            tumor.moveTo(this.getX() +vec3.x(),this.getY()+1.3,this.getZ() + vec3.z());
+            tumor.moveTo(this.getX() +vec3.x(),this.getY()+vec3.y(),this.getZ() + vec3.z());
             tumor.shoot(dx, dy - tumor.getY() + Math.hypot(dx, dz) * 0.05F, dz, 1f * 2, 12.0F);
             level().addFreshEntity(tumor);
             this.setDeltaMovement(this.getDeltaMovement().add(new Vec3(dx, dy, dz).normalize().scale(0.2D)));

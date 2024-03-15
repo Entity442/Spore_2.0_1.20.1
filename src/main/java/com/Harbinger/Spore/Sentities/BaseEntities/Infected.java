@@ -194,8 +194,6 @@ public class Infected extends Monster{
             return false;
         }else if (this.otherWorld(entity) || this.SkulkLove(entity)){
           return false;
-        } else if (SConfig.SERVER.whitelist.get().contains(entity.getEncodeId()) || entity.hasEffect(Seffects.MARKER.get())){
-            return true;
         }else if (!SConfig.SERVER.blacklist.get().isEmpty()){
             for(String string : SConfig.SERVER.blacklist.get()){
                 if (string.endsWith(":") && entity.getEncodeId() != null){
@@ -214,7 +212,7 @@ public class Infected extends Monster{
     protected void addTargettingGoals(){
         this.goalSelector.addGoal(2, new HurtTargetGoal(this ,livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}, Infected.class).setAlertOthers(Infected.class));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
-                (this, Player.class,  true));
+                (this, LivingEntity.class,  true,livingEntity -> {return livingEntity instanceof Player || SConfig.SERVER.whitelist.get().contains(livingEntity.getEncodeId());}));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
                 (this, LivingEntity.class,  true, livingEntity -> {return SConfig.SERVER.at_mob.get() && TARGET_SELECTOR.test(livingEntity);}));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
