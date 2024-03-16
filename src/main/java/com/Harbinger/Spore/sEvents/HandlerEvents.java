@@ -461,6 +461,16 @@ public class HandlerEvents {
                 LivingEntity entity = event.getEntity();
                 entity.level().explode(null,entity.getX(),entity.getY(),entity.getZ(),0.5f, Level.ExplosionInteraction.NONE);
             }
+            if (item == Sitems.MILKY_SACK.get()){
+                LivingEntity entity = event.getEntity();
+                List<MobEffectInstance> effectsToRemove = new ArrayList<>();
+                entity.getActiveEffects().forEach(mobEffectInstance -> {
+                    if (!mobEffectInstance.getEffect().isBeneficial()) {
+                        effectsToRemove.add(mobEffectInstance);
+                    }
+                });
+                effectsToRemove.forEach(mobEffectInstance -> entity.removeEffect(mobEffectInstance.getEffect()));
+            }
         }
     }
 
