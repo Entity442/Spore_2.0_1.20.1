@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "minecraft:bowl"
+    },
+    "C": {
+      "item": "spore:vigil_eye"
+    }
+  },
+  "pattern": [
+    "   ",
+    " C ",
+    " # "
+  ],
+  "result": {
+    "count": 1,
+    "item": "spore:vigil_eye_soup"
+  }
+}

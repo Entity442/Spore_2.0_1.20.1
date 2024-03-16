@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "spore:alveolic_sack"
+    },
+    "C": {
+      "item": "minecraft:milk_bucket"
+    }
+  },
+  "pattern": [
+    "   ",
+    " C ",
+    " # "
+  ],
+  "result": {
+    "count": 1,
+    "item": "spore:milky_sack"
+  }
+}

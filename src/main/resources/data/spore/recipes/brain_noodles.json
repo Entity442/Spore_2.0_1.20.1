@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "minecraft:bowl"
+    },
+    "C": {
+      "item": "spore:nerves"
+    }
+  },
+  "pattern": [
+    " C ",
+    "CCC",
+    " # "
+  ],
+  "result": {
+    "count": 1,
+    "item": "spore:brain_noodles"
+  }
+}

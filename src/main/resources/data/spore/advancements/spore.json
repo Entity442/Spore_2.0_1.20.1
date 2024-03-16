@@ -81,37 +81,12 @@
       "spore:fiber_stew",
       "spore:heart_kebab",
       "spore:roaster_tumor",
-      "spore:rusted_reinforced_door",
+      "spore:brain_noodles",
+      "spore:milky_sacks",
+      "spore:vigil_soup",
+      "spore:rusted_reinforced_door"
 
 
-
-
-
-      "biomancy:armads",
-      "biomancy:armor_plate",
-      "biomancy:bow",
-      "biomancy:crossbow",
-      "biomancy:dense_muscle_b",
-      "biomancy:elytron",
-      "biomancy:flesh_boots",
-      "biomancy:flesh_chestplate",
-      "biomancy:flesh_helmet",
-      "biomancy:flesh_pants",
-      "biomancy:fleshy_bone",
-      "biomancy:fleshy_claw",
-      "biomancy:greatsword",
-      "biomancy:hardened_bind",
-      "biomancy:living_core",
-      "biomancy:mace",
-      "biomancy:maul",
-      "biomancy:rapier",
-      "biomancy:saber",
-      "biomancy:scythe",
-      "biomancy:shovel",
-      "biomancy:sickle",
-      "biomancy:spear",
-      "biomancy:wing",
-      "biomancy:spine"
     ]
   }
 }
