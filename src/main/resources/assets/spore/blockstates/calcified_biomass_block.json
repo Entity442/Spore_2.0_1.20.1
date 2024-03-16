@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/calcified_biomass_block"
+      },
+      {
+        "model": "spore:block/calcified_biomass_block",
+        "y": 90
+      },
+      {
+        "model": "spore:block/calcified_biomass_block",
+        "y": 180
+      },
+      {
+        "model": "spore:block/calcified_biomass_block",
+        "y": 270
+      }
+    ]
+  }
+}

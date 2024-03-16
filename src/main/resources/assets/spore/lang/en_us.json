@@ -13,6 +13,8 @@
   "block.spore.biomass_block": "Biomass",
   "block.spore.rooted_biomass": "Rooted Biomass",
   "block.spore.rooted_mycelium": "Rooted Mycelium",
+  "block.spore.calcified_biomass_block": "Calcified Biomass",
+  "block.spore.sicken_biomass_block": "Sickened Biomass",
   "block.spore.biomass_lump": "Biomass Lump",
   "block.spore.iron_ladder": "Iron Ladder",
   "block.spore.rotten_log": "Decayed Log",
