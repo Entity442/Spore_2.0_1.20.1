@@ -1,7 +1,7 @@
 package com.Harbinger.Spore.Client.Renderers;
 
 
-import com.Harbinger.Spore.Client.Models.ExplodingBusserModel;
+import com.Harbinger.Spore.Client.Models.InfectedHazmatCoat;
 import com.Harbinger.Spore.Client.Models.InfectedHazmatModel;
 import com.Harbinger.Spore.Client.Models.InfectedHazmatWithTank;
 import com.Harbinger.Spore.Sentities.BasicInfected.InfectedHazmat;
@@ -24,17 +24,21 @@ import java.util.Map;
 public class InfectedHazmatRenderer extends MobRenderer<InfectedHazmat , EntityModel<InfectedHazmat>> {
     private final EntityModel<InfectedHazmat> normalHazmat = this.getModel();
     private final EntityModel<InfectedHazmat> tankHazmat;
+    private final EntityModel<InfectedHazmat> coatHazmat;
     public static final Map<HazmatVariant, ResourceLocation> TEXTURE =
             Util.make(Maps.newEnumMap(HazmatVariant.class), (p_114874_) -> {
                 p_114874_.put(HazmatVariant.DEFAULT,
                         new ResourceLocation(Spore.MODID, "textures/entity/inf_hazmat.png"));
                 p_114874_.put(HazmatVariant.TANK,
                         new ResourceLocation(Spore.MODID, "textures/entity/inf_hazmat.png"));
+                p_114874_.put(HazmatVariant.COAT,
+                        new ResourceLocation(Spore.MODID, "textures/entity/inf_hazmat_coat.png"));
             });
 
     public InfectedHazmatRenderer(EntityRendererProvider.Context context) {
         super(context, new InfectedHazmatModel<>(context.bakeLayer(InfectedHazmatModel.LAYER_LOCATION)), 0.5f);
         tankHazmat = new InfectedHazmatWithTank<>(context.bakeLayer(InfectedHazmatWithTank.LAYER_LOCATION));
+        coatHazmat = new InfectedHazmatCoat<>(context.bakeLayer(InfectedHazmatCoat.LAYER_LOCATION));
     }
 
     @Override
@@ -47,7 +51,9 @@ public class InfectedHazmatRenderer extends MobRenderer<InfectedHazmat , EntityM
         EntityModel<InfectedHazmat> entityModel;
         if (infectedHazmat.getVariant() == HazmatVariant.TANK){
             entityModel = tankHazmat;
-        }else{
+        }else if(infectedHazmat.getVariant() == HazmatVariant.COAT){
+            entityModel = coatHazmat;
+        }else {
             entityModel = normalHazmat;
         }
         this.model = entityModel;
