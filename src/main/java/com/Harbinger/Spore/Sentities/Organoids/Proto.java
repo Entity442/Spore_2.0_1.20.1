@@ -10,6 +10,7 @@ import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
+import com.Harbinger.Spore.Sentities.ChasingGenerator;
 import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -46,7 +47,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class Proto extends Organoid {
+public class Proto extends Organoid implements ChasingGenerator {
     private static final EntityDataAccessor<Integer> HOSTS = SynchedEntityData.defineId(Proto.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Optional<UUID>> TARGET = SynchedEntityData.defineId(Proto.class, EntityDataSerializers.OPTIONAL_UUID);
     public Proto(EntityType<? extends PathfinderMob> type, Level level) {
@@ -97,6 +98,9 @@ public class Proto extends Organoid {
     @Override
     public void tick() {
         super.tick();
+        if (this.tickCount % 200 == 0){
+            this.generateChasing(this,64,2);
+        }
         if (counter <1200){
             counter++;
         }else{
