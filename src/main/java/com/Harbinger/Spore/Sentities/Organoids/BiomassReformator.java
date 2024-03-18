@@ -253,6 +253,9 @@ public class BiomassReformator extends Organoid {
 
     private void Summon(Entity entity ,boolean value){
         List<? extends String> ev = SConfig.SERVER.reconstructor_terrain.get();
+        if (Math.random() < 0.3){
+            entityData.set(STATE,this.random.nextInt(3));
+        }
         if (entityData.get(STATE) == 1){
             ev = SConfig.SERVER.reconstructor_water.get();
         }if (entityData.get(STATE) == 2){
