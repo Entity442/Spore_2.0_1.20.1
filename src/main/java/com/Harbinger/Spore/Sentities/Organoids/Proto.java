@@ -99,7 +99,8 @@ public class Proto extends Organoid implements CasingGenerator {
     public void tick() {
         super.tick();
         if (this.tickCount % 200 == 0){
-            this.generateChasing(this,64,2);
+            this.generateChasing(this,64,1);
+            this.generateChasing(this,32,1);
         }
         if (counter <1200){
             counter++;
