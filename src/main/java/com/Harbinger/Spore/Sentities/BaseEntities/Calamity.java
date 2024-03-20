@@ -1,6 +1,9 @@
 package com.Harbinger.Spore.Sentities.BaseEntities;
 
-import com.Harbinger.Spore.Core.*;
+import com.Harbinger.Spore.Core.Sblocks;
+import com.Harbinger.Spore.Core.Seffects;
+import com.Harbinger.Spore.Core.Sentities;
+import com.Harbinger.Spore.Core.Sparticles;
 import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.CalamityVigilCall;
@@ -8,7 +11,6 @@ import com.Harbinger.Spore.Sentities.AI.CalamityPathNavigation;
 import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.MovementControls.CalamityMovementControl;
 import com.Harbinger.Spore.Sentities.Organoids.Mound;
-import com.Harbinger.Spore.Sentities.Utility.InfectionTendril;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -40,7 +42,7 @@ import java.util.EnumSet;
 
 public class Calamity extends UtilityEntity implements Enemy {
     public static final EntityDataAccessor<Integer> KILLS = SynchedEntityData.defineId(Calamity.class, EntityDataSerializers.INT);
-    public static final EntityDataAccessor<BlockPos> SEARCH_AREA = SynchedEntityData.defineId(InfectionTendril.class, EntityDataSerializers.BLOCK_POS);
+    public static final EntityDataAccessor<BlockPos> SEARCH_AREA = SynchedEntityData.defineId(Calamity.class, EntityDataSerializers.BLOCK_POS);
     private int breakCounter;
     private int stun = 0;
 

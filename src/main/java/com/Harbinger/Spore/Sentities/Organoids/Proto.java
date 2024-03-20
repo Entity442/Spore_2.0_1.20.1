@@ -50,6 +50,7 @@ import java.util.UUID;
 public class Proto extends Organoid implements CasingGenerator {
     private static final EntityDataAccessor<Integer> HOSTS = SynchedEntityData.defineId(Proto.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Optional<UUID>> TARGET = SynchedEntityData.defineId(Proto.class, EntityDataSerializers.OPTIONAL_UUID);
+    public static final EntityDataAccessor<BlockPos> NODE = SynchedEntityData.defineId(Proto.class, EntityDataSerializers.BLOCK_POS);
     public Proto(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         setPersistenceRequired();
@@ -99,8 +100,14 @@ public class Proto extends Organoid implements CasingGenerator {
     public void tick() {
         super.tick();
         if (this.tickCount % 200 == 0){
-            this.generateChasing(this,64,1);
-            this.generateChasing(this,32,1);
+            if (this.distanceToSqr(this.entityData.get(NODE).getX(),this.entityData.get(NODE).getY(),this.entityData.get(NODE).getZ()) > 100){
+                if (Math.random() < 0.01){
+                    this.entityData.set(NODE,this.getOnPos());
+                }
+            }else{
+                this.generateChasing(entityData.get(NODE),this,65);
+                this.generateChasing(entityData.get(NODE),this,32);
+            }
         }
         if (counter <1200){
             counter++;
@@ -307,6 +314,9 @@ public class Proto extends Organoid implements CasingGenerator {
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt("hosts",entityData.get(HOSTS));
+        tag.putInt("nodeX",entityData.get(NODE).getX());
+        tag.putInt("nodeY",entityData.get(NODE).getY());
+        tag.putInt("nodeZ",entityData.get(NODE).getZ());
 
         if (this.readTargets() != null) {
             tag.putUUID("victim", this.readTargets());
@@ -317,6 +327,10 @@ public class Proto extends Organoid implements CasingGenerator {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         entityData.set(HOSTS, tag.getInt("hosts"));
+        int x = tag.getInt("nodeX");
+        int y = tag.getInt("nodeY");
+        int z = tag.getInt("nodeZ");
+        this.entityData.set(NODE,new BlockPos(x,y,z));
         if (tag.hasUUID("victim")){
             this.addTargets(tag.getUUID("victim"));
         }
@@ -325,7 +339,8 @@ public class Proto extends Organoid implements CasingGenerator {
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        entityData.define(HOSTS,0);
+        this.entityData.define(HOSTS,0);
+        this.entityData.define(NODE,this.getOnPos());
         this.entityData.define(TARGET, Optional.empty());
     }
     public int getHosts(){
@@ -475,6 +490,7 @@ public class Proto extends Organoid implements CasingGenerator {
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance p_33283_, MobSpawnType p_33284_, @Nullable SpawnGroupData p_33285_, @Nullable CompoundTag p_33286_) {
         this.tickEmerging();
         this.loadChunks();
+        this.entityData.set(NODE,this.getOnPos());
         return super.finalizeSpawn(serverLevelAccessor, p_33283_, p_33284_, p_33285_, p_33286_);
     }
 
