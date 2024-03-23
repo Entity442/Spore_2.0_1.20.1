@@ -327,6 +327,11 @@ public class Umarmer extends Organoid {
     }
 
     @Override
+    public boolean fireImmune() {
+        return this.getVariant() == UmarmerVariants.CHARRED;
+    }
+
+    @Override
     public boolean doHurtTarget(Entity entity) {
         if (entity instanceof LivingEntity livingEntity){
             if (this.getVariant() == UmarmerVariants.CHARRED){
