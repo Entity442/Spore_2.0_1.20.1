@@ -5,7 +5,12 @@ import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
+import com.Harbinger.Spore.Sentities.EvolvedInfected.Griefer;
 import com.Harbinger.Spore.Sentities.Utility.WaveEntity;
+import com.Harbinger.Spore.Sentities.Variants.BusserVariants;
+import com.Harbinger.Spore.Sentities.Variants.HazmatVariant;
+import com.Harbinger.Spore.Sentities.Variants.UmarmerVariants;
+import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -13,6 +18,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -23,11 +29,14 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class Umarmer extends Organoid {
+    private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(Umarmer.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> TIMER = SynchedEntityData.defineId(Umarmer.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Boolean> ATTACKING = SynchedEntityData.defineId(Umarmer.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> HARD_ATTACK = SynchedEntityData.defineId(Umarmer.class, EntityDataSerializers.BOOLEAN);
@@ -93,6 +102,7 @@ public class Umarmer extends Organoid {
         tag.putInt("timer",entityData.get(TIMER));
         tag.putBoolean("pinned",entityData.get(PINNED));
         tag.putBoolean("shielded",entityData.get(SHIELDING));
+        tag.putInt("Variant",this.getTypeVariant());
     }
 
     @Override
@@ -101,6 +111,7 @@ public class Umarmer extends Organoid {
         entityData.set(TIMER, tag.getInt("timer"));
         entityData.set(PINNED, tag.getBoolean("pinned"));
         entityData.set(SHIELDING, tag.getBoolean("shielded"));
+        this.entityData.set(DATA_ID_TYPE_VARIANT, tag.getInt("Variant"));
     }
     public int getTimer(){
         return entityData.get(TIMER);
@@ -247,6 +258,7 @@ public class Umarmer extends Organoid {
         this.entityData.define(PINNED,false);
         this.entityData.define(SHIELDING,false);
         this.entityData.define(TIMER,0);
+        this.entityData.define(DATA_ID_TYPE_VARIANT, 0);
     }
 
     public void SetAttacking(boolean value){
@@ -317,6 +329,9 @@ public class Umarmer extends Organoid {
     @Override
     public boolean doHurtTarget(Entity entity) {
         if (entity instanceof LivingEntity livingEntity){
+            if (this.getVariant() == UmarmerVariants.CHARRED){
+                livingEntity.setSecondsOnFire(10);
+            }
             livingEntity.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),600,1));
             livingEntity.knockback(1.2F, -Mth.sin(this.getYRot() * ((float) Math.PI / 180F)), Mth.cos(this.getYRot() * ((float) Math.PI / 180F)));
         }
@@ -584,6 +599,26 @@ public class Umarmer extends Organoid {
         return Ssounds.INF_DAMAGE.get();
     }
 
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_146746_, DifficultyInstance p_146747_,
+                                        MobSpawnType p_146748_, @Nullable SpawnGroupData p_146749_,
+                                        @Nullable CompoundTag p_146750_) {
+        UmarmerVariants variant = Util.getRandom(UmarmerVariants.values(), this.random);
+        setVariant(variant);
+        return super.finalizeSpawn(p_146746_, p_146747_, p_146748_, p_146749_, p_146750_);
+    }
+
+    public UmarmerVariants getVariant() {
+        return UmarmerVariants.byId(this.getTypeVariant() & 255);
+    }
+
+    private int getTypeVariant() {
+        return this.entityData.get(DATA_ID_TYPE_VARIANT);
+    }
+
+    private void setVariant(UmarmerVariants variant) {
+        this.entityData.set(DATA_ID_TYPE_VARIANT, variant.getId() & 255);
+    }
 
     @Override
     public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor) {
