@@ -1,9 +1,6 @@
 package com.Harbinger.Spore.Sentities.Organoids;
 
-import com.Harbinger.Spore.Core.SConfig;
-import com.Harbinger.Spore.Core.Sblocks;
-import com.Harbinger.Spore.Core.Sentities;
-import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
 import com.Harbinger.Spore.SBlockEntities.BrainRemnantBlockEntity;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
@@ -499,5 +496,13 @@ public class Proto extends Organoid implements CasingGenerator {
             BlockPos pos = new BlockPos(this.getBlockX(),this.getBlockY(),this.getBlockZ());
             ChunkLoaderHelper.forceLoadChunksInRadius(serverLevel, pos, this.level().getChunk(pos).getPos().x, this.level().getChunk(pos).getPos().z, 3);
         }
+    }
+
+    @Override
+    public boolean hasLineOfSight(Entity entity) {
+        if (entity instanceof LivingEntity livingEntity && livingEntity.hasEffect(Seffects.MARKER.get())){
+            return true;
+        }
+        return super.hasLineOfSight(entity);
     }
 }

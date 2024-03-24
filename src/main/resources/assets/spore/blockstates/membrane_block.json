@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/membrane_block"
+      },
+      {
+        "model": "spore:block/membrane_block",
+        "x": 90
+      },
+      {
+        "model": "spore:block/membrane_block",
+        "z": 180
+      },
+      {
+        "model": "spore:block/membrane_block",
+        "y": 270
+      }
+    ]
+  }
+}

@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sentities;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sblocks;
+import com.Harbinger.Spore.Sblocks.MembraneBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -21,6 +22,9 @@ import java.util.List;
 
 public interface CasingGenerator {
     private boolean compare(Level level,BlockPos blockpos){
+        if (level.getBlockState(blockpos).getBlock() instanceof MembraneBlock){
+            return false;
+        }
         boolean propery1 = level.getBlockState(blockpos.below()).isSolidRender(level,blockpos);
         boolean propery2 = level.getBlockState(blockpos.above()).isSolidRender(level,blockpos);
         boolean properzx1 = level.getBlockState(blockpos.east()).isSolidRender(level,blockpos);
@@ -36,6 +40,7 @@ public interface CasingGenerator {
         possibleBlock.add(Sblocks.ROOTED_BIOMASS.get().defaultBlockState());
         possibleBlock.add(Sblocks.CALCIFIED_BIOMASS_BLOCK.get().defaultBlockState());
         possibleBlock.add(Sblocks.SICKEN_BIOMASS_BLOCK.get().defaultBlockState());
+        possibleBlock.add(Sblocks.MEMBRANE_BLOCK.get().defaultBlockState());
         Level level = entity.level();
         RandomSource randomSource = RandomSource.create();
 

@@ -19,11 +19,10 @@ public class Marker extends MobEffect implements IForgeMobEffect {
     public Marker() {
         super(MobEffectCategory.HARMFUL, 8412043);
     }
-    private int j;
 
     @Override
     public void applyEffectTick(LivingEntity pLivingEntity, int pAmplifier) {
-        j = pLivingEntity.getEffect(Seffects.MARKER.get()).getDuration();
+        int j = pLivingEntity.getEffect(Seffects.MARKER.get()).getDuration();
         if (!(pLivingEntity instanceof Infected || pLivingEntity instanceof UtilityEntity)){
         AABB boundingBox = pLivingEntity.getBoundingBox().inflate(16 * (pAmplifier + 1));
         List<Entity> entities = pLivingEntity.level().getEntities(pLivingEntity, boundingBox);
@@ -45,8 +44,15 @@ public class Marker extends MobEffect implements IForgeMobEffect {
         return ret;
     }
 
-    @Override
-    public boolean isDurationEffectTick(int pDuration, int pAmplifier) {
-        return true;
+    public boolean isDurationEffectTick(int duration, int intensity) {
+        if (this == Seffects.MARKER.get()) {
+            int i = 80 >> intensity;
+            if (i > 0) {
+                return duration % i == 0;
+            } else {
+                return true;
+            }
+        }
+        return false;
     }
 }
