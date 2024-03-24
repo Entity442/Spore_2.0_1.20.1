@@ -14,7 +14,6 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathComputationType;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -51,7 +50,6 @@ public class MembraneBlock extends Block {
         if (collisionContext instanceof EntityCollisionContext entityCollisionContext){
             if (entityCollisionContext.getEntity() instanceof LivingEntity livingEntity){
                 if (this.isAllowedToPass(livingEntity)){
-                    livingEntity.makeStuckInBlock(state, new Vec3((double)0.8F, 0.8D, (double)0.8F));
                     return Shapes.empty();
                 }
             }
