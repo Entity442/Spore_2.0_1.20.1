@@ -187,7 +187,7 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
                 return super.canUse() && (this.target != null && (this.target.onGround() || this.target.isInFluidType()));
             }
         });
-        this.goalSelector.addGoal(6, new AOEMeleeAttackGoal(this,1,true,2,6));
+        this.goalSelector.addGoal(6, new AOEMeleeAttackGoal(this,1,true,2,6,livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
         this.goalSelector.addGoal(6,new CalamityInfectedCommand(this));
         this.goalSelector.addGoal(7,new SummonScentInCombat(this));
         this.goalSelector.addGoal(8,new SporeBurstSupport(this));

@@ -147,7 +147,7 @@ public class Sieger extends Calamity implements RangedAttackMob, TrueCalamity {
             }
         });
         this.goalSelector.addGoal(4, new LeapAtTargetGoal(this,0.4F));
-        this.goalSelector.addGoal(4, new AOEMeleeAttackGoal(this, 1.5, false,2.5 ,6){
+        this.goalSelector.addGoal(4, new AOEMeleeAttackGoal(this, 1.5, false,2.5 ,6,livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}){
             protected double getAttackReachSqr(LivingEntity entity) {
                 float f = Sieger.this.getBbWidth();
                 return (double)(f * 3.0F * f * 3.0F + entity.getBbWidth());

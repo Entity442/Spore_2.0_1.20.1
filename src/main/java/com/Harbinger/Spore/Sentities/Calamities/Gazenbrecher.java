@@ -274,7 +274,7 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
                 return super.canUse() && (calculateHeight() || calculateDistance());
             }
         });
-        this.goalSelector.addGoal(4, new AOEMeleeAttackGoal(this, 1.5, false,2.5 ,6){
+        this.goalSelector.addGoal(4, new AOEMeleeAttackGoal(this, 1.5, false,2.5 ,6,livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}){
             protected double getAttackReachSqr(LivingEntity entity) {
                 float f = Gazenbrecher.this.getBbWidth();
                 return (double)(f * 1.5F * f * 1.5F + entity.getBbWidth());

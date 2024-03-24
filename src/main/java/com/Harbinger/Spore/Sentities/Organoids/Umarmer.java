@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Sentities.Organoids;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Griefer;
@@ -30,10 +31,13 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
+import java.util.function.Predicate;
 
 public class Umarmer extends Organoid {
     private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(Umarmer.class, EntityDataSerializers.INT);
@@ -239,7 +243,7 @@ public class Umarmer extends Organoid {
     protected void registerGoals() {
         this.addTargettingGoals();
         this.goalSelector.addGoal(3,new GrabTarget(this));
-        this.goalSelector.addGoal(4, new UmarmedMeleeAttack(this, 0, false));
+        this.goalSelector.addGoal(4, new UmarmedMeleeAttack(this, 0, false,livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
         this.goalSelector.addGoal(4, new PinAttack(this, 0, false));
         this.goalSelector.addGoal(6,new RandomLookAroundGoal(this){
             @Override
@@ -343,13 +347,13 @@ public class Umarmer extends Organoid {
         return super.doHurtTarget(entity);
     }
 
-    static class UmarmedMeleeAttack extends CustomMeleeAttackGoal{
+    static class UmarmedMeleeAttack extends AOEMeleeAttackGoal {
         private final Umarmer mob;
         private final int attackDelay = 10;
         private int ticksUntilNextAttack = 10;
         private boolean shouldCountTillNextAttack = false;
-        public UmarmedMeleeAttack(Umarmer umarmer, double p_25553_, boolean p_25554_) {
-            super(umarmer, p_25553_, p_25554_);
+        public UmarmedMeleeAttack(Umarmer umarmer, double p_25553_, boolean p_25554_, Predicate<LivingEntity> livingEntityPredicate) {
+            super(umarmer, p_25553_, p_25554_,2,1,livingEntityPredicate);
             this.mob = umarmer;
         }
 
@@ -422,6 +426,11 @@ public class Umarmer extends Organoid {
             this.resetAttackCooldown();
             this.mob.swing(InteractionHand.MAIN_HAND);
             this.mob.doHurtTarget(pEnemy);
+            AABB hitbox = pEnemy.getBoundingBox().inflate(box);
+            List<LivingEntity> targets = pEnemy.level().getEntitiesOfClass(LivingEntity.class , hitbox,victims);
+            for (LivingEntity en : targets) {
+                en.doHurtTarget(en);
+            }
         }
 
         @Override

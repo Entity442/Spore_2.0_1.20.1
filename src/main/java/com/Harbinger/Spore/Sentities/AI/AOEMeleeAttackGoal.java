@@ -1,16 +1,9 @@
 package com.Harbinger.Spore.Sentities.AI;
 
-import com.Harbinger.Spore.Core.SConfig;
-import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
-import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.pathfinder.Path;
@@ -18,10 +11,11 @@ import net.minecraft.world.phys.AABB;
 
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Objects;
+import java.util.function.Predicate;
 
 public class AOEMeleeAttackGoal extends Goal {
     protected final PathfinderMob mob;
+    protected Predicate<LivingEntity> victims;
     private final double speedModifier;
     private final boolean followingTargetEvenIfNotSeen;
     private Path path;
@@ -37,7 +31,8 @@ public class AOEMeleeAttackGoal extends Goal {
     private final boolean canPenalize = false;
     public double box;
     public float ranged;
-    public AOEMeleeAttackGoal(PathfinderMob mob, double speed, boolean p_25554_ , double hitbox ,float range) {
+    public AOEMeleeAttackGoal(PathfinderMob mob, double speed, boolean p_25554_ , double hitbox ,float range,Predicate<LivingEntity> targets) {
+        this.victims = targets;
         this.box = hitbox;
         this.ranged = range;
         this.mob = mob;
@@ -45,6 +40,10 @@ public class AOEMeleeAttackGoal extends Goal {
         this.followingTargetEvenIfNotSeen = p_25554_;
         this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
     }
+    public AOEMeleeAttackGoal(PathfinderMob mob, double speed, boolean p_25554_ , double hitbox ,float range){
+        this(mob,speed,p_25554_,hitbox,range,entity -> {return true;});
+    }
+
     protected double getAttackReachSqr(LivingEntity entity) {
         return mob.getBbWidth() + ranged;
     }
@@ -164,31 +163,14 @@ public class AOEMeleeAttackGoal extends Goal {
             this.mob.swing(InteractionHand.MAIN_HAND);
             this.mob.doHurtTarget(entity);
             AABB hitbox = entity.getBoundingBox().inflate(box);
-            List<Entity> targets = entity.level().getEntities(entity , hitbox);
-            for (Entity en : targets) {
-                if (en instanceof LivingEntity && !(en.is(mob) || this.blacklist(en) || en instanceof Infected || en instanceof UtilityEntity)){
-                    en.hurt(mob.damageSources().mobAttack(mob) , (float) Objects.requireNonNull(mob.getAttribute(Attributes.ATTACK_DAMAGE)).getBaseValue());
-                    ((LivingEntity) en).knockback(Objects.requireNonNull(mob.getAttribute(Attributes.ATTACK_KNOCKBACK)).getBaseValue() ,Mth.sin(mob.getYRot() * ((float) Math.PI / 180F)), (-Mth.cos(mob.getYRot() * ((float) Math.PI / 180F))));
-                }
+            List<LivingEntity> targets = entity.level().getEntitiesOfClass(LivingEntity.class , hitbox,victims);
+            for (LivingEntity en : targets) {
+                en.doHurtTarget(en);
             }
         }
 
     }
 
-    public boolean blacklist(Entity entity){
-        for (String string : SConfig.SERVER.blacklist.get()){
-            if (string.endsWith(":")){
-                String[] modid = string.split(":");
-                String[] instance = entity.getEncodeId().split(":");
-                if (Objects.equals(modid[0], instance[0])){
-                    return true;
-                }
-            }else{
-                return SConfig.SERVER.blacklist.get().contains(entity.getEncodeId());
-            }
-        }
-        return false;
-    }
 
     protected void resetAttackCooldown() {
         this.ticksUntilNextAttack = this.adjustedTickDelay(20);
