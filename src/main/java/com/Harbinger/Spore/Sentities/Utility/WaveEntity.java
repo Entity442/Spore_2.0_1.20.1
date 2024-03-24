@@ -46,7 +46,7 @@ public class WaveEntity extends UtilityEntity {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new AOEMeleeAttackGoal(this, 1.1,false,2,1));
+        this.goalSelector.addGoal(1, new AOEMeleeAttackGoal(this, 1.1,false,2,1,livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
         super.registerGoals();
     }
 
