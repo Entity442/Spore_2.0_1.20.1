@@ -429,7 +429,7 @@ public class Umarmer extends Organoid {
             AABB hitbox = pEnemy.getBoundingBox().inflate(box);
             List<LivingEntity> targets = pEnemy.level().getEntitiesOfClass(LivingEntity.class , hitbox,victims);
             for (LivingEntity en : targets) {
-                en.doHurtTarget(en);
+                mob.doHurtTarget(en);
             }
         }
 
