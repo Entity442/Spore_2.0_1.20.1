@@ -104,6 +104,12 @@
       "spore:vigil_ambient"
     ]
   },
+  "usurper_ambient" :{
+    "subtitle": "sounds.spore.vigil_ambient",
+    "sounds": [
+      "spore:usurper_ambient"
+    ]
+  },
   "sieger_bite" :{
     "subtitle": "sounds.spore.sieger_bite",
     "sounds": [

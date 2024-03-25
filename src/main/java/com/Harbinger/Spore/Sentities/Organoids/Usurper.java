@@ -113,7 +113,7 @@ public class Usurper extends Organoid implements RangedAttackMob {
         level().addFreshEntity(projectile);
     }
     protected SoundEvent getAmbientSound() {
-        return Ssounds.UMARMER_AMBIENT.get();
+        return Ssounds.USURPER_AMBIENT.get();
     }
 
     protected SoundEvent getHurtSound(DamageSource p_34327_) {
