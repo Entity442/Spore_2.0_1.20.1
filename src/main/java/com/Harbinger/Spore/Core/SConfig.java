@@ -153,6 +153,9 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> brute_damage;
         public final ForgeConfigSpec.ConfigValue<Double> brute_armor;
 
+        public final ForgeConfigSpec.ConfigValue<Double> usurper_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> usurper_armor;
+
         public final ForgeConfigSpec.ConfigValue<Double> sieger_hp;
         public final ForgeConfigSpec.ConfigValue<Double> sieger_damage;
         public final ForgeConfigSpec.ConfigValue<Double> sieger_armor;
@@ -508,10 +511,15 @@ public class SConfig {
             this.bus_armor = builder.comment("Default 10").defineInRange("Sets Phayres Armor", 10, 1, Double.MAX_VALUE);
             builder.pop();
 
-            builder.push("Umarmed");
-            this.umarmed_hp = builder.comment("Default 70").defineInRange("Sets Umarmed Max health", 70, 1, Double.MAX_VALUE);
-            this.umarmed_damage = builder.comment("Default 8").defineInRange("Sets Umarmed Damage", 8, 1, Double.MAX_VALUE);
-            this.umarmed_armor = builder.comment("Default 6").defineInRange("Sets Umarmed Armor", 6, 1, Double.MAX_VALUE);
+            builder.push("Umarmer");
+            this.umarmed_hp = builder.comment("Default 70").defineInRange("Sets Umarmer Max health", 70, 1, Double.MAX_VALUE);
+            this.umarmed_damage = builder.comment("Default 8").defineInRange("Sets Umarmer Damage", 8, 1, Double.MAX_VALUE);
+            this.umarmed_armor = builder.comment("Default 6").defineInRange("Sets Umarmer Armor", 6, 1, Double.MAX_VALUE);
+            builder.pop();
+
+            builder.push("Usurper");
+            this.usurper_hp = builder.comment("Default 60").defineInRange("Sets Usurper Max health", 60, 1, Double.MAX_VALUE);
+            this.usurper_armor = builder.comment("Default 6").defineInRange("Sets Usurper Armor", 6, 1, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("Vigil");
@@ -617,7 +625,7 @@ public class SConfig {
                     Lists.newArrayList("minecraft:villager","minecraft:pillager","guardvillagers:guard","minecraft:evoker","minecraft:vindicator",
                             "recruits:recruit","recruits:bowman","recruits:recruit_shieldman", "recruits:nomad","recruits:horseman","roamers:roamer") , o -> o instanceof String);
             this.proto_summonable_troops = builder.defineList("Mobs that the proto can summon to defend itself",
-                    Lists.newArrayList("spore:mound","spore:vigil","spore:umarmed") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mound","spore:vigil","spore:umarmed","spore:usurper") , o -> o instanceof String);
 
             builder.pop();
 

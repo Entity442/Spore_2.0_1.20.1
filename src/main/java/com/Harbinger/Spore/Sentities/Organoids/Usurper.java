@@ -38,8 +38,8 @@ public class Usurper extends Organoid implements RangedAttackMob {
     }
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, SConfig.SERVER.vigil_hp.get() * SConfig.SERVER.global_health.get())
-                .add(Attributes.ARMOR, SConfig.SERVER.vigil_armor.get() * SConfig.SERVER.global_armor.get())
+                .add(Attributes.MAX_HEALTH, SConfig.SERVER.usurper_hp.get() * SConfig.SERVER.global_health.get())
+                .add(Attributes.ARMOR, SConfig.SERVER.usurper_armor.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.FOLLOW_RANGE, 64)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1);
     }
