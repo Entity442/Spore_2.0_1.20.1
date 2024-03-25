@@ -160,6 +160,10 @@ public class Sentities {
             EntityType.Builder.of((EntityType<BileProjectile> p_33002_, Level level) -> new BileProjectile(level), MobCategory.MISC)
                     .setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(0.4f, 0.4f));
 
+    public static final RegistryObject<EntityType<AdaptableProjectile>> SPIT = register("spit",
+            EntityType.Builder.of((EntityType<AdaptableProjectile> p_33002_, Level level) -> new AdaptableProjectile(level), MobCategory.MISC)
+                    .setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(0.4f, 0.4f));
+
     public static final RegistryObject<EntityType<ScentEntity>> SCENT = SPORE_ENTITIES.register("scent",
             () -> EntityType.Builder.of(ScentEntity::new, MobCategory.MISC).sized(0.2f,0.2f)
                     .build(new ResourceLocation(Spore.MODID, "scent").toString()));
@@ -171,9 +175,14 @@ public class Sentities {
     public static final RegistryObject<EntityType<Mound>> MOUND = SPORE_ENTITIES.register("mound",
             () -> EntityType.Builder.of(Mound::new, INFECTED).sized(0.3f, 0.3f)
                     .build(new ResourceLocation(Spore.MODID, "mound").toString()));
+
     public static final RegistryObject<EntityType<BiomassReformator>> RECONSTRUCTOR = SPORE_ENTITIES.register("reconstructor",
             () -> EntityType.Builder.of(BiomassReformator::new, INFECTED).sized(1f, 1f)
                     .build(new ResourceLocation(Spore.MODID, "reconstructor").toString()));
+
+    public static final RegistryObject<EntityType<Usurper>> USURPER = SPORE_ENTITIES.register("usurper",
+            () -> EntityType.Builder.of(Usurper::new, INFECTED).sized(1f, 2.2f)
+                    .build(new ResourceLocation(Spore.MODID, "usurper").toString()));
 
     public static final RegistryObject<EntityType<Proto>> PROTO = SPORE_ENTITIES.register("proto",
             () -> EntityType.Builder.of(Proto::new, INFECTED).sized(1f, 3.5f)

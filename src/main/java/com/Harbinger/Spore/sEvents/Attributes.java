@@ -61,6 +61,7 @@ public class Attributes {
         event.put(Sentities.HINDENBURG.get(), Hinderburg.createAttributes().build());
         event.put(Sentities.TUMOROID_NUKE.get(), Hinderburg.createAttributes().build());
         event.put(Sentities.WAVE.get(), WaveEntity.createAttributes().build());
+        event.put(Sentities.USURPER.get(), Usurper.createAttributes().build());
     }
 }
 
