@@ -6,7 +6,6 @@ import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.Variants.BulletParameters;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -24,7 +23,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 
@@ -110,27 +108,28 @@ public class AdaptableProjectile extends Projectile {
     protected void onHitEntity(EntityHitResult entityHitResult) {
         if (!this.level().isClientSide()) {
             Entity entity = entityHitResult.getEntity();
-            if (!(entity instanceof PartEntity || entity instanceof Infected || entity instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(entity.getEncodeId()))){
-                entity.hurt(this.level().damageSources().mobProjectile(this,(LivingEntity) this.getOwner()),this.entityData.get(DAMAGE));
-            }
             if (entity instanceof LivingEntity livingEntity){
-                int type = entityData.get(TYPE);
-                if (type == 0){
-                    livingEntity.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),400,3));
-                }else if (type == 1){
-                    livingEntity.level().explode(this.getOwner(),livingEntity.getX(),livingEntity.getY(),livingEntity.getZ(),1, Level.ExplosionInteraction.NONE);
-                }else if (type == 2){
-                    livingEntity.addEffect(new MobEffectInstance(Seffects.CORROSION.get(),600,1));
-                }else if (type == 3){
-                    livingEntity.setSecondsOnFire(6);
+                if (livingEntity instanceof Infected || livingEntity instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(livingEntity.getEncodeId())){
+                    return;
+                }else{
+                    int type = entityData.get(TYPE);
+                    livingEntity.hurt(this.level().damageSources().mobProjectile(this,(LivingEntity) this.getOwner()),this.entityData.get(DAMAGE));
+                    if (type == 0){
+                        livingEntity.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),400,3));
+                    }else if (type == 1){
+                        livingEntity.level().explode(this.getOwner(),livingEntity.getX(),livingEntity.getY(),livingEntity.getZ(),1, Level.ExplosionInteraction.NONE);
+                    }else if (type == 2){
+                        livingEntity.addEffect(new MobEffectInstance(Seffects.CORROSION.get(),600,1));
+                    }else if (type == 3){
+                        livingEntity.setSecondsOnFire(6);
+                    }
+                    this.discard();
                 }
             }
         }else{
             super.onHitEntity(entityHitResult);
         }
-        this.discard();
     }
-
     @Override
     protected void onHitBlock(BlockHitResult blockHitResult) {
         if (!this.level().isClientSide){

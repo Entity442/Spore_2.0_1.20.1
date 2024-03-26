@@ -63,7 +63,7 @@ public class Usurper extends Organoid implements RangedAttackMob {
     @Override
     protected void registerGoals() {
         this.addTargettingGoals();
-        this.goalSelector.addGoal(2,new ScatterShotRangedGoal(this,0,40,60,2,4));
+        this.goalSelector.addGoal(2,new ScatterShotRangedGoal(this,0,40,32,1,4));
         this.goalSelector.addGoal(3 ,new RandomLookAroundGoal(this));
         super.registerGoals();
     }
@@ -108,8 +108,8 @@ public class Usurper extends Organoid implements RangedAttackMob {
         double dx = livingEntity.getX() - this.getX();
         double dy = livingEntity.getY() + livingEntity.getEyeHeight();
         double dz = livingEntity.getZ() - this.getZ();
-        projectile.moveTo(this.getX(), this.getY()+1D ,this.getZ());
-        projectile.shoot(dx, dy - projectile.getY() + Math.hypot(dx, dz) * 0.001F, dz, 2f, 6.0F);
+        projectile.moveTo(this.getX(), this.getY()+1.2D ,this.getZ());
+        projectile.shoot(dx, dy - projectile.getY() + Math.hypot(dx, dz) * 0.001F, dz, 1.5f, 3.0F);
         level().addFreshEntity(projectile);
     }
     protected SoundEvent getAmbientSound() {
