@@ -42,6 +42,7 @@ public class OrganiteBlock extends Block {
         for (Entity entity1 : entities) {
             if (entity1 instanceof LivingEntity entity && !entity.hasEffect(Seffects.MYCELIUM.get()) && !(entity instanceof Infected || entity instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(entity.getEncodeId()) || entity.getItemBySlot(EquipmentSlot.HEAD).getItem() == Sitems.GAS_MASK.get())) {
                 entity.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get() ,200,0));
+                entity.addEffect(new MobEffectInstance(Seffects.MARKER.get() ,400,0));
             }
         }
         level.scheduleTick(blockPos, this, 100);
