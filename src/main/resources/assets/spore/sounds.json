@@ -79,6 +79,12 @@
       "spore:puff"
     ]
   },
+  "spit" :{
+    "subtitle": "sounds.spore.spit",
+    "sounds": [
+      "spore:spit"
+    ]
+  },
   "womb_ambient" :{
     "subtitle": "sounds.spore.womb_ambient",
     "sounds": [

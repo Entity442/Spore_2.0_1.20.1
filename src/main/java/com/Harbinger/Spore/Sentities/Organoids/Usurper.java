@@ -110,6 +110,7 @@ public class Usurper extends Organoid implements RangedAttackMob {
         double dz = livingEntity.getZ() - this.getZ();
         projectile.moveTo(this.getX(), this.getY()+1.2D ,this.getZ());
         projectile.shoot(dx, dy - projectile.getY() + Math.hypot(dx, dz) * 0.001F, dz, 1.5f, 3.0F);
+        this.playSound(Ssounds.SPIT.get());
         level().addFreshEntity(projectile);
     }
     protected SoundEvent getAmbientSound() {

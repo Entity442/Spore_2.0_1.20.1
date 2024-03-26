@@ -60,6 +60,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> USURPER_AMBIENT = soundRegistry("usurper_ambient");
 
+    public static final RegistryObject<SoundEvent> SPIT = soundRegistry("spit");
+
     public static final RegistryObject<SoundEvent> LIMB_SLASH = soundRegistry("limb_slash");
 
     public static final RegistryObject<SoundEvent> PROTO_AMBIENT = soundRegistry("proto_ambient");
