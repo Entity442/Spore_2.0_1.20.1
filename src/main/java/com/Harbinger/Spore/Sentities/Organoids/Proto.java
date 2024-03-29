@@ -73,7 +73,7 @@ public class Proto extends Organoid implements CasingGenerator {
                 .add(Attributes.MAX_HEALTH, SConfig.SERVER.proto_hp.get() * SConfig.SERVER.global_health.get())
                 .add(Attributes.ARMOR, SConfig.SERVER.proto_armor.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.proto_damage.get() * SConfig.SERVER.global_damage.get())
-                .add(Attributes.FOLLOW_RANGE, 64)
+                .add(Attributes.FOLLOW_RANGE, 128)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 2);
 
     }

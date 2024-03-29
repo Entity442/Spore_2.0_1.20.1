@@ -43,11 +43,11 @@ public class BrainRemnantBlockEntity extends BlockEntity {
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         tag.putInt("time",this.getTime());
-        if (getSource() != null){
-            tag.putString("source", getSource());
+        if (source != null){
+            tag.putString("source", source);
         }
-        if (getUUID() != null){
-            tag.putUUID("attacker", getUUID());
+        if (attacker != null){
+            tag.putUUID("attacker", attacker);
         }
 
     }
