@@ -40,6 +40,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Boolean> spawn;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> dimension_parameters;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> spawns;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> structure_spawns;
 
         public final ForgeConfigSpec.ConfigValue<Boolean> scent_spawn;
         public final ForgeConfigSpec.ConfigValue<Boolean> scent_summon;
@@ -803,6 +804,9 @@ public class SConfig {
             this.spawns = builder.defineList("mob|weight|minimum|maximum",
                     Lists.newArrayList("spore:inf_human|80|2|5","spore:inf_drowned|10|1|2","spore:inf_pillager|40|1|3","spore:inf_villager|70|1|3","spore:inf_player|20|1|2"
                             ,"spore:inf_wanderer|25|1|2","spore:inf_witch|25|1|2") , o -> o instanceof String);
+            this.structure_spawns = builder.defineList("Mobs that spawn in laboratory type structures",
+                    Lists.newArrayList("spore:inf_hazmat|70|2|5","spore:inf_player|20|1|2") , o -> o instanceof String);
+
             builder.pop();
 
 
