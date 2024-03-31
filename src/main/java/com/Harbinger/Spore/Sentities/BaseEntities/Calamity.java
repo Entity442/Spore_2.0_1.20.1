@@ -38,7 +38,9 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.network.NetworkHooks;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 
 public class Calamity extends UtilityEntity implements Enemy {
     public static final EntityDataAccessor<Integer> KILLS = SynchedEntityData.defineId(Calamity.class, EntityDataSerializers.INT);
@@ -192,6 +194,9 @@ public class Calamity extends UtilityEntity implements Enemy {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
+        if (this.getRandom().nextInt(20) == 0){
+            this.grief();
+        }
         if(amount > getDamageCap() && getDamageCap() > 0){
             return super.hurt(source, (float) getDamageCap());
         }
@@ -235,6 +240,33 @@ public class Calamity extends UtilityEntity implements Enemy {
         }
         return this.getBoundingBox().inflate(this.setInflation(),0.0,this.setInflation()).move(0.0,1.0,0.0);
     }
+    public List<BlockState> blockList(){
+        List<BlockState> states = new ArrayList<>();
+        states.add(Sblocks.BIOMASS_BLOCK.get().defaultBlockState());
+        states.add(Sblocks.SICKEN_BIOMASS_BLOCK.get().defaultBlockState());
+        states.add(Sblocks.CALCIFIED_BIOMASS_BLOCK.get().defaultBlockState());
+        states.add(Sblocks.MEMBRANE_BLOCK.get().defaultBlockState());
+        states.add(Sblocks.ROOTED_BIOMASS.get().defaultBlockState());
+        states.add(Sblocks.ROOTED_MYCELIUM.get().defaultBlockState());
+        return states;
+    }
+
+    protected void grief(){
+        AABB aabb = getMiningHitbox();
+        boolean flag = false;
+        for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+            BlockState blockstate = this.level().getBlockState(blockpos);
+            if (this.blockList().contains(blockstate)){
+                flag = this.level().setBlock(blockpos, Sblocks.MEMBRANE_BLOCK.get().defaultBlockState(), 3) || flag;
+                breakCounter = 0;
+            }else{
+                if (blockstate.getDestroySpeed(level(), blockpos) < getDestroySpeed() && blockstate.getDestroySpeed(level(), blockpos) >= 0 && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
+                    flag = this.level().destroyBlock(blockpos, false, this) || flag;
+                    breakCounter = 0;
+                }
+            }
+        }
+    }
 
     @Override
     public void tick() {
@@ -245,16 +277,8 @@ public class Calamity extends UtilityEntity implements Enemy {
         if (breakCounter < 80) {
             breakCounter++;
         } else {
-            if ((this.getLastDamageSource() == this.damageSources().cactus() || this.getLastDamageSource() == this.damageSources().inWall() || this.horizontalCollision || tryToDigDown()) && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
-                AABB aabb = getMiningHitbox();
-                boolean flag = false;
-                for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
-                    BlockState blockstate = this.level().getBlockState(blockpos);
-                    if (blockstate.getDestroySpeed(level(), blockpos) < getDestroySpeed() && blockstate.getDestroySpeed(level(), blockpos) >= 0) {
-                        flag = this.level().destroyBlock(blockpos, false, this) || flag;
-                        breakCounter = 0;
-                    }
-                }
+            if ((this.getLastDamageSource() == this.damageSources().cactus() || this.getLastDamageSource() == this.damageSources().inWall() || this.horizontalCollision || tryToDigDown())) {
+                this.grief();
             }
         }
         if (stun > 0 && this.onGround() && this.level() instanceof ServerLevel serverLevel) {
