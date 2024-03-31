@@ -195,7 +195,7 @@ public class Calamity extends UtilityEntity implements Enemy {
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if (this.getRandom().nextInt(20) == 0){
-            this.grief();
+            this.grief(this.getBoundingBox().inflate(this.setInflation(),0.0,this.setInflation()));
         }
         if(amount > getDamageCap() && getDamageCap() > 0){
             return super.hurt(source, (float) getDamageCap());
@@ -251,8 +251,7 @@ public class Calamity extends UtilityEntity implements Enemy {
         return states;
     }
 
-    protected void grief(){
-        AABB aabb = getMiningHitbox();
+    protected void grief(AABB aabb){
         boolean flag = false;
         for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
             BlockState blockstate = this.level().getBlockState(blockpos);
@@ -278,7 +277,7 @@ public class Calamity extends UtilityEntity implements Enemy {
             breakCounter++;
         } else {
             if ((this.getLastDamageSource() == this.damageSources().cactus() || this.getLastDamageSource() == this.damageSources().inWall() || this.horizontalCollision || tryToDigDown())) {
-                this.grief();
+                this.grief(getMiningHitbox());
             }
         }
         if (stun > 0 && this.onGround() && this.level() instanceof ServerLevel serverLevel) {
