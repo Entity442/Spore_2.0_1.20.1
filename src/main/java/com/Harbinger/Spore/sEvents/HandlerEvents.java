@@ -14,7 +14,9 @@ import com.Harbinger.Spore.Sentities.Calamities.Gazenbrecher;
 import com.Harbinger.Spore.Sentities.Calamities.Hinderburg;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
+import com.Harbinger.Spore.Sentities.EvolvedInfected.Slasher;
 import com.Harbinger.Spore.Sentities.Organoids.*;
+import com.Harbinger.Spore.Sentities.Variants.SlasherVariants;
 import com.Harbinger.Spore.Sitems.InfectedCombatShovel;
 import com.Harbinger.Spore.Sitems.InfectedMaul;
 import com.Harbinger.Spore.Spore;
@@ -33,6 +35,9 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -53,6 +58,7 @@ import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
@@ -529,6 +535,26 @@ public class HandlerEvents {
         if(event.getEntity() instanceof ServerPlayer player && player.hasEffect(Seffects.UNEASY.get())){
             player.displayClientMessage(Component.translatable("uneasy.message"),true);
             event.setResult(Player.BedSleepingProblem.OTHER_PROBLEM);
+        }
+    }
+
+    @SubscribeEvent
+    public static void DefenseBypass(LivingDamageEvent event) {
+        if (event.getSource().getEntity() instanceof Calamity calamity) {
+            float original_damage = event.getAmount();
+            AttributeInstance attack = calamity.getAttribute(Attributes.ATTACK_DAMAGE);
+            double recalculated_damage = attack != null ? (attack.getValue()/10)*2 : original_damage;
+            if (original_damage < recalculated_damage){
+                event.setAmount((float) recalculated_damage);
+            }
+        }
+        if (event.getSource().getEntity() instanceof Slasher slasher && slasher.getVariant() == SlasherVariants.PIERCER) {
+            float original_damage = event.getAmount();
+            AttributeInstance attack = slasher.getAttribute(Attributes.ATTACK_DAMAGE);
+            double recalculated_damage = attack != null ? attack.getValue()/2 : original_damage;
+            if (original_damage < recalculated_damage){
+                event.setAmount((float) recalculated_damage);
+            }
         }
     }
 
