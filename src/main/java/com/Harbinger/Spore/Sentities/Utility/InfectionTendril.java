@@ -44,15 +44,10 @@ public class InfectionTendril extends UtilityEntity {
     private static final EntityDataAccessor<Integer> MOUND_AGE = SynchedEntityData.defineId(InfectionTendril.class, EntityDataSerializers.INT);
     public InfectionTendril(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
-        setPersistenceRequired();
         this.moveControl = new InfectedWallMovementControl(this);
         this.navigation = new WallClimberNavigation(this,level);
     }
 
-    @Override
-    public boolean removeWhenFarAway(double distanceToClosestPlayer) {
-        return false;
-    }
 
     public int getLife() {
         return this.entityData.get(LIFE);
