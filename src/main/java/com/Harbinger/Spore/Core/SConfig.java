@@ -38,6 +38,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Integer> days;
         public final ForgeConfigSpec.ConfigValue<Integer> mob_cap;
         public final ForgeConfigSpec.ConfigValue<Boolean> spawn;
+        public final ForgeConfigSpec.ConfigValue<Boolean> daytime_spawn;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> dimension_parameters;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> spawns;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> structure_spawns;
@@ -799,6 +800,7 @@ public class SConfig {
 
             builder.push("Spawns");
             this.spawn = builder.comment("Default false").define("Should mobs spawn after a few days?",false);
+            this.daytime_spawn = builder.comment("Default false").define("Should mobs be also able to spawn in daytime?",false);
             this.mob_cap = builder.comment("Default 40").define("MobCap",40);
             this.dimension_parameters = builder.comment("Default minecraft:is_overworld").defineList("Dictates in what biome the infected spawn",
                     Lists.newArrayList("minecraft:is_overworld") , o -> o instanceof String);
