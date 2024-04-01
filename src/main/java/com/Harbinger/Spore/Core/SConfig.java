@@ -219,6 +219,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Integer> proto_range;
         public final ForgeConfigSpec.ConfigValue<Boolean> proto_chunk;
         public final ForgeConfigSpec.ConfigValue<Boolean> proto_raid;
+        public final ForgeConfigSpec.ConfigValue<Boolean> proto_casing;
         public final ForgeConfigSpec.ConfigValue<Double> proto_raid_chance;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> proto_sapient_target;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> proto_summonable_troops;
@@ -385,7 +386,7 @@ public class SConfig {
 
             this.blacklist = builder.defineList("Mobs Not Targeted",
                     Lists.newArrayList(
-                            "minecraft:creeper","minecraft:squid","minecraft:bat","minecraft:armor_stand","creeperoverhaul:") , o -> o instanceof String);
+                            "minecraft:creeper","minecraft:squid","minecraft:bat","minecraft:armor_stand","creeperoverhaul:","sculkhorde:","fromanotherworld:") , o -> o instanceof String);
 
             this.whitelist = builder.defineList("Mobs ALWAYS Targeted",
                     Lists.newArrayList("minecraft:villager","minecraft:wandering_trader","minecraft:iron_golem") , o -> o instanceof String);
@@ -621,6 +622,7 @@ public class SConfig {
             this.proto_calamity = builder.comment("Default 15").defineInRange("Chance for the death of a linked evolved infected to trigger the hivemind", 15, 0, Double.MAX_VALUE);
             this.proto_chunk = builder.comment("Default true").define("Should the hivemind generate a chunkloader at its location?",true);
             this.proto_raid = builder.comment("Default true").define("Should the hivemind send Vigils to raid?",true);
+            this.proto_casing = builder.comment("Default true").define("Should the hivemind build a wall of flesh around itself?",true);
             this.proto_raid_chance = builder.comment("Default 1.0").defineInRange("Sets The chance for a raid to start", 1, 0.1, Double.MAX_VALUE);
             this.proto_sapient_target = builder.defineList("Sentient Mobs targeted by the hivemind",
                     Lists.newArrayList("minecraft:villager","minecraft:pillager","guardvillagers:guard","minecraft:evoker","minecraft:vindicator",

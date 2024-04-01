@@ -96,7 +96,7 @@ public class Proto extends Organoid implements CasingGenerator {
     @Override
     public void tick() {
         super.tick();
-        if (this.tickCount % 200 == 0){
+        if (this.tickCount % 200 == 0 && SConfig.SERVER.proto_casing.get()){
             if (this.distanceToSqr(this.entityData.get(NODE).getX(),this.entityData.get(NODE).getY(),this.entityData.get(NODE).getZ()) > 100){
                 if (Math.random() < 0.01){
                     this.entityData.set(NODE,this.getOnPos());

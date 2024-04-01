@@ -178,22 +178,9 @@ public class Infected extends Monster{
     }
 
 
-
-    public boolean otherWorld(Entity entity){
-        return entity.getType().is(TagKey.create(Registries.ENTITY_TYPE,
-                new ResourceLocation("fromanotherworld:things")));
-    }
-
-    public boolean SkulkLove(Entity entity){
-        return entity.getType().is(TagKey.create(Registries.ENTITY_TYPE,
-                new ResourceLocation("sculkhorde:sculk_entity")));
-    }
-
     public Predicate<LivingEntity> TARGET_SELECTOR = (entity) -> {
         if (entity instanceof Infected || entity instanceof UtilityEntity || entity instanceof AbstractFish || entity instanceof Animal){
             return false;
-        }else if (this.otherWorld(entity) || this.SkulkLove(entity)){
-          return false;
         }else if (!SConfig.SERVER.blacklist.get().isEmpty()){
             for(String string : SConfig.SERVER.blacklist.get()){
                 if (string.endsWith(":") && entity.getEncodeId() != null){
@@ -215,9 +202,6 @@ public class Infected extends Monster{
                 (this, LivingEntity.class,  true,livingEntity -> {return livingEntity instanceof Player || SConfig.SERVER.whitelist.get().contains(livingEntity.getEncodeId());}));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
                 (this, LivingEntity.class,  true, livingEntity -> {return SConfig.SERVER.at_mob.get() && TARGET_SELECTOR.test(livingEntity);}));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
-                (this, LivingEntity.class,  true, livingEntity -> {return (SConfig.SERVER.faw_target.get() && this.otherWorld(livingEntity))
-                        || (SConfig.SERVER.skulk_target.get() && this.SkulkLove(livingEntity));}));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
                 (this, Animal.class,  true, livingEntity -> {return SConfig.SERVER.at_an.get();}));
     }
