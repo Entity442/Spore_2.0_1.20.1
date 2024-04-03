@@ -258,7 +258,7 @@ public class Infected extends Monster{
             for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
                 BlockState blockstate = this.level().getBlockState(blockpos);
                 if (blockBreakingParameter(blockstate,blockpos)) {
-                    flag = this.level().destroyBlock(blockpos, true, this) || flag;
+                    flag = interactBlock(blockpos,this.level()) || flag;
                 }
                 if (!flag && this.onGround()) {
                     this.jumpFromGround();
@@ -273,6 +273,9 @@ public class Infected extends Monster{
 
     public boolean blockBreakingParameter(BlockState blockstate,BlockPos blockpos){
         return (blockstate.getBlock() instanceof AbstractGlassBlock || blockstate.getBlock() instanceof LeavesBlock) && blockstate.getDestroySpeed(level() ,blockpos) >= 0 && blockstate.getDestroySpeed(level() ,blockpos) < 2;
+    }
+    public boolean interactBlock(BlockPos pos ,Level level){
+        return level.destroyBlock(pos, true, this);
     }
 
 
