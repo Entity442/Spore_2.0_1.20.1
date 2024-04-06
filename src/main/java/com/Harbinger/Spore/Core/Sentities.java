@@ -7,6 +7,7 @@ import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.*;
 import com.Harbinger.Spore.Sentities.FallenMultipart.Licker;
 import com.Harbinger.Spore.Sentities.FallenMultipart.SiegerTail;
+import com.Harbinger.Spore.Sentities.Hyper.Wendigo;
 import com.Harbinger.Spore.Sentities.Organoids.*;
 import com.Harbinger.Spore.Sentities.Projectile.*;
 import com.Harbinger.Spore.Sentities.Utility.*;
@@ -114,6 +115,10 @@ public class Sentities {
     public static final RegistryObject<EntityType<Stalker>> STALKER = SPORE_ENTITIES.register("stalker",
             () -> EntityType.Builder.of(Stalker::new, INFECTED).sized(0.6f, 2.3f)
                     .build(new ResourceLocation(Spore.MODID, "stalker").toString()));
+
+    public static final RegistryObject<EntityType<Wendigo>> WENDIGO = SPORE_ENTITIES.register("wendigo",
+            () -> EntityType.Builder.of(Wendigo::new, INFECTED).sized(1f, 3.3f)
+                    .build(new ResourceLocation(Spore.MODID, "wendigo").toString()));
 
     public static final RegistryObject<EntityType<Brute>> BRUTE = SPORE_ENTITIES.register("brute",
             () -> EntityType.Builder.of(Brute::new, INFECTED).sized(1.8f,1.6f)

@@ -8,6 +8,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -19,6 +20,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -41,6 +43,11 @@ public class Hyper extends Infected{
         this.goalSelector.addGoal(4, new SearchAreaGoal(this, 1.2));
 
         this.goalSelector.addGoal(6,new GoBackToTheNest(this));
+    }
+
+    @Override
+    public boolean removeWhenFarAway(double p_21542_) {
+        return false;
     }
 
     @Override
@@ -112,7 +119,7 @@ public class Hyper extends Infected{
         @Override
         public boolean canUse() {
             if (hyper.tickCount % 40 == 0){
-                return hyper.getEvoPoints() > 5 && hyper.getNestLocation() != BlockPos.ZERO;
+                return hyper.getEvoPoints() > 3 && hyper.getNestLocation() != BlockPos.ZERO;
             }
             return false;
         }
@@ -120,10 +127,29 @@ public class Hyper extends Infected{
         protected void moveMobToBlock(BlockPos pos) {
             this.hyper.getNavigation().moveTo(pos.getX() + 0.5D, pos.getY() + 1, pos.getZ() + 0.5D, 1.4);
         }
+        protected void tryToLayCorpsesAround(){
+            AABB aabb = this.hyper.getBoundingBox().inflate(10);
+            for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+                Level level = hyper.level();
+                boolean isGround = level.getBlockState(blockpos).isCollisionShapeFullBlock(level,blockpos);
+                boolean isAir = level.getBlockState(blockpos.above()).isAir();
+                if (Math.random() < 0.01){
+                    if (isGround && isAir){
+                        level.setBlock(blockpos.above(),Sblocks.REMAINS.get().defaultBlockState(), 3);
+                        this.hyper.setEvoPoints(this.hyper.getEvoPoints()-3);
+                        break;
+                    }
+                }
+            }
+        }
 
         @Override
         public void start() {
             moveMobToBlock(this.hyper.getNestLocation());
+            BlockPos pos = this.hyper.getNestLocation();
+            if (this.hyper.distanceToSqr(pos.getX(),pos.getY(),pos.getZ()) < 40d){
+                tryToLayCorpsesAround();
+            }
             super.start();
         }
     }
