@@ -244,6 +244,7 @@ public class SConfig {
 
         public final ForgeConfigSpec.ConfigValue<Integer> evolution_age_human;
         public final ForgeConfigSpec.ConfigValue<Integer> min_kills;
+        public final ForgeConfigSpec.ConfigValue<Integer> min_kills_hyper;
 
         public final ForgeConfigSpec.ConfigValue<Integer> spear_durability;
         public final ForgeConfigSpec.ConfigValue<Integer> spear_damage;
@@ -456,6 +457,7 @@ public class SConfig {
             this.starve = builder.comment("Default true").define("Should mobs with no kills starve?",true);
             this.evolution_age_human = builder.comment("Default 300").define("Evolution Timer in seconds",300);
             this.min_kills = builder.comment("Default 1").define("Minimum amount of kills to start the evolution",1);
+            this.min_kills_hyper = builder.comment("Default 5").define("Minimum amount of kills to start the hyper evolution",5);
             builder.pop();
             builder.push("Infections");
             this.inf_player = builder.comment("Default true").define("Should the player be infected on death?",true);

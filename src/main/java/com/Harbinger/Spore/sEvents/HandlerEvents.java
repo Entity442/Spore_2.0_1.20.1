@@ -7,6 +7,7 @@ import com.Harbinger.Spore.SBlockEntities.BrainRemnantBlockEntity;
 import com.Harbinger.Spore.SBlockEntities.CDUBlockEntity;
 import com.Harbinger.Spore.SBlockEntities.LivingStructureBlocks;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
+import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.BasicInfected.InfectedDrowned;
@@ -172,6 +173,9 @@ public class HandlerEvents {
                         for (Entity entity1 : entities) {
                             if(entity1 instanceof Infected infected) {
                                 infected.setEvolution(SConfig.SERVER.evolution_age_human.get());
+                                if (infected instanceof EvolvedInfected evolvedInfected){
+                                    evolvedInfected.setEvoPoints(SConfig.SERVER.min_kills_hyper.get());
+                                }else
                                 infected.setEvoPoints(SConfig.SERVER.min_kills.get());
                             }else if (entity1 instanceof Mound mound){
                                 mound.setAge(mound.getAge()+1);

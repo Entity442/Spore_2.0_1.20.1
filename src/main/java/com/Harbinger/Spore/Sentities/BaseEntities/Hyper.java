@@ -99,6 +99,7 @@ public class Hyper extends Infected{
     public BlockPos getNestLocation(){
         return entityData.get(NEST);
     }
+    public void setNestLocation(BlockPos pos){entityData.set(NEST,pos);}
 
 
     static class GoBackToTheNest extends Goal {
