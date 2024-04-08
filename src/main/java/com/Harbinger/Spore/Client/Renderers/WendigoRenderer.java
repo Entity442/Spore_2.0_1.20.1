@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Client.Renderers;
 
+import com.Harbinger.Spore.Client.Layers.WendigoOuterLayer;
 import com.Harbinger.Spore.Client.Models.WendigoModel;
 import com.Harbinger.Spore.Client.Special.BaseInfectedRenderer;
 import com.Harbinger.Spore.Sentities.Hyper.Wendigo;
@@ -18,7 +19,8 @@ public class WendigoRenderer<Type extends Wendigo> extends BaseInfectedRenderer<
 
 
     public WendigoRenderer(EntityRendererProvider.Context context) {
-        super(context, new WendigoModel<>(context.bakeLayer(WendigoModel.LAYER_LOCATION)), 0.5f);
+        super(context, new WendigoModel<>(context.bakeLayer(WendigoModel.LAYER_LOCATION)), 0.7f);
+        this.addLayer(new WendigoOuterLayer<>(this));
     }
 
     @Override
@@ -31,4 +33,6 @@ public class WendigoRenderer<Type extends Wendigo> extends BaseInfectedRenderer<
     public ResourceLocation eyeLayerTexture() {
         return EYE_TEXTURE;
     }
+
+
 }

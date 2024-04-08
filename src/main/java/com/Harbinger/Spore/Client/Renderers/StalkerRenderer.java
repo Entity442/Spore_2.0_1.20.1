@@ -21,7 +21,7 @@ public class StalkerRenderer<Type extends Stalker> extends BaseInfectedRenderer<
 
     public StalkerRenderer(EntityRendererProvider.Context context) {
         super(context, new StalkerModel<>(context.bakeLayer(StalkerModel.LAYER_LOCATION)), 0.5f);
-        this.addLayer(new StalkerOuterLayer<>(this,context.getModelSet()));
+        this.addLayer(new StalkerOuterLayer<>(this));
     }
 
     @Override

@@ -1,22 +1,20 @@
 package com.Harbinger.Spore.Client.Layers;
 
-import com.Harbinger.Spore.Client.Models.StalkerModel;
-import com.Harbinger.Spore.Sentities.EvolvedInfected.Stalker;
+import com.Harbinger.Spore.Client.Models.WendigoModel;
+import com.Harbinger.Spore.Sentities.Hyper.Wendigo;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 
-public  class StalkerOuterLayer<T extends Stalker> extends RenderLayer<T, StalkerModel<T>> {
-
-    public StalkerOuterLayer(RenderLayerParent<T, StalkerModel<T>> p_174490_) {
+public  class WendigoOuterLayer<T extends Wendigo> extends RenderLayer<T, WendigoModel<T>> {
+    public WendigoOuterLayer(RenderLayerParent<T, WendigoModel<T>> p_174490_) {
         super(p_174490_);
     }
-    private static final ResourceLocation CAMO = new ResourceLocation(Spore.MODID, "textures/entity/stalker/stalker_layer.png");
-
+    private static final ResourceLocation CAMO = new ResourceLocation(Spore.MODID,
+            "textures/entity/wendigo_camo.png");
     public void render(PoseStack p_116924_, MultiBufferSource p_116925_, int p_116926_, T entity, float p_116928_, float p_116929_, float p_116930_, float p_116931_, float p_116932_, float p_116933_) {
         if (entity.getCamo() != 0){
             int i = entity.getCamo();
