@@ -1,8 +1,6 @@
 package com.Harbinger.Spore.Sentities.AI.LocHiv;
 
-import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
-import com.Harbinger.Spore.Sentities.EvolvedInfected.InfectedEvoker;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -33,13 +31,15 @@ public class BufferAI extends Goal {
                     infected.setKills(infected.getKills() - 1);
                 }
             }
-            if (!infected.hasEffect(MobEffects.MOVEMENT_SPEED) && infected.getTarget() != null && infected.distanceToSqr(infected.getTarget()) > 200){
-                infected.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,200,1));
-                infected.setKills(infected.getKills() - 1);
-            }
-            if (!infected.hasEffect(MobEffects.DAMAGE_BOOST) && infected.getTarget() != null && infected.distanceToSqr(infected.getTarget()) < 60){
-                infected.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST,100,0));
-                infected.setKills(infected.getKills() - 1);
+            if (infected.getRandom().nextInt(40) == 0){
+                if (!infected.hasEffect(MobEffects.MOVEMENT_SPEED) && infected.getTarget() != null && infected.distanceToSqr(infected.getTarget()) > 200){
+                    infected.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,200,1));
+                    infected.setKills(infected.getKills() - 1);
+                }
+                if (!infected.hasEffect(MobEffects.DAMAGE_BOOST) && infected.getTarget() != null && infected.distanceToSqr(infected.getTarget()) < 60){
+                    infected.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST,100,0));
+                    infected.setKills(infected.getKills() - 1);
+                }
             }
         }
     }

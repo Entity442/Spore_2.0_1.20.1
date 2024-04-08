@@ -410,6 +410,11 @@ public class WendigoModel<T extends Wendigo> extends HierarchicalModel<T> {
 			this.RightArm.xRot =Mth.cos(ageInTicks/6)/8;
 			this.LeftArm.xRot =-Mth.cos(ageInTicks/6)/8;
 		}
+		if (entity.attackAnim > 0) {
+			float f1 = 1.0F - Mth.abs(10 - 2 * entity.attackAnim) / 6.5F;
+			this.RightArm.xRot =-0.5f + Mth.sin(f1) * 3.0F;
+			this.LeftArm.xRot =-0.5f + Mth.sin(f1) * 3.0F;
+		}
 	}
 
 	@Override

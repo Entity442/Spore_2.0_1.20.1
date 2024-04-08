@@ -81,6 +81,10 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> inf_vin_damage;
         public final ForgeConfigSpec.ConfigValue<Double> inf_vin_armor;
 
+        public final ForgeConfigSpec.ConfigValue<Double> wendigo_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> wendigo_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> wendigo_armor;
+
         public final ForgeConfigSpec.ConfigValue<Double> bus_hp;
         public final ForgeConfigSpec.ConfigValue<Double> bus_damage;
         public final ForgeConfigSpec.ConfigValue<Double> bus_armor;
@@ -500,6 +504,12 @@ public class SConfig {
             this.inf_vin_hp = builder.comment("Default 28").defineInRange("Sets Infected Vindicator Max health", 28, 1, Double.MAX_VALUE);
             this.inf_vin_damage = builder.comment("Default 7").defineInRange("Sets Infected Vindicator Damage", 7, 1, Double.MAX_VALUE);
             this.inf_vin_armor = builder.comment("Default 4").defineInRange("Sets Infected Vindicator Armor", 4, 1, Double.MAX_VALUE);
+            builder.pop();
+
+            builder.push("Wendigo");
+            this.wendigo_hp = builder.comment("Default 75").defineInRange("Sets Wendigo Max health", 75, 1, Double.MAX_VALUE);
+            this.wendigo_damage = builder.comment("Default 15").defineInRange("Sets Wendigo Damage", 15, 1, Double.MAX_VALUE);
+            this.wendigo_armor = builder.comment("Default 8").defineInRange("Sets Wendigo Armor", 8, 1, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("Infected Drowned");
