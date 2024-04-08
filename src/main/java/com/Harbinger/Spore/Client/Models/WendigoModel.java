@@ -18,12 +18,19 @@ import net.minecraft.util.Mth;
 
 public class WendigoModel<T extends Wendigo> extends HierarchicalModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "wendys4for4"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "wendigo"), "main");
 	private final ModelPart wendys;
 	private final ModelPart Base;
 	private final ModelPart Abdomen;
 	private final ModelPart Head;
 	private final ModelPart Jaw;
+	private final ModelPart RightArm;
+	private final ModelPart LeftArm;
+	private final ModelPart RightForArm;
+	private final ModelPart LeftForArm;
+	private final ModelPart RightLeg;
+	private final ModelPart LeftLeg;
+	private final ModelPart Tumor1;
 
 	public WendigoModel(ModelPart root) {
 		this.wendys = root.getChild("wendys");
@@ -31,6 +38,13 @@ public class WendigoModel<T extends Wendigo> extends HierarchicalModel<T> {
 		this.Abdomen = Base.getChild("TorsoBase").getChild("TorsoMiddle");
 		this.Head = Abdomen.getChild("TorsoTop").getChild("Head");
 		this.Jaw = Head.getChild("Jaw");
+		this.RightArm = Abdomen.getChild("TorsoTop").getChild("Arms").getChild("ArmRight");
+		this.LeftArm = Abdomen.getChild("TorsoTop").getChild("Arms").getChild("ArmLeft");
+		this.RightForArm = RightArm.getChild("ArmRightSeg2");
+		this.LeftForArm = LeftArm.getChild("ArmLeftSeg2");
+		this.RightLeg = Base.getChild("Legs").getChild("RightLeg");
+		this.LeftLeg = Base.getChild("Legs").getChild("LeftLeg");
+		this.Tumor1 = LeftLeg.getChild("LeftLegSeg1").getChild("LeftLegBase").getChild("LeftLegBaseTumor");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -364,6 +378,11 @@ public class WendigoModel<T extends Wendigo> extends HierarchicalModel<T> {
 
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
+	public void animateTumor(ModelPart part,float value){
+		part.xScale = 1 + Mth.cos(value/6)/6;
+		part.zScale = 1 + Mth.cos(value/6)/6;
+		part.yScale = 1 - Mth.cos(value/6)/6;
+	}
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
@@ -371,10 +390,25 @@ public class WendigoModel<T extends Wendigo> extends HierarchicalModel<T> {
 		this.Head.yRot = netHeadYaw / (180F / (float) Math.PI);
 		this.Head.xRot = headPitch /  ( 90F / (float) Math.PI);
 		this.Jaw.xRot = 1f + Mth.cos(ageInTicks/6)/6;
-		if (entity.isStalking()){
-			this.animateWalk(WendigoAnimations.CRAWL,limbSwing,limbSwingAmount,5,6f);
-			this.Base.y = -15f;
-			this.Base.xRot = 1.1f;
+		this.animateTumor(this.Tumor1,ageInTicks);
+		this.LeftLeg.xRot = Mth.cos(limbSwing * 0.4F) * 0.8F * limbSwingAmount;
+		this.RightLeg.xRot = Mth.cos(limbSwing * 0.4F) * -0.8F * limbSwingAmount;
+		if (!(limbSwingAmount > -0.15F && limbSwingAmount < 0.15F)){
+			this.RightArm.xRot = -0.5f +  Mth.cos(ageInTicks/6)/6;
+			this.LeftArm.xRot = -0.5f -  Mth.cos(ageInTicks/6)/6;
+			this.RightForArm.xRot = -0.5f +  Mth.cos(ageInTicks/8)/8;
+			this.LeftForArm.xRot = -0.5f -  Mth.cos(ageInTicks/8)/8;
+			if (entity.isSprinting()){
+				this.Abdomen.yRot = Mth.cos(limbSwing * 0.2F) * -0.2F * limbSwingAmount;
+			}
+			if (entity.isStalking()){
+				this.animateWalk(WendigoAnimations.CRAWL,limbSwing,limbSwingAmount,4,5f);
+				this.Base.y = -15f;
+				this.Base.xRot = 1.1f;
+			}
+		}else{
+			this.RightArm.xRot =Mth.cos(ageInTicks/6)/8;
+			this.LeftArm.xRot =-Mth.cos(ageInTicks/6)/8;
 		}
 	}
 
