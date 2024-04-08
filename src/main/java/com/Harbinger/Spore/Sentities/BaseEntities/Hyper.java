@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities.BaseEntities;
 
 import com.Harbinger.Spore.Core.Sblocks;
+import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.BufferAI;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.LocalTargettingGoal;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.SearchAreaGoal;
@@ -43,6 +44,7 @@ public class Hyper extends Infected{
         this.goalSelector.addGoal(3,new LocalTargettingGoal(this));
         this.goalSelector.addGoal(4, new SearchAreaGoal(this, 1.2));
         this.goalSelector.addGoal(5,new BufferAI(this));
+        this.goalSelector.addGoal(6,new FloatDiveGoal(this));
 
         this.goalSelector.addGoal(6,new GoBackToTheNest(this));
     }

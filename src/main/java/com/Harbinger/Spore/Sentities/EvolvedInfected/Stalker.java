@@ -23,6 +23,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
@@ -150,9 +151,10 @@ public class Stalker extends EvolvedInfected implements EvolvingInfected {
         }
         wendigo.setKills(this.getKills());
         wendigo.setEvoPoints(this.getEvoPoints()-SConfig.SERVER.min_kills_hyper.get());
-        wendigo.setNestLocation(this.getOnPos());
         wendigo.setCustomName(this.getCustomName());
         wendigo.setPos(this.getX(),this.getY(),this.getZ());
+        if (this.level() instanceof ServerLevel serverLevel)
+        wendigo.finalizeSpawn(serverLevel,serverLevel.getCurrentDifficultyAt(this.getOnPos()), MobSpawnType.CONVERSION,null,null);
         this.level().addFreshEntity(wendigo);
         if (this.level() instanceof ServerLevel serverLevel){
             double x0 = this.getX() - (random.nextFloat() - 0.1) * 0.1D;
