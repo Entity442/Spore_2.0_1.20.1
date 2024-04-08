@@ -6,10 +6,7 @@ import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
 import com.Harbinger.Spore.SBlockEntities.BrainRemnantBlockEntity;
 import com.Harbinger.Spore.SBlockEntities.CDUBlockEntity;
 import com.Harbinger.Spore.SBlockEntities.LivingStructureBlocks;
-import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
-import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
-import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
-import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
+import com.Harbinger.Spore.Sentities.BaseEntities.*;
 import com.Harbinger.Spore.Sentities.BasicInfected.InfectedDrowned;
 import com.Harbinger.Spore.Sentities.Calamities.Gazenbrecher;
 import com.Harbinger.Spore.Sentities.Calamities.Hinderburg;
@@ -209,6 +206,9 @@ public class HandlerEvents {
                                     player.displayClientMessage(Component.literal("Partner ? " + infected.getFollowPartner()),false);
                                     if (infected instanceof Scamper scamper){
                                         player.displayClientMessage(Component.literal("Time before overtake ? " + scamper.getAge()+"/"+SConfig.SERVER.scamper_age.get()),false);
+                                    }
+                                    if (infected instanceof Hyper scamper){
+                                        player.displayClientMessage(Component.literal("get nest location ? " + scamper.getNestLocation()),false);
                                     }
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
 
