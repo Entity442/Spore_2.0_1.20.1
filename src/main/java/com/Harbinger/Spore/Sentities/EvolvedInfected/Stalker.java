@@ -9,10 +9,12 @@ import com.Harbinger.Spore.Sentities.EvolvingInfected;
 import com.Harbinger.Spore.Sentities.Hyper.Wendigo;
 import com.Harbinger.Spore.Sentities.MovementControls.InfectedWallMovementControl;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -140,7 +142,7 @@ public class Stalker extends EvolvedInfected implements EvolvingInfected {
     }
 
     @Override
-    public void HyperEvolve(EvolvedInfected infected) {
+    public void HyperEvolve() {
         Wendigo wendigo = new Wendigo(Sentities.WENDIGO.get(),this.level());
         wendigo.setKills(this.getKills());
         wendigo.setEvoPoints(this.getEvoPoints());
@@ -150,6 +152,11 @@ public class Stalker extends EvolvedInfected implements EvolvingInfected {
         }
         wendigo.setNestLocation(this.getOnPos());
         this.level().addFreshEntity(wendigo);
-        EvolvingInfected.super.HyperEvolve(infected);
+        if (this.level() instanceof ServerLevel serverLevel){
+            double x0 = this.getX() - (random.nextFloat() - 0.1) * 0.1D;
+            double y0 = this.getY() + (random.nextFloat() - 0.25) * 0.15D * 5;
+            double z0 = this.getZ() + (random.nextFloat() - 0.1) * 0.1D;
+            serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x0, y0, z0, 2, 0, 0, 0, 1);
+        }
     }
 }

@@ -38,7 +38,7 @@ public interface EvolvingInfected {
         if (infected.tickCount % 20 == 0){
             if (infected.getEvoPoints() >= SConfig.SERVER.min_kills_hyper.get()){
                 if (infected.getEvolutionCoolDown() >= SConfig.SERVER.evolution_age_human.get()){
-                    this.HyperEvolve(infected);
+                    this.HyperEvolve();
                 }else{
                     infected.setEvolution(infected.getEvolutionCoolDown()+1);
                 }
@@ -46,15 +46,7 @@ public interface EvolvingInfected {
         }
     }
 
-    default void HyperEvolve(EvolvedInfected infected){
-        RandomSource random = RandomSource.create();
-        infected.discard();
-        if (infected.level() instanceof ServerLevel serverLevel){
-            double x0 = infected.getX() - (random.nextFloat() - 0.1) * 0.1D;
-            double y0 = infected.getY() + (random.nextFloat() - 0.25) * 0.15D * 5;
-            double z0 = infected.getZ() + (random.nextFloat() - 0.1) * 0.1D;
-            serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x0, y0, z0, 2, 0, 0, 0, 1);
-        }
+    default void HyperEvolve(){
     }
 
     default  void Evolve(Infected livingEntity, List<? extends String> value){
