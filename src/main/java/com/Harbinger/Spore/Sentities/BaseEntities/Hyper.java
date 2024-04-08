@@ -100,16 +100,6 @@ public class Hyper extends Infected{
         return entityData.get(NEST);
     }
 
-    @Override
-    public void tick() {
-        super.tick();
-        if (this.tickCount % 40  == 0 && this.getHealth() < this.getMaxHealth() && this.getKills() > 0){
-            if (!this.hasEffect(MobEffects.REGENERATION)){
-                this.addEffect(new MobEffectInstance(MobEffects.REGENERATION,600,0));
-                this.setKills(this.getKills() -1);
-            }
-        }
-    }
 
     static class GoBackToTheNest extends Goal {
         protected Hyper hyper;
@@ -121,7 +111,10 @@ public class Hyper extends Infected{
         @Override
         public boolean canUse() {
             if (hyper.tickCount % 40 == 0){
-                return hyper.getEvoPoints() > 3 && hyper.getNestLocation() != BlockPos.ZERO;
+                if (this.hyper.getTarget() != null){
+                    return false;
+                }
+                return hyper.getEvoPoints() > 1 && hyper.getNestLocation() != BlockPos.ZERO;
             }
             return false;
         }
@@ -138,7 +131,7 @@ public class Hyper extends Infected{
                 if (Math.random() < 0.01){
                     if (isGround && isAir){
                         level.setBlock(blockpos.above(),Sblocks.REMAINS.get().defaultBlockState(), 3);
-                        this.hyper.setEvoPoints(this.hyper.getEvoPoints()-3);
+                        this.hyper.setEvoPoints(this.hyper.getEvoPoints()-1);
                         break;
                     }
                 }
