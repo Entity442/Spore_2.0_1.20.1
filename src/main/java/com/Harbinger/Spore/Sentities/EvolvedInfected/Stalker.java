@@ -144,13 +144,15 @@ public class Stalker extends EvolvedInfected implements EvolvingInfected {
     @Override
     public void HyperEvolve() {
         Wendigo wendigo = new Wendigo(Sentities.WENDIGO.get(),this.level());
-        wendigo.setKills(this.getKills());
-        wendigo.setEvoPoints(this.getEvoPoints());
         Collection<MobEffectInstance> collection = this.getActiveEffects();
         for(MobEffectInstance mobeffectinstance : collection) {
             wendigo.addEffect(new MobEffectInstance(mobeffectinstance));
         }
+        wendigo.setKills(this.getKills());
+        wendigo.setEvoPoints(this.getEvoPoints()-SConfig.SERVER.min_kills_hyper.get());
         wendigo.setNestLocation(this.getOnPos());
+        wendigo.setCustomName(this.getCustomName());
+        wendigo.setPos(this.getX(),this.getY(),this.getZ());
         this.level().addFreshEntity(wendigo);
         if (this.level() instanceof ServerLevel serverLevel){
             double x0 = this.getX() - (random.nextFloat() - 0.1) * 0.1D;
@@ -158,5 +160,6 @@ public class Stalker extends EvolvedInfected implements EvolvingInfected {
             double z0 = this.getZ() + (random.nextFloat() - 0.1) * 0.1D;
             serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x0, y0, z0, 2, 0, 0, 0, 1);
         }
+        this.discard();
     }
 }
