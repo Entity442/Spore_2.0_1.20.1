@@ -161,13 +161,15 @@ public class Wendigo extends Hyper {
         target.level().playSound(null, pos.getX(),pos.getY(),pos.getZ(), soundEvent, target.getSoundSource(), 1, 1);
     }
 
+
     @Override
-    protected void registerGoals() {
-        this.goalSelector.addGoal(3, new AOEMeleeAttackGoal(this ,1.2,true, 1.2 ,3, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
+    protected void addRegularGoals() {
+        super.addRegularGoals();
         this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F));
+        this.goalSelector.addGoal(2, new AOEMeleeAttackGoal(this ,1.2,true, 1.2 ,3, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
         this.goalSelector.addGoal(4, new RandomStrollGoal(this, 0.8));
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
-        super.registerGoals();
+
     }
 
 
