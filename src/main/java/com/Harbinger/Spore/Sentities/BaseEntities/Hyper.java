@@ -42,7 +42,7 @@ public class Hyper extends Infected{
     @Override
     protected void addRegularGoals() {
         this.goalSelector.addGoal(3,new LocalTargettingGoal(this));
-        this.goalSelector.addGoal(3,new GoBackToTheNest(this));
+        this.goalSelector.addGoal(4,new GoBackToTheNest(this));
         this.goalSelector.addGoal(4, new SearchAreaGoal(this, 1.2));
         this.goalSelector.addGoal(5,new BufferAI(this));
         this.goalSelector.addGoal(6,new FloatDiveGoal(this));
@@ -112,10 +112,7 @@ public class Hyper extends Infected{
 
         @Override
         public boolean canUse() {
-            if (hyper.tickCount % 40 == 0){
-                if (this.hyper.getTarget() != null){
-                    return false;
-                }
+            if (hyper.tickCount % 20 == 0){
                 return hyper.getEvoPoints() > 1 && hyper.getNestLocation() != BlockPos.ZERO;
             }
             return false;
