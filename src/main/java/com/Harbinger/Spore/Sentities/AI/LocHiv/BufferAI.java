@@ -31,7 +31,7 @@ public class BufferAI extends Goal {
                     infected.setKills(infected.getKills() - 1);
                 }
             }
-            if (infected.getRandom().nextInt(40) == 0){
+            if (infected.getRandom().nextInt(40) == 0 && infected.getKills() > 2){
                 if (!infected.hasEffect(MobEffects.MOVEMENT_SPEED) && infected.getTarget() != null && infected.distanceToSqr(infected.getTarget()) > 200){
                     infected.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,200,1));
                     infected.setKills(infected.getKills() - 1);
