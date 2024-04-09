@@ -120,7 +120,7 @@ public class Hyper extends Infected{
 
         @Override
         public boolean canUse() {
-            return hyper.tickCount % 10 == 0 && hyper.getEvoPoints() > 1 && hyper.getNestLocation() != BlockPos.ZERO;
+            return hyper.getEvoPoints() > 1 && hyper.getNestLocation() != BlockPos.ZERO;
         }
 
         protected void moveMobToBlock(BlockPos pos) {
@@ -145,7 +145,7 @@ public class Hyper extends Infected{
         }
 
         public boolean shouldRecalculatePath() {
-            return this.tryTicks % 10 == 0;
+            return this.tryTicks % 80 == 0;
         }
 
         @Override
