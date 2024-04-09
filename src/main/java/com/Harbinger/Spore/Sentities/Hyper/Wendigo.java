@@ -35,7 +35,8 @@ import java.util.UUID;
 
 public class Wendigo extends Hyper {
     private static final UUID SPEED_MODIFIER_ATTACKING_UUID = UUID.fromString("020E0DFB-87AE-4653-9556-831010E291A0");
-    private static final AttributeModifier SPEED_MODIFIER_STALKING = new AttributeModifier(SPEED_MODIFIER_ATTACKING_UUID, "Crawling speed slowdown", -0.15F, AttributeModifier.Operation.ADDITION);
+    private static final UUID SPEED_MODIFIER_STALKING_UUID = UUID.fromString("7107DE5E-7CE8-4030-940E-514C1F160890");
+    private static final AttributeModifier SPEED_MODIFIER_STALKING = new AttributeModifier(SPEED_MODIFIER_STALKING_UUID, "Crawling speed slowdown", -0.15F, AttributeModifier.Operation.ADDITION);
     private static final AttributeModifier SPEED_MODIFIER_ATTACKING = new AttributeModifier(SPEED_MODIFIER_ATTACKING_UUID, "Sprinting speed", 0.15F, AttributeModifier.Operation.ADDITION);
     public static final EntityDataAccessor<Boolean> IS_STALKING = SynchedEntityData.defineId(Wendigo.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Integer> STALKING_TIMEOUT = SynchedEntityData.defineId(Wendigo.class, EntityDataSerializers.INT);
@@ -45,6 +46,7 @@ public class Wendigo extends Hyper {
         super(type, level);
         this.moveControl = new InfectedWallMovementControl(this);
         this.navigation = new WallClimberNavigation(this,level);
+        this.setMaxUpStep(1F);
     }
 
 
@@ -176,7 +178,7 @@ public class Wendigo extends Hyper {
         super.aiStep();
         AttributeInstance attributeinstance = this.getAttribute(Attributes.MOVEMENT_SPEED);
         if (attributeinstance != null ){
-            if (this.getIsSprinting() > 0 && !this.isStalking()){
+            if (!this.isStalking() && this.getIsSprinting() > 0){
                 if (!attributeinstance.hasModifier(SPEED_MODIFIER_ATTACKING)) {
                     attributeinstance.addTransientModifier(SPEED_MODIFIER_ATTACKING);
                 }
@@ -229,10 +231,8 @@ public class Wendigo extends Hyper {
     @Override
     public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor) {
         if (IS_STALKING.equals(dataAccessor)){
-            if (this.isStalking() && this.getTarget() != null && this.getIsSprinting()<=0){
+            if (this.getTarget() != null && this.getIsSprinting()<=0){
                 this.setIsSprinting(10);
-            }else{
-                this.setIsSprinting(0);
             }
             this.setCamo(this.isStalking() ? getBiomeTint() : 0);
             this.refreshDimensions();
