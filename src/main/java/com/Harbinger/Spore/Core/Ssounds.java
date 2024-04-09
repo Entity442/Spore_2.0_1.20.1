@@ -56,6 +56,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> VIGIL_AMBIENT = soundRegistry("vigil_ambient");
 
+    public static final RegistryObject<SoundEvent> WENDIGO_AMBIENT = soundRegistry("wendigo_ambient");
+
     public static final RegistryObject<SoundEvent> WOMB_AMBIENT = soundRegistry("womb_ambient");
 
     public static final RegistryObject<SoundEvent> USURPER_AMBIENT = soundRegistry("usurper_ambient");

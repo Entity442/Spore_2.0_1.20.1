@@ -988,6 +988,8 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> umarmer_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> proto_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> mound_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> usurper_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> wendigo_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> organite_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> innards_loot;
 
@@ -1093,6 +1095,13 @@ public class SConfig {
 
             this.umarmer_loot = builder.defineList("Umarmer ",
                     Lists.newArrayList("spore:mutated_fiber|100|6|15","spore:armor_fragment|80|1|8","spore:mutated_heart|30|1|1") , o -> o instanceof String);
+
+            this.usurper_loot = builder.defineList("Usurper ",
+                    Lists.newArrayList("spore:mutated_fiber|100|6|7","spore:armor_fragment|80|1|4","spore:mutated_heart|30|1|1","spore:corrosive_sack|70|1|3") , o -> o instanceof String);
+
+
+            this.wendigo_loot = builder.defineList("Wendigo ",
+                    Lists.newArrayList("spore:mutated_fiber|70|5|9","spore:armor_fragment|80|7|12","spore:mutated_heart|50|1|1","spore:claw_fragment|80|5|15","spore:cerebrum|20|1|1","spore:spine_fragment|15|1|3","spore:altered_spleen|70|1|2") , o -> o instanceof String);
 
 
             this.organite_loot = builder.defineList("Organite Block",

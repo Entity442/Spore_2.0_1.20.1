@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities.Hyper;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Hyper;
 import com.Harbinger.Spore.Sentities.MovementControls.InfectedWallMovementControl;
@@ -157,10 +158,13 @@ public class Wendigo extends Hyper {
 
     public void playSoundsNearTarget(Entity target){
         SoundEvent soundEvent = this.LureList().get(this.random.nextInt(this.LureList().size()));
-        BlockPos pos = target instanceof PathfinderMob ? RandomPos.generateRandomPosTowardDirection((PathfinderMob) target,6,this.random,this.getOnPos()) : new BlockPos(target.getOnPos());
+        BlockPos pos = target.getOnPos();
         target.level().playSound(null, pos.getX(),pos.getY(),pos.getZ(), soundEvent, target.getSoundSource(), 1, 1);
     }
-
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.wendigo_loot.get();
+    }
 
     @Override
     protected void addRegularGoals() {
@@ -230,6 +234,22 @@ public class Wendigo extends Hyper {
         BlockPos blockpos = new BlockPos(i, j, k);
         Biome biome = this.level().getBiome(blockpos).value();
         return biome.getFoliageColor();
+    }
+
+    protected SoundEvent getAmbientSound() {
+        return Ssounds.WENDIGO_AMBIENT.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource p_34327_) {
+        return Ssounds.INF_DAMAGE.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return Ssounds.INF_DAMAGE.get();
+    }
+
+    protected SoundEvent getStepSound() {
+        return SoundEvents.ZOMBIE_STEP;
     }
 
     @Override

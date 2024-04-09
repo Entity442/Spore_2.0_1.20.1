@@ -25,6 +25,13 @@
       "spore:howler"
     ]
   },
+  "wendigo_ambient" :{
+    "subtitle": "sounds.spore.wendigo_ambient",
+    "sounds": [
+      "spore:wendigo_ambient",
+      "spore:wendigo_ambient1"
+    ]
+  },
   "inf_villager_damage" :{
     "subtitle": "sounds.spore.damage",
     "sounds": [

@@ -23,6 +23,8 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.level.Level;
 
+import java.util.List;
+
 public class Usurper extends Organoid implements RangedAttackMob {
     private static final EntityDataAccessor<Integer> TIMER = SynchedEntityData.defineId(Usurper.class, EntityDataSerializers.INT);
     public Usurper(EntityType<? extends PathfinderMob> type, Level level) {
@@ -78,6 +80,11 @@ public class Usurper extends Organoid implements RangedAttackMob {
                 tickBurrowing();
             }
         }
+    }
+
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.usurper_loot.get();
     }
 
     @Override
