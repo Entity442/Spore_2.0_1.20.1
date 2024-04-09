@@ -105,17 +105,19 @@ public class Hyper extends Infected{
 
     static class GoBackToTheNest extends Goal {
         protected Hyper hyper;
+        public  int tryTicks;
         public GoBackToTheNest(Hyper hyper){
             this.hyper = hyper;
             this.setFlags(EnumSet.of(Flag.MOVE));
         }
+        @Override
+        public boolean canContinueToUse() {
+            return hyper.getTarget() == null;
+        }
 
         @Override
         public boolean canUse() {
-            if (hyper.tickCount % 20 == 0){
-                return hyper.getEvoPoints() > 1 && hyper.getNestLocation() != BlockPos.ZERO;
-            }
-            return false;
+            return hyper.getEvoPoints() > 1 && hyper.getNestLocation() != BlockPos.ZERO;
         }
 
         protected void moveMobToBlock(BlockPos pos) {
@@ -137,6 +139,19 @@ public class Hyper extends Infected{
             }
         }
 
+        public boolean shouldRecalculatePath() {
+            return this.tryTicks % 40 == 0;
+        }
+
+        @Override
+        public void tick() {
+            super.tick();
+            ++this.tryTicks;
+            if (this.hyper.getNestLocation() != BlockPos.ZERO && shouldRecalculatePath()){
+                this.moveMobToBlock(this.hyper.getNestLocation());
+            }
+        }
+
         @Override
         public void start() {
             moveMobToBlock(this.hyper.getNestLocation());
@@ -146,11 +161,16 @@ public class Hyper extends Infected{
             }
             super.start();
         }
+
+        @Override
+        public boolean requiresUpdateEveryTick() {
+            return true;
+        }
     }
     @org.jetbrains.annotations.Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_21434_, DifficultyInstance p_21435_, MobSpawnType p_21436_, @org.jetbrains.annotations.Nullable SpawnGroupData p_21437_, @org.jetbrains.annotations.Nullable CompoundTag p_21438_) {
-        this.entityData.set(NEST,this.getBlockPosBelowThatAffectsMyMovement());
+        setNestLocation(this.getOnPos());
         return super.finalizeSpawn(p_21434_, p_21435_, p_21436_, p_21437_, p_21438_);
     }
 }
