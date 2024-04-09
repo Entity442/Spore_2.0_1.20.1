@@ -120,11 +120,13 @@ public class Hyper extends Infected{
 
         @Override
         public boolean canUse() {
-            return hyper.tickCount % 5 == 0 && hyper.getEvoPoints() > 1 && hyper.getNestLocation() != BlockPos.ZERO;
+            return hyper.tickCount % 10 == 0 && hyper.getEvoPoints() > 1 && hyper.getNestLocation() != BlockPos.ZERO;
         }
 
         protected void moveMobToBlock(BlockPos pos) {
-            this.hyper.getNavigation().moveTo(pos.getX() + 0.5D, pos.getY() + 1, pos.getZ() + 0.5D, 1.4);
+            double x = hyper.random.nextInt(-2,2)+ 0.5D;
+            double z = hyper.random.nextInt(-2,2)+ 0.5D;
+            this.hyper.getNavigation().moveTo(pos.getX() + x, pos.getY() + 1, pos.getZ() + z, 1);
         }
         protected void tryToLayCorpsesAround(){
             AABB aabb = this.hyper.getBoundingBox().inflate(10);
@@ -159,7 +161,7 @@ public class Hyper extends Infected{
         public void start() {
             moveMobToBlock(this.hyper.getNestLocation());
             BlockPos pos = this.hyper.getNestLocation();
-            if (this.hyper.distanceToSqr(pos.getX(),pos.getY(),pos.getZ()) < 40d){
+            if (this.hyper.distanceToSqr(pos.getX(),pos.getY(),pos.getZ()) < 80d){
                 tryToLayCorpsesAround();
             }
             super.start();
