@@ -229,8 +229,10 @@ public class Wendigo extends Hyper {
     @Override
     public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor) {
         if (IS_STALKING.equals(dataAccessor)){
-            if (this.getTarget() != null && this.getIsSprinting()<=0){
+            if (this.isStalking() && this.getTarget() != null && this.getIsSprinting()<=0){
                 this.setIsSprinting(10);
+            }else{
+                this.setIsSprinting(0);
             }
             this.setCamo(this.isStalking() ? getBiomeTint() : 0);
             this.refreshDimensions();
