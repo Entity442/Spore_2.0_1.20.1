@@ -1,7 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "spore:item/hyper_spawn",
-    "layer1": "spore:item/hyper_spawn_overlay"
+    "layer0": "spore:item/hyper_spawn_overlay",
+    "layer1": "spore:item/hyper_spawn"
   }
 }

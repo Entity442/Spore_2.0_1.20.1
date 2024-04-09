@@ -130,7 +130,7 @@ public class Hyper extends Infected{
                 boolean isGround = level.getBlockState(blockpos).isCollisionShapeFullBlock(level,blockpos);
                 boolean isAir = level.getBlockState(blockpos.above()).isAir();
                 if (Math.random() < 0.01){
-                    if (isGround && isAir){
+                    if (isGround && isAir && !level.isClientSide){
                         level.setBlock(blockpos.above(),Sblocks.REMAINS.get().defaultBlockState(), 3);
                         this.hyper.setEvoPoints(this.hyper.getEvoPoints()-1);
                         break;
