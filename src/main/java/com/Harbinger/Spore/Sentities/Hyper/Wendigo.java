@@ -204,7 +204,7 @@ public class Wendigo extends Hyper {
     @Override
     public void tick() {
         super.tick();
-        if (this.tickCount % 60 == 0 && this.isStalking()){
+        if (this.tickCount % 200 == 0 && this.isStalking()){
             Entity entity = this.getTarget();
             if (entity != null){
                 this.playSoundsNearTarget(entity);
