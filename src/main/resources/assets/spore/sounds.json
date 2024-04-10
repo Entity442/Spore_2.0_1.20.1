@@ -25,6 +25,12 @@
       "spore:howler"
     ]
   },
+  "wendigo_screech" :{
+    "subtitle": "sounds.spore.wendigo_screech",
+    "sounds": [
+      "spore:wendigo_screech"
+    ]
+  },
   "wendigo_ambient" :{
     "subtitle": "sounds.spore.wendigo_ambient",
     "sounds": [
