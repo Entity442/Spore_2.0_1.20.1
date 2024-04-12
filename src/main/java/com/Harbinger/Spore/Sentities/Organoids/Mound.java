@@ -224,6 +224,23 @@ public class Mound extends Organoid {
                 }
                 level.setBlock(blockpos, _bs, 3);
             }
+            if (blockstate.is(BlockTags.create(new ResourceLocation("minecraft:wooden_stairs"))) && blockstate.getDestroySpeed(level ,blockpos) < 5 && Math.random() < 0.3){
+                    BlockState _bs = Sblocks.ROTTEN_STAIR.get().defaultBlockState();
+                    for (Map.Entry<Property<?>, Comparable<?>> entry : blockstate.getValues().entrySet()) {
+                        Property _property = _bs.getBlock().getStateDefinition().getProperty(entry.getKey().getName());
+                        if (_property != null && _bs.getValue(_property) != null)
+                            try {
+                                _bs = _bs.setValue(_property, (Comparable) entry.getValue());
+                            } catch (Exception e) {
+                            }
+                    }
+                    level.setBlock(blockpos, _bs, 3);
+            }
+            if (blockstate.is(BlockTags.create(new ResourceLocation("minecraft:planks"))) && blockstate.getDestroySpeed(level ,blockpos) < 5 && Math.random() < 0.3){
+                    BlockState _bs = Sblocks.ROTTEN_PLANKS.get().defaultBlockState();
+                    level.setBlock(blockpos, _bs, 3);
+            }
+
 
             if (blockstate.isSolidRender(level,blockpos ) && (above.getFluidState().is(Fluids.WATER) || above.getFluidState().is(Fluids.FLOWING_WATER)) && Math.random() < 0.01){
                 if (block5.getBlock().getStateDefinition().getProperty("waterlogged") instanceof BooleanProperty property){

@@ -1,0 +1,15 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/rotten_planks"
+      },
+      {
+        "model": "spore:block/rotten_planks2"
+      },
+      {
+        "model": "spore:block/rotten_planks3"
+      }
+    ]
+  }
+}

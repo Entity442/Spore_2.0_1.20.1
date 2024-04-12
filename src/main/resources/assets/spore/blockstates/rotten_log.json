@@ -1,16 +1,44 @@
 {
   "variants": {
-    "axis=x": {
-      "model": "spore:block/rotten_log",
-      "x": 90,
-      "y": 90
-    },
-    "axis=y": {
-      "model": "spore:block/rotten_log"
-    },
-    "axis=z": {
-      "model": "spore:block/rotten_log",
-      "x": 90
-    }
+    "axis=x":[
+      {
+        "model": "spore:block/rotten_log",
+        "x": 90,
+        "y": 90,
+        "weight": 4
+      },
+      {
+        "model": "spore:block/rotten_log1",
+        "x": 90,
+        "y": 90,
+        "weight": 2
+      }
+    ] ,
+    "axis=y": [
+      {
+        "model": "spore:block/rotten_log",
+        "weight": 4
+
+      },
+      {
+        "model": "spore:block/rotten_log1",
+        "weight": 2
+
+      }
+    ],
+    "axis=z": [
+      {
+        "model": "spore:block/rotten_log",
+        "x": 90,
+        "weight": 4
+
+      },
+      {
+        "model": "spore:block/rotten_log",
+        "x": 90,
+        "weight": 2
+
+      }
+    ]
   }
 }
