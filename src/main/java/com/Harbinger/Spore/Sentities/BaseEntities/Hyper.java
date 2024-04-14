@@ -11,8 +11,10 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
@@ -70,6 +72,24 @@ public class Hyper extends Infected{
         states.add(Sblocks.ROOTED_BIOMASS.get().defaultBlockState());
         states.add(Sblocks.ROOTED_MYCELIUM.get().defaultBlockState());
         return states;
+    }
+    @Override
+    protected boolean canRide(Entity entity) {
+        if (entity instanceof Infected || entity instanceof UtilityEntity){
+            return super.canRide(entity);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        if(this.level().getDifficulty() == Difficulty.HARD && amount > getDamageCap()){
+            return super.hurt(source, (float) getDamageCap());
+        }
+        return super.hurt(source, amount);
+    }
+    public double getDamageCap(){
+        return 25;
     }
 
     @Override

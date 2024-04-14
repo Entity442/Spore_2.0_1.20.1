@@ -7,6 +7,7 @@ import com.Harbinger.Spore.Sentities.Calamities.Gazenbrecher;
 import com.Harbinger.Spore.Sentities.Calamities.Hinderburg;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.*;
+import com.Harbinger.Spore.Sentities.Experiments.Plagued;
 import com.Harbinger.Spore.Sentities.FallenMultipart.Licker;
 import com.Harbinger.Spore.Sentities.FallenMultipart.SiegerTail;
 import com.Harbinger.Spore.Sentities.Hyper.Wendigo;
@@ -41,6 +42,7 @@ public class Attributes {
         event.put(Sentities.INF_EVOKER.get(), InfectedEvoker.createAttributes().build());
         event.put(Sentities.HOWLER.get(), Howler.createAttributes().build());
         event.put(Sentities.INF_WANDERER.get(), InfectedWanderingTrader.createAttributes().build());
+        event.put(Sentities.PLAGUED.get(), Plagued.createAttributes().build());
         event.put(Sentities.STALKER.get(), Stalker.createAttributes().build());
         event.put(Sentities.SCENT.get(), ScentEntity.createAttributes().build());
         event.put(Sentities.BRUTE.get(), Brute.createAttributes().build());
