@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Client.Renderers;
 
+import com.Harbinger.Spore.Client.Layers.PlaguedSiringeLayer;
 import com.Harbinger.Spore.Client.Models.PlaguedModel;
 import com.Harbinger.Spore.Client.Special.BaseInfectedRenderer;
 import com.Harbinger.Spore.Sentities.Experiments.Plagued;
@@ -18,6 +19,7 @@ public class PlaguedRenderer<Type extends Plagued> extends BaseInfectedRenderer<
 
     public PlaguedRenderer(EntityRendererProvider.Context context) {
         super(context, new PlaguedModel<>(context.bakeLayer(PlaguedModel.LAYER_LOCATION)), 0.5f);
+        this.addLayer(new PlaguedSiringeLayer<>(this));
     }
 
 
