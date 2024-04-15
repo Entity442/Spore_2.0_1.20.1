@@ -19,6 +19,8 @@
   "block.spore.biomass_lump": "Кусок биомассы",
   "block.spore.iron_ladder": "Железная лестница",
   "block.spore.rotten_log": "Разложившееся бревно",
+  "block.spore.rotten_planks": "Разложившиеся доски",
+  "block.spore.rotten_stair": "Разрушенная лестница",
   "block.spore.organite": "Блок органита",
   "block.spore.mycelium_veins": "Мицелиевые вены",
   "block.spore.fungal_shell": "Грибковая оболочка",
@@ -161,6 +163,9 @@
   "item.spore.umarmed_spawnegg": "Умармер",
   "item.spore.gazen_spawnegg": "Газенбричер",
   "item.spore.hinden_spawnegg": "Гинденбург",
+  "item.spore.plagued_spawnegg": "Чумной",
+  "item.spore.wendigo_spawnegg": "Вендиго",
+
 
 
   "item.spore.scent_spawnegg": "Споры",
@@ -204,6 +209,8 @@
   "entity.spore.gazenbreacher": "Разрушитель приливов",
   "entity.spore.hindenburg": "Гинденбург",
   "entity.spore.tumoroid_nuke": "Опухолевая бомба",
+  "entity.spore.plagued": "Чумной",
+  "entity.spore.wendigo": "Вендиго",
   "entity.spore.wave": "волна",
 
 
@@ -261,6 +268,8 @@
   "sounds.spore.limb_slash": "Конечность была порезана",
   "sounds.spore.heart_beat": "Сердцебиение",
   "sounds.spore.umarmer_ambient": "Умармер растрескивается",
+  "sounds.spore.wendigo_ambient": "Вендиго рычит",
+  "sounds.spore.wendigo_screech": "Вендиго Визг",
   "sounds.spore.vigil_ambient": "Дыхание бдения",
   "sounds.spore.record": "Проигрываю заражённую пластинку",
 
