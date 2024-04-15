@@ -13,14 +13,37 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
 public class PlaguedModel<T extends Plagued> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "plagued"), "main");
 	private final ModelPart covid;
+	private final ModelPart RightLeg;
+	private final ModelPart LeftLeg;
+	private final ModelPart RightForLeg;
+	private final ModelPart LeftForLeg;
+	private final ModelPart Torso;
+	private final ModelPart Head;
+	private final ModelPart Jaw;
+	private final ModelPart Brain;
+	private final ModelPart HeadTumors;
+	private final ModelPart Arm;
+	private final ModelPart ArmTumor;
 
 	public PlaguedModel(ModelPart root) {
 		this.covid = root.getChild("covid");
+		this.RightLeg = this.covid.getChild("legs").getChild("RightLeg");
+		this.LeftLeg = this.covid.getChild("legs").getChild("LeftLeg");
+		this.RightForLeg = this.RightLeg.getChild("RightLegSeg2");
+		this.LeftForLeg = this.LeftLeg.getChild("LeftLegSeg2");
+		this.Torso = this.covid.getChild("Torso").getChild("TorsoTop");
+		this.Head = this.Torso.getChild("Head");
+		this.Jaw = this.Head.getChild("Jaw");
+		this.Brain = this.Head.getChild("JuicyBrain");
+		this.HeadTumors = this.Head.getChild("Tumors");
+		this.Arm = this.Torso.getChild("Arms").getChild("RightLump");
+		this.ArmTumor = this.Torso.getChild("Arms").getChild("LeftTumors");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -99,7 +122,7 @@ public class PlaguedModel<T extends Plagued> extends EntityModel<T> {
 
 		PartDefinition Toothie_r4 = topTeeth.addOrReplaceChild("Toothie_r4", CubeListBuilder.create().texOffs(4, 23).addBox(0.25F, 0.0F, 0.0F, 1.0F, 2.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.25F, -1.5F, -3.75F, -0.3927F, 0.0F, 0.0F));
 
-		PartDefinition JuicyBrain = Head.addOrReplaceChild("JuicyBrain", CubeListBuilder.create().texOffs(0, 29).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 5.0F, 6.0F, new CubeDeformation(-0.5F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+		PartDefinition JuicyBrain = Head.addOrReplaceChild("JuicyBrain", CubeListBuilder.create().texOffs(0, 29).addBox(-3.0F, -3.0F, -4.0F, 6.0F, 5.0F, 6.0F, new CubeDeformation(-0.5F)), PartPose.offset(0.0F, -4.0F, 1.0F));
 
 		PartDefinition HeadSyringe = Head.addOrReplaceChild("HeadSyringe", CubeListBuilder.create().texOffs(0, 40).addBox(-1.0F, -2.3667F, -1.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(-0.5F))
 		.texOffs(10, 45).addBox(-1.5F, -2.3667F, -1.0F, 3.0F, 1.0F, 2.0F, new CubeDeformation(-0.4F))
@@ -108,13 +131,13 @@ public class PlaguedModel<T extends Plagued> extends EntityModel<T> {
 		PartDefinition ThumbPress4 = HeadSyringe.addOrReplaceChild("ThumbPress4", CubeListBuilder.create().texOffs(48, 0).addBox(-0.5F, -1.25F, -0.5F, 1.0F, 2.0F, 1.0F, new CubeDeformation(-0.3F))
 		.texOffs(0, 62).addBox(-1.0F, -1.55F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(-0.4F)), PartPose.offset(0.0F, -2.3667F, 0.0F));
 
-		PartDefinition Tumors = Head.addOrReplaceChild("Tumors", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
+		PartDefinition Tumors = Head.addOrReplaceChild("Tumors", CubeListBuilder.create(), PartPose.offset(3.0F, -8.0F, 0.0F));
 
-		PartDefinition Tumor_r1 = Tumors.addOrReplaceChild("Tumor_r1", CubeListBuilder.create().texOffs(56, 5).addBox(-1.5F, -1.5F, -1.5F, 3.0F, 3.0F, 3.0F, new CubeDeformation(-0.1F)), PartPose.offsetAndRotation(2.46F, -7.9901F, 0.7953F, 1.3418F, -0.2467F, -1.0482F));
+		PartDefinition Tumor_r1 = Tumors.addOrReplaceChild("Tumor_r1", CubeListBuilder.create().texOffs(56, 5).addBox(-1.5F, -1.5F, -1.5F, 3.0F, 3.0F, 3.0F, new CubeDeformation(-0.1F)), PartPose.offsetAndRotation(-0.54F, 0.0099F, 0.7953F, 1.3418F, -0.2467F, -1.0482F));
 
-		PartDefinition Tumor_r2 = Tumors.addOrReplaceChild("Tumor_r2", CubeListBuilder.create().texOffs(56, 5).addBox(-1.5F, -2.0F, -1.5F, 3.0F, 3.0F, 3.0F, new CubeDeformation(-0.3F)), PartPose.offsetAndRotation(3.5F, -6.3566F, 0.2952F, 1.318F, 0.0071F, -0.5688F));
+		PartDefinition Tumor_r2 = Tumors.addOrReplaceChild("Tumor_r2", CubeListBuilder.create().texOffs(56, 5).addBox(-1.5F, -2.0F, -1.5F, 3.0F, 3.0F, 3.0F, new CubeDeformation(-0.3F)), PartPose.offsetAndRotation(0.5F, 1.6434F, 0.2952F, 1.318F, 0.0071F, -0.5688F));
 
-		PartDefinition Tumor_r3 = Tumors.addOrReplaceChild("Tumor_r3", CubeListBuilder.create().texOffs(56, 5).addBox(-1.5F, -1.5F, -0.75F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.5F, -6.5F, 0.5F, 0.5208F, 0.3352F, -0.5208F));
+		PartDefinition Tumor_r3 = Tumors.addOrReplaceChild("Tumor_r3", CubeListBuilder.create().texOffs(56, 5).addBox(-1.5F, -1.5F, -0.75F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.5F, 1.5F, 0.5F, 0.5208F, 0.3352F, -0.5208F));
 
 		PartDefinition HeadFungus = Head.addOrReplaceChild("HeadFungus", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
@@ -138,13 +161,13 @@ public class PlaguedModel<T extends Plagued> extends EntityModel<T> {
 		PartDefinition ThumbPress3 = RightArmSyringe.addOrReplaceChild("ThumbPress3", CubeListBuilder.create().texOffs(48, 0).addBox(-0.5F, -1.25F, -0.5F, 1.0F, 2.0F, 1.0F, new CubeDeformation(-0.3F))
 		.texOffs(0, 62).addBox(-1.0F, -1.55F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(-0.4F)), PartPose.offset(0.0F, -2.3667F, 0.0F));
 
-		PartDefinition LeftTumors = Arms.addOrReplaceChild("LeftTumors", CubeListBuilder.create(), PartPose.offset(4.0F, -5.0F, 0.0F));
+		PartDefinition LeftTumors = Arms.addOrReplaceChild("LeftTumors", CubeListBuilder.create(), PartPose.offset(4.0F, -4.0F, 0.0F));
 
-		PartDefinition Tumor_r4 = LeftTumors.addOrReplaceChild("Tumor_r4", CubeListBuilder.create().texOffs(56, 5).addBox(-1.5F, -1.75F, -1.0F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.2F)), PartPose.offsetAndRotation(0.6478F, 2.1829F, 0.4605F, 0.8238F, -0.625F, -1.2707F));
+		PartDefinition Tumor_r4 = LeftTumors.addOrReplaceChild("Tumor_r4", CubeListBuilder.create().texOffs(56, 5).addBox(-1.5F, -1.75F, -1.0F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.2F)), PartPose.offsetAndRotation(0.6478F, 1.1829F, 0.4605F, 0.8238F, -0.625F, -1.2707F));
 
-		PartDefinition Tumor_r5 = LeftTumors.addOrReplaceChild("Tumor_r5", CubeListBuilder.create().texOffs(56, 5).addBox(-2.75F, 0.0F, -0.5F, 3.0F, 3.0F, 3.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(0.7078F, 0.7216F, -0.8331F, 0.1436F, -0.9803F, -0.3689F));
+		PartDefinition Tumor_r5 = LeftTumors.addOrReplaceChild("Tumor_r5", CubeListBuilder.create().texOffs(56, 5).addBox(-2.75F, 0.0F, -0.5F, 3.0F, 3.0F, 3.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(0.7078F, -0.2784F, -0.8331F, 0.1436F, -0.9803F, -0.3689F));
 
-		PartDefinition Tumor_r6 = LeftTumors.addOrReplaceChild("Tumor_r6", CubeListBuilder.create().texOffs(56, 5).addBox(-2.0F, -1.5F, -2.25F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.5F, -0.5F, 0.5F, 0.7813F, -0.286F, -0.2729F));
+		PartDefinition Tumor_r6 = LeftTumors.addOrReplaceChild("Tumor_r6", CubeListBuilder.create().texOffs(56, 5).addBox(-2.0F, -1.5F, -2.25F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.5F, -1.5F, 0.5F, 0.7813F, -0.286F, -0.2729F));
 
 		PartDefinition TorsoSyringes = TorsoTop.addOrReplaceChild("TorsoSyringes", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
@@ -164,10 +187,36 @@ public class PlaguedModel<T extends Plagued> extends EntityModel<T> {
 
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
+	public void animateTumor(ModelPart part,float value){
+		part.xScale = 1 + Mth.cos(value/6)/8;
+		part.zScale = 1 + Mth.cos(value/7)/6;
+		part.yScale = 1 - Mth.cos(value/6)/7;
+	}
+	public void animateTumor1(ModelPart part,float value){
+		part.xScale = 1 + Mth.cos(value/8)/8;
+		part.zScale = 1 + Mth.cos(value/7)/8;
+		part.yScale = 1 - Mth.cos(value/8)/7;
+	}
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+		this.LeftLeg.xRot = Mth.cos(limbSwing * 0.6F) * 0.6F * limbSwingAmount;
+		this.RightLeg.xRot = Mth.cos(limbSwing * 0.6F) * 0.6F * -limbSwingAmount;
+		this.LeftForLeg.xRot = this.LeftLeg.xRot < 0 ? -this.LeftLeg.xRot : 0;
+		this.RightForLeg.xRot = this.RightLeg.xRot < 0 ? -this.RightLeg.xRot : 0;
+		this.Head.yRot = netHeadYaw / (180F / (float) Math.PI);
+		this.Head.xRot = headPitch /  ( 90F / (float) Math.PI);
+		this.Jaw.xRot = 0.9f + Mth.cos(ageInTicks/6)/6;
+		this.animateTumor(this.ArmTumor,ageInTicks);
+		this.animateTumor1(this.HeadTumors,-ageInTicks);
+		this.animateTumor(this.Brain,ageInTicks);
+		if (!(limbSwingAmount > -0.15F && limbSwingAmount < 0.15F)){
+			this.Torso.zRot = Mth.sin(ageInTicks/8)/8;
+			this.Arm.xRot = -0.5f +  Mth.cos(ageInTicks/6)/6;
+		}else{
+			this.Torso.zRot = 0;
+			this.Arm.xRot = Mth.cos(ageInTicks/7)/8;
+		}
 	}
 
 	@Override
