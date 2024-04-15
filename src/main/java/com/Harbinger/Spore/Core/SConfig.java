@@ -1150,7 +1150,7 @@ public class SConfig {
             builder.pop();
             builder.push("Structure data");
             this.biomass_lump_kills = builder.comment("Default 5").defineInRange("Biomass Lump minimal kills", 5, 0, Integer.MAX_VALUE);
-            this.hive_spawn_kills = builder.comment("Default 50").defineInRange("Reconstructed Mind Block kills", 50, 0, Integer.MAX_VALUE);
+            this.hive_spawn_kills = builder.comment("Default 25").defineInRange("Reconstructed Mind Block kills", 25, 0, Integer.MAX_VALUE);
             this.spawner_range = builder.comment("Default 20").defineInRange("The range of the overgrown spawner", 32, 0, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Block infection");
