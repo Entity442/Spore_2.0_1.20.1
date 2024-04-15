@@ -175,6 +175,7 @@
   "item.spore.sieger_spawnegg": "Sieger",
   "item.spore.gazen_spawnegg": "Gazenbreacher",
   "item.spore.hinden_spawnegg": "Hindenburg",
+  "item.spore.plagued_spawnegg": "Plagued",
 
 
   "item.spore.scent_spawnegg": "Scent",
@@ -220,6 +221,7 @@
   "entity.spore.hindenburg": "Hindenburg",
   "entity.spore.tumoroid_nuke": "Tumoroid Bomb",
   "entity.spore.licker": "Licker",
+  "entity.spore.plagued": "Plagued",
   "entity.spore.wave": "Wave",
 
 
