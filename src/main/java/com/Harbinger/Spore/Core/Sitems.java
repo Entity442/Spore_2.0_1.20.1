@@ -122,7 +122,7 @@ public class Sitems {
             () -> new SporeSpawnEgg(Sentities.INF_HAZMAT,-6345002, new Item.Properties()));
 
     public  static final RegistryObject<Item> PLAGUED_SPAWNEGG = ITEMS.register("plagued_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.PLAGUED,-1294644, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.PLAGUED,78294644, new Item.Properties()));
 
 
 
