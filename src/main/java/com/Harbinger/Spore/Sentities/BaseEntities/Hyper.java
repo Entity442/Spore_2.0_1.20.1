@@ -80,7 +80,7 @@ public class Hyper extends Infected{
 
     @Override
     public boolean hasLineOfSight(Entity entity) {
-        if (entity instanceof LivingEntity livingEntity && this.distanceToSqr(livingEntity) < 60){
+        if (entity instanceof LivingEntity livingEntity && this.distanceToSqr(livingEntity) < 100){
             return true;
         }
         return super.hasLineOfSight(entity);
