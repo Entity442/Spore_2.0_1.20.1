@@ -14,10 +14,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
@@ -79,6 +76,14 @@ public class Hyper extends Infected{
             return super.canRide(entity);
         }
         return false;
+    }
+
+    @Override
+    public boolean hasLineOfSight(Entity entity) {
+        if (entity instanceof LivingEntity livingEntity && this.distanceToSqr(livingEntity) < 60){
+            return true;
+        }
+        return super.hasLineOfSight(entity);
     }
 
     @Override
