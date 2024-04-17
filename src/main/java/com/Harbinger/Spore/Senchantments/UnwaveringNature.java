@@ -13,7 +13,6 @@ import net.minecraft.world.item.enchantment.Enchantment;
 public class UnwaveringNature extends Enchantment {
     public UnwaveringNature(EquipmentSlot... slots) {
         super(Rarity.COMMON, Senchantments.FUNGAL_ITEMS, slots);
-        Senchantments.SPORE_ENCHANTS.add(this);
     }
 
     @Override

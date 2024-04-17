@@ -12,6 +12,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,9 +42,7 @@ public class BiologicalReagent extends BaseItem {
     public boolean testSlotCompat(ItemStack stack){
         return stack.is(ItemTags.create(new ResourceLocation(Spore.MODID,"enchantable_items")));
     }
-    private boolean checkForEnchantment(ItemStack stack){
-        return !stack.getAllEnchantments().containsKey(this.getAppliedEnchantment());
-    }
+
     private double chance(){
         return 0.2;
     }
@@ -53,7 +52,7 @@ public class BiologicalReagent extends BaseItem {
     @Override
     public boolean overrideStackedOnOther(ItemStack itemStack, Slot slot, ClickAction clickAction, Player player) {
         ItemStack stack = slot.getItem();
-        if (testSlotCompat(stack)  && checkForEnchantment(itemStack)){
+        if (testSlotCompat(stack)  && EnchantmentHelper.getTagEnchantmentLevel(this.getAppliedEnchantment(),stack) == 0){
             if (getAppliedEnchantment() != null && clickAction == ClickAction.SECONDARY){
                 stack.enchant(getAppliedEnchantment(),getAppliedEnchantment().getMaxLevel());
                 itemStack.setCount(itemStack.getCount() -1);
