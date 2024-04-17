@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.sEvents;
 
 import com.Harbinger.Spore.Core.Sitems;
+import com.Harbinger.Spore.Sitems.BiologicalReagent;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CrossbowItem;

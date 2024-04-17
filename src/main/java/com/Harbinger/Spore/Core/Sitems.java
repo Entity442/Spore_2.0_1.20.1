@@ -1,12 +1,12 @@
 package com.Harbinger.Spore.Core;
 
-import com.Harbinger.Spore.Client.ClientModEvents;
 import com.Harbinger.Spore.Sitems.*;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -232,6 +232,13 @@ public class Sitems {
             InfectedRapier::new);
     public  static final RegistryObject<Item> VIGIL_EYE = ITEMS.register("vigil_eye",
             VigilEye::new);
+    public  static final RegistryObject<Item> SYMBIOTIC_REAGENT = ITEMS.register("symbiotic_reagent",
+            () -> new BiologicalReagent(new Item.Properties()){
+                @Override
+                public Enchantment getAppliedEnchantment() {
+                    return Senchantments.SYMBIOTIC_RECONSTITUTION.get();
+                }
+            });
 
     public  static final RegistryObject<Item> INF_HELMET = ITEMS.register("inf_helmet",
             InfectedHelmet::new);

@@ -18,7 +18,6 @@ public class Senchantments {
     public static void register(IEventBus eventBus) {
         ENCHANTMENTS.register(eventBus);
     }
-    public  static  final List<Enchantment> SPORE_ENCHANTS = new ArrayList<>();
 
     public static final EnchantmentCategory FUNGAL_ITEMS =
             EnchantmentCategory.create("fungal_items",item -> {return Sitems.BIOLOGICAL_ITEMS.contains(item.asItem()) && item.canBeDepleted();});

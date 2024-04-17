@@ -376,10 +376,5 @@ public class InfectedCrossbow extends CrossbowItem {
     public int getDefaultProjectileRange() {
         return 8;
     }
-
-    @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-        return super.canApplyAtEnchantingTable(stack, enchantment) || Senchantments.SPORE_ENCHANTS.contains(enchantment);
-    }
 }
 

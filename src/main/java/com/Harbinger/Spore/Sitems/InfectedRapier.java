@@ -85,6 +85,6 @@ public class InfectedRapier extends SwordItem {
 
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-        return super.canApplyAtEnchantingTable(stack, enchantment) || Senchantments.SPORE_ENCHANTS.contains(enchantment);
+        return super.canApplyAtEnchantingTable(stack, enchantment);
     }
 }
