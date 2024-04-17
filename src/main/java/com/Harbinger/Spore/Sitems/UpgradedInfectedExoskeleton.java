@@ -202,8 +202,4 @@ public class UpgradedInfectedExoskeleton extends ArmorItem {
 
     }
 
-    @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-        return super.canApplyAtEnchantingTable(stack, enchantment);
-    }
 }
