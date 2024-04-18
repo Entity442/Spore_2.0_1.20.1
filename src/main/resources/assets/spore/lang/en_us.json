@@ -270,6 +270,9 @@
   "itemGroup.spore_t": "Spore Tech",
 
 
+  "item.reagent.line1": "Carries the properties of ",
+  "item.reagent.line2": " it may also bestow ",
+
   "item.armor.shift": "Holding shift activates the wall climbing ability.",
   "item.armor.normal": "Press shift for more info.",
   "item.rapier.corrosive": "Delivers Corrosive Slashes",
