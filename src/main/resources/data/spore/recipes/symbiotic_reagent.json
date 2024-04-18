@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " R#",
+    "RXT",
+    "RTT"
+  ],
+  "key": {
+    "R": {
+      "item": "spore:mutated_fiber"
+    },
+    "#": {
+      "item": "spore:living_core"
+    },
+    "T": {
+      "item": "spore:nerves"
+    },
+    "X": {
+      "item": "spore:mutated_heart"
+    }
+},
+  "result": {
+    "item": "spore:symbiotic_reagent"
+  }
+}
