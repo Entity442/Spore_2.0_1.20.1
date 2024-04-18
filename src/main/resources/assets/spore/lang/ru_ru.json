@@ -254,7 +254,7 @@
   "itemGroup.spore_t": "Spore Technologies",
 
   "item.reagent.line1": "Носит свойства ",
-  "item.reagent.line2": " это также может даровать ",
+  "item.reagent.line2": "это также может вызывать побочные эффекты",
 
   "item.armor.shift": "Зажав SHIFT, можно взобраться по стене.",
   "item.armor.normal": "Зажми SHIFT для информации.",

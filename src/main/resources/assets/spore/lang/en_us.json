@@ -271,7 +271,7 @@
 
 
   "item.reagent.line1": "Carries the properties of ",
-  "item.reagent.line2": " it may also bestow ",
+  "item.reagent.line2": "it may also bestow side effects",
 
   "item.armor.shift": "Holding shift activates the wall climbing ability.",
   "item.armor.normal": "Press shift for more info.",
