@@ -1,14 +1,6 @@
 {
-  "parent": "minecraft:item/handheld",
+  "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "spore:item/armor_plate"
-  },
-  "overrides": [
-    {
-      "predicate": {
-        "compatible": 1
-      },
-      "model": "spore:item/mutated_heart"
-    }
-  ]
+    "layer0": "spore:item/symbiotic_reagent"
+  }
 }
