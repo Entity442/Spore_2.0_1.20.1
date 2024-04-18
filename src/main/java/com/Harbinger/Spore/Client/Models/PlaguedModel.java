@@ -210,6 +210,7 @@ public class PlaguedModel<T extends Plagued> extends EntityModel<T> {
 		this.animateTumor(this.ArmTumor,ageInTicks);
 		this.animateTumor1(this.HeadTumors,-ageInTicks);
 		this.animateTumor(this.Brain,ageInTicks);
+		this.Torso.xRot = 0.3f + Mth.sin(ageInTicks/8)/8;
 		if (!(limbSwingAmount > -0.15F && limbSwingAmount < 0.15F)){
 			this.Torso.zRot = Mth.sin(ageInTicks/8)/8;
 			this.Arm.xRot = -0.5f +  Mth.cos(ageInTicks/6)/6;
