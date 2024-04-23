@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Client;
 
+import com.Harbinger.Spore.Client.Layers.CustomArmorLayer;
 import com.Harbinger.Spore.Client.Models.*;
 import com.Harbinger.Spore.Client.Renderers.*;
 import com.Harbinger.Spore.Core.SMenu;
@@ -15,7 +16,10 @@ import com.Harbinger.Spore.Spore;
 import com.Harbinger.Spore.sEvents.SItemProperties;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.entity.ArmorStandRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -154,6 +158,17 @@ public class ClientModEvents {
             MenuScreens.register(SMenu.CONTAINER.get(), ContainerScreen::new);
         });
 
+    }
+    @SubscribeEvent
+    public static void addLayers(final EntityRenderersEvent.AddLayers event) {
+        event.getSkins().forEach(name -> {
+            if(event.getSkin(name) instanceof PlayerRenderer renderer) {
+                renderer.addLayer(new CustomArmorLayer<>(renderer));
+            }
+        });
+        if (event.getRenderer(EntityType.ARMOR_STAND) instanceof ArmorStandRenderer renderer){
+            renderer.addLayer(new CustomArmorLayer<>(renderer));
+        }
     }
 
     @SubscribeEvent

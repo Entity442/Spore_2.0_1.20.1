@@ -5,8 +5,10 @@ import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.ScreativeTab;
 import com.Harbinger.Spore.Core.Senchantments;
 import com.Harbinger.Spore.Core.Sitems;
+import com.Harbinger.Spore.Spore;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.resources.ResourceLocation;
@@ -83,10 +85,10 @@ public class Elytron extends ArmorItem {
     }
 
 
-    public static  class InfectedElytron extends Elytron {
+    public static  class InfectedElytron extends Elytron implements CustomModelArmor{
         @Override
         public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-            return "spore:textures/armor/elytron.png";
+            return "spore:textures/armor/blank.png";
         }
 
         public InfectedElytron() {
@@ -135,29 +137,19 @@ public class Elytron extends ArmorItem {
         }
 
         @Override
-        public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-            consumer.accept(new IClientItemExtensions() {
-                @Override
-                @OnlyIn(Dist.CLIENT)
-                public HumanoidModel getHumanoidArmorModel(LivingEntity living, ItemStack stack, EquipmentSlot slot, HumanoidModel defaultModel) {
-                    HumanoidModel armorModel = new HumanoidModel<>(new ModelPart(Collections.emptyList(), Map.of("body",
-                            new ElytrumModel<>(Minecraft.getInstance().getEntityModels().bakeLayer(ElytrumModel.LAYER_LOCATION)).body,
-                            "left_arm",
-                            new ElytrumModel<>(Minecraft.getInstance().getEntityModels().bakeLayer(ElytrumModel.LAYER_LOCATION)).left_arm,
-                            "right_arm",
-                            new ElytrumModel<>(Minecraft.getInstance().getEntityModels().bakeLayer(ElytrumModel.LAYER_LOCATION)).right_arm,
-                            "head", new ModelPart(Collections.emptyList(), Collections.emptyMap()), "hat",
-                            new ModelPart(Collections.emptyList(), Collections.emptyMap()), "right_leg",
-                            new ModelPart(Collections.emptyList(), Collections.emptyMap()), "left_leg",
-                            new ModelPart(Collections.emptyList(), Collections.emptyMap()))));
-                    armorModel.crouching = living.isShiftKeyDown();
-                    armorModel.riding = defaultModel.riding;
-                    armorModel.young = living.isBaby();
-                    return armorModel;
-                }
-            });
+        public EntityModel<LivingEntity> getModel() {
+            return new ElytrumModel<>();
         }
 
+        @Override
+        public ResourceLocation getCustomArmorTexture() {
+            return new ResourceLocation(Spore.MODID,"textures/armor/elytron.png");
+        }
+
+        @Override
+        public boolean isFoil() {
+            return false;
+        }
     }
 
     @Override
