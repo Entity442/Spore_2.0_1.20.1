@@ -88,7 +88,7 @@ public class Elytron extends ArmorItem {
     public static  class InfectedElytron extends Elytron implements CustomModelArmor{
         @Override
         public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-            return "spore:textures/armor/blank.png";
+            return "spore:textures/armor/empty.png";
         }
 
         public InfectedElytron() {
