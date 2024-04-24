@@ -165,7 +165,7 @@ public class UpgradedInfectedExoskeleton extends ArmorItem {
                 @OnlyIn(Dist.CLIENT)
                 public HumanoidModel getHumanoidArmorModel(LivingEntity living, ItemStack stack, EquipmentSlot slot, HumanoidModel defaultModel) {
                     HumanoidModel armorModel = new HumanoidModel<>(new ModelPart(Collections.emptyList(), Map.of("body",
-                            new ModelPart(Collections.emptyList(), Collections.emptyMap()),
+                            new WingedChestplate<>(Minecraft.getInstance().getEntityModels().bakeLayer(WingedChestplate.LAYER_LOCATION),false).body,
                             "left_arm",
                             new WingedChestplate<>(Minecraft.getInstance().getEntityModels().bakeLayer(WingedChestplate.LAYER_LOCATION),false).left_arm,
                             "right_arm",
