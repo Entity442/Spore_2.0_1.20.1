@@ -56,7 +56,7 @@ public class ElytrumModel<T extends LivingEntity> extends BaseArmorModel<T> {
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		this.animateElytra(entity,rightWing,leftWing);
+		this.animatedElytra(entity,rightWing,leftWing);
 		this.animateCrouch(entity,body);
 	}
 
