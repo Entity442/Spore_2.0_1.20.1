@@ -1,10 +1,12 @@
 package com.Harbinger.Spore.Client.Special;
 
+import com.Harbinger.Spore.Core.Seffects;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
@@ -12,6 +14,15 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class BaseArmorModel <T extends LivingEntity> extends EntityModel<T> {
+    public BaseArmorModel() {
+        super();
+    }
+
+    @Override
+    public void setupAnim(T p_102618_, float p_102619_, float p_102620_, float p_102621_, float p_102622_, float p_102623_) {
+
+    }
+
 
     public void animateCrouch(T entity,ModelPart body){
         if (entity.isCrouching()){
@@ -20,6 +31,23 @@ public class BaseArmorModel <T extends LivingEntity> extends EntityModel<T> {
         }else{
             body.xRot = 0.0F;
             body.y = 0.0F;
+        }
+    }
+
+    public void animateCore(T entity, ModelPart part,float value){
+        if (entity.isCrouching()){
+            part.xRot = 0.5F;
+            part.y = 7.2F;
+            part.z = -1.25F;
+        }else{
+            part.xRot = 0.0F;
+            part.y = 3.0F;
+            part.z = -2.25F;
+        }
+        if (entity.hasEffect(Seffects.SYMBIOSIS.get())){
+            part.yScale =1+ Mth.cos(value/6)/6;
+            part.zScale =1+ Mth.cos(value/6)/6;
+            part.xScale =1+ Mth.sin(value/6)/6;
         }
     }
 
@@ -64,11 +92,6 @@ public class BaseArmorModel <T extends LivingEntity> extends EntityModel<T> {
         rightWing.y = leftWing.y;
         rightWing.xRot = leftWing.xRot;
         rightWing.zRot = -leftWing.zRot;
-    }
-
-    @Override
-    public void setupAnim(T p_102618_, float p_102619_, float p_102620_, float p_102621_, float p_102622_, float p_102623_) {
-
     }
 
     @Override
