@@ -12,15 +12,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class BaseArmorModel <T extends LivingEntity> extends EntityModel<T> {
-    public BaseArmorModel() {
-        super();
-    }
-
-    @Override
-    public void setupAnim(T p_102618_, float p_102619_, float p_102620_, float p_102621_, float p_102622_, float p_102623_) {
-
-    }
-
 
     public void animateCrouch(T entity,ModelPart body){
         if (entity.isCrouching()){
@@ -73,6 +64,11 @@ public class BaseArmorModel <T extends LivingEntity> extends EntityModel<T> {
         rightWing.y = leftWing.y;
         rightWing.xRot = leftWing.xRot;
         rightWing.zRot = -leftWing.zRot;
+    }
+
+    @Override
+    public void setupAnim(T p_102618_, float p_102619_, float p_102620_, float p_102621_, float p_102622_, float p_102623_) {
+
     }
 
     @Override
