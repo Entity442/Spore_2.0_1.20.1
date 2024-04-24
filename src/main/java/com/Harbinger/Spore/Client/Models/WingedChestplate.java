@@ -3,34 +3,45 @@ package com.Harbinger.Spore.Client.Models;// Made with Blockbench 4.6.4
 // Paste this class into your mod and generate all required imports
 
 
+import com.Harbinger.Spore.Client.Special.BaseArmorModel;
 import com.Harbinger.Spore.Spore;
-import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.AgeableListModel;
-import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class WingedChestplate<T extends LivingEntity> extends AgeableListModel<T> {
+public class WingedChestplate<T extends LivingEntity> extends BaseArmorModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "wingedchestplate"), "main");
 	public final ModelPart body;
 	public final ModelPart left_arm;
 	public final ModelPart right_arm;
+	public final ModelPart leftWing;
+	public final ModelPart rightWing;
+	public boolean cutthewings = true;
 
-	public WingedChestplate(ModelPart root) {
+	public WingedChestplate() {
+		ModelPart root = createBodyLayer().bakeRoot();
 		this.body = root.getChild("body");
 		this.left_arm = root.getChild("left_arm");
 		this.right_arm = root.getChild("right_arm");
+		this.leftWing = body.getChild("left_wing");
+		this.rightWing = body.getChild("right_wing");
+	}
+	public WingedChestplate(ModelPart root,boolean value) {
+		this.cutthewings = value;
+		this.body = root.getChild("body");
+		this.left_arm = root.getChild("left_arm");
+		this.right_arm = root.getChild("right_arm");
+		this.leftWing = body.getChild("left_wing");
+		this.rightWing = body.getChild("right_wing");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -52,24 +63,19 @@ public class WingedChestplate<T extends LivingEntity> extends AgeableListModel<T
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+		this.leftWing.visible = cutthewings;
+		this.rightWing.visible = cutthewings;
+		this.animatedElytra(entity,rightWing,leftWing);
+		this.animateCrouch(entity,this.body);
+		this.right_arm.visible = !cutthewings;
+		this.left_arm.visible = !cutthewings;
 	}
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+		super.renderToBuffer(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		left_arm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		right_arm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-	}
-
-
-	@Override
-	protected Iterable<ModelPart> headParts() {
-		return ImmutableList.of();
-	}
-
-	@Override
-	protected Iterable<ModelPart> bodyParts() {
-		return ImmutableList.of(this.body);
 	}
 }

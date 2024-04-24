@@ -2,10 +2,12 @@ package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Client.Models.WingedChestplate;
 import com.Harbinger.Spore.Core.*;
+import com.Harbinger.Spore.Spore;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.network.chat.Component;
@@ -105,7 +107,7 @@ public class UpgradedInfectedExoskeleton extends ArmorItem {
         }
     }
 
-    public static  class InfectedUpChestplate extends UpgradedInfectedExoskeleton {
+    public static  class InfectedUpChestplate extends UpgradedInfectedExoskeleton implements CustomModelArmor{
         @Override
         public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
             return "spore:textures/armor/infected_wing.png";
@@ -163,11 +165,11 @@ public class UpgradedInfectedExoskeleton extends ArmorItem {
                 @OnlyIn(Dist.CLIENT)
                 public HumanoidModel getHumanoidArmorModel(LivingEntity living, ItemStack stack, EquipmentSlot slot, HumanoidModel defaultModel) {
                     HumanoidModel armorModel = new HumanoidModel<>(new ModelPart(Collections.emptyList(), Map.of("body",
-                            new WingedChestplate<>(Minecraft.getInstance().getEntityModels().bakeLayer(WingedChestplate.LAYER_LOCATION)).body,
+                            new ModelPart(Collections.emptyList(), Collections.emptyMap()),
                             "left_arm",
-                            new WingedChestplate<>(Minecraft.getInstance().getEntityModels().bakeLayer(WingedChestplate.LAYER_LOCATION)).left_arm,
+                            new WingedChestplate<>(Minecraft.getInstance().getEntityModels().bakeLayer(WingedChestplate.LAYER_LOCATION),false).left_arm,
                             "right_arm",
-                            new WingedChestplate<>(Minecraft.getInstance().getEntityModels().bakeLayer(WingedChestplate.LAYER_LOCATION)).right_arm,
+                            new WingedChestplate<>(Minecraft.getInstance().getEntityModels().bakeLayer(WingedChestplate.LAYER_LOCATION),false).right_arm,
                             "head", new ModelPart(Collections.emptyList(), Collections.emptyMap()), "hat",
                             new ModelPart(Collections.emptyList(), Collections.emptyMap()), "right_leg",
                             new ModelPart(Collections.emptyList(), Collections.emptyMap()), "left_leg",
@@ -200,6 +202,20 @@ public class UpgradedInfectedExoskeleton extends ArmorItem {
             super.appendHoverText(itemStack, level, components, tooltipFlag);
         }
 
+        @Override
+        public EntityModel<LivingEntity> getModel() {
+            return new WingedChestplate<>();
+        }
+
+        @Override
+        public ResourceLocation getCustomArmorTexture() {
+            return new ResourceLocation(Spore.MODID,"textures/armor/infected_wing.png");
+        }
+
+        @Override
+        public boolean isFoil() {
+            return false;
+        }
     }
 
 }
