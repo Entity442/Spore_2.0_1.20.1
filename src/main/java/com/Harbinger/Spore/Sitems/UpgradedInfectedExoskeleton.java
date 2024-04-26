@@ -3,7 +3,6 @@ package com.Harbinger.Spore.Sitems;
 import com.Harbinger.Spore.Client.Models.WingedChestplate;
 import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Spore;
-import com.google.common.collect.ImmutableSet;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -24,13 +23,11 @@ import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
@@ -212,10 +209,6 @@ public class UpgradedInfectedExoskeleton extends ArmorItem {
             return new ResourceLocation(Spore.MODID,"textures/armor/infected_wing.png");
         }
 
-        @Override
-        public boolean isFoil() {
-            return false;
-        }
     }
 
 }

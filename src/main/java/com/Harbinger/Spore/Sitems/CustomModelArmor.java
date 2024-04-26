@@ -7,5 +7,4 @@ import net.minecraft.world.entity.LivingEntity;
 public interface CustomModelArmor {
     EntityModel<LivingEntity> getModel();
     ResourceLocation getCustomArmorTexture();
-    boolean isFoil();
 }

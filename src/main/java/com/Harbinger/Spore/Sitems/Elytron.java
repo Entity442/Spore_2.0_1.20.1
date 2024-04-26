@@ -2,15 +2,9 @@ package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Client.Models.ElytrumModel;
 import com.Harbinger.Spore.Core.SConfig;
-import com.Harbinger.Spore.Core.ScreativeTab;
-import com.Harbinger.Spore.Core.Senchantments;
 import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.Spore;
-import com.google.common.collect.ImmutableSet;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -23,16 +17,10 @@ import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
-import java.util.Collections;
-import java.util.Map;
 import java.util.Objects;
-import java.util.function.Consumer;
 
 public class Elytron extends ArmorItem {
 
@@ -146,10 +134,6 @@ public class Elytron extends ArmorItem {
             return new ResourceLocation(Spore.MODID,"textures/armor/elytron.png");
         }
 
-        @Override
-        public boolean isFoil() {
-            return false;
-        }
     }
 
     @Override

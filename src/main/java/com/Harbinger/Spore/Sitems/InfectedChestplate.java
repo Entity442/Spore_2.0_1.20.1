@@ -1,7 +1,6 @@
 package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Client.Models.LivingChestplateModel;
-import com.Harbinger.Spore.Client.Models.WingedChestplate;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -94,8 +93,4 @@ public class InfectedChestplate extends InfectedExoskeleton implements CustomMod
         return new ResourceLocation(Spore.MODID,"textures/armor/infected_wing.png");
     }
 
-    @Override
-    public boolean isFoil() {
-        return false;
-    }
 }
