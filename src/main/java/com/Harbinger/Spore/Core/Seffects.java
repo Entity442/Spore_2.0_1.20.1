@@ -22,6 +22,9 @@ public class Seffects {
     public static final RegistryObject<MobEffect> MYCELIUM = MOB_EFFECTS.register("mycelium_ef",
             Mycelium::new);
 
+    public static final RegistryObject<MobEffect> MADNESS = MOB_EFFECTS.register("madness",
+            Madness::new);
+
     public static final RegistryObject<MobEffect> STARVATION = MOB_EFFECTS.register("starvation",
             Starvation::new);
 

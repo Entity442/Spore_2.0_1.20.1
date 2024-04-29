@@ -14,6 +14,7 @@ import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Slasher;
 import com.Harbinger.Spore.Sentities.Organoids.*;
+import com.Harbinger.Spore.Sentities.Utility.Illusion;
 import com.Harbinger.Spore.Sentities.Variants.SlasherVariants;
 import com.Harbinger.Spore.Sitems.InfectedCombatShovel;
 import com.Harbinger.Spore.Sitems.InfectedMaul;
@@ -560,6 +561,9 @@ public class HandlerEvents {
             if (original_damage < recalculated_damage){
                 event.setAmount((float) recalculated_damage);
             }
+        }
+        if (event.getSource().getEntity() instanceof Illusion){
+            event.setAmount(4f);
         }
     }
 

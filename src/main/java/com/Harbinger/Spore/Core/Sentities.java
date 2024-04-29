@@ -149,6 +149,10 @@ public class Sentities {
             () -> EntityType.Builder.of(Umarmer::new, INFECTED).sized(1f, 3f)
                     .build(new ResourceLocation(Spore.MODID, "umarmed").toString()));
 
+    public static final RegistryObject<EntityType<Illusion>> ILLUSION = SPORE_ENTITIES.register("illusion",
+            () -> EntityType.Builder.of(Illusion::new, MobCategory.MISC).sized(1f, 2f)
+                    .build(new ResourceLocation(Spore.MODID, "illusion").toString()));
+
 
     public static final RegistryObject<EntityType<AcidBall>> ACID_BALL = register("acid_ball",
             EntityType.Builder.<AcidBall>of(AcidBall::new, MobCategory.MISC).setCustomClientFactory((spawnEntity, level) -> new AcidBall(level))
