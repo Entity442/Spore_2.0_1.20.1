@@ -536,6 +536,7 @@ public class HandlerEvents {
         }
     }
 
+
     @SubscribeEvent
     public static void NoSleep(PlayerSleepInBedEvent event){
         if(event.getEntity() instanceof ServerPlayer player && player.hasEffect(Seffects.UNEASY.get())){
