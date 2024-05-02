@@ -19,7 +19,6 @@ public class Madness extends MobEffect {
         if (Math.random() < 0.1 && intense > 2 && entity.level() instanceof ServerLevel serverLevel){
             Illusion illusion = new Illusion(Sentities.ILLUSION.get(), entity.level());
             illusion.setSeeAble(false);
-            illusion.addVictim(entity.getUUID());
             int x = entity.getRandom().nextInt(-6,6);
             int z = entity.getRandom().nextInt(-6,6);
             DifficultyInstance difficultyInstance = entity.level().getCurrentDifficultyAt(entity.blockPosition());

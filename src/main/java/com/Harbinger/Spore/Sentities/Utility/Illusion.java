@@ -21,45 +21,25 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 
-import javax.annotation.Nullable;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
-
 public class Illusion extends UtilityEntity {
     private static final EntityDataAccessor<Boolean> SEE_ABLE = SynchedEntityData.defineId(Illusion.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Optional<UUID>> VICTIM = SynchedEntityData.defineId(Illusion.class, EntityDataSerializers.OPTIONAL_UUID);
     private static final EntityDataAccessor<String> BODY = SynchedEntityData.defineId(Illusion.class, EntityDataSerializers.STRING);
     private static final EntityDataAccessor<Integer> TYPE = SynchedEntityData.defineId(Illusion.class, EntityDataSerializers.INT);
     public Illusion(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
     }
 
-    @Nullable
-    public void addVictim(@Nullable UUID uuid) {
-        this.entityData.set(VICTIM, Optional.ofNullable(uuid));
-    }
-    @Nullable
-    public UUID getVictim() {
-        return this.entityData.get(VICTIM).orElse((UUID)null);
-    }
-
-
     protected void defineSynchedData() {
         super.defineSynchedData();
         entityData.define(SEE_ABLE,true);
         entityData.define(TYPE,0);
         entityData.define(BODY,"spore:knight");
-        this.entityData.define(VICTIM, Optional.empty());
     }
 
     public void addAdditionalSaveData(CompoundTag tag) {
         tag.putInt("type",entityData.get(TYPE));
         tag.putBoolean("see_able",entityData.get(SEE_ABLE));
         tag.putString("body",entityData.get(BODY));
-        if (this.entityData.get(VICTIM).isPresent()) {
-            tag.putUUID("victim", Objects.requireNonNull(this.getVictim()));
-        }
         super.addAdditionalSaveData(tag);
     }
 
@@ -67,9 +47,6 @@ public class Illusion extends UtilityEntity {
         entityData.set(SEE_ABLE,tag.getBoolean("see_able"));
         entityData.set(TYPE,tag.getInt("type"));
         entityData.set(BODY,tag.getString("body"));
-        if (tag.hasUUID("victim")){
-            this.addVictim(tag.getUUID("victim"));
-        }
         super.readAdditionalSaveData(tag);
     }
 
@@ -92,7 +69,7 @@ public class Illusion extends UtilityEntity {
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
                 (this, LivingEntity.class,  true,livingEntity -> {
                     if (Illusion.this.getSeeAble()){return !(livingEntity instanceof Infected || livingEntity instanceof UtilityEntity);}
-                    return livingEntity.hasEffect(Seffects.MADNESS.get()) && Illusion.this.getVictim() == livingEntity.getUUID();}));
+                    return livingEntity.hasEffect(Seffects.MADNESS.get());}));
         this.goalSelector.addGoal(3,new CustomMeleeAttackGoal(this,1.3,true));
     }
 
@@ -114,16 +91,6 @@ public class Illusion extends UtilityEntity {
     }
     public boolean getSeeAble(){
         return this.entityData.get(SEE_ABLE);
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
-        if (this.tickCount % 800 == 0){
-            this.discard();
-        }else if (!this.getSeeAble() && this.getVictim() == null){
-            this.discard();
-        }
     }
 
     @Override

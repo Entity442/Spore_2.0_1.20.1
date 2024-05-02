@@ -22,8 +22,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.Objects;
-
 public class IllusionRenderer extends EntityRenderer<Illusion> {
     private final EntityRenderDispatcher entityRenderer;
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID, "");
@@ -49,7 +47,7 @@ public class IllusionRenderer extends EntityRenderer<Illusion> {
         if (illusion.getSeeAble()){
             renderIllusions(illusion,value2,stack,source,light);
         }else{
-            if (Minecraft.getInstance().cameraEntity instanceof Player player && (player.hasEffect(Seffects.MADNESS.get()) && Objects.equals(illusion.getVictim(), player.getUUID()))){
+            if (Minecraft.getInstance().cameraEntity instanceof Player player && (player.hasEffect(Seffects.MADNESS.get()))){
                 renderIllusions(illusion,value2,stack,source,light);
             }
         }
