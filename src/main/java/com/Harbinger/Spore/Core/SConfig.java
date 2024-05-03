@@ -241,6 +241,9 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> player_damage;
         public final ForgeConfigSpec.ConfigValue<Double> player_armor;
 
+        public final ForgeConfigSpec.ConfigValue<Double> halucinations_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> chance_hallucination_spawn;
+
         public final ForgeConfigSpec.ConfigValue<Double> spit_hp;
         public final ForgeConfigSpec.ConfigValue<Double> spit_armor;
         public final ForgeConfigSpec.ConfigValue<Double> spit_damage_l;
@@ -510,6 +513,11 @@ public class SConfig {
             this.inf_vin_hp = builder.comment("Default 28").defineInRange("Sets Infected Vindicator Max health", 28, 1, Double.MAX_VALUE);
             this.inf_vin_damage = builder.comment("Default 7").defineInRange("Sets Infected Vindicator Damage", 7, 1, Double.MAX_VALUE);
             this.inf_vin_armor = builder.comment("Default 4").defineInRange("Sets Infected Vindicator Armor", 4, 1, Double.MAX_VALUE);
+            builder.pop();
+
+            builder.push("Halucination");
+            this.halucinations_damage = builder.comment("Default 4").defineInRange("The mental damage dealt by hallucinations", 4, 1, Double.MAX_VALUE);
+            this.chance_hallucination_spawn = builder.comment("Default 10%").defineInRange("chance for a hallucination to spawn when the victim is mad", 10, 1, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("Wendigo");

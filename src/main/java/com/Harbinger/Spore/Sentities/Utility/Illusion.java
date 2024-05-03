@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Sentities.Utility;
 
+import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
@@ -18,8 +19,13 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.AbstractFish;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+
+import java.util.Objects;
+import java.util.function.Predicate;
 
 public class Illusion extends UtilityEntity {
     private static final EntityDataAccessor<Boolean> SEE_ABLE = SynchedEntityData.defineId(Illusion.class, EntityDataSerializers.BOOLEAN);
@@ -63,13 +69,32 @@ public class Illusion extends UtilityEntity {
         return entityData.get(SEE_ABLE);
     }
 
+    public Predicate<LivingEntity> TARGET_SELECTOR = (entity) -> {
+        if (entity instanceof Infected || entity instanceof UtilityEntity || entity instanceof AbstractFish || entity instanceof Animal){
+            return false;
+        }else if (!SConfig.SERVER.blacklist.get().isEmpty()){
+            for(String string : SConfig.SERVER.blacklist.get()){
+                if (string.endsWith(":") && entity.getEncodeId() != null){
+                    String[] mod = string.split(":");
+                    String[] iterations = entity.getEncodeId().split(":");
+                    if (Objects.equals(mod[0], iterations[0])){
+                        return false;
+                    }
+                }
+            }
+            return !SConfig.SERVER.blacklist.get().contains(entity.getEncodeId());
+        }else if (!this.getSeeAble()){
+            return entity.hasEffect(Seffects.MADNESS.get());
+        }
+        return true;
+    };
+
 
     @Override
     protected void registerGoals() {
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
                 (this, LivingEntity.class,  true,livingEntity -> {
-                    if (Illusion.this.getSeeAble()){return !(livingEntity instanceof Infected || livingEntity instanceof UtilityEntity);}
-                    return livingEntity.hasEffect(Seffects.MADNESS.get());}));
+                    return TARGET_SELECTOR.test(livingEntity);}));
         this.goalSelector.addGoal(3,new CustomMeleeAttackGoal(this,1.3,true));
     }
 

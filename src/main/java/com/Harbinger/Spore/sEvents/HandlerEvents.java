@@ -50,6 +50,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.client.event.MovementInputUpdateEvent;
 import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
@@ -57,10 +58,7 @@ import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
-import net.minecraftforge.event.entity.living.MobEffectEvent;
+import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.event.level.BlockEvent;
@@ -563,8 +561,19 @@ public class HandlerEvents {
                 event.setAmount((float) recalculated_damage);
             }
         }
-        if (event.getSource().getEntity() instanceof Illusion){
-            event.setAmount(4f);
+        if (event.getSource().getEntity() instanceof Illusion illusion && !illusion.getSeeAble()){
+            event.setAmount((float) (SConfig.SERVER.halucinations_damage.get()*1f));
+        }
+    }
+
+    @SubscribeEvent
+    public static void movementInputUpdateEvent(MovementInputUpdateEvent event) {
+        LivingEntity entity = event.getEntity();
+        if (entity != null && entity.hasEffect(Seffects.MADNESS.get()) && entity.getEffect(Seffects.MADNESS.get()).getAmplifier() >= 1){
+            if (Math.random() < 0.3 && entity instanceof ServerPlayer player){
+                event.getInput().jumping = false;
+                player.displayClientMessage(Component.translatable("madness.message"),true);
+            }
         }
     }
 

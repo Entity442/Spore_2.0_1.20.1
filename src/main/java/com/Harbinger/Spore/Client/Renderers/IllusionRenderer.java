@@ -47,7 +47,7 @@ public class IllusionRenderer extends EntityRenderer<Illusion> {
         if (illusion.getSeeAble()){
             renderIllusions(illusion,value2,stack,source,light);
         }else{
-            if (Minecraft.getInstance().cameraEntity instanceof Player player && (player.hasEffect(Seffects.MADNESS.get()))){
+            if (Minecraft.getInstance().cameraEntity instanceof Player player && player.hasEffect(Seffects.MADNESS.get())){
                 renderIllusions(illusion,value2,stack,source,light);
             }
         }
