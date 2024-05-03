@@ -566,15 +566,4 @@ public class HandlerEvents {
         }
     }
 
-    @SubscribeEvent
-    public static void movementInputUpdateEvent(MovementInputUpdateEvent event) {
-        LivingEntity entity = event.getEntity();
-        if (entity != null && entity.hasEffect(Seffects.MADNESS.get()) && entity.getEffect(Seffects.MADNESS.get()).getAmplifier() >= 1){
-            if (Math.random() < 0.3 && entity instanceof ServerPlayer player){
-                event.getInput().jumping = false;
-                player.displayClientMessage(Component.translatable("madness.message"),true);
-            }
-        }
-    }
-
 }

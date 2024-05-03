@@ -159,6 +159,9 @@ public class Sitems {
     public  static final RegistryObject<Item> SCENT_SPAWNEGG = ITEMS.register("scent_spawnegg",
             () -> new SporeSpawnEgg(Sentities.SCENT,-1, new Item.Properties()));
 
+    public  static final RegistryObject<Item> ILLUSION_SPAWNEGG = ITEMS.register("illusion_spawnegg",
+            () -> new SporeSpawnEgg(Sentities.ILLUSION,-1, new Item.Properties()));
+
     public  static final RegistryObject<Item> CLAW_SPAWNEGG = ITEMS.register("claw_spawnegg",
             () -> new SporeSpawnEgg(Sentities.CLAW,-5437216, new Item.Properties()));
 
