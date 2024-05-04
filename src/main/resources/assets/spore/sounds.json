@@ -19,6 +19,15 @@
       "spore:growl2"
     ]
   },
+  "madness" :{
+    "subtitle": "sounds.spore.proto_ambient",
+    "sounds": [
+      "spore:madness_whisper1",
+      "spore:madness_whisper2",
+      "spore:madness_whisper3",
+      "spore:madness_whisper4"
+    ]
+  },
   "howler_growl" :{
     "subtitle": "sounds.spore.growl",
     "sounds": [

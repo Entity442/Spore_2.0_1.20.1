@@ -545,7 +545,8 @@ public class HandlerEvents {
 
     @SubscribeEvent
     public static void DefenseBypass(LivingDamageEvent event) {
-        if (event.getSource().getEntity() instanceof Calamity calamity) {
+        Entity living = event.getSource().getEntity();
+        if (living instanceof Calamity calamity) {
             float original_damage = event.getAmount();
             AttributeInstance attack = calamity.getAttribute(Attributes.ATTACK_DAMAGE);
             double recalculated_damage = attack != null ? (attack.getValue()/10)*2 : original_damage;
@@ -553,7 +554,7 @@ public class HandlerEvents {
                 event.setAmount((float) recalculated_damage);
             }
         }
-        if (event.getSource().getEntity() instanceof Slasher slasher && slasher.getVariant() == SlasherVariants.PIERCER) {
+        if (living instanceof Slasher slasher && slasher.getVariant() == SlasherVariants.PIERCER) {
             float original_damage = event.getAmount();
             AttributeInstance attack = slasher.getAttribute(Attributes.ATTACK_DAMAGE);
             double recalculated_damage = attack != null ? attack.getValue()/2 : original_damage;
@@ -561,8 +562,18 @@ public class HandlerEvents {
                 event.setAmount((float) recalculated_damage);
             }
         }
-        if (event.getSource().getEntity() instanceof Illusion illusion && !illusion.getSeeAble()){
+        if (living instanceof Illusion illusion && !illusion.getSeeAble()){
             event.setAmount((float) (SConfig.SERVER.halucinations_damage.get()*1f));
+        }
+        if (living instanceof Infected || living instanceof UtilityEntity && !(living instanceof Illusion)){
+            LivingEntity livingEntity = event.getEntity();
+            MobEffectInstance mobEffectInstance = livingEntity.getEffect(Seffects.MADNESS.get());
+            if (mobEffectInstance != null){
+                int level = mobEffectInstance.getAmplifier();
+                int duration = mobEffectInstance.getDuration() +1200;
+                boolean jumpLevel = duration < 12000;
+                livingEntity.addEffect(new MobEffectInstance(Seffects.MADNESS.get(),jumpLevel ? duration: duration-12000,jumpLevel ? level : level+1));
+            }
         }
     }
 

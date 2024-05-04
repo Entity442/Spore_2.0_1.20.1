@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities.Utility;
 
 import com.Harbinger.Spore.Core.Seffects;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.Variants.IllusionVariants;
@@ -9,6 +10,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -19,6 +21,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import org.jetbrains.annotations.Nullable;
 
 public class Illusion extends UtilityEntity {
     private static final EntityDataAccessor<Boolean> SEE_ABLE = SynchedEntityData.defineId(Illusion.class, EntityDataSerializers.BOOLEAN);
@@ -121,6 +124,17 @@ public class Illusion extends UtilityEntity {
         }
         this.discard();
         return super.doHurtTarget(entity);
+    }
+
+    @Nullable
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return Ssounds.MADNESS.get();
+    }
+
+    @Override
+    public int getAmbientSoundInterval() {
+        return 200;
     }
 
     @Override

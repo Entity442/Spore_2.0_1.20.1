@@ -3,8 +3,11 @@ package com.Harbinger.Spore.Effect;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Sentities;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.Utility.Illusion;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
@@ -22,9 +25,16 @@ public class Madness extends MobEffect {
         if (Math.random() < (SConfig.SERVER.chance_hallucination_spawn.get() * 0.01) && intense > 1 && entity.level() instanceof ServerLevel serverLevel){
             SummonIllusion(entity,serverLevel);
         }
-        if (Math.random() < 0.3 && intense > 0){
+        if (Math.random() < 0.1){
             this.playClientSounds(entity);
         }
+        if (Math.random() < 0.1 && intense > 0 && entity instanceof ServerPlayer player){
+            this.feelingWatched(player);
+        }
+    }
+
+    public void feelingWatched(ServerPlayer player){
+        player.displayClientMessage(Component.translatable("vigil.message"),true);
     }
 
     public void SummonIllusion(LivingEntity entity,ServerLevel serverLevel){
@@ -39,7 +49,7 @@ public class Madness extends MobEffect {
     }
 
     public void playClientSounds(LivingEntity entity){
-        entity.playSound(SoundEvents.GHAST_AMBIENT);
+        entity.playSound(Ssounds.MADNESS.get());
     }
 
 
