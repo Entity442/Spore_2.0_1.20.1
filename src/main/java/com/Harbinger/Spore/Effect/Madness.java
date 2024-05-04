@@ -15,6 +15,10 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Madness extends MobEffect {
     public Madness() {
@@ -60,6 +64,10 @@ public class Madness extends MobEffect {
         return false;
     }
 
-
-
+    @Override
+    public List<ItemStack> getCurativeItems() {
+        ArrayList<ItemStack> ret = new ArrayList<>();
+        ret.add(ItemStack.EMPTY);
+        return ret;
+    }
 }

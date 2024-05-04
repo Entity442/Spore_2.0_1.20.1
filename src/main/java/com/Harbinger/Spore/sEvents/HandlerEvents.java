@@ -577,4 +577,17 @@ public class HandlerEvents {
         }
     }
 
+    @SubscribeEvent
+    public static void TickEvents(LivingEvent.LivingTickEvent event){
+        if (event.getEntity() instanceof Player player){
+            MobEffectInstance effectInstance = player.getEffect(Seffects.MADNESS.get());
+            if (effectInstance != null && effectInstance.getDuration() == 1){
+                int level = effectInstance.getAmplifier();
+                if (level > 0){
+                    effectInstance.update(new MobEffectInstance(Seffects.MADNESS.get(),12000,level-1));
+                }
+            }
+        }
+    }
+
 }
