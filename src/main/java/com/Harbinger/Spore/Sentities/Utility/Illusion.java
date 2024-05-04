@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sentities.Utility;
 
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.Variants.IllusionVariants;
@@ -103,6 +104,11 @@ public class Illusion extends UtilityEntity {
             this.discard();
         }
         return false;
+    }
+
+    @Override
+    public DamageSource getCustomDamage(LivingEntity entity) {
+        return this.getSeeAble() ? super.getCustomDamage(entity) : SdamageTypes.mental_damage(entity);
     }
 
     @Override

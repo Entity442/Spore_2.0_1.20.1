@@ -178,6 +178,7 @@
   "item.spore.gazen_spawnegg": "Gazenbreacher",
   "item.spore.hinden_spawnegg": "Hindenburg",
   "item.spore.plagued_spawnegg": "Plagued",
+  "item.spore.illusion_spawnegg": "Hallucination",
 
 
   "item.spore.scent_spawnegg": "Scent",
@@ -225,6 +226,7 @@
   "entity.spore.licker": "Licker",
   "entity.spore.plagued": "Plagued",
   "entity.spore.wave": "Wave",
+  "entity.spore.illusion": "Hallucination",
 
 
   "entity.spore.thrown_tumor": "Tumor",
@@ -244,6 +246,7 @@
   "effect.spore.corrosion": "Corrosion",
   "effect.spore.symbiosis": "Symbiosis",
   "effect.spore.uneasy": "Uneasy",
+  "effect.spore.madness": "Madness",
 
 
   "item.minecraft.splash_potion.effect.mycelium_potion": "Mycelium Infection Splash Potion",
@@ -323,6 +326,7 @@
   "death.attack.slasher_damage": "%2$s was happy to remove %1$s limbs",
   "death.attack.slasher_piercing_damage": "%1$s was impaled by %2$s",
   "death.attack.radiation_damage": "%1$s got irradiated",
+  "death.attack.mental_damage": "%1$s had a heart attack",
 
 
 

@@ -167,6 +167,7 @@
   "item.spore.hinden_spawnegg": "Гинденбург",
   "item.spore.plagued_spawnegg": "Чумной",
   "item.spore.wendigo_spawnegg": "Вендиго",
+  "item.spore.illusion_spawnegg": "Галлюцинация",
 
 
 
@@ -214,6 +215,7 @@
   "entity.spore.plagued": "Чумной",
   "entity.spore.wendigo": "Вендиго",
   "entity.spore.wave": "волна",
+  "entity.spore.illusion": "Галлюцинация",
 
 
   "entity.spore.thrown_tumor": "Опухоль",
@@ -229,6 +231,8 @@
   "effect.spore.corrosion": "Коррозия",
   "effect.spore.symbiosis": "Симбиоз",
   "effect.spore.uneasy": "Hепростой",
+  "effect.spore.madness": "Безумие",
+
 
   "item.minecraft.splash_potion.effect.mycelium_potion": "Взрывное зелье мицелиевой инфекции",
   "item.minecraft.potion.effect.mycelium_potion": "Зелье мицелиевой инфекции",
@@ -298,6 +302,7 @@
   "death.attack.braiomil_damage": "%1$s забыл, как плохо %2$s смердил",
   "death.attack.leaper_damage": "%1$s был растоптан %2$s",
   "death.attack.slasher_damage": "%2$s был счастлив разорвать конечности %1$s",
+  "death.attack.mental_damage": "%1$s случился сердечный приступ",
 
 
   "death.attack.infected_damage1": "%1$s был съеден заживо %2$s",

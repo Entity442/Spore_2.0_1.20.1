@@ -41,6 +41,7 @@ public class SdamageTypes {
     public static final ResourceKey<DamageType> LEAPER_DAMAGE = create("leaper_damage");
     public static final ResourceKey<DamageType> SLASHER_DAMAGE = create("slasher_damage");
     public static final ResourceKey<DamageType> SLASHER_PIERCING_DAMAGE = create("slasher_piercing_damage");
+    public static final ResourceKey<DamageType> MENTAL_DAMAGE = create("mental_damage");
 
 
     public static DamageSource damageSource(Entity entity, ResourceKey<DamageType> registryKey){
@@ -100,5 +101,8 @@ public class SdamageTypes {
     }
     public static DamageSource slasher_piercing_damage(LivingEntity entity){
         return damageSource(entity,SLASHER_PIERCING_DAMAGE,entity);
+    }
+    public static DamageSource mental_damage(LivingEntity entity){
+        return damageSource(entity,MENTAL_DAMAGE,entity);
     }
 }
