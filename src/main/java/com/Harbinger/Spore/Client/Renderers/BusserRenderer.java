@@ -32,6 +32,8 @@ public class BusserRenderer extends BaseInfectedRenderer<Busser , EntityModel<Bu
                         new ResourceLocation(Spore.MODID, "textures/entity/busser_aggressive.png"));
                 p_114874_.put(BusserVariants.BOMBER,
                         new ResourceLocation(Spore.MODID, "textures/entity/busserbomber.png"));
+                p_114874_.put(BusserVariants.TOXIC,
+                        new ResourceLocation(Spore.MODID, "textures/entity/griefer.png"));
             });
 
     public BusserRenderer(EntityRendererProvider.Context context) {
