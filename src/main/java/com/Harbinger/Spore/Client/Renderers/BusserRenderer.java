@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Client.Renderers;
 
 import com.Harbinger.Spore.Client.Models.BusserModel;
 import com.Harbinger.Spore.Client.Models.ExplodingBusserModel;
+import com.Harbinger.Spore.Client.Models.RangedBusserModel;
 import com.Harbinger.Spore.Client.Special.BaseInfectedRenderer;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Busser;
 import com.Harbinger.Spore.Sentities.Variants.BusserVariants;
@@ -22,6 +23,7 @@ import java.util.Map;
 public class BusserRenderer extends BaseInfectedRenderer<Busser , EntityModel<Busser>> {
     private final EntityModel<Busser> normalBusser = this.getModel();
     private final EntityModel<Busser> explodingBusser;
+    private final EntityModel<Busser> toxic_busser;
     private static final ResourceLocation EYES_TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/eyes/busser.png");
     public static final Map<BusserVariants, ResourceLocation> TEXTURE =
@@ -33,12 +35,13 @@ public class BusserRenderer extends BaseInfectedRenderer<Busser , EntityModel<Bu
                 p_114874_.put(BusserVariants.BOMBER,
                         new ResourceLocation(Spore.MODID, "textures/entity/busserbomber.png"));
                 p_114874_.put(BusserVariants.TOXIC,
-                        new ResourceLocation(Spore.MODID, "textures/entity/griefer.png"));
+                        new ResourceLocation(Spore.MODID, "textures/entity/toxic_busser.png"));
             });
 
     public BusserRenderer(EntityRendererProvider.Context context) {
         super(context, new BusserModel<>(context.bakeLayer(BusserModel.LAYER_LOCATION)), 0.5f);
         explodingBusser = new ExplodingBusserModel<>(context.bakeLayer(ExplodingBusserModel.LAYER_LOCATION));
+        toxic_busser = new RangedBusserModel<>(context.bakeLayer(RangedBusserModel.LAYER_LOCATION));
     }
     @Override
     public ResourceLocation getTextureLocation(Busser entity) {
@@ -59,11 +62,11 @@ public class BusserRenderer extends BaseInfectedRenderer<Busser , EntityModel<Bu
 
     @Override
     public void render(Busser busser, float p_115456_, float p_115457_, PoseStack stack, MultiBufferSource bufferSource, int p_115460_) {
-        EntityModel<Busser> entityModel;
+        EntityModel<Busser> entityModel = this.normalBusser;
         if (busser.getVariant() == BusserVariants.BOMBER){
             entityModel = explodingBusser;
-        }else{
-            entityModel = this.normalBusser;
+        }if (busser.getVariant() == BusserVariants.TOXIC){
+            entityModel = toxic_busser;
         }
         this.model = entityModel;
         super.render(busser, p_115456_, p_115457_, stack, bufferSource, p_115460_);

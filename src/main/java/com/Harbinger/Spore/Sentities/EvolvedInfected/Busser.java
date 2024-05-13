@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.*;
+import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.ScatterShotRangedGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.Carrier;
 import com.Harbinger.Spore.Sentities.FlyingInfected;
@@ -71,7 +72,7 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
 
         this.goalSelector.addGoal(3, new BusserSwellGoal(this));
         this.goalSelector.addGoal(3, new PhayerGrabAndDropTargets(this));
-        this.goalSelector.addGoal(3,new RangedAttackGoal(this,1.2,40,32){
+        this.goalSelector.addGoal(3,new ScatterShotRangedGoal(this,1.2,40,20,1,3){
             @Override
             public boolean canUse() {
                 return super.canUse() && Busser.this.getTypeVariant() == 3;
@@ -213,6 +214,7 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
                 }
             }
         }
+        if (!this.getMoveControl().hasWanted() && this.getTarget() == null){this.setDeltaMovement(this.getDeltaMovement().add(0,-0.005,0));}
         super.customServerAiStep();
     }
 
@@ -307,7 +309,7 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
         double d3 = entity.getZ() - this.getZ();
         double d4 = Math.sqrt(d1 * d1 + d3 * d3) * (double)0.2F;
         snowball.shoot(d1, d2 + d4, d3, 1.6F, 12.0F);
-        this.playSound(SoundEvents.SNOW_GOLEM_SHOOT, 1.0F, 0.4F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+        this.playSound(SoundEvents.SNOW_GOLEM_SHOOT, 1.0F, 0.3F);
         this.level().addFreshEntity(snowball);
         this.setDeltaMovement(this.getDeltaMovement().add(0,0.1,0));
     }
