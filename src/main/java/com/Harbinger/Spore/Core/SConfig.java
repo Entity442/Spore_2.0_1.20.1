@@ -87,6 +87,7 @@ public class SConfig {
 
         public final ForgeConfigSpec.ConfigValue<Double> bus_hp;
         public final ForgeConfigSpec.ConfigValue<Double> bus_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> bus_ranged_damage;
         public final ForgeConfigSpec.ConfigValue<Double> bus_armor;
 
         public final ForgeConfigSpec.ConfigValue<Double> inf_pil_hp;
@@ -535,6 +536,7 @@ public class SConfig {
             builder.push("Phayres");
             this.bus_hp = builder.comment("Default 50").defineInRange("Sets Phayres Max health", 50, 1, Double.MAX_VALUE);
             this.bus_damage = builder.comment("Default 6").defineInRange("Sets Phayres Damage", 6, 1, Double.MAX_VALUE);
+            this.bus_ranged_damage = builder.comment("Default 6").defineInRange("Sets Phayres ranged Damage", 6, 1, Double.MAX_VALUE);
             this.bus_armor = builder.comment("Default 10").defineInRange("Sets Phayres Armor", 10, 1, Double.MAX_VALUE);
             builder.pop();
 
@@ -590,7 +592,7 @@ public class SConfig {
             this.hinden_damage = builder.comment("Default 400").defineInRange("Sets HindenBurg Danage", 15, 1, Double.MAX_VALUE);
             this.hinden_armor = builder.comment("Default 5").defineInRange("Sets HindenBurg Armor", 5, 1, Double.MAX_VALUE);
             this.hinden_dpsr = builder.comment("Default 40").defineInRange("Sets HindenBurg Damage Cap , set to 0 to disable", 40, 1, Double.MAX_VALUE);
-            this.hinden_block_damage = builder.comment("Default 4").defineInRange("Sets Sieger maximum hardness for a block to be broken", 4, 1, Integer.MAX_VALUE);
+            this.hinden_block_damage = builder.comment("Default 4").defineInRange("Sets HindenBurg maximum hardness for a block to be broken", 4, 1, Integer.MAX_VALUE);
 
             this.hinden_buffs = builder.comment("Default values: minecraft:jump_boost|600|0 ,minecraft:slow_falling|600|0 ,minecraft:resistance|600|1").defineList("Sieger buffs",
                     Lists.newArrayList("minecraft:jump_boost|600|0" , "minecraft:slow_falling|600|0","minecraft:resistance|600|1") , o -> o instanceof String);

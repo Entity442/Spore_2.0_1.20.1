@@ -9,6 +9,7 @@ import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.Carrier;
 import com.Harbinger.Spore.Sentities.FlyingInfected;
 import com.Harbinger.Spore.Sentities.MovementControls.InfectedArialMovementControl;
+import com.Harbinger.Spore.Sentities.Projectile.StingerProjectile;
 import com.Harbinger.Spore.Sentities.Variants.BusserVariants;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -301,16 +302,14 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
 
     @Override
     public void performRangedAttack(LivingEntity entity, float p_33318_) {
-        Snowball snowball = new Snowball(this.level(), this);
-        snowball.moveTo(this.getX(),this.getY(),this.getZ());
-        double d0 = entity.getEyeY() - (double)1.1F;
-        double d1 = entity.getX() - this.getX();
-        double d2 = d0 - snowball.getY();
-        double d3 = entity.getZ() - this.getZ();
-        double d4 = Math.sqrt(d1 * d1 + d3 * d3) * (double)0.2F;
-        snowball.shoot(d1, d2 + d4, d3, 1.6F, 12.0F);
-        this.playSound(SoundEvents.SNOW_GOLEM_SHOOT, 1.0F, 0.3F);
-        this.level().addFreshEntity(snowball);
-        this.setDeltaMovement(this.getDeltaMovement().add(0,0.1,0));
+        StingerProjectile stinger = new StingerProjectile(this.level(), this, (float) (SConfig.SERVER.bus_damage.get() *1f));
+        stinger.moveTo(this.getX(),this.getY(),this.getZ());
+        double dx = entity.getX() - this.getX();
+        double dy = entity.getY() + entity.getEyeHeight() - 2;
+        double dz = entity.getZ() - this.getZ();
+        stinger.shoot(dx, dy - stinger.getY() + Math.hypot(dx, dz) * 0.2F, dz, 1f * 2, 12.0F);
+        this.level().addFreshEntity(stinger);
+        this.level().addFreshEntity(stinger);
+        this.setDeltaMovement(this.getDeltaMovement().add(0,0.3,0));
     }
 }
