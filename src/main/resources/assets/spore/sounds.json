@@ -28,6 +28,15 @@
       "spore:madness_whisper4"
     ]
   },
+  "spore_area_ambient" :{
+    "subtitle": "sounds.spore.spore_area_ambient",
+    "sounds": [
+      "spore:spore_area_ambient",
+      "spore:spore_area_ambient2",
+      "spore:spore_area_ambient3",
+      "spore:spore_area_ambient4"
+    ]
+  },
   "howler_growl" :{
     "subtitle": "sounds.spore.growl",
     "sounds": [

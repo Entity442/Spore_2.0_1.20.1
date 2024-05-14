@@ -27,6 +27,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -585,6 +586,18 @@ public class HandlerEvents {
                 int level = effectInstance.getAmplifier();
                 if (level > 0){
                     effectInstance.update(new MobEffectInstance(Seffects.MADNESS.get(),12000,level-1));
+                }
+            }
+            if (player.tickCount % 400 == 0 && player.level().isClientSide){
+                AABB aabb = player.getBoundingBox().inflate(5);
+                List<BlockPos> list = new ArrayList<>();
+                for (BlockPos blockPos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))){
+                    if (player.level().getBlockState(blockPos).is(BlockTags.create(new ResourceLocation("spore:ground_foliage")))){
+                        list.add(blockPos);
+                    }
+                }
+                if (list.size() > 4){
+                    player.playSound(Ssounds.AREA_AMBIENT.get());
                 }
             }
         }
