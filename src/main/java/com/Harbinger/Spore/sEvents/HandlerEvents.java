@@ -592,7 +592,7 @@ public class HandlerEvents {
                 AABB aabb = player.getBoundingBox().inflate(5);
                 List<BlockPos> list = new ArrayList<>();
                 for (BlockPos blockPos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))){
-                    if (player.level().getBlockState(blockPos).is(BlockTags.create(new ResourceLocation("spore:ground_foliage")))){
+                    if (player.level().getBlockState(blockPos).is(BlockTags.create(new ResourceLocation("spore:fungal_blocks")))){
                         list.add(blockPos);
                     }
                 }
