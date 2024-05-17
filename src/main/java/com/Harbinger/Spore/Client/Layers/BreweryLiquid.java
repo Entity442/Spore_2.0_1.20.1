@@ -29,7 +29,7 @@ public class BreweryLiquid<T extends Brauerei> extends RenderLayer<T, BraureiMod
             float r = (float) (i >> 16 & 255) / 255.0F;
             float g = (float) (i >> 8 & 255) / 255.0F;
             float b = (float) (i & 255) / 255.0F;
-            VertexConsumer vertexconsumer = bufferSource.getBuffer(RenderType.entityTranslucent(SYRINGE));
+            VertexConsumer vertexconsumer = bufferSource.getBuffer(RenderType.entityCutoutNoCull(SYRINGE));
             this.getParentModel().prepareMobModel(type, v1, v2, v3);
             this.getParentModel().setupAnim(type, v1, v2, v4, v5, v6);
             this.getParentModel().renderToBuffer(stack, vertexconsumer, value, LivingEntityRenderer.getOverlayCoords(type, 0.0F), r, g, b, 1.0F);
