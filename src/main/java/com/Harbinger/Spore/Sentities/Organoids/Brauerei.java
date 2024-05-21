@@ -146,8 +146,13 @@ public class Brauerei extends Organoid implements RangedAttackMob {
         return contents;
     }
 
-    protected void spreadBuffs(LivingEntity entity,MobEffect effect){
-        AABB aabb = entity.getBoundingBox().inflate(16);
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.braurei_loot.get();
+    }
+
+    protected void spreadBuffs(LivingEntity entity, MobEffect effect){
+        AABB aabb = entity.getBoundingBox().inflate(32);
         List<Entity> entities = entity.level().getEntities(entity,aabb,living ->{return living instanceof Infected || living instanceof UtilityEntity;});
         for (Entity testEntity : entities){
             if (testEntity instanceof LivingEntity living){
@@ -160,7 +165,6 @@ public class Brauerei extends Organoid implements RangedAttackMob {
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.braurei_damage.get() * SConfig.SERVER.global_damage.get())
                 .add(Attributes.MAX_HEALTH, SConfig.SERVER.braurei_hp.get() * SConfig.SERVER.global_health.get())
                 .add(Attributes.ARMOR, SConfig.SERVER.braurei_armor.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.FOLLOW_RANGE, 20)

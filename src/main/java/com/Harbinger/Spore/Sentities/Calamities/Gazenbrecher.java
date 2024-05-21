@@ -166,12 +166,6 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
 
 
     @Override
-    public int getDestroySpeed() {
-        return SConfig.SERVER.gazen_block_damage.get();
-    }
-
-
-    @Override
     public void aiStep() {
         float f14 = this.getYRot() * ((float)Math.PI / 180F);
         float f2 = Mth.sin(f14);

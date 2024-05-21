@@ -177,10 +177,6 @@ public class Sieger extends Calamity implements RangedAttackMob, TrueCalamity {
 
     }
 
-    @Override
-    public int getDestroySpeed() {
-        return SConfig.SERVER.sieger_block_damage.get();
-    }
 
     protected SoundEvent getAmbientSound() {
         if (this.getTarget() != null && this.distanceToSqr(this.getTarget()) > 200){

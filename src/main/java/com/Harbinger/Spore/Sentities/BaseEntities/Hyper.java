@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Sentities.BaseEntities;
 
+import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.BufferAI;
@@ -58,7 +59,7 @@ public class Hyper extends Infected{
     @Override
     public boolean blockBreakingParameter(BlockState blockstate, BlockPos blockpos) {
         float value = blockstate.getDestroySpeed(this.level(),blockpos);
-        return this.tickCount % 20 == 0 && value > 0 && value <= 3;
+        return this.tickCount % 20 == 0 && value > 0 && value <= getBreaking();
     }
     protected List<BlockState> biomass(){
         List<BlockState> states = new ArrayList<>();
@@ -104,6 +105,9 @@ public class Hyper extends Infected{
             return level.setBlock(blockPos, Sblocks.MEMBRANE_BLOCK.get().defaultBlockState(), 3);
         }
         return super.interactBlock(blockPos, level);
+    }
+    public int getBreaking(){
+        return SConfig.SERVER.experiment_bd.get();
     }
 
     @Override

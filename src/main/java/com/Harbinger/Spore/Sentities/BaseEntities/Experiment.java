@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Sentities.BaseEntities;
 
+import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.BufferAI;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.LocalTargettingGoal;
@@ -31,7 +32,10 @@ public class Experiment extends Infected{
     @Override
     public boolean blockBreakingParameter(BlockState blockstate, BlockPos blockpos) {
         float value = blockstate.getDestroySpeed(this.level(),blockpos);
-        return this.tickCount % 20 == 0 && value > 0 && value <=1;
+        return this.tickCount % 20 == 0 && value > 0 && value <=getBreaking();
+    }
+    public int getBreaking(){
+        return SConfig.SERVER.experiment_bd.get();
     }
 
 

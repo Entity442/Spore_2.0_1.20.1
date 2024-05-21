@@ -1,9 +1,6 @@
 package com.Harbinger.Spore.Sentities.BaseEntities;
 
-import com.Harbinger.Spore.Core.Sblocks;
-import com.Harbinger.Spore.Core.Seffects;
-import com.Harbinger.Spore.Core.Sentities;
-import com.Harbinger.Spore.Core.Sparticles;
+import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.CalamityVigilCall;
@@ -296,7 +293,7 @@ public class Calamity extends UtilityEntity implements Enemy {
 
 
     public int getDestroySpeed(){
-        return 5;
+        return SConfig.SERVER.calamity_bd.get();
     }
 
     public static class GoToLocation extends Goal {
