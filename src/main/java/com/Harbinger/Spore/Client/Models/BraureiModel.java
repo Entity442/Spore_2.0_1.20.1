@@ -13,14 +13,58 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
 public class BraureiModel<T extends Brauerei> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "augeo2"), "main");
 	private final ModelPart Augeo;
+	private final ModelPart TumorBase;
+	private final ModelPart Base;
+	private final ModelPart BaseTumor;
+	private final ModelPart Body1;
+	private final ModelPart Body2;
+	private final ModelPart Body3;
+	private final ModelPart Body4;
+	private final ModelPart Body4extra1;
+	private final ModelPart Body4extra2;
+	private final ModelPart Body4JawZan;
+	private final ModelPart Body4HeadXan;
+	private final ModelPart MainHeadX;
+	private final ModelPart MainHeadY;
+	private final ModelPart Heads;
+	private final ModelPart InnerHead1;
+	private final ModelPart InnerHead2;
+	private final ModelPart InnerHead3;
+	private final ModelPart Tongue1;
+	private final ModelPart Tongue2;
+	private final ModelPart Tongue3;
+
 
 	public BraureiModel(ModelPart root) {
 		this.Augeo = root.getChild("Augeo");
+		this.TumorBase = Augeo.getChild("TumorBase");
+		this.Base = Augeo.getChild("Chef");
+		this.BaseTumor = Base.getChild("BiomassBase");
+		this.Body1 = Base.getChild("Body1");
+		this.Body2 = Body1.getChild("Body2");
+		this.Body3 = Body2.getChild("Body3");
+		this.Body4 = Body3.getChild("Body4");
+		this.Body4extra1 = Body4.getChild("Body4_1");
+		this.Body4extra2 = Body4.getChild("Body4_2");
+		this.Body4JawZan = Body4extra1.getChild("Body4_2Head").getChild("Head4_2Jaw");
+		this.Body4HeadXan = Body4extra2.getChild("Body4_1Head");
+		this.MainHeadX = Body4.getChild("Body5");
+		this.MainHeadY = MainHeadX.getChild("Body6");
+		this.Heads = MainHeadY.getChild("Body6Heads");
+		this.InnerHead1 = Heads.getChild("Body6Head1");
+		this.InnerHead2 = Heads.getChild("Body6Head2");
+		this.InnerHead3 = Heads.getChild("PotionHead");
+		this.Tongue1 = Heads.getChild("FusedJaw").getChild("tongue");
+		this.Tongue2 = Tongue1.getChild("tongue2");
+		this.Tongue3 = Tongue2.getChild("tongue3");
+
+
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -452,10 +496,34 @@ public class BraureiModel<T extends Brauerei> extends EntityModel<T> {
 
 		return LayerDefinition.create(meshdefinition, 512, 512);
 	}
+	private void animateTumorBase(ModelPart part,float value){
+		part.xScale = 1 + Mth.cos(value/10)/10;
+		part.yScale = 1 + Mth.cos(value/10)/10;
+		part.zScale = 1 + Mth.cos(value/10)/10;
+	}
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+		this.animateTumorBase(TumorBase,ageInTicks);
+		this.Base.xRot = Mth.sin(ageInTicks/10)/10;
+		this.animateTumorBase(BaseTumor,ageInTicks);
+		this.Body1.yRot = netHeadYaw / (180F / (float) Math.PI);
+		this.Body2.zRot = Mth.sin(ageInTicks/10)/10;
+		this.Body3.xRot = Mth.sin(ageInTicks/8)/8;
+		this.Body4.yRot = Mth.sin(ageInTicks/7)/8;
+		this.Body4extra1.xRot = Mth.cos(ageInTicks/5)/5;
+		this.Body4extra2.yRot = Mth.cos(ageInTicks/5)/5;
+		this.Body4HeadXan.xRot = Mth.cos(ageInTicks/6)/5;
+		this.Body4JawZan.zRot = Mth.cos(ageInTicks/6)/5;
+		this.MainHeadX.xRot = headPitch / (90F / (float) Math.PI);
+		this.MainHeadY.yRot = netHeadYaw / (180F / (float) Math.PI);
+		this.Heads.zRot = Mth.sin(ageInTicks/6)/6;
+		this.InnerHead1.xRot = Mth.sin(ageInTicks/6)/6;
+		this.InnerHead2.xRot = Mth.sin(ageInTicks/5)/6;
+		this.InnerHead3.xRot = Mth.sin(ageInTicks/6)/7;
+		this.Tongue1.yRot = Mth.sin(ageInTicks/6)/6;
+		this.Tongue2.yRot = Mth.sin(ageInTicks/6)/6;
+		this.Tongue3.yRot = Mth.sin(ageInTicks/6)/6;
 	}
 
 	@Override

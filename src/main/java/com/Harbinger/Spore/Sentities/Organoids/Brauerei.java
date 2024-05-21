@@ -1,15 +1,51 @@
 package com.Harbinger.Spore.Sentities.Organoids;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Spotion;
+import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.ScatterShotRangedGoal;
+import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.PathfinderMob;
+import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.monster.RangedAttackMob;
+import net.minecraft.world.entity.projectile.ThrownPotion;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.Nullable;
 
-public class Brauerei extends Organoid {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Brauerei extends Organoid implements RangedAttackMob {
+    private static final EntityDataAccessor<Integer> TIMER = SynchedEntityData.defineId(Brauerei.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(Brauerei.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<ParticleOptions> DATA_PARTICLE = SynchedEntityData.defineId(Brauerei.class, EntityDataSerializers.PARTICLE);
+
+    @Nullable
+    private MobEffect effect;
+
     public Brauerei(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
     }
@@ -24,18 +60,149 @@ public class Brauerei extends Organoid {
         return 200;
     }
 
+    @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putInt("timer",entityData.get(TIMER));
+        tag.putInt("color",entityData.get(COLOR));
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        entityData.set(TIMER, tag.getInt("timer"));
+        entityData.set(COLOR, tag.getInt("color"));
+    }
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(TIMER,0);
+        this.entityData.define(COLOR,0);
+        this.getEntityData().define(DATA_PARTICLE, ParticleTypes.ENTITY_EFFECT);
+    }
+
+    public MobEffect getEffect() {
+        return this.effect;
+    }
+    public void  setEffect(MobEffect effect){
+        this.entityData.set(COLOR,effect.getColor());
+        this.effect = effect;
+    }
+
+    public int getTimer(){
+        return entityData.get(TIMER);
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (!this.level().isClientSide){
+            if (this.tickCount % 20 == 0){
+                if (this.getTarget() == null && this.entityData.get(TIMER) < 300){
+                    this.entityData.set(TIMER,this.entityData.get(TIMER) + 1);
+                }else if (this.entityData.get(TIMER) >= 300){
+                    tickBurrowing();
+                }
+            }
+        }
+        if (this.tickCount % 300 == 0){
+            this.setEffect(testList().get(this.random.nextInt(testList().size())));
+            if (this.getEffect() != null) {
+                spreadBuffs(this, this.getEffect());
+            }
+        }
+        if (this.entityData.get(COLOR) != 0){
+            ParticleOptions particleoptions = this.entityData.get(DATA_PARTICLE);
+            if (particleoptions.getType() == ParticleTypes.ENTITY_EFFECT) {
+                int k = this.getColor();
+                double d5 = (float)(k >> 16 & 255) / 255.0F;
+                double d6 = (float)(k >> 8 & 255) / 255.0F;
+                double d7 = (float)(k & 255) / 255.0F;
+                for (int i = 0;i < 4; i++)
+                this.level().addParticle(particleoptions, this.getX(), this.getY(), this.getZ(), d5, d6, d7);
+            }
+        }
+    }
+
+    @Override
+    public void tickBurrowing(){
+        int burrowing = this.entityData.get(BORROW);
+        if (burrowing > this.getBorrow_tick()) {
+            this.discard();
+            burrowing = -1;
+        }
+        this.entityData.set(BORROW, burrowing + 1);
+    }
+
+    private List<MobEffect> testList(){
+        List<MobEffect> contents = new ArrayList<>();
+        for (String str : SConfig.SERVER.braurei_buffs.get()){
+            MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(str));
+            if (effect != null){contents.add(effect);}
+        }
+        if (contents.isEmpty()){
+            contents.add(MobEffects.REGENERATION);
+        }
+        return contents;
+    }
+
+    protected void spreadBuffs(LivingEntity entity,MobEffect effect){
+        AABB aabb = entity.getBoundingBox().inflate(16);
+        List<Entity> entities = entity.level().getEntities(entity,aabb,living ->{return living instanceof Infected || living instanceof UtilityEntity;});
+        for (Entity testEntity : entities){
+            if (testEntity instanceof LivingEntity living){
+                int level = entity.level().getDifficulty() == Difficulty.HARD ? 1 : 0;
+                living.addEffect(new MobEffectInstance(effect,600,level));
+            }
+        }
+    }
+
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.umarmed_damage.get() * SConfig.SERVER.global_damage.get())
-                .add(Attributes.MAX_HEALTH, SConfig.SERVER.umarmed_hp.get() * SConfig.SERVER.global_health.get())
-                .add(Attributes.ARMOR, SConfig.SERVER.umarmed_armor.get() * SConfig.SERVER.global_armor.get())
+                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.braurei_damage.get() * SConfig.SERVER.global_damage.get())
+                .add(Attributes.MAX_HEALTH, SConfig.SERVER.braurei_hp.get() * SConfig.SERVER.global_health.get())
+                .add(Attributes.ARMOR, SConfig.SERVER.braurei_armor.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.FOLLOW_RANGE, 20)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1);
 
     }
 
     public int getColor(){
-        return 12738912;
+        return this.entityData.get(COLOR);
+    }
+
+    @Override
+    protected void registerGoals() {
+        this.addTargettingGoals();
+        this.goalSelector.addGoal(3,new ScatterShotRangedGoal(this,0,80,20,1,2));
+        this.goalSelector.addGoal(4,new RandomLookAroundGoal(this));
+        super.registerGoals();
+    }
+    private List<Potion> getPotion(){
+        List<Potion> values = new ArrayList<>();
+        values.add(Spotion.MARKER_POTION.get());
+        values.add(Spotion.MYCELIUM_POTION.get());
+        values.add(Spotion.CORROSION_POTION_STRONG.get());
+        values.add(Potions.WEAKNESS);
+        values.add(Potions.STRONG_POISON);
+        return values;
+    }
+
+    @Override
+    public void performRangedAttack(LivingEntity entity, float p_33318_) {
+        Vec3 vec3 = entity.getDeltaMovement();
+        double d0 = entity.getX() + vec3.x - this.getX();
+        double d1 = entity.getEyeY() - (double)1.1F - this.getY();
+        double d2 = entity.getZ() + vec3.z - this.getZ();
+        double d3 = Math.sqrt(d0 * d0 + d2 * d2);
+        ThrownPotion thrownpotion = new ThrownPotion(this.level(), this);
+        thrownpotion.setItem(PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), getPotion().get(this.random.nextInt(getPotion().size()))));
+        thrownpotion.setXRot(thrownpotion.getXRot() - -20.0F);
+        thrownpotion.shoot(d0, d1 + d3 * 0.2D, d2, 0.75F, 8.0F);
+        if (!this.isSilent()) {
+            this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.WITCH_THROW, this.getSoundSource(), 1.0F, 0.8F + this.random.nextFloat() * 0.4F);
+        }
+        this.level().addFreshEntity(thrownpotion);
     }
 }

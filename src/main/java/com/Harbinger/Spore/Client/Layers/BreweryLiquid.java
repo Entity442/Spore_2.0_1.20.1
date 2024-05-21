@@ -24,7 +24,7 @@ public class BreweryLiquid<T extends Brauerei> extends RenderLayer<T, BraureiMod
 
     @Override
     public void render(PoseStack stack, MultiBufferSource bufferSource, int value, T type, float v1, float v2, float v3, float v4, float v5, float v6) {
-        if (!type.isInvisible() || type.getColor() == 0){
+        if (!type.isInvisible() && type.getColor() != 0){
             int i = type.getColor();
             float r = (float) (i >> 16 & 255) / 255.0F;
             float g = (float) (i >> 8 & 255) / 255.0F;

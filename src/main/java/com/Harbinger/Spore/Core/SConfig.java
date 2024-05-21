@@ -115,6 +115,11 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> umarmed_armor;
         public final ForgeConfigSpec.ConfigValue<Double> umarmed_damage;
 
+        public final ForgeConfigSpec.ConfigValue<Double> braurei_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> braurei_armor;
+        public final ForgeConfigSpec.ConfigValue<Double> braurei_damage;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> braurei_buffs;
+
         public final ForgeConfigSpec.ConfigValue<Double> inf_evo_hp;
         public final ForgeConfigSpec.ConfigValue<Double> inf_evo_damage;
         public final ForgeConfigSpec.ConfigValue<Double> inf_evo_armor;
@@ -544,6 +549,14 @@ public class SConfig {
             this.umarmed_hp = builder.comment("Default 70").defineInRange("Sets Umarmer Max health", 70, 1, Double.MAX_VALUE);
             this.umarmed_damage = builder.comment("Default 8").defineInRange("Sets Umarmer Damage", 8, 1, Double.MAX_VALUE);
             this.umarmed_armor = builder.comment("Default 6").defineInRange("Sets Umarmer Armor", 6, 1, Double.MAX_VALUE);
+            builder.pop();
+
+            builder.push("Braurei");
+            this.braurei_hp = builder.comment("Default 80").defineInRange("Sets Braurei Max health", 80, 1, Double.MAX_VALUE);
+            this.braurei_damage = builder.comment("Default 4").defineInRange("Sets Braurei Damage", 4, 1, Double.MAX_VALUE);
+            this.braurei_armor = builder.comment("Default 6").defineInRange("Sets Braurei Armor", 6, 1, Double.MAX_VALUE);
+            this.braurei_buffs = builder.defineList("Braurei buffs",
+                    Lists.newArrayList("minecraft:speed" , "minecraft:strength","minecraft:resistance","minecraft:fire_resistance","minecraft:regeneration") , o -> o instanceof String);
             builder.pop();
 
             builder.push("Usurper");

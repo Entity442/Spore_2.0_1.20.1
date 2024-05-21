@@ -168,6 +168,7 @@
   "item.spore.plagued_spawnegg": "Чумной",
   "item.spore.wendigo_spawnegg": "Вендиго",
   "item.spore.illusion_spawnegg": "Галлюцинация",
+  "item.spore.braurei_spawnegg": "Браурей",
 
 
 
@@ -216,7 +217,7 @@
   "entity.spore.wendigo": "Вендиго",
   "entity.spore.wave": "волна",
   "entity.spore.illusion": "Галлюцинация",
-
+  "entity.spore.braurei": "Браурей",
 
   "entity.spore.thrown_tumor": "Опухоль",
   "entity.spore.thrown_spear": "Заражённое копьё",

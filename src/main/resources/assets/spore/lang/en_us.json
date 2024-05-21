@@ -179,6 +179,7 @@
   "item.spore.hinden_spawnegg": "Hindenburg",
   "item.spore.plagued_spawnegg": "Plagued",
   "item.spore.illusion_spawnegg": "Hallucination",
+  "item.spore.braurei_spawnegg": "Braurei",
 
 
   "item.spore.scent_spawnegg": "Scent",
@@ -227,6 +228,7 @@
   "entity.spore.plagued": "Plagued",
   "entity.spore.wave": "Wave",
   "entity.spore.illusion": "Hallucination",
+  "entity.spore.braurei": "Braurei",
 
 
   "entity.spore.thrown_tumor": "Tumor",

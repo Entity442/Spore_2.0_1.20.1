@@ -180,6 +180,9 @@ public class Sitems {
     public  static final RegistryObject<Item> USURPER_SPAWNEGG = ITEMS.register("usurper_spawnegg",
             () -> new SporeSpawnEgg(Sentities.USURPER,-432208, new Item.Properties()));
 
+    public  static final RegistryObject<Item> BRAUREI_SPAWNEGG = ITEMS.register("braurei_spawnegg",
+            () -> new SporeSpawnEgg(Sentities.BRAUREI,-745723, new Item.Properties()));
+
     public  static final RegistryObject<Item> RECONSTRUCTOR_SPAWNEGG = ITEMS.register("reconstructor_spawnegg",
             () -> new SporeSpawnEgg(Sentities.RECONSTRUCTOR,-2353208, new Item.Properties()));
 
