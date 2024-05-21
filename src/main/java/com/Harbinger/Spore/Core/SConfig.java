@@ -608,10 +608,10 @@ public class SConfig {
             this.hinden_damage = builder.comment("Default 400").defineInRange("Sets HindenBurg Danage", 15, 1, Double.MAX_VALUE);
             this.hinden_armor = builder.comment("Default 5").defineInRange("Sets HindenBurg Armor", 5, 1, Double.MAX_VALUE);
             this.hinden_dpsr = builder.comment("Default 40").defineInRange("Sets HindenBurg Damage Cap , set to 0 to disable", 40, 1, Double.MAX_VALUE);
-            this.hinden_buffs = builder.comment("Default values: minecraft:jump_boost|600|0 ,minecraft:slow_falling|600|0 ,minecraft:resistance|600|1").defineList("Sieger buffs",
+            this.hinden_buffs = builder.comment("Default values: minecraft:jump_boost|600|0 ,minecraft:slow_falling|600|0 ,minecraft:resistance|600|1").defineList("HindenBurg buffs",
                     Lists.newArrayList("minecraft:jump_boost|600|0" , "minecraft:slow_falling|600|0","minecraft:resistance|600|1") , o -> o instanceof String);
 
-            this.hinden_debuffs = builder.comment("Default values: minecraft:nausea|600|1 ,spore:mycelium|600|1 ,minecraft:slowness|600|1").defineList("Sieger debuffs",
+            this.hinden_debuffs = builder.comment("Default values: minecraft:nausea|600|1 ,spore:mycelium|600|1 ,minecraft:slowness|600|1").defineList("HindenBurg debuffs",
                     Lists.newArrayList("minecraft:nausea|600|1" , "spore:mycelium_ef|600|1","minecraft:slowness|600|1") , o -> o instanceof String);
 
             this.hinden_explosive_effects = builder.comment("Default values: minecraft:wither ,spore:mycelium ,minecraft:weakness,minecraft:poison,spore:corrosion,minecraft:blindness").defineList("Sieger explosion ranged effects",
@@ -625,10 +625,10 @@ public class SConfig {
             this.gazen_dpsr = builder.comment("Default 100").defineInRange("Sets GazenBreacher Damage Cap , set to 0 to disable", 100, 1, Double.MAX_VALUE);
              this.gazen_ranged_damage = builder.comment("Default 10").defineInRange("Sets GazenBreacher bile damage", 10, 1, Double.MAX_VALUE);
 
-            this.gazen_buffs = builder.comment("Default values: minecraft:speed|600|0 ,minecraft:conduit_power|600|0 ,minecraft:resistance|600|1").defineList("Sieger buffs",
+            this.gazen_buffs = builder.comment("Default values: minecraft:speed|600|0 ,minecraft:conduit_power|600|0 ,minecraft:resistance|600|1").defineList("GazenBreacher buffs",
                     Lists.newArrayList("minecraft:speed|600|0" , "minecraft:conduit_power|600|0","minecraft:resistance|600|1") , o -> o instanceof String);
 
-            this.gazen_debuffs = builder.comment("Default values: minecraft:darkness|600|0 ,spore:mycelium|600|1 ,minecraft:hunger|600|1").defineList("Sieger debuffs",
+            this.gazen_debuffs = builder.comment("Default values: minecraft:darkness|600|0 ,spore:mycelium|600|1 ,minecraft:hunger|600|1").defineList("GazenBreacher debuffs",
                     Lists.newArrayList("minecraft:darkness|600|0" , "spore:mycelium_ef|600|1","minecraft:hunger|600|1") , o -> o instanceof String);
 
             builder.pop();

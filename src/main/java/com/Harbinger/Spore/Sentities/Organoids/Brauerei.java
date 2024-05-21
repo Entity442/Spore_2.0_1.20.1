@@ -179,7 +179,7 @@ public class Brauerei extends Organoid implements RangedAttackMob {
     @Override
     protected void registerGoals() {
         this.addTargettingGoals();
-        this.goalSelector.addGoal(3,new ScatterShotRangedGoal(this,0,80,20,1,2));
+        this.goalSelector.addGoal(3,new ScatterShotRangedGoal(this,0,80,20,1,3));
         this.goalSelector.addGoal(4,new RandomLookAroundGoal(this));
         super.registerGoals();
     }
