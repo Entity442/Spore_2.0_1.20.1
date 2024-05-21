@@ -179,7 +179,7 @@ public class InfectionTendril extends UtilityEntity {
                   teleport();
                 }
                 if (!this.onGround() && this.horizontalCollision && this.verticalCollision){
-                    teleportAround();
+                    teleport();
                 }
         }
     }
@@ -203,24 +203,13 @@ public class InfectionTendril extends UtilityEntity {
 
     protected boolean teleport() {
         if (!this.level().isClientSide() && this.isAlive()) {
-            double d0 = this.getSearchArea().getX() + (double)(this.random.nextInt(8));
+            double d0 = this.getSearchArea().getX() + (double)(this.random.nextInt(-8,8));
             double d1 = this.getSearchArea().getY();
-            double d2 = this.getSearchArea().getZ() + (double)(this.random.nextInt(8));
+            double d2 = this.getSearchArea().getZ() + (double)(this.random.nextInt(-8,8));
             this.Spread(this,this.level(),1.2);
             return this.randomTeleport(d0, d1, d2,false);
         } else {
             return false;
-        }
-    }
-
-    private void teleportAround(){
-        if (!this.level().isClientSide && this.isAlive()){
-            int x = (int) Math.abs(Math.abs(this.getSearchArea().getX()) + Math.abs(this.getX()));
-            int z = (int) Math.abs(Math.abs(this.getSearchArea().getZ()) + Math.abs(this.getZ()));
-            int randomX = this.random.nextInt(-x,x);
-            int randomZ = this.random.nextInt(-z,z);
-            this.Spread(this,this.level(),1.2);
-            this.randomTeleport(randomX, this.getSearchArea().getY(), randomZ,false);
         }
     }
 
