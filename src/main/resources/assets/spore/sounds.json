@@ -19,6 +19,12 @@
       "spore:growl2"
     ]
   },
+  "braurei_ambient" :{
+    "subtitle": "sounds.spore.braurei_ambient",
+    "sounds": [
+      "spore:braurei_ambient"
+    ]
+  },
   "madness" :{
     "subtitle": "sounds.spore.proto_ambient",
     "sounds": [

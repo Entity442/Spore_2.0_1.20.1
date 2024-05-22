@@ -305,6 +305,8 @@
   "sounds.spore.vigil_ambient": "Vigil breathing",
   "sounds.spore.record": "Playing Corrupted Record",
   "sounds.spore.spore_area_ambient": "Strange Silence",
+  "sounds.spore.braurei_ambient": "Braurei Cooking",
+
 
   "item.line.shift": "A nutrient soup made out of animal matter.",
   "item.line.normal": "Press shift for more info.",

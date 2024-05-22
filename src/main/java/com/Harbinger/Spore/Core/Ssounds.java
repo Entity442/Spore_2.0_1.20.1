@@ -48,6 +48,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> HINDEN_AMBIENT = soundRegistry("hinden_ambient");
 
+    public static final RegistryObject<SoundEvent> BRAUREI_AMBIENT = soundRegistry("braurei_ambient");
+
     public static final RegistryObject<SoundEvent> HINDEN_NUKE = soundRegistry("hinden_nuke");
 
     public static final RegistryObject<SoundEvent> SONAR = soundRegistry("sonar");
