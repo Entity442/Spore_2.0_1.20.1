@@ -499,7 +499,7 @@ public class Proto extends Organoid implements CasingGenerator {
     public void loadChunks(){
         if (SConfig.SERVER.proto_chunk.get() && this.level() instanceof ServerLevel serverLevel) {
             BlockPos pos = new BlockPos(this.getBlockX(),this.getBlockY(),this.getBlockZ());
-            ChunkLoaderHelper.forceLoadChunksInRadius(serverLevel, pos, this.level().getChunk(pos).getPos().x, this.level().getChunk(pos).getPos().z, 3);
+            ChunkLoaderHelper.forceLoadChunk(serverLevel, pos, this.level().getChunk(pos).getPos().x, this.level().getChunk(pos).getPos().z, true);
         }
     }
 

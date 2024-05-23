@@ -508,13 +508,26 @@ public class HandlerEvents {
                 }
             }
         }
+        if (event.getEntity() instanceof Proto proto && proto.level() instanceof ServerLevel level && SConfig.SERVER.proto_chunk.get()){
+            SectionPos OldChunk = event.getOldPos();
+            SectionPos NewChunk = event.getNewPos();
+            if (event.didChunkChange() && OldChunk != NewChunk){
+                BlockPos position = new BlockPos((int)proto.getX(),(int)proto.getY(),(int)proto.getZ());
+                if (NewChunk != null){
+                    ChunkLoaderHelper.forceLoadChunk(level,position, NewChunk.x(), NewChunk.z(), true);
+                }
+                if (OldChunk != null){
+                    ChunkLoaderHelper.unloadChunk(level,position,OldChunk.x(), OldChunk.z(), true);
+                }
+            }
+        }
     }
     @SubscribeEvent
     public static void UnloadAround(EntityLeaveLevelEvent event){
         if (event.getEntity() instanceof Calamity calamity && calamity.level() instanceof ServerLevel level){
             BlockPos position = new BlockPos((int)calamity.getX(),(int)calamity.getY(),(int)calamity.getZ());
             SectionPos chunk = SectionPos.of(position);
-            ChunkLoaderHelper.unloadChunksInRadius(level,position, chunk.x(), chunk.z(), 1);
+            ChunkLoaderHelper.unloadChunk(level,position, chunk.x(), chunk.z(), true);
         }
     }
     @SubscribeEvent
