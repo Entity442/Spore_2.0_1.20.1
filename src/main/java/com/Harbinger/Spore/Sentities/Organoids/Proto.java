@@ -157,7 +157,7 @@ public class Proto extends Organoid implements CasingGenerator {
 
     protected void giveMadness(Proto proto){
         AABB aabb = proto.getBoundingBox().inflate(128);
-        List<Entity> entities = this.level().getEntities(this, aabb , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
+        List<Entity> entities = this.level().getEntities(this, aabb);
         for (Entity entity : entities){
             if (entity instanceof LivingEntity living && (SConfig.SERVER.proto_sapient_target.get().contains(living.getEncodeId()) || living instanceof Player)){
                 living.addEffect(new MobEffectInstance(Seffects.MADNESS.get(),6000,0));
