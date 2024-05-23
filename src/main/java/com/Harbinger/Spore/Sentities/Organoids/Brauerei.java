@@ -195,7 +195,13 @@ public class Brauerei extends Organoid implements RangedAttackMob {
         values.add(Potions.STRONG_POISON);
         return values;
     }
-
+    @Override
+    public boolean hurt(DamageSource source, float value) {
+        if (this.isEmerging()){
+            return false;
+        }
+        return super.hurt(source, value);
+    }
     @Override
     public void performRangedAttack(LivingEntity entity, float p_33318_) {
         Vec3 vec3 = entity.getDeltaMovement();
