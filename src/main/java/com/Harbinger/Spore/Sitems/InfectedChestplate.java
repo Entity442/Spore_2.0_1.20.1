@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class InfectedChestplate extends InfectedExoskeleton implements CustomModelArmor{
+public class InfectedChestplate extends InfectedExoskeleton{
     public InfectedChestplate() {
         super(Type.CHESTPLATE, new Item.Properties());
     }
@@ -81,16 +81,6 @@ public class InfectedChestplate extends InfectedExoskeleton implements CustomMod
             player.setDeltaMovement(climbVec.x * 0.91D,
                     climbVec.y * 0.98D, climbVec.z * 0.91D);
         }
-    }
-
-    @Override
-    public EntityModel<LivingEntity> getModel() {
-        return new LivingChestplateModel<>();
-    }
-
-    @Override
-    public ResourceLocation getCustomArmorTexture() {
-        return new ResourceLocation(Spore.MODID,"textures/armor/infected_wing.png");
     }
 
 }

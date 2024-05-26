@@ -1,16 +1,15 @@
 package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Client.Models.WingedChestplate;
-import com.Harbinger.Spore.Core.*;
-import com.Harbinger.Spore.Spore;
+import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Seffects;
+import com.Harbinger.Spore.Core.Sitems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -104,7 +103,7 @@ public class UpgradedInfectedExoskeleton extends ArmorItem {
         }
     }
 
-    public static  class InfectedUpChestplate extends UpgradedInfectedExoskeleton implements CustomModelArmor{
+    public static  class InfectedUpChestplate extends UpgradedInfectedExoskeleton{
         @Override
         public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
             return "spore:textures/armor/infected_wing.png";
@@ -197,16 +196,6 @@ public class UpgradedInfectedExoskeleton extends ArmorItem {
                 components.add(Component.translatable("item.armor.normal").withStyle(ChatFormatting.GOLD));
             }
             super.appendHoverText(itemStack, level, components, tooltipFlag);
-        }
-
-        @Override
-        public EntityModel<LivingEntity> getModel() {
-            return new WingedChestplate<>();
-        }
-
-        @Override
-        public ResourceLocation getCustomArmorTexture() {
-            return new ResourceLocation(Spore.MODID,"textures/armor/infected_wing.png");
         }
 
     }

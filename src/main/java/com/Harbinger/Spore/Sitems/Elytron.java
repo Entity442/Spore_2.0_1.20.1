@@ -73,7 +73,7 @@ public class Elytron extends ArmorItem {
     }
 
 
-    public static  class InfectedElytron extends Elytron implements CustomModelArmor{
+    public static  class InfectedElytron extends Elytron{
         @Override
         public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
             return "spore:textures/armor/empty.png";
@@ -122,16 +122,6 @@ public class Elytron extends ArmorItem {
         @Nullable
         public SoundEvent getEquipSound() {
             return SoundEvents.ARMOR_EQUIP_ELYTRA;
-        }
-
-        @Override
-        public EntityModel<LivingEntity> getModel() {
-            return new ElytrumModel<>();
-        }
-
-        @Override
-        public ResourceLocation getCustomArmorTexture() {
-            return new ResourceLocation(Spore.MODID,"textures/armor/elytron.png");
         }
 
     }
