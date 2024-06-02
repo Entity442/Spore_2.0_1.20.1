@@ -49,7 +49,7 @@ public class InfectedParkourGoal extends Goal {
     public boolean canUse() {
         if (this.mob.onGround() && mob.getLinked()) {
             Path path = this.mob.getNavigation().getPath();
-            return this.mob.getNavigation().isInProgress() && path != null && !path.canReach() && (this.mob.level().getGameTime() - tryAgainTime > 100L);
+            return this.mob.getNavigation().isInProgress() && path != null && !path.canReach() && (this.mob.level().getGameTime() - tryAgainTime > 20L);
         } else {
             return false;
         }
