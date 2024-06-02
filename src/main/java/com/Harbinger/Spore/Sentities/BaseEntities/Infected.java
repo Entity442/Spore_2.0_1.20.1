@@ -6,10 +6,7 @@ import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.AI.HurtTargetGoal;
 import com.Harbinger.Spore.Sentities.AI.InfectedConsumeFromRemains;
 import com.Harbinger.Spore.Sentities.AI.InfectedPanicGoal;
-import com.Harbinger.Spore.Sentities.AI.LocHiv.BufferAI;
-import com.Harbinger.Spore.Sentities.AI.LocHiv.FollowOthersGoal;
-import com.Harbinger.Spore.Sentities.AI.LocHiv.LocalTargettingGoal;
-import com.Harbinger.Spore.Sentities.AI.LocHiv.SearchAreaGoal;
+import com.Harbinger.Spore.Sentities.AI.LocHiv.*;
 import com.Harbinger.Spore.Sentities.EvolvingInfected;
 import com.Harbinger.Spore.Sentities.Projectile.AcidBall;
 import com.Harbinger.Spore.Sentities.Projectile.Vomit;
@@ -207,6 +204,7 @@ public class Infected extends Monster{
     }
 
     protected void addRegularGoals(){
+        this.goalSelector.addGoal(0,new InfectedParkourGoal(this));
         this.goalSelector.addGoal(3,new LocalTargettingGoal(this));
         this.goalSelector.addGoal(4 , new BufferAI(this ));
         this.goalSelector.addGoal(4, new SearchAreaGoal(this, 1.2));

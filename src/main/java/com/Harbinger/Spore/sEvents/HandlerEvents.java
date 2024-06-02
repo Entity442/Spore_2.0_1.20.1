@@ -43,6 +43,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Snowball;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -52,14 +53,14 @@ import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.client.event.MovementInputUpdateEvent;
 import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.*;
 import net.minecraftforge.event.entity.EntityEvent;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
-import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
@@ -558,6 +559,17 @@ public class HandlerEvents {
         }
     }
 
+    @SubscribeEvent
+    public static void onProjectileImpact(ProjectileImpactEvent event) {
+        if (event.getProjectile() instanceof Snowball) {
+            if (event.getRayTraceResult().getType() == HitResult.Type.ENTITY) {
+                Entity entity = ((EntityHitResult) event.getRayTraceResult()).getEntity();
+                if (entity instanceof LivingEntity living) {
+                    if (living.canFreeze()) living.setTicksFrozen(living.getTicksFrozen() + 100);
+                }
+            }
+        }
+    }
 
     @SubscribeEvent
     public static void NoSleep(PlayerSleepInBedEvent event){

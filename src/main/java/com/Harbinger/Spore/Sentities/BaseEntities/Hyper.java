@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.BufferAI;
+import com.Harbinger.Spore.Sentities.AI.LocHiv.InfectedParkourGoal;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.LocalTargettingGoal;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.SearchAreaGoal;
 import net.minecraft.core.BlockPos;
@@ -44,6 +45,7 @@ public class Hyper extends Infected{
 
     @Override
     protected void addRegularGoals() {
+        this.goalSelector.addGoal(0,new InfectedParkourGoal(this));
         this.goalSelector.addGoal(3,new LocalTargettingGoal(this));
         this.goalSelector.addGoal(4,new GoBackToTheNest(this));
         this.goalSelector.addGoal(4, new SearchAreaGoal(this, 1.2));
