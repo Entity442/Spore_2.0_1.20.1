@@ -1,7 +1,6 @@
 package com.Harbinger.Spore.Sentities.AI.LocHiv;
 
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
-import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,14 +12,11 @@ import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
-import java.util.Collections;
 import java.util.EnumSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.BiPredicate;
 
 public class InfectedParkourGoal extends Goal {
-    private static final List<Integer> ALLOWED_ANGLES = Lists.newArrayList( 60,70, 75, 80,85);
     protected final float maxJumpVelocity;
     private final Infected mob;
     private final BiPredicate<Mob, BlockPos> acceptableLandingSpot = InfectedParkourGoal::defaultAcceptableLandingSpot;
@@ -49,7 +45,7 @@ public class InfectedParkourGoal extends Goal {
     public boolean canUse() {
         if (this.mob.onGround() && mob.getLinked()) {
             Path path = this.mob.getNavigation().getPath();
-            return this.mob.getNavigation().isInProgress() && path != null && !path.canReach() && (this.mob.level().getGameTime() - tryAgainTime > 20L);
+            return this.mob.getNavigation().isInProgress() && path != null && !path.canReach() && (this.mob.level().getGameTime() - tryAgainTime > 30L);
         } else {
             return false;
         }
@@ -135,7 +131,7 @@ public class InfectedParkourGoal extends Goal {
             BlockPos jumpPos = pEntity.blockPosition().closerThan(pos, 3.0D) ? pos : block;
             if (this.isAcceptableLandingPosition(pEntity, jumpPos)) {
                 Vec3 vec3 = Vec3.atCenterOf(jumpPos);
-                Vec3 vec31 = this.calculateOptimalJumpVector(pEntity, vec3);
+                Vec3 vec31 = this.calculateJumpVector(pEntity, vec3);
                 if (vec31 != null) {
                     this.lookAt(vec3, 30.0F, 30.0F);
                     this.mob.setYBodyRot(this.mob.yHeadRot);
@@ -159,51 +155,15 @@ public class InfectedParkourGoal extends Goal {
         return (i != pPos.getX() || j != pPos.getZ()) && this.acceptableLandingSpot.test(pEntity, pPos);
     }
 
-    @Nullable
-    protected Vec3 calculateOptimalJumpVector(Mob pMob, Vec3 pTarget) {
-        List<Integer> list = Lists.newArrayList(ALLOWED_ANGLES);
-        Collections.shuffle(list);
-
-        for (int i : list) {
-            Vec3 vec3 = this.calculateJumpVectorForAngle(pMob, pTarget, i);
-            if (vec3 != null) {
-                return vec3;
-            }
-        }
-
-        return null;
-    }
 
     @Nullable
-    private Vec3 calculateJumpVectorForAngle(Mob pMob, Vec3 pTarget, int pAngle) {
-        Vec3 vec3 = pMob.position();
-        Vec3 vec31 = (new Vec3(pTarget.x - vec3.x, 0.0D, pTarget.z - vec3.z)).normalize().scale(0.5D);
-        pTarget = pTarget.subtract(vec31);
-        Vec3 vec32 = pTarget.subtract(vec3);
-        float f = (float) pAngle * (float) Math.PI / 180.0F;
-        double d0 = Math.atan2(vec32.z, vec32.x);
-        double d1 = vec32.subtract(0.0D, vec32.y, 0.0D).lengthSqr();
-        double d2 = Math.sqrt(d1);
-        double d3 = vec32.y;
-        double d4 = Math.sin(2.0F * f);
-        double d6 = Math.pow(Math.cos(f), 2.0D);
-        double d7 = Math.sin(f);
-        double d8 = Math.cos(f);
-        double d9 = Math.sin(d0);
-        double d10 = Math.cos(d0);
-        double d11 = d1 * 0.08D / (d2 * d4 - 2.0D * d3 * d6);
-        if (d11 < 0.0D) {
-            return null;
-        } else {
-            double d12 = Math.sqrt(d11);
-            if (d12 > (double) this.maxJumpVelocity) {
-                return null;
-            } else {
-                double d13 = d12 * d8;
-                double d14 = d12 * d7;
-                return (new Vec3(d13 * d10, d14, d13 * d9)).scale(0.95F);
-            }
+    private Vec3 calculateJumpVector(Mob pMob, Vec3 pTarget) {
+        Vec3 vec3 = this.mob.getDeltaMovement();
+        Vec3 vec31 = new Vec3(pTarget.x() - pMob.getX(), maxJumpVelocity, pTarget.z() - pMob.getZ());
+        if (vec31.lengthSqr() > 1.0E-7D) {
+            vec31 = vec31.normalize().scale(0.5D).add(vec3.scale(1.5D));
         }
+        return vec31;
     }
 
     private void leapTowards(LivingEntity entity, Vec3 target, double horzVel, double yVel) {
