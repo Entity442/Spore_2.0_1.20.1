@@ -33,40 +33,52 @@ public interface CasingGenerator {
         boolean properzx4 = level.getBlockState(blockpos.west()).isSolidRender(level,blockpos);
         return propery1 || propery2 || properzx1 || properzx2 || properzx3 || properzx4;
     }
-    default void generateChasing(BlockPos pos,Entity entity, int range){
-        List<BlockState> possibleBlock = new ArrayList<>();
-        possibleBlock.add(Sblocks.BIOMASS_BLOCK.get().defaultBlockState());
-        possibleBlock.add(Sblocks.BIOMASS_BLOCK.get().defaultBlockState());
-        possibleBlock.add(Sblocks.ROOTED_BIOMASS.get().defaultBlockState());
-        possibleBlock.add(Sblocks.CALCIFIED_BIOMASS_BLOCK.get().defaultBlockState());
-        possibleBlock.add(Sblocks.SICKEN_BIOMASS_BLOCK.get().defaultBlockState());
-        possibleBlock.add(Sblocks.MEMBRANE_BLOCK.get().defaultBlockState());
+
+    default List<BlockState> possibleBlocks(){
+        List<BlockState> values = new ArrayList<>();
+        values.add(Sblocks.BIOMASS_BLOCK.get().defaultBlockState());
+        values.add(Sblocks.BIOMASS_BLOCK.get().defaultBlockState());
+        values.add(Sblocks.ROOTED_BIOMASS.get().defaultBlockState());
+        values.add(Sblocks.CALCIFIED_BIOMASS_BLOCK.get().defaultBlockState());
+        values.add(Sblocks.SICKEN_BIOMASS_BLOCK.get().defaultBlockState());
+        values.add(Sblocks.MEMBRANE_BLOCK.get().defaultBlockState());
+        return values;
+    }
+    default void generateChasing(BlockPos pos,Entity entity, int radius){
         Level level = entity.level();
         RandomSource randomSource = RandomSource.create();
-
-        AABB boxInner = AABB.ofSize(new Vec3(pos.getX()-1, pos.getY(), pos.getZ()-1), range-1, range-1, range-1);
-        AABB aabb = AABB.ofSize(new Vec3(pos.getX(), pos.getY(), pos.getZ()), range, range, range);
-        for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
-            if (!boxInner.contains(blockpos.getX()-1,blockpos.getY(),blockpos.getZ()-1)){
-                BlockState blockstate = level.getBlockState(blockpos);
-                if (Math.random() < 0.05 && !blockstate.isSolidRender(level,blockpos) && compare(level,blockpos)){
-                    if (!level.isClientSide){
-                        level.setBlock(blockpos,possibleBlock.get(randomSource.nextInt(possibleBlock.size())),3);
-                    }
-                }
-                if (Math.random() < 0.05 && blockstate.isSolidRender(level,blockpos)){
-                    for (String str : SConfig.DATAGEN.block_infection.get()){
-                        String[] string = str.split("\\|" );
-                        ItemStack stack = new ItemStack(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(string[0])));
-                        if (stack != ItemStack.EMPTY && blockstate.getBlock().asItem() == stack.getItem()){
-                            ItemStack itemStack = new ItemStack(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(string[1])));
-                            if (itemStack != ItemStack.EMPTY && itemStack.getItem() instanceof BlockItem blockItem){
-                                level.setBlock(blockpos,blockItem.getBlock().defaultBlockState(),3);
+        for(int i = 0; i <= 2*radius; ++i) {
+            for(int j = 0; j <= 2*radius; ++j) {
+                for(int k = 0; k <= 2*radius; ++k) {
+                    double distance = Mth.sqrt((i-radius)*(i-radius) + (j-radius)*(j-radius) + (k-radius)*(k-radius));
+                    if (Math.abs(i) != 2 || Math.abs(j) != 2 || Math.abs(k) != 2) {
+                        if (distance>radius-0.5 && distance<radius+0.5){
+                            BlockPos blockpos = pos.offset(i-radius,j-radius,k-radius);
+                            BlockState blockstate = level.getBlockState(blockpos);
+                            if (Math.random() < 0.1 && !blockstate.isSolidRender(level,blockpos) && compare(level,blockpos)){
+                                if (!level.isClientSide){
+                                    level.setBlock(blockpos,this.possibleBlocks().get(randomSource.nextInt(this.possibleBlocks().size())),3);
+                                }
+                            }
+                            if (Math.random() < 0.05 && blockstate.isSolidRender(level,blockpos)){
+                                for (String str : SConfig.DATAGEN.block_infection.get()){
+                                    String[] string = str.split("\\|" );
+                                    ItemStack stack = new ItemStack(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(string[0])));
+                                    if (stack != ItemStack.EMPTY && blockstate.getBlock().asItem() == stack.getItem()){
+                                        ItemStack itemStack = new ItemStack(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(string[1])));
+                                        if (itemStack != ItemStack.EMPTY && itemStack.getItem() instanceof BlockItem blockItem){
+                                            level.setBlock(blockpos,blockItem.getBlock().defaultBlockState(),3);
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
                 }
             }
         }
+
+
+
     }
 }
