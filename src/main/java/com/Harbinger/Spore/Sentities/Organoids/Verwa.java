@@ -1,13 +1,16 @@
 package com.Harbinger.Spore.Sentities.Organoids;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
+import com.Harbinger.Spore.Sentities.EvolvedInfected.Knight;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -15,11 +18,16 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import javax.annotation.Nullable;
 
 public class Verwa extends Organoid {
     public static final EntityDataAccessor<String> STORED_MOB = SynchedEntityData.defineId(Verwa.class, EntityDataSerializers.STRING);
     private static final EntityDataAccessor<Integer> TIMER = SynchedEntityData.defineId(Verwa.class, EntityDataSerializers.INT);
+    public AnimationState burst = new AnimationState();
+    private int burstTimeout = 0;
     public Verwa(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
     }
@@ -50,11 +58,14 @@ public class Verwa extends Organoid {
         if (entityType != null){
             return entityType.create(this.level());
         }
-        return null;
+        return new Knight(Sentities.KNIGHT.get(),this.level());
     }
     public void TickTimer(){
         this.entityData.set(TIMER,this.entityData.get(TIMER) +1);
-        if (this.entityData.get(TIMER) > 60){
+        if (this.entityData.get(TIMER) > 40 && this.level().isClientSide){
+            this.ClientAnimation();
+        }
+        if (this.entityData.get(TIMER) > 80){
             this.entityData.set(TIMER ,-1);
             SummonStoredEntity();
             this.tickBurrowing();
@@ -71,6 +82,14 @@ public class Verwa extends Organoid {
         }
         entity.moveTo(this.getX(),this.getY(),this.getZ());
         this.level().addFreshEntity(entity);
+    }
+    public void ClientAnimation(){
+        if (this.burstTimeout <= 0) {
+            this.burstTimeout = 40;
+            this.burst.start(this.tickCount);
+        } else {
+            --this.burstTimeout;
+        }
     }
 
     @Override
@@ -116,5 +135,12 @@ public class Verwa extends Organoid {
                 .add(Attributes.FOLLOW_RANGE, 16)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1);
 
+    }
+
+    @Nullable
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance p_33283_, MobSpawnType p_33284_, @Nullable SpawnGroupData p_33285_, @Nullable CompoundTag p_33286_) {
+        int i = SConfig.SERVER.inf_summon.get().size();
+        this.entityData.set(STORED_MOB,SConfig.SERVER.inf_summon.get().get(this.random.nextInt(i)));
+        return super.finalizeSpawn(serverLevelAccessor, p_33283_, p_33284_, p_33285_, p_33286_);
     }
 }

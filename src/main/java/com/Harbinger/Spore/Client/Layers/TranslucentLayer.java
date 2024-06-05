@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 
-public abstract class TranslucentLayer<T extends LivingEntity, B extends EntityModel<T>> extends RenderLayer<T, EntityModel<T>> {
+public abstract class TranslucentLayer<T extends LivingEntity> extends RenderLayer<T, EntityModel<T>> {
     public TranslucentLayer(RenderLayerParent<T, EntityModel<T>> p_117346_) {
         super(p_117346_);
     }

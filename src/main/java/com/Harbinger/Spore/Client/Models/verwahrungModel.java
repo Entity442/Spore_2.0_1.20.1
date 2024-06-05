@@ -3,18 +3,21 @@ package com.Harbinger.Spore.Client.Models;// Made with Blockbench 4.10.2
 // Paste this class into your mod and generate all required imports
 
 
+import com.Harbinger.Spore.Client.Animations.VerwaAnimations;
 import com.Harbinger.Spore.Sentities.Organoids.Verwa;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 
-public class verwahrungModel<T extends Verwa> extends EntityModel<T> {
+public class verwahrungModel<T extends Verwa> extends HierarchicalModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "verwahrung"), "main");
 	private final ModelPart SporePod;
@@ -228,11 +231,30 @@ public class verwahrungModel<T extends Verwa> extends EntityModel<T> {
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		this.root().getAllParts().forEach(ModelPart::resetPose);
+		this.ScaleModel(entity,this.SporePod);
+		this.animate(entity.burst, VerwaAnimations.BURST, ageInTicks, 1.0F);
+	}
 
+
+	private void ScaleModel(T type,ModelPart part){
+		Entity entity = type.getStoredEntity();
+		if (entity.getBbWidth()>type.getBbWidth() || entity.getBbHeight()>type.getBbHeight()){
+			float w =entity.getBbWidth();
+			float h =entity.getBbHeight();
+			part.xScale =w-0.3f;
+			part.yScale =h-0.3f;
+			part.zScale =w-0.3f;
+		}
 	}
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		SporePod.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+	}
+
+	@Override
+	public ModelPart root() {
+		return this.SporePod;
 	}
 }
