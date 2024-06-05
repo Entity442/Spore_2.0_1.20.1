@@ -239,12 +239,14 @@ public class verwahrungModel<T extends Verwa> extends HierarchicalModel<T> {
 
 	private void ScaleModel(T type,ModelPart part){
 		Entity entity = type.getStoredEntity();
-		if (entity.getBbWidth()>type.getBbWidth() || entity.getBbHeight()>type.getBbHeight()){
+		if (entity.getBbWidth()>type.getBbWidth()){
 			float w =entity.getBbWidth();
-			float h =entity.getBbHeight();
 			part.xScale =w-0.3f;
-			part.yScale =h-0.3f;
 			part.zScale =w-0.3f;
+		}
+		if (entity.getBbHeight()>type.getBbHeight()) {
+			float h =entity.getBbHeight();
+			part.yScale =h-0.3f;
 		}
 	}
 
