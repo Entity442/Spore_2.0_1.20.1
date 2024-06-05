@@ -110,6 +110,8 @@ public class Verwa extends Organoid {
     public boolean hurt(DamageSource source, float p_21017_) {
         if (this.isEmerging()){
             return false;
+        }else{
+            tickBurrowing();
         }
         return super.hurt(source, p_21017_);
     }

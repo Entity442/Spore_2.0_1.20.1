@@ -682,7 +682,7 @@ public class SConfig {
                     Lists.newArrayList("minecraft:villager","minecraft:pillager","guardvillagers:guard","minecraft:evoker","minecraft:vindicator",
                             "recruits:recruit","recruits:bowman","recruits:recruit_shieldman", "recruits:nomad","recruits:horseman","roamers:roamer") , o -> o instanceof String);
             this.proto_summonable_troops = builder.defineList("Mobs that the proto can summon to defend itself",
-                    Lists.newArrayList("spore:mound","spore:vigil","spore:umarmed","spore:usurper","spore:braurei") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mound","spore:vigil","spore:umarmed","spore:usurper","spore:braurei","spore:verva") , o -> o instanceof String);
 
             builder.pop();
 

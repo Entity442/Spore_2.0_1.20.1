@@ -169,7 +169,7 @@
   "item.spore.wendigo_spawnegg": "Вендиго",
   "item.spore.illusion_spawnegg": "Галлюцинация",
   "item.spore.braurei_spawnegg": "Браурей",
-
+  "item.spore.verva_spawnegg": "Верварунг",
 
 
   "item.spore.scent_spawnegg": "Споры",
@@ -218,6 +218,7 @@
   "entity.spore.wave": "волна",
   "entity.spore.illusion": "Галлюцинация",
   "entity.spore.braurei": "Браурей",
+  "entity.spore.verva": "Верварунг",
 
   "entity.spore.thrown_tumor": "Опухоль",
   "entity.spore.thrown_spear": "Заражённое копьё",
