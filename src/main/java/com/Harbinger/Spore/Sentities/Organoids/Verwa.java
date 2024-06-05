@@ -12,6 +12,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -75,7 +76,12 @@ public class Verwa extends Organoid {
     public void SummonStoredEntity(){
         Entity entity = this.getStoredEntity();
         if (entity instanceof LivingEntity living){
-            living.addEffect(new MobEffectInstance(MobEffects.REGENERATION,100,1));
+            for (String string : SConfig.SERVER.verwa_effect.get()){
+                MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(string));
+                if (effect != null){
+                    living.addEffect(new MobEffectInstance(effect,600,1));
+                }
+            }
             if (living instanceof Infected infected){
                 infected.setLinked(true);
             }
@@ -130,17 +136,17 @@ public class Verwa extends Organoid {
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, SConfig.SERVER.reconstructor_hp.get() * SConfig.SERVER.global_health.get())
-                .add(Attributes.ARMOR, SConfig.SERVER.reconstructor_armor.get() * SConfig.SERVER.global_armor.get())
-                .add(Attributes.FOLLOW_RANGE, 16)
+                .add(Attributes.MAX_HEALTH, SConfig.SERVER.verwa_hp.get() * SConfig.SERVER.global_health.get())
+                .add(Attributes.ARMOR, SConfig.SERVER.verwa_armor.get() * SConfig.SERVER.global_armor.get())
+                .add(Attributes.FOLLOW_RANGE, 8)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1);
 
     }
 
     @Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance p_33283_, MobSpawnType p_33284_, @Nullable SpawnGroupData p_33285_, @Nullable CompoundTag p_33286_) {
-        int i = SConfig.SERVER.inf_summon.get().size();
-        this.entityData.set(STORED_MOB,SConfig.SERVER.inf_summon.get().get(this.random.nextInt(i)));
+        int i = SConfig.SERVER.verwa_summons.get().size();
+        this.entityData.set(STORED_MOB,SConfig.SERVER.verwa_summons.get().get(this.random.nextInt(i)));
         return super.finalizeSpawn(serverLevelAccessor, p_33283_, p_33284_, p_33285_, p_33286_);
     }
 }
