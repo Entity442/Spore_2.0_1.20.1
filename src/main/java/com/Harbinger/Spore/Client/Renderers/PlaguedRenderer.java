@@ -19,7 +19,7 @@ public class PlaguedRenderer<Type extends Plagued> extends BaseInfectedRenderer<
 
     public PlaguedRenderer(EntityRendererProvider.Context context) {
         super(context, new PlaguedModel<>(context.bakeLayer(PlaguedModel.LAYER_LOCATION)), 0.5f);
-        this.addLayer(new PlaguedSiringeLayer<>(this));
+        this.addLayer(new PlaguedSiringeLayer(this));
     }
 
 

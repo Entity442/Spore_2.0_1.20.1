@@ -202,6 +202,10 @@ public class Sentities {
             () -> EntityType.Builder.of(BiomassReformator::new, INFECTED).sized(1f, 1f)
                     .build(new ResourceLocation(Spore.MODID, "reconstructor").toString()));
 
+    public static final RegistryObject<EntityType<Verwa>> VERVA = SPORE_ENTITIES.register("verva",
+            () -> EntityType.Builder.of(Verwa::new, INFECTED).sized(1f, 2.2f)
+                    .build(new ResourceLocation(Spore.MODID, "verva").toString()));
+
     public static final RegistryObject<EntityType<Usurper>> USURPER = SPORE_ENTITIES.register("usurper",
             () -> EntityType.Builder.of(Usurper::new, INFECTED).sized(1f, 2.2f)
                     .build(new ResourceLocation(Spore.MODID, "usurper").toString()));

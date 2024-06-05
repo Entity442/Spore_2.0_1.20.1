@@ -14,7 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
-public class ProtoMembraneLayer extends RenderLayer<Proto, EntityModel<Proto>> {
+public class ProtoMembraneLayer extends TranslucentLayer<Proto, EntityModel<Proto>> {
     private static final ResourceLocation SYRINGE = new ResourceLocation(Spore.MODID,
             "textures/entity/eyes/proto_membrane.png");
 
@@ -24,13 +24,13 @@ public class ProtoMembraneLayer extends RenderLayer<Proto, EntityModel<Proto>> {
 
 
     @Override
-    public void render(PoseStack stack, MultiBufferSource bufferSource, int value, Proto type, float v1, float v2, float v3, float v4, float v5, float v6) {
-        if (!type.isInvisible() && !type.isNunny()){
-            VertexConsumer vertexconsumer = bufferSource.getBuffer(RenderType.entityTranslucent(SYRINGE));
-            this.getParentModel().prepareMobModel(type, v1, v2, v3);
-            this.getParentModel().setupAnim(type, v1, v2, v4, v5, v6);
-            this.getParentModel().renderToBuffer(stack, vertexconsumer, value, LivingEntityRenderer.getOverlayCoords(type, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
-        }
+    public ResourceLocation getTexture(Proto type) {
+        return SYRINGE;
     }
 
+    @Override
+    public void render(PoseStack stack, MultiBufferSource bufferSource, int value, Proto type, float v1, float v2, float v3, float v4, float v5, float v6) {
+        if (!type.isNunny())
+        super.render(stack, bufferSource, value, type, v1, v2, v3, v4, v5, v6);
+    }
 }

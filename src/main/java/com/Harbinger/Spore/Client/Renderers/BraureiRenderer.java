@@ -20,7 +20,7 @@ public class BraureiRenderer<Type extends Brauerei> extends OrganoidMobRenderer<
     public BraureiRenderer(EntityRendererProvider.Context context) {
         super(context, new BraureiModel<>(context.bakeLayer(BraureiModel.LAYER_LOCATION)), 3f);
         this.addLayer(new BreweryLiquid<>(this));
-        this.addLayer(new BreweryBottle<>(this));
+        this.addLayer(new BreweryBottle(this));
     }
 
 
