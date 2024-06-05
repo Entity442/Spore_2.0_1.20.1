@@ -8,22 +8,30 @@ import com.Harbinger.Spore.Sentities.Organoids.Verwa;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 
 public class verwahrungModel<T extends Verwa> extends HierarchicalModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "verwahrung"), "main");
 	private final ModelPart SporePod;
+	private final ModelPart BaseTumor;
+	private final ModelPart Petals;
+	private final ModelPart TopJaw;
+	private final ModelPart BottomJaw;
 
 	public verwahrungModel(ModelPart root) {
 		this.SporePod = root.getChild("SporePod");
+		this.BaseTumor = SporePod.getChild("TumorBase");
+		this.Petals = SporePod.getChild("Base").getChild("Petals");
+		this.TopJaw = SporePod.getChild("Base").getChild("Jaw").getChild("TopJawJoint");
+		this.BottomJaw = SporePod.getChild("Base").getChild("Jaw").getChild("BottomJawJoint");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -229,11 +237,22 @@ public class verwahrungModel<T extends Verwa> extends HierarchicalModel<T> {
 		return LayerDefinition.create(meshdefinition, 256, 256);
 	}
 
+	private void animateTumor(ModelPart part,float value){
+		part.xScale = 1 + Mth.cos(value/7)/7;
+		part.yScale = 1 + Mth.cos(value/7)/7;
+		part.zScale = 1 + Mth.cos(value/7)/7;
+	}
+
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		this.ScaleModel(entity,this.SporePod);
 		this.animate(entity.burst, VerwaAnimations.BURST, ageInTicks, 1.0F);
+		this.animateTumor(this.BaseTumor,ageInTicks);
+		this.Petals.xRot = Mth.cos(ageInTicks/10)/10;
+		this.Petals.zRot = Mth.cos(ageInTicks/10)/10;
+		this.TopJaw.xRot = Mth.cos(ageInTicks/7)/7;
+		this.BottomJaw.xRot = -this.TopJaw.xRot;
 	}
 
 

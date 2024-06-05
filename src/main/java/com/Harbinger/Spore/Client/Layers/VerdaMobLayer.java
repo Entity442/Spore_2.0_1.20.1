@@ -36,7 +36,7 @@ public class VerdaMobLayer<T extends Verwa> extends RenderLayer<T, verwahrungMod
             if (entityRenderer.getRenderer(entity) instanceof MobRenderer renderer){
                 EntityModel model = renderer.getModel();
                 ResourceLocation texture = renderer.getTextureLocation(entity);
-                VertexConsumer consumer = source.getBuffer(RenderType.entityCutout(texture));
+                VertexConsumer consumer = source.getBuffer(RenderType.entityCutoutNoCull(texture));
                 model.prepareMobModel(entity, 0, 0, value2);
                 model.setupAnim(entity, 0, 0, f7, 0, 0);
                 model.renderToBuffer(stack,consumer,value3, OverlayTexture.NO_OVERLAY,1,1,1,1);
