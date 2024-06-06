@@ -45,6 +45,9 @@ public interface CasingGenerator {
         return values;
     }
     default void generateChasing(BlockPos pos,Entity entity, int radius){
+        this.generateChasing(pos,entity,radius,1);
+    }
+    default void generateChasing(BlockPos pos,Entity entity, int radius,int thickness){
         Level level = entity.level();
         RandomSource randomSource = RandomSource.create();
         for(int i = 0; i <= 2*radius; ++i) {
@@ -52,7 +55,7 @@ public interface CasingGenerator {
                 for(int k = 0; k <= 2*radius; ++k) {
                     double distance = Mth.sqrt((i-radius)*(i-radius) + (j-radius)*(j-radius) + (k-radius)*(k-radius));
                     if (Math.abs(i) != 2 || Math.abs(j) != 2 || Math.abs(k) != 2) {
-                        if (distance>radius-0.5 && distance<radius+0.5){
+                        if (distance>radius-(thickness/2d) && distance<radius+(thickness/2d)){
                             BlockPos blockpos = pos.offset(i-radius,j-radius,k-radius);
                             BlockState blockstate = level.getBlockState(blockpos);
                             if (Math.random() < 0.1 && !blockstate.isSolidRender(level,blockpos) && compare(level,blockpos)){

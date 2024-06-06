@@ -105,7 +105,7 @@ public class Proto extends Organoid implements CasingGenerator {
                     this.entityData.set(NODE,this.getOnPos());
                 }
             }else{
-                this.generateChasing(entityData.get(NODE),this,32);
+                this.generateChasing(entityData.get(NODE),this,32,2);
                 this.generateChasing(entityData.get(NODE),this,16);
             }
         }
