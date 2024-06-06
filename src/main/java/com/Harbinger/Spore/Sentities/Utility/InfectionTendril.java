@@ -48,6 +48,10 @@ public class InfectionTendril extends UtilityEntity {
         this.navigation = new WallClimberNavigation(this,level);
     }
 
+    @Override
+    public boolean removeWhenFarAway(double p_21542_) {
+        return false;
+    }
 
     public int getLife() {
         return this.entityData.get(LIFE);
