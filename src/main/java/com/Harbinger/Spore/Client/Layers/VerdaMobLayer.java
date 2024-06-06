@@ -22,13 +22,9 @@ public class VerdaMobLayer<T extends Verwa> extends RenderLayer<T, verwahrungMod
         super(context);
         this.entityRenderer = entityRenderer;
     }
-    protected float getBob(T p_115305_, float p_115306_) {
-        return (float)p_115305_.tickCount + p_115306_;
-    }
     @Override
     public void render(PoseStack stack, MultiBufferSource source, int value3, T type, float p_117353_, float value2, float asf, float p_117356_, float p_117357_, float p_117358_) {
         Entity entity = type.getStoredEntity();
-        float f7 = this.getBob(type, value2);
         if (!type.isBurrowing() && entity != null){
             stack.pushPose();
             stack.mulPose(Axis.YP.rotationDegrees(-type.yBodyRot));
@@ -38,7 +34,7 @@ public class VerdaMobLayer<T extends Verwa> extends RenderLayer<T, verwahrungMod
                 ResourceLocation texture = renderer.getTextureLocation(entity);
                 VertexConsumer consumer = source.getBuffer(RenderType.entityCutoutNoCull(texture));
                 model.prepareMobModel(entity, 0, 0, value2);
-                model.setupAnim(entity, 0, 0, f7, 0, 0);
+                model.setupAnim(entity, 0, 0, 0, 0, 0);
                 model.renderToBuffer(stack,consumer,value3, OverlayTexture.NO_OVERLAY,1,1,1,1);
             }
             stack.popPose();

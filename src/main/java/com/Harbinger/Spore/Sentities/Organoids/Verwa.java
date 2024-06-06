@@ -88,7 +88,7 @@ public class Verwa extends Organoid {
                 infected.setLinked(true);
             }
         }
-        entity.moveTo(this.getX(),this.getY(),this.getZ());
+        entity.moveTo(this.getX(),this.getY()+0.2,this.getZ());
         this.level().addFreshEntity(entity);
     }
     public void ClientAnimation(){
