@@ -265,7 +265,7 @@ public class verwahrungModel<T extends Verwa> extends HierarchicalModel<T> {
 		}
 		if (entity.getBbHeight()>type.getBbHeight()) {
 			float h =entity.getBbHeight();
-			part.yScale =h-0.3f;
+			part.yScale =h-1f;
 		}
 	}
 
