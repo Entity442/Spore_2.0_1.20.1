@@ -179,7 +179,13 @@ public class Mound extends Organoid {
 
         AABB aabb = entity.getBoundingBox().inflate(range);
         if (SConfig.SERVER.mound_foliage.get()){
-            for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+            for(int i = 0; i <= 2*range; ++i) {
+                for(int j = 0; j <= 2*range; ++j) {
+                    for(int k = 0; k <= 2*range; ++k) {
+                        double distance = Mth.sqrt((float) ((i-range)*(i-range) + (j-range)*(j-range) + (k-range)*(k-range)));
+                        if (Math.abs(i) != 2 || Math.abs(j) != 2 || Math.abs(k) != 2) {
+                            if (distance<range+(0.5)){
+                                BlockPos blockpos = this.getOnPos().offset( i-(int)range,j-(int)range,k-(int)range);
 
             BlockState nord = level.getBlockState(blockpos.north());
             BlockState south = level.getBlockState(blockpos.south());
@@ -285,7 +291,7 @@ public class Mound extends Organoid {
                     }
                 }
             }
-          }
+            }}}}}
         }else{
             for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
                 BlockState blockstate = level.getBlockState(blockpos);
