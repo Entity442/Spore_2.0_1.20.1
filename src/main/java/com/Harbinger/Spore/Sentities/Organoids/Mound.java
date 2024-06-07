@@ -218,7 +218,7 @@ public class Mound extends Organoid {
 
 
 
-            if (blockstate.is(BlockTags.create(new ResourceLocation("minecraft:logs"))) && blockstate.getDestroySpeed(level ,blockpos) < 5 && Math.random() < 0.3){
+            if (blockstate.is(BlockTags.LOGS) && blockstate.getDestroySpeed(level ,blockpos) < 5 && Math.random() < 0.3){
                 BlockState _bs = Sblocks.ROTTEN_LOG.get().defaultBlockState();
                 for (Map.Entry<Property<?>, Comparable<?>> entry : blockstate.getValues().entrySet()) {
                     Property _property = _bs.getBlock().getStateDefinition().getProperty(entry.getKey().getName());
@@ -230,7 +230,7 @@ public class Mound extends Organoid {
                 }
                 level.setBlock(blockpos, _bs, 3);
             }
-            if (blockstate.is(BlockTags.create(new ResourceLocation("minecraft:wooden_stairs"))) && blockstate.getDestroySpeed(level ,blockpos) < 5 && Math.random() < 0.3){
+            if (blockstate.is(BlockTags.STAIRS) && blockstate.getDestroySpeed(level ,blockpos) < 5 && Math.random() < 0.3){
                     BlockState _bs = Sblocks.ROTTEN_STAIR.get().defaultBlockState();
                     for (Map.Entry<Property<?>, Comparable<?>> entry : blockstate.getValues().entrySet()) {
                         Property _property = _bs.getBlock().getStateDefinition().getProperty(entry.getKey().getName());
@@ -242,7 +242,7 @@ public class Mound extends Organoid {
                     }
                     level.setBlock(blockpos, _bs, 3);
             }
-            if (blockstate.is(BlockTags.create(new ResourceLocation("minecraft:planks"))) && blockstate.getDestroySpeed(level ,blockpos) < 5 && Math.random() < 0.3){
+            if (blockstate.is(BlockTags.PLANKS) && blockstate.getDestroySpeed(level ,blockpos) < 5 && Math.random() < 0.3){
                     BlockState _bs = Sblocks.ROTTEN_PLANKS.get().defaultBlockState();
                     level.setBlock(blockpos, _bs, 3);
             }
