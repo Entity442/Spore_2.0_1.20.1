@@ -253,7 +253,7 @@ public class Infected extends Monster{
 
         if ((this.horizontalCollision || additionalBreakingTriggers()) && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
             boolean flag = false;
-            AABB aabb = this.getBoundingBox().inflate(0.2D);
+            AABB aabb = this.getBoundingBox().inflate(0.2D).move(0,0.5,0);
             for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
                 BlockState blockstate = this.level().getBlockState(blockpos);
                 if (blockBreakingParameter(blockstate,blockpos)) {
