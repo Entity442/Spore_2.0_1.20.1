@@ -274,7 +274,7 @@ public class Infected extends Monster{
     }
 
     public boolean blockBreakingParameter(BlockState blockstate,BlockPos blockpos){
-        return (blockstate.getBlock() instanceof AbstractGlassBlock || blockstate.getBlock() instanceof LeavesBlock || biomass().contains(blockstate)) && blockstate.getDestroySpeed(level() ,blockpos) >= 0 && blockstate.getDestroySpeed(level() ,blockpos) < 2;
+        return (blockstate.getBlock() instanceof AbstractGlassBlock || blockstate.getBlock() instanceof LeavesBlock) && blockstate.getDestroySpeed(level() ,blockpos) >= 0 && blockstate.getDestroySpeed(level() ,blockpos) < 2;
     }
     protected List<BlockState> biomass(){
         List<BlockState> states = new ArrayList<>();
