@@ -63,16 +63,6 @@ public class Hyper extends Infected{
         float value = blockstate.getDestroySpeed(this.level(),blockpos);
         return this.tickCount % 20 == 0 && value > 0 && value <= getBreaking();
     }
-    protected List<BlockState> biomass(){
-        List<BlockState> states = new ArrayList<>();
-        states.add(Sblocks.BIOMASS_BLOCK.get().defaultBlockState());
-        states.add(Sblocks.SICKEN_BIOMASS_BLOCK.get().defaultBlockState());
-        states.add(Sblocks.CALCIFIED_BIOMASS_BLOCK.get().defaultBlockState());
-        states.add(Sblocks.MEMBRANE_BLOCK.get().defaultBlockState());
-        states.add(Sblocks.ROOTED_BIOMASS.get().defaultBlockState());
-        states.add(Sblocks.ROOTED_MYCELIUM.get().defaultBlockState());
-        return states;
-    }
     @Override
     protected boolean canRide(Entity entity) {
         if (entity instanceof Infected || entity instanceof UtilityEntity){
@@ -100,14 +90,6 @@ public class Hyper extends Infected{
         return 25;
     }
 
-    @Override
-    public boolean interactBlock(BlockPos blockPos, Level level) {
-        BlockState state = level.getBlockState(blockPos);
-        if (biomass().contains(state)){
-            return level.setBlock(blockPos, Sblocks.MEMBRANE_BLOCK.get().defaultBlockState(), 3);
-        }
-        return super.interactBlock(blockPos, level);
-    }
     public int getBreaking(){
         return SConfig.SERVER.experiment_bd.get();
     }
