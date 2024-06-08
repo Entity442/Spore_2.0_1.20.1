@@ -1,7 +1,9 @@
 package com.Harbinger.Spore.Sblocks;
 
+import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
@@ -45,6 +47,11 @@ public class WallFolliage extends Block implements SimpleWaterloggedBlock {
             default:
                 return EAST_AABB;
         }
+    }
+
+    @Override
+    public boolean isLadder(BlockState state, LevelReader level, BlockPos pos, LivingEntity entity) {
+        return entity instanceof Infected;
     }
 
     private boolean canAttachTo(BlockGetter p_54349_, BlockPos p_54350_, Direction p_54351_) {
