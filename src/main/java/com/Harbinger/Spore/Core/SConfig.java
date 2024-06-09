@@ -19,6 +19,7 @@ public class SConfig {
     public static class Server {
 
         public final ForgeConfigSpec.ConfigValue<Double> global_damage;
+        public final ForgeConfigSpec.ConfigValue<Integer> proto_spawn_world_mod;
         public final ForgeConfigSpec.ConfigValue<Double> global_health;
         public final ForgeConfigSpec.ConfigValue<Double> global_armor;
         public final ForgeConfigSpec.ConfigValue<Integer> hunger;
@@ -399,6 +400,7 @@ public class SConfig {
             builder.pop();
 
             builder.push("Global Variables");
+            this.proto_spawn_world_mod = builder.define("The amount of needed Hiveminds for the world to change",3);
             this.global_damage = builder.define("Global Damage Modifier",1.0);
             this.global_health = builder.define("Global Health Modifier",1.0);
             this.global_armor = builder.define("Global Armor Modifier",1.0);

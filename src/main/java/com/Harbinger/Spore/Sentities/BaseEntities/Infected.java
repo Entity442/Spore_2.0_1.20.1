@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sentities.BaseEntities;
 
 import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Damage.SdamageTypes;
+import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
 import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.AI.HurtTargetGoal;
 import com.Harbinger.Spore.Sentities.AI.InfectedConsumeFromRemains;
@@ -24,6 +25,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -436,5 +438,22 @@ public class Infected extends Monster{
         }
         super.die(source);
     }
-
+    @org.jetbrains.annotations.Nullable
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_21434_, DifficultyInstance p_21435_, MobSpawnType p_21436_, @org.jetbrains.annotations.Nullable SpawnGroupData p_21437_, @org.jetbrains.annotations.Nullable CompoundTag p_21438_) {
+        setDefaultLinkage(level());
+        return super.finalizeSpawn(p_21434_, p_21435_, p_21436_, p_21437_, p_21438_);
+    }
+    public void setDefaultLinkage(Level level){
+        if (level instanceof ServerLevel serverLevel){
+            SporeSavedData data = SporeSavedData.getDataLocation(serverLevel);
+            if (data != null && data.getAmountOfHiveminds() > SConfig.SERVER.proto_spawn_world_mod.get()){
+                this.setLinked(true);
+                if (Math.random() < 0.3 && this instanceof EvolvingInfected){
+                    this.setEvoPoints(SConfig.SERVER.min_kills.get());
+                    this.setEvolution(SConfig.SERVER.evolution_age_human.get());
+                }
+            }
+        }
+    }
 }

@@ -35,7 +35,7 @@ public class SporeSavedData extends SavedData {
     }
     public static SporeSavedData load(CompoundTag tag){
         SporeSavedData data = new SporeSavedData();
-        if (tag.contains("number_hiveminds")){
+        if (tag.contains("number_hiveminds",99)){
             data.amountOfHiveminds = tag.getInt("number_hiveminds");
         }
         return data;
