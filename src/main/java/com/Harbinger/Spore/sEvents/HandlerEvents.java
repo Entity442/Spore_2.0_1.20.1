@@ -3,6 +3,7 @@ package com.Harbinger.Spore.sEvents;
 import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
+import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
 import com.Harbinger.Spore.SBlockEntities.BrainRemnantBlockEntity;
 import com.Harbinger.Spore.SBlockEntities.CDUBlockEntity;
 import com.Harbinger.Spore.SBlockEntities.LivingStructureBlocks;
@@ -79,6 +80,9 @@ public class HandlerEvents {
     @SubscribeEvent
     public static void onLivingSpawned(EntityJoinLevelEvent event) {
         if (event != null && event.getEntity() != null) {
+            if (event.getEntity() instanceof Proto && event.getLevel() instanceof ServerLevel serverLevel){
+                SporeSavedData.addHivemind(serverLevel);
+            }
             if (event.getEntity() instanceof PathfinderMob mob){
 
             for (String string : SConfig.SERVER.attack.get()){
@@ -181,6 +185,17 @@ public class HandlerEvents {
                                 mound.setAge(mound.getAge()+1);
                             }
                         }
+                    }
+                    return 0;
+                }));
+        event.getDispatcher().register(Commands.literal(Spore.MODID+":get_data")
+                .executes(arguments -> {
+                    ServerLevel world = arguments.getSource().getLevel();
+                    Entity entity = arguments.getSource().getEntity();
+                    if (entity instanceof Player player){
+                        SporeSavedData data = SporeSavedData.getDataLocation(world);
+                        int numberofprotos = data.getAmountOfHiveminds();
+                        player.displayClientMessage(Component.literal("There are "+numberofprotos + " proto hiveminds in this dimension"),false);
                     }
                     return 0;
                 }));
@@ -556,6 +571,13 @@ public class HandlerEvents {
                     event.setResult(Event.Result.DENY);
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void DiscardProto(EntityLeaveLevelEvent event){
+        if (event.getEntity() instanceof Proto && event.getLevel() instanceof ServerLevel level){
+            SporeSavedData.removeHivemind(level);
         }
     }
 
