@@ -395,8 +395,15 @@ public class Infected extends Monster{
 
     public static boolean checkMonsterInfectedRules(EntityType<? extends Infected> p_219014_, ServerLevelAccessor levelAccessor, MobSpawnType p_219016_, BlockPos pos, RandomSource source) {
         if (levelAccessor.getDifficulty() != Difficulty.PEACEFUL){
-            if (SConfig.SERVER.spawn.get()){
-                return levelAccessor.dayTime() < (24000L * SConfig.SERVER.days.get());
+            if (SConfig.SERVER.spawn.get() && levelAccessor instanceof ServerLevel serverLevel){
+                SporeSavedData data = SporeSavedData.getDataLocation(serverLevel);
+                if (data != null){
+                    int e = data.getMinutesBeforeSpawning();
+                    int i = 1200 * SConfig.SERVER.days.get();
+                    if (e >= i){
+                        return isDarkEnoughToSpawn(levelAccessor, pos, source) && checkMobSpawnRules(p_219014_, levelAccessor, p_219016_, pos, source);
+                    }
+                }
             }else if (SConfig.SERVER.daytime_spawn.get()){
                 return checkMobSpawnRules(p_219014_, levelAccessor, p_219016_, pos, source);
             }else

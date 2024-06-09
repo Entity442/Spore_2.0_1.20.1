@@ -67,6 +67,7 @@ import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -194,11 +195,22 @@ public class HandlerEvents {
                     Entity entity = arguments.getSource().getEntity();
                     if (entity instanceof Player player){
                         SporeSavedData data = SporeSavedData.getDataLocation(world);
+                        int time = data.getMinutesBeforeSpawning();
                         int numberofprotos = data.getAmountOfHiveminds();
                         player.displayClientMessage(Component.literal("There are "+numberofprotos + " proto hiveminds in this dimension"),false);
+                        if (SConfig.SERVER.spawn.get())
+                            player.displayClientMessage(Component.literal("Time before spawns "+time + "/"+1200*SConfig.SERVER.days.get()),false);
                     }
                     return 0;
                 }));
+        if (SConfig.SERVER.spawn.get()){
+            event.getDispatcher().register(Commands.literal(Spore.MODID+":add_day")
+                    .executes(arguments -> {
+                        ServerLevel world = arguments.getSource().getLevel();
+                        SporeSavedData.addDay(world);
+                        return 0;
+                    }));
+        }
         event.getDispatcher().register(Commands.literal(Spore.MODID+":check_entity")
                 .executes(arguments -> {
                     ServerLevel world = arguments.getSource().getLevel();
@@ -343,6 +355,18 @@ public class HandlerEvents {
                 }));
 
     }
+
+    @SubscribeEvent
+    public static void ServerCount(TickEvent.ServerTickEvent event){
+        if (SConfig.SERVER.spawn.get()){
+            ServerLevel level  = event.getServer().overworld();
+            SporeSavedData data = SporeSavedData.getDataLocation(level);
+            if (level.getDayTime() % 20 == 0 && data != null  && data.getMinutesBeforeSpawning()<(1200 * SConfig.SERVER.days.get())){
+                SporeSavedData.addTime(level);
+            }
+        }
+    }
+
     @SubscribeEvent
     public static void onEntityDeath(LivingDeathEvent event) {
         if (event != null && event.getEntity() != null && event.getEntity().level().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
@@ -374,6 +398,10 @@ public class HandlerEvents {
                         event.getEntity().level().addFreshEntity(item);}}
             }
         }
+    }
+    @SubscribeEvent
+    public static void Start(ServerStartedEvent event){
+        SporeSavedData.StartupData(event.getServer().overworld());
     }
 
     @SubscribeEvent
