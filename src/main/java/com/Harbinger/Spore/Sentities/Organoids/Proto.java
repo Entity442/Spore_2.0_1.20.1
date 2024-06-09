@@ -497,15 +497,8 @@ public class Proto extends Organoid implements CasingGenerator {
     @Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance p_33283_, MobSpawnType p_33284_, @Nullable SpawnGroupData p_33285_, @Nullable CompoundTag p_33286_) {
         this.loadChunks();
-        addProto(level());
         this.entityData.set(NODE,this.getOnPos());
         return super.finalizeSpawn(serverLevelAccessor, p_33283_, p_33284_, p_33285_, p_33286_);
-    }
-
-    public void addProto(Level level){
-        if (level instanceof ServerLevel serverLevel){
-            SporeSavedData.addHivemind(serverLevel);
-        }
     }
 
     public void loadChunks(){

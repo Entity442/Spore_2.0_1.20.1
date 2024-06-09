@@ -43,9 +43,7 @@ public class SporeSavedData extends SavedData {
 
     @Override
     public @NotNull CompoundTag save(@NotNull CompoundTag tag) {
-        if (amountOfHiveminds > 0){
-            tag.putInt("number_hiveminds",amountOfHiveminds);
-        }
+        tag.putInt("number_hiveminds",amountOfHiveminds);
         return tag;
     }
 
