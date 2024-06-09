@@ -447,7 +447,7 @@ public class Infected extends Monster{
     public void setDefaultLinkage(Level level){
         if (level instanceof ServerLevel serverLevel){
             SporeSavedData data = SporeSavedData.getDataLocation(serverLevel);
-            if (data != null && data.getAmountOfHiveminds() > SConfig.SERVER.proto_spawn_world_mod.get()){
+            if (data != null && data.getAmountOfHiveminds() >= SConfig.SERVER.proto_spawn_world_mod.get()){
                 this.setLinked(true);
                 if (Math.random() < 0.3 && this instanceof EvolvingInfected){
                     this.setEvoPoints(SConfig.SERVER.min_kills.get());
