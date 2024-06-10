@@ -50,6 +50,7 @@ public class Spore
         Spotion.register(modEventBus);
         Sparticles.register(modEventBus);
         Ssounds.register(modEventBus);
+        Sfeatures.register(modEventBus);
         ScreativeTab.register(modEventBus);
         SMenu.register(modEventBus);
         SblockEntities.register(modEventBus);
