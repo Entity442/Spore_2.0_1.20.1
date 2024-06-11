@@ -82,6 +82,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(SantaModel.LAYER_LOCATION, SantaModel::createBodyLayer);
         event.registerLayerDefinition(TumoralNukeModel.LAYER_LOCATION, TumoralNukeModel::createBodyLayer);
         event.registerLayerDefinition(WendigoModel.LAYER_LOCATION, WendigoModel::createBodyLayer);
+        event.registerLayerDefinition(InquisitorModel.LAYER_LOCATION, InquisitorModel::createBodyLayer);
         event.registerLayerDefinition(BulletModel.LAYER_LOCATION, BulletModel::createBodyLayer);
         event.registerLayerDefinition(PlaguedModel.LAYER_LOCATION, PlaguedModel::createBodyLayer);
         event.registerLayerDefinition(RangedBusserModel.LAYER_LOCATION, RangedBusserModel::createBodyLayer);
@@ -137,6 +138,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.TUMOROID_NUKE.get(), TumoroidNukeRenderer::new);
         event.registerEntityRenderer(Sentities.VERVA.get(), VervaRenderer::new);
         event.registerEntityRenderer(Sentities.WENDIGO.get(), WendigoRenderer::new);
+        event.registerEntityRenderer(Sentities.INQUISITOR.get(), InquisitorRenderer::new);
         event.registerEntityRenderer(Sentities.PLAGUED.get(), PlaguedRenderer::new);
         event.registerEntityRenderer(Sentities.WAVE.get(), WaveRenderer::new);
         event.registerEntityRenderer(Sentities.ILLUSION.get(), IllusionRenderer::new);
