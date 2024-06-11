@@ -79,7 +79,7 @@ public class Inquisitor extends Hyper {
             AttributeInstance armor = this.getAttribute(Attributes.ARMOR);
             AttributeInstance damage = this.getAttribute(Attributes.ATTACK_DAMAGE);
             if (armor != null && this.getHealth() < this.getMaxHealth()){
-                double new_armor = (this.getMaxHealth()-this.getHealth()) + (SConfig.SERVER.wendigo_armor.get() * SConfig.SERVER.global_armor.get());
+                double new_armor = (this.getMaxHealth()-this.getHealth())/2 + (SConfig.SERVER.wendigo_armor.get() * SConfig.SERVER.global_armor.get());
                 armor.setBaseValue(new_armor);
             }
             if (damage != null){
