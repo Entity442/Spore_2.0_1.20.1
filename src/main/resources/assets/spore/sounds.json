@@ -25,6 +25,12 @@
       "spore:braurei_ambient"
     ]
   },
+  "inquisitor_ambient" :{
+    "subtitle": "sounds.spore.inquisitor_ambient",
+    "sounds": [
+      "spore:inquisitor_ambient"
+    ]
+  },
   "madness" :{
     "subtitle": "sounds.spore.proto_ambient",
     "sounds": [

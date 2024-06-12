@@ -1,12 +1,15 @@
 package com.Harbinger.Spore.Sentities.Hyper;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Hyper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -86,7 +89,7 @@ public class Inquisitor extends Hyper {
             AttributeInstance armor = this.getAttribute(Attributes.ARMOR);
             AttributeInstance damage = this.getAttribute(Attributes.ATTACK_DAMAGE);
             if (armor != null && this.getHealth() < this.getMaxHealth()){
-                double new_armor = (this.getMaxHealth()-this.getHealth())/3 + (SConfig.SERVER.inquisitor_armor.get() * SConfig.SERVER.global_armor.get());
+                double new_armor = (this.getMaxHealth()-this.getHealth())/2 + (SConfig.SERVER.inquisitor_armor.get() * SConfig.SERVER.global_armor.get());
                 armor.setBaseValue(new_armor);
             }
             if (damage != null){
@@ -99,4 +102,19 @@ public class Inquisitor extends Hyper {
         }
     }
 
+    protected SoundEvent getAmbientSound() {
+        return Ssounds.INQUISITOR_AMBIENT.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource p_34327_) {
+        return Ssounds.INF_DAMAGE.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return Ssounds.INF_DAMAGE.get();
+    }
+
+    protected SoundEvent getStepSound() {
+        return SoundEvents.ZOMBIE_STEP;
+    }
 }
