@@ -241,7 +241,7 @@ public class InquisitorModel<T extends Inquisitor> extends EntityModel<T> {
 		this.RightForLeg.xRot = RightLeg.xRot < 0 ? -RightLeg.xRot : 0;
 		if (!(limbSwingAmount > -0.15F && limbSwingAmount < 0.15F)){
 			this.Arm.xRot = -0.5f +  Mth.cos(ageInTicks/6)/6;
-			this.ForArm.xRot = -0.5f +  Mth.cos(ageInTicks/8)/8;
+			this.ForArm.xRot = 0.5f +  Mth.cos(ageInTicks/8)/8;
 		}else{
 			this.Arm.xRot = Mth.cos(ageInTicks/8)/8;
 			this.ForArm.xRot = Arm.xRot < 0 ? -Arm.xRot : 0;
@@ -250,6 +250,10 @@ public class InquisitorModel<T extends Inquisitor> extends EntityModel<T> {
 			float f1 = 1.0F - Mth.abs(10 - 2 * entity.attackAnim) / 6.5F;
 			this.Arm.xRot =-0.5f + Mth.sin(f1) * 3.0F;
 		}
+		this.Claw1.zRot  = Mth.cos(ageInTicks/7)/8;
+		this.Claw2.zRot = Mth.sin(ageInTicks/7)/7;
+		this.Claw3.xRot = Mth.cos(ageInTicks/7)/6;
+		this.Claw4.xRot = -Mth.cos(ageInTicks/7)/6;
 	}
 
 	@Override

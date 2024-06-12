@@ -93,7 +93,7 @@ public class Hyper extends Infected{
     }
 
     public int getBreaking(){
-        return SConfig.SERVER.experiment_bd.get();
+        return SConfig.SERVER.hyper_bd.get();
     }
 
     @Override
