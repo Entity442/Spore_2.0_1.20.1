@@ -13,14 +13,35 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
 public class InquisitorModel<T extends Inquisitor> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "inquisitor"), "main");
 	private final ModelPart KnightHyper;
+	private final ModelPart RightLeg;
+	private final ModelPart LeftLeg;
+	private final ModelPart RightForLeg;
+	private final ModelPart LeftForLeg;
+	private final ModelPart Arm;
+	private final ModelPart ForArm;
+	private final ModelPart Claw1;
+	private final ModelPart Claw2;
+	private final ModelPart Claw3;
+	private final ModelPart Claw4;
 
 	public InquisitorModel(ModelPart root) {
 		this.KnightHyper = root.getChild("KnightHyper");
+		this.LeftLeg = KnightHyper.getChild("Legs").getChild("LeftLeg");
+		this.RightLeg = KnightHyper.getChild("Legs").getChild("RightLeg");
+		this.RightForLeg = RightLeg.getChild("RightLegSeg2");
+		this.LeftForLeg = LeftLeg.getChild("LeftLegSeg2");
+		this.Arm = KnightHyper.getChild("Torso").getChild("UpperTorso").getChild("RightArm");
+		this.ForArm = Arm.getChild("RightArmSeg2");
+		this.Claw1 = ForArm.getChild("RightArmClaw").getChild("Claw1");
+		this.Claw2 = ForArm.getChild("RightArmClaw").getChild("Claw2");
+		this.Claw3 = ForArm.getChild("RightArmClaw").getChild("Claw3");
+		this.Claw4 = ForArm.getChild("RightArmClaw").getChild("Claw4");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -110,13 +131,17 @@ public class InquisitorModel<T extends Inquisitor> extends EntityModel<T> {
 
 		PartDefinition RightArmClaw = RightArmSeg2.addOrReplaceChild("RightArmClaw", CubeListBuilder.create(), PartPose.offset(0.0F, 8.0F, 0.0F));
 
-		PartDefinition Claw4_r1 = RightArmClaw.addOrReplaceChild("Claw4_r1", CubeListBuilder.create().texOffs(44, 87).addBox(0.0F, -2.0F, -4.0F, 0.0F, 12.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, -2.0F, 2.25F, 0.3927F, 0.0F, 0.0873F));
+		PartDefinition Claw1 = RightArmClaw.addOrReplaceChild("Claw1", CubeListBuilder.create().texOffs(44, 93).addBox(-4.75F, -3.0F, 0.0F, 6.0F, 12.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -1.0F, 1.0F));
 
-		PartDefinition Claw3_r1 = RightArmClaw.addOrReplaceChild("Claw3_r1", CubeListBuilder.create().texOffs(44, 87).mirror().addBox(1.5F, -2.0F, -2.0F, 0.0F, 12.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(1.0F, -2.0F, -2.25F, -2.8362F, 0.0F, 3.1416F));
+		PartDefinition Claw2 = RightArmClaw.addOrReplaceChild("Claw2", CubeListBuilder.create().texOffs(44, 93).addBox(-5.25F, -2.5F, 0.0F, 6.0F, 12.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -1.0F, -1.0F));
 
-		PartDefinition Claw2_r1 = RightArmClaw.addOrReplaceChild("Claw2_r1", CubeListBuilder.create().texOffs(44, 93).addBox(-4.0F, -2.0F, 0.0F, 6.0F, 12.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.25F, -1.5F, -1.0F, 0.0F, 0.0F, 0.2618F));
+		PartDefinition Claw3 = RightArmClaw.addOrReplaceChild("Claw3", CubeListBuilder.create(), PartPose.offset(-1.0F, -2.0F, -1.0F));
 
-		PartDefinition Claw1_r1 = RightArmClaw.addOrReplaceChild("Claw1_r1", CubeListBuilder.create().texOffs(44, 93).addBox(-3.0F, -3.0F, 0.0F, 6.0F, 12.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.75F, -1.0F, 1.0F, 0.0F, 0.0F, -0.0873F));
+		PartDefinition Claw3_r1 = Claw3.addOrReplaceChild("Claw3_r1", CubeListBuilder.create().texOffs(44, 87).mirror().addBox(1.5F, -2.0F, -2.0F, 0.0F, 12.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(2.0F, 0.0F, -1.25F, -2.8362F, 0.0F, 3.1416F));
+
+		PartDefinition Claw4 = RightArmClaw.addOrReplaceChild("Claw4", CubeListBuilder.create(), PartPose.offset(1.0F, -2.0F, 0.0F));
+
+		PartDefinition Claw4_r1 = Claw4.addOrReplaceChild("Claw4_r1", CubeListBuilder.create().texOffs(44, 87).addBox(0.0F, -2.0F, -4.0F, 0.0F, 12.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 2.25F, 0.3927F, 0.0F, 0.0873F));
 
 		PartDefinition Head = UpperTorso.addOrReplaceChild("Head", CubeListBuilder.create().texOffs(0, 13).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.25F, -7.0F, 0.0F, 0.0F, 0.0F, 0.1745F));
 
@@ -210,7 +235,18 @@ public class InquisitorModel<T extends Inquisitor> extends EntityModel<T> {
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+		this.LeftLeg.xRot = Mth.cos(limbSwing * 0.8F) * 0.8F * limbSwingAmount;
+		this.RightLeg.xRot = Mth.cos(limbSwing * 0.8F) * -0.8F * limbSwingAmount;
+		this.LeftForLeg.xRot = LeftLeg.xRot < 0 ? -LeftLeg.xRot : 0;
+		this.RightForLeg.xRot = RightLeg.xRot < 0 ? -RightLeg.xRot : 0;
+		if (!(limbSwingAmount > -0.15F && limbSwingAmount < 0.15F)){
+			this.Arm.xRot = -0.5f +  Mth.cos(ageInTicks/6)/6;
+			this.ForArm.xRot = -0.5f +  Mth.cos(ageInTicks/8)/8;
+		}
+		if (entity.attackAnim > 0) {
+			float f1 = 1.0F - Mth.abs(10 - 2 * entity.attackAnim) / 6.5F;
+			this.Arm.xRot =-0.5f + Mth.sin(f1) * 3.0F;
+		}
 	}
 
 	@Override
