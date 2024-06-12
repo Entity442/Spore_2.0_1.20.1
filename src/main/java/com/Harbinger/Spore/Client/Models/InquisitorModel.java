@@ -242,6 +242,9 @@ public class InquisitorModel<T extends Inquisitor> extends EntityModel<T> {
 		if (!(limbSwingAmount > -0.15F && limbSwingAmount < 0.15F)){
 			this.Arm.xRot = -0.5f +  Mth.cos(ageInTicks/6)/6;
 			this.ForArm.xRot = -0.5f +  Mth.cos(ageInTicks/8)/8;
+		}else{
+			this.Arm.xRot = Mth.cos(ageInTicks/8)/8;
+			this.ForArm.xRot = Arm.xRot < 0 ? -Arm.xRot : 0;
 		}
 		if (entity.attackAnim > 0) {
 			float f1 = 1.0F - Mth.abs(10 - 2 * entity.attackAnim) / 6.5F;

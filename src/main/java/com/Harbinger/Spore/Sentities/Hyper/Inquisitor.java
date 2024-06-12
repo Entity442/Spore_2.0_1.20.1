@@ -20,10 +20,17 @@ import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 
+import java.util.List;
+
 public class Inquisitor extends Hyper {
    public static final EntityDataAccessor<Integer> DAMAGE_BONUS = SynchedEntityData.defineId(Inquisitor.class, EntityDataSerializers.INT);
     public Inquisitor(EntityType<? extends Monster> type, Level level) {
         super(type, level);
+    }
+
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.inquisitor_loot.get();
     }
 
     @Override
@@ -79,13 +86,13 @@ public class Inquisitor extends Hyper {
             AttributeInstance armor = this.getAttribute(Attributes.ARMOR);
             AttributeInstance damage = this.getAttribute(Attributes.ATTACK_DAMAGE);
             if (armor != null && this.getHealth() < this.getMaxHealth()){
-                double new_armor = (this.getMaxHealth()-this.getHealth())/2 + (SConfig.SERVER.inquisitor_armor.get() * SConfig.SERVER.global_armor.get());
+                double new_armor = (this.getMaxHealth()-this.getHealth())/3 + (SConfig.SERVER.inquisitor_armor.get() * SConfig.SERVER.global_armor.get());
                 armor.setBaseValue(new_armor);
             }
             if (damage != null){
                 double new_damage = (SConfig.SERVER.inquisitor_damage.get()*SConfig.SERVER.global_damage.get()) + (this.getBonusDamage()*0.5);
                 damage.setBaseValue(new_damage);
-                if (new_damage > (SConfig.SERVER.inquisitor_damage.get()*3*SConfig.SERVER.global_damage.get())){
+                if (new_damage > (SConfig.SERVER.inquisitor_damage.get()*2*SConfig.SERVER.global_damage.get())){
                     this.setBonusDamage(this.getBonusDamage()-1);
                 }
             }
