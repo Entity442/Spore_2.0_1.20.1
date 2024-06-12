@@ -63,9 +63,9 @@ public class Inquisitor extends Hyper {
     }
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, SConfig.SERVER.wendigo_hp.get() * SConfig.SERVER.global_health.get())
-                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.wendigo_damage.get() * SConfig.SERVER.global_damage.get())
-                .add(Attributes.ARMOR, SConfig.SERVER.wendigo_armor.get() * SConfig.SERVER.global_armor.get())
+                .add(Attributes.MAX_HEALTH, SConfig.SERVER.inquisitor_hp.get() * SConfig.SERVER.global_health.get())
+                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.inquisitor_damage.get() * SConfig.SERVER.global_damage.get())
+                .add(Attributes.ARMOR, SConfig.SERVER.inquisitor_armor.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.MOVEMENT_SPEED, 0.3)
                 .add(Attributes.FOLLOW_RANGE, 32)
                 .add(Attributes.ATTACK_KNOCKBACK, 1)
@@ -79,13 +79,13 @@ public class Inquisitor extends Hyper {
             AttributeInstance armor = this.getAttribute(Attributes.ARMOR);
             AttributeInstance damage = this.getAttribute(Attributes.ATTACK_DAMAGE);
             if (armor != null && this.getHealth() < this.getMaxHealth()){
-                double new_armor = (this.getMaxHealth()-this.getHealth())/2 + (SConfig.SERVER.wendigo_armor.get() * SConfig.SERVER.global_armor.get());
+                double new_armor = (this.getMaxHealth()-this.getHealth())/2 + (SConfig.SERVER.inquisitor_armor.get() * SConfig.SERVER.global_armor.get());
                 armor.setBaseValue(new_armor);
             }
             if (damage != null){
-                double new_damage = (SConfig.SERVER.wendigo_damage.get()*SConfig.SERVER.global_damage.get()) + (this.getBonusDamage()*0.5);
+                double new_damage = (SConfig.SERVER.inquisitor_damage.get()*SConfig.SERVER.global_damage.get()) + (this.getBonusDamage()*0.5);
                 damage.setBaseValue(new_damage);
-                if (new_damage > (SConfig.SERVER.wendigo_damage.get()*3*SConfig.SERVER.global_damage.get())){
+                if (new_damage > (SConfig.SERVER.inquisitor_damage.get()*3*SConfig.SERVER.global_damage.get())){
                     this.setBonusDamage(this.getBonusDamage()-1);
                 }
             }

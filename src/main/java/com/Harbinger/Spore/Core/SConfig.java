@@ -86,6 +86,10 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> wendigo_damage;
         public final ForgeConfigSpec.ConfigValue<Double> wendigo_armor;
 
+        public final ForgeConfigSpec.ConfigValue<Double> inquisitor_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> inquisitor_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> inquisitor_armor;
+
         public final ForgeConfigSpec.ConfigValue<Double> bus_hp;
         public final ForgeConfigSpec.ConfigValue<Double> bus_damage;
         public final ForgeConfigSpec.ConfigValue<Double> bus_ranged_damage;
@@ -542,6 +546,12 @@ public class SConfig {
             this.wendigo_hp = builder.comment("Default 75").defineInRange("Sets Wendigo Max health", 75, 1, Double.MAX_VALUE);
             this.wendigo_damage = builder.comment("Default 15").defineInRange("Sets Wendigo Damage", 15, 1, Double.MAX_VALUE);
             this.wendigo_armor = builder.comment("Default 8").defineInRange("Sets Wendigo Armor", 8, 1, Double.MAX_VALUE);
+            builder.pop();
+
+            builder.push("Inquisitor");
+            this.inquisitor_hp = builder.comment("Default 60").defineInRange("Sets Inquisitor Max health", 60, 1, Double.MAX_VALUE);
+            this.inquisitor_damage = builder.comment("Default 20").defineInRange("Sets Inquisitor Damage", 20, 1, Double.MAX_VALUE);
+            this.inquisitor_armor = builder.comment("Default 7").defineInRange("Sets Inquisitor Armor", 7, 1, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("Infected Drowned");
