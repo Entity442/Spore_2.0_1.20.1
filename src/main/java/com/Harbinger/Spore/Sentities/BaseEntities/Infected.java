@@ -449,6 +449,7 @@ public class Infected extends Monster{
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_21434_, DifficultyInstance p_21435_, MobSpawnType p_21436_, @org.jetbrains.annotations.Nullable SpawnGroupData p_21437_, @org.jetbrains.annotations.Nullable CompoundTag p_21438_) {
         setDefaultLinkage(level());
+        spawnWithPoints();
         return super.finalizeSpawn(p_21434_, p_21435_, p_21436_, p_21437_, p_21438_);
     }
     public void setDefaultLinkage(Level level){
@@ -461,6 +462,11 @@ public class Infected extends Monster{
                     this.setEvolution(SConfig.SERVER.evolution_age_human.get());
                 }
             }
+        }
+    }
+    public void spawnWithPoints(){
+        if (!SConfig.SERVER.at_mob.get() && Math.random() < 0.1 && this instanceof EvolvingInfected){
+            this.setEvoPoints(SConfig.SERVER.min_kills.get());
         }
     }
 }
