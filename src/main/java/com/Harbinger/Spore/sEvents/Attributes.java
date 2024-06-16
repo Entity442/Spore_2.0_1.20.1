@@ -68,6 +68,7 @@ public class Attributes {
         event.put(Sentities.USURPER.get(), Usurper.createAttributes().build());
         event.put(Sentities.WENDIGO.get(), Wendigo.createAttributes().build());
         event.put(Sentities.INQUISITOR.get(), Inquisitor.createAttributes().build());
+        event.put(Sentities.DELUSIONARE.get(), Delusionare.createAttributes().build());
     }
 }
 

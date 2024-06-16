@@ -150,6 +150,10 @@ public class Sentities {
             () -> EntityType.Builder.of(Vigil::new, INFECTED).sized(1f, 3f)
                     .build(new ResourceLocation(Spore.MODID, "vigil").toString()));
 
+    public static final RegistryObject<EntityType<Delusionare>> DELUSIONARE = SPORE_ENTITIES.register("delusionare",
+            () -> EntityType.Builder.of(Delusionare::new, INFECTED).sized(1f, 3f)
+                    .build(new ResourceLocation(Spore.MODID, "delusionare").toString()));
+
     public static final RegistryObject<EntityType<Umarmer>> UMARMED = SPORE_ENTITIES.register("umarmed",
             () -> EntityType.Builder.of(Umarmer::new, INFECTED).sized(1f, 3f)
                     .build(new ResourceLocation(Spore.MODID, "umarmed").toString()));

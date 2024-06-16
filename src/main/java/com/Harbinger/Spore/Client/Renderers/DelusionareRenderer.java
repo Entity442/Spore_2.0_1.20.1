@@ -1,7 +1,7 @@
 package com.Harbinger.Spore.Client.Renderers;
 
-import com.Harbinger.Spore.Client.Models.VigilModel;
-import com.Harbinger.Spore.Sentities.Organoids.Vigil;
+import com.Harbinger.Spore.Client.Models.DelusionerModel;
+import com.Harbinger.Spore.Sentities.Organoids.Delusionare;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
@@ -9,13 +9,13 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class VigilRenderer<Type extends Vigil> extends OrganoidMobRenderer<Type , VigilModel<Type>> {
+public class DelusionareRenderer<Type extends Delusionare> extends OrganoidMobRenderer<Type , DelusionerModel<Type>> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
-            "textures/entity/vigil.png");
+            "textures/entity/delusioner.png");
 
 
-    public VigilRenderer(EntityRendererProvider.Context context) {
-        super(context, new VigilModel<>(context.bakeLayer(VigilModel.LAYER_LOCATION)), 1f);
+    public DelusionareRenderer(EntityRendererProvider.Context context) {
+        super(context, new DelusionerModel<>(context.bakeLayer(DelusionerModel.LAYER_LOCATION)), 1f);
     }
 
 
@@ -24,6 +24,5 @@ public class VigilRenderer<Type extends Vigil> extends OrganoidMobRenderer<Type 
     public ResourceLocation getTextureLocation(Type entity) {
         return TEXTURE;
     }
-
 
 }

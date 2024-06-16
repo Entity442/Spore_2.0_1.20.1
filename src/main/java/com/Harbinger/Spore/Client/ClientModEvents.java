@@ -89,6 +89,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(StingerModel.LAYER_LOCATION, StingerModel::createBodyLayer);
         event.registerLayerDefinition(BraureiModel.LAYER_LOCATION, BraureiModel::createBodyLayer);
         event.registerLayerDefinition(ProtoRedesign.LAYER_LOCATION, ProtoRedesign::createBodyLayer);
+        event.registerLayerDefinition(DelusionerModel.LAYER_LOCATION, DelusionerModel::createBodyLayer);
         event.registerLayerDefinition(verwahrungModel.LAYER_LOCATION, verwahrungModel::createBodyLayer);
         event.registerLayerDefinition(OvergrownSpawnerModel.LAYER_LOCATION, OvergrownSpawnerModel::createBodyLayer);
         event.registerLayerDefinition(brainMatterModel.LAYER_LOCATION, brainMatterModel::createBodyLayer);
@@ -152,6 +153,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.TENDRIL.get(), TendrilRenderer::new);
         event.registerEntityRenderer(Sentities.STINGER.get(), StingerRenderer::new);
         event.registerEntityRenderer(Sentities.BRAUREI.get(), BraureiRenderer::new);
+        event.registerEntityRenderer(Sentities.DELUSIONARE.get(), DelusionareRenderer::new);
 
         event.registerBlockEntityRenderer(SblockEntities.OVERGROWN_SPAWNER.get(), new OvergrownSpawnerRenderer());
         event.registerBlockEntityRenderer(SblockEntities.BRAIN_REMNANTS.get(), new BrainRemnantsRenderer());
