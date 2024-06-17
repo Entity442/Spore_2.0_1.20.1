@@ -13,6 +13,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
 public class DelusionerModel<T extends Delusionare> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -354,10 +355,49 @@ public class DelusionerModel<T extends Delusionare> extends EntityModel<T> {
 
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
+	private void animateTumor(ModelPart part,float value){
+		part.xScale = 1+ Mth.cos(value/8)/8;
+		part.yScale = 1+ Mth.cos(value/8)/8;
+		part.zScale = 1+ Mth.cos(value/8)/8;
+	}
+	private void animateFinger(ModelPart part,float value){
+		part.xRot = Mth.sin(value/6)/6;
+		part.zRot = part.xRot;
+	}
+	private void animateFinger1(ModelPart part,float value){
+		part.xRot = Mth.cos(value/6)/6;
+		part.zRot = part.xRot;
+	}
+
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+		this.animateTumor(this.TumorBase,ageInTicks);
+		this.animateTumor(this.Tumors,-ageInTicks);
+		this.HeadBase.yRot = Mth.cos(ageInTicks/6)/5;
+		this.MainBody.zRot = Mth.cos(ageInTicks/10)/10;
+		this.Torso.yRot = Mth.sin(ageInTicks/7)/7;
+		this.TopTorso.zRot = Mth.sin(ageInTicks/6)/6;
+		this.Head.yRot = netHeadYaw / (180F / (float) Math.PI);
+		this.Head.xRot = headPitch /  ( 90F / (float) Math.PI);
+		this.Jaw.yRot = Mth.cos(ageInTicks/6)/5;
+		this.RightArm.zRot = -0.7f-Mth.cos(ageInTicks/7)/7;
+		this.LeftArm.zRot = -RightArm.zRot;
+		this.RightForArm.yRot = Mth.cos(ageInTicks/6)/6;
+		this.LeftForArm.yRot = -RightForArm.yRot;
+		if (entity.isCasting()){
+			this.RightArm.xRot = Mth.sin(ageInTicks/8)/8;
+			this.LeftArm.xRot = Mth.cos(ageInTicks/8)/8;
+		}else{
+			this.RightArm.xRot = 1.3f;
+			this.LeftArm.xRot = 1.3f;
+		}
+		animateFinger(this.Finger1,-ageInTicks);
+		animateFinger1(this.Finger2,ageInTicks);
+		animateFinger(this.Finger3,ageInTicks);
+		animateFinger1(this.Finger4,-ageInTicks);
+		animateFinger1(this.Finger5,ageInTicks);
+		animateFinger(this.Finger6,-ageInTicks);
 	}
 
 	@Override

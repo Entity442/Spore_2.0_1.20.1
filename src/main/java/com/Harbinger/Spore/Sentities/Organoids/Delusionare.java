@@ -24,6 +24,9 @@ public class Delusionare extends Organoid {
     }
 
 
+    public boolean isCasting(){
+        return false;
+    }
 
 
     public static AttributeSupplier.Builder createAttributes() {
