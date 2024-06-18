@@ -311,6 +311,8 @@
   "sounds.spore.spore_area_ambient": "Strange Silence",
   "sounds.spore.braurei_ambient": "Braurei Cooking",
   "sounds.spore.inquisitor_ambient": "Inquisitor Grunting",
+  "sounds.spore.delusioner_ambient": "Delusioner Grunting",
+  "sounds.spore.delusioner_casting": "Delusioner Casting",
 
 
   "item.line.shift": "A nutrient soup made out of animal matter.",

@@ -82,7 +82,7 @@ public class Delusionare extends Organoid {
     protected void tickSpell(){
         this.entityData.set(SPELL_TIME,this.entityData.get(SPELL_TIME)+1);
         if (entityData.get(SPELL_TIME) == 40){
-            this.playSound(Ssounds.DELUSIONARE_CASTING.get());
+            this.playSound(Ssounds.DELUSIONER_CASTING.get());
         }
         if (entityData.get(SPELL_TIME) > 80){
             this.castSpell(this.getSpellById());
@@ -100,9 +100,9 @@ public class Delusionare extends Organoid {
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, SConfig.SERVER.braurei_hp.get() * SConfig.SERVER.global_health.get())
-                .add(Attributes.ARMOR, SConfig.SERVER.braurei_armor.get() * SConfig.SERVER.global_armor.get())
-                .add(Attributes.FOLLOW_RANGE, 48)
+                .add(Attributes.MAX_HEALTH, SConfig.SERVER.delusioner_hp.get() * SConfig.SERVER.global_health.get())
+                .add(Attributes.ARMOR, SConfig.SERVER.delusioner_armor.get() * SConfig.SERVER.global_armor.get())
+                .add(Attributes.FOLLOW_RANGE, 64)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1);
 
     }
@@ -111,12 +111,12 @@ public class Delusionare extends Organoid {
     protected void registerGoals() {
         super.registerGoals();
         addTargettingGoals();
-        this.goalSelector.addGoal(3,new castMagic(this));
+        this.goalSelector.addGoal(4,new CastMagicGoal(this));
     }
 
-    public static class castMagic extends Goal{
+    public static class CastMagicGoal extends Goal{
         Delusionare delusionare;
-        public castMagic(Delusionare delusionare){
+        public CastMagicGoal(Delusionare delusionare){
             this.delusionare = delusionare;
         }
         @Override
@@ -124,7 +124,7 @@ public class Delusionare extends Organoid {
             if (delusionare.isCasting()){
                 return false;
             }
-            return delusionare.getTarget() != null && delusionare.tickCount % 10 == 0;
+            return delusionare.getTarget() != null;
         }
 
         private boolean hasAlliesAround(){
@@ -171,7 +171,7 @@ public class Delusionare extends Organoid {
     }
 
     protected SoundEvent getAmbientSound() {
-        return Ssounds.DELUSIONARE_AMBIENT.get();
+        return Ssounds.DELUSIONER_AMBIENT.get();
     }
 
     protected SoundEvent getHurtSound(DamageSource p_34327_) {

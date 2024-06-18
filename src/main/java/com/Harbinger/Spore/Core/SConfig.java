@@ -226,6 +226,8 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> mound_range_age4;
         public final ForgeConfigSpec.ConfigValue<Boolean> mound_foliage;
 
+        public final ForgeConfigSpec.ConfigValue<Double> delusioner_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> delusioner_armor;
 
         public final ForgeConfigSpec.ConfigValue<Double> proto_hp;
         public final ForgeConfigSpec.ConfigValue<Double> proto_armor;
@@ -663,6 +665,11 @@ public class SConfig {
             this.brute_hp = builder.comment("Default 70").defineInRange("Sets Brute Max health", 70, 1, Double.MAX_VALUE);
             this.brute_damage = builder.comment("Default 7").defineInRange("Sets Brute Damage", 7, 1, Double.MAX_VALUE);
             this.brute_armor = builder.comment("Default 15").defineInRange("Sets Brute Armor", 15, 1, Double.MAX_VALUE);
+            builder.pop();
+
+            builder.push("Delusioner");
+            this.delusioner_hp = builder.comment("Default 20").defineInRange("Sets Delusioner Max health", 20, 1, Double.MAX_VALUE);
+            this.delusioner_armor = builder.comment("Default 2").defineInRange("Sets Delusioner Armor", 2, 1, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("Mound");
