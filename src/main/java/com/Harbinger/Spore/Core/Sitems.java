@@ -368,6 +368,7 @@ public class Sitems {
     public static final RegistryObject<Item> MYCELIUM_SLAB = block(Sblocks.MYCELIUM_SLAB);
     public static final RegistryObject<Item> FUNGAL_SHELL = block(Sblocks.FUNGAL_SHELL);
     public static final RegistryObject<Item> ORGANITE = block(Sblocks.ORGANITE);
+    public static final RegistryObject<Item> FROST_BURNED_BIOMASS = block(Sblocks.FROST_BURNED_BIOMASS);
 
     public static final RegistryObject<Item> INFESTED_DEEPSLATE = block(Sblocks.INFESTED_DEEPSLATE);
     public static final RegistryObject<Item> INFESTED_DIRT = block(Sblocks.INFESTED_DIRT);

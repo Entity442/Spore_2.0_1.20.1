@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/freeze_burned_biomass"
+      },
+      {
+        "model": "spore:block/freeze_burned_biomass",
+        "y": 90
+      },
+      {
+        "model": "spore:block/freeze_burned_biomass",
+        "y": 180
+      },
+      {
+        "model": "spore:block/freeze_burned_biomass",
+        "y": 270
+      }
+    ]
+  }
+}
