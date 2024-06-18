@@ -182,6 +182,8 @@
   "item.spore.illusion_spawnegg": "Hallucination",
   "item.spore.braurei_spawnegg": "Braurei",
   "item.spore.verva_spawnegg": "Verwahrung",
+  "item.spore.delusioner_spawnegg": "Delusioner",
+
 
 
   "item.spore.scent_spawnegg": "Scent",
@@ -233,6 +235,8 @@
   "entity.spore.illusion": "Hallucination",
   "entity.spore.braurei": "Braurei",
   "entity.spore.verva": "Verwahrung",
+  "entity.spore.delusioner": "Delusioner",
+
 
 
   "entity.spore.thrown_tumor": "Tumor",

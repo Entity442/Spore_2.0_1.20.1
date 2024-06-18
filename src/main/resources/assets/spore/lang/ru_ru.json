@@ -171,6 +171,7 @@
   "item.spore.illusion_spawnegg": "Галлюцинация",
   "item.spore.braurei_spawnegg": "Браурей",
   "item.spore.verva_spawnegg": "Верварунг",
+  "item.spore.delusioner_spawnegg": "обманщик",
 
 
   "item.spore.scent_spawnegg": "Споры",
@@ -221,6 +222,7 @@
   "entity.spore.illusion": "Галлюцинация",
   "entity.spore.braurei": "Браурей",
   "entity.spore.verva": "Верварунг",
+  "entity.spore.delusioner": "обманщик",
 
   "entity.spore.thrown_tumor": "Опухоль",
   "entity.spore.thrown_spear": "Заражённое копьё",
@@ -287,6 +289,8 @@
   "sounds.spore.spore_area_ambient": "Странная тишина",
   "sounds.spore.braurei_ambient": "Браурейная кулинария",
   "sounds.spore.inquisitor_ambient": "Инквизитор Хрюкающий",
+  "sounds.spore.delusioner_ambient": "Заблуждающийся хрюканье",
+  "sounds.spore.delusioner_casting": "Кастинг иллюзиониста",
 
 
   "item.line.shift": "Питательный суп, приготовленный из животной материи.",
