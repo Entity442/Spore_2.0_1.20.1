@@ -70,6 +70,10 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> INQUISITOR_AMBIENT = soundRegistry("inquisitor_ambient");
 
+    public static final RegistryObject<SoundEvent> DELUSIONARE_AMBIENT = soundRegistry("delusionare_ambient");
+
+    public static final RegistryObject<SoundEvent> DELUSIONARE_CASTING = soundRegistry("delusionare_casting");
+
     public static final RegistryObject<SoundEvent> SPIT = soundRegistry("spit");
 
     public static final RegistryObject<SoundEvent> MADNESS = soundRegistry("madness");
