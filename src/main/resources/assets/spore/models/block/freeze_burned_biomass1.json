@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "spore:block/freeze_burned_biomass1"
+  }
+}

@@ -15,6 +15,21 @@
       {
         "model": "spore:block/freeze_burned_biomass",
         "y": 270
+      },
+      {
+        "model": "spore:block/freeze_burned_biomass1"
+      },
+      {
+        "model": "spore:block/freeze_burned_biomass1",
+        "y": 90
+      },
+      {
+        "model": "spore:block/freeze_burned_biomass1",
+        "y": 180
+      },
+      {
+        "model": "spore:block/freeze_burned_biomass1",
+        "y": 270
       }
     ]
   }
