@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities.EvolvedInfected;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Damage.SdamageTypes;
@@ -9,6 +10,9 @@ import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
+import com.Harbinger.Spore.Sentities.EvolvingInfected;
+import com.Harbinger.Spore.Sentities.Hyper.Brot;
+import com.Harbinger.Spore.Sentities.Hyper.Inquisitor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
@@ -17,6 +21,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.TagKey;
@@ -34,9 +39,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.Collection;
 import java.util.List;
 
-public class Braionmil extends EvolvedInfected {
+public class Braionmil extends EvolvedInfected implements EvolvingInfected {
     public Braionmil(EntityType<? extends Monster> type, Level level) {
         super(type, level);
     }
@@ -80,6 +86,7 @@ public class Braionmil extends EvolvedInfected {
             }
         }
         super.tick();
+        this.tickHyperEvolution(this);
     }
 
     public int getSwellDir() {
@@ -183,5 +190,28 @@ public class Braionmil extends EvolvedInfected {
 
     protected void playStepSound(BlockPos p_34316_, BlockState p_34317_) {
         this.playSound(this.getStepSound(), 0.15F, 1.0F);
+    }
+
+    @Override
+    public void HyperEvolve() {
+        Brot brot = new Brot(Sentities.BROTKATZE.get(),this.level());
+        Collection<MobEffectInstance> collection = this.getActiveEffects();
+        for(MobEffectInstance mobeffectinstance : collection) {
+            brot.addEffect(new MobEffectInstance(mobeffectinstance));
+        }
+        brot.setKills(this.getKills());
+        brot.setEvoPoints(this.getEvoPoints()-SConfig.SERVER.min_kills_hyper.get());
+        brot.setCustomName(this.getCustomName());
+        brot.setPos(this.getX(),this.getY(),this.getZ());
+        if (this.level() instanceof ServerLevel serverLevel)
+            brot.finalizeSpawn(serverLevel,serverLevel.getCurrentDifficultyAt(this.getOnPos()), MobSpawnType.CONVERSION,null,null);
+        this.level().addFreshEntity(brot);
+        if (this.level() instanceof ServerLevel serverLevel){
+            double x0 = this.getX() - (random.nextFloat() - 0.1) * 0.1D;
+            double y0 = this.getY() + (random.nextFloat() - 0.25) * 0.15D * 5;
+            double z0 = this.getZ() + (random.nextFloat() - 0.1) * 0.1D;
+            serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x0, y0, z0, 2, 0, 0, 0, 1);
+        }
+        this.discard();
     }
 }

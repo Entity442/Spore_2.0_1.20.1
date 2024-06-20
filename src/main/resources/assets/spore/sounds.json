@@ -31,6 +31,12 @@
       "spore:inquisitor_ambient"
     ]
   },
+  "brot_ambient" :{
+    "subtitle": "sounds.spore.brot_ambient",
+    "sounds": [
+      "spore:brot_ambient"
+    ]
+  },
   "delusioner_ambient" :{
     "subtitle": "sounds.spore.delusioner_ambient",
     "sounds": [
