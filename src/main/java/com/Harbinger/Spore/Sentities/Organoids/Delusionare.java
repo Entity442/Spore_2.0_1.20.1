@@ -204,6 +204,10 @@ public class Delusionare extends Organoid {
                 int randomZ =this.random.nextInt(-4,4);
                 Arrow arrow = new Arrow(EntityType.ARROW,this.level());
                 arrow.moveTo(entity.getX() + randomX,entity.getY()+3,entity.getZ()+randomZ);
+                arrow.setOwner(this);
+                if (Math.random() < 0.3){
+                    arrow.setSecondsOnFire(4);
+                }
                 double d0 = entity.getX() - arrow.getX();
                 double d1 = entity.getY(0.3333333333333333D) - arrow.getY();
                 double d2 = entity.getZ() - arrow.getZ();
