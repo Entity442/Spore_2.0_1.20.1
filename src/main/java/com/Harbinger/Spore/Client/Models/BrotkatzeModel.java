@@ -320,7 +320,7 @@ public class BrotkatzeModel<T extends Brot> extends EntityModel<T> {
 		this.SecondTongue.yRot = Mth.sin(ageInTicks/6)/6;
 		this.SecondTongue1.yRot = Mth.sin(ageInTicks/6)/6;
 		this.SecondTongue2.yRot = Mth.sin(ageInTicks/6)/6;
-
+		this.Brotkatze.xRot = entity.getLeapt() ? 0.6f:0;
 		if (!(limbSwingAmount > -0.15F && limbSwingAmount < 0.15F)){
 			float moveValue  = Mth.cos(limbSwing * 0.3F) * 0.8F * limbSwingAmount;
 			BackRightLeg.yRot = moveValue * 0.6f;

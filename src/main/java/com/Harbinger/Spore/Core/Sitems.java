@@ -201,6 +201,9 @@ public class Sitems {
     public  static final RegistryObject<Item> INQUISITOR_SPAWNEGG = ITEMS.register("inquisitor_spawnegg",
             () -> new SporeSpawnEgg(Sentities.INQUISITOR,-6435818, new Item.Properties()));
 
+    public  static final RegistryObject<Item> BROTKATZE_SPAWNEGG = ITEMS.register("brotkatze_spawnegg",
+            () -> new SporeSpawnEgg(Sentities.BROTKATZE,-7352318, new Item.Properties()));
+
     public  static final RegistryObject<Item> SIEGER_SPAWNEGG = ITEMS.register("sieger_spawnegg",
             () -> new SporeSpawnEgg(Sentities.SIEGER,244208, new Item.Properties()));
 

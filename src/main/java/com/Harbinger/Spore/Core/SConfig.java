@@ -90,6 +90,11 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> inquisitor_damage;
         public final ForgeConfigSpec.ConfigValue<Double> inquisitor_armor;
 
+        public final ForgeConfigSpec.ConfigValue<Double> brot_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> brot_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> brot_armor;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> brot_effects;
+
         public final ForgeConfigSpec.ConfigValue<Double> bus_hp;
         public final ForgeConfigSpec.ConfigValue<Double> bus_damage;
         public final ForgeConfigSpec.ConfigValue<Double> bus_ranged_damage;
@@ -554,6 +559,14 @@ public class SConfig {
             this.inquisitor_hp = builder.comment("Default 60").defineInRange("Sets Inquisitor Max health", 60, 1, Double.MAX_VALUE);
             this.inquisitor_damage = builder.comment("Default 20").defineInRange("Sets Inquisitor Damage", 20, 1, Double.MAX_VALUE);
             this.inquisitor_armor = builder.comment("Default 7").defineInRange("Sets Inquisitor Armor", 7, 1, Double.MAX_VALUE);
+            builder.pop();
+
+            builder.push("Brotkatze");
+            this.brot_hp = builder.comment("Default 70").defineInRange("Sets Brotkatze Max health", 70, 1, Double.MAX_VALUE);
+            this.brot_damage = builder.comment("Default 15").defineInRange("Sets Brotkatze Damage", 15, 1, Double.MAX_VALUE);
+            this.brot_armor = builder.comment("Default 5").defineInRange("Sets Brotkatze Armor", 5, 1, Double.MAX_VALUE);
+            this.brot_effects = builder.comment("Default values: minecraft:poison|120|0 ,spore:mycelium|600|0 ,spore:marker|2400|1").defineList("Braiomil Effects",
+                    Lists.newArrayList("minecraft:wither|200|0" ,"minecraft:weakness|300|1" , "spore:mycelium_ef|600|1","spore:marker|2400|1") , o -> o instanceof String);
             builder.pop();
 
             builder.push("Infected Drowned");
@@ -1061,6 +1074,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> plagued_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> braurei_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inquisitor_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> brot_loot;
 
 
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> name;
@@ -1177,6 +1191,9 @@ public class SConfig {
 
             this.inquisitor_loot = builder.defineList("Inquisitor ",
                     Lists.newArrayList("spore:mutated_fiber|70|5|9","spore:armor_fragment|80|12|22","spore:mutated_heart|50|1|1","spore:claw_fragment|80|5|15") , o -> o instanceof String);
+
+            this.brot_loot = builder.defineList("Brotkatze ",
+                    Lists.newArrayList("spore:mutated_fiber|70|5|9","spore:armor_fragment|80|2|10","spore:mutated_heart|50|1|1","spore:claw_fragment|80|5|10","spore:alveolic_sack|80|2|5") , o -> o instanceof String);
 
 
             this.braurei_loot = builder.defineList("Braurei ",
