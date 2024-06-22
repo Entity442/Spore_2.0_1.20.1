@@ -570,9 +570,9 @@ public class SConfig {
             builder.pop();
 
             builder.push("Infected Drowned");
-            this.inf_dr_hp = builder.comment("Default 16").defineInRange("Sets Infected Vindicator Max health", 16, 1, Double.MAX_VALUE);
-            this.inf_dr_damage = builder.comment("Default 5").defineInRange("Sets Infected Vindicator Damage", 5, 1, Double.MAX_VALUE);
-            this.inf_dr_armor = builder.comment("Default 1").defineInRange("Sets Infected Vindicator Armor", 1, 1, Double.MAX_VALUE);
+            this.inf_dr_hp = builder.comment("Default 16").defineInRange("Sets Infected Drowned Max health", 16, 1, Double.MAX_VALUE);
+            this.inf_dr_damage = builder.comment("Default 5").defineInRange("Sets Infected Drowned Damage", 5, 1, Double.MAX_VALUE);
+            this.inf_dr_armor = builder.comment("Default 1").defineInRange("Sets Infected Drowned Armor", 1, 1, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("Phayres");

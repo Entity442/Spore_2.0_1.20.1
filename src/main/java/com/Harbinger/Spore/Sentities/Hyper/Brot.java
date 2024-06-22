@@ -92,7 +92,6 @@ public class Brot extends Hyper {
         super.addRegularGoals();
         this.goalSelector.addGoal(2, new BrotLeapGoal(this));
         this.goalSelector.addGoal(3, new AOEMeleeAttackGoal(this ,1.2,true, 1.2 ,5, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
-        this.goalSelector.addGoal(3, new BrotSwellGoal(this, 0.9F));
         this.goalSelector.addGoal(6, new RandomStrollGoal(this, 0.8));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
 
@@ -129,6 +128,12 @@ public class Brot extends Hyper {
                 this.setSwellDir(-1);
                 this.chemAttack(this);
             }
+            if (this.tickCount % 20 == 0){
+                LivingEntity target = this.getTarget();
+                if (target != null && this.distanceToSqr(target) < 120.0D){
+                    this.setSwellDir(1);
+                }
+            }
         }
         super.tick();
     }
@@ -145,43 +150,6 @@ public class Brot extends Hyper {
                     world.addParticle(ParticleTypes.SMOKE,
                             x , y + 1, z ,
                             Math.cos(i) * 0.15d, Math.sin(i) * Math.cos(i) * 0.15d, Math.sin(i) * 0.15d);
-                }
-            }
-        }
-    }
-
-    public static class BrotSwellGoal extends Goal {
-        public final Brot brot;
-        private final double speedModifier;
-        public BrotSwellGoal(Brot brot, double speedModifier) {
-            this.brot = brot;
-            this.speedModifier = speedModifier;
-            this.setFlags(EnumSet.of(Flag.MOVE));
-        }
-
-        public boolean canUse() {
-            LivingEntity target = brot.getTarget();
-            return target != null && this.brot.distanceToSqr(target) < 120.0D;
-        }
-
-
-        public boolean requiresUpdateEveryTick() {
-            return true;
-        }
-
-        public void tick() {
-            LivingEntity target = brot.getTarget();
-            if (target != null){
-                this.brot.getLookControl().setLookAt(target, 10.0F, (float) this.brot.getMaxHeadXRot());
-                this.brot.getNavigation().moveTo(target, this.speedModifier);
-                if (this.brot.getTarget() == null) {
-                    this.brot.setSwellDir(-1);
-                } else if (this.brot.distanceToSqr(target) > 40.0D) {
-                    this.brot.setSwellDir(-1);
-                } else if (!this.brot.getSensing().hasLineOfSight(target)) {
-                    this.brot.setSwellDir(-1);
-                } else {
-                    this.brot.setSwellDir(1);
                 }
             }
         }

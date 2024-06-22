@@ -447,12 +447,12 @@ public class Infected extends Monster{
     }
     @org.jetbrains.annotations.Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_21434_, DifficultyInstance p_21435_, MobSpawnType p_21436_, @org.jetbrains.annotations.Nullable SpawnGroupData p_21437_, @org.jetbrains.annotations.Nullable CompoundTag p_21438_) {
-        setDefaultLinkage(level());
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance p_21435_, MobSpawnType p_21436_, @org.jetbrains.annotations.Nullable SpawnGroupData p_21437_, @org.jetbrains.annotations.Nullable CompoundTag p_21438_) {
+        setDefaultLinkage(serverLevelAccessor);
         spawnWithPoints();
-        return super.finalizeSpawn(p_21434_, p_21435_, p_21436_, p_21437_, p_21438_);
+        return super.finalizeSpawn(serverLevelAccessor, p_21435_, p_21436_, p_21437_, p_21438_);
     }
-    public void setDefaultLinkage(Level level){
+    public void setDefaultLinkage(ServerLevelAccessor level){
         if (level instanceof ServerLevel serverLevel){
             SporeSavedData data = SporeSavedData.getDataLocation(serverLevel);
             if (data != null && data.getAmountOfHiveminds() >= SConfig.SERVER.proto_spawn_world_mod.get()){
