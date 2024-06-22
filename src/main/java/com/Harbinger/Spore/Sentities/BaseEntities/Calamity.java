@@ -286,7 +286,8 @@ public class Calamity extends UtilityEntity implements Enemy {
             serverLevel.sendParticles(Sparticles.BLOOD_PARTICLE.get(), x0, y0, z0, 4, 0, 0, 0, 1);
         }
         if (this.getHealth() < this.getMaxHealth() && !this.hasEffect(MobEffects.REGENERATION) && this.getKills() > 0){
-            this.addEffect(new MobEffectInstance(MobEffects.REGENERATION,600,0));
+            int level = this.getHealth() < this.getMaxHealth()/2 ? 1 : 0;
+            this.addEffect(new MobEffectInstance(MobEffects.REGENERATION,600,level));
             this.setKills(this.getKills()-1);
         }
     }
