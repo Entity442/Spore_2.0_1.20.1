@@ -94,7 +94,6 @@ public class Brot extends Hyper {
     protected void addRegularGoals() {
         super.addRegularGoals();
         this.goalSelector.addGoal(2, new BrotLeapGoal(this));
-        this.goalSelector.addGoal(2, new PullGoal(this, 48, 32));
         this.goalSelector.addGoal(3, new AOEMeleeAttackGoal(this ,1.2,true, 1.2 ,5, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
         this.goalSelector.addGoal(6, new RandomStrollGoal(this, 0.8));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
