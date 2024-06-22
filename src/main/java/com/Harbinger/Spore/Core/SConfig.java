@@ -629,7 +629,7 @@ public class SConfig {
 
             builder.push("Sieger");
             this.sieger_hp = builder.comment("Default 300").defineInRange("Sets Sieger Max health", 300, 1, Double.MAX_VALUE);
-            this.sieger_damage = builder.comment("Default 25").defineInRange("Sets Sieger Damage", 25, 1, Double.MAX_VALUE);
+            this.sieger_damage = builder.comment("Default 30").defineInRange("Sets Sieger Damage", 30, 1, Double.MAX_VALUE);
             this.sieger_armor = builder.comment("Default 25").defineInRange("Sets Sieger Armor", 25, 1, Double.MAX_VALUE);
             this.sieger_dpsr = builder.comment("Default 70").defineInRange("Sets Sieger Damage Cap , set to 0 to disable", 70, 1, Double.MAX_VALUE);
 
@@ -661,7 +661,7 @@ public class SConfig {
 
             builder.push("GazenBreacher");
             this.gazen_hp = builder.comment("Default 350").defineInRange("Sets GazenBreacher Max health", 350, 1, Double.MAX_VALUE);
-            this.gazen_damage = builder.comment("Default 20").defineInRange("Sets GazenBreacher Damage", 20, 1, Double.MAX_VALUE);
+            this.gazen_damage = builder.comment("Default 25").defineInRange("Sets GazenBreacher Damage", 25, 1, Double.MAX_VALUE);
             this.gazen_armor = builder.comment("Default 15").defineInRange("Sets GazenBreacher Armor", 15, 1, Double.MAX_VALUE);
             this.gazen_dpsr = builder.comment("Default 100").defineInRange("Sets GazenBreacher Damage Cap , set to 0 to disable", 100, 1, Double.MAX_VALUE);
              this.gazen_ranged_damage = builder.comment("Default 10").defineInRange("Sets GazenBreacher bile damage", 10, 1, Double.MAX_VALUE);
@@ -681,7 +681,7 @@ public class SConfig {
             builder.pop();
 
             builder.push("Delusioner");
-            this.delusioner_hp = builder.comment("Default 20").defineInRange("Sets Delusioner Max health", 20, 1, Double.MAX_VALUE);
+            this.delusioner_hp = builder.comment("Default 35").defineInRange("Sets Delusioner Max health", 35, 1, Double.MAX_VALUE);
             this.delusioner_armor = builder.comment("Default 2").defineInRange("Sets Delusioner Armor", 2, 1, Double.MAX_VALUE);
             builder.pop();
 
