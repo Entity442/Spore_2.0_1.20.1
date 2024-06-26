@@ -1,6 +1,6 @@
 {
-  "block.spore.growths_big": "菌丝",
-  "block.spore.growths_small": "菌丝",
+  "block.spore.growths_big": "大型菌丝",
+  "block.spore.growths_small": "小型菌丝",
   "block.spore.blomfung": "盛放菌丝团",
   "block.spore.bloomfung2": "盛放菌丝团",
   "block.spore.fungal_roots": "根系",
@@ -20,12 +20,13 @@
   "block.spore.iron_ladder": "铁质梯子",
   "block.spore.rotten_log": "腐坏原木",
   "block.spore.rotten_planks": "腐坏木板",
-  "block.spore.rotten_stair": "腐坏阶梯",
-  "block.spore.organite": "有机矿块",
+  "block.spore.rotten_stair": "腐坏楼梯",
+  "block.spore.organite": "腐矿核心",
   "block.spore.mycelium_veins": "菌丝脉络",
   "block.spore.fungal_shell": "真菌外壳",
   "block.spore.mycelium_block": "腐生质块",
   "block.spore.mycelium_slab": "腐生质台阶",
+  "block.spore.hanging_fungal_stem": "真菌柄",
   "block.spore.remains": "遗体",
   "block.spore.hive_spawn": "腐建心智",
   "block.spore.acid": "酸池",
@@ -33,7 +34,7 @@
   "block.spore.rusted_vent_plate": "生锈通风版",
   "block.spore.vent_door": "通风口",
   "block.spore.cdu": "CDU",
-  "block.spore.brain_remnants": "大脑残片",
+  "block.spore.brain_remnants": "大脑残块",
   "block.spore.reinforced_door": "强化门",
   "block.spore.rusted_reinforced_door": "生锈强化门",
   "block.spore.frozen_reinforced_door": "凝冻强化门",
@@ -45,6 +46,8 @@
   "block.spore.lab_slab2": "实验室台阶",
   "block.spore.lab_slab3": "实验室台阶",
 
+
+
   "block.spore.infested_dirt": "感染的泥土",
   "block.spore.infested_stone": "感染的石头",
   "block.spore.infested_netherrack": "感染的地狱岩",
@@ -52,16 +55,19 @@
   "block.spore.infested_end_stone": "感染的末地石",
   "block.spore.infested_sand": "感染的沙子",
   "block.spore.infested_gravel": "感染的砂砾",
-  "block.spore.infested_deepslate": "感染的深层岩",
+  "block.spore.infested_deepslate": "感染的深板岩",
   "block.spore.infested_red_sand": "感染的红沙",
   "block.spore.infested_clay": "感染的黏土",
   "block.spore.infested_cobblestone": "感染的原石",
-  "block.spore.infested_cobbled_deepslate": "感染的深层原石",
+  "block.spore.infested_cobbled_deepslate": "感染的深板岩圆石",
   "block.spore.infested_laboratory_block": "感染的实验室砖",
   "block.spore.infested_laboratory_block1": "感染的实验室砖",
   "block.spore.infested_laboratory_block2": "感染的实验室砖",
   "block.spore.infested_laboratory_block3": "感染的实验室砖",
   "block.spore.overgrown_spawner": "散孢刷怪笼",
+  "block.spore.freeze_burned_biomass": "冻结烧焦腐生质",
+
+
 
 
   "item.spore.claw": "爪子",
@@ -89,16 +95,19 @@
   "item.spore.sickle_fragment": "镰刀碎片",
   "item.spore.innards": "内脏",
   "item.spore.r_wing": "翅膀",
+  "item.spore.vigil_eye": "警戒者之眼",
   "item.spore.sausage": "肉肠",
   "item.spore.fiber_stew": "纤维炖菜",
   "item.spore.heart_kebab": "心脏串",
   "item.spore.roasted_heart_kebab": "心脏烤串",
   "item.spore.roasted_tumor": "烤肿瘤",
-  "item.spore.vigil_eye_soup": "警戒之眼汤",
+  "item.spore.vigil_eye_soup": "警戒者之眼汤",
   "item.spore.milky_sack": "乳袋",
   "item.spore.brain_noodles": "脑花面条",
 
+
   "item.spore.symbiotic_reagent": "共生试剂",
+
 
   "item.spore.saber": "染菌军刀",
   "item.spore.infected_bow": "染菌弓",
@@ -117,6 +126,7 @@
 
   "item.spore.amethyst_dust": "紫水晶粉",
   "item.spore.compound": "复合物",
+  "item.spore.gas_mask": "防毒面具",
   "item.spore.compound_plate": "复合板",
   "item.spore.corrupted_record": "感染的唱片",
 
@@ -157,7 +167,7 @@
   "item.spore.inf_player_spawnegg": "被感染的玩家刷怪蛋",
   "item.spore.scamper_spawnegg": "窜扰者刷怪蛋",
   "item.spore.mound_spawnegg": "菌囊刷怪蛋",
-  "item.spore.reconstructor_spawnegg": "心智重建者刷怪蛋",
+  "item.spore.reconstructor_spawnegg": "灾厄重建者刷怪蛋",
   "item.spore.vigil_spawnegg": "警戒之眼刷怪蛋",
   "item.spore.usurper_spawnegg": "僭主者刷怪蛋",
   "item.spore.proto_spawnegg": "雏形心智刷怪蛋",
@@ -167,13 +177,17 @@
   "item.spore.hinden_spawnegg": "碍灭灾厄刷怪蛋",
   "item.spore.plagued_spawnegg": "0号实验体刷怪蛋",
   "item.spore.wendigo_spawnegg": "林中鹿菌刷怪蛋",
-  "item.spore.illusion_spawnegg": "致幻者刷怪蛋",
+  "item.spore.illusion_spawnegg": "幻觉刷怪蛋",
   "item.spore.braurei_spawnegg": "巫孢坩埚刷怪蛋",
+  "item.spore.verva_spawnegg": "菌种投送囊刷怪蛋",
+  "item.spore.delusioner_spawnegg": "幻术菌妖鬼刷怪蛋",
+  "item.spore.brotkatze_spawnegg": "舔食兽刷怪蛋",
+  "item.spore.inquisitor_spawnegg": "抓取者刷怪蛋",
 
 
 
   "item.spore.scent_spawnegg": "支援孢气刷怪蛋",
-  "item.spore.scent_overcharged_spawnegg": "支援孢气刷怪蛋",
+  "item.spore.scent_overcharged_spawnegg": "过激孢气刷怪蛋",
   "item.spore.claw_spawnegg": "菌爪刷怪蛋",
 
   "entity.spore.knight": "菌骑士",
@@ -202,11 +216,11 @@
   "entity.spore.volatile": "巫裂饕",
   "entity.spore.mound": "菌囊",
   "entity.spore.proto": "雏形心智",
-  "entity.spore.vigil": "警戒之眼",
+  "entity.spore.vigil": "警戒者",
   "entity.spore.usurper": "僭主者",
   "entity.spore.spit": "酸液",
   "entity.spore.umarmed": "拥孢者",
-  "entity.spore.reconstructor": "心智重建者",
+  "entity.spore.reconstructor": "灾厄重建者",
   "entity.spore.sieger": "孢围灾厄",
   "entity.spore.sieger_tail": "孢围灾厄",
   "entity.spore.licker": "舔舐者",
@@ -216,14 +230,22 @@
   "entity.spore.plagued": "0号实验体",
   "entity.spore.wendigo": "林中鹿菌",
   "entity.spore.wave": "菌潮",
-  "entity.spore.illusion": "致幻者",
+  "entity.spore.illusion": "幻觉",
   "entity.spore.braurei": "巫孢坩埚",
+  "entity.spore.verva": "菌种投送囊",
+  "entity.spore.delusioner": "幻术菌妖鬼",
+  "entity.spore.brot": "舔食兽",
+  "entity.spore.inquisitor": "抓取者",
+  "entity.spore.tendril": "真菌卷须",
 
   "entity.spore.thrown_tumor": "投掷的肿瘤",
   "entity.spore.thrown_spear": "投掷的长矛",
   "entity.spore.acid_ball": "酸球",
+  "entity.spore.bile": "胆汁",
   "entity.spore.acid": "酸液",
 
+  "enchantment.spore.symbiotic_reconstitution": "共生重塑",
+  "enchantment.spore.unwavering_nature": "染菌诅咒",
 
   "effect.spore.mycelium_ef": "菌丝感染",
   "effect.spore.stunt": "击晕",
@@ -268,7 +290,13 @@
   "sounds.spore.damage": "感染者受到攻击",
   "sounds.spore.growl": "感染者咆哮",
   "sounds.spore.sieger_ambient": "孢围灾厄咆哮",
-  "sounds.spore.womb_ambient": "肉宫移动",
+  "sounds.spore.sieger_bite": "啃咬",
+  "sounds.spore.gazen_ambient": "眩破灾厄咆哮",
+  "sounds.spore.hinden_ambient": "碍灭灾厄咆哮",
+  "sounds.spore.hinden_nuke": "碍灭灾厄投放肿瘤",
+  "sounds.spore.sonar": "声呐",
+  "sounds.spore.signal": "信号",
+  "sounds.spore.womb_ambient": "肉宫蠕动",
   "sounds.spore.proto_ambient": "心智低语",
   "sounds.spore.braiomil_attack": "舌舔者攻击",
   "sounds.spore.howler_growl": "咆哮者咆哮",
@@ -283,6 +311,10 @@
   "sounds.spore.record": "播放感染唱片",
   "sounds.spore.spore_area_ambient": "诡异的寂静",
   "sounds.spore.braurei_ambient": "巫孢坩埚烹调",
+  "sounds.spore.inquisitor_ambient": "抓取者咕噜",
+  "sounds.spore.brot_ambient": "舔食兽尖叫",
+  "sounds.spore.delusioner_ambient": "幻术菌妖鬼咕噜",
+  "sounds.spore.delusioner_casting": "幻术菌妖鬼施法",
 
   "item.line.shift": "用动物肉制作的营养汤。",
   "item.line.normal": "按住 SHIFT 查看信息。",
@@ -305,6 +337,8 @@
   "death.attack.braiomil_damage": "%1$s 忘记了 %2$s 有多臭",
   "death.attack.leaper_damage": "%1$s 被 %2$s 飞扑致死",
   "death.attack.slasher_damage": "%2$s 兴奋地撕碎了 %1$s",
+  "death.attack.radiation_damage": "%1$s 被辐射致死",
+  "death.attack.slasher_piercing_damage": "%1$s 被 %2$s 刺穿了",
   "death.attack.mental_damage": "%1$s 心脏病发",
 
 
@@ -320,10 +354,10 @@
   "item.spore.corrupted_record.desc": "创世纪实验室，记录 1",
   "container.biohazard": "生物危害单元",
   "block.spore.container": "生物危害单元",
-  "block.spore.lab_block": "实验室方块",
+  "block.spore.lab_block": "实验室砖块",
   "block.spore.lab_slab": "实验室台阶",
   "block.spore.lab_stair": "实验室楼梯",
   "container.line.normal": "按住 SHIFT 查看信息。",
   "container.line.shift": "生物危害存储单元 - 储存有机材料的理想选择。",
-  "cdu.line": "冷冻分配器"
+  "cdu.line": "冷冻分配单元"
 }

@@ -304,6 +304,9 @@ public class Infected extends Monster{
 
     @Override
     public boolean removeWhenFarAway(double p_21542_) {
+        if (this.getEvoPoints() < SConfig.SERVER.min_kills.get()){
+            return true;
+        }
         return !this.entityData.get(PERSISTENT);
     }
 
