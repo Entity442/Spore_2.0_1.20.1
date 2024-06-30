@@ -460,8 +460,12 @@ public class Infected extends Monster{
             SporeSavedData data = SporeSavedData.getDataLocation(serverLevel);
             if (data != null && data.getAmountOfHiveminds() >= SConfig.SERVER.proto_spawn_world_mod.get()){
                 this.setLinked(true);
-                if (Math.random() < 0.3 && this instanceof EvolvingInfected){
-                    this.setEvoPoints(SConfig.SERVER.min_kills.get());
+                if (Math.random() < 0.3 && this instanceof EvolvingInfected evolvingInfected){
+                    if (evolvingInfected instanceof EvolvedInfected){
+                        this.setEvoPoints(this.getEvoPoints()+SConfig.SERVER.min_kills_hyper.get());
+                    }else{
+                        this.setEvoPoints(this.getEvoPoints()+SConfig.SERVER.min_kills.get());
+                    }
                     this.setEvolution(SConfig.SERVER.evolution_age_human.get());
                 }
             }
