@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
+import com.Harbinger.Spore.Sentities.ArmedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -38,7 +39,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-public class InfectedPlayer extends Infected implements RangedAttackMob {
+public class InfectedPlayer extends Infected implements RangedAttackMob , ArmedInfected {
 
     public InfectedPlayer(EntityType<? extends Monster> type, Level level) {
         super(type, level);

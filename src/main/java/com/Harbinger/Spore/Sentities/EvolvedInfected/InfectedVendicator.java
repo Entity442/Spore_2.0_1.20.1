@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Sentities.EvolvedInfected;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
+import com.Harbinger.Spore.Sentities.ArmedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -26,11 +27,11 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
-public class InfectedVendicator extends EvolvedInfected {
+public class InfectedVendicator extends EvolvedInfected implements ArmedInfected {
     public InfectedVendicator(EntityType<? extends Monster> type, Level level) {
         super(type, level);
     }
@@ -74,14 +75,12 @@ public class InfectedVendicator extends EvolvedInfected {
 
         super.customServerAiStep();
     }
-    @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_34088_, DifficultyInstance p_34089_, MobSpawnType p_34090_, @Nullable SpawnGroupData p_34091_, @Nullable CompoundTag p_34092_) {
-        SpawnGroupData spawngroupdata = super.finalizeSpawn(p_34088_, p_34089_, p_34090_, p_34091_, p_34092_);
-        RandomSource randomsource = p_34088_.getRandom();
-        this.populateDefaultEquipmentSlots(randomsource, p_34089_);
-        return spawngroupdata;
-    }
 
+    @Override
+    public @Nullable SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance difficultyInstance, MobSpawnType p_21436_, @Nullable SpawnGroupData p_21437_, @Nullable CompoundTag p_21438_) {
+        this.populateDefaultEquipmentSlots();
+        return super.finalizeSpawn(serverLevelAccessor, difficultyInstance, p_21436_, p_21437_, p_21438_);
+    }
 
     public static AttributeSupplier.Builder createAttributes() {
         return Monster.createMonsterAttributes()
@@ -91,7 +90,7 @@ public class InfectedVendicator extends EvolvedInfected {
                 .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.inf_vin_damage.get() * SConfig.SERVER.global_damage.get())
                 .add(Attributes.ARMOR,SConfig.SERVER.inf_vin_armor.get() * SConfig.SERVER.global_armor.get());
     }
-    protected void populateDefaultEquipmentSlots(RandomSource p_219149_, DifficultyInstance p_219150_) {
+    protected void populateDefaultEquipmentSlots() {
             this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_AXE));
     }
 

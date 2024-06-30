@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
+import com.Harbinger.Spore.Sentities.ArmedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.EvolvingInfected;
 import net.minecraft.nbt.CompoundTag;
@@ -34,7 +35,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class InfectedPillager extends Infected implements CrossbowAttackMob , InventoryCarrier , EvolvingInfected {
+public class InfectedPillager extends Infected implements CrossbowAttackMob , InventoryCarrier , EvolvingInfected, ArmedInfected {
     private static final EntityDataAccessor<Boolean> IS_CHARGING_CROSSBOW = SynchedEntityData.defineId(InfectedPillager.class, EntityDataSerializers.BOOLEAN);
     private static final int INVENTORY_SIZE = 5;
     private static final int SLOT_OFFSET = 300;

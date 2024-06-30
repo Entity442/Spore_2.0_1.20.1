@@ -8,6 +8,7 @@ import com.Harbinger.Spore.Sentities.AI.HurtTargetGoal;
 import com.Harbinger.Spore.Sentities.AI.InfectedConsumeFromRemains;
 import com.Harbinger.Spore.Sentities.AI.InfectedPanicGoal;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.*;
+import com.Harbinger.Spore.Sentities.ArmedInfected;
 import com.Harbinger.Spore.Sentities.EvolvingInfected;
 import com.Harbinger.Spore.Sentities.Projectile.AcidBall;
 import com.Harbinger.Spore.Sentities.Projectile.Vomit;
@@ -468,12 +469,19 @@ public class Infected extends Monster{
                     }
                     this.setEvolution(SConfig.SERVER.evolution_age_human.get());
                 }
+                enchantEquipment(this);
             }
         }
     }
     public void spawnWithPoints(){
         if (!SConfig.SERVER.at_mob.get() && Math.random() < 0.1 && this instanceof EvolvingInfected){
             this.setEvoPoints(SConfig.SERVER.min_kills.get());
+        }
+    }
+
+    public void enchantEquipment(LivingEntity living){
+        if (living instanceof ArmedInfected armedInfected){
+            armedInfected.enchantItems(living);
         }
     }
 }
