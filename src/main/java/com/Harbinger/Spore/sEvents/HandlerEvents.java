@@ -94,6 +94,7 @@ public class HandlerEvents {
                     if (Objects.equals(mod[0], iterations[0])){
                         mob.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(mob, Infected.class, false));
                         mob.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(mob, Calamity.class, false));
+                        mob.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(mob, Organoid.class, false));
                     }
                 }else{
                     if (SConfig.SERVER.attack.get().contains(mob.getEncodeId())){
