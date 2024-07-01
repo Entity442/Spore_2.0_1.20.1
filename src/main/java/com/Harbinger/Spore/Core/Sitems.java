@@ -109,9 +109,9 @@ public class Sitems {
     public  static final RegistryObject<Item> INF_PILLAGER_SPAWNEGG = ITEMS.register("inf_pillager_spawnegg",
             () -> new SporeSpawnEgg(Sentities.INF_PILLAGER,-2312718,SpawnEggType.INFECTED));
     public  static final RegistryObject<Item> INF_VIND_SPAWNEGG = ITEMS.register("inf_vind_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.INF_VINDICATOR,-984718,SpawnEggType.INFECTED));
+            () -> new SporeSpawnEgg(Sentities.INF_VINDICATOR,-984718,SpawnEggType.EVOLVED));
     public  static final RegistryObject<Item> INF_EVO_SPAWNEGG = ITEMS.register("inf_evo_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.INF_EVOKER,-254718,SpawnEggType.INFECTED));
+            () -> new SporeSpawnEgg(Sentities.INF_EVOKER,-254718,SpawnEggType.EVOLVED));
     public  static final RegistryObject<Item> INF_WANDERER_SPAWNEGG = ITEMS.register("inf_wanderer_spawnegg",
             () -> new SporeSpawnEgg(Sentities.INF_WANDERER,-6639718,SpawnEggType.INFECTED));
     public  static final RegistryObject<Item> INF_DROWNED_SPAWNEGG = ITEMS.register("inf_drowned_spawnegg",
