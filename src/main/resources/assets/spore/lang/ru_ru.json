@@ -267,6 +267,14 @@
   "itemGroup.spore": "Spore",
   "itemGroup.spore_t": "Spore Technologies",
 
+  "spore.name.infected": "Зараженный",
+  "spore.name.evolved": "Развитый",
+  "spore.name.hyper": "Гиперразвитый",
+  "spore.name.organoid": "Органоид",
+  "spore.name.calamity": "Бедствие",
+  "spore.name.experiment": "Эксперимент",
+  "spore.name.unknown": "Неизвестный",
+
   "item.reagent.line1": "Носит свойства ",
   "item.reagent.line2": "это также может вызывать побочные эффекты",
 

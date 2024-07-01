@@ -285,6 +285,13 @@
   "itemGroup.spore": "Spore",
   "itemGroup.spore_t": "Spore Tech",
 
+  "spore.name.infected": "Infected",
+  "spore.name.evolved": "Evolved",
+  "spore.name.hyper": "Hyper Evolved",
+  "spore.name.organoid": "Organoid",
+  "spore.name.calamity": "Calamity",
+  "spore.name.experiment": "Experiment",
+  "spore.name.unknown": "Unknown",
 
   "item.reagent.line1": "Carries the properties of ",
   "item.reagent.line2": "it may also bestow side effects",

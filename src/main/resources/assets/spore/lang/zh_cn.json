@@ -280,6 +280,14 @@
   "itemGroup.spore": "孢子",
   "itemGroup.spore_t": "孢子科技",
 
+  "spore.name.infected": "已感染",
+  "spore.name.evolved": "进化了",
+  "spore.name.hyper": "超进化",
+  "spore.name.organoid": "类器官",
+  "spore.name.calamity": "灾害",
+  "spore.name.experiment": "实验",
+  "spore.name.unknown": "未知",
+
   "item.reagent.line1": "具有如下特性： ",
   "item.reagent.line2": "也可能带来副作用：",
 

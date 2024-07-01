@@ -99,119 +99,119 @@ public class Sitems {
                     .effect(()-> new MobEffectInstance(MobEffects.DIG_SPEED,300,1),1f).meat().build())));
 
     public  static final RegistryObject<Item> INFECTED_HUMAN_SPAWNEGG = ITEMS.register("infected_human_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.INF_HUMAN,-9357608, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.INF_HUMAN,-9357608,SpawnEggType.INFECTED));
     public  static final RegistryObject<Item> INFECTED_HUSK_SPAWNEGG = ITEMS.register("inf_husk_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.INF_HUSK,-875608, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.INF_HUSK,-875608,SpawnEggType.INFECTED));
     public  static final RegistryObject<Item> INF_VILLAGER_SPAWNEGG = ITEMS.register("inf_villager_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.INF_VILLAGER,-6639718, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.INF_VILLAGER,-6639718,SpawnEggType.INFECTED));
     public  static final RegistryObject<Item> INF_WITCH_SPAWNEGG = ITEMS.register("inf_witch_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.INF_WITCH,-8512718, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.INF_WITCH,-8512718,SpawnEggType.INFECTED));
     public  static final RegistryObject<Item> INF_PILLAGER_SPAWNEGG = ITEMS.register("inf_pillager_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.INF_PILLAGER,-2312718, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.INF_PILLAGER,-2312718,SpawnEggType.INFECTED));
     public  static final RegistryObject<Item> INF_VIND_SPAWNEGG = ITEMS.register("inf_vind_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.INF_VINDICATOR,-984718, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.INF_VINDICATOR,-984718,SpawnEggType.INFECTED));
     public  static final RegistryObject<Item> INF_EVO_SPAWNEGG = ITEMS.register("inf_evo_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.INF_EVOKER,-254718, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.INF_EVOKER,-254718,SpawnEggType.INFECTED));
     public  static final RegistryObject<Item> INF_WANDERER_SPAWNEGG = ITEMS.register("inf_wanderer_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.INF_WANDERER,-6639718, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.INF_WANDERER,-6639718,SpawnEggType.INFECTED));
     public  static final RegistryObject<Item> INF_DROWNED_SPAWNEGG = ITEMS.register("inf_drowned_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.INF_DROWNED,-16751002, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.INF_DROWNED,-16751002,SpawnEggType.INFECTED));
     public  static final RegistryObject<Item> INF_PLAYER_SPAWNEGG = ITEMS.register("inf_player_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.INF_PLAYER,-86751002, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.INF_PLAYER,-86751002,SpawnEggType.INFECTED));
     public  static final RegistryObject<Item> INF_HAZMAT_SPAWNEGG = ITEMS.register("inf_hazmat_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.INF_HAZMAT,-6345002, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.INF_HAZMAT,-6345002,SpawnEggType.INFECTED));
 
     public  static final RegistryObject<Item> PLAGUED_SPAWNEGG = ITEMS.register("plagued_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.PLAGUED,78294644, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.PLAGUED,78294644,SpawnEggType.EXPERIMENT));
 
 
 
 
 
     public  static final RegistryObject<Item> KNIGHT_SPAWNEGG = ITEMS.register("knight_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.KNIGHT,-7681208, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.KNIGHT,-7681208,SpawnEggType.EVOLVED));
     public  static final RegistryObject<Item> GRIEFER_SPAWNEGG = ITEMS.register("griefer_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.GRIEFER,-5750208, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.GRIEFER,-5750208,SpawnEggType.EVOLVED));
     public  static final RegistryObject<Item> BRAIO_SPAWNEGG = ITEMS.register("braio_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.BRAIOMIL,-6124508, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.BRAIOMIL,-6124508,SpawnEggType.EVOLVED));
     public  static final RegistryObject<Item> BUSSER_SPAWNEGG = ITEMS.register("busser_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.BUSSER,-3724508, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.BUSSER,-3724508,SpawnEggType.EVOLVED));
 
     public  static final RegistryObject<Item> LEAPER_SPAWNEGG = ITEMS.register("leaper_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.LEAPER,-9762718, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.LEAPER,-9762718,SpawnEggType.EVOLVED));
     public  static final RegistryObject<Item> SLASHER_SPAWNEGG = ITEMS.register("slasher_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.SLASHER,-8564118, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.SLASHER,-8564118,SpawnEggType.EVOLVED));
     public  static final RegistryObject<Item> SPITTER_SPAWNEGG = ITEMS.register("spitter_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.SPITTER,-8164818, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.SPITTER,-8164818,SpawnEggType.EVOLVED));
 
     public  static final RegistryObject<Item> HOWLER_SPAWNEGG = ITEMS.register("howler_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.HOWLER,-32464818, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.HOWLER,-32464818,SpawnEggType.EVOLVED));
     public  static final RegistryObject<Item> STALKER_SPAWNEGG = ITEMS.register("stalker_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.STALKER,-42364818, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.STALKER,-42364818,SpawnEggType.EVOLVED));
     public  static final RegistryObject<Item> BRUTE_SPAWNEGG = ITEMS.register("brute_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.BRUTE,-1235818, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.BRUTE,-1235818,SpawnEggType.EVOLVED));
 
     public  static final RegistryObject<Item> VOLATILE_SPAWNEGG = ITEMS.register("volatile_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.VOLATILE,-976435818, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.VOLATILE,-976435818,SpawnEggType.EVOLVED));
 
 
 
     public  static final RegistryObject<Item> SCENT_SPAWNEGG = ITEMS.register("scent_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.SCENT,-1, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.SCENT,-1,SpawnEggType.UNKNOWN));
 
     public  static final RegistryObject<Item> ILLUSION_SPAWNEGG = ITEMS.register("illusion_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.ILLUSION,-1, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.ILLUSION,-1,SpawnEggType.UNKNOWN));
 
     public  static final RegistryObject<Item> CLAW_SPAWNEGG = ITEMS.register("claw_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.CLAW,-5437216, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.CLAW,-5437216,SpawnEggType.UNKNOWN));
 
     public  static final RegistryObject<Item> SCAMPER_SPAWNEGG = ITEMS.register("scamper_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.SCAMPER,-33777216, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.SCAMPER,-33777216,SpawnEggType.UNKNOWN));
 
     public  static final RegistryObject<Item> MOUND_SPAWNEGG = ITEMS.register("mound_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.MOUND,-5750208, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.MOUND,-5750208,SpawnEggType.ORGANOID));
 
     public  static final RegistryObject<Item> VIGIL_SPAWNEGG = ITEMS.register("vigil_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.VIGIL,-64160208, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.VIGIL,-64160208,SpawnEggType.ORGANOID));
 
     public  static final RegistryObject<Item> UMARMED_SPAWNEGG = ITEMS.register("umarmed_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.UMARMED,-8650208, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.UMARMED,-8650208,SpawnEggType.ORGANOID));
 
     public  static final RegistryObject<Item> USURPER_SPAWNEGG = ITEMS.register("usurper_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.USURPER,-432208, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.USURPER,-432208,SpawnEggType.ORGANOID));
 
     public  static final RegistryObject<Item> BRAUREI_SPAWNEGG = ITEMS.register("braurei_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.BRAUREI,-745723, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.BRAUREI,-745723,SpawnEggType.ORGANOID));
 
     public  static final RegistryObject<Item> VERVA_SPAWNEGG = ITEMS.register("verva_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.VERVA,-412323, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.VERVA,-412323,SpawnEggType.ORGANOID));
 
     public  static final RegistryObject<Item> DELUSIONER_SPAWNEGG = ITEMS.register("delusioner_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.DELUSIONARE,-93652400, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.DELUSIONARE,-93652400,SpawnEggType.ORGANOID));
 
     public  static final RegistryObject<Item> RECONSTRUCTOR_SPAWNEGG = ITEMS.register("reconstructor_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.RECONSTRUCTOR,-2353208, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.RECONSTRUCTOR,-2353208,SpawnEggType.ORGANOID));
 
     public  static final RegistryObject<Item> PROTO_SPAWNEGG = ITEMS.register("proto_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.PROTO,244208, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.PROTO,244208,SpawnEggType.ORGANOID));
 
     public  static final RegistryObject<Item> WENDIGO_SPAWNEGG = ITEMS.register("wendigo_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.WENDIGO,-354345818, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.WENDIGO,-354345818,SpawnEggType.HYPER));
 
     public  static final RegistryObject<Item> INQUISITOR_SPAWNEGG = ITEMS.register("inquisitor_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.INQUISITOR,-6435818, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.INQUISITOR,-6435818,SpawnEggType.HYPER));
 
     public  static final RegistryObject<Item> BROTKATZE_SPAWNEGG = ITEMS.register("brotkatze_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.BROTKATZE,-7352318, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.BROTKATZE,-7352318,SpawnEggType.HYPER));
 
     public  static final RegistryObject<Item> SIEGER_SPAWNEGG = ITEMS.register("sieger_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.SIEGER,244208, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.SIEGER,244208,SpawnEggType.CALAMITY));
 
     public  static final RegistryObject<Item> GAZEN_SPAWNEGG = ITEMS.register("gazen_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.GAZENBREACHER,865020865, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.GAZENBREACHER,865020865,SpawnEggType.CALAMITY));
 
     public  static final RegistryObject<Item> HINDEN_SPAWNEGG = ITEMS.register("hinden_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.HINDENBURG,346320865, new Item.Properties()));
+            () -> new SporeSpawnEgg(Sentities.HINDENBURG,346320865,SpawnEggType.CALAMITY));
 
 
     public  static final RegistryObject<Item> ACID = ITEMS.register("acid",
