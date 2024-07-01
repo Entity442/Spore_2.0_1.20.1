@@ -367,5 +367,5 @@
   "block.spore.lab_stair": "实验室楼梯",
   "container.line.normal": "按住 SHIFT 查看信息。",
   "container.line.shift": "生物危害存储单元 - 储存有机材料的理想选择。",
-  "cdu.line": "冷冻分配单元"
+  "cdu.line": "低温分配装置，需要蓝冰才能发挥作用"
 }

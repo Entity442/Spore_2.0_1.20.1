@@ -375,5 +375,5 @@
   "block.spore.lab_stair": "Laboratory Stairs",
   "container.line.normal": "Press shift for more info.",
   "container.line.shift": "The Biohazard Storage Unit is the perfect new addition to storing your organic materials.",
-  "cdu.line": "Cryogenic dispensing unit"
+  "cdu.line": "Cryogenic dispensing unit , needs blue ice to function"
 }
