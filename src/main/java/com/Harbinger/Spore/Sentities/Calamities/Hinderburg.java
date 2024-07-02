@@ -17,6 +17,7 @@ import com.Harbinger.Spore.Sentities.FlyingInfected;
 import com.Harbinger.Spore.Sentities.Projectile.ThrownTumor;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
 import com.Harbinger.Spore.Sentities.Utility.TumoroidNuke;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -44,6 +45,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.List;
 
 public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamity , RangedAttackMob {
+    public static final EntityDataAccessor<Boolean> ADAPTATION = SynchedEntityData.defineId(Hinderburg.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Integer> DROPPED_BOMBS = SynchedEntityData.defineId(Hinderburg.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Integer> BOMB = SynchedEntityData.defineId(Hinderburg.class, EntityDataSerializers.INT);
     private int bomb_timer = -1;
     private final CalamityMultipart[] subEntities;
@@ -102,8 +105,23 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
     @Override
     public void tick() {
         super.tick();
+        if (tickCount % 20 == 0){
+            if (this.getKills() >= 50 && this.getDroppedBombs() >= 5 && !this.isAdapted()){
+                this.entityData.set(ADAPTATION,true);
+            }
+            if (this.isAdapted()){
+                AABB aabb = this.getBoundingBox().inflate(8);
+                List<Entity> entities = level().getEntities(this,aabb);
+                for (Entity entity : entities){
+                    if (entity instanceof LivingEntity living && !(living instanceof Infected || living instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(living.getEncodeId()))){
+                        living.setSecondsOnFire(5);
+                    }
+                }
+            }
+        }
         if(this.getBomb() < 2450){
-            this.setBomb(this.getBomb() +1);
+            int value = this.isAdapted() ? 2 : 1;
+            this.setBomb(this.getBomb() + value);
         }
         if (this.getBombTimer() >= 0){
             tickBomb();
@@ -123,6 +141,9 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
     }
     public void tickBomb(){
         this.bomb_timer++;
+    }
+    public int getDroppedBombs(){
+        return this.entityData.get(DROPPED_BOMBS);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -181,7 +202,7 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
     @Override
     public void registerGoals() {
         this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, TumoroidNuke.class, 10.0F, 1.0D, 1.2D));
-        this.goalSelector.addGoal(5,new AerialRangedGoal(this,1.3,40,16,5,10){
+        this.goalSelector.addGoal(5,new AerialRangedGoal(this,1.3,this.isAdapted() ? 20 : 40,16,5,10){
             @Override
             public boolean canUse() {
                 return super.canUse() && (this.target != null && (this.target.onGround() || this.target.isInFluidType()));
@@ -220,6 +241,18 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
             this.subEntities[l].zOld = avec3[l].z;
         }
         super.aiStep();
+        if (this.isAdapted()){
+            for (int i = 0; i < 360; i++) {
+                if (i % 40 == 0) {
+                    this.level().addParticle(ParticleTypes.LARGE_SMOKE,
+                            this.getX() , this.getY(), this.getZ() ,
+                            Math.cos(i) * 0.25d, 0.25d, Math.sin(i) * 0.25d);
+                    this.level().addParticle(ParticleTypes.LARGE_SMOKE,
+                            this.getX() , this.getY(), this.getZ() ,
+                            Math.sin(i) * 0.25d,  -0.25d, Math.cos(i) * 0.25d);
+                }
+            }
+        }
     }
 
     public CalamityMultipart[] getSubEntities() {
@@ -246,7 +279,9 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
         }
 
     }
-
+    public boolean isAdapted(){
+        return this.entityData.get(ADAPTATION);
+    }
 
     @Override
     public double getDamageCap() {
@@ -263,6 +298,7 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
     }
     public void SummonNuke(){
             TumoroidNuke tnt = new TumoroidNuke(this.level(),this);
+            this.entityData.set(DROPPED_BOMBS,entityData.get(DROPPED_BOMBS)+1);
             this.level().addFreshEntity(tnt);
             this.setBomb(0);
     }
@@ -344,16 +380,22 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(BOMB, 0);
+        this.entityData.define(DROPPED_BOMBS, 0);
+        this.entityData.define(ADAPTATION, false);
     }
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt("bomb", entityData.get(BOMB));
+        tag.putInt("dropped_bombs", entityData.get(DROPPED_BOMBS));
+        tag.putBoolean("adaptation", entityData.get(ADAPTATION));
     }
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         entityData.set(BOMB, tag.getInt("bomb"));
+        entityData.set(DROPPED_BOMBS, tag.getInt("dropped_bombs"));
+        entityData.set(ADAPTATION, tag.getBoolean("adaptation"));
     }
     public int getBomb(){
         return entityData.get(BOMB);
