@@ -13,6 +13,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class HindieRenderer<Type extends Hinderburg> extends BaseInfectedRenderer<Type , HindieModel<Type>> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/hindie.png");
+    private static final ResourceLocation OVERCLOCKED = new ResourceLocation(Spore.MODID,
+            "textures/entity/hindie.png");
     private static final ResourceLocation EYE_TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/eyes/hindie.png");
 
@@ -24,7 +26,7 @@ public class HindieRenderer<Type extends Hinderburg> extends BaseInfectedRendere
 
     @Override
     public ResourceLocation getTextureLocation(Type entity) {
-        return TEXTURE;
+        return entity.isAdapted() ? OVERCLOCKED:TEXTURE;
     }
 
     @Override

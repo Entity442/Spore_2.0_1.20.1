@@ -148,7 +148,7 @@ public class HandlerEvents {
                  }
              }
             return 1;
-        }));
+        }).requires(s -> s.hasPermission(1)));
         event.getDispatcher().register(Commands.literal(Spore.MODID+":feed")
                 .executes(arguments -> {
                     ServerLevel world = arguments.getSource().getLevel();
@@ -168,7 +168,7 @@ public class HandlerEvents {
                         }
                     }
                     return 1;
-                }));
+                }).requires(s -> s.hasPermission(1)));
         event.getDispatcher().register(Commands.literal(Spore.MODID+":evolve")
                 .executes(arguments -> {
                     ServerLevel world = arguments.getSource().getLevel();
@@ -191,7 +191,7 @@ public class HandlerEvents {
                         }
                     }
                     return 1;
-                }));
+                }).requires(s -> s.hasPermission(1)));
         event.getDispatcher().register(Commands.literal(Spore.MODID+":get_data")
                 .executes(arguments -> {
                     ServerLevel world = arguments.getSource().getLevel();
@@ -205,14 +205,14 @@ public class HandlerEvents {
                             player.displayClientMessage(Component.literal("Time before spawns "+time + "/"+1200*SConfig.SERVER.days.get()),false);
                     }
                     return 1;
-                }));
+                }).requires(s -> s.hasPermission(1)));
         if (SConfig.SERVER.spawn.get()){
             event.getDispatcher().register(Commands.literal(Spore.MODID+":add_day")
                     .executes(arguments -> {
                         ServerLevel world = arguments.getSource().getLevel();
                         SporeSavedData.addDay(world);
                         return 1;
-                    }));
+                    }).requires(s -> s.hasPermission(1)));
         }
         event.getDispatcher().register(Commands.literal(Spore.MODID+":check_entity")
                 .executes(arguments -> {
@@ -340,7 +340,7 @@ public class HandlerEvents {
                         }
                     }
                     return 1;
-                }));
+                }).requires(s -> s.hasPermission(1)));
 
         event.getDispatcher().register(Commands.literal(Spore.MODID+":check_block_entity")
                 .executes(arguments -> {
@@ -365,7 +365,7 @@ public class HandlerEvents {
                         }
                         }
                     return 1;
-                }));
+                }).requires(s -> s.hasPermission(1)));
 
     }
 
