@@ -419,9 +419,7 @@ public class Calamity extends UtilityEntity implements Enemy {
         if (level instanceof ServerLevel serverLevel){
             SporeSavedData data = SporeSavedData.getDataLocation(serverLevel);
             if (data != null && data.getAmountOfHiveminds() >= SConfig.SERVER.proto_spawn_world_mod.get()){
-                if (Math.random() < 0.3){
-                    ActivateAdaptation();
-                }
+                ActivateAdaptation();
             }
         }
     }
