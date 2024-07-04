@@ -263,6 +263,7 @@ public class Calamity extends UtilityEntity implements Enemy {
             }
         }
     }
+    public void ActivateAdaptation(){}
 
     @Override
     public void tick() {

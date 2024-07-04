@@ -14,7 +14,7 @@ public class HindieRenderer<Type extends Hinderburg> extends BaseInfectedRendere
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/hindie.png");
     private static final ResourceLocation OVERCLOCKED = new ResourceLocation(Spore.MODID,
-            "textures/entity/hindie.png");
+            "textures/entity/hindie_adapted.png");
     private static final ResourceLocation EYE_TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/eyes/hindie.png");
 

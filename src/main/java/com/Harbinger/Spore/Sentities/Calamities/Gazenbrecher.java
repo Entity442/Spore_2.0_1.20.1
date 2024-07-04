@@ -80,6 +80,11 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
     }
 
     @Override
+    public void ActivateAdaptation() {
+        entityData.set(ADAPTATION,21);
+    }
+
+    @Override
     public void setId(int p_20235_) {
         super.setId(p_20235_);
         for (int i = 0; i < this.subEntities.length; i++)

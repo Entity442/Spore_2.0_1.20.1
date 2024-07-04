@@ -217,6 +217,12 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
     }
 
     @Override
+    public void ActivateAdaptation() {
+        this.setKills(this.getKills()+50);
+        this.entityData.set(DROPPED_BOMBS,entityData.get(DROPPED_BOMBS)+5);
+    }
+
+    @Override
     public void aiStep() {
         float f14 = this.getYRot() * ((float)Math.PI / 180F);
         float f2 = Mth.sin(f14);
