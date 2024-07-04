@@ -187,6 +187,8 @@ public class HandlerEvents {
                                 infected.setEvoPoints(SConfig.SERVER.min_kills.get());
                             }else if (entity1 instanceof Mound mound){
                                 mound.setAge(mound.getAge()+1);
+                            }else if (entity1 instanceof Calamity calamity){
+                                calamity.ActivateAdaptation();
                             }
                         }
                     }

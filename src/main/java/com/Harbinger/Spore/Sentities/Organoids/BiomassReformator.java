@@ -280,6 +280,7 @@ public class BiomassReformator extends Organoid {
             double y0 = this.getY() + (random.nextFloat() - 0.25) * 0.15D * 5;
             double z0 = this.getZ() + (random.nextFloat() - 0.1) * 0.1D;
             serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x0, y0, z0, 2, 0, 0, 0, 1);
+            waveentity.finalizeSpawn(serverLevel,serverLevel.getCurrentDifficultyAt(this.getOnPos()),MobSpawnType.MOB_SUMMONED,null,null);
             }
             this.discard();
         level().addFreshEntity(waveentity);
