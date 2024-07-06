@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 
 public class SiegerArrowLayer<T extends Sieger> extends RenderLayer<T, SiegerArrowModel<T>> {
-    private static final ResourceLocation ARROW_LOCATION = new ResourceLocation("minecraft:textures/entity/arrow.png");
+    private static final ResourceLocation ARROW_LOCATION = new ResourceLocation("minecraft:textures/entity/projectiles/arrow.png");
     private final SiegerArrowModel<T> model;
 
     public SiegerArrowLayer(RenderLayerParent<T, SiegerArrowModel<T>> p_117346_, EntityModelSet set) {

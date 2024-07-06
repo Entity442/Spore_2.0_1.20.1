@@ -345,6 +345,7 @@ public class Sieger extends Calamity implements RangedAttackMob, TrueCalamity {
     private void SummonDetashedTail(){
         SiegerTail siegerTail = new SiegerTail(Sentities.SIEGER_TAIL.get(),this.level());
         Vec3 vec3 = (new Vec3(-1.7D, 0.0D, 0.0D)).yRot(-this.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
+        siegerTail.setWar(this.isAdapted());
         siegerTail.moveTo(this.getX() + vec3.x, this.getY() + 1.6,this.getZ()+ vec3.z);
         this.level().addFreshEntity(siegerTail);
     }

@@ -13,6 +13,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class SiegerTailRenderer<Type extends SiegerTail> extends MobRenderer<Type , SiegerTailModel<Type>> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/sieger.png");
+    private static final ResourceLocation WAR = new ResourceLocation(Spore.MODID,
+            "textures/entity/war_sieger.png");
 
 
     public SiegerTailRenderer(EntityRendererProvider.Context context) {
@@ -23,7 +25,7 @@ public class SiegerTailRenderer<Type extends SiegerTail> extends MobRenderer<Typ
 
     @Override
     public ResourceLocation getTextureLocation(Type entity) {
-        return TEXTURE;
+        return entity.getWar() ? WAR:TEXTURE;
     }
 
 }
