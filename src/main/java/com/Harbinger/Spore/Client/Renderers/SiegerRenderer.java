@@ -1,6 +1,8 @@
 package com.Harbinger.Spore.Client.Renderers;
 
+import com.Harbinger.Spore.Client.Layers.SiegerArrowLayer;
 import com.Harbinger.Spore.Client.Layers.SiegerHatLayer;
+import com.Harbinger.Spore.Client.Models.SiegerArrowModel;
 import com.Harbinger.Spore.Client.Models.SiegerModel;
 import com.Harbinger.Spore.Client.Special.BaseInfectedRenderer;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
@@ -14,6 +16,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class SiegerRenderer<Type extends Sieger> extends BaseInfectedRenderer<Type , SiegerModel<Type>> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/sieger.png");
+    private static final ResourceLocation WAR = new ResourceLocation(Spore.MODID,
+            "textures/entity/war_sieger.png");
     private static final ResourceLocation EYES_TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/eyes/sieger.png");
 
@@ -21,11 +25,12 @@ public class SiegerRenderer<Type extends Sieger> extends BaseInfectedRenderer<Ty
     public SiegerRenderer(EntityRendererProvider.Context context) {
         super(context, new SiegerModel<>(context.bakeLayer(SiegerModel.LAYER_LOCATION)), 4f);
         this.addLayer(new SiegerHatLayer<>(this,context.getModelSet()));
+        this.addLayer(new SiegerArrowLayer(this,context.getModelSet()));
     }
 
     @Override
     public ResourceLocation getTextureLocation(Type entity) {
-        return TEXTURE;
+        return entity.isAdapted() ? WAR:TEXTURE;
     }
 
 

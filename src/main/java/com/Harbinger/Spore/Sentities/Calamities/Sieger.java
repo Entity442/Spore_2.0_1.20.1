@@ -46,6 +46,7 @@ import java.util.List;
 
 public class Sieger extends Calamity implements RangedAttackMob, TrueCalamity {
     public static final EntityDataAccessor<Float> TAIL_HP = SynchedEntityData.defineId(Sieger.class, EntityDataSerializers.FLOAT);
+    public static final EntityDataAccessor<Integer> ADAPTATION = SynchedEntityData.defineId(Sieger.class, EntityDataSerializers.INT);
     private final CalamityMultipart[] subEntities;
     public final CalamityMultipart lowerbody;
     public final CalamityMultipart head;
@@ -83,6 +84,9 @@ public class Sieger extends Calamity implements RangedAttackMob, TrueCalamity {
             if (this.tickCount % 40 == 0){
                 this.setTailHp(this.getTailHp() +1);
             }
+        }
+        if (tickCount % 20 == 0 && this.getHealth() < this.getMaxHealth()){
+            this.entityData.set(ADAPTATION,this.entityData.get(ADAPTATION)+1);
         }
 
     }
@@ -223,6 +227,11 @@ public class Sieger extends Calamity implements RangedAttackMob, TrueCalamity {
     }
 
     @Override
+    public boolean hurt(DamageSource source, float amount) {
+        return super.hurt(source,this.isAdapted() ? amount/2 : amount);
+    }
+
+    @Override
     public double getDamageCap() {
         return SConfig.SERVER.sieger_dpsr.get();
     }
@@ -274,6 +283,15 @@ public class Sieger extends Calamity implements RangedAttackMob, TrueCalamity {
         }
     }
 
+    public boolean isAdapted(){
+        return this.entityData.get(ADAPTATION) >= 900;
+    }
+
+    @Override
+    public void ActivateAdaptation() {
+        this.entityData.set(ADAPTATION,900);
+    }
+
     @Override
     public boolean doHurtTarget(Entity entity) {
         this.playSound(Ssounds.SIEGER_BITE.get());
@@ -282,16 +300,19 @@ public class Sieger extends Calamity implements RangedAttackMob, TrueCalamity {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(TAIL_HP, this.getMaxTailHp());
+        this.entityData.define(ADAPTATION, 0);
     }
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putFloat("tail_hp", entityData.get(TAIL_HP));
+        tag.putInt("adaptation", entityData.get(ADAPTATION));
     }
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         entityData.set(TAIL_HP, tag.getFloat("tail_hp"));
+        entityData.set(ADAPTATION, tag.getInt("adaptation"));
     }
     public float getTailHp(){
         return entityData.get(TAIL_HP);
