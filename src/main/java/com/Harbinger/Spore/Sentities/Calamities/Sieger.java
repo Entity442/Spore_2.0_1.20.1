@@ -137,11 +137,22 @@ public class Sieger extends Calamity implements RangedAttackMob, TrueCalamity {
         }
         return super.hasLineOfSight(entity);
     }
+    private int[] ammoAmount(){
+        int[] values = new int[2];
+        if (this.isAdapted()){
+            values[0] = 5;
+            values[1] = 8;
+        }else{
+            values[0] = 3;
+            values[1] = 6;
+        }
+        return values;
+    }
 
     @Override
     public void registerGoals() {
 
-        this.goalSelector.addGoal(3, new ScatterShotRangedGoal(this,1.5,80,48,3,6){
+        this.goalSelector.addGoal(3, new ScatterShotRangedGoal(this,1.5,80,48,ammoAmount()[0],ammoAmount()[1]){
             @Override
             public boolean canUse() {
                 if (Sieger.this.getTailHp() <= 0){
@@ -331,7 +342,7 @@ public class Sieger extends Calamity implements RangedAttackMob, TrueCalamity {
                 this.playSound(Ssounds.LIMB_SLASH.get());
                 SummonDetashedTail();
             }
-            this.hurt(source,value * 2);
+            this.hurt(source,this.isAdapted() ? value:value * 2);
             this.setTailHp(value > this.getTailHp() ? 0 : this.getTailHp() - value);
         }if (calamityMultipart == this.head){
             this.hurt(source,value * 0.75f);
