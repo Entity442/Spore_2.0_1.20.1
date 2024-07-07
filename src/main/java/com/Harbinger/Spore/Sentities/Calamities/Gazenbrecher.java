@@ -328,6 +328,7 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
             double dx = livingEntity.getX() - this.getX();
             double dy = livingEntity.getY() + livingEntity.getEyeHeight();
             double dz = livingEntity.getZ() - this.getZ();
+            if (this.isAdaptedToFire()){tumor.setSecondsOnFire(10);}
             tumor.setDamage((float) (SConfig.SERVER.gazen_ranged_damage.get() * 1f));
             tumor.moveTo(this.getX() + vec3.x, this.getY()+1D ,this.getZ()+ vec3.z);
             tumor.shoot(dx, dy - tumor.getY() + Math.hypot(dx, dz) * 0.001F, dz, 2f, 6.0F);
