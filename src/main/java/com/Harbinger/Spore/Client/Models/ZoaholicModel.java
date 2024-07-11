@@ -29,7 +29,7 @@ public class ZoaholicModel<T extends ZoaholicBlockEntity> extends BlockEntityMod
 		ModelPart root = createBodyLayer().bakeRoot();
 		this.Base = root.getChild("Base");
 		this.Blood = Base.getChild("GutBox").getChild("Blood");
-		this.Brain = Base.getChild("Top").getChild("FrankenstineBrain").getChild("BrainLarge");
+		this.Brain = Base.getChild("Top").getChild("FrankenstineBrain");
 		this.Heart = Base.getChild("GutBox").getChild("Heart");
 		this.InnardsTop = Base.getChild("GutBox").getChild("Innards").getChild("HookedInnards");
 		this.InnardsDown = Base.getChild("GutBox").getChild("Innards").getChild("LyingInnards");
@@ -244,16 +244,16 @@ public class ZoaholicModel<T extends ZoaholicBlockEntity> extends BlockEntityMod
 			heart.visible = false;
 		}
 	}
-	private void animateBrain(boolean isActive,boolean hasBrain,ModelPart brain,float value){
+	private void animateBrain(boolean isActive,boolean hasBrain,float value){
 		if (hasBrain){
-			brain.visible = true;
+			this.Brain.visible = true;
 			if (isActive){
-				brain.xScale =1+ Mth.sin(value/6)/6;
-				brain.zScale =1+ Mth.sin(value/6)/6;
-				brain.yScale =1+ Mth.sin(value/6)/6;
+				this.Brain.getChild("BrainLarge").xScale =1+ Mth.sin(value/6)/6;
+				this.Brain.getChild("BrainLarge").zScale =1+ Mth.sin(value/6)/6;
+				this.Brain.getChild("BrainLarge").yScale =1+ Mth.sin(value/6)/6;
 			}
 		}else{
-			brain.visible = false;
+			this.Brain.visible = false;
 		}
 	}
 	private void animateBlood(boolean isActive,boolean biomass,ModelPart blood,float value){
@@ -281,7 +281,7 @@ public class ZoaholicModel<T extends ZoaholicBlockEntity> extends BlockEntityMod
 
 	@Override
 	public void setupAnim(T entity, float ageInTicks) {
-		animateBrain(entity.isActive(),entity.HasBrain(),Brain,ageInTicks);
+		animateBrain(entity.isActive(),entity.HasBrain(),ageInTicks);
 		animateBlood(entity.isActive(),entity.getBiomass()>0,Blood,ageInTicks);
 		animateHeart(entity.isActive(), entity.HasHeart(), Heart,ageInTicks);
 		animateInnards(entity.isActive(),entity.getAmountOfInnards()>0,InnardsTop,ageInTicks);

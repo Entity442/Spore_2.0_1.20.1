@@ -73,12 +73,15 @@ public class ZoaholicBlock extends BaseEntityBlock {
             }else if (!zoaholicBlock.hasEnoughInnards() && stack.getItem() == Sitems.INNARDS.get()){
                 zoaholicBlock.setAmountOfInnards(zoaholicBlock.getAmountOfInnards()+1);
                 stack.shrink(1);
-            }else if (zoaholicBlock.getBiomass() <=450 && stack.getItem() == Sitems.BIOMASS.get()){
-                zoaholicBlock.addBiomass(150);
+            }else if (zoaholicBlock.getBiomass() <=9000 && stack.getItem() == Sitems.BIOMASS.get()){
+                zoaholicBlock.addBiomass(3000);
                 stack.shrink(1);
             }else{
+                if (zoaholicBlock.isActive()){
+                    zoaholicBlock.setProcessing(200);
+                }else
                 if (zoaholicBlock.HasHeart()&& zoaholicBlock.hasEnoughInnards()&& zoaholicBlock.HasBrain()){
-                    player.displayClientMessage(Component.literal("Biomass: "+zoaholicBlock.getBiomass()+"/600"),true);
+                    player.displayClientMessage(Component.literal("Biomass: "+zoaholicBlock.getBiomass()+"/12000"),true);
                 } else{
                     player.displayClientMessage(Component.literal("Missing required organs"),true);
                 }
