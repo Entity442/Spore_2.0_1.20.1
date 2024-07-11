@@ -21,18 +21,23 @@ public abstract class BaseBlockEntityRenderer<T extends BlockEntity> implements 
     }
     public abstract int getTicks(T entity);
     public abstract ResourceLocation getTexture();
+    public BlockEntityModel<T> getModel(){return model;}
 
     @Override
     public void render(@NotNull T blockEntity, float partialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
         pPoseStack.pushPose();
         float f = ((float)getTicks(blockEntity) + partialTicks);
         VertexConsumer vertexConsumer = pBuffer.getBuffer(RenderType.entityCutout(getTexture()));
-        pPoseStack.translate(0.5,1.5,0.5);
-        pPoseStack.scale(0.99f,0.99f,0.99f);
-        pPoseStack.mulPose(Axis.ZP.rotationDegrees(-180F));
+        setModelScale(pPoseStack);
         this.model.setupAnim(blockEntity,f);
         this.model.renderToBuffer(pPoseStack,vertexConsumer,pPackedLight, pPackedOverlay,1,1,1,1);
         pPoseStack.popPose();
+    }
+
+    public void setModelScale(PoseStack pPoseStack){
+        pPoseStack.translate(0.5,1.5,0.5);
+        pPoseStack.scale(0.99f,0.99f,0.99f);
+        pPoseStack.mulPose(Axis.ZP.rotationDegrees(-180F));
     }
 
 

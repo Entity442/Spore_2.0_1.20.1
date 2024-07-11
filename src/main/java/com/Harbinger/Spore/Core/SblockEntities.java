@@ -29,6 +29,10 @@ public class SblockEntities {
             BLOCK_ENTITIES.register("cdu", () ->
                     BlockEntityType.Builder.of(CDUBlockEntity::new,
                             Sblocks.CDU.get()).build(null));
+    public static final RegistryObject<BlockEntityType<ZoaholicBlockEntity>> ZOAHOLIC =
+            BLOCK_ENTITIES.register("zoaholic", () ->
+                    BlockEntityType.Builder.of(ZoaholicBlockEntity::new,
+                            Sblocks.ZOAHOLIC.get()).build(null));
     public static final RegistryObject<BlockEntityType<OvergrownSpawnerEntity>> OVERGROWN_SPAWNER =
             BLOCK_ENTITIES.register("overgrown_spawner", () ->
                     BlockEntityType.Builder.of(OvergrownSpawnerEntity::new,

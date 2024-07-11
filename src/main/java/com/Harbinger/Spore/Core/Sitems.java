@@ -332,6 +332,7 @@ public class Sitems {
 
     public static final RegistryObject<Item> CONTAINER = Techblock(Sblocks.CONTAINER);
     public static final RegistryObject<Item> CDU = Exceptions(Sblocks.CDU);
+    public static final RegistryObject<Item> ZOAHOLIC = Exceptions(Sblocks.ZOAHOLIC);
     public static final RegistryObject<Item> LAB_BLOCK = Techblock(Sblocks.LAB_BLOCK);
     public static final RegistryObject<Item> LAB_BLOCK1 = Techblock(Sblocks.LAB_BLOCK1);
     public static final RegistryObject<Item> LAB_BLOCK2 = Techblock(Sblocks.LAB_BLOCK2);
