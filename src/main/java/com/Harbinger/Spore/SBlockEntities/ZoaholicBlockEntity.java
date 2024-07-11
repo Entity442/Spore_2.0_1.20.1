@@ -74,6 +74,7 @@ public class ZoaholicBlockEntity extends BlockEntity{
         tag.putInt("biomass",getBiomass());
         tag.putBoolean("brain",HasBrain());
         tag.putBoolean("heart",HasHeart());
+        tag.putInt("ticks",ticks);
         super.saveAdditional(tag);
     }
 
@@ -83,6 +84,7 @@ public class ZoaholicBlockEntity extends BlockEntity{
         setBiomass(tag.getInt("biomass"));
         setBrain(tag.getBoolean("brain"));
         setHasHeart(tag.getBoolean("heart"));
+        ticks = tag.getInt("ticks");
         super.load(tag);
     }
 
