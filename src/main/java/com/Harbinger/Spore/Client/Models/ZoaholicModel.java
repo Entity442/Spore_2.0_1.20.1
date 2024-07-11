@@ -281,11 +281,11 @@ public class ZoaholicModel<T extends ZoaholicBlockEntity> extends BlockEntityMod
 
 	@Override
 	public void setupAnim(T entity, float ageInTicks) {
-		animateBrain(true,true,Brain,ageInTicks);
-		animateBlood(true,true,Blood,ageInTicks);
-		animateHeart(true,true,Heart,ageInTicks);
-		animateInnards(true,true,InnardsTop,ageInTicks);
-		animateInnards(true,true,InnardsDown,-ageInTicks);
+		animateBrain(entity.isActive(),entity.HasBrain(),Brain,ageInTicks);
+		animateBlood(entity.isActive(),entity.getBiomass()>0,Blood,ageInTicks);
+		animateHeart(entity.isActive(), entity.HasHeart(), Heart,ageInTicks);
+		animateInnards(entity.isActive(),entity.getAmountOfInnards()>0,InnardsTop,ageInTicks);
+		animateInnards(entity.isActive(),entity.getAmountOfInnards()>1,InnardsDown,-ageInTicks);
 	}
 
 	@Override

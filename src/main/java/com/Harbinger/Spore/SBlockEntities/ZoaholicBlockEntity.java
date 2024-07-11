@@ -10,10 +10,10 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class ZoaholicBlockEntity extends BlockEntity{
     private int ticks;
-    private boolean hasBrain;
-    private boolean hasHeart;
-    private int amountOfInnards;
-    private int biomass;
+    private boolean hasBrain = false;
+    private boolean hasHeart = false;
+    private int amountOfInnards = 0;
+    private int biomass = 0;
     public ZoaholicBlockEntity(BlockPos pos, BlockState state) {
         super(SblockEntities.ZOAHOLIC.get(), pos, state);
     }
@@ -45,6 +45,7 @@ public class ZoaholicBlockEntity extends BlockEntity{
     public void setBiomass(int biomass) {
         this.biomass = biomass;
     }
+    public void addBiomass(int value){setBiomass(getBiomass()+value);}
 
     @Override
     protected void saveAdditional(CompoundTag tag) {

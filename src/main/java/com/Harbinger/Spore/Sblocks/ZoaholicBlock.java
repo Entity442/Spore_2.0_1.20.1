@@ -1,10 +1,10 @@
 package com.Harbinger.Spore.Sblocks;
 
 import com.Harbinger.Spore.Core.SblockEntities;
-import com.Harbinger.Spore.SBlockEntities.CDUBlockEntity;
+import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.SBlockEntities.ZoaholicBlockEntity;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -28,6 +28,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -62,8 +63,31 @@ public class ZoaholicBlock extends BaseEntityBlock {
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
         super.use(state, level, pos, player, hand, result);
         BlockEntity entity = level.getBlockEntity(pos);
+        if (entity instanceof ZoaholicBlockEntity zoaholicBlock){
+            ItemStack stack = player.getItemInHand(hand);
+            if (!zoaholicBlock.HasBrain() && stack.getItem() == Sitems.CEREBRUM.get()){
+                zoaholicBlock.setBrain(true);
+                stack.shrink(1);
+            }else if (!zoaholicBlock.HasHeart() && stack.getItem() == Sitems.MUTATED_HEART.get()){
+                zoaholicBlock.setHasHeart(true);
+                stack.shrink(1);
+            }else if (!zoaholicBlock.hasEnoughInnards() && stack.getItem() == Sitems.INNARDS.get()){
+                zoaholicBlock.setAmountOfInnards(zoaholicBlock.getAmountOfInnards()+1);
+                stack.shrink(1);
+            }else if (zoaholicBlock.getBiomass() <=450 && stack.getItem() == Sitems.BIOMASS.get()){
+                zoaholicBlock.addBiomass(150);
+                stack.shrink(1);
+            }else{
+                if (zoaholicBlock.HasHeart()&& zoaholicBlock.hasEnoughInnards()&& zoaholicBlock.HasBrain()){
+                    player.displayClientMessage(Component.literal("Biomass: "+zoaholicBlock.getBiomass()+"/600"),true);
+                } else{
+                    player.displayClientMessage(Component.literal("Missing required organs"),true);
+                }
+            }
+            return InteractionResult.SUCCESS;
+        }
 
-        return InteractionResult.SUCCESS;
+        return InteractionResult.PASS;
     }
     @javax.annotation.Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState p_153274_, BlockEntityType<T> type) {
@@ -79,24 +103,76 @@ public class ZoaholicBlock extends BaseEntityBlock {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable BlockGetter getter, List<Component> components, TooltipFlag tooltipFlag) {
+        CompoundTag tag = stack.getOrCreateTag();
+        if (getBrain(tag) && getHeart(tag) && getInnards(tag)>=2){
+            components.add(Component.literal("Biomass: "+ getBiomassTag(tag)+"/600"));
+        }else{
+            components.add(Component.literal("Missing organs:"));
+            if (!getBrain(tag)){
+                components.add(Sitems.CEREBRUM.get().getDescription());
+            }if (!getHeart(tag)){
+                components.add(Sitems.MUTATED_HEART.get().getDescription());
+            }if (getInnards(tag) <1){
+                components.add(Sitems.INNARDS.get().getDescription());
+            }if (getInnards(tag) <2){
+                components.add(Sitems.INNARDS.get().getDescription());
+            }
+        }
         super.appendHoverText(stack, getter, components, tooltipFlag);
-        components.add(Component.translatable("cdu.line").withStyle(ChatFormatting.BLUE));
-        components.add(Items.BLUE_ICE.getDescription());
-        components.add(Component.literal("/12000").withStyle(ChatFormatting.DARK_BLUE));
     }
 
     @Override
     public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
-        ItemStack stack = new ItemStack(this);
-        ItemEntity item = new ItemEntity(level, pos.getX() , pos.getY(),pos.getZ(),stack);
-        level.addFreshEntity(item);
+        if (level.getBlockEntity(pos) instanceof ZoaholicBlockEntity zoaholicBlockEntity){
+            ItemStack stack = new ItemStack(this);
+            CompoundTag tag = stack.getOrCreateTag();
+            setBiomassTag(zoaholicBlockEntity.getBiomass(),tag);
+            setHeart(zoaholicBlockEntity.HasHeart(), tag);
+            setBrain(zoaholicBlockEntity.HasBrain(), tag);
+            setInnards(zoaholicBlockEntity.getAmountOfInnards(), tag);
+            ItemEntity item = new ItemEntity(level, pos.getX() , pos.getY(),pos.getZ(),stack);
+            level.addFreshEntity(item);
+        }
+
         return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
     }
 
 
     @Override
-    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity entity, ItemStack stack) {
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity entity, @NotNull ItemStack stack) {
         super.setPlacedBy(level, pos, state, entity, stack);
-        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (level.getBlockEntity(pos) instanceof ZoaholicBlockEntity zoaholicBlock){
+            CompoundTag tag = stack.getOrCreateTag();
+            zoaholicBlock.setBiomass(getBiomassTag(tag));
+            zoaholicBlock.setAmountOfInnards(getInnards(tag));
+            zoaholicBlock.setHasHeart(getHeart(tag));
+            zoaholicBlock.setBrain(getBrain(tag));
+        }
     }
+
+    public void setBiomassTag(int value, CompoundTag tag){
+        tag.putInt("biomass",value);
+    }
+    public int getBiomassTag(CompoundTag tag){
+        return tag.getInt("biomass");
+    }
+    public void setHeart(boolean value, CompoundTag tag){
+        tag.putBoolean("heart",value);
+    }
+    public boolean getHeart(CompoundTag tag){
+        return tag.getBoolean("heart");
+    }
+    public void setBrain(boolean value, CompoundTag tag){
+        tag.putBoolean("brain",value);
+    }
+    public boolean getBrain(CompoundTag tag){
+        return tag.getBoolean("brain");
+    }
+    public void setInnards(int value, CompoundTag tag){
+        tag.putInt("innards",value);
+    }
+    public int getInnards(CompoundTag tag){
+        return tag.getInt("innards");
+    }
+
 }
