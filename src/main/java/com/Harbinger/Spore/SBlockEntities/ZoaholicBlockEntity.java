@@ -15,6 +15,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -179,7 +180,7 @@ public class ZoaholicBlockEntity extends BlockEntity{
     public void spreadMadness(Level level,BlockPos blockPos){
         if (Math.random() < 0.1){
             AABB aabb = AABB.ofSize(new Vec3(blockPos.getX(), blockPos.getY(), blockPos.getZ()), 16, 16, 16);
-            List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, aabb,e -> SConfig.SERVER.proto_sapient_target.get().contains(e.getEncodeId()));
+            List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, aabb,e -> SConfig.SERVER.proto_sapient_target.get().contains(e.getEncodeId()) || e instanceof Player);
             for(LivingEntity entity : entities) {
                 entity.addEffect(new MobEffectInstance(Seffects.MADNESS.get(),2400,0));
             }
