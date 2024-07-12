@@ -332,6 +332,10 @@
 
   "item.line.shift": "A nutrient soup made out of animal matter.",
   "item.line.normal": "Press shift for more info.",
+  "zoaholic.line_1": "Missing required organs",
+  "zoaholic.line_2": "Missing organs:",
+  "zoaholic.line_3": "Anomaly detected at ",
+  "zoaholic.line_4": "No anomaly detected",
 
   "hivemind_summon_message": "Endure...",
   "calamity_summon_message": "Prepare...",

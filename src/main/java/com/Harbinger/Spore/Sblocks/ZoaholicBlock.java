@@ -85,9 +85,10 @@ public class ZoaholicBlock extends BaseEntityBlock {
                     zoaholicBlock.setProcessing(200);
                 }else
                 if (zoaholicBlock.HasHeart()&& zoaholicBlock.hasEnoughInnards()&& zoaholicBlock.HasBrain()){
-                    player.displayClientMessage(Component.literal("Biomass: "+zoaholicBlock.getBiomass()+"/12000"),true);
+                    String string  =Component.translatable(Sitems.BIOMASS.get().getDescriptionId()).getString();
+                    player.displayClientMessage(Component.literal(string+" "+zoaholicBlock.getBiomass()+"/12000"),true);
                 } else{
-                    player.displayClientMessage(Component.literal("Missing required organs"),true);
+                    player.displayClientMessage(Component.translatable("zoaholic.line_1"),true);
                 }
             }
             return InteractionResult.SUCCESS;
@@ -111,9 +112,10 @@ public class ZoaholicBlock extends BaseEntityBlock {
     public void appendHoverText(ItemStack stack, @Nullable BlockGetter getter, List<Component> components, TooltipFlag tooltipFlag) {
         CompoundTag tag = stack.getOrCreateTag();
         if (getBrain(tag) && getHeart(tag) && getInnards(tag)>=2){
-            components.add(Component.literal("Biomass: "+ getBiomassTag(tag)+"/600"));
+            String string  =Component.translatable(Sitems.BIOMASS.get().getDescriptionId()).getString();
+            components.add(Component.literal(string+" "+ getBiomassTag(tag)+"/12000"));
         }else{
-            components.add(Component.literal("Missing organs:"));
+            components.add(Component.translatable("zoaholic.line_2"));
             if (!getBrain(tag)){
                 components.add(Sitems.CEREBRUM.get().getDescription());
             }if (!getHeart(tag)){
