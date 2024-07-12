@@ -143,9 +143,6 @@ public class ZoaholicBlockEntity extends BlockEntity{
             if (e.getBiomass() % 20 == 0){
                 e.spreadMadness(level,pos);
             }
-            if (e.getBiomass() % 60 == 0){
-                level.playLocalSound(pos, Ssounds.HEART_BEAT.get(), SoundSource.BLOCKS,1f,1f,true);
-            }
         }
     }
 
