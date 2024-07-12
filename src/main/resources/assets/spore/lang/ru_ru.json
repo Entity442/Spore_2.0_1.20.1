@@ -304,10 +304,16 @@
   "sounds.spore.brot_ambient": "Броткаце Визг",
   "sounds.spore.delusioner_ambient": "Заблуждающийся хрюканье",
   "sounds.spore.delusioner_casting": "Кастинг иллюзиониста",
+  "sounds.spore.machine": "Машинная работа",
+
 
 
   "item.line.shift": "Питательный суп, приготовленный из животной материи.",
   "item.line.normal": "Зажми SHIFT для информации.",
+  "zoaholic.line_1": "Отсутствие необходимых органов",
+  "zoaholic.line_2": "Отсутствующие органы:",
+  "zoaholic.line_3": "Аномалия обнаружена на",
+  "zoaholic.line_4": "Аномалий не обнаружено",
 
   "hivemind_summon_message": "Выдержи...",
   "calamity_summon_message": "Приготовься...",

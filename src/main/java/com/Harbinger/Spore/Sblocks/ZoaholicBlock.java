@@ -2,11 +2,13 @@ package com.Harbinger.Spore.Sblocks;
 
 import com.Harbinger.Spore.Core.SblockEntities;
 import com.Harbinger.Spore.Core.Sitems;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.SBlockEntities.ZoaholicBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -81,8 +83,9 @@ public class ZoaholicBlock extends BaseEntityBlock {
                 zoaholicBlock.addBiomass(3000);
                 stack.shrink(1);
             }else{
-                if (zoaholicBlock.isActive()){
+                if (zoaholicBlock.isActive() && zoaholicBlock.getProcessing() == 0){
                     zoaholicBlock.setProcessing(200);
+                    level.playLocalSound(pos, Ssounds.PRINTING.get(), SoundSource.BLOCKS,1f,1f,true);
                 }else
                 if (zoaholicBlock.HasHeart()&& zoaholicBlock.hasEnoughInnards()&& zoaholicBlock.HasBrain()){
                     String string  =Component.translatable(Sitems.BIOMASS.get().getDescriptionId()).getString();

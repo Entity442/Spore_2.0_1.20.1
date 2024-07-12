@@ -90,6 +90,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> PUFF = soundRegistry("puff");
 
+    public static final RegistryObject<SoundEvent> PRINTING = soundRegistry("printing");
+
     private Ssounds() {
     }
 }

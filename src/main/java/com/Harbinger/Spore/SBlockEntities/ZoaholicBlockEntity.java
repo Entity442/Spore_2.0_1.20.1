@@ -3,12 +3,14 @@ package com.Harbinger.Spore.SBlockEntities;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.SblockEntities;
 import com.Harbinger.Spore.Core.Seffects;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.Organoids.Proto;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -140,6 +142,9 @@ public class ZoaholicBlockEntity extends BlockEntity{
             }
             if (e.getBiomass() % 20 == 0){
                 e.spreadMadness(level,pos);
+            }
+            if (e.getBiomass() % 60 == 0){
+                level.playLocalSound(pos, Ssounds.HEART_BEAT.get(), SoundSource.BLOCKS,1f,1f,true);
             }
         }
     }

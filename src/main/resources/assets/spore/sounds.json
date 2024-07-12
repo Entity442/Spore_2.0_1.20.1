@@ -231,6 +231,11 @@
     "sounds": [
       "spore:signal"
     ]
-  }
+  },"printing" :{
+  "subtitle": "sounds.spore.machine",
+  "sounds": [
+    "spore:printing"
+  ]
+}
 
 }

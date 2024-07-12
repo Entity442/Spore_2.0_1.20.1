@@ -323,9 +323,14 @@
   "sounds.spore.brot_ambient": "舔食兽尖叫",
   "sounds.spore.delusioner_ambient": "幻术菌妖鬼咕噜",
   "sounds.spore.delusioner_casting": "幻术菌妖鬼施法",
+  "sounds.spore.machine": "Machine Working",
 
   "item.line.shift": "用动物肉制作的营养汤。",
   "item.line.normal": "按住 SHIFT 查看信息。",
+  "zoaholic.line_1": "缺少所需器官",
+  "zoaholic.line_2": "缺失器官：",
+  "zoaholic.line_3": "检测到异常",
+  "zoaholic.line_4": "未检测到异常",
 
   "hivemind_summon_message": "忍受吧...",
   "calamity_summon_message": "准备好...",
