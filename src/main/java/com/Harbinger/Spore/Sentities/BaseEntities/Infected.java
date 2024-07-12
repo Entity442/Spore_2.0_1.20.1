@@ -295,7 +295,7 @@ public class Infected extends Monster{
         if (biomass().contains(state)){
             return level.setBlock(blockPos, Sblocks.MEMBRANE_BLOCK.get().defaultBlockState(), 3);
         }
-        return level.destroyBlock(blockPos, true, this);
+        return level.destroyBlock(blockPos, false, this);
     }
 
 
