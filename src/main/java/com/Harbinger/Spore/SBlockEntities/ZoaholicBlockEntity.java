@@ -3,14 +3,12 @@ package com.Harbinger.Spore.SBlockEntities;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.SblockEntities;
 import com.Harbinger.Spore.Core.Seffects;
-import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.Organoids.Proto;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -141,7 +139,7 @@ public class ZoaholicBlockEntity extends BlockEntity{
                     e.writeDocument(level,pos);
                 }
             }
-            if (e.getBiomass() % 20 == 0){
+            if (e.getBiomass() % 60 == 0){
                 e.spreadMadness(level,pos);
             }
         }
@@ -169,7 +167,7 @@ public class ZoaholicBlockEntity extends BlockEntity{
             int x = livingEntity.getBlockX() + randomSource.nextInt(-50,50);
             int z = livingEntity.getBlockZ() + randomSource.nextInt(-50,50);
             String component = Component.translatable("zoaholic.line_3").getString();
-            stack.setHoverName(Component.literal(component+" Z:"+x + " Z:"+z));
+            stack.setHoverName(Component.literal(component+" X:"+x + " Z:"+z));
         }else{
             stack.setHoverName(Component.translatable("zoaholic.line_4"));
         }

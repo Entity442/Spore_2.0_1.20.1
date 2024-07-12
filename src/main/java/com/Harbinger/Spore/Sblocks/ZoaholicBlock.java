@@ -83,7 +83,7 @@ public class ZoaholicBlock extends BaseEntityBlock {
                 zoaholicBlock.addBiomass(3000);
                 stack.shrink(1);
             }else{
-                if (zoaholicBlock.isActive() && zoaholicBlock.getProcessing() == 0){
+                if (zoaholicBlock.isActive() && zoaholicBlock.getProcessing() <= 0){
                     zoaholicBlock.setProcessing(200);
                     level.playLocalSound(pos, Ssounds.PRINTING.get(), SoundSource.BLOCKS,1f,1f,true);
                 }else
