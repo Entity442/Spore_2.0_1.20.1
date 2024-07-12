@@ -239,6 +239,8 @@ public class ZoaholicModel<T extends ZoaholicBlockEntity> extends BlockEntityMod
 				heart.xScale =1+ Mth.sin(value/4)/6;
 				heart.zScale =1+ Mth.sin(value/4)/6;
 				heart.yScale =1+ Mth.cos(value/4)/6;
+			}else{
+				heart.resetPose();
 			}
 		}else{
 			heart.visible = false;
@@ -251,6 +253,8 @@ public class ZoaholicModel<T extends ZoaholicBlockEntity> extends BlockEntityMod
 				this.Brain.getChild("BrainLarge").xScale =1+ Mth.sin(value/6)/6;
 				this.Brain.getChild("BrainLarge").zScale =1+ Mth.sin(value/6)/6;
 				this.Brain.getChild("BrainLarge").yScale =1+ Mth.sin(value/6)/6;
+			}else{
+				this.Brain.getChild("BrainLarge").resetPose();
 			}
 		}else{
 			this.Brain.visible = false;
@@ -261,6 +265,8 @@ public class ZoaholicModel<T extends ZoaholicBlockEntity> extends BlockEntityMod
 			blood.visible = true;
 			if (isActive){
 				blood.yScale =1+ Mth.sin(value/5)/2;
+			}else{
+				blood.resetPose();
 			}
 		}else{
 			blood.visible = false;
@@ -273,6 +279,8 @@ public class ZoaholicModel<T extends ZoaholicBlockEntity> extends BlockEntityMod
 				innards.xScale =1+ Mth.sin(value/7)/10;
 				innards.zScale =1+ Mth.sin(value/8)/10;
 				innards.yScale =1+ Mth.sin(value/6)/10;
+			}else{
+				innards.resetPose();
 			}
 		}else{
 			innards.visible = false;

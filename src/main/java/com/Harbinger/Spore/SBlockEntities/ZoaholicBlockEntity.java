@@ -16,6 +16,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -29,8 +30,16 @@ public class ZoaholicBlockEntity extends BlockEntity{
     private int amountOfInnards = 0;
     private int biomass = 0;
     private int processing = 0;
+    private int side;
     public ZoaholicBlockEntity(BlockPos pos, BlockState state) {
         super(SblockEntities.ZOAHOLIC.get(), pos, state);
+        side = setSide(state);
+    }
+    private int setSide(BlockState state){
+        if (state.getBlock().getStateDefinition().getProperty("facing") instanceof DirectionProperty directionProperty){
+            return state.getValue(directionProperty).get3DDataValue();
+        }
+        return 2;
     }
 
     public int getAmountOfInnards() {
@@ -67,6 +76,8 @@ public class ZoaholicBlockEntity extends BlockEntity{
     public void setProcessing(int processing) {
         this.processing = processing;
     }
+    public void setSide(int i){this.side = i;}
+    public int getSide(){return this.side;}
 
     @Override
     protected void saveAdditional(CompoundTag tag) {
@@ -74,7 +85,7 @@ public class ZoaholicBlockEntity extends BlockEntity{
         tag.putInt("biomass",getBiomass());
         tag.putBoolean("brain",HasBrain());
         tag.putBoolean("heart",HasHeart());
-        tag.putInt("ticks",ticks);
+        tag.putInt("side",getSide());
         super.saveAdditional(tag);
     }
 
@@ -84,7 +95,7 @@ public class ZoaholicBlockEntity extends BlockEntity{
         setBiomass(tag.getInt("biomass"));
         setBrain(tag.getBoolean("brain"));
         setHasHeart(tag.getBoolean("heart"));
-        ticks = tag.getInt("ticks");
+        setSide(getSide());
         super.load(tag);
     }
 

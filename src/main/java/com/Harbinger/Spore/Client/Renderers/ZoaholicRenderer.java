@@ -33,17 +33,23 @@ public class ZoaholicRenderer extends BaseBlockEntityRenderer<ZoaholicBlockEntit
     @Override
     public void render(@NotNull ZoaholicBlockEntity blockEntity, float partialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
         super.render(blockEntity, partialTicks, pPoseStack, pBuffer, pPackedLight, pPackedOverlay);
-        renderGlassTransparency(pPoseStack,pBuffer,pPackedLight,pPackedOverlay);
+        renderGlassTransparency(blockEntity,pPoseStack,pBuffer,pPackedLight,pPackedOverlay);
         renderActiveButtons(blockEntity,pPoseStack,pBuffer,pPackedLight,pPackedOverlay);
     }
 
-    public void renderGlassTransparency(PoseStack stack,MultiBufferSource bufferSource, int pPackedLight, int pPackedOverlay){
+    public void renderGlassTransparency(ZoaholicBlockEntity blockEntity,PoseStack stack,MultiBufferSource bufferSource, int pPackedLight, int pPackedOverlay){
         VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.entityTranslucent(GLASS));
-        this.setModelScale(stack);
+        this.setModelScale(stack,blockEntity);
         this.getModel().renderToBuffer(stack,vertexConsumer,pPackedLight, pPackedOverlay,1,1,1,1);
     }
     public void renderActiveButtons(ZoaholicBlockEntity zoaholicBlockEntity,PoseStack stack,MultiBufferSource bufferSource, int pPackedLight, int pPackedOverlay){
         VertexConsumer vertexConsumer = bufferSource.getBuffer(zoaholicBlockEntity.isActive() ? RenderType.eyes(BUTTONS) : RenderType.entityCutout(BUTTONS));
         this.getModel().renderToBuffer(stack,vertexConsumer,pPackedLight, pPackedOverlay,1,1,1,1);
+    }
+
+    @Override
+    public void setModelScale(PoseStack pPoseStack, ZoaholicBlockEntity block) {
+        int e = block.getSide();
+        setModelScale(pPoseStack,block,e);
     }
 }
