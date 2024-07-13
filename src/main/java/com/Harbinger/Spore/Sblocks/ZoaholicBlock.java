@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -84,7 +85,6 @@ public class ZoaholicBlock extends BaseEntityBlock {
                 stack.shrink(1);
             }else{
                 if (zoaholicBlock.isActive() && zoaholicBlock.getProcessing() <= 0){
-                    level.playLocalSound(pos, Ssounds.PRINTING.get(), SoundSource.BLOCKS,1f,1f,true);
                     zoaholicBlock.setProcessing(200);
                 }else if (zoaholicBlock.HasHeart()&& zoaholicBlock.hasEnoughInnards()&& zoaholicBlock.HasBrain()){
                     String string  =Component.translatable(Sitems.BIOMASS.get().getDescriptionId()).getString();
