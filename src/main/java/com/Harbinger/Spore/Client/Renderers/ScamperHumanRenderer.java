@@ -14,13 +14,15 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class ScamperHumanRenderer<Type extends Scamper> extends MobRenderer<Type , ScamperModel<Type>> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/scamper.png");
+    private static final ResourceLocation LINKED = new ResourceLocation(Spore.MODID,
+            "textures/entity/scamper_linked.png");
     public ScamperHumanRenderer(EntityRendererProvider.Context context) {
         super(context, new ScamperModel<>(context.bakeLayer(ScamperModel.LAYER_LOCATION)), 0.5f);
     }
 
     @Override
     public ResourceLocation getTextureLocation(Type entity) {
-        return TEXTURE;
+        return entity.getLinked() ? LINKED : TEXTURE;
     }
 
     @Override

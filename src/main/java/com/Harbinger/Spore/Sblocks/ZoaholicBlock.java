@@ -84,10 +84,9 @@ public class ZoaholicBlock extends BaseEntityBlock {
                 stack.shrink(1);
             }else{
                 if (zoaholicBlock.isActive() && zoaholicBlock.getProcessing() <= 0){
-                    zoaholicBlock.setProcessing(200);
                     level.playLocalSound(pos, Ssounds.PRINTING.get(), SoundSource.BLOCKS,1f,1f,true);
-                }else
-                if (zoaholicBlock.HasHeart()&& zoaholicBlock.hasEnoughInnards()&& zoaholicBlock.HasBrain()){
+                    zoaholicBlock.setProcessing(200);
+                }else if (zoaholicBlock.HasHeart()&& zoaholicBlock.hasEnoughInnards()&& zoaholicBlock.HasBrain()){
                     String string  =Component.translatable(Sitems.BIOMASS.get().getDescriptionId()).getString();
                     player.displayClientMessage(Component.literal(string+" "+zoaholicBlock.getBiomass()+"/12000"),true);
                 } else{
