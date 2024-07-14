@@ -168,6 +168,9 @@ public class Sitems {
     public  static final RegistryObject<Item> SCAMPER_SPAWNEGG = ITEMS.register("scamper_spawnegg",
             () -> new SporeSpawnEgg(Sentities.SCAMPER,-33777216,SpawnEggType.UNKNOWN));
 
+    public  static final RegistryObject<Item> GASTGABER_SPAWNEGG = ITEMS.register("gastgaber_spawnegg",
+            () -> new SporeSpawnEgg(Sentities.GASTGABER,-241247216,SpawnEggType.UNKNOWN));
+
     public  static final RegistryObject<Item> MOUND_SPAWNEGG = ITEMS.register("mound_spawnegg",
             () -> new SporeSpawnEgg(Sentities.MOUND,-5750208,SpawnEggType.ORGANOID));
 

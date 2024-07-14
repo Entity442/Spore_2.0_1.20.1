@@ -445,11 +445,9 @@ public class GastgeberModel<T extends GastGeber> extends EntityModel<T> {
 		part.xRot = 0.5f + Mth.sin(value/8)/2;
 	}
 	private void animateTentacle2(ModelPart part,float value){
-		part.zRot = -0.5f + Mth.sin(value/8)/2;
+		part.zRot = -0.5f + Mth.sin(value/6)/4;
 	}
-	private void animateTentacle3(ModelPart part,float value){
-		part.zRot = 0.5f + Mth.sin(value/8)/2;
-	}
+	private void animateTentacle3(ModelPart part,float value){part.zRot = 0.5f + Mth.sin(value/7)/3;}
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
@@ -512,6 +510,7 @@ public class GastgeberModel<T extends GastGeber> extends EntityModel<T> {
 		animateTentacle3(Tentacle3Seg1,ageInTicks/2);
 		animateTentacle3(Tentacle3Seg2,ageInTicks/2);
 		animateTentacle3(Tentacle3Seg3,ageInTicks/2);
+		this.Tentacle3Seg1.yRot = -0.5f - Mth.sin(ageInTicks/8)/4;
 	}
 
 	@Override
