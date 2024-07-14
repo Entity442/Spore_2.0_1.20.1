@@ -4,6 +4,7 @@ package com.Harbinger.Spore.Client.Models;// Made with Blockbench 4.10.4
 
 
 import com.Harbinger.Spore.Sentities.Utility.GastGeber;
+import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.EntityModel;
@@ -16,7 +17,7 @@ import net.minecraft.util.Mth;
 
 public class GastgeberModel<T extends GastGeber> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("modid", "gastgebermodel"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "gastgebermodel"), "main");
 	private final ModelPart the_twat;
 	private final ModelPart Roots;
 	private final ModelPart Torso;
@@ -35,6 +36,30 @@ public class GastgeberModel<T extends GastGeber> extends EntityModel<T> {
 	private final ModelPart Mound2;
 	private final ModelPart Mound3;
 	private final ModelPart Mound4;
+	private final ModelPart Head;
+	private final ModelPart TopJaw;
+	private final ModelPart LowJaw;
+	private final ModelPart Mound5;
+	private final ModelPart Mound6;
+	private final ModelPart Mound7;
+	private final ModelPart FaceTendril1;
+	private final ModelPart FaceTendril2;
+	private final ModelPart FaceTendril3;
+	private final ModelPart BackTendril4;
+	private final ModelPart BackTendril5;
+	private final ModelPart BackTendril6;
+	private final ModelPart BackTendril7;
+	private final ModelPart BackTendril8;
+	private final ModelPart BackTendril9;
+	private final ModelPart Tentacle1Seg1;
+	private final ModelPart Tentacle1Seg2;
+	private final ModelPart Tentacle1Seg3;
+	private final ModelPart Tentacle2Seg1;
+	private final ModelPart Tentacle2Seg2;
+	private final ModelPart Tentacle2Seg3;
+	private final ModelPart Tentacle3Seg1;
+	private final ModelPart Tentacle3Seg2;
+	private final ModelPart Tentacle3Seg3;
 
 	public GastgeberModel(ModelPart root) {
 		this.the_twat = root.getChild("the_twat");
@@ -55,7 +80,30 @@ public class GastgeberModel<T extends GastGeber> extends EntityModel<T> {
 		this.Mound2 = Torso.getChild("torsomounds").getChild("mound2");
 		this.Mound3 = Torso.getChild("torsomounds").getChild("mound3");
 		this.Mound4 = Torso.getChild("torsomounds").getChild("mound4");
-
+		this.Head = Torso.getChild("head");
+		this.TopJaw = Head.getChild("upperhead");
+		this.LowJaw = Head.getChild("lowerHeadJoint");
+		this.Mound5 = Head.getChild("mound5");
+		this.Mound6 = Head.getChild("mound6");
+		this.Mound7 = Head.getChild("mound7");
+		this.FaceTendril1 = LowJaw.getChild("lowerhead").getChild("Tendrils").getChild("LT1");
+		this.FaceTendril2 = LowJaw.getChild("lowerhead").getChild("Tendrils").getChild("LT2");
+		this.FaceTendril3 = LowJaw.getChild("lowerhead").getChild("Tendrils").getChild("LT3");
+		this.BackTendril4 = Torso.getChild("backtendrils").getChild("LT4");
+		this.BackTendril5 = Torso.getChild("backtendrils").getChild("LT5");
+		this.BackTendril6 = Torso.getChild("backtendrils").getChild("LT6");
+		this.BackTendril7 = Torso.getChild("backtendrils").getChild("LT7");
+		this.BackTendril8 = Torso.getChild("backtendrils").getChild("LT8");
+		this.BackTendril9 = Torso.getChild("backtendrils").getChild("LT9");
+		this.Tentacle1Seg1 = Torso.getChild("largeroots").getChild("tentacle1");
+		this.Tentacle1Seg2 = Tentacle1Seg1.getChild("root_1").getChild("r1seg2");
+		this.Tentacle1Seg3 = Tentacle1Seg2.getChild("r1seg3");
+		this.Tentacle2Seg1 = Torso.getChild("largeroots").getChild("tentacle2");
+		this.Tentacle2Seg2 = Tentacle2Seg1.getChild("root_2").getChild("r2seg3");
+		this.Tentacle2Seg3 = Tentacle2Seg2.getChild("r2seg2");
+		this.Tentacle3Seg1 = Torso.getChild("largeroots").getChild("tentacle3");
+		this.Tentacle3Seg2 = Tentacle3Seg1.getChild("root_3").getChild("r3seg2");
+		this.Tentacle3Seg3 = Tentacle3Seg2.getChild("r3seg3");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -334,15 +382,15 @@ public class GastgeberModel<T extends GastGeber> extends EntityModel<T> {
 
 		PartDefinition root_1 = tentacle1.addOrReplaceChild("root_1", CubeListBuilder.create().texOffs(90, 47).addBox(-1.0F, -2.0F, -1.0F, 2.0F, 7.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.5308F, -0.1796F, -0.7489F));
 
-		PartDefinition r1seg2 = root_1.addOrReplaceChild("r1seg2", CubeListBuilder.create(), PartPose.offsetAndRotation(-0.007F, 4.6864F, 0.0145F, 0.3927F, 0.0F, 0.5236F));
+		PartDefinition r1seg2 = root_1.addOrReplaceChild("r1seg2", CubeListBuilder.create(), PartPose.offsetAndRotation(-0.007F, 4.6864F, 0.0145F, 0.4363F, 0.0F, 0.5236F));
 
 		PartDefinition Seg2_r1 = r1seg2.addOrReplaceChild("Seg2_r1", CubeListBuilder.create().texOffs(60, 90).addBox(-1.0F, -3.5F, -1.0F, 2.0F, 7.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.0F, -3.1416F));
 
 		PartDefinition r1seg3 = r1seg2.addOrReplaceChild("r1seg3", CubeListBuilder.create().texOffs(0, 38).addBox(-0.5F, -0.5F, -0.5F, 1.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0639F, 6.0281F, 0.0403F, 0.5236F, 0.0F, 0.0F));
 
-		PartDefinition tentacle2 = largeroots.addOrReplaceChild("tentacle2", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
+		PartDefinition tentacle2 = largeroots.addOrReplaceChild("tentacle2", CubeListBuilder.create(), PartPose.offset(-4.0F, -9.0F, 4.0F));
 
-		PartDefinition root_2 = tentacle2.addOrReplaceChild("root_2", CubeListBuilder.create().texOffs(90, 47).addBox(-1.0F, -5.0F, -1.0F, 2.0F, 7.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.3142F, -8.6487F, 3.4784F, -0.3927F, 0.0F, -1.7017F));
+		PartDefinition root_2 = tentacle2.addOrReplaceChild("root_2", CubeListBuilder.create().texOffs(90, 47).addBox(-1.0F, -5.0F, -1.0F, 2.0F, 7.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.3142F, 0.3513F, -0.5216F, -0.7854F, 0.0436F, -1.7017F));
 
 		PartDefinition r2seg3 = root_2.addOrReplaceChild("r2seg3", CubeListBuilder.create().texOffs(60, 90).addBox(-1.0F, -6.0F, -1.0F, 2.0F, 7.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-0.143F, -5.1864F, -0.0145F, 0.0F, 0.0F, -0.6545F));
 
@@ -375,6 +423,14 @@ public class GastgeberModel<T extends GastGeber> extends EntityModel<T> {
 		part.xRot = Mth.sin(value/6)/7;
 		part.zRot = Mth.sin(value/7)/6;
 	}
+	private void animateTendril2(ModelPart part,float value){
+		part.xRot = Mth.sin(value/6)/7;
+		part.yRot = Mth.sin(value/7)/6;
+	}
+	private void animateTendril3(ModelPart part,float value){
+		part.zRot = Mth.sin(value/6)/7;
+		part.yRot = Mth.sin(value/7)/6;
+	}
 	private void animateTumor(ModelPart part,float value){
 		part.xScale = 1 + Mth.sin(value/8)/8;
 		part.yScale = 1 + Mth.sin(value/8)/8;
@@ -384,6 +440,15 @@ public class GastgeberModel<T extends GastGeber> extends EntityModel<T> {
 		part.xScale =1+ Mth.cos(value/9)/6;
 		part.yScale =1- Mth.cos(value/9)/6;
 		part.zScale =1+ Mth.cos(value/9)/6;
+	}
+	private void animateTentacle(ModelPart part,float value){
+		part.xRot = 0.5f + Mth.sin(value/8)/2;
+	}
+	private void animateTentacle2(ModelPart part,float value){
+		part.zRot = -0.5f + Mth.sin(value/8)/2;
+	}
+	private void animateTentacle3(ModelPart part,float value){
+		part.zRot = 0.5f + Mth.sin(value/8)/2;
 	}
 
 	@Override
@@ -409,6 +474,44 @@ public class GastgeberModel<T extends GastGeber> extends EntityModel<T> {
 		Mound2.yRot = Mth.sin(ageInTicks/8)/7;
 		Mound3.yRot = Mth.cos(ageInTicks/8)/6;
 		Mound4.yRot = Mth.sin(ageInTicks/6)/8;
+		this.Head.yRot = netHeadYaw / (180F / (float) Math.PI);
+		this.Head.zRot = Mth.sin(ageInTicks/7)/5;
+		this.LowJaw.xRot = Mth.sin(ageInTicks/6)/6;
+		this.TopJaw.xRot = -LowJaw.xRot;
+		animateMound(Mound5,ageInTicks);
+		animateMound(Mound6,-ageInTicks);
+		animateMound(Mound7,ageInTicks*2);
+		this.Mound5.zRot = Mth.sin(ageInTicks/8)/7;
+		this.Mound5.yRot = Mth.sin(ageInTicks/8)/7;
+		this.Mound6.yRot = Mth.sin(ageInTicks/6)/6;
+		this.Mound7.yRot = -Mound6.yRot;
+		animateTendril(FaceTendril1,ageInTicks);
+		animateTendril2(FaceTendril2,-ageInTicks);
+		animateTendril3(FaceTendril3,ageInTicks);
+		this.FaceTendril1.getChild("LT1Seg2").zRot = Mth.cos(ageInTicks/6)/6;
+		this.FaceTendril2.getChild("LT2Seg2").zRot = Mth.sin(-ageInTicks/6)/6;
+		this.FaceTendril3.getChild("LT3Seg2").yRot = Mth.sin(-ageInTicks/8)/6;
+		animateTendril(BackTendril4,ageInTicks);
+		animateTendril(BackTendril5,-ageInTicks);
+		animateTendril3(BackTendril6,ageInTicks/2);
+		animateTendril2(BackTendril7,ageInTicks*2);
+		animateTendril(BackTendril8,-ageInTicks);
+		animateTendril2(BackTendril9,ageInTicks);
+		animateTendril2(BackTendril4.getChild("LT1Seg3"),ageInTicks);
+		animateTendril(BackTendril5.getChild("LT2Seg3"),-ageInTicks);
+		animateTendril2(BackTendril6.getChild("LT3Seg3"),ageInTicks/2);
+		animateTendril3(BackTendril7.getChild("LT1Seg4"),ageInTicks*2);
+		animateTendril2(BackTendril8.getChild("LT2Seg4"),-ageInTicks);
+		animateTendril3(BackTendril9.getChild("LT3Seg4"),ageInTicks);
+		animateTentacle(Tentacle1Seg1,ageInTicks);
+		animateTentacle(Tentacle1Seg2,ageInTicks);
+		animateTentacle(Tentacle1Seg3,ageInTicks);
+		animateTentacle2(Tentacle2Seg1,-ageInTicks);
+		animateTentacle2(Tentacle2Seg2,-ageInTicks);
+		animateTentacle2(Tentacle2Seg3,-ageInTicks);
+		animateTentacle3(Tentacle3Seg1,ageInTicks/2);
+		animateTentacle3(Tentacle3Seg2,ageInTicks/2);
+		animateTentacle3(Tentacle3Seg3,ageInTicks/2);
 	}
 
 	@Override
