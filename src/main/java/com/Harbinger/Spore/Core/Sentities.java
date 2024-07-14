@@ -171,6 +171,10 @@ public class Sentities {
             () -> EntityType.Builder.of(Illusion::new, MobCategory.MISC).sized(1f, 2f)
                     .build(new ResourceLocation(Spore.MODID, "illusion").toString()));
 
+    public static final RegistryObject<EntityType<GastGeber>> GASTGABER = SPORE_ENTITIES.register("gastgaber",
+            () -> EntityType.Builder.of(GastGeber::new, MobCategory.MISC).sized(1.1f, 2f)
+                    .build(new ResourceLocation(Spore.MODID, "gastgaber").toString()));
+
 
     public static final RegistryObject<EntityType<AcidBall>> ACID_BALL = register("acid_ball",
             EntityType.Builder.<AcidBall>of(AcidBall::new, MobCategory.MISC).setCustomClientFactory((spawnEntity, level) -> new AcidBall(level))

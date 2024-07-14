@@ -71,6 +71,7 @@ public class Attributes {
         event.put(Sentities.INQUISITOR.get(), Inquisitor.createAttributes().build());
         event.put(Sentities.BROTKATZE.get(), Brot.createAttributes().build());
         event.put(Sentities.DELUSIONARE.get(), Delusionare.createAttributes().build());
+        event.put(Sentities.GASTGABER.get(), GastGeber.createAttributes().build());
     }
 }
 

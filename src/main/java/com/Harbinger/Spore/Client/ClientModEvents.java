@@ -92,6 +92,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(SiegerArrowModel.LAYER_LOCATION, SiegerArrowModel::createBodyLayer);
         event.registerLayerDefinition(DelusionerModel.LAYER_LOCATION, DelusionerModel::createBodyLayer);
         event.registerLayerDefinition(verwahrungModel.LAYER_LOCATION, verwahrungModel::createBodyLayer);
+        event.registerLayerDefinition(GastgeberModel.LAYER_LOCATION, GastgeberModel::createBodyLayer);
         event.registerLayerDefinition(OvergrownSpawnerModel.LAYER_LOCATION, OvergrownSpawnerModel::createBodyLayer);
         event.registerLayerDefinition(brainMatterModel.LAYER_LOCATION, brainMatterModel::createBodyLayer);
         event.registerLayerDefinition(ZoaholicModel.LAYER_LOCATION, ZoaholicModel::createBodyLayer);
@@ -146,6 +147,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.PLAGUED.get(), PlaguedRenderer::new);
         event.registerEntityRenderer(Sentities.WAVE.get(), WaveRenderer::new);
         event.registerEntityRenderer(Sentities.ILLUSION.get(), IllusionRenderer::new);
+        event.registerEntityRenderer(Sentities.GASTGABER.get(), GastGaverRenderer::new);
 
         event.registerEntityRenderer(Sentities.ACID_BALL.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(Sentities.SPIT.get(), BulletRender::new);
