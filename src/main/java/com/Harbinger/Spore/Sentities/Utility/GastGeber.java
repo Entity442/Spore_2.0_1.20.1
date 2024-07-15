@@ -236,7 +236,7 @@ public class GastGeber extends EvolvedInfected implements FoliageSpread {
         }
     }
     public void SpreadEffect(){
-        AABB aabb = this.getBoundingBox().inflate(8);
+        AABB aabb = this.getBoundingBox().inflate(16);
         List<Entity> entities = level().getEntities(this,aabb, e -> e instanceof LivingEntity living && this.TARGET_SELECTOR.test(living));
         for (Entity entity : entities){
             if (entity instanceof LivingEntity living){
