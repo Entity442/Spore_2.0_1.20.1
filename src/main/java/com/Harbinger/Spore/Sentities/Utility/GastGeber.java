@@ -199,8 +199,16 @@ public class GastGeber extends EvolvedInfected implements FoliageSpread {
                 setTimeRooted(getTimeRooted()-1);
                 if (this.getSpreadInterval() < maxCounter){
                     setSpreadInterval(this.getSpreadInterval()+1);
+                    if (this.getSpreadInterval() == maxCounter-1){
+                        this.playSound(Ssounds.PUFF.get());
+                    }
                 }else{
-                    SpreadInfection(level(),25,getOnPos());
+                    if (SConfig.SERVER.mound_foliage.get())
+                    {
+                        SpreadInfection(level(),25,getOnPos());
+                    }else{
+                       SpreadEffect();
+                    }
                     setSpreadInterval(0);
                 }
                 if (getHealth() < getMaxHealth()){
@@ -210,23 +218,26 @@ public class GastGeber extends EvolvedInfected implements FoliageSpread {
         }
         if (this.tickCount % 200 == 0 && isRooted() && getTarget() != null){
             this.playSound(Ssounds.GAST_AMBIENT.get(),2f,2f);
-            AABB aabb = this.getBoundingBox().inflate(8);
-            List<Entity> entities = level().getEntities(this,aabb, e -> e instanceof LivingEntity living && this.TARGET_SELECTOR.test(living));
-            for (Entity entity : entities){
-                if (entity instanceof LivingEntity living){
-                    living.addEffect(new MobEffectInstance(MobEffects.WEAKNESS,400,0));
-                    living.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),600,3));
-                }
-            }
-            if (level() instanceof ServerLevel serverLevel){
-                double x0 = this.getX() - (random.nextFloat() - 0.2) * 0.2D;
-                double y0 = this.getY() + (random.nextFloat() - 0.5) * 0.5D * 10;
-                double z0 = this.getZ() + (random.nextFloat() - 0.2) * 0.2D;
-                serverLevel.sendParticles(Sparticles.BLOOD_PARTICLE.get(), x0, y0, z0, 12,0, 0, 0,1);
-            }
+            SpreadEffect();
         }
         if (this.tickCount % 1200 == 0 && !isRooted() && getAggression() <= 0){
             findNewPos();
+        }
+    }
+    public void SpreadEffect(){
+        AABB aabb = this.getBoundingBox().inflate(8);
+        List<Entity> entities = level().getEntities(this,aabb, e -> e instanceof LivingEntity living && this.TARGET_SELECTOR.test(living));
+        for (Entity entity : entities){
+            if (entity instanceof LivingEntity living){
+                living.addEffect(new MobEffectInstance(MobEffects.WEAKNESS,400,0));
+                living.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),600,3));
+            }
+        }
+        if (level() instanceof ServerLevel serverLevel){
+            double x0 = this.getX() - (random.nextFloat() - 0.2) * 0.2D;
+            double y0 = this.getY() + (random.nextFloat() - 0.5) * 0.5D * 10;
+            double z0 = this.getZ() + (random.nextFloat() - 0.2) * 0.2D;
+            serverLevel.sendParticles(Sparticles.BLOOD_PARTICLE.get(), x0, y0, z0, 12,0, 0, 0,1);
         }
     }
 
