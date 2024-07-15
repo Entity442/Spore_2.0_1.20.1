@@ -177,6 +177,7 @@
   "item.spore.braurei_spawnegg": "Браурей",
   "item.spore.verva_spawnegg": "Верварунг",
   "item.spore.delusioner_spawnegg": "обманщик",
+  "item.spore.gastgaber_spawnegg": "Хозяин",
 
 
   "item.spore.scent_spawnegg": "Споры",
@@ -229,6 +230,7 @@
   "entity.spore.braurei": "Браурей",
   "entity.spore.verva": "Верварунг",
   "entity.spore.delusioner": "обманщик",
+  "entity.spore.gastgaber": "Хозяин",
 
   "entity.spore.thrown_tumor": "Опухоль",
   "entity.spore.thrown_spear": "Заражённое копьё",

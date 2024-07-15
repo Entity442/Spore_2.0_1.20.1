@@ -185,6 +185,7 @@
   "item.spore.delusioner_spawnegg": "幻术菌妖鬼刷怪蛋",
   "item.spore.brotkatze_spawnegg": "舔食兽刷怪蛋",
   "item.spore.inquisitor_spawnegg": "抓取者刷怪蛋",
+  "item.spore.gastgaber_spawnegg": "主持人",
 
 
 
@@ -239,6 +240,7 @@
   "entity.spore.brot": "舔食兽",
   "entity.spore.inquisitor": "抓取者",
   "entity.spore.tendril": "真菌卷须",
+  "entity.spore.gastgaber": "主持人",
 
   "entity.spore.thrown_tumor": "投掷的肿瘤",
   "entity.spore.thrown_spear": "投掷的长矛",
