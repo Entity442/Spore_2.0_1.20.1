@@ -16,6 +16,7 @@ import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Slasher;
 import com.Harbinger.Spore.Sentities.Hyper.Inquisitor;
 import com.Harbinger.Spore.Sentities.Organoids.*;
+import com.Harbinger.Spore.Sentities.Utility.GastGeber;
 import com.Harbinger.Spore.Sentities.Utility.Illusion;
 import com.Harbinger.Spore.Sentities.Variants.SlasherVariants;
 import com.Harbinger.Spore.Sitems.InfectedCombatShovel;
@@ -222,34 +223,36 @@ public class HandlerEvents {
                     Entity entity = arguments.getSource().getEntity();
                     if (entity == null)
                         entity = FakePlayerFactory.getMinecraft(world);
-                    if (entity != null){
+                    if (entity instanceof Player player && !player.level().isClientSide){
                         AABB hitbox = entity.getBoundingBox().inflate(5);
                         List<Entity> entities = entity.level().getEntities(entity, hitbox);
                         for (Entity entity1 : entities) {
                             if(entity1 instanceof Infected infected) {
-                                if (entity instanceof Player player && !player.level().isClientSide){
-                                    player.displayClientMessage(Component.literal("Entity "+ infected.getEncodeId() + " " + infected.getCustomName()),false);
-                                    player.displayClientMessage(Component.literal("Current Health " + infected.getHealth() + "/" + infected.getMaxHealth()),false);
-                                    player.displayClientMessage(Component.literal("Kills " + infected.getKills()),false);
-                                    player.displayClientMessage(Component.literal("Evolution Points " + infected.getEvoPoints()),false);
-                                    player.displayClientMessage(Component.literal("Position to be Searched " + infected.getSearchPos()),false);
-                                    player.displayClientMessage(Component.literal("Buffs " + infected.getActiveEffects()),false);
-                                    player.displayClientMessage(Component.literal("Seconds until evolution: " + infected.getEvolutionCoolDown() + "/" + SConfig.SERVER.evolution_age_human.get()),false);
-                                    player.displayClientMessage(Component.literal("Seconds until starvation: " + infected.getHunger() + "/" + (SConfig.SERVER.hunger.get())),false);
-                                    player.displayClientMessage(Component.literal("Is Linked ? " + infected.getLinked()),false);
-                                    player.displayClientMessage(Component.literal("Target ? " + infected.getTarget()),false);
-                                    player.displayClientMessage(Component.literal("Partner ? " + infected.getFollowPartner()),false);
-                                    if (infected instanceof Scamper scamper){
-                                        player.displayClientMessage(Component.literal("Time before overtake ? " + scamper.getAge()+"/"+SConfig.SERVER.scamper_age.get()),false);
-                                    }
-                                    if (infected instanceof Hyper scamper){
-                                        player.displayClientMessage(Component.literal("get nest location ? " + scamper.getNestLocation()),false);
-                                    }
-                                    player.displayClientMessage(Component.literal("-------------------------"),false);
-
+                                player.displayClientMessage(Component.literal("Entity "+ infected.getEncodeId() + " " + infected.getCustomName()),false);
+                                player.displayClientMessage(Component.literal("Current Health " + infected.getHealth() + "/" + infected.getMaxHealth()),false);
+                                player.displayClientMessage(Component.literal("Kills " + infected.getKills()),false);
+                                player.displayClientMessage(Component.literal("Evolution Points " + infected.getEvoPoints()),false);
+                                player.displayClientMessage(Component.literal("Position to be Searched " + infected.getSearchPos()),false);
+                                player.displayClientMessage(Component.literal("Buffs " + infected.getActiveEffects()),false);
+                                player.displayClientMessage(Component.literal("Seconds until evolution: " + infected.getEvolutionCoolDown() + "/" + SConfig.SERVER.evolution_age_human.get()),false);
+                                player.displayClientMessage(Component.literal("Seconds until starvation: " + infected.getHunger() + "/" + (SConfig.SERVER.hunger.get())),false);
+                                player.displayClientMessage(Component.literal("Is Linked ? " + infected.getLinked()),false);
+                                player.displayClientMessage(Component.literal("Target ? " + infected.getTarget()),false);
+                                player.displayClientMessage(Component.literal("Partner ? " + infected.getFollowPartner()),false);
+                                if (infected instanceof Scamper scamper){
+                                    player.displayClientMessage(Component.literal("Time before overtake ? " + scamper.getAge()+"/"+SConfig.SERVER.scamper_age.get()),false);
                                 }
+                                if (infected instanceof Hyper scamper){
+                                    player.displayClientMessage(Component.literal("get nest location ? " + scamper.getNestLocation()),false);
+                                }
+                                if (infected instanceof GastGeber geber){
+                                        player.displayClientMessage(Component.literal("RootTimer ? " + geber.getTimeRooted()),false);
+                                        player.displayClientMessage(Component.literal("Aggression ? " + geber.getAggression()),false);
+                                        player.displayClientMessage(Component.literal("Spread ? " + geber.getSpreadInterval()),false);
+                                }
+                                player.displayClientMessage(Component.literal("-------------------------"),false);
+
                             }else if (entity1 instanceof Calamity calamity){
-                                if (entity instanceof Player player && !player.level().isClientSide){
                                     player.displayClientMessage(Component.literal("Entity "+ calamity.getEncodeId() + " " + calamity.getCustomName()),false);
                                     player.displayClientMessage(Component.literal("Current Health " + calamity.getHealth() + "/" + calamity.getMaxHealth()),false);
                                     player.displayClientMessage(Component.literal("Kills " + calamity.getKills()),false);
@@ -267,9 +270,7 @@ public class HandlerEvents {
                                         player.displayClientMessage(Component.literal("Is armed "+ sieger.isArmed()),false);
                                     }
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
-                                }
                             }else if (entity1 instanceof Mound mound){
-                                if (entity instanceof Player player && !player.level().isClientSide){
                                     player.displayClientMessage(Component.literal("Entity "+ mound.getEncodeId() + " " + mound.getCustomName()),false);
                                     player.displayClientMessage(Component.literal("Current Health " + mound.getHealth() + "/" + mound.getMaxHealth()),false);
                                     player.displayClientMessage(Component.literal("Is Linked ? " + mound.getLinked()),false);
@@ -278,9 +279,8 @@ public class HandlerEvents {
                                     player.displayClientMessage(Component.literal("Seconds until puff " + mound.getCounter() + "/" + mound.getMaxCounter()),false);
                                     player.displayClientMessage(Component.literal("Buffs " + mound.getActiveEffects()),false);
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
-                                }
+
                             }else if(entity1 instanceof Proto proto) {
-                                if (entity instanceof Player player && !player.level().isClientSide){
                                     player.displayClientMessage(Component.literal("Entity "+ proto.getEncodeId() + " " + proto.getCustomName()),false);
                                     player.displayClientMessage(Component.literal("Current Health " + proto.getHealth() + "/" + proto.getMaxHealth()),false);
                                     player.displayClientMessage(Component.literal("Current Target " + proto.getTarget()),false);
@@ -288,10 +288,8 @@ public class HandlerEvents {
                                     player.displayClientMessage(Component.literal("Mobs under control " + proto.getHosts()),false);
                                     player.displayClientMessage(Component.literal("Targeted individuals " + proto.readTargets()),false);
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
-                                }
                             }
                             else if(entity1 instanceof BiomassReformator reformator) {
-                                if (entity instanceof Player player && !player.level().isClientSide){
                                     player.displayClientMessage(Component.literal("Entity "+ reformator.getEncodeId() + " " + reformator.getCustomName()),false);
                                     player.displayClientMessage(Component.literal("Current Health " + reformator.getHealth()),false);
                                     player.displayClientMessage(Component.literal("Stored Location " + reformator.getLocation()),false);
@@ -299,9 +297,7 @@ public class HandlerEvents {
                                     player.displayClientMessage(Component.literal("Biomass " + reformator.getBiomass()),false);
                                     player.displayClientMessage(Component.literal("State " + reformator.getState()),false);
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
-                                }
                             }else if(entity1 instanceof Vigil vigil) {
-                                if (entity instanceof Player player && !player.level().isClientSide){
                                     player.displayClientMessage(Component.literal("Entity "+ vigil.getEncodeId() + " " + vigil.getCustomName()),false);
                                     player.displayClientMessage(Component.literal("Current Health " + vigil.getHealth()),false);
                                     player.displayClientMessage(Component.literal("Buffs " + vigil.getActiveEffects()),false);
@@ -309,9 +305,8 @@ public class HandlerEvents {
                                     player.displayClientMessage(Component.literal("Horde size " + vigil.getWaveSize()),false);
                                     player.displayClientMessage(Component.literal("Time until it leaves " + vigil.getTimer()+"/6000"),false);
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
-                                }
+
                             }else if(entity1 instanceof Umarmer umarmer) {
-                                if (entity instanceof Player player && !player.level().isClientSide){
                                     player.displayClientMessage(Component.literal("Entity "+ umarmer.getEncodeId() + " " + umarmer.getCustomName()),false);
                                     player.displayClientMessage(Component.literal("Current Health " + umarmer.getHealth()),false);
                                     player.displayClientMessage(Component.literal("Buffs " + umarmer.getActiveEffects()),false);
@@ -319,25 +314,20 @@ public class HandlerEvents {
                                     player.displayClientMessage(Component.literal("Pins? " + umarmer.isPinned()),false);
                                     player.displayClientMessage(Component.literal("Time until it leaves " + umarmer.getTimer()+"/2400"),false);
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
-                                }
                             }else if(entity1 instanceof Brauerei brauerei) {
-                                if (entity instanceof Player player && !player.level().isClientSide){
                                     player.displayClientMessage(Component.literal("Entity "+ brauerei.getEncodeId() + " " + brauerei.getCustomName()),false);
                                     player.displayClientMessage(Component.literal("Current Health " + brauerei.getHealth()),false);
                                     player.displayClientMessage(Component.literal("Buffs " + brauerei.getActiveEffects()),false);
                                     player.displayClientMessage(Component.literal("Time until it leaves " + brauerei.getTimer()+"/300"),false);
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
-                                }
                             }
                             else if(entity1 instanceof Delusionare delusionare) {
-                                if (entity instanceof Player player && !player.level().isClientSide){
                                     player.displayClientMessage(Component.literal("Entity "+ delusionare.getEncodeId() + " " + delusionare.getCustomName()),false);
                                     player.displayClientMessage(Component.literal("Current Health " + delusionare.getHealth()),false);
                                     player.displayClientMessage(Component.literal("Buffs " + delusionare.getActiveEffects()),false);
                                     player.displayClientMessage(Component.literal("Target ? " + delusionare.getTarget()),false);
                                     player.displayClientMessage(Component.literal("Magic state " + delusionare.getSpellById() + " casting "+delusionare.isCasting()),false);
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
-                                }
                             }
                         }
                     }
