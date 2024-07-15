@@ -165,6 +165,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> gastgeber_armor;
         public final ForgeConfigSpec.ConfigValue<Integer> gastgeber_spread_cooldown;
         public final ForgeConfigSpec.ConfigValue<Integer> gastgeber_root_time;
+        public final ForgeConfigSpec.ConfigValue<Integer> gastgeber_range;
 
         public final ForgeConfigSpec.ConfigValue<Double> stalker_hp;
         public final ForgeConfigSpec.ConfigValue<Double> stalker_damage;
@@ -848,6 +849,7 @@ public class SConfig {
             this.gastgeber_armor = builder.comment("Default 6").defineInRange("Sets GastGeber Armor", 6, 1, Double.MAX_VALUE);
             this.gastgeber_spread_cooldown = builder.comment("Default 30").defineInRange("Seconds before Gastgeber spreads foliage", 30, 1, Integer.MAX_VALUE);
             this.gastgeber_root_time = builder.comment("Default 600").defineInRange("Seconds before Gastgeber moves from the area", 600, 1, Integer.MAX_VALUE);
+            this.gastgeber_range = builder.comment("Default 25").defineInRange("Infection Range", 25, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Leaper ");
             this.leap_hp = builder.comment("Default 55").defineInRange("Sets Leaper Max health", 55, 1, Double.MAX_VALUE);
@@ -1070,6 +1072,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_player_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_husk_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_volatile_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> gastgaber_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sca_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> gazen_loot;
@@ -1161,6 +1164,9 @@ public class SConfig {
 
             this.inf_volatile_loot = builder.defineList("Volatile ",
                     Lists.newArrayList("spore:mutated_fiber|70|1|5","spore:armor_fragment|80|2|6","spore:mutated_heart|10|1|1","spore:claw_fragment|80|6|9","spore:innards|50|1|1","spore:tumor|100|2|4") , o -> o instanceof String);
+
+            this.gastgaber_loot = builder.defineList("GastGaber ",
+                    Lists.newArrayList("spore:mutated_fiber|80|5|12","spore:armor_fragment|80|2|6","spore:mutated_heart|10|1|2","spore:claw_fragment|80|6|9","spore:innards|50|1|2","spore:tumor|100|4|8") , o -> o instanceof String);
 
 
             this.sca_loot = builder.defineList("Scamper ",

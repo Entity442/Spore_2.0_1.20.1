@@ -76,6 +76,11 @@ public class GastGeber extends EvolvedInfected implements FoliageSpread {
     }
 
     @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.gastgaber_loot.get();
+    }
+
+    @Override
     public boolean canStarve() {
         return false;
     }
@@ -205,7 +210,7 @@ public class GastGeber extends EvolvedInfected implements FoliageSpread {
                 }else{
                     if (SConfig.SERVER.mound_foliage.get())
                     {
-                        SpreadInfection(level(),25,getOnPos());
+                        SpreadInfection(level(),SConfig.SERVER.gastgeber_range.get(),getOnPos());
                     }else{
                        SpreadEffect();
                     }
