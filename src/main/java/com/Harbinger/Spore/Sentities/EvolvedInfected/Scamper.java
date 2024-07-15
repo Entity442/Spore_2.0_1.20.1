@@ -5,6 +5,7 @@ import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.Organoids.Mound;
+import com.Harbinger.Spore.Sentities.Utility.GastGeber;
 import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -86,19 +87,25 @@ public class Scamper extends EvolvedInfected {
             this.setAge(this.getAge()+1);
             if (this.getAge() >= SConfig.SERVER.scamper_age.get()) {
                 if (!level().isClientSide){
-                    RandomSource randomSource = RandomSource.create();
-                    int chance = randomSource.nextInt(1,3);
-                    int age = randomSource.nextInt(1,4);
-                    if (SConfig.SERVER.scamper_summon.get()){
-                        Summon(4);
-                    }
-                    for (int i = 0; i < chance; ++i) {
+                    if ((this.getLinked() && Math.random() < 0.3f)  || this.getEvoPoints() >= 3){
+                        GastGeber geber = new GastGeber(Sentities.GASTGABER.get(),level());
+                        geber.setKills(this.getKills() + this.getEvoPoints());
+                        geber.moveTo(this.position());
+                        level().addFreshEntity(geber);
+                    }else{
+                        int chance = this.random.nextInt(1,3);
+                        int age = this.random.nextInt(1,4);
                         if (SConfig.SERVER.scamper_summon.get()){
-                            Summon(age);
+                            Summon(4);
                         }
-                    }
-                    if (SConfig.SERVER.scent_spawn.get()){
-                        SummonScent();
+                        for (int i = 0; i < chance; ++i) {
+                            if (SConfig.SERVER.scamper_summon.get()){
+                                Summon(age);
+                            }
+                        }
+                        if (SConfig.SERVER.scent_spawn.get()){
+                            SummonScent();
+                        }
                     }
                     if (this.level() instanceof ServerLevel serverLevel){
                         double x0 = this.getX() - (random.nextFloat() - 0.1) * 0.1D;
