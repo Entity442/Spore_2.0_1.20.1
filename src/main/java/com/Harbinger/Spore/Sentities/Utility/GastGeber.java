@@ -5,6 +5,9 @@ import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Sparticles;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
+import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
+import com.Harbinger.Spore.Sentities.AI.LocHiv.BufferAI;
+import com.Harbinger.Spore.Sentities.AI.LocHiv.InfectedParkourGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.FoliageSpread;
 import net.minecraft.core.BlockPos;
@@ -103,6 +106,7 @@ public class GastGeber extends EvolvedInfected implements FoliageSpread {
 
     @Override
     protected void addRegularGoals() {
+        this.goalSelector.addGoal(0,new InfectedParkourGoal(this));
         this.goalSelector.addGoal(3,new MeleeAttackGoal(this ,1.5,true){
             @Override
             public boolean canUse() {
@@ -110,7 +114,9 @@ public class GastGeber extends EvolvedInfected implements FoliageSpread {
             }
         });
         this.goalSelector.addGoal(3,new FindPlaceToInfect(this));
+        this.goalSelector.addGoal(6,new FloatDiveGoal(this));
         this.goalSelector.addGoal(4,new RandomStrollGoal(this,1));
+        this.goalSelector.addGoal(4 , new BufferAI(this ));
     }
 
     public boolean isRooted(){
@@ -320,6 +326,12 @@ public class GastGeber extends EvolvedInfected implements FoliageSpread {
         if (TIME_ROOTED.equals(dataAccessor)){
             if (getTimeRooted() == 0){
                 findNewPos();
+            }
+        }
+        if (EVOLUTION_POINTS.equals(dataAccessor)){
+            if (getEvoPoints() >0){
+                this.setKills(getKills()+1);
+                this.setEvoPoints(getEvoPoints()-1);
             }
         }
         super.onSyncedDataUpdated(dataAccessor);

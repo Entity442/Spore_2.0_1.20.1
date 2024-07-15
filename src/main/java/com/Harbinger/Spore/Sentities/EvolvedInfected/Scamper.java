@@ -106,13 +106,13 @@ public class Scamper extends EvolvedInfected {
                         if (SConfig.SERVER.scent_spawn.get()){
                             SummonScent();
                         }
+                        level().setBlock(new BlockPos((int) this.getX(),(int) this.getY(),(int) this.getZ()) ,Sblocks.REMAINS.get().defaultBlockState(), 2);
                     }
                     if (this.level() instanceof ServerLevel serverLevel){
                         double x0 = this.getX() - (random.nextFloat() - 0.1) * 0.1D;
                         double y0 = this.getY() + (random.nextFloat() - 0.25) * 0.15D * 5;
                         double z0 = this.getZ() + (random.nextFloat() - 0.1) * 0.1D;
                         serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x0, y0, z0, 2, 0, 0, 0, 1);
-                        serverLevel.setBlock(new BlockPos((int) this.getX(),(int) this.getY(),(int) this.getZ()) ,Sblocks.REMAINS.get().defaultBlockState(), 2);
                     }
                     this.discard();
                 }
