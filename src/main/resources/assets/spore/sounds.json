@@ -226,6 +226,12 @@
       "spore:sonar"
     ]
   },
+  "gast_ambient" :{
+    "subtitle": "sounds.spore.gast_ambient",
+    "sounds": [
+      "spore:gast_ambient"
+    ]
+  },
   "signal" :{
     "subtitle": "sounds.spore.signal",
     "sounds": [

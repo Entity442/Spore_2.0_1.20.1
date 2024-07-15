@@ -160,6 +160,12 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> knight_damage;
         public final ForgeConfigSpec.ConfigValue<Double> knight_armor;
 
+        public final ForgeConfigSpec.ConfigValue<Double> gastgeber_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> gastgeber_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> gastgeber_armor;
+        public final ForgeConfigSpec.ConfigValue<Integer> gastgeber_spread_cooldown;
+        public final ForgeConfigSpec.ConfigValue<Integer> gastgeber_root_time;
+
         public final ForgeConfigSpec.ConfigValue<Double> stalker_hp;
         public final ForgeConfigSpec.ConfigValue<Double> stalker_damage;
         public final ForgeConfigSpec.ConfigValue<Double> stalker_armor;
@@ -835,6 +841,13 @@ public class SConfig {
             this.knight_hp = builder.comment("Default 25").defineInRange("Sets Knight Max health", 25, 1, Double.MAX_VALUE);
             this.knight_damage = builder.comment("Default 7").defineInRange("Sets Knight Damage", 7, 1, Double.MAX_VALUE);
             this.knight_armor = builder.comment("Default 7").defineInRange("Sets Knight Armor", 7, 1, Double.MAX_VALUE);
+            builder.pop();
+            builder.push("GastGeber ");
+            this.gastgeber_hp = builder.comment("Default 70").defineInRange("Sets GastGeber Max health", 70, 1, Double.MAX_VALUE);
+            this.gastgeber_damage = builder.comment("Default 7").defineInRange("Sets GastGeber Damage", 7, 1, Double.MAX_VALUE);
+            this.gastgeber_armor = builder.comment("Default 6").defineInRange("Sets GastGeber Armor", 6, 1, Double.MAX_VALUE);
+            this.gastgeber_spread_cooldown = builder.comment("Default 30").defineInRange("Seconds before Gastgeber spreads foliage", 30, 1, Integer.MAX_VALUE);
+            this.gastgeber_root_time = builder.comment("Default 600").defineInRange("Seconds before Gastgeber moves from the area", 600, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Leaper ");
             this.leap_hp = builder.comment("Default 55").defineInRange("Sets Leaper Max health", 55, 1, Double.MAX_VALUE);

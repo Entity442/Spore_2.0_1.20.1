@@ -92,6 +92,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> PRINTING = soundRegistry("printing");
 
+    public static final RegistryObject<SoundEvent> GAST_AMBIENT = soundRegistry("gast_ambient");
+
     private Ssounds() {
     }
 }
