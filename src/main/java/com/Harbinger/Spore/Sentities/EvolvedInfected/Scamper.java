@@ -87,7 +87,7 @@ public class Scamper extends EvolvedInfected {
             this.setAge(this.getAge()+1);
             if (this.getAge() >= SConfig.SERVER.scamper_age.get()) {
                 if (!level().isClientSide){
-                    if ((this.getLinked() && Math.random() < 0.3f)  || this.getEvoPoints() >= 3){
+                    if ((this.getLinked() && Math.random() < 0.3f)  || this.getEvoPoints() >= SConfig.SERVER.min_kills_hyper.get()){
                         GastGeber geber = new GastGeber(Sentities.GASTGABER.get(),level());
                         geber.setKills(this.getKills() + this.getEvoPoints());
                         geber.moveTo(this.position());
