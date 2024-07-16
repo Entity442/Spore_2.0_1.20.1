@@ -40,7 +40,7 @@ public class Sentities {
     }
 
     public static final MobCategory INFECTED = MobCategory.create("infected","infected",SConfig.SERVER.mob_cap.get(),false,false,128);
-    public static final MobCategory ORGANOID = MobCategory.create("organoid","organoid",20,false,false,128);
+    public static final MobCategory ORGANOID = MobCategory.create("organoid","organoid",20,false,false,64);
 
     public  static  final List<Entity> INFECTED_ENTITIES = new ArrayList<>();
 
