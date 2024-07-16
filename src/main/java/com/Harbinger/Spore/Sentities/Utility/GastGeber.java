@@ -52,10 +52,6 @@ public class GastGeber extends EvolvedInfected implements FoliageSpread {
     }
     @Override
     public boolean removeWhenFarAway(double p_21542_) {
-        if (this.level() instanceof ServerLevel serverLevel){
-            SporeSavedData data = SporeSavedData.getDataLocation(serverLevel);
-            return data != null && data.getAmountOfHiveminds() >= SConfig.SERVER.proto_spawn_world_mod.get();
-        }
         return false;
     }
     @Override
