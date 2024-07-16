@@ -33,7 +33,7 @@ import java.util.Objects;
 @Mod.EventBusSubscriber
 public class Infection {
     @SubscribeEvent
-    public void onEntityDeath(LivingDeathEvent event) {
+    public static void onEntityDeath(LivingDeathEvent event) {
         if (event != null && event.getEntity() != null && !event.getEntity().level().isClientSide) {
             Level world = event.getEntity().level();
             double x = event.getEntity().getX();
@@ -80,11 +80,11 @@ public class Infection {
         if (entity instanceof Infected infected && event.getSource().getEntity() != null && infected.getLinked()){
             double value = SConfig.SERVER.proto_calamity.get()/100;
             if (infected instanceof EvolvedInfected evolvedInfected && Math.random() < value){
-                this.callProto(evolvedInfected);
+                callProto(evolvedInfected);
             }if (infected instanceof Hyper hyper && Math.random() < value*2){
-                this.callProto(hyper);
+                callProto(hyper);
             }if (infected instanceof GastGeber geber && Math.random() < value*4){
-                this.callProto(geber);
+                callProto(geber);
             }
         }
 
@@ -139,9 +139,12 @@ public class Infection {
         }
     }
 
-    public void callProto(Entity entity){
+    public static void callProto(Entity entity){
         AABB searchbox = entity.getBoundingBox().inflate(SConfig.SERVER.proto_range.get());
         List<Proto> entities = entity.level().getEntitiesOfClass(Proto.class, searchbox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
+        if (entities.isEmpty()){
+            return;
+        }
         RandomSource source = RandomSource.create();
         Proto proto = entities.get(source.nextInt(entities.size()));
         proto.setSignal(true);
