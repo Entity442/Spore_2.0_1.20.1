@@ -182,7 +182,9 @@ public class HandlerEvents {
                         for (Entity entity1 : entities) {
                             if(entity1 instanceof Infected infected) {
                                 infected.setEvolution(SConfig.SERVER.evolution_age_human.get());
-                                if (infected instanceof EvolvedInfected evolvedInfected){
+                                if (entity1 instanceof Scamper scamper){
+                                    scamper.setAge(SConfig.SERVER.scamper_age.get());
+                                }else if (infected instanceof EvolvedInfected evolvedInfected){
                                     evolvedInfected.setEvoPoints(SConfig.SERVER.min_kills_hyper.get());
                                 }else
                                 infected.setEvoPoints(SConfig.SERVER.min_kills.get());
