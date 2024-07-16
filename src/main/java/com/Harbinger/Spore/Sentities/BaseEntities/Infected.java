@@ -397,7 +397,7 @@ public class Infected extends Monster{
         return super.hurt(source, amount);
     }
 
-    public static boolean checkMonsterInfectedRules(EntityType<? extends Infected> p_219014_, ServerLevelAccessor levelAccessor, MobSpawnType p_219016_, BlockPos pos, RandomSource source) {
+    public static boolean checkMonsterInfectedRules(EntityType<? extends Infected> p_219014_, ServerLevelAccessor levelAccessor, MobSpawnType type, BlockPos pos, RandomSource source) {
         if (levelAccessor.getDifficulty() != Difficulty.PEACEFUL){
             if (SConfig.SERVER.spawn.get() && levelAccessor instanceof ServerLevel serverLevel){
                 SporeSavedData data = SporeSavedData.getDataLocation(serverLevel);
@@ -405,15 +405,21 @@ public class Infected extends Monster{
                     int e = data.getMinutesBeforeSpawning();
                     int i = 1200 * SConfig.SERVER.days.get();
                     if (e >= i){
-                        return isDarkEnoughToSpawn(levelAccessor, pos, source) && checkMobSpawnRules(p_219014_, levelAccessor, p_219016_, pos, source);
+                        return furtherSpawnParameters(p_219014_,levelAccessor,type,pos,source);
                     }
                 }
-            }else if (SConfig.SERVER.daytime_spawn.get()){
-                return checkMobSpawnRules(p_219014_, levelAccessor, p_219016_, pos, source);
-            }else
-                return isDarkEnoughToSpawn(levelAccessor, pos, source) && checkMobSpawnRules(p_219014_, levelAccessor, p_219016_, pos, source);
+            }else{
+                return furtherSpawnParameters(p_219014_,levelAccessor,type,pos,source);
+            }
         }
         return false;
+    }
+
+    private static boolean furtherSpawnParameters(EntityType<? extends Infected> p_219014_,ServerLevelAccessor levelAccessor, MobSpawnType type, BlockPos pos, RandomSource source){
+        if (SConfig.SERVER.daytime_spawn.get()){
+            return checkMobSpawnRules(p_219014_, levelAccessor, type, pos, source) && levelAccessor.canSeeSky(pos);
+        }else
+            return isDarkEnoughToSpawn(levelAccessor, pos, source) && checkMobSpawnRules(p_219014_, levelAccessor, type, pos, source);
     }
 
 
