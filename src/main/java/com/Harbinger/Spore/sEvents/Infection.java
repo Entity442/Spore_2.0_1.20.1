@@ -4,14 +4,17 @@ import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
+import com.Harbinger.Spore.Sentities.BaseEntities.Hyper;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BasicInfected.InfectedPlayer;
 import com.Harbinger.Spore.Sentities.Organoids.Proto;
+import com.Harbinger.Spore.Sentities.Utility.GastGeber;
 import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
@@ -30,7 +33,7 @@ import java.util.Objects;
 @Mod.EventBusSubscriber
 public class Infection {
     @SubscribeEvent
-    public static void onEntityDeath(LivingDeathEvent event) {
+    public void onEntityDeath(LivingDeathEvent event) {
         if (event != null && event.getEntity() != null && !event.getEntity().level().isClientSide) {
             Level world = event.getEntity().level();
             double x = event.getEntity().getX();
@@ -74,13 +77,14 @@ public class Infection {
             }
         }
 
-        if (entity instanceof EvolvedInfected evolvedInfected && event.getSource().getEntity() != null && evolvedInfected.getLinked() && Math.random() < (SConfig.SERVER.proto_calamity.get()/100)){
-            AABB searchbox = evolvedInfected.getBoundingBox().inflate(SConfig.SERVER.proto_range.get());
-            List<Proto> entities = entity.level().getEntitiesOfClass(Proto.class, searchbox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
-            for (Proto en : entities) {
-                en.setSignal(true);
-                en.setPlace(new BlockPos((int)entity.getX(),(int)entity.getY(),(int)entity.getZ()));
-                break;
+        if (entity instanceof Infected infected && event.getSource().getEntity() != null && infected.getLinked()){
+            double value = SConfig.SERVER.proto_calamity.get()/100;
+            if (infected instanceof EvolvedInfected evolvedInfected && Math.random() < value){
+                this.callProto(evolvedInfected);
+            }if (infected instanceof Hyper hyper && Math.random() < value*2){
+                this.callProto(hyper);
+            }if (infected instanceof GastGeber geber && Math.random() < value*4){
+                this.callProto(geber);
             }
         }
 
@@ -133,5 +137,14 @@ public class Infection {
                 }
             }}
         }
+    }
+
+    public void callProto(Entity entity){
+        AABB searchbox = entity.getBoundingBox().inflate(SConfig.SERVER.proto_range.get());
+        List<Proto> entities = entity.level().getEntitiesOfClass(Proto.class, searchbox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
+        RandomSource source = RandomSource.create();
+        Proto proto = entities.get(source.nextInt(entities.size()));
+        proto.setSignal(true);
+        proto.setPlace(new BlockPos((int)entity.getX(),(int)entity.getY(),(int)entity.getZ()));
     }
 }
