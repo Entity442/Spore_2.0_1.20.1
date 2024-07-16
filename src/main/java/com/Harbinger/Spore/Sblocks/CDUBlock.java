@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sblocks;
 
 import com.Harbinger.Spore.Core.SblockEntities;
+import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.SBlockEntities.CDUBlockEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -81,7 +82,7 @@ public class CDUBlock extends BaseEntityBlock {
         BlockEntity entity = level.getBlockEntity(pos);
         if (entity instanceof CDUBlockEntity blockEntity){
             ItemStack item = player.getItemInHand(hand);
-            if (item.getItem() == Items.BLUE_ICE){
+            if (item.getItem() == Sitems.ICE_CANISTER.get()){
                 if (blockEntity.getFuel() > 0){
                     player.displayClientMessage(Component.literal("Current fuel " + blockEntity.getFuel() + "/" + blockEntity.maxFuel),true);
                 }else{
@@ -124,7 +125,7 @@ public class CDUBlock extends BaseEntityBlock {
     public void appendHoverText(ItemStack stack, @Nullable BlockGetter getter, List<Component> components, TooltipFlag tooltipFlag) {
         super.appendHoverText(stack, getter, components, tooltipFlag);
         components.add(Component.translatable("cdu.line").withStyle(ChatFormatting.BLUE));
-        components.add(Items.BLUE_ICE.getDescription());
+        components.add(Sitems.ICE_CANISTER.get().getDescription());
         components.add(Component.literal(this.getFuelTag(stack) +"/12000").withStyle(ChatFormatting.DARK_BLUE));
     }
 

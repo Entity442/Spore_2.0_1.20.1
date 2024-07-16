@@ -101,6 +101,8 @@
   "item.spore.vigil_eye_soup": "Суп для глаз Vigil",
   "item.spore.milky_sack": "Молочные мешки",
   "item.spore.brain_noodles": "Мозговая лапша",
+  "item.spore.ice_canister": "Канистра со льдом",
+  "item.spore.circuit_board": "Печатная плата",
 
   "item.spore.symbiotic_reagent": "Симбиотический реагент",
 
@@ -357,5 +359,5 @@
   "block.spore.lab_stair": "Лабораторные ступени",
   "container.line.normal": "Зажми SHIFT для информации.",
   "container.line.shift": "Ячейка Хранилища Биологической Опасности - прекрасное дополнение для хранения органических материалов.",
-  "cdu.line": "Криогенный дозатор, для работы необходим голубой лед."
+  "cdu.line": "Криогенный дозатор"
 }

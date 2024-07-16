@@ -74,6 +74,24 @@
           ]
         }
       ]
+    },{
+      "rolls": 2,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "spore:ice_canister",
+          "weight": 60,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 6
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "random_sequence": "wow:chests/test"

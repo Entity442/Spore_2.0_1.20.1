@@ -106,6 +106,8 @@
   "item.spore.vigil_eye_soup": "警戒者之眼汤",
   "item.spore.milky_sack": "乳袋",
   "item.spore.brain_noodles": "脑花面条",
+  "item.spore.ice_canister": "冰罐",
+  "item.spore.circuit_board": "电路板",
 
 
   "item.spore.symbiotic_reagent": "共生试剂",
@@ -376,5 +378,5 @@
   "block.spore.lab_stair": "实验室楼梯",
   "container.line.normal": "按住 SHIFT 查看信息。",
   "container.line.shift": "生物危害存储单元 - 储存有机材料的理想选择。",
-  "cdu.line": "低温分配装置，需要蓝冰才能发挥作用"
+  "cdu.line": "低温分配装置"
 }
