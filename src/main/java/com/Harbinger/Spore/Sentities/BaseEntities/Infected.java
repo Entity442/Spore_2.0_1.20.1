@@ -231,7 +231,7 @@ public class Infected extends Monster{
 
 
     public boolean canStarve(){
-        return SConfig.SERVER.starve.get() && entityData.get(EVOLUTION_POINTS) <= 0;
+        return SConfig.SERVER.should_starve.get() && entityData.get(EVOLUTION_POINTS) <= 0;
     }
 
 
@@ -417,7 +417,7 @@ public class Infected extends Monster{
 
     private static boolean furtherSpawnParameters(EntityType<? extends Infected> p_219014_,ServerLevelAccessor levelAccessor, MobSpawnType type, BlockPos pos, RandomSource source){
         if (SConfig.SERVER.daytime_spawn.get()){
-            return checkMobSpawnRules(p_219014_, levelAccessor, type, pos, source) && levelAccessor.canSeeSky(pos);
+            return checkAnyLightMonsterSpawnRules(p_219014_, levelAccessor, type, pos, source);
         }else
             return isDarkEnoughToSpawn(levelAccessor, pos, source) && checkMobSpawnRules(p_219014_, levelAccessor, type, pos, source);
     }
