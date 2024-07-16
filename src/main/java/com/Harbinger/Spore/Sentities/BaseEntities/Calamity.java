@@ -24,6 +24,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -422,5 +423,13 @@ public class Calamity extends UtilityEntity implements Enemy {
                 ActivateAdaptation();
             }
         }
+    }
+
+    @Override
+    public boolean addEffect(MobEffectInstance instance, @Nullable Entity entity) {
+        if (instance.getEffect().getCategory() == MobEffectCategory.HARMFUL && instance.getAmplifier() < 1){
+            return false;
+        }
+        return super.addEffect(instance, entity);
     }
 }

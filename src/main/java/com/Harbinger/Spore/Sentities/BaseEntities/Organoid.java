@@ -13,12 +13,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -143,5 +141,13 @@ public class Organoid extends UtilityEntity implements Enemy {
 
     public int getNumberOfParticles(){
         return 2;
+    }
+
+    @Override
+    public boolean addEffect(MobEffectInstance instance, @org.jetbrains.annotations.Nullable Entity entity) {
+        if (instance.getEffect().getCategory() == MobEffectCategory.HARMFUL && instance.getAmplifier() < 1){
+            return false;
+        }
+        return super.addEffect(instance, entity);
     }
 }

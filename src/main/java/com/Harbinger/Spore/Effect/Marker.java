@@ -17,7 +17,7 @@ import java.util.List;
 
 public class Marker extends MobEffect implements IForgeMobEffect {
     public Marker() {
-        super(MobEffectCategory.HARMFUL, 8412043);
+        super(MobEffectCategory.NEUTRAL, 8412043);
     }
 
     @Override
