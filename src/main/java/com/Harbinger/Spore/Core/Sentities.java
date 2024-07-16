@@ -40,6 +40,7 @@ public class Sentities {
     }
 
     public static final MobCategory INFECTED = MobCategory.create("infected","infected",SConfig.SERVER.mob_cap.get(),false,false,128);
+    public static final MobCategory ORGANOID = MobCategory.create("organoid","organoid",20,false,false,128);
 
     public  static  final List<Entity> INFECTED_ENTITIES = new ArrayList<>();
 
@@ -152,19 +153,19 @@ public class Sentities {
                     .build(new ResourceLocation(Spore.MODID, "inf_drowned").toString()));
 
     public static final RegistryObject<EntityType<Vigil>> VIGIL = SPORE_ENTITIES.register("vigil",
-            () -> EntityType.Builder.of(Vigil::new, INFECTED).sized(1f, 3f)
+            () -> EntityType.Builder.of(Vigil::new, ORGANOID).sized(1f, 3f)
                     .build(new ResourceLocation(Spore.MODID, "vigil").toString()));
 
     public static final RegistryObject<EntityType<Delusionare>> DELUSIONARE = SPORE_ENTITIES.register("delusioner",
-            () -> EntityType.Builder.of(Delusionare::new, INFECTED).sized(1f, 3f)
+            () -> EntityType.Builder.of(Delusionare::new, ORGANOID).sized(1f, 3f)
                     .build(new ResourceLocation(Spore.MODID, "delusioner").toString()));
 
     public static final RegistryObject<EntityType<Umarmer>> UMARMED = SPORE_ENTITIES.register("umarmed",
-            () -> EntityType.Builder.of(Umarmer::new, INFECTED).sized(1f, 3f)
+            () -> EntityType.Builder.of(Umarmer::new, ORGANOID).sized(1f, 3f)
                     .build(new ResourceLocation(Spore.MODID, "umarmed").toString()));
 
     public static final RegistryObject<EntityType<Brauerei>> BRAUREI = SPORE_ENTITIES.register("braurei",
-            () -> EntityType.Builder.of(Brauerei::new, INFECTED).sized(3f, 3f)
+            () -> EntityType.Builder.of(Brauerei::new, ORGANOID).sized(3f, 3f)
                     .build(new ResourceLocation(Spore.MODID, "braurei").toString()));
 
     public static final RegistryObject<EntityType<Illusion>> ILLUSION = SPORE_ENTITIES.register("illusion",
@@ -172,7 +173,7 @@ public class Sentities {
                     .build(new ResourceLocation(Spore.MODID, "illusion").toString()));
 
     public static final RegistryObject<EntityType<GastGeber>> GASTGABER = SPORE_ENTITIES.register("gastgaber",
-            () -> EntityType.Builder.of(GastGeber::new, MobCategory.MISC).sized(1.1f, 2f)
+            () -> EntityType.Builder.of(GastGeber::new, ORGANOID).sized(1.1f, 2f)
                     .build(new ResourceLocation(Spore.MODID, "gastgaber").toString()));
 
 
@@ -213,23 +214,23 @@ public class Sentities {
                     .build(new ResourceLocation(Spore.MODID, "claw").toString()));
 
     public static final RegistryObject<EntityType<Mound>> MOUND = SPORE_ENTITIES.register("mound",
-            () -> EntityType.Builder.of(Mound::new, INFECTED).sized(0.3f, 0.3f)
+            () -> EntityType.Builder.of(Mound::new, ORGANOID).sized(0.3f, 0.3f)
                     .build(new ResourceLocation(Spore.MODID, "mound").toString()));
 
     public static final RegistryObject<EntityType<BiomassReformator>> RECONSTRUCTOR = SPORE_ENTITIES.register("reconstructor",
-            () -> EntityType.Builder.of(BiomassReformator::new, INFECTED).sized(1f, 1f)
+            () -> EntityType.Builder.of(BiomassReformator::new, ORGANOID).sized(1f, 1f)
                     .build(new ResourceLocation(Spore.MODID, "reconstructor").toString()));
 
     public static final RegistryObject<EntityType<Verwa>> VERVA = SPORE_ENTITIES.register("verva",
-            () -> EntityType.Builder.of(Verwa::new, INFECTED).sized(1f, 2f)
+            () -> EntityType.Builder.of(Verwa::new, ORGANOID).sized(1f, 2f)
                     .build(new ResourceLocation(Spore.MODID, "verva").toString()));
 
     public static final RegistryObject<EntityType<Usurper>> USURPER = SPORE_ENTITIES.register("usurper",
-            () -> EntityType.Builder.of(Usurper::new, INFECTED).sized(1f, 2.2f)
+            () -> EntityType.Builder.of(Usurper::new, ORGANOID).sized(1f, 2.2f)
                     .build(new ResourceLocation(Spore.MODID, "usurper").toString()));
 
     public static final RegistryObject<EntityType<Proto>> PROTO = SPORE_ENTITIES.register("proto",
-            () -> EntityType.Builder.of(Proto::new, INFECTED).sized(1f, 3.5f)
+            () -> EntityType.Builder.of(Proto::new, ORGANOID).sized(1f, 3.5f)
                     .build(new ResourceLocation(Spore.MODID, "proto").toString()));
 
     public static final RegistryObject<EntityType<InfectionTendril>> TENDRIL = SPORE_ENTITIES.register("tendril",
