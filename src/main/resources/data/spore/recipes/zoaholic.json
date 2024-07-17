@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#DD",
+    "TTT",
+    "TRT"
+  ],
+  "key": {
+    "R": {
+      "item": "spore:container"
+    },
+    "#": {
+      "item": "spore:brain_remnants"
+    },
+    "D": {
+      "item": "spore:circuit_board"
+    },
+    "T": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "spore:zoaholic"
+  }
+}
