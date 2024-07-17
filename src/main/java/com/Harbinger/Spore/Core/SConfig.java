@@ -505,7 +505,7 @@ public class SConfig {
             this.inf_human_conv = builder.defineList("Mobs and their infected counterparts",
                     Lists.newArrayList(
                             "minecraft:zombie|spore:inf_human","minecraft:husk|spore:inf_husk","minecraft:drowned|spore:inf_drowned",
-                            "minecraft:pillager|spore:inf_pillager","minecraft:villager|spore:inf_villager", "minecraft:zombie_villager|spore:inf_villager", "guardvillagers:guard|spore:inf_villager",
+                            "minecraft:pillager|spore:inf_pillager","minecraft:villager|spore:inf_villager", "guardvillagers:guard|spore:inf_villager",
                             "recruits:recruit|spore:inf_villager","recruits:bowman|spore:inf_villager","recruits:recruit_shieldman|spore:inf_villager",
                             "recruits:nomad|spore:inf_villager","recruits:horseman|spore:inf_villager",
                             "minecraft:witch|spore:inf_witch","minecraft:wandering_trader|spore:inf_wanderer","minecraft:evoker|spore:inf_evoker",
