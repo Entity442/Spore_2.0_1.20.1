@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X#X",
+    "TXT",
+    "XRX"
+  ],
+  "key": {
+    "R": {
+      "item": "spore:compound_plate"
+    },
+    "#": {
+      "item": "minecraft:comparator"
+    },
+    "T": {
+      "item": "minecraft:repeater"
+    },
+    "X": {
+      "item": "minecraft:redstone"
+    }
+},
+  "result": {
+    "item": "spore:circuit_board"
+  }
+}

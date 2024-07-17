@@ -42,6 +42,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.AbstractGlassBlock;
@@ -234,7 +235,10 @@ public class Infected extends Monster{
         return SConfig.SERVER.should_starve.get() && entityData.get(EVOLUTION_POINTS) <= 0;
     }
 
-
+    @Override
+    public float getWalkTargetValue(BlockPos pos, LevelReader reader) {
+        return SConfig.SERVER.daytime_spawn.get() ? 0.0F: super.getWalkTargetValue(pos, reader);
+    }
 
     public void aiStep() {
         super.aiStep();

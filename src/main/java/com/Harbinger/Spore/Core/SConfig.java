@@ -412,12 +412,12 @@ public class SConfig {
 
             builder.push("Griefing Parameters");
             this.calamity_bd = builder.define("The block breaking hardness of calamities",5);
-            this.hyper_bd = builder.define("The block breaking hardness of hyper evolved",3);
+            this.hyper_bd = builder.define("The block breaking hardness of hyper evolveds",3);
             this.experiment_bd = builder.define("The block breaking hardness of experiments",1);
             builder.pop();
 
             builder.push("Global Variables");
-            this.proto_spawn_world_mod = builder.define("The amount of needed Hiveminds for the world to change",3);
+            this.proto_spawn_world_mod = builder.define("The amount of needed Proto Hiveminds for the world to change (Proto World Modifier)",3);
             this.global_damage = builder.define("Global Damage Modifier",1.0);
             this.global_health = builder.define("Global Health Modifier",1.0);
             this.global_armor = builder.define("Global Armor Modifier",1.0);
@@ -428,7 +428,7 @@ public class SConfig {
             this.hunger = builder.define("Hunger in seconds",300);
 
             builder.pop();
-            builder.push("TargetingTasks");
+            builder.push("Targeting Tasks");
             this.at_mob = builder.comment("Default true").define("Should attack other mobs?",true);
             this.at_an = builder.comment("Default false").define("Should attack Animals?",false);
 
@@ -441,7 +441,7 @@ public class SConfig {
 
             this.attack = builder.defineList("Mobs that will target infected",
                     Lists.newArrayList(
-                            "minecraft:iron_golem",
+                            "minecraft:iron_golem", "minecraft:snow_golem",
                             "guardvillagers:guard" , "roamers:roamer") , o -> o instanceof String);
 
             this.flee = builder.defineList("Mobs that will run from infected",
@@ -451,11 +451,11 @@ public class SConfig {
 
             builder.pop();
 
-            builder.push("MobRoles ,decides some of the interactions between the infected mobs");
-            this.basic = builder.defineList("Basic_Infected",
+            builder.push("Mob Roles, decides some of the interactions between the infected mobs");
+            this.basic = builder.defineList("Basic Infecteds",
                     Lists.newArrayList("spore:inf_human","spore:inf_villager","spore:inf_wanderer","spore:inf_witch","spore:inf_pillager","spore:inf_player") , o -> o instanceof String);
 
-            this.evolved = builder.defineList("Evolved_Infected",
+            this.evolved = builder.defineList("Evolved Infecteds",
                     Lists.newArrayList("spore:braiomil","spore:knight","spore:griefer","spore:busser","spore:spitter","spore:leaper","spore:slasher",
                             "spore:howler","spore:stalker","spore:brute" , "spore:inf_evoker", "spore:inf_vindicator") , o -> o instanceof String);
 
@@ -475,21 +475,21 @@ public class SConfig {
             builder.push("Evolutions");
             this.human_ev = builder.defineList("Infected Human Evolutions",
                     Lists.newArrayList(
-                            "spore:knight"
-                            ,"spore:griefer"
-                            ,"spore:braiomil"
-                            ,"spore:busser" ) , o -> o instanceof String);
+                            "spore:knight",
+                            "spore:griefer",
+                            "spore:braiomil",
+                            "spore:busser" ) , o -> o instanceof String);
 
             this.villager_ev = builder.defineList("Infected Villager Evolutions",
                     Lists.newArrayList(
-                            "spore:slasher"
-                            ,"spore:leaper"
-                            ,"spore:spitter" ) , o -> o instanceof String);
+                            "spore:slasher",
+                            "spore:leaper",
+                            "spore:spitter" ) , o -> o instanceof String);
             this.pil_ev = builder.defineList("Infected Pillager Evolutions",
                     Lists.newArrayList(
                             "spore:howler",
-                                     "spore:stalker",
-                                     "spore:brute") , o -> o instanceof String);
+                            "spore:stalker",
+                            "spore:brute") , o -> o instanceof String);
             this.wit_ev = builder.defineList("Infected Witch Evolutions",
                     Lists.newArrayList(
                             "spore:volatile") , o -> o instanceof String);
@@ -504,8 +504,8 @@ public class SConfig {
             this.inf_player = builder.comment("Default true").define("Should the player be infected on death?",true);
             this.inf_human_conv = builder.defineList("Mobs and their infected counterparts",
                     Lists.newArrayList(
-                            "minecraft:zombie|spore:inf_human","minecraft:husk|spore:inf_husk","minecraft:drowned|spore:inf_drowned"
-                            ,"minecraft:pillager|spore:inf_pillager","minecraft:villager|spore:inf_villager","guardvillagers:guard|spore:inf_villager",
+                            "minecraft:zombie|spore:inf_human","minecraft:husk|spore:inf_husk","minecraft:drowned|spore:inf_drowned",
+                            "minecraft:pillager|spore:inf_pillager","minecraft:villager|spore:inf_villager", "minecraft:zombie_villager|spore:inf_villager", "guardvillagers:guard|spore:inf_villager",
                             "recruits:recruit|spore:inf_villager","recruits:bowman|spore:inf_villager","recruits:recruit_shieldman|spore:inf_villager",
                             "recruits:nomad|spore:inf_villager","recruits:horseman|spore:inf_villager",
                             "minecraft:witch|spore:inf_witch","minecraft:wandering_trader|spore:inf_wanderer","minecraft:evoker|spore:inf_evoker",
@@ -549,7 +549,7 @@ public class SConfig {
             this.inf_vin_armor = builder.comment("Default 4").defineInRange("Sets Infected Vindicator Armor", 4, 1, Double.MAX_VALUE);
             builder.pop();
 
-            builder.push("Halucination");
+            builder.push("Hallucination");
             this.halucinations_damage = builder.comment("Default 4").defineInRange("The mental damage dealt by hallucinations", 4, 1, Double.MAX_VALUE);
             this.chance_hallucination_spawn = builder.comment("Default 10%").defineInRange("chance for a hallucination to spawn when the victim is mad", 10, 1, Double.MAX_VALUE);
             builder.pop();
@@ -597,16 +597,16 @@ public class SConfig {
             this.verwa_hp = builder.comment("Default 20").defineInRange("Sets Verwahrung Max health", 20, 1, Double.MAX_VALUE);
             this.verwa_armor = builder.comment("Default 2").defineInRange("Sets Verwahrung Armor", 2, 1, Double.MAX_VALUE);
             this.verwa_effect = builder.defineList("Verwahrung buffs",
-                    Lists.newArrayList("minecraft:speed" , "minecraft:strength","minecraft:resistance","minecraft:regeneration") , o -> o instanceof String);
+                    Lists.newArrayList("minecraft:speed", "minecraft:strength", "minecraft:resistance", "minecraft:regeneration") , o -> o instanceof String);
             this.verwa_summons = builder.defineList("Verwahrung summons",
-                    Lists.newArrayList("spore:knight" , "spore:griefer","spore:braiomil","spore:leaper","spore:slasher","spore:inf_evoker","spore:busser","spore:volatile") , o -> o instanceof String);
+                    Lists.newArrayList("spore:knight", "spore:griefer", "spore:braiomil", "spore:leaper", "spore:slasher", "spore:inf_evoker", "spore:busser", "spore:volatile") , o -> o instanceof String);
             builder.pop();
 
             builder.push("Braurei");
             this.braurei_hp = builder.comment("Default 80").defineInRange("Sets Braurei Max health", 80, 1, Double.MAX_VALUE);
             this.braurei_armor = builder.comment("Default 6").defineInRange("Sets Braurei Armor", 6, 1, Double.MAX_VALUE);
             this.braurei_buffs = builder.defineList("Braurei buffs",
-                    Lists.newArrayList("minecraft:speed" , "minecraft:strength","minecraft:resistance","minecraft:fire_resistance","minecraft:regeneration") , o -> o instanceof String);
+                    Lists.newArrayList("minecraft:speed", "minecraft:strength", "minecraft:resistance", "minecraft:fire_resistance", "minecraft:regeneration", "minecraft:absorption") , o -> o instanceof String);
             builder.pop();
 
             builder.push("Usurper");
@@ -622,13 +622,13 @@ public class SConfig {
                     Lists.newArrayList("spore:inf_human" ,"spore:inf_drowned" , "spore:inf_villager","spore:inf_pillager","spore:inf_drowned") , o -> o instanceof String);
 
             this.vigil_middle_wave = builder.comment("The mixed wave of infected a vigil can summon").defineList("Vigil mix wave",
-                    Lists.newArrayList("spore:inf_human" , "spore:inf_villager","spore:inf_pillager","spore:inf_wanderer"
-                            ,"spore:knight","spore:griefer","spore:leaper","spore:inf_evoker","spore:spitter") , o -> o instanceof String);
+                    Lists.newArrayList("spore:inf_human", "spore:inf_villager", "spore:inf_pillager", "spore:inf_wanderer",
+                            "spore:knight", "spore:griefer", "spore:leaper", "spore:inf_evoker", "spore:spitter") , o -> o instanceof String);
 
             this.vigil_max_wave = builder.comment("The max wave of infected a vigil can summon").defineList("Vigil max wave",
-                    Lists.newArrayList("spore:inf_vindicator" , "spore:busser","spore:inf_witch","spore:brute"
-                            ,"spore:knight","spore:griefer","spore:leaper","spore:inf_evoker","spore:spitter","spore:stalker"
-                            ,"spore:howler","spore:braiomil") , o -> o instanceof String);
+                    Lists.newArrayList("spore:inf_vindicator", "spore:busser", "spore:inf_witch", "spore:brute",
+                            "spore:knight", "spore:griefer", "spore:leaper", "spore:inf_evoker", "spore:spitter", "spore:stalker",
+                            "spore:howler", "spore:braiomil") , o -> o instanceof String);
 
             builder.pop();
 
@@ -645,38 +645,36 @@ public class SConfig {
                     Lists.newArrayList("minecraft:weakness|600|1" , "spore:mycelium_ef|600|1","minecraft:slowness|600|1") , o -> o instanceof String);
 
             this.sieger_explosive_effects = builder.comment("Default values: minecraft:wither ,spore:mycelium ,minecraft:weakness").defineList("Sieger explosion ranged effects",
-                    Lists.newArrayList("minecraft:wither" , "spore:mycelium_ef","minecraft:weakness") , o -> o instanceof String);
-
+                    Lists.newArrayList("minecraft:wither", "spore:mycelium_ef", "minecraft:weakness") , o -> o instanceof String);
             builder.pop();
 
-            builder.push("HindenBurg");
-            this.hinden_hp = builder.comment("Default 400").defineInRange("Sets HindenBurg Max health", 400, 1, Double.MAX_VALUE);
-            this.hinden_damage = builder.comment("Default 400").defineInRange("Sets HindenBurg Danage", 15, 1, Double.MAX_VALUE);
-            this.hinden_armor = builder.comment("Default 5").defineInRange("Sets HindenBurg Armor", 5, 1, Double.MAX_VALUE);
-            this.hinden_dpsr = builder.comment("Default 40").defineInRange("Sets HindenBurg Damage Cap , set to 0 to disable", 40, 1, Double.MAX_VALUE);
-            this.hinden_buffs = builder.comment("Default values: minecraft:jump_boost|600|0 ,minecraft:slow_falling|600|0 ,minecraft:resistance|600|1").defineList("HindenBurg buffs",
-                    Lists.newArrayList("minecraft:jump_boost|600|0" , "minecraft:slow_falling|600|0","minecraft:resistance|600|1") , o -> o instanceof String);
+            builder.push("Gazenbreacher");
+            this.gazen_hp = builder.comment("Default 350").defineInRange("Sets Gazenbreacher Max health", 350, 1, Double.MAX_VALUE);
+            this.gazen_damage = builder.comment("Default 25").defineInRange("Sets Gazenbreacher Damage", 25, 1, Double.MAX_VALUE);
+            this.gazen_armor = builder.comment("Default 15").defineInRange("Sets Gazenbreacher Armor", 15, 1, Double.MAX_VALUE);
+            this.gazen_dpsr = builder.comment("Default 100").defineInRange("Sets Gazenbreacher Damage Cap , set to 0 to disable", 100, 1, Double.MAX_VALUE);
+            this.gazen_ranged_damage = builder.comment("Default 10").defineInRange("Sets Gazenbreacher bile damage", 10, 1, Double.MAX_VALUE);
 
-            this.hinden_debuffs = builder.comment("Default values: minecraft:nausea|600|1 ,spore:mycelium|600|1 ,minecraft:slowness|600|1").defineList("HindenBurg debuffs",
+            this.gazen_buffs = builder.comment("Default values: minecraft:speed|600|0, minecraft:conduit_power|600|0, minecraft:resistance|600|1").defineList("Gazenbreacher buffs",
+                    Lists.newArrayList("minecraft:speed|600|0", "minecraft:conduit_power|600|0", "minecraft:resistance|600|1") , o -> o instanceof String);
+
+            this.gazen_debuffs = builder.comment("Default values: minecraft:darkness|600|0, spore:mycelium|600|1, minecraft:hunger|600|1").defineList("Gazenbreacher debuffs",
+                    Lists.newArrayList("minecraft:darkness|600|0", "spore:mycelium_ef|600|1", "minecraft:hunger|600|1") , o -> o instanceof String);
+            builder.pop();
+
+            builder.push("Hindenburg");
+            this.hinden_hp = builder.comment("Default 400").defineInRange("Sets Hindenburg Max health", 400, 1, Double.MAX_VALUE);
+            this.hinden_damage = builder.comment("Default 15").defineInRange("Sets Hindenburg Danage", 15, 1, Double.MAX_VALUE);
+            this.hinden_armor = builder.comment("Default 5").defineInRange("Sets Hindenburg Armor", 5, 1, Double.MAX_VALUE);
+            this.hinden_dpsr = builder.comment("Default 40").defineInRange("Sets Hindenburg Damage Cap , set to 0 to disable", 40, 1, Double.MAX_VALUE);
+            this.hinden_buffs = builder.comment("Default values: minecraft:jump_boost|600|0, minecraft:slow_falling|600|0, minecraft:resistance|600|1").defineList("Hindenburg buffs",
+                    Lists.newArrayList("minecraft:jump_boost|600|0", "minecraft:slow_falling|600|0", "minecraft:resistance|600|1") , o -> o instanceof String);
+
+            this.hinden_debuffs = builder.comment("Default values: minecraft:nausea|600|1 ,spore:mycelium|600|1 ,minecraft:slowness|600|1").defineList("Hindenburg debuffs",
                     Lists.newArrayList("minecraft:nausea|600|1" , "spore:mycelium_ef|600|1","minecraft:slowness|600|1") , o -> o instanceof String);
 
-            this.hinden_explosive_effects = builder.comment("Default values: minecraft:wither ,spore:mycelium ,minecraft:weakness,minecraft:poison,spore:corrosion,minecraft:blindness").defineList("Sieger explosion ranged effects",
-                    Lists.newArrayList("minecraft:wither" , "spore:mycelium_ef","minecraft:weakness","minecraft:poison","spore:corrosion","minecraft:blindness") , o -> o instanceof String);
-            builder.pop();
-
-            builder.push("GazenBreacher");
-            this.gazen_hp = builder.comment("Default 350").defineInRange("Sets GazenBreacher Max health", 350, 1, Double.MAX_VALUE);
-            this.gazen_damage = builder.comment("Default 25").defineInRange("Sets GazenBreacher Damage", 25, 1, Double.MAX_VALUE);
-            this.gazen_armor = builder.comment("Default 15").defineInRange("Sets GazenBreacher Armor", 15, 1, Double.MAX_VALUE);
-            this.gazen_dpsr = builder.comment("Default 100").defineInRange("Sets GazenBreacher Damage Cap , set to 0 to disable", 100, 1, Double.MAX_VALUE);
-             this.gazen_ranged_damage = builder.comment("Default 10").defineInRange("Sets GazenBreacher bile damage", 10, 1, Double.MAX_VALUE);
-
-            this.gazen_buffs = builder.comment("Default values: minecraft:speed|600|0 ,minecraft:conduit_power|600|0 ,minecraft:resistance|600|1").defineList("GazenBreacher buffs",
-                    Lists.newArrayList("minecraft:speed|600|0" , "minecraft:conduit_power|600|0","minecraft:resistance|600|1") , o -> o instanceof String);
-
-            this.gazen_debuffs = builder.comment("Default values: minecraft:darkness|600|0 ,spore:mycelium|600|1 ,minecraft:hunger|600|1").defineList("GazenBreacher debuffs",
-                    Lists.newArrayList("minecraft:darkness|600|0" , "spore:mycelium_ef|600|1","minecraft:hunger|600|1") , o -> o instanceof String);
-
+            this.hinden_explosive_effects = builder.comment("Default values: minecraft:wither, spore:mycelium, minecraft:weakness, minecraft:poison, spore:corrosion, minecraft:blindness").defineList("Hindenburg explosion ranged effects",
+                    Lists.newArrayList("minecraft:wither", "spore:mycelium_ef", "minecraft:weakness", "minecraft:poison", "spore:corrosion", "minecraft:blindness") , o -> o instanceof String);
             builder.pop();
 
             builder.push("Brute");
@@ -701,14 +699,14 @@ public class SConfig {
             this.mound_range_age2 = builder.comment("Default 10").defineInRange("Sets Mound range at the age of 2", 10, 1, Double.MAX_VALUE);
             this.mound_range_age3 = builder.comment("Default 15").defineInRange("Sets Mound range at the age of 3", 15, 1, Double.MAX_VALUE);
             this.mound_range_age4 = builder.comment("Default 20").defineInRange("Sets Mound range at the age of 4", 20, 1, Double.MAX_VALUE);
-            this.mound_foliage = builder.comment("Default true").define("Should the mound spread hybrid foliage?",true);
+            this.mound_foliage = builder.comment("Default true").define("Should the mound spread foliage and infect blocks?",true);
             builder.pop();
 
             builder.push("Proto Hivemind");
             this.proto_hp = builder.comment("Default 100").defineInRange("Sets Proto Max health", 100, 1, Double.MAX_VALUE);
             this.proto_armor = builder.comment("Default 10").defineInRange("Sets Proto Armor", 10, 1, Double.MAX_VALUE);
             this.proto_damage = builder.comment("Default 10").defineInRange("Sets Proto Melee damage", 10, 1, Double.MAX_VALUE);
-            this.proto_dpsr = builder.comment("Default 20").defineInRange("Sets Proto Damage Cap , set to 0 to disable", 20, 1, Double.MAX_VALUE);
+            this.proto_dpsr = builder.comment("Default 20").defineInRange("Sets Proto Damage Cap, set to 0 to disable", 20, 1, Double.MAX_VALUE);
             this.proto_range = builder.comment("Default 300").defineInRange("Sets the linking range", 300, 1, Integer.MAX_VALUE);
             this.proto_calamity = builder.comment("Default 15").defineInRange("Chance for the death of a linked evolved infected to trigger the hivemind", 15, 0, Double.MAX_VALUE);
             this.proto_chunk = builder.comment("Default true").define("Should the hivemind generate a chunkloader at its location?",true);
@@ -741,11 +739,11 @@ public class SConfig {
             builder.pop();
 
             builder.push("Womb");
-            this.reconstructor_hp = builder.comment("Default 30").defineInRange("Sets the base health of the reconstructor", 30, 1, Double.MAX_VALUE);
-            this.reconstructor_armor = builder.comment("Default 6").defineInRange("Sets the base armor of the reconstructor", 6, 1, Double.MAX_VALUE);
-            this.recontructor_clock = builder.comment("Default 30").defineInRange("Sets the time before it gains one biomass", 30, 1, Integer.MAX_VALUE);
-            this.reconstructor_assimilation = builder.comment("Default 10").defineInRange("How much biomass does it get from assimilating infected", 10, 1, Integer.MAX_VALUE);
-            this.reconstructor_biomass = builder.comment("Default 100").defineInRange("Sets the maximum biomass before it summons a calamity", 100, 1, Integer.MAX_VALUE);
+            this.reconstructor_hp = builder.comment("Default 30").defineInRange("Sets the base health of the Womb", 30, 1, Double.MAX_VALUE);
+            this.reconstructor_armor = builder.comment("Default 6").defineInRange("Sets the base armor of the Womb", 6, 1, Double.MAX_VALUE);
+            this.recontructor_clock = builder.comment("Default 30").defineInRange("Sets the time before the Womb gains one biomass", 30, 1, Integer.MAX_VALUE);
+            this.reconstructor_assimilation = builder.comment("Default 10").defineInRange("How much biomass does it get from consuming infected", 10, 1, Integer.MAX_VALUE);
+            this.reconstructor_biomass = builder.comment("Default 100").defineInRange("Sets the required biomass before it summons a calamity", 100, 1, Integer.MAX_VALUE);
             this.reconstructor_terrain = builder.defineList("Mobs that are summoned for ground support",
                     Lists.newArrayList("spore:sieger" ) , o -> o instanceof String);
             this.reconstructor_air = builder.defineList("Mobs that are summoned for air support",
@@ -756,21 +754,33 @@ public class SConfig {
 
 
             builder.push("Scent");
-            this.scent_spawn = builder.comment("Default true").define("Should scent spawn?",true);
-            this.scent_particles = builder.comment("Default true").define("Should scent have particles?",true);
+            this.scent_spawn = builder.comment("Default true").define("Should Scents spawn?",true);
+            this.scent_particles = builder.comment("Default true").define("Should Scents have particles?",true);
             this.scent_life = builder.comment("Default 4000").define("Scent life",4000);
-            this.scent_cap = builder.comment("Default 5").define("The average amount of scents that can spawn in an area",5);
+            this.scent_cap = builder.comment("Default 5").define("The max amount of Scents that can spawn in an area",5);
             this.scent_effects_buff = builder.defineList("Overcharged Scent buff effect list",
                     Lists.newArrayList("minecraft:regeneration","minecraft:speed","minecraft:health_boost","minecraft:strength","minecraft:resistance" ) , o -> o instanceof String);
-            this.scent_kills = builder.comment("Default 4").define("OverCharged Scent bonus kill points",4);
-            this.scent_spawn_chance = builder.comment("Default 5").define("The Chance for the scent to spawn from a mob dying 1-100",5);
+            this.scent_kills = builder.comment("Default 4").define("Overcharged Scent bonus kill points",4);
+            this.scent_spawn_chance = builder.comment("Default 5").define("The chance for the scent to spawn from a mob dying (1-100)",5);
             this.inf_summon = builder.defineList("Mobs that can be summoned by the Scent",
                     Lists.newArrayList(
-                            "spore:inf_human"
-                            ,"spore:inf_villager"
-                            ,"spore:inf_pillager" ) , o -> o instanceof String);
+                            "spore:inf_human",
+                            "spore:inf_villager",
+                            "spore:inf_pillager" ) , o -> o instanceof String);
             this.scent_summon = builder.comment("Default true").define("Should scent summon entities?",true);
             this.scent_summon_cooldown = builder.comment("Default 300").define("The average amount of time it will take for a mob to be summoned",300);
+            builder.pop();
+
+            builder.push("Infected Human");
+            this.inf_human_hp = builder.comment("Default 15").defineInRange("Sets Infected Human Max health", 15, 1, Double.MAX_VALUE);
+            this.inf_human_damage = builder.comment("Default 6").defineInRange("Sets Infected Human Damage", 6, 1, Double.MAX_VALUE);
+            this.inf_human_armor = builder.comment("Default 1").defineInRange("Sets Infected Human Armor", 1, 0, Double.MAX_VALUE);
+            builder.pop();
+
+            builder.push("Infected Husk");
+            this.inf_husk_hp = builder.comment("Default 21").defineInRange("Sets Infected Husk Max health", 21, 1, Double.MAX_VALUE);
+            this.inf_husk_damage = builder.comment("Default 6").defineInRange("Sets Infected Husk Damage", 6, 1, Double.MAX_VALUE);
+            this.inf_husk_armor = builder.comment("Default 3").defineInRange("Sets Infected Husk Armor", 3, 0, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("Infected Villager");
@@ -826,42 +836,34 @@ public class SConfig {
             builder.pop();
 
 
-            builder.push("Infected Human");
-            this.inf_human_hp = builder.comment("Default 15").defineInRange("Sets Infected Human Max health", 15, 1, Double.MAX_VALUE);
-            this.inf_human_damage = builder.comment("Default 6").defineInRange("Sets Infected Human Damage", 6, 1, Double.MAX_VALUE);
-            this.inf_human_armor = builder.comment("Default 1").defineInRange("Sets Infected Human Armor", 1, 0, Double.MAX_VALUE);
-            builder.pop();
-            builder.push("Infected Husk");
-            this.inf_husk_hp = builder.comment("Default 21").defineInRange("Sets Infected Husk Max health", 21, 1, Double.MAX_VALUE);
-            this.inf_husk_damage = builder.comment("Default 6").defineInRange("Sets Infected Husk Damage", 6, 1, Double.MAX_VALUE);
-            this.inf_husk_armor = builder.comment("Default 3").defineInRange("Sets Infected Husk Armor", 3, 0, Double.MAX_VALUE);
-            builder.pop();
-            builder.push("Knight ");
+            builder.push("Knight");
             this.knight_hp = builder.comment("Default 25").defineInRange("Sets Knight Max health", 25, 1, Double.MAX_VALUE);
             this.knight_damage = builder.comment("Default 7").defineInRange("Sets Knight Damage", 7, 1, Double.MAX_VALUE);
             this.knight_armor = builder.comment("Default 7").defineInRange("Sets Knight Armor", 7, 1, Double.MAX_VALUE);
             builder.pop();
-            builder.push("GastGeber ");
-            this.gastgeber_hp = builder.comment("Default 70").defineInRange("Sets GastGeber Max health", 70, 1, Double.MAX_VALUE);
-            this.gastgeber_damage = builder.comment("Default 7").defineInRange("Sets GastGeber Damage", 7, 1, Double.MAX_VALUE);
-            this.gastgeber_armor = builder.comment("Default 6").defineInRange("Sets GastGeber Armor", 6, 1, Double.MAX_VALUE);
+
+            builder.push("Gastgeber");
+            this.gastgeber_hp = builder.comment("Default 70").defineInRange("Sets Gastgeber Max health", 70, 1, Double.MAX_VALUE);
+            this.gastgeber_damage = builder.comment("Default 7").defineInRange("Sets Gastgeber Damage", 7, 1, Double.MAX_VALUE);
+            this.gastgeber_armor = builder.comment("Default 6").defineInRange("Sets Gastgeber Armor", 6, 1, Double.MAX_VALUE);
             this.gastgeber_spread_cooldown = builder.comment("Default 30").defineInRange("Seconds before Gastgeber spreads foliage", 30, 1, Integer.MAX_VALUE);
             this.gastgeber_root_time = builder.comment("Default 600").defineInRange("Seconds before Gastgeber moves from the area", 600, 1, Integer.MAX_VALUE);
             this.gastgeber_range = builder.comment("Default 25").defineInRange("Infection Range", 25, 1, Integer.MAX_VALUE);
             builder.pop();
-            builder.push("Leaper ");
+
+            builder.push("Leaper");
             this.leap_hp = builder.comment("Default 55").defineInRange("Sets Leaper Max health", 55, 1, Double.MAX_VALUE);
             this.leap_damage = builder.comment("Default 8").defineInRange("Sets Leaper Damage", 8, 1, Double.MAX_VALUE);
             this.leap_armor = builder.comment("Default 3").defineInRange("Sets Leaper Armor", 3, 1, Double.MAX_VALUE);
             builder.pop();
 
-            builder.push("Slasher ");
+            builder.push("Slasher");
             this.sla_hp = builder.comment("Default 35").defineInRange("Sets Slasher Max health", 35, 1, Double.MAX_VALUE);
             this.sla_damage = builder.comment("Default 10").defineInRange("Sets Slasher Damage", 10, 1, Double.MAX_VALUE);
             this.sla_armor = builder.comment("Default 2").defineInRange("Sets Slasher Armor", 2, 1, Double.MAX_VALUE);
             builder.pop();
 
-            builder.push("Volatile ");
+            builder.push("Volatile");
             this.vola_hp = builder.comment("Default 60").defineInRange("Sets Volatile Max health", 60, 1, Double.MAX_VALUE);
             this.vola_damage = builder.comment("Default 10").defineInRange("Sets Volatile Damage", 10, 1, Double.MAX_VALUE);
             this.vola_armor = builder.comment("Default 4").defineInRange("Sets Volatile Armor", 4, 1, Double.MAX_VALUE);
@@ -871,12 +873,12 @@ public class SConfig {
                     Lists.newArrayList("minecraft:poison","minecraft:weakness","minecraft:hunger","spore:marker") , o -> o instanceof String);
             builder.pop();
 
-            builder.push("Scamper ");
-            this.scamper_hp = builder.comment("Default 35").defineInRange("Sets Scamper Max health", 25, 1, Double.MAX_VALUE);
-            this.scamper_damage = builder.comment("Default 10").defineInRange("Sets Scamper Damage", 6, 1, Double.MAX_VALUE);
-            this.scamper_armor = builder.comment("Default 2").defineInRange("Sets Scamper Armor", 3, 1, Double.MAX_VALUE);
+            builder.push("Scamper");
+            this.scamper_hp = builder.comment("Default 25").defineInRange("Sets Scamper Max health", 25, 1, Double.MAX_VALUE);
+            this.scamper_damage = builder.comment("Default 6").defineInRange("Sets Scamper Damage", 6, 1, Double.MAX_VALUE);
+            this.scamper_armor = builder.comment("Default 3").defineInRange("Sets Scamper Armor", 3, 1, Double.MAX_VALUE);
             this.scamper_age = builder.comment("Default 600").defineInRange("Sets Scamper Age", 600, 1, Integer.MAX_VALUE);
-            this.scamper_summon = builder.comment("Default true").define("Should a Scamper Summon Mounds on death?",true);
+            this.scamper_summon = builder.comment("Default true").define("Should Scampers summon Mounds on death?",true);
             builder.pop();
 
             builder.push("Infected Player");
@@ -1108,8 +1110,8 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Integer> cryo_range;
         public final ForgeConfigSpec.ConfigValue<Integer> spawner_range;
         public DataGen(ForgeConfigSpec.Builder builder){
-            builder.push("LootTables");
-            builder.comment("item|chance to drop(1-100)|minimum amount|maximum amount.Only values above 0 will be taken in consideration.");
+            builder.push("Loot Tables");
+            builder.comment("item|chance to drop(1-100)|minimum amount|maximum amount. Only values above 0 will be taken in consideration.");
             this.inf_human_loot = builder.defineList("Infected Human",
                     Lists.newArrayList("spore:mutated_fiber|50|1|3","spore:mutated_heart|10|1|1") , o -> o instanceof String);
             this.inf_drow_loot = builder.defineList("Infected Drowned",
@@ -1131,53 +1133,53 @@ public class SConfig {
             this.inf_player_loot = builder.defineList("Infected Adventurer",
                     Lists.newArrayList("spore:mutated_fiber|50|2|5","spore:mutated_heart|10|1|1") , o -> o instanceof String);
             this.inf_husk_loot = builder.defineList("Infected Husk",
-                    Lists.newArrayList("spore:mutated_fiber|50|5|7","spore:mutated_heart|10|1|1") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mutated_fiber|50|5|7","spore:mutated_heart|15|1|1") , o -> o instanceof String);
 
             this.plagued_loot = builder.defineList("Plagued",
-                    Lists.newArrayList("spore:mutated_fiber|50|5|7","spore:mutated_heart|10|1|1","spore:spine_fragment|15|1|3") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mutated_fiber|50|5|7", "spore:mutated_heart|10|1|1", "spore:spine_fragment|15|1|3", "spore:cerebrum|25|1|1") , o -> o instanceof String);
 
 
-            this.inf_braio_loot = builder.defineList("Braiomil ",
+            this.inf_braio_loot = builder.defineList("Braiomil",
                     Lists.newArrayList("spore:mutated_fiber|80|1|3","spore:armor_fragment|50|1|2","spore:claw_fragment|80|1|3","spore:mutated_heart|10|1|1","spore:alveolic_sack|40|1|3") , o -> o instanceof String);
-            this.inf_knight_loot = builder.defineList("Knight ",
+            this.inf_knight_loot = builder.defineList("Knight",
                     Lists.newArrayList("spore:mutated_fiber|70|1|5","spore:armor_fragment|80|4|9","spore:mutated_heart|10|1|1","spore:claw_fragment|80|6|9") , o -> o instanceof String);
-            this.inf_griefer_loot = builder.defineList("Griefer ",
+            this.inf_griefer_loot = builder.defineList("Griefer",
                     Lists.newArrayList("spore:mutated_fiber|50|2|5","spore:armor_fragment|80|2|4","spore:mutated_heart|10|1|1","spore:claw_fragment|80|3|6","spore:tumor|100|1|3","spore:innards|50|1|1") , o -> o instanceof String);
-            this.inf_bus_loot = builder.defineList("Phayres ",
+            this.inf_bus_loot = builder.defineList("Phayres",
                     Lists.newArrayList("spore:mutated_fiber|80|1|3","spore:armor_fragment|50|1|2","spore:claw_fragment|80|1|3","spore:mutated_heart|10|1|1","spore:wing_membrane|60|1|3") , o -> o instanceof String);
 
-            this.inf_spitter_loot = builder.defineList("Spitter ",
+            this.inf_spitter_loot = builder.defineList("Spitter",
                     Lists.newArrayList("spore:mutated_fiber|80|1|3","spore:armor_fragment|50|1|2","spore:mutated_heart|10|1|1","spore:cerebrum|20|1|1","spore:spine_fragment|15|1|3","spore:corrosive_sack|30|1|1") , o -> o instanceof String);
-            this.inf_slasher_loot = builder.defineList("Slasher ",
+            this.inf_slasher_loot = builder.defineList("Slasher",
                     Lists.newArrayList("spore:mutated_fiber|70|1|5","spore:armor_fragment|80|4|9","spore:mutated_heart|10|1|1","spore:cerebrum|20|1|1","spore:spine_fragment|15|1|3","spore:sickle_fragment|60|1|1") , o -> o instanceof String);
-            this.inf_leap_loot = builder.defineList("Leaper ",
+            this.inf_leap_loot = builder.defineList("Leaper",
                     Lists.newArrayList("spore:mutated_fiber|50|2|5","spore:innards|50|1|1","spore:armor_fragment|80|2|4","spore:mutated_heart|10|1|1","spore:claw_fragment|80|3|6","spore:cerebrum|20|1|1","spore:spine_fragment|15|1|3","spore:tendons|60|3|7") , o -> o instanceof String);
 
-            this.inf_howler_loot = builder.defineList("Howler ",
+            this.inf_howler_loot = builder.defineList("Howler",
                     Lists.newArrayList("spore:mutated_fiber|80|1|3","spore:claw_fragment|80|1|3","spore:armor_fragment|50|1|2","spore:mutated_heart|10|1|1","spore:cerebrum|20|1|1","spore:spine_fragment|15|1|3") , o -> o instanceof String);
-            this.inf_stalker_loot = builder.defineList("Stalker ",
+            this.inf_stalker_loot = builder.defineList("Stalker",
                     Lists.newArrayList("spore:mutated_fiber|70|1|5","spore:armor_fragment|80|3|6","spore:mutated_heart|10|1|1","spore:claw_fragment|80|1|4","spore:cerebrum|20|1|1","spore:spine_fragment|15|1|3","spore:altered_spleen|30|1|1") , o -> o instanceof String);
-            this.inf_brute_loot = builder.defineList("Brute ",
+            this.inf_brute_loot = builder.defineList("Brute",
                     Lists.newArrayList("spore:mutated_fiber|50|2|5","spore:innards|50|1|1","spore:armor_fragment|80|5|12","spore:mutated_heart|10|1|1","spore:cerebrum|20|1|1","spore:spine_fragment|15|1|3") , o -> o instanceof String);
 
-            this.inf_volatile_loot = builder.defineList("Volatile ",
+            this.inf_volatile_loot = builder.defineList("Volatile",
                     Lists.newArrayList("spore:mutated_fiber|70|1|5","spore:armor_fragment|80|2|6","spore:mutated_heart|10|1|1","spore:claw_fragment|80|6|9","spore:innards|50|1|1","spore:tumor|100|2|4") , o -> o instanceof String);
 
-            this.gastgaber_loot = builder.defineList("GastGaber ",
-                    Lists.newArrayList("spore:mutated_fiber|80|5|12","spore:armor_fragment|80|2|6","spore:mutated_heart|10|1|2","spore:claw_fragment|80|6|9","spore:innards|50|1|2","spore:tumor|100|4|8") , o -> o instanceof String);
+            this.gastgaber_loot = builder.defineList("Gastgaber",
+                    Lists.newArrayList("spore:mutated_fiber|80|5|12","spore:armor_fragment|80|2|6","spore:mutated_heart|10|1|3","spore:claw_fragment|80|6|9","spore:innards|50|1|2","spore:tumor|100|4|8") , o -> o instanceof String);
 
 
-            this.sca_loot = builder.defineList("Scamper ",
+            this.sca_loot = builder.defineList("Scamper",
                     Lists.newArrayList("spore:mutated_fiber|50|1|4","spore:armor_fragment|80|1|3","spore:mutated_heart|10|1|1","spore:tumor|100|1|1") , o -> o instanceof String);
 
-            this.sieger_loot = builder.defineList("Sieger ",
+            this.sieger_loot = builder.defineList("Sieger",
                     Lists.newArrayList("spore:mutated_fiber|100|33|75","spore:armor_fragment|100|15|38","spore:mutated_heart|70|3|7","spore:tumor|100|2|5","spore:cerebrum|70|2|7","spore:spine_fragment|56|4|9") , o -> o instanceof String);
 
-            this.gazen_loot = builder.defineList("Gazen ",
+            this.gazen_loot = builder.defineList("Gazenbrecher",
                     Lists.newArrayList("spore:mutated_fiber|100|33|75","spore:armor_fragment|100|15|38","spore:mutated_heart|70|3|7","spore:cerebrum|70|4|9","spore:spine_fragment|56|7|15") , o -> o instanceof String);
 
-            this.hindie_loot = builder.defineList("Hindie ",
-                    Lists.newArrayList("spore:mutated_fiber|100|33|75","spore:armor_fragment|100|1|4","spore:mutated_heart|70|3|7","spore:cerebrum|70|1|4","spore:spine_fragment|56|7|15","spore:tumor|100|7|22") , o -> o instanceof String);
+            this.hindie_loot = builder.defineList("Hindenburg",
+                    Lists.newArrayList("spore:mutated_fiber|100|33|75","spore:armor_fragment|100|1|4","spore:mutated_heart|70|3|7","spore:cerebrum|70|1|4","spore:spine_fragment|56|7|15","spore:tumor|100|7|22", "spore:wing_membrane|100|3|11") , o -> o instanceof String);
 
             this.sieger_tail_loot = builder.defineList("Sieger Tail",
                     Lists.newArrayList("spore:mutated_fiber|100|10|25","spore:armor_fragment|100|3|10","spore:tumor|100|7|22") , o -> o instanceof String);
@@ -1186,42 +1188,42 @@ public class SConfig {
                     Lists.newArrayList("spore:mutated_fiber|100|5|14","spore:tumor|100|1|4") , o -> o instanceof String);
 
 
-            this.proto_loot = builder.defineList("Proto Hivemind ",
+            this.proto_loot = builder.defineList("Proto Hivemind",
                     Lists.newArrayList("spore:mutated_fiber|100|10|20","spore:armor_fragment|80|4|14","spore:mutated_heart|80|1|6","spore:cerebrum|100|2|11","spore:spine_fragment|80|2|8") , o -> o instanceof String);
 
 
-            this.mound_loot = builder.defineList("Mound ",
+            this.mound_loot = builder.defineList("Mound",
                     Lists.newArrayList("spore:mutated_fiber|70|2|5") , o -> o instanceof String);
 
-            this.vigil_loot = builder.defineList("Vigil ",
+            this.vigil_loot = builder.defineList("Vigil",
                     Lists.newArrayList("spore:mutated_fiber|100|6|15","spore:vigil_eye|100|1|1","spore:mutated_heart|30|1|1") , o -> o instanceof String);
 
-            this.umarmer_loot = builder.defineList("Umarmer ",
+            this.umarmer_loot = builder.defineList("Umarmer",
                     Lists.newArrayList("spore:mutated_fiber|100|6|15","spore:armor_fragment|80|1|8","spore:mutated_heart|30|1|1") , o -> o instanceof String);
 
-            this.usurper_loot = builder.defineList("Usurper ",
+            this.usurper_loot = builder.defineList("Usurper",
                     Lists.newArrayList("spore:mutated_fiber|100|6|7","spore:armor_fragment|80|1|4","spore:mutated_heart|30|1|1","spore:corrosive_sack|70|1|3") , o -> o instanceof String);
 
 
-            this.wendigo_loot = builder.defineList("Wendigo ",
+            this.wendigo_loot = builder.defineList("Wendigo",
                     Lists.newArrayList("spore:mutated_fiber|70|5|9","spore:armor_fragment|80|7|12","spore:mutated_heart|50|1|1","spore:claw_fragment|80|5|15","spore:cerebrum|20|1|1","spore:spine_fragment|15|1|3","spore:altered_spleen|70|1|2") , o -> o instanceof String);
 
-            this.inquisitor_loot = builder.defineList("Inquisitor ",
+            this.inquisitor_loot = builder.defineList("Inquisitor",
                     Lists.newArrayList("spore:mutated_fiber|70|5|9","spore:armor_fragment|80|12|22","spore:mutated_heart|50|1|1","spore:claw_fragment|80|5|15") , o -> o instanceof String);
 
-            this.brot_loot = builder.defineList("Brotkatze ",
-                    Lists.newArrayList("spore:mutated_fiber|70|5|9","spore:armor_fragment|80|2|10","spore:mutated_heart|50|1|1","spore:claw_fragment|80|5|10","spore:alveolic_sack|80|2|5") , o -> o instanceof String);
+            this.brot_loot = builder.defineList("Brotkatze",
+                    Lists.newArrayList("spore:mutated_fiber|70|5|9","spore:armor_fragment|80|2|10","spore:mutated_heart|50|1|1","spore:claw_fragment|80|5|10","spore:alveolic_sack|80|2|4") , o -> o instanceof String);
 
 
-            this.braurei_loot = builder.defineList("Braurei ",
+            this.braurei_loot = builder.defineList("Braurei",
                     Lists.newArrayList("spore:mutated_fiber|100|12|23","spore:mutated_heart|50|1|3","spore:cerebrum|50|1|4","spore:spine_fragment|15|1|3","spore:altered_spleen|70|1|2") , o -> o instanceof String);
 
 
             this.organite_loot = builder.defineList("Organite Block",
-                    Lists.newArrayList("spore:mutated_fiber|50|1|4","spore:spine|80|1|3","spore:innards|70|1|5") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mutated_fiber|50|1|4","spore:spine|80|1|3","spore:innards|70|1|5", "spore:altered_spleen|70|1|2", "spore:mutated_heart|85|1|3", "spore|alveolic_sack|25|1|1", "spore:corrosive_sack|5|1|1") , o -> o instanceof String);
 
             this.innards_loot = builder.defineList("Innards",
-                    Lists.newArrayList("minecraft:bone_meal|50|1|2","minecraft:rotten_flesh|40|1|1","minecraft:wheat_seeds|40|1|1") , o -> o instanceof String);
+                    Lists.newArrayList("minecraft:bone|50|1|2", "minecraft:rotten_flesh|40|1|1", "minecraft:golden_apple|5|1|1", "spore:tumor|50|1|5", "spore:mutated_fiber|65|1|5") , o -> o instanceof String);
 
             builder.pop();
             builder.push("Others");
@@ -1231,7 +1233,7 @@ public class SConfig {
                             "Deyvid", "Dany_Why", "Technoblade", "Ike", "Hypnotizd", "That_Insane_Guy", "JhonOK22", "hacie", "WhisperFire26",
                             "Pajera", "Gistique", "Demonid", "Bowser", "Mad_Dog", "Ripley", "Kraken", "Zero", "Joker_de_Coeur", "bartsek009 ",
                             "xXFuryXx", "Nova69", "Belladonna","Entity","Keymind","Whisper","Helldwin",
-                            "Mademoiselle2016") , o -> o instanceof String);
+                            "Mademoiselle2016", "Dr_Pilot_MOO") , o -> o instanceof String);
             builder.comment("Items|chance of giving");
             this.player_h = builder.defineList("Head Slot",
                     Lists.newArrayList("minecraft:leather_helmet|50","minecraft:iron_helmet|20","minecraft:chainmail_helmet|20") , o -> o instanceof String);
@@ -1250,7 +1252,7 @@ public class SConfig {
             builder.push("Structure data");
             this.biomass_lump_kills = builder.comment("Default 5").defineInRange("Biomass Lump minimal kills", 5, 0, Integer.MAX_VALUE);
             this.hive_spawn_kills = builder.comment("Default 25").defineInRange("Reconstructed Mind Block kills", 25, 0, Integer.MAX_VALUE);
-            this.spawner_range = builder.comment("Default 20").defineInRange("The range of the overgrown spawner", 32, 0, Integer.MAX_VALUE);
+            this.spawner_range = builder.comment("Default 32").defineInRange("The range of the overgrown spawner", 32, 0, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Block infection");
             this.block_infection = builder.defineList("Blocks and their infected counterparts",
