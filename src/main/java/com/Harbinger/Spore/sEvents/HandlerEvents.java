@@ -599,9 +599,6 @@ public class HandlerEvents {
             if (event.getEffectInstance().getEffect() == Seffects.MYCELIUM.get() && masks.contains(event.getEntity().getItemBySlot(EquipmentSlot.HEAD).getItem())){
                 event.setResult(Event.Result.DENY);
             }
-            if (SConfig.SERVER.blacklist.get().contains(event.getEntity().getEncodeId())){
-                event.setResult(Event.Result.DENY);
-            }
             if (SConfig.SERVER.faw_target.get() && event.getEntity().getType().is(TagKey.create(Registries.ENTITY_TYPE,
                     new ResourceLocation("fromanotherworld:things")))){
                 if (event.getEffectInstance().getEffect() == Seffects.MARKER.get()){
