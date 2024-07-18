@@ -49,6 +49,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Snowball;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
@@ -586,12 +587,18 @@ public class HandlerEvents {
     @SubscribeEvent
     public static void ProtectFromEffect(MobEffectEvent.Applicable event)
     {
-        if (event.getEntity() != null && event.getEntity().getItemBySlot(EquipmentSlot.HEAD).getItem() == Sitems.GAS_MASK.get()){
+        if (event.getEntity() != null){
+            List<Item> masks =  new ArrayList<>();
+            for (String string : SConfig.SERVER.gas_masks.get()){
+                Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(string));
+                if (item != null){
+                 masks.add(item);
+                }
+            }
             event.getEffectInstance();
-            if (event.getEffectInstance().getEffect() == Seffects.MYCELIUM.get()){
+            if (event.getEffectInstance().getEffect() == Seffects.MYCELIUM.get() && masks.contains(event.getEntity().getItemBySlot(EquipmentSlot.HEAD).getItem())){
                 event.setResult(Event.Result.DENY);
-           }
-        }else if (event.getEntity() != null){
+            }
             if (SConfig.SERVER.blacklist.get().contains(event.getEntity().getEncodeId())){
                 event.setResult(Event.Result.DENY);
             }

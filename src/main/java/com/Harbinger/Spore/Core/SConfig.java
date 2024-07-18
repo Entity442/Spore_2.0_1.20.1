@@ -402,6 +402,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Integer> calamity_bd;
         public final ForgeConfigSpec.ConfigValue<Integer> hyper_bd;
         public final ForgeConfigSpec.ConfigValue<Integer> experiment_bd;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> gas_masks;
 
         public Server(ForgeConfigSpec.Builder builder) {
 
@@ -921,6 +922,10 @@ public class SConfig {
 
 
             builder.push("Weapons and Tools OwO");
+            builder.push("Gas Masks");
+            this.gas_masks = builder.defineList("Gas masks",
+                    Lists.newArrayList("spore:gas_mask") , o -> o instanceof String);
+            builder.pop();
             builder.push("Spear");
             this.spear_durability = builder.comment("Default 800").define("Durability",800);
             this.spear_damage = builder.comment("Default 11").defineInRange("Melee Damage", 11, 1, Integer.MAX_VALUE);
