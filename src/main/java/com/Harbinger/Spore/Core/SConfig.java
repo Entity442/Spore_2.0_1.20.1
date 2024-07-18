@@ -498,7 +498,7 @@ public class SConfig {
                     Lists.newArrayList("spore:inf_villager", "spore:inf_pillager", "spore:inf_witch") , o -> o instanceof String);
             this.evolution_age_human = builder.comment("Default 300").define("Evolution Timer in seconds",300);
             this.min_kills = builder.comment("Default 1").define("Minimum amount of kills to start the evolution",1);
-            this.min_kills_hyper = builder.comment("Default 5").define("Minimum amount of kills to start the hyper evolution",5);
+            this.min_kills_hyper = builder.comment("Default 7").define("Minimum amount of kills to start the hyper evolution",7);
             builder.pop();
             builder.push("Infections");
             this.inf_player = builder.comment("Default true").define("Should the player be infected on death?",true);
@@ -1220,7 +1220,7 @@ public class SConfig {
 
 
             this.organite_loot = builder.defineList("Organite Block",
-                    Lists.newArrayList("spore:mutated_fiber|50|1|4","spore:spine|80|1|3","spore:innards|70|1|5", "spore:altered_spleen|70|1|2", "spore:mutated_heart|85|1|3", "spore|alveolic_sack|25|1|1", "spore:corrosive_sack|5|1|1") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mutated_fiber|50|1|4","spore:spine|80|1|3","spore:innards|70|1|5", "spore:altered_spleen|70|1|2", "spore:mutated_heart|85|1|3","spore:alveolic_sack|80|2|4") , o -> o instanceof String);
 
             this.innards_loot = builder.defineList("Innards",
                     Lists.newArrayList("minecraft:bone|50|1|2", "minecraft:rotten_flesh|40|1|1", "minecraft:golden_apple|5|1|1", "spore:tumor|50|1|5", "spore:mutated_fiber|65|1|5") , o -> o instanceof String);

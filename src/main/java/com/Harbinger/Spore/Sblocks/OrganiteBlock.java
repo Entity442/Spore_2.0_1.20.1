@@ -15,6 +15,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -59,19 +60,28 @@ public class OrganiteBlock extends Block {
         RandomSource random = RandomSource.create();
         for (String str : SConfig.DATAGEN.organite_loot.get()){
             String[] string = str.split("\\|" );
-            ItemStack itemStack = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(string[0])));
-            int m = 1;
-            if (Integer.parseUnsignedInt(string[2]) == Integer.parseUnsignedInt(string[3])){
-                m = Integer.parseUnsignedInt(string[3]);
+            Item item1 = ForgeRegistries.ITEMS.getValue(new ResourceLocation(string[0]));
+            if (item1 != null){
+                ItemStack itemStack = new ItemStack(item1);
+                int m;
+                int minimalV = Integer.parseUnsignedInt(string[2]);
+                int maxV = Integer.parseUnsignedInt(string[3]);
+                if (minimalV == maxV){
+                    m = maxV;
+                } else {
+                    try {
+                        m = random.nextInt(minimalV, maxV);
+                    } catch (Exception e){
+                        m = 1;
+                    }
+                }
 
-            } else {if (Integer.parseUnsignedInt(string[2]) >= 1 && Integer.parseUnsignedInt(string[2]) >= 1){
-                m = random.nextInt(Integer.parseUnsignedInt(string[2]), Integer.parseUnsignedInt(string[3]));}}
-
-            if (Math.random() < (Integer.parseUnsignedInt(string[1]) / 100F)) {
-                itemStack.setCount(m);
-                ItemEntity item = new ItemEntity(level, pos.getX() , pos.getY(),pos.getZ(),itemStack);
-                item.setPickUpDelay(10);
-                level.addFreshEntity(item);}}
+                if (itemStack != ItemStack.EMPTY && Math.random() < (Integer.parseUnsignedInt(string[1]) / 100F)) {
+                    itemStack.setCount(m);
+                    ItemEntity item = new ItemEntity(level, pos.getX() , pos.getY(),pos.getZ(),itemStack);
+                    item.setPickUpDelay(10);
+                    level.addFreshEntity(item);}}
+            }
         return super.onDestroyedByPlayer(state, level, pos, player, false, fluid);
     }
 }
