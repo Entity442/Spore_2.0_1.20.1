@@ -58,10 +58,10 @@ public class Hyper extends Infected{
     }
 
     @Override
-    public boolean removeWhenFarAway(double p_21542_) {
+    public boolean removeWhenFarAway(double value) {
         if (this.level() instanceof ServerLevel serverLevel){
             SporeSavedData data = SporeSavedData.getDataLocation(serverLevel);
-            return data != null && data.getAmountOfHiveminds() >= SConfig.SERVER.proto_spawn_world_mod.get();
+            return data != null && data.getAmountOfHiveminds() >= SConfig.SERVER.proto_spawn_world_mod.get() && value > 256;
         }
         return false;
     }
