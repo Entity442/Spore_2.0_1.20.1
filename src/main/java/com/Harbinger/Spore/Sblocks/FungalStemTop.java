@@ -24,20 +24,4 @@ public class FungalStemTop extends GenericFoliageBlock{
     protected boolean mayPlaceOn(BlockState blockState, BlockGetter p_51043_, BlockPos p_51044_) {
         return blockState.canOcclude() || blockState.getBlock() == Sblocks.FUNGAL_STEM.get();
     }
-
-    @Override
-    public boolean isFlammable(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
-        return true;
-    }
-
-    @Override
-    public int getFlammability(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
-        return 5;
-    }
-
-    @Override
-    public int getFireSpreadSpeed(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
-        return 5;
-    }
-
 }

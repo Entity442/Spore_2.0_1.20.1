@@ -19,19 +19,4 @@ public class HangingRoots extends HangingRootsBlock {
     public VoxelShape getShape(BlockState p_153342_, BlockGetter p_153343_, BlockPos p_153344_, CollisionContext p_153345_) {
         return SHAPE;
     }
-    @Override
-    public boolean isFlammable(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
-        return true;
-    }
-
-    @Override
-    public int getFlammability(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
-        return 5;
-    }
-
-    @Override
-    public int getFireSpreadSpeed(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
-        return 5;
-    }
-
 }
