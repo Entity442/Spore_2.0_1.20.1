@@ -399,7 +399,6 @@ public class Sitems {
     public static final RegistryObject<Item> INFESTED_LABORATORY_BLOCK3 = block(Sblocks.INFESTED_LABORATORY_BLOCK3);
     public static final RegistryObject<Item> OVERGROWN_SPAWNER = block(Sblocks.OVERGROWN_SPAWNER);
     public static final RegistryObject<Item> BRAIN_REMNANTS = block(Sblocks.BRAIN_REMNANTS);
-    public static final RegistryObject<Item> INCANDESCENT_BIOMASS = block(Sblocks.INCANDESCENT_BIOMASS);
 
     public static final RegistryObject<Item> REMAINS = block(Sblocks.REMAINS);
     public static final RegistryObject<Item> BIOMASS_LUMP = block(Sblocks.BIOMASS_LUMP);
