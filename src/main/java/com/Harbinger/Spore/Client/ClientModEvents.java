@@ -96,6 +96,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(OvergrownSpawnerModel.LAYER_LOCATION, OvergrownSpawnerModel::createBodyLayer);
         event.registerLayerDefinition(brainMatterModel.LAYER_LOCATION, brainMatterModel::createBodyLayer);
         event.registerLayerDefinition(ZoaholicModel.LAYER_LOCATION, ZoaholicModel::createBodyLayer);
+        event.registerLayerDefinition(incubatorModel.LAYER_LOCATION, incubatorModel::createBodyLayer);
     }
 
 
@@ -163,6 +164,7 @@ public class ClientModEvents {
         event.registerBlockEntityRenderer(SblockEntities.OVERGROWN_SPAWNER.get(), new OvergrownSpawnerRenderer());
         event.registerBlockEntityRenderer(SblockEntities.BRAIN_REMNANTS.get(), new BrainRemnantsRenderer());
         event.registerBlockEntityRenderer(SblockEntities.ZOAHOLIC.get(), new ZoaholicRenderer());
+        event.registerBlockEntityRenderer(SblockEntities.INCUBATOR.get(), new incubatorRenderer());
     }
 
     @SubscribeEvent

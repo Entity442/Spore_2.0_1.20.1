@@ -41,6 +41,10 @@ public class SblockEntities {
             BLOCK_ENTITIES.register("brain_remnants", () ->
                     BlockEntityType.Builder.of(BrainRemnantBlockEntity::new,
                             Sblocks.BRAIN_REMNANTS.get()).build(null));
+    public static final RegistryObject<BlockEntityType<incubatorBlockEntity>> INCUBATOR =
+            BLOCK_ENTITIES.register("incubator", () ->
+                    BlockEntityType.Builder.of(incubatorBlockEntity::new,
+                            Sblocks.INCUBATOR.get()).build(null));
 
 
     public static void register(IEventBus eventBus) {
