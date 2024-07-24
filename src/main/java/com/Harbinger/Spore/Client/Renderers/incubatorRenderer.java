@@ -1,6 +1,6 @@
 package com.Harbinger.Spore.Client.Renderers;
 
-import com.Harbinger.Spore.Client.Models.incubatorModel;
+import com.Harbinger.Spore.Client.Models.IncubatorModel;
 import com.Harbinger.Spore.Client.Special.BaseBlockEntityRenderer;
 import com.Harbinger.Spore.SBlockEntities.IncubatorBlockEntity;
 import com.Harbinger.Spore.Spore;
@@ -19,7 +19,7 @@ public class incubatorRenderer extends BaseBlockEntityRenderer<IncubatorBlockEnt
     private static final ResourceLocation GLASS = new ResourceLocation(Spore.MODID,"textures/block/incubator/incubator_glass.png");
     private static final ResourceLocation BUTTONS = new ResourceLocation(Spore.MODID,"textures/block/incubator/incubator_buttons.png");
     public incubatorRenderer() {
-        super(new incubatorModel<>());
+        super(new IncubatorModel<>());
     }
     @Override
     public int getTicks(IncubatorBlockEntity entity) {

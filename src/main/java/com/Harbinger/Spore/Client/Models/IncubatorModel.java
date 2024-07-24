@@ -14,19 +14,14 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 
-public class incubatorModel<T extends IncubatorBlockEntity> extends BlockEntityModel<T> {
+public class IncubatorModel<T extends IncubatorBlockEntity> extends BlockEntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "incubator"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "incubator_model"), "main");
 	private final ModelPart incubator;
 
-	public incubatorModel() {
+	public IncubatorModel() {
 		ModelPart root = createBodyLayer().bakeRoot();
 		this.incubator = root.getChild("incubator");
-	}
-
-	@Override
-	public void setupAnim(T entity, float ageInTicks) {
-
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -105,7 +100,10 @@ public class incubatorModel<T extends IncubatorBlockEntity> extends BlockEntityM
 
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
+	@Override
+	public void setupAnim(T entity, float ageInTicks) {
 
+	}
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		incubator.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
