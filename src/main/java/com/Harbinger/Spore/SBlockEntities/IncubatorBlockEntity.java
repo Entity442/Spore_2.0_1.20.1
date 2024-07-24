@@ -9,12 +9,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 
-public class incubatorBlockEntity extends BlockEntity{
+public class IncubatorBlockEntity extends BlockEntity{
     public final int maxFuel = 12000;
     public int fuel;
     private int tick;
     private int side;
-    public incubatorBlockEntity(BlockPos pos, BlockState state) {
+    public IncubatorBlockEntity(BlockPos pos, BlockState state) {
         super(SblockEntities.CDU.get(), pos, state);
         side = setSide(state);
     }
@@ -69,7 +69,7 @@ public class incubatorBlockEntity extends BlockEntity{
         return tick;
     }
 
-    public static <E extends BlockEntity> void serverTick(Level level, BlockPos blockPos, BlockState blockState, incubatorBlockEntity e) {
+    public static <E extends BlockEntity> void serverTick(Level level, BlockPos blockPos, BlockState blockState, IncubatorBlockEntity e) {
         e.addTick();
     }
 

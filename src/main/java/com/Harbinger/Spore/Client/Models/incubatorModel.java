@@ -4,7 +4,7 @@ package com.Harbinger.Spore.Client.Models;// Made with Blockbench 4.10.4
 
 
 import com.Harbinger.Spore.Client.Special.BlockEntityModel;
-import com.Harbinger.Spore.SBlockEntities.incubatorBlockEntity;
+import com.Harbinger.Spore.SBlockEntities.IncubatorBlockEntity;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -14,7 +14,7 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 
-public class incubatorModel<T extends incubatorBlockEntity> extends BlockEntityModel<T> {
+public class incubatorModel<T extends IncubatorBlockEntity> extends BlockEntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "incubator"), "main");
 	private final ModelPart incubator;

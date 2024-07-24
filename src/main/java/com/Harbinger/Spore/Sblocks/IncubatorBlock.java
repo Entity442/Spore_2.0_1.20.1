@@ -2,8 +2,7 @@ package com.Harbinger.Spore.Sblocks;
 
 import com.Harbinger.Spore.Core.SblockEntities;
 import com.Harbinger.Spore.Core.Sitems;
-import com.Harbinger.Spore.SBlockEntities.CDUBlockEntity;
-import com.Harbinger.Spore.SBlockEntities.incubatorBlockEntity;
+import com.Harbinger.Spore.SBlockEntities.IncubatorBlockEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -35,9 +34,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class incubatorBlock extends BaseEntityBlock {
+public class IncubatorBlock extends BaseEntityBlock {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
-    public incubatorBlock() {
+    public IncubatorBlock() {
         super(Properties.of().sound(SoundType.STONE).strength(6f, 20f));
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
@@ -45,7 +44,7 @@ public class incubatorBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new incubatorBlockEntity(pos,state);
+        return new IncubatorBlockEntity(pos,state);
     }
 
     @Override
@@ -66,7 +65,7 @@ public class incubatorBlock extends BaseEntityBlock {
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
         super.use(state, level, pos, player, hand, result);
         BlockEntity entity = level.getBlockEntity(pos);
-        if (entity instanceof CDUBlockEntity blockEntity){
+        if (entity instanceof IncubatorBlockEntity blockEntity){
             ItemStack item = player.getItemInHand(hand);
             if (item.getItem() == Sitems.BIOMASS.get()){
                 if (blockEntity.getFuel() > 0){
@@ -81,19 +80,19 @@ public class incubatorBlock extends BaseEntityBlock {
     }
     @javax.annotation.Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState p_153274_, BlockEntityType<T> type) {
-        return createCDUTicker(level, type, SblockEntities.INCUBATOR.get());
+        return createIncubatorTicker(level, type, SblockEntities.INCUBATOR.get());
     }
     public int getEntityFuel(Level level,BlockPos pos){
         BlockEntity entity = level.getBlockEntity(pos);
-        if (entity instanceof  CDUBlockEntity blockEntity){
+        if (entity instanceof  IncubatorBlockEntity blockEntity){
             return blockEntity.getFuel();
         }
         return 0;
     }
 
     @javax.annotation.Nullable
-    protected static <T extends BlockEntity> BlockEntityTicker<T> createCDUTicker(Level level, BlockEntityType<T> type, BlockEntityType<? extends incubatorBlockEntity> p_151990_) {
-        return level.isClientSide ? createTickerHelper(type, p_151990_, incubatorBlockEntity::clientTick) : createTickerHelper(type, p_151990_, incubatorBlockEntity::serverTick);
+    protected static <T extends BlockEntity> BlockEntityTicker<T> createIncubatorTicker(Level level, BlockEntityType<T> type, BlockEntityType<? extends IncubatorBlockEntity> p_151990_) {
+        return level.isClientSide ? createTickerHelper(type, p_151990_, IncubatorBlockEntity::clientTick) : createTickerHelper(type, p_151990_, IncubatorBlockEntity::serverTick);
     }
 
     public void setFuelTag(ItemStack stack,int value){
@@ -129,7 +128,7 @@ public class incubatorBlock extends BaseEntityBlock {
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity entity, ItemStack stack) {
         super.setPlacedBy(level, pos, state, entity, stack);
         BlockEntity blockEntity = level.getBlockEntity(pos);
-        if (blockEntity instanceof CDUBlockEntity cduBlockEntity){
+        if (blockEntity instanceof IncubatorBlockEntity cduBlockEntity){
             CompoundTag tag = stack.getOrCreateTag();
             cduBlockEntity.setFuel(tag.getInt("fuel"));
         }
