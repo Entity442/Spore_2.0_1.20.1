@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Core.SblockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -14,6 +15,7 @@ public class IncubatorBlockEntity extends BlockEntity implements AnimatedEntity{
     public int fuel;
     private int tick;
     private int side;
+    private ItemStack weapon = ItemStack.EMPTY;
     public IncubatorBlockEntity(BlockPos pos, BlockState state) {
         super(SblockEntities.INCUBATOR.get(), pos, state);
         side = setSide(state);
@@ -30,16 +32,26 @@ public class IncubatorBlockEntity extends BlockEntity implements AnimatedEntity{
     @Override
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
+        CompoundTag compoundTag = new CompoundTag();
         tag.putInt("fuel",this.getFuel());
         tag.putInt("side",getSide());
-
+        getStack().save(compoundTag);
+        tag.put("item",compoundTag);
+    }
+    public void setItemStack(ItemStack stack){
+        this.weapon = stack;
+    }
+    public ItemStack getStack(){
+        return this.weapon;
     }
 
     @Override
     public void load(CompoundTag tag) {
         super.load(tag);
+        CompoundTag compoundTag = tag.getCompound("item");
         this.setFuel(tag.getInt("fuel"));
         setSide(getSide());
+        setItemStack(ItemStack.of(compoundTag));
     }
 
     @Override

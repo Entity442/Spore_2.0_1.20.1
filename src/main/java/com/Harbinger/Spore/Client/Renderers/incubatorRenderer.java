@@ -6,9 +6,20 @@ import com.Harbinger.Spore.SBlockEntities.IncubatorBlockEntity;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LightLayer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
@@ -22,10 +33,6 @@ public class IncubatorRenderer extends BaseBlockEntityRenderer<IncubatorBlockEnt
         super(new IncubatorModel<>());
     }
     @Override
-    public int getTicks(IncubatorBlockEntity entity) {
-        return entity.getTick();
-    }
-    @Override
     public ResourceLocation getTexture() {
         return TEXTURE;
     }
@@ -33,6 +40,8 @@ public class IncubatorRenderer extends BaseBlockEntityRenderer<IncubatorBlockEnt
     public void render(@NotNull IncubatorBlockEntity blockEntity, float partialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
         super.render(blockEntity, partialTicks, pPoseStack, pBuffer, pPackedLight, pPackedOverlay);
         if (unRenderBlock(blockEntity)){
+            if (blockEntity.getStack() != ItemStack.EMPTY && blockEntity.getLevel() != null)
+                renderItem(pPoseStack,blockEntity.getStack(),pBuffer,((float)blockEntity.getTicks() + partialTicks),blockEntity.getLevel(),blockEntity.getBlockPos());
             renderGlassTransparency(blockEntity,pPoseStack,pBuffer,pPackedLight,pPackedOverlay);
             renderActiveButtons(blockEntity,pPoseStack,pBuffer,pPackedLight,pPackedOverlay);
         }
@@ -46,6 +55,19 @@ public class IncubatorRenderer extends BaseBlockEntityRenderer<IncubatorBlockEnt
     public void renderActiveButtons(IncubatorBlockEntity blockEntity, PoseStack stack, MultiBufferSource bufferSource, int pPackedLight, int pPackedOverlay){
         VertexConsumer vertexConsumer = bufferSource.getBuffer(blockEntity.isActive() ? RenderType.eyes(BUTTONS) : RenderType.entityCutout(BUTTONS));
         this.getModel().renderToBuffer(stack,vertexConsumer,pPackedLight, pPackedOverlay,1,1,1,1);
+    }
+    public void renderItem(PoseStack stack, ItemStack itemStack,MultiBufferSource source,float value,Level level,BlockPos pos){
+        ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
+        stack.pushPose();
+        stack.translate(0.5,0.5f + Mth.cos(value/8)/10,0.5);
+        stack.scale(0.5f,0.5f,0.5f);
+        itemRenderer.renderStatic(itemStack,ItemDisplayContext.FIXED,getLight(level,pos), OverlayTexture.NO_OVERLAY,stack,source,level,1);
+        stack.popPose();
+    }
+    private int getLight(Level level, BlockPos pos){
+        int a = level.getBrightness(LightLayer.BLOCK,pos);
+        int b = level.getBrightness(LightLayer.SKY,pos);
+        return LightTexture.pack(a,b);
     }
 
     @Override
