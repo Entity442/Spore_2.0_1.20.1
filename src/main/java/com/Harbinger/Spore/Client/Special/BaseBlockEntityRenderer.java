@@ -8,6 +8,8 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -25,6 +27,21 @@ public abstract class BaseBlockEntityRenderer<T extends BlockEntity> implements 
 
     @Override
     public void render(@NotNull T blockEntity, float partialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
+        if (blockEntity.getLevel() == null){
+            return;
+        }
+        int x = blockEntity.getBlockPos().getX();
+        int y = blockEntity.getBlockPos().getY();
+        int z = blockEntity.getBlockPos().getZ();
+        Player player = blockEntity.getLevel().getNearestPlayer(x,y,z, -1.0D,null);
+        if (player == null){
+            return;
+        }else{
+            double d0 = player.distanceToSqr(x,y,z);
+            if (d0 > 256){
+                return;
+            }
+        }
         pPoseStack.pushPose();
         float f = ((float)getTicks(blockEntity) + partialTicks);
         VertexConsumer vertexConsumer = pBuffer.getBuffer(RenderType.entityCutout(getTexture()));
