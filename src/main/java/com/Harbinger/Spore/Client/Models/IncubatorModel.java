@@ -16,12 +16,17 @@ import net.minecraft.resources.ResourceLocation;
 
 public class IncubatorModel<T extends IncubatorBlockEntity> extends BlockEntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "incubator_model"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "incubator"), "main");
 	private final ModelPart incubator;
 
 	public IncubatorModel() {
 		ModelPart root = createBodyLayer().bakeRoot();
 		this.incubator = root.getChild("incubator");
+	}
+
+	@Override
+	public void setupAnim(T entity, float ageInTicks) {
+
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -90,7 +95,6 @@ public class IncubatorModel<T extends IncubatorBlockEntity> extends BlockEntityM
 		.texOffs(0, 18).mirror().addBox(-2.0F, -5.0F, -2.0F, 3.0F, 1.0F, 3.0F, new CubeDeformation(-0.1F)).mirror(false), PartPose.offset(-5.5F, 3.1F, 3.0F));
 
 		PartDefinition Display = incubator.addOrReplaceChild("Display", CubeListBuilder.create().texOffs(0, 11).addBox(-1.4997F, -0.3247F, -1.5003F, 3.0F, 1.0F, 3.0F, new CubeDeformation(-0.4F))
-		.texOffs(47, 1).addBox(-0.9997F, -0.0747F, -1.0003F, 2.0F, 0.0F, 2.0F, new CubeDeformation(0.0F))
 		.texOffs(16, 14).addBox(0.5003F, -0.5247F, -1.5003F, 1.0F, 1.0F, 3.0F, new CubeDeformation(-0.4F))
 		.texOffs(16, 14).addBox(-1.4997F, -0.5247F, -1.5003F, 1.0F, 1.0F, 3.0F, new CubeDeformation(-0.4F))
 		.texOffs(16, 16).addBox(-1.5007F, -0.5257F, -1.4993F, 3.0F, 1.0F, 1.0F, new CubeDeformation(-0.4F))
@@ -100,10 +104,8 @@ public class IncubatorModel<T extends IncubatorBlockEntity> extends BlockEntityM
 
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
-	@Override
-	public void setupAnim(T entity, float ageInTicks) {
 
-	}
+
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		incubator.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);

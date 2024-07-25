@@ -15,7 +15,7 @@ public class IncubatorBlockEntity extends BlockEntity{
     private int tick;
     private int side;
     public IncubatorBlockEntity(BlockPos pos, BlockState state) {
-        super(SblockEntities.CDU.get(), pos, state);
+        super(SblockEntities.INCUBATOR.get(), pos, state);
         side = setSide(state);
     }
     private int setSide(BlockState state){

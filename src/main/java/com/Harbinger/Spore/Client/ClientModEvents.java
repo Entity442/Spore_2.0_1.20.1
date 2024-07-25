@@ -164,7 +164,7 @@ public class ClientModEvents {
         event.registerBlockEntityRenderer(SblockEntities.OVERGROWN_SPAWNER.get(), new OvergrownSpawnerRenderer());
         event.registerBlockEntityRenderer(SblockEntities.BRAIN_REMNANTS.get(), new BrainRemnantsRenderer());
         event.registerBlockEntityRenderer(SblockEntities.ZOAHOLIC.get(), new ZoaholicRenderer());
-        event.registerBlockEntityRenderer(SblockEntities.INCUBATOR.get(), new incubatorRenderer());
+        event.registerBlockEntityRenderer(SblockEntities.INCUBATOR.get(), new IncubatorRenderer());
     }
 
     @SubscribeEvent

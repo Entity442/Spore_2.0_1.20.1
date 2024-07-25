@@ -33,8 +33,10 @@ public class ZoaholicRenderer extends BaseBlockEntityRenderer<ZoaholicBlockEntit
     @Override
     public void render(@NotNull ZoaholicBlockEntity blockEntity, float partialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
         super.render(blockEntity, partialTicks, pPoseStack, pBuffer, pPackedLight, pPackedOverlay);
-        renderGlassTransparency(blockEntity,pPoseStack,pBuffer,pPackedLight,pPackedOverlay);
-        renderActiveButtons(blockEntity,pPoseStack,pBuffer,pPackedLight,pPackedOverlay);
+        if (unRenderBlock(blockEntity)){
+            renderGlassTransparency(blockEntity,pPoseStack,pBuffer,pPackedLight,pPackedOverlay);
+            renderActiveButtons(blockEntity,pPoseStack,pBuffer,pPackedLight,pPackedOverlay);
+        }
     }
 
     public void renderGlassTransparency(ZoaholicBlockEntity blockEntity,PoseStack stack,MultiBufferSource bufferSource, int pPackedLight, int pPackedOverlay){

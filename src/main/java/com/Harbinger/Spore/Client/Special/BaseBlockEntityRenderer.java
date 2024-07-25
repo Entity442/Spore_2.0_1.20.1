@@ -27,20 +27,8 @@ public abstract class BaseBlockEntityRenderer<T extends BlockEntity> implements 
 
     @Override
     public void render(@NotNull T blockEntity, float partialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
-        if (blockEntity.getLevel() == null){
+        if (unRenderBlock(blockEntity)){
             return;
-        }
-        int x = blockEntity.getBlockPos().getX();
-        int y = blockEntity.getBlockPos().getY();
-        int z = blockEntity.getBlockPos().getZ();
-        Player player = blockEntity.getLevel().getNearestPlayer(x,y,z, -1.0D,null);
-        if (player == null){
-            return;
-        }else{
-            double d0 = player.distanceToSqr(x,y,z);
-            if (d0 > 256){
-                return;
-            }
         }
         pPoseStack.pushPose();
         float f = ((float)getTicks(blockEntity) + partialTicks);
@@ -49,6 +37,21 @@ public abstract class BaseBlockEntityRenderer<T extends BlockEntity> implements 
         this.model.setupAnim(blockEntity,f);
         this.model.renderToBuffer(pPoseStack,vertexConsumer,pPackedLight, pPackedOverlay,1,1,1,1);
         pPoseStack.popPose();
+    }
+    protected boolean unRenderBlock(T blockEntity){
+        if (blockEntity.getLevel() == null){
+            return false;
+        }
+        int x = blockEntity.getBlockPos().getX();
+        int y = blockEntity.getBlockPos().getY();
+        int z = blockEntity.getBlockPos().getZ();
+        Player player = blockEntity.getLevel().getNearestPlayer(x,y,z, -1.0D,null);
+        if (player == null){
+            return false;
+        }else{
+            double d0 = player.distanceToSqr(x,y,z);
+            return (d0 < 256);
+        }
     }
 
     public void setModelScale(PoseStack pPoseStack,T block){
