@@ -13,20 +13,37 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
 public class IncubatorModel<T extends IncubatorBlockEntity> extends BlockEntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "incubator"), "main");
 	private final ModelPart incubator;
+	private final ModelPart Juice;
+	private final ModelPart Hatch;
+	private final ModelPart Piston;
+	private final ModelPart Piston1;
 
 	public IncubatorModel() {
 		ModelPart root = createBodyLayer().bakeRoot();
 		this.incubator = root.getChild("incubator");
+		this.Juice = incubator.getChild("Juicy");
+		this.Hatch  = incubator.getChild("Top").getChild("Hatch");
+		this.Piston = incubator.getChild("Top").getChild("SideTubes").getChild("NorthTubes");
+		this.Piston1 = incubator.getChild("Top").getChild("SideTubes").getChild("SouthTubes");
 	}
 
 	@Override
 	public void setupAnim(T entity, float ageInTicks) {
-
+		if (entity.isActive()){
+			Juice.yScale = 1 + Mth.cos(ageInTicks/8)/8;
+			Piston.yScale = 1 + Mth.cos(ageInTicks/6)/6;;
+			Piston1.yScale = 1 - Mth.cos(ageInTicks/6)/6;;
+		}else{
+			Juice.yScale = 0.2f;
+			Piston.yScale = 1;
+			Piston1.yScale = 1;
+		}
 	}
 
 	public static LayerDefinition createBodyLayer() {

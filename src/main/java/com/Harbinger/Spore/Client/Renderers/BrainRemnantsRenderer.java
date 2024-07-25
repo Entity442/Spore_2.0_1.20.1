@@ -15,10 +15,6 @@ public class BrainRemnantsRenderer extends BaseBlockEntityRenderer<BrainRemnantB
         super(new brainMatterModel<>());
     }
     @Override
-    public int getTicks(BrainRemnantBlockEntity entity) {
-        return entity.ticks;
-    }
-    @Override
     public ResourceLocation getTexture() {
         return TEXTURE;
     }

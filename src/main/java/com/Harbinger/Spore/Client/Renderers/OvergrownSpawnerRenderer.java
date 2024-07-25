@@ -15,10 +15,6 @@ public class OvergrownSpawnerRenderer extends BaseBlockEntityRenderer<OvergrownS
         super(new OvergrownSpawnerModel<>());
     }
     @Override
-    public int getTicks(OvergrownSpawnerEntity entity) {
-        return entity.ticks;
-    }
-    @Override
     public ResourceLocation getTexture() {
         return TEXTURE;
     }

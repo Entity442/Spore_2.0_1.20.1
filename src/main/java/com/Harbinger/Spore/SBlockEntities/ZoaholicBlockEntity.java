@@ -29,7 +29,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ZoaholicBlockEntity extends BlockEntity{
+public class ZoaholicBlockEntity extends BlockEntity implements AnimatedEntity{
     private int ticks;
     private boolean hasBrain = false;
     private boolean hasHeart = false;

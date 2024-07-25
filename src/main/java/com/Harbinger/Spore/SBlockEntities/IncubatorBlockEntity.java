@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 
-public class IncubatorBlockEntity extends BlockEntity{
+public class IncubatorBlockEntity extends BlockEntity implements AnimatedEntity{
     public final int maxFuel = 12000;
     public int fuel;
     private int tick;
@@ -65,18 +65,19 @@ public class IncubatorBlockEntity extends BlockEntity{
             tick = 0;
         }
     }
-    public int getTick(){
-        return tick;
-    }
-
     public static <E extends BlockEntity> void serverTick(Level level, BlockPos blockPos, BlockState blockState, IncubatorBlockEntity e) {
-        e.addTick();
     }
 
-    public static <E extends BlockEntity> void clientTick(Level level, BlockPos pos, BlockState state, E e) {
+    public static <E extends BlockEntity> void clientTick(Level level, BlockPos pos, BlockState state, IncubatorBlockEntity e) {
+        e.addTick();
     }
 
     public boolean isActive(){
         return true;
+    }
+
+    @Override
+    public int getTicks() {
+        return tick;
     }
 }

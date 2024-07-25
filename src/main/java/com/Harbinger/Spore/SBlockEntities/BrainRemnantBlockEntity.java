@@ -17,7 +17,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 import java.util.UUID;
 
-public class BrainRemnantBlockEntity extends BlockEntity {
+public class BrainRemnantBlockEntity extends BlockEntity implements AnimatedEntity{
     public int ticks;
     private int time = 0;
     private UUID attacker = null;
@@ -116,4 +116,8 @@ public class BrainRemnantBlockEntity extends BlockEntity {
         return this.saveWithFullMetadata();
     }
 
+    @Override
+    public int getTicks() {
+        return ticks;
+    }
 }
