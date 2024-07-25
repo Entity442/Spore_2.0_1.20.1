@@ -6,7 +6,6 @@ import com.Harbinger.Spore.SBlockEntities.IncubatorBlockEntity;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -16,6 +15,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -48,7 +48,7 @@ public class IncubatorRenderer extends BaseBlockEntityRenderer<IncubatorBlockEnt
     }
 
     public void renderGlassTransparency(IncubatorBlockEntity blockEntity, PoseStack stack, MultiBufferSource bufferSource, int pPackedLight, int pPackedOverlay){
-        VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.entityTranslucent(GLASS));
+        VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.itemEntityTranslucentCull(GLASS));
         this.setModelScale(stack,blockEntity);
         this.getModel().renderToBuffer(stack,vertexConsumer,pPackedLight, pPackedOverlay,1,1,1,1);
     }
@@ -58,8 +58,10 @@ public class IncubatorRenderer extends BaseBlockEntityRenderer<IncubatorBlockEnt
     }
     public void renderItem(PoseStack stack, ItemStack itemStack,MultiBufferSource source,float value,Level level,BlockPos pos){
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
+        RandomSource random = RandomSource.create();
+        float vibrationValue = random.nextFloat() * 0.02f;
         stack.pushPose();
-        stack.translate(0.5,0.5f + Mth.cos(value/8)/10,0.5);
+        stack.translate(0.5+vibrationValue,0.5f + Mth.cos(value/8)/10,0.5+vibrationValue);
         stack.scale(0.5f,0.5f,0.5f);
         itemRenderer.renderStatic(itemStack,ItemDisplayContext.FIXED,getLight(level,pos), OverlayTexture.NO_OVERLAY,stack,source,level,1);
         stack.popPose();
