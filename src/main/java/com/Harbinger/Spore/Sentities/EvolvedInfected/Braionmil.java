@@ -102,7 +102,7 @@ public class Braionmil extends EvolvedInfected implements EvolvingInfected {
         AABB boundingBox = pLivingEntity.getBoundingBox().inflate(8);
         List<Entity> entities = pLivingEntity.level().getEntities(pLivingEntity, boundingBox);
         for (Entity entity : entities) {
-            if ((entity instanceof LivingEntity livingEntity) && !(livingEntity instanceof Infected || livingEntity instanceof UtilityEntity || livingEntity.getItemBySlot(EquipmentSlot.HEAD).getItem() == Sitems.GAS_MASK.get())) {
+            if ((entity instanceof LivingEntity livingEntity) && !(livingEntity.getItemBySlot(EquipmentSlot.HEAD).getItem() == Sitems.GAS_MASK.get()) && TARGET_SELECTOR.test(livingEntity)) {
                 for (String str : SConfig.SERVER.braio_effects.get()){
                      String[] string = str.split("\\|" );
                       MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(string[0]));
