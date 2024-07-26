@@ -7,8 +7,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -128,6 +130,14 @@ public class ContainerBlockEntity extends BaseContainerBlockEntity implements Wo
     @Override
     public void clearContent() {
         this.stacks.clear();
+    }
+
+    @Override
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket packet) {
+        if (packet != null && packet.getTag() != null) {
+            this.stacks = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
+            ContainerHelper.loadAllItems(packet.getTag(), this.stacks);
+        }
     }
 }
 

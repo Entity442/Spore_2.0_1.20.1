@@ -2,11 +2,9 @@ package com.Harbinger.Spore.Sblocks;
 
 import com.Harbinger.Spore.Core.SblockEntities;
 import com.Harbinger.Spore.Core.Sitems;
-import com.Harbinger.Spore.SBlockEntities.CDUBlockEntity;
 import com.Harbinger.Spore.SBlockEntities.IncubatorBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -95,27 +93,15 @@ public class IncubatorBlock extends BaseEntityBlock {
                 item.shrink(1);
                 return InteractionResult.SUCCESS;
             }
-            if (item == ItemStack.EMPTY && blockEntity.getStack() != ItemStack.EMPTY){
-                spawnItem(level,pos,blockEntity.getStack());
-                blockEntity.setItemStack(ItemStack.EMPTY);
-                return InteractionResult.SUCCESS;
-            }
-            if (item != ItemStack.EMPTY && blockEntity.getStack() != ItemStack.EMPTY){
-                spawnItem(level,pos,blockEntity.getStack());
-                blockEntity.setItemStack(item);
+            if(blockEntity.getItem(0).isEmpty()){
+                blockEntity.setItem(0, item);
                 player.setItemInHand(hand,ItemStack.EMPTY);
-                return InteractionResult.SUCCESS;
+            }else{
+                popResource(level, pos, blockEntity.getItem(0).copy());
+                blockEntity.setItem(0, ItemStack.EMPTY);
             }
-            if (item != ItemStack.EMPTY && blockEntity.getStack() == ItemStack.EMPTY){
-                blockEntity.setItemStack(item);
-                player.setItemInHand(hand,ItemStack.EMPTY);
-                return InteractionResult.SUCCESS;
-            }
+            return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;
-    }
-    private void spawnItem(Level level,BlockPos pos,ItemStack stack){
-        ItemEntity itemEntity = new ItemEntity(level,pos.getX(),pos.getY()+1,pos.getZ(),stack);
-        level.addFreshEntity(itemEntity);
     }
 }

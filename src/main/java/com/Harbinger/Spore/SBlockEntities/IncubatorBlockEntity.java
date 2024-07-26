@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
@@ -35,6 +36,10 @@ public class IncubatorBlockEntity extends BlockEntity implements AnimatedEntity,
     }
     public void setSide(int i){this.side = i;}
     public int getSide(){return this.side;}
+
+    public NonNullList<ItemStack> getStacks() {
+        return stacks;
+    }
 
     @Override
     protected void saveAdditional(CompoundTag tag) {
@@ -123,7 +128,12 @@ public class IncubatorBlockEntity extends BlockEntity implements AnimatedEntity,
 
     @Override
     public boolean isEmpty() {
-        return false;
+        for (int i = 0; i < this.getContainerSize(); i++) {
+            if (!this.getItem(i).isEmpty()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -175,5 +185,13 @@ public class IncubatorBlockEntity extends BlockEntity implements AnimatedEntity,
     @Override
     public void clearContent() {
         this.stacks.clear();
+    }
+
+    @Override
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket packet) {
+        if (packet != null && packet.getTag() != null) {
+            this.stacks = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
+            ContainerHelper.loadAllItems(packet.getTag(), this.stacks);
+        }
     }
 }
