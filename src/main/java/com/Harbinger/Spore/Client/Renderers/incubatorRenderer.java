@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -48,7 +49,7 @@ public class IncubatorRenderer extends BaseBlockEntityRenderer<IncubatorBlockEnt
     }
 
     public void renderGlassTransparency(IncubatorBlockEntity blockEntity, PoseStack stack, MultiBufferSource bufferSource, int pPackedLight, int pPackedOverlay){
-        VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.itemEntityTranslucentCull(GLASS));
+        VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.entityTranslucent(GLASS));
         this.setModelScale(stack,blockEntity);
         this.getModel().renderToBuffer(stack,vertexConsumer,pPackedLight, pPackedOverlay,1,1,1,1);
     }
@@ -58,12 +59,13 @@ public class IncubatorRenderer extends BaseBlockEntityRenderer<IncubatorBlockEnt
     }
     public void renderItem(PoseStack stack, ItemStack itemStack,MultiBufferSource source,float value,Level level,BlockPos pos){
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
+        BakedModel ibakedmodel = Minecraft.getInstance().getItemRenderer().getModel(itemStack, level, null, 0);
         RandomSource random = RandomSource.create();
         float vibrationValue = random.nextFloat() * 0.02f;
         stack.pushPose();
         stack.translate(0.5+vibrationValue,0.5f + Mth.cos(value/8)/10,0.5+vibrationValue);
         stack.scale(0.5f,0.5f,0.5f);
-        itemRenderer.renderStatic(itemStack,ItemDisplayContext.FIXED,getLight(level,pos), OverlayTexture.NO_OVERLAY,stack,source,level,1);
+        itemRenderer.render(itemStack,ItemDisplayContext.FIXED , false, stack, source, getLight(level,pos), OverlayTexture.NO_OVERLAY, ibakedmodel);
         stack.popPose();
     }
     private int getLight(Level level, BlockPos pos){
