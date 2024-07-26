@@ -90,6 +90,10 @@ public class IncubatorBlock extends BaseEntityBlock {
         BlockEntity entity = level.getBlockEntity(pos);
         if (entity instanceof IncubatorBlockEntity blockEntity){
             ItemStack item = player.getItemInHand(hand);
+            if (item.getItem() == Sitems.BIOMASS.get() && blockEntity.getFuel() <= 750){
+                blockEntity.setFuel(blockEntity.getFuel()+250);
+                item.shrink(1);
+            }
             if (item == ItemStack.EMPTY && blockEntity.getStack() != ItemStack.EMPTY){
                 spawnItem(level,pos,blockEntity.getStack());
                 blockEntity.setItemStack(ItemStack.EMPTY);

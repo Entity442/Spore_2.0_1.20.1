@@ -11,7 +11,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 
 public class IncubatorBlockEntity extends BlockEntity implements AnimatedEntity{
-    public final int maxFuel = 12000;
     public int fuel;
     private int tick;
     private int side;
@@ -33,10 +32,10 @@ public class IncubatorBlockEntity extends BlockEntity implements AnimatedEntity{
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         CompoundTag compoundTag = new CompoundTag();
+        tag.put("item",compoundTag);
+        getStack().save(compoundTag);
         tag.putInt("fuel",this.getFuel());
         tag.putInt("side",getSide());
-        getStack().save(compoundTag);
-        tag.put("item",compoundTag);
     }
     public void setItemStack(ItemStack stack){
         this.weapon = stack;
@@ -49,9 +48,9 @@ public class IncubatorBlockEntity extends BlockEntity implements AnimatedEntity{
     public void load(CompoundTag tag) {
         super.load(tag);
         CompoundTag compoundTag = tag.getCompound("item");
-        this.setFuel(tag.getInt("fuel"));
-        setSide(getSide());
         setItemStack(ItemStack.of(compoundTag));
+        setFuel(tag.getInt("fuel"));
+        setSide(getSide());
     }
 
     @Override
@@ -77,7 +76,17 @@ public class IncubatorBlockEntity extends BlockEntity implements AnimatedEntity{
             tick = 0;
         }
     }
+    public void HealItemStack(){
+        ItemStack stack = this.getStack();
+        if (stack != ItemStack.EMPTY)
+        if (getFuel() > 0 && stack.isDamaged()){
+            int l = stack.getDamageValue()-1;
+            stack.setDamageValue(l);
+            setFuel(getFuel()-1);
+        }
+    }
     public static <E extends BlockEntity> void serverTick(Level level, BlockPos blockPos, BlockState blockState, IncubatorBlockEntity e) {
+        e.HealItemStack();
     }
 
     public static <E extends BlockEntity> void clientTick(Level level, BlockPos pos, BlockState state, IncubatorBlockEntity e) {
@@ -85,7 +94,7 @@ public class IncubatorBlockEntity extends BlockEntity implements AnimatedEntity{
     }
 
     public boolean isActive(){
-        return true;
+        return getFuel()>0;
     }
 
     @Override
