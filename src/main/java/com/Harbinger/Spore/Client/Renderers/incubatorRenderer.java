@@ -41,8 +41,8 @@ public class IncubatorRenderer extends BaseBlockEntityRenderer<IncubatorBlockEnt
     public void render(@NotNull IncubatorBlockEntity blockEntity, float partialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
         super.render(blockEntity, partialTicks, pPoseStack, pBuffer, pPackedLight, pPackedOverlay);
         if (unRenderBlock(blockEntity)){
-            if (blockEntity.getStack() != ItemStack.EMPTY && blockEntity.getLevel() != null)
-                renderItem(pPoseStack,blockEntity.getStack(),pBuffer,((float)blockEntity.getTicks() + partialTicks),blockEntity.getLevel(),blockEntity.getBlockPos());
+            if (blockEntity.getItem(0) != ItemStack.EMPTY && blockEntity.getLevel() != null)
+                renderItem(pPoseStack,blockEntity.getItem(0),pBuffer,((float)blockEntity.getTicks() + partialTicks),blockEntity.getLevel(),blockEntity.getBlockPos());
             renderGlassTransparency(blockEntity,pPoseStack,pBuffer,pPackedLight,pPackedOverlay);
             renderActiveButtons(blockEntity,pPoseStack,pBuffer,pPackedLight,pPackedOverlay);
         }
@@ -65,7 +65,7 @@ public class IncubatorRenderer extends BaseBlockEntityRenderer<IncubatorBlockEnt
         stack.pushPose();
         stack.translate(0.5+vibrationValue,0.5f + Mth.cos(value/8)/10,0.5+vibrationValue);
         stack.scale(0.5f,0.5f,0.5f);
-        itemRenderer.render(itemStack,ItemDisplayContext.FIXED , false, stack, source, getLight(level,pos), OverlayTexture.NO_OVERLAY, ibakedmodel);
+        itemRenderer.render(itemStack,ItemDisplayContext.HEAD , false, stack, source, getLight(level,pos), OverlayTexture.NO_OVERLAY, ibakedmodel);
         stack.popPose();
     }
     private int getLight(Level level, BlockPos pos){
