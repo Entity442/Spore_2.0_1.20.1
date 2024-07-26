@@ -93,6 +93,7 @@ public class IncubatorBlock extends BaseEntityBlock {
             if (item.getItem() == Sitems.BIOMASS.get() && blockEntity.getFuel() <= 750){
                 blockEntity.setFuel(blockEntity.getFuel()+250);
                 item.shrink(1);
+                return InteractionResult.SUCCESS;
             }
             if (item == ItemStack.EMPTY && blockEntity.getStack() != ItemStack.EMPTY){
                 spawnItem(level,pos,blockEntity.getStack());
@@ -111,7 +112,7 @@ public class IncubatorBlock extends BaseEntityBlock {
                 return InteractionResult.SUCCESS;
             }
         }
-        return InteractionResult.SUCCESS;
+        return InteractionResult.PASS;
     }
     private void spawnItem(Level level,BlockPos pos,ItemStack stack){
         ItemEntity itemEntity = new ItemEntity(level,pos.getX(),pos.getY()+1,pos.getZ(),stack);

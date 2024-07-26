@@ -31,9 +31,7 @@ public class IncubatorBlockEntity extends BlockEntity implements AnimatedEntity{
     @Override
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
-        CompoundTag compoundTag = new CompoundTag();
-        tag.put("item",compoundTag);
-        getStack().save(compoundTag);
+        tag.put("Item", this.getStack().save(new CompoundTag()));
         tag.putInt("fuel",this.getFuel());
         tag.putInt("side",getSide());
     }
@@ -47,8 +45,10 @@ public class IncubatorBlockEntity extends BlockEntity implements AnimatedEntity{
     @Override
     public void load(CompoundTag tag) {
         super.load(tag);
-        CompoundTag compoundTag = tag.getCompound("item");
-        setItemStack(ItemStack.of(compoundTag));
+        CompoundTag compoundtag = tag.getCompound("Item");
+        if (!compoundtag.isEmpty()) {
+            setItemStack(ItemStack.of(compoundtag));
+        }
         setFuel(tag.getInt("fuel"));
         setSide(getSide());
     }
