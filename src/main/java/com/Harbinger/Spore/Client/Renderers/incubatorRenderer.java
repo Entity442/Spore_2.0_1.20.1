@@ -6,6 +6,7 @@ import com.Harbinger.Spore.SBlockEntities.IncubatorBlockEntity;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -59,13 +60,13 @@ public class IncubatorRenderer extends BaseBlockEntityRenderer<IncubatorBlockEnt
     }
     public void renderItem(PoseStack stack, ItemStack itemStack,MultiBufferSource source,float value,Level level,BlockPos pos){
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
-        BakedModel ibakedmodel = Minecraft.getInstance().getItemRenderer().getModel(itemStack, level, null, 0);
         RandomSource random = RandomSource.create();
         float vibrationValue = random.nextFloat() * 0.02f;
         stack.pushPose();
-        stack.translate(0.5+vibrationValue,0.5f + Mth.cos(value/8)/10,0.5+vibrationValue);
+        stack.translate(0.5+vibrationValue, 0.5f+Mth.cos(value/8)/10,0.5+vibrationValue);
         stack.scale(0.5f,0.5f,0.5f);
-        itemRenderer.render(itemStack,ItemDisplayContext.HEAD , false, stack, source, getLight(level,pos), OverlayTexture.NO_OVERLAY, ibakedmodel);
+        stack.mulPose(Axis.YP.rotationDegrees(value));
+        itemRenderer.renderStatic(itemStack,ItemDisplayContext.FIXED,getLight(level,pos), OverlayTexture.NO_OVERLAY,stack,source,level,1);
         stack.popPose();
     }
     private int getLight(Level level, BlockPos pos){

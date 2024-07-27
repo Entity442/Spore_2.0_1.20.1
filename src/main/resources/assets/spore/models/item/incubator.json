@@ -1,5 +1,5 @@
 {
-	"parent": "spore:block/incubator",
+	"parent": "spore:item/incubator_item",
 	"gui_light": "side",
 	"display": {
 		"gui": {
