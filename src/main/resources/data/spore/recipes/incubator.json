@@ -10,7 +10,7 @@
       "item": "spore:container"
     },
     "#": {
-      "item": "spore:redstone"
+      "item": "minecraft:redstone"
     },
     "D": {
       "item": "spore:circuit_board"
