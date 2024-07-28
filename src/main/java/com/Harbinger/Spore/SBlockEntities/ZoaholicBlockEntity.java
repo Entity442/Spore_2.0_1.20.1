@@ -149,6 +149,7 @@ public class ZoaholicBlockEntity extends BlockEntity implements AnimatedEntity{
                 e.spreadMadness(level,pos);
                 level.playSound(null, pos, Ssounds.HEART_BEAT.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
             }
+            e.isActive();
         }
     }
 

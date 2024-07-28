@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "D#D",
+    "#T#",
+    "TRT"
+  ],
+  "key": {
+    "R": {
+      "item": "spore:container"
+    },
+    "#": {
+      "item": "spore:redstone"
+    },
+    "D": {
+      "item": "spore:circuit_board"
+    },
+    "T": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "spore:incubator"
+  }
+}
