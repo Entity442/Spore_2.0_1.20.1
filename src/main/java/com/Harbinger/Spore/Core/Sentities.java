@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Core;
 import com.Harbinger.Spore.Sentities.BasicInfected.*;
 import com.Harbinger.Spore.Sentities.Calamities.Gazenbrecher;
 import com.Harbinger.Spore.Sentities.Calamities.Hinderburg;
+import com.Harbinger.Spore.Sentities.Calamities.Howitzer;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.*;
 import com.Harbinger.Spore.Sentities.Experiments.Plagued;
@@ -263,4 +264,8 @@ public class Sentities {
     public static final RegistryObject<EntityType<Hinderburg>> HINDENBURG = SPORE_ENTITIES.register("hindenburg",
             () -> EntityType.Builder.of(Hinderburg::new, INFECTED).sized(5f, 5f)
                     .build(new ResourceLocation(Spore.MODID, "hindenburg").toString()));
+
+    public static final RegistryObject<EntityType<Howitzer>> HOWITZER = SPORE_ENTITIES.register("howitzer",
+            () -> EntityType.Builder.of(Howitzer::new, INFECTED).sized(5f, 5f)
+                    .build(new ResourceLocation(Spore.MODID, "howitzer").toString()));
 }

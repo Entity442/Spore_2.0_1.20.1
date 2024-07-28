@@ -5,6 +5,7 @@ import com.Harbinger.Spore.Sentities.*;
 import com.Harbinger.Spore.Sentities.BasicInfected.*;
 import com.Harbinger.Spore.Sentities.Calamities.Gazenbrecher;
 import com.Harbinger.Spore.Sentities.Calamities.Hinderburg;
+import com.Harbinger.Spore.Sentities.Calamities.Howitzer;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.*;
 import com.Harbinger.Spore.Sentities.Experiments.Plagued;
@@ -72,6 +73,7 @@ public class Attributes {
         event.put(Sentities.BROTKATZE.get(), Brot.createAttributes().build());
         event.put(Sentities.DELUSIONARE.get(), Delusionare.createAttributes().build());
         event.put(Sentities.GASTGABER.get(), GastGeber.createAttributes().build());
+        event.put(Sentities.HOWITZER.get(), Howitzer.createAttributes().build());
     }
 }
 
