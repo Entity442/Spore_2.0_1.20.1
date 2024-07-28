@@ -7,6 +7,8 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Player;
@@ -112,8 +114,14 @@ public class IncubatorBlockEntity extends BlockEntity implements AnimatedEntity,
     }
 
     @Override
-    public boolean canPlaceItemThroughFace(int p_19235_, ItemStack p_19236_, @Nullable Direction direction) {
-        return direction != Direction.DOWN;
+    public boolean canPlaceItemThroughFace(int p_19235_, ItemStack item, @Nullable Direction direction) {
+        if (direction == Direction.NORTH || direction == Direction.SOUTH || direction == Direction.EAST || direction == Direction.WEST){
+          if (this.getFuel() <= 750){
+              setFuel(getFuel()+250);
+              item.shrink(1);
+          }
+        }
+        return direction == Direction.UP && item.is(ItemTags.create(new ResourceLocation("spore:weapons")));
     }
 
     @Override

@@ -5,6 +5,8 @@ import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.SBlockEntities.IncubatorBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -92,7 +94,7 @@ public class IncubatorBlock extends BaseEntityBlock {
                 item.shrink(1);
                 return InteractionResult.SUCCESS;
             }
-            if(blockEntity.getItem(0).isEmpty()){
+            if(blockEntity.getItem(0).isEmpty() && item.is(ItemTags.create(new ResourceLocation("spore:weapons")))){
                 blockEntity.setItem(0, item);
                 player.setItemInHand(hand,ItemStack.EMPTY);
             }else{
@@ -103,4 +105,7 @@ public class IncubatorBlock extends BaseEntityBlock {
         }
         return InteractionResult.PASS;
     }
+
+
+
 }
