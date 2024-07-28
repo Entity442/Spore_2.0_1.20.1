@@ -100,7 +100,7 @@ public class IncubatorBlockEntity extends BlockEntity implements AnimatedEntity,
     }
 
     public boolean isActive(){
-        return getFuel()>0;
+        return getFuel()>0 && stacks.get(0) != ItemStack.EMPTY;
     }
 
     @Override
