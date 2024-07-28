@@ -93,7 +93,6 @@ public class IncubatorBlockEntity extends BlockEntity implements AnimatedEntity,
     }
     public static <E extends BlockEntity> void serverTick(Level level, BlockPos blockPos, BlockState blockState, IncubatorBlockEntity e) {
         e.HealItemStack();
-        e.isActive();
     }
 
     public static <E extends BlockEntity> void clientTick(Level level, BlockPos pos, BlockState state, IncubatorBlockEntity e) {
