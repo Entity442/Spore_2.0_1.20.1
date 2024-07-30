@@ -40,6 +40,30 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 	private final ModelPart CononCluster2;
 	private final ModelPart CononCluster3;
 	private final ModelPart CononCluster4;
+	private final ModelPart Cannon1;
+	private final ModelPart Cannon2;
+	private final ModelPart Cannon3;
+	private final ModelPart Cannon4;
+	private final ModelPart Cannon5;
+	private final ModelPart Cannon6;
+	private final ModelPart Cannon7;
+	private final ModelPart Cannon8;
+	private final ModelPart Cannon9;
+	private final ModelPart CannonFlower;
+	private final ModelPart CannonHead;
+	private final ModelPart Tentacle1;
+	private final ModelPart Tentacle2;
+	private final ModelPart Tentacle3;
+	private final ModelPart Tentacle4;
+	private final ModelPart Tentacle5;
+	private final ModelPart LeftLeg;
+	private final ModelPart LeftLegTentacle;
+	private final ModelPart RightLeg;
+	private final ModelPart RightForLeg;
+	private final ModelPart RightLegTentacle1;
+	private final ModelPart RightLegTentacle2;
+	private final ModelPart RightLegTentacle3;
+	private final ModelPart RightLegTentacle4;
 
 	public HowitzerModel(ModelPart root) {
 		this.Howi = root.getChild("Howi");
@@ -64,6 +88,30 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		this.CononCluster2 = Howi.getChild("CannonClusters").getChild("Cluster2");
 		this.CononCluster3 = Howi.getChild("CannonClusters").getChild("Cluster3");
 		this.CononCluster4 = Howi.getChild("CannonClusters").getChild("FailedCannon");
+		this.Cannon1 = this.CononCluster1.getChild("C1C1");
+		this.Cannon2 = this.CononCluster1.getChild("C1C2");
+		this.Cannon3 = this.CononCluster1.getChild("C1C3");
+		this.Cannon4 = this.CononCluster2.getChild("C2C1");
+		this.Cannon5 = this.CononCluster2.getChild("C2C2");
+		this.Cannon6 = this.CononCluster2.getChild("C2C3");
+		this.Cannon7 = this.CononCluster3.getChild("C3C1");
+		this.Cannon8 = this.CononCluster3.getChild("C3C2");
+		this.Cannon9 = this.CononCluster3.getChild("C3C3");
+		this.CannonFlower = this.CononCluster4.getChild("FailedCannonFlower");
+		this.CannonHead = Cannon7.getChild("C3C1Top").getChild("ThisIsSporeSlasher");
+		this.Tentacle1 = Howi.getChild("BodyRoots").getChild("Root1");
+		this.Tentacle2 = Howi.getChild("BodyRoots").getChild("Root2");
+		this.Tentacle3 = Howi.getChild("BodyRoots").getChild("Root3");
+		this.Tentacle4 = Howi.getChild("BodyRoots").getChild("Root4");
+		this.Tentacle5 = Howi.getChild("BodyRoots").getChild("Root5");
+		this.LeftLeg = Howi.getChild("Legs").getChild("LeftLegJoint");
+		this.LeftLegTentacle = this.LeftLeg.getChild("LeftLeg").getChild("LeftLeg2").getChild("Tendril9");
+		this.RightLeg = Howi.getChild("Legs").getChild("RightLegJoint");
+		this.RightForLeg = RightLeg.getChild("RightLeg").getChild("RightLeg3");
+		this.RightLegTentacle1 = RightLeg.getChild("RightLeg").getChild("Tendril8");
+		this.RightLegTentacle2 = RightForLeg.getChild("RightLeg2").getChild("Tendril5");
+		this.RightLegTentacle3 = RightForLeg.getChild("RightLeg2").getChild("Tendril6");
+		this.RightLegTentacle4 = RightForLeg.getChild("RightLeg2").getChild("Tendril7");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -1618,6 +1666,44 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		this.CononCluster3.yScale = 1+Mth.cos(ageInTicks/8)/9;
 		this.CononCluster4.yRot = Mth.cos(ageInTicks/8)/6;
 		this.CononCluster4.yScale = 1+Mth.sin(ageInTicks/8)/10;
+		this.Cannon1.zRot = Mth.cos(ageInTicks/7)/8;
+		this.Cannon2.xRot = Mth.cos(-ageInTicks/7)/7;
+		this.Cannon3.xRot = Mth.cos(ageInTicks/8)/9;
+		this.Cannon4.zRot = Mth.cos(-ageInTicks/7)/8;
+		this.Cannon4.xRot = Mth.cos(ageInTicks/9)/8;
+		this.Cannon5.zRot = Mth.cos(ageInTicks/9)/7;
+		this.Cannon6.xRot = Mth.cos(ageInTicks/7)/7;
+		this.Cannon7.zRot = Mth.cos(-ageInTicks/9)/6;
+		this.Cannon8.xRot = Mth.cos(ageInTicks/7)/8;
+		this.Cannon9.zRot = Mth.cos(ageInTicks/7)/5;
+		this.CannonFlower.yRot = Mth.cos(ageInTicks/6)/5;
+		this.CannonHead.zRot = headPitch /  ( 90F / (float) Math.PI);
+		this.CannonHead.yRot = netHeadYaw / (180F / (float) Math.PI);
+		this.CannonHead.xRot = Mth.sin(ageInTicks/7)/8;
+		this.Tentacle1.zRot = Mth.sin(ageInTicks/5)/5;
+		this.Tentacle1.getChild("R1Seg2").zRot =-0.7f+Mth.cos(ageInTicks/6)/2;
+		this.Tentacle1.getChild("R1Seg2").getChild("R1Seg3").zRot =-0.5f+Mth.cos(ageInTicks/4)/2;
+		this.Tentacle2.zRot = Mth.cos(ageInTicks/5)/5;
+		this.Tentacle2.getChild("R2Seg1").zRot =-0.5f+ Mth.cos(ageInTicks/5)/5;
+		this.Tentacle2.getChild("R2Seg1").getChild("R2Seg2").zRot =-0.5f+ Mth.cos(ageInTicks/5)/5;
+		this.Tentacle3.zRot = Mth.cos(ageInTicks/5)/5;
+		this.Tentacle3.getChild("R3Seg1").zRot =-0.5f+ Mth.sin(ageInTicks/5)/4;
+		this.Tentacle3.getChild("R3Seg1").getChild("R3Seg2").zRot =-0.5f+ Mth.cos(ageInTicks/6)/3;
+		this.Tentacle4.zRot = -0.5f-Mth.cos(ageInTicks/5)/5;
+		this.Tentacle4.getChild("R4Seg1").zRot =0.4f- Mth.cos(ageInTicks/6)/2;
+		this.Tentacle4.getChild("R4Seg1").yRot =Mth.sin(ageInTicks/6)/2;
+		this.Tentacle4.getChild("R4Seg1").getChild("R4Seg2").zRot =0.5f- Mth.cos(ageInTicks/5)/2;
+		this.Tentacle5.zRot = Mth.cos(ageInTicks/5)/5;
+		this.Tentacle5.getChild("R3Seg4").zRot =-0.4f+ Mth.cos(ageInTicks/6)/4;
+		this.Tentacle5.getChild("R3Seg4").getChild("R3Seg5").zRot =-0.5f+ Mth.sin(ageInTicks/5)/3;
+		this.Tentacle5.getChild("R3Seg4").getChild("R3Seg5").yRot =Mth.cos(ageInTicks/5)/3;
+		this.LeftLegTentacle.yRot =Mth.sin(ageInTicks/6)/2;
+		this.LeftLegTentacle.getChild("Seg2Tendril9").yRot = LeftLegTentacle.yRot;
+		this.LeftLegTentacle.getChild("Seg2Tendril9").getChild("Seg3Tendril9").yRot = LeftLegTentacle.yRot;
+		float movementValue = Mth.cos(limbSwing * 0.8F) * 2F * limbSwingAmount;
+		this.LeftLeg.xRot = movementValue;
+		this.RightLeg.xRot = -movementValue * 3;
+		this.RightForLeg.xRot = RightLeg.xRot > 0 ? 0:RightLeg.xRot;
 	}
 
 	@Override
