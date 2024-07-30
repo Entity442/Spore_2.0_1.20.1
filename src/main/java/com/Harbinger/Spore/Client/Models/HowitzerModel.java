@@ -64,6 +64,15 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 	private final ModelPart RightLegTentacle2;
 	private final ModelPart RightLegTentacle3;
 	private final ModelPart RightLegTentacle4;
+	private final ModelPart RightArm;
+	private final ModelPart RightForArm;
+	private final ModelPart LeftArm;
+	private final ModelPart LeftForArm;
+	private final ModelPart LeftForForArm;
+	private final ModelPart LeftArmTendril1;
+	private final ModelPart LeftArmTendril2;
+	private final ModelPart LeftArmTendril3;
+	private final ModelPart LeftArmTendril4;
 
 	public HowitzerModel(ModelPart root) {
 		this.Howi = root.getChild("Howi");
@@ -112,6 +121,15 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		this.RightLegTentacle2 = RightForLeg.getChild("RightLeg2").getChild("Tendril5");
 		this.RightLegTentacle3 = RightForLeg.getChild("RightLeg2").getChild("Tendril6");
 		this.RightLegTentacle4 = RightForLeg.getChild("RightLeg2").getChild("Tendril7");
+		this.RightArm = Howi.getChild("Arms").getChild("RightArmJoint");
+		this.RightForArm = RightArm.getChild("RightArm").getChild("RightArmSeg2");
+		this.LeftArm = Howi.getChild("Arms").getChild("LeftArmJoint");
+		this.LeftForArm = LeftArm.getChild("LeftArm").getChild("LeftArmSeg2");
+		this.LeftForForArm = LeftForArm.getChild("LeftArmSeg3");
+		this.LeftArmTendril1 = LeftForForArm.getChild("Tendril1");
+		this.LeftArmTendril2 = LeftForForArm.getChild("Tendril2");
+		this.LeftArmTendril3 = LeftForForArm.getChild("LeftArmSeg4").getChild("Tendril3");
+		this.LeftArmTendril4 = LeftForForArm.getChild("LeftArmSeg4").getChild("Tendril4");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -1700,10 +1718,31 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		this.LeftLegTentacle.yRot =Mth.sin(ageInTicks/6)/2;
 		this.LeftLegTentacle.getChild("Seg2Tendril9").yRot = LeftLegTentacle.yRot;
 		this.LeftLegTentacle.getChild("Seg2Tendril9").getChild("Seg3Tendril9").yRot = LeftLegTentacle.yRot;
-		float movementValue = Mth.cos(limbSwing * 0.8F) * 2F * limbSwingAmount;
-		this.LeftLeg.xRot = movementValue;
-		this.RightLeg.xRot = -movementValue * 3;
-		this.RightForLeg.xRot = RightLeg.xRot > 0 ? 0:RightLeg.xRot;
+		this.RightLegTentacle1.xRot = Mth.cos(ageInTicks/6)/2;
+		this.RightLegTentacle1.getChild("Seg2Tendril8").getChild("Seg3Tendril8").xRot = Mth.cos(ageInTicks/6)/2;
+		this.RightLegTentacle2.xRot = Mth.cos(ageInTicks/6)/3;
+		this.RightLegTentacle2.getChild("Seg2Tendril5").getChild("Seg3Tendril5").xRot = Mth.cos(ageInTicks/6)/3;
+		this.RightLegTentacle3.zRot = Mth.cos(ageInTicks/9)/2;
+		this.RightLegTentacle3.getChild("Seg2Tendril6").zRot = Mth.cos(ageInTicks/7);
+		this.RightLegTentacle4.zRot = Mth.sin(ageInTicks/6);
+		this.RightLegTentacle4.getChild("Seg2Tendril7").zRot = Mth.sin(ageInTicks/8);
+		this.LeftArmTendril1.zRot = Mth.sin(ageInTicks/8)/2;
+		this.LeftArmTendril1.getChild("Seg2Tendril1").getChild("Seg3Tendril1").xRot = LeftArmTendril1.zRot;
+		this.LeftArmTendril2.xRot = Mth.cos(ageInTicks/8);
+		this.LeftArmTendril3.zRot = Mth.cos(ageInTicks/7);
+		this.LeftArmTendril4.zRot = Mth.cos(ageInTicks/6)/2;
+		if (!(limbSwingAmount > -0.05F && limbSwingAmount < 0.05F)){
+			float movementValue = Mth.cos(limbSwing * 0.8F) * 1.5F * limbSwingAmount;
+			this.LeftLeg.xRot = movementValue;
+			this.RightLeg.yRot = -movementValue*2;
+			this.RightForLeg.xRot = -movementValue*1.5f;
+			this.RightArm.yRot = movementValue*1.5f;
+			this.RightForArm.xRot = movementValue*2;
+			this.LeftArm.yRot = -movementValue*1.2f;
+			this.LeftForArm.yRot = -movementValue*1.8f;
+			this.LeftForArm.xRot = movementValue*0.4f;
+			this.LeftForForArm.xRot = movementValue;
+		}
 	}
 
 	@Override
