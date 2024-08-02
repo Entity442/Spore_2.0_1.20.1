@@ -7,7 +7,11 @@ import com.Harbinger.Spore.Sentities.TrueCalamity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
@@ -24,6 +28,8 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 
 public class Howitzer extends Calamity implements TrueCalamity {
+    public static final EntityDataAccessor<Float> RIGHT_ARM = SynchedEntityData.defineId(Howitzer.class, EntityDataSerializers.FLOAT);
+    public static final EntityDataAccessor<Float> LEFT_ARM = SynchedEntityData.defineId(Howitzer.class, EntityDataSerializers.FLOAT);
     private final CalamityMultipart[] subEntities;
     public final CalamityMultipart rightArm;
     public final CalamityMultipart leftArm;
@@ -49,11 +55,6 @@ public class Howitzer extends Calamity implements TrueCalamity {
 
     }
 
-    @Override
-    public void registerGoals() {
-        super.registerGoals();
-
-    }
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
@@ -77,8 +78,16 @@ public class Howitzer extends Calamity implements TrueCalamity {
             avec3[j] = new Vec3(this.subEntities[j].getX(), this.subEntities[j].getY(), this.subEntities[j].getZ());
         }
         this.tickPart(this.mouth, (double)(f2*0.5f), 5.0D, (double)(-f15 *0.5f));
-        this.tickPart(this.rightArm, (double)(f2 * 5F), 0.0D, (double)(-f15*3f));
-        this.tickPart(this.leftArm, (double)(f2 *-5.2F), 0.0D, (double)(-f15 * -2f));
+        if (getRightArmHp()>0){
+            this.tickPart(this.rightArm, (double)(f2 * 5F), 0.0D, (double)(-f15*3f));
+        }else{
+            this.tickPart(this.rightArm, (double)(f2), 0.0D, (double)(-f15));
+        }
+        if (getLeftArmHp() >0){
+            this.tickPart(this.leftArm, (double)(f2 *-5.2F), 0.0D, (double)(-f15 * -2f));
+        }else{
+            this.tickPart(this.leftArm, (double)(f2), 0.0D, (double)(-f15));
+        }
         for(int l = 0; l < this.subEntities.length; ++l) {
             this.subEntities[l].xo = avec3[l].x;
             this.subEntities[l].yo = avec3[l].y;
@@ -119,21 +128,72 @@ public class Howitzer extends Calamity implements TrueCalamity {
             this.hurt(source,value*2f);
         }else if (calamityMultipart == this.rightArm){
             this.hurt(source,value *1.5f);
+            float lostHealth = getRightArmHp()-value;
+            this.setRightArmHp(lostHealth > 0 ? lostHealth : 0);
         }else if (calamityMultipart == this.leftArm){
             this.hurt(source,value*1.5f);
+            float lostHealth = getLeftArmHp()-value;
+            this.setLeftArmHp(lostHealth > 0 ? lostHealth : 0);
         } else{
             this.hurt(source,value );
         }
         return true;
     }
-
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(RIGHT_ARM, this.getMaxArmHp());
+        this.entityData.define(LEFT_ARM, this.getMaxArmHp());
+    }
+    @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putFloat("right_arm", entityData.get(RIGHT_ARM));
+        tag.putFloat("left_arm",entityData.get(LEFT_ARM));
+    }
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        entityData.set(RIGHT_ARM, tag.getFloat("right_arm"));
+        entityData.set(LEFT_ARM,tag.getFloat("left_arm"));
+    }
+    public float getRightArmHp(){
+        return entityData.get(RIGHT_ARM);
+    }
+    public void setRightArmHp(float i){
+        entityData.set(RIGHT_ARM,i);
+    }
+    public float getLeftArmHp(){
+        return entityData.get(LEFT_ARM);
+    }
+    public void setLeftArmHp(float i){
+        entityData.set(LEFT_ARM,i);
+    }
+    public float getMaxArmHp(){
+        return (float) (SConfig.SERVER.sieger_hp.get()/5.0f);
+    }
 
     @Override
-    protected int calculateFallDamage(float value1, float value2) {
-        damageStomp(this.level(),this.getOnPos(),8,10);
+    protected int calculateFallDamage(float p_149389_, float p_149390_) {
+        if (super.calculateFallDamage(p_149389_, p_149390_) > 3){
+            damageStomp(this.level(),this.getOnPos(),8,10);
+        }
         return 0;
     }
-    protected void damageStomp(Level level, BlockPos pos,double range,double damageRange){
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (this.tickCount % 20 == 0 && this.getHealth() == this.getMaxHealth()){
+            if (this.getRightArmHp() < this.getMaxArmHp()){
+                this.setRightArmHp(getRightArmHp()+1);
+            }
+            if (this.getLeftArmHp() < this.getMaxArmHp()){
+                this.setLeftArmHp(getLeftArmHp()+1);
+            }
+        }
+    }
+
+    protected void damageStomp(Level level, BlockPos pos, double range, double damageRange){
         AABB aabb = this.getBoundingBox().inflate(damageRange);
         List<Entity> entities = level.getEntities(this,aabb,entity -> {return entity instanceof LivingEntity living && TARGET_SELECTOR.test(living);});
         for(int i = 0; i <= 2*range; ++i) {
