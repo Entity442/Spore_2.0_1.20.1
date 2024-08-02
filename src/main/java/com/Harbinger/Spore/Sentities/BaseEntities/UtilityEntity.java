@@ -87,7 +87,9 @@ public class UtilityEntity extends PathfinderMob {
 
 
     public Predicate<LivingEntity> TARGET_SELECTOR = (entity) -> {
-        if (entity instanceof Infected || entity instanceof UtilityEntity || entity instanceof AbstractFish || entity instanceof Animal){
+        if (entity instanceof Infected || entity instanceof UtilityEntity){
+            return false;
+        }else if ((entity instanceof AbstractFish || entity instanceof Animal) && !SConfig.SERVER.at_an.get()){
             return false;
         }else if (!SConfig.SERVER.blacklist.get().isEmpty()){
             for(String string : SConfig.SERVER.blacklist.get()){
@@ -115,13 +117,6 @@ public class UtilityEntity extends PathfinderMob {
         });
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
                 (this, LivingEntity.class,  true, livingEntity -> {return SConfig.SERVER.at_mob.get() && TARGET_SELECTOR.test(livingEntity);}){
-            @Override
-            protected AABB getTargetSearchArea(double value) {
-                return this.mob.getBoundingBox().inflate(value, value, value);
-            }
-        });
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>
-                (this, Animal.class,  true, livingEntity -> {return SConfig.SERVER.at_an.get();}){
             @Override
             protected AABB getTargetSearchArea(double value) {
                 return this.mob.getBoundingBox().inflate(value, value, value);

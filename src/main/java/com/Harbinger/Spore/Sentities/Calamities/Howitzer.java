@@ -1,22 +1,27 @@
 package com.Harbinger.Spore.Sentities.Calamities;
 
 import com.Harbinger.Spore.Core.SConfig;
-import com.Harbinger.Spore.Core.Ssounds;
-import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ItemParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.item.FallingBlockEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.List;
 
 public class Howitzer extends Calamity implements TrueCalamity {
     private final CalamityMultipart[] subEntities;
@@ -47,12 +52,7 @@ public class Howitzer extends Calamity implements TrueCalamity {
     @Override
     public void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(4, new AOEMeleeAttackGoal(this, 1.5, false,2.5 ,6, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}){
-            protected double getAttackReachSqr(LivingEntity entity) {
-                float f = Howitzer.this.getBbWidth();
-                return (double)(f * 2.0F * f * 2.0F + entity.getBbWidth());
-            }
-        });
+
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -128,4 +128,43 @@ public class Howitzer extends Calamity implements TrueCalamity {
     }
 
 
+    @Override
+    protected int calculateFallDamage(float value1, float value2) {
+        damageStomp(this.level(),this.getOnPos(),8,10);
+        return 0;
+    }
+    protected void damageStomp(Level level, BlockPos pos,double range,double damageRange){
+        AABB aabb = this.getBoundingBox().inflate(damageRange);
+        List<Entity> entities = level.getEntities(this,aabb,entity -> {return entity instanceof LivingEntity living && TARGET_SELECTOR.test(living);});
+        for(int i = 0; i <= 2*range; ++i) {
+            for(int j = 0; j <= 2*range; ++j) {
+                for(int k = 0; k <= 2*range; ++k) {
+                    double distance = Mth.sqrt((float) ((i-range)*(i-range) + (j-range)*(j-range) + (k-range)*(k-range)));
+                    if (Math.abs(i) != 2 || Math.abs(j) != 2 || Math.abs(k) != 2) {
+                        if (distance<range+(0.5)){
+                            BlockPos blockpos = pos.offset( i-(int)range,j-(int)range,k-(int)range);
+                            BlockState state = level.getBlockState(blockpos);
+                            boolean airAbove = level.getBlockState(blockpos.above()).isAir();
+                            boolean airBelow = level.getBlockState(blockpos.below()).isAir();
+                            if (state.isSolidRender(level,blockpos) && level instanceof ServerLevel serverLevel){
+                                if (airAbove){
+                                    ItemStack stack = new ItemStack(state.getBlock().asItem());
+                                    serverLevel.sendParticles(new ItemParticleOption(ParticleTypes.ITEM,stack),blockpos.getX(), blockpos.getY()+0.3f, blockpos.getZ(),3,(this.random.nextFloat() - 1D) * 0.08D, (this.random.nextFloat() - 1D) * 0.08D, (this.random.nextFloat() - 1D) * 0.08D,0.15F);
+                                }
+                                if (airBelow){
+                                    FallingBlockEntity.fall(serverLevel,blockpos,state);
+                                    serverLevel.removeBlock(blockpos,false);
+                                }
+                            }
+
+                        }}}}}
+        for (Entity entity : entities){
+            if (entity instanceof LivingEntity living)
+            for (int i = 0;i<2;i++){
+                this.doHurtTarget(living);
+                living.hurtTime = 0;
+                living.invulnerableTime = 0;
+            }
+        }
+    }
 }
