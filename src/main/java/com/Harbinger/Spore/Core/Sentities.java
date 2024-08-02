@@ -7,6 +7,7 @@ import com.Harbinger.Spore.Sentities.Calamities.Howitzer;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.*;
 import com.Harbinger.Spore.Sentities.Experiments.Plagued;
+import com.Harbinger.Spore.Sentities.FallenMultipart.HowitzerArm;
 import com.Harbinger.Spore.Sentities.FallenMultipart.Licker;
 import com.Harbinger.Spore.Sentities.FallenMultipart.SiegerTail;
 import com.Harbinger.Spore.Sentities.Hyper.Brot;
@@ -252,6 +253,9 @@ public class Sentities {
     public static final RegistryObject<EntityType<SiegerTail>> SIEGER_TAIL = SPORE_ENTITIES.register("sieger_tail",
             () -> EntityType.Builder.of(SiegerTail::new, MobCategory.MISC).sized(2.1f, 1f)
                     .build(new ResourceLocation(Spore.MODID, "sieger_tail").toString()));
+    public static final RegistryObject<EntityType<HowitzerArm>> HOWIT_ARM = SPORE_ENTITIES.register("howit_arm",
+            () -> EntityType.Builder.of(HowitzerArm::new, MobCategory.MISC).sized(2.1f, 1f)
+                    .build(new ResourceLocation(Spore.MODID, "howit_arm").toString()));
 
     public static final RegistryObject<EntityType<Gazenbrecher>> GAZENBREACHER = SPORE_ENTITIES.register("gazenbreacher",
             () -> EntityType.Builder.of(Gazenbrecher::new, INFECTED).sized(3.5f, 3f)

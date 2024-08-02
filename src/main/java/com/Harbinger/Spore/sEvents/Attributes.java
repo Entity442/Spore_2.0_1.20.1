@@ -9,6 +9,7 @@ import com.Harbinger.Spore.Sentities.Calamities.Howitzer;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.*;
 import com.Harbinger.Spore.Sentities.Experiments.Plagued;
+import com.Harbinger.Spore.Sentities.FallenMultipart.HowitzerArm;
 import com.Harbinger.Spore.Sentities.FallenMultipart.Licker;
 import com.Harbinger.Spore.Sentities.FallenMultipart.SiegerTail;
 import com.Harbinger.Spore.Sentities.Hyper.Brot;
@@ -61,6 +62,7 @@ public class Attributes {
         event.put(Sentities.GAZENBREACHER.get(), Gazenbrecher.createAttributes().build());
         event.put(Sentities.SIEGER_TAIL.get(), SiegerTail.createAttributes().build());
         event.put(Sentities.LICKER.get(), Licker.createAttributes().build());
+        event.put(Sentities.HOWIT_ARM.get(), HowitzerArm.createAttributes().build());
         event.put(Sentities.HINDENBURG.get(), Hinderburg.createAttributes().build());
         event.put(Sentities.TUMOROID_NUKE.get(), Hinderburg.createAttributes().build());
         event.put(Sentities.BRAUREI.get(), Brauerei.createAttributes().build());

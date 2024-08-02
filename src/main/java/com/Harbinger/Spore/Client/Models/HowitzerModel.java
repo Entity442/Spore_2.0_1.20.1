@@ -1731,8 +1731,10 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		this.LeftArmTendril2.xRot = Mth.cos(ageInTicks/8);
 		this.LeftArmTendril3.zRot = Mth.cos(ageInTicks/7);
 		this.LeftArmTendril4.zRot = Mth.cos(ageInTicks/6)/2;
-		if (!(limbSwingAmount > -0.05F && limbSwingAmount < 0.05F)){
-			float movementValue = Mth.cos(limbSwing * 0.8F) * 1.5F * limbSwingAmount;
+		RightArm.visible = entity.getRightArmHp()>0;
+		LeftArm.visible = entity.getLeftArmHp()>0;
+		if (!(limbSwingAmount > -0.15F && limbSwingAmount < 0.15F)){
+			float movementValue = Mth.cos(limbSwing * 0.8F) * 0.4F * limbSwingAmount;
 			this.LeftLeg.xRot = movementValue;
 			this.RightLeg.yRot = -movementValue*2;
 			this.RightForLeg.xRot = -movementValue*1.5f;
@@ -1742,7 +1744,18 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 			this.LeftForArm.yRot = -movementValue*1.8f;
 			this.LeftForArm.xRot = movementValue*0.4f;
 			this.LeftForForArm.xRot = movementValue;
+		}else{
+			this.LeftLeg.xRot = 0;
+			this.RightLeg.yRot = 0;
+			this.RightForLeg.xRot = 0;
+			this.RightArm.yRot = 0;
+			this.RightForArm.xRot = 0;
+			this.LeftArm.yRot = 0;
+			this.LeftForArm.yRot = 0;
+			this.LeftForArm.xRot = 0;
+			this.LeftForForArm.xRot = 0;
 		}
+
 	}
 
 	@Override

@@ -1,8 +1,14 @@
 package com.Harbinger.Spore.Sentities.Calamities;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Sentities;
+import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.CalamityInfectedCommand;
+import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SporeBurstSupport;
+import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SummonScentInCombat;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
+import com.Harbinger.Spore.Sentities.FallenMultipart.HowitzerArm;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ItemParticleOption;
@@ -14,10 +20,14 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -34,6 +44,7 @@ public class Howitzer extends Calamity implements TrueCalamity {
     public final CalamityMultipart rightArm;
     public final CalamityMultipart leftArm;
     public final CalamityMultipart mouth;
+    public int getLeapTime = 1;
     public Howitzer(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         this.rightArm = new CalamityMultipart(this, "rightarm", 2F, 4F);
@@ -69,6 +80,17 @@ public class Howitzer extends Calamity implements TrueCalamity {
     }
 
     @Override
+    public void registerGoals() {
+        super.registerGoals();
+        this.goalSelector.addGoal(4,new HowitzerMeleeAttack(this,1));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.2));
+        this.goalSelector.addGoal(6,new CalamityInfectedCommand(this));
+        this.goalSelector.addGoal(7,new SummonScentInCombat(this));
+        this.goalSelector.addGoal(8,new SporeBurstSupport(this));
+        this.goalSelector.addGoal(9,new RandomStrollGoal(this , 1));
+    }
+
+    @Override
     public void aiStep() {
         float f14 = this.getYRot() * ((float)Math.PI/180);
         float f2 = Mth.sin(f14);
@@ -97,6 +119,16 @@ public class Howitzer extends Calamity implements TrueCalamity {
             this.subEntities[l].zOld = avec3[l].z;
         }
         super.aiStep();
+    }
+    public boolean hasBothArms(){
+        return this.getRightArmHp()>0 && this.getLeftArmHp()>0;
+    }
+    public boolean isInMeleeRange(){
+        LivingEntity living = this.getTarget();
+        return living != null && this.distanceToSqr(living) < 200;
+    }
+    public int getGetLeapTime(){
+        return getLeapTime;
     }
 
     public CalamityMultipart[] getSubEntities() {
@@ -129,11 +161,11 @@ public class Howitzer extends Calamity implements TrueCalamity {
         }else if (calamityMultipart == this.rightArm){
             this.hurt(source,value *1.5f);
             float lostHealth = getRightArmHp()-value;
-            this.setRightArmHp(lostHealth > 0 ? lostHealth : 0);
+            this.setRightArmHp(lostHealth > 0 ? lostHealth : summonDetashedPart(true));
         }else if (calamityMultipart == this.leftArm){
             this.hurt(source,value*1.5f);
             float lostHealth = getLeftArmHp()-value;
-            this.setLeftArmHp(lostHealth > 0 ? lostHealth : 0);
+            this.setLeftArmHp(lostHealth > 0 ? lostHealth : summonDetashedPart(false));
         } else{
             this.hurt(source,value );
         }
@@ -193,6 +225,17 @@ public class Howitzer extends Calamity implements TrueCalamity {
         }
     }
 
+    public float summonDetashedPart(boolean isRight){
+        double offset = isRight ? 3D : -3D;
+        Vec3 vec3 = (new Vec3(0.0D, 0.0D, offset)).yRot(-this.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
+        HowitzerArm arm = new HowitzerArm(Sentities.HOWIT_ARM.get(),this.level());
+        arm.setRight(isRight);
+        arm.moveTo(this.getX() + vec3.x, this.getY() + 1.6,this.getZ()+ vec3.z);
+        level().addFreshEntity(arm);
+        this.playSound(Ssounds.LIMB_SLASH.get());
+        return 0;
+    }
+
     protected void damageStomp(Level level, BlockPos pos, double range, double damageRange){
         AABB aabb = this.getBoundingBox().inflate(damageRange);
         List<Entity> entities = level.getEntities(this,aabb,entity -> {return entity instanceof LivingEntity living && TARGET_SELECTOR.test(living);});
@@ -224,6 +267,40 @@ public class Howitzer extends Calamity implements TrueCalamity {
                 this.doHurtTarget(living);
                 living.hurtTime = 0;
                 living.invulnerableTime = 0;
+            }
+        }
+    }
+
+    private static class HowitzerMeleeAttack extends MeleeAttackGoal {
+        private final Howitzer howitzer;
+        public HowitzerMeleeAttack(Howitzer howitzer, double speed) {
+            super(howitzer, speed, true);
+            this.howitzer = howitzer;
+        }
+
+        @Override
+        public boolean canUse() {
+            return super.canUse() && howitzer.isInMeleeRange() && howitzer.getGetLeapTime() <=0;
+        }
+
+        @Override
+        protected void checkAndPerformAttack(LivingEntity living, double value) {
+            if (isTimeToAttack() && value <getAttackReachSqr(howitzer)){
+                AABB aabb = howitzer.getBoundingBox().inflate(8);
+                List<Entity> entities = howitzer.level().getEntities(howitzer,aabb,entity -> {return entity instanceof LivingEntity livingEntity && howitzer.TARGET_SELECTOR.test(livingEntity);});
+                for (Entity entity : entities){
+                    if (entity instanceof LivingEntity livingEntity){
+                        this.resetAttackCooldown();
+                        this.mob.swing(InteractionHand.MAIN_HAND);
+                        this.mob.doHurtTarget(livingEntity);
+                        Vec3 vec3 = livingEntity.getDeltaMovement();
+                        Vec3 vec31 = new Vec3(livingEntity.getX() - this.mob.getX(), 0.0D, livingEntity.getZ() - this.mob.getZ());
+                        if (vec31.lengthSqr() > 1.0E-7D) {
+                            vec31 = vec31.normalize().scale(2D).add(vec3.scale(1.5D));
+                        }
+                        livingEntity.setDeltaMovement(livingEntity.getDeltaMovement().add(vec31.x + 0.5, 0.5, vec31.z + 0.5));
+                    }
+                }
             }
         }
     }
