@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Sentities.Calamities;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.CalamityInfectedCommand;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SporeBurstSupport;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SummonScentInCombat;
@@ -44,7 +45,7 @@ public class Howitzer extends Calamity implements TrueCalamity {
     public final CalamityMultipart rightArm;
     public final CalamityMultipart leftArm;
     public final CalamityMultipart mouth;
-    public int getLeapTime = 1;
+    public int getLeapTime = 0;
     public Howitzer(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         this.rightArm = new CalamityMultipart(this, "rightarm", 2F, 4F);
@@ -82,7 +83,12 @@ public class Howitzer extends Calamity implements TrueCalamity {
     @Override
     public void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(4,new HowitzerMeleeAttack(this,1));
+        this.goalSelector.addGoal(4,new AOEMeleeAttackGoal(this,1,true,3,5,e-> {return this.TARGET_SELECTOR.test(e);}){
+            @Override
+            public boolean canUse() {
+                return Howitzer.this.isInMeleeRange() && Howitzer.this.getGetLeapTime() <= 0 && super.canUse();
+            }
+        });
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.2));
         this.goalSelector.addGoal(6,new CalamityInfectedCommand(this));
         this.goalSelector.addGoal(7,new SummonScentInCombat(this));
@@ -206,7 +212,7 @@ public class Howitzer extends Calamity implements TrueCalamity {
 
     @Override
     protected int calculateFallDamage(float p_149389_, float p_149390_) {
-        if (super.calculateFallDamage(p_149389_, p_149390_) > 3){
+        if (super.calculateFallDamage(p_149389_, p_149390_) > 1){
             damageStomp(this.level(),this.getOnPos(),8,10);
         }
         return 0;
@@ -267,40 +273,6 @@ public class Howitzer extends Calamity implements TrueCalamity {
                 this.doHurtTarget(living);
                 living.hurtTime = 0;
                 living.invulnerableTime = 0;
-            }
-        }
-    }
-
-    private static class HowitzerMeleeAttack extends MeleeAttackGoal {
-        private final Howitzer howitzer;
-        public HowitzerMeleeAttack(Howitzer howitzer, double speed) {
-            super(howitzer, speed, true);
-            this.howitzer = howitzer;
-        }
-
-        @Override
-        public boolean canUse() {
-            return super.canUse() && howitzer.isInMeleeRange() && howitzer.getGetLeapTime() <=0;
-        }
-
-        @Override
-        protected void checkAndPerformAttack(LivingEntity living, double value) {
-            if (isTimeToAttack() && value <getAttackReachSqr(howitzer)){
-                AABB aabb = howitzer.getBoundingBox().inflate(8);
-                List<Entity> entities = howitzer.level().getEntities(howitzer,aabb,entity -> {return entity instanceof LivingEntity livingEntity && howitzer.TARGET_SELECTOR.test(livingEntity);});
-                for (Entity entity : entities){
-                    if (entity instanceof LivingEntity livingEntity){
-                        this.resetAttackCooldown();
-                        this.mob.swing(InteractionHand.MAIN_HAND);
-                        this.mob.doHurtTarget(livingEntity);
-                        Vec3 vec3 = livingEntity.getDeltaMovement();
-                        Vec3 vec31 = new Vec3(livingEntity.getX() - this.mob.getX(), 0.0D, livingEntity.getZ() - this.mob.getZ());
-                        if (vec31.lengthSqr() > 1.0E-7D) {
-                            vec31 = vec31.normalize().scale(2D).add(vec3.scale(1.5D));
-                        }
-                        livingEntity.setDeltaMovement(livingEntity.getDeltaMovement().add(vec31.x + 0.5, 0.5, vec31.z + 0.5));
-                    }
-                }
             }
         }
     }

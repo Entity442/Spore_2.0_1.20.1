@@ -66,6 +66,7 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 	private final ModelPart RightLegTentacle4;
 	private final ModelPart RightArm;
 	private final ModelPart RightForArm;
+	private final ModelPart RightForForArm;
 	private final ModelPart LeftArm;
 	private final ModelPart LeftForArm;
 	private final ModelPart LeftForForArm;
@@ -123,6 +124,7 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		this.RightLegTentacle4 = RightForLeg.getChild("RightLeg2").getChild("Tendril7");
 		this.RightArm = Howi.getChild("Arms").getChild("RightArmJoint");
 		this.RightForArm = RightArm.getChild("RightArm").getChild("RightArmSeg2");
+		this.RightForForArm = RightForArm.getChild("RightArmSeg3");
 		this.LeftArm = Howi.getChild("Arms").getChild("LeftArmJoint");
 		this.LeftForArm = LeftArm.getChild("LeftArm").getChild("LeftArmSeg2");
 		this.LeftForForArm = LeftForArm.getChild("LeftArmSeg3");
@@ -1740,8 +1742,9 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 			this.RightForLeg.xRot = -movementValue*1.5f;
 			this.RightArm.yRot = movementValue*1.5f;
 			this.RightForArm.xRot = movementValue*2;
-			this.LeftArm.yRot = -movementValue*1.2f;
-			this.LeftForArm.yRot = -movementValue*1.8f;
+			this.RightForForArm.yRot = movementValue*2;
+			this.LeftArm.yRot = movementValue*1.2f;
+			this.LeftForArm.yRot = movementValue*1.8f;
 			this.LeftForArm.xRot = movementValue*0.4f;
 			this.LeftForForArm.xRot = movementValue;
 		}else{
@@ -1750,6 +1753,7 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 			this.RightForLeg.xRot = 0;
 			this.RightArm.yRot = 0;
 			this.RightForArm.xRot = 0;
+			this.RightForForArm.yRot = 0;
 			this.LeftArm.yRot = 0;
 			this.LeftForArm.yRot = 0;
 			this.LeftForArm.xRot = 0;
