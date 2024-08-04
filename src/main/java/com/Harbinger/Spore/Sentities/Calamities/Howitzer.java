@@ -7,6 +7,7 @@ import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.CalamityInfectedCommand;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SporeBurstSupport;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SummonScentInCombat;
+import com.Harbinger.Spore.Sentities.AI.LeapGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.FallenMultipart.HowitzerArm;
@@ -21,12 +22,10 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.item.FallingBlockEntity;
@@ -36,6 +35,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Howitzer extends Calamity implements TrueCalamity {
@@ -83,10 +83,26 @@ public class Howitzer extends Calamity implements TrueCalamity {
     @Override
     public void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(4,new AOEMeleeAttackGoal(this,1,true,3,5,e-> {return this.TARGET_SELECTOR.test(e);}){
+        this.goalSelector.addGoal(3,new LeapGoal(this,1.5f){
             @Override
             public boolean canUse() {
-                return Howitzer.this.isInMeleeRange() && Howitzer.this.getGetLeapTime() <= 0 && super.canUse();
+                return Howitzer.this.isInMeleeRange() && Howitzer.this.getGetLeapTime() <= 0 && Howitzer.this.hasBothArms() &&  super.canUse();
+            }
+            @Override
+            public void start() {
+                super.start();
+                Howitzer.this.setLeapTicks(200);
+            }
+        });
+        this.goalSelector.addGoal(4,new AOEMeleeAttackGoal(this,1,true,2,5,e-> {return this.TARGET_SELECTOR.test(e);}){
+            @Override
+            public boolean canUse() {
+                return Howitzer.this.isInMeleeRange() && Howitzer.this.getGetLeapTime() > 0 && super.canUse();
+            }
+            @Override
+            protected double getAttackReachSqr(LivingEntity entity) {
+                float f = Howitzer.this.getBbWidth();
+                return (double)(f * 1.5F * 1.5F + entity.getBbWidth());
             }
         });
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.2));
@@ -99,22 +115,22 @@ public class Howitzer extends Calamity implements TrueCalamity {
     @Override
     public void aiStep() {
         float f14 = this.getYRot() * ((float)Math.PI/180);
-        float f2 = Mth.sin(f14);
-        float f15 = Mth.cos(f14);
+        float f2 = Mth.cos(f14);
+        float f15 = Mth.sin(f14);
         Vec3[] avec3 = new Vec3[this.subEntities.length];
         for(int j = 0; j < this.subEntities.length; ++j) {
             avec3[j] = new Vec3(this.subEntities[j].getX(), this.subEntities[j].getY(), this.subEntities[j].getZ());
         }
-        this.tickPart(this.mouth, (double)(f2*0.5f), 5.0D, (double)(-f15 *0.5f));
+        this.tickPart(this.mouth, (double)(f2*0.5f), 5.0D, (double)(f15 *0.5f));
         if (getRightArmHp()>0){
-            this.tickPart(this.rightArm, (double)(f2 * 5F), 0.0D, (double)(-f15*3f));
+            this.tickPart(this.rightArm, (double)(f2* 4.5F), 0.0D, (double)(f15 * 4.5F));
         }else{
-            this.tickPart(this.rightArm, (double)(f2), 0.0D, (double)(-f15));
+            this.tickPart(this.rightArm, (double)(f2), 0.0D, (double)(f15));
         }
         if (getLeftArmHp() >0){
-            this.tickPart(this.leftArm, (double)(f2 *-5.2F), 0.0D, (double)(-f15 * -2f));
+            this.tickPart(this.leftArm, (double)(f2 *-4.5F), 0.0D, (double)(f15*-4.5F));
         }else{
-            this.tickPart(this.leftArm, (double)(f2), 0.0D, (double)(-f15));
+            this.tickPart(this.leftArm, (double)(f2), 0.0D, (double)(f15));
         }
         for(int l = 0; l < this.subEntities.length; ++l) {
             this.subEntities[l].xo = avec3[l].x;
@@ -135,6 +151,9 @@ public class Howitzer extends Calamity implements TrueCalamity {
     }
     public int getGetLeapTime(){
         return getLeapTime;
+    }
+    public void setLeapTicks(int i){
+        getLeapTime = i;
     }
 
     public CalamityMultipart[] getSubEntities() {
@@ -159,7 +178,6 @@ public class Howitzer extends Calamity implements TrueCalamity {
         for(int i = 0; i < calamityMultiparts.length; ++i) {
             calamityMultiparts[i].setId(i + p_218825_.getId());
         }
-
     }
     public boolean hurt(CalamityMultipart calamityMultipart, DamageSource source, float value) {
         if (calamityMultipart == this.mouth){
@@ -211,6 +229,48 @@ public class Howitzer extends Calamity implements TrueCalamity {
     }
 
     @Override
+    public boolean hasLineOfSight(Entity entity) {
+        if (canEntitySeeTheSky(entity) && canEntitySeeTheSky(this)){
+            return true;
+        }else
+        return super.hasLineOfSight(entity) || calculateHouseThiccness(entity);
+    }
+
+    private boolean canEntitySeeTheSky(Entity entity){
+        return entity.level().canSeeSky(entity.getOnPos());
+    }
+    private boolean calculateHouseThiccness(Entity entity){
+        List<BlockPos> floorPositions = new ArrayList<>();
+        List<BlockPos> roofPositions = new ArrayList<>();
+        AABB floorAABB = entity.getBoundingBox().inflate(1,8,1).move(0,-4,0);
+        AABB roofAABB = entity.getBoundingBox().inflate(1,8,1).move(0,4,0);
+        for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(floorAABB.minX), Mth.floor(floorAABB.minY), Mth.floor(floorAABB.minZ), Mth.floor(floorAABB.maxX), Mth.floor(floorAABB.maxY), Mth.floor(floorAABB.maxZ))) {
+            BlockState blockstate = this.level().getBlockState(blockpos);
+            if (blockstate.isSolidRender(entity.level(),blockpos)){
+                floorPositions.add(blockpos);
+            }
+        }
+        for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(roofAABB.minX), Mth.floor(roofAABB.minY), Mth.floor(roofAABB.minZ), Mth.floor(roofAABB.maxX), Mth.floor(roofAABB.maxY), Mth.floor(roofAABB.maxZ))) {
+            BlockState blockstate = this.level().getBlockState(blockpos);
+            if (blockstate.isSolidRender(entity.level(),blockpos)){
+                roofPositions.add(blockpos);
+            }
+        }
+        return floorPositions.size() < 4 || roofPositions.size() < 4;
+    }
+    private boolean tooDeapTooShoot(){
+        List<BlockPos> roofPositions = new ArrayList<>();
+        AABB roofAABB = this.getBoundingBox().inflate(1,8,1).move(0,6,0);
+        for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(roofAABB.minX), Mth.floor(roofAABB.minY), Mth.floor(roofAABB.minZ), Mth.floor(roofAABB.maxX), Mth.floor(roofAABB.maxY), Mth.floor(roofAABB.maxZ))) {
+            BlockState blockstate = this.level().getBlockState(blockpos);
+            if (blockstate.isSolidRender(this.level(),blockpos)){
+                roofPositions.add(blockpos);
+            }
+        }
+        return roofPositions.size() < 8;
+    }
+
+    @Override
     protected int calculateFallDamage(float p_149389_, float p_149390_) {
         if (super.calculateFallDamage(p_149389_, p_149390_) > 1){
             damageStomp(this.level(),this.getOnPos(),8,10);
@@ -221,6 +281,9 @@ public class Howitzer extends Calamity implements TrueCalamity {
     @Override
     public void tick() {
         super.tick();
+        if (this.getGetLeapTime() > 0){
+            getLeapTime--;
+        }
         if (this.tickCount % 20 == 0 && this.getHealth() == this.getMaxHealth()){
             if (this.getRightArmHp() < this.getMaxArmHp()){
                 this.setRightArmHp(getRightArmHp()+1);
