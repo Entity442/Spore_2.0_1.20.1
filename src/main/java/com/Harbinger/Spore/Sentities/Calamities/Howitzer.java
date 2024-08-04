@@ -114,23 +114,22 @@ public class Howitzer extends Calamity implements TrueCalamity {
 
     @Override
     public void aiStep() {
-        float f14 = this.getYRot() * ((float)Math.PI/180);
-        float f2 = Mth.cos(f14);
-        float f15 = Mth.sin(f14);
         Vec3[] avec3 = new Vec3[this.subEntities.length];
         for(int j = 0; j < this.subEntities.length; ++j) {
             avec3[j] = new Vec3(this.subEntities[j].getX(), this.subEntities[j].getY(), this.subEntities[j].getZ());
         }
-        this.tickPart(this.mouth, (double)(f2*0.5f), 5.0D, (double)(f15 *0.5f));
+        this.tickPart(this.mouth, Vec3.ZERO,5);
         if (getRightArmHp()>0){
-            this.tickPart(this.rightArm, (double)(f2* 4.5F), 0.0D, (double)(f15 * 4.5F));
+            this.tickPart(this.rightArm, new Vec3(-4.5D,0D,-4.5D));
         }else{
-            this.tickPart(this.rightArm, (double)(f2), 0.0D, (double)(f15));
+            this.tickPart(this.rightArm, Vec3.ZERO);
+            rightArm.getBoundingBox().inflate(1,0.3,1);
         }
         if (getLeftArmHp() >0){
-            this.tickPart(this.leftArm, (double)(f2 *-4.5F), 0.0D, (double)(f15*-4.5F));
+            this.tickPart(this.leftArm, new Vec3(4.5D,0D,4.5D));
         }else{
-            this.tickPart(this.leftArm, (double)(f2), 0.0D, (double)(f15));
+            this.tickPart(this.leftArm, Vec3.ZERO);
+            leftArm.getBoundingBox().inflate(1,0.3,1);
         }
         for(int l = 0; l < this.subEntities.length; ++l) {
             this.subEntities[l].xo = avec3[l].x;

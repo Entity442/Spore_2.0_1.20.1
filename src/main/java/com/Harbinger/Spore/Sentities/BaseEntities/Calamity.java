@@ -100,6 +100,14 @@ public class Calamity extends UtilityEntity implements Enemy {
     protected void tickPart(CalamityMultipart part, double e, double i, double o) {
         part.setPos(this.getX() + e, this.getY() + i, this.getZ() + o);
     }
+    protected void tickPart(CalamityMultipart part, Vec3 vec3i) {
+        Vec3 vec3 = (vec3i).yRot(-this.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
+        part.setPos(this.getX() + vec3.x, this.getY() + vec3.y, this.getZ() + vec3.z);
+    }
+    protected void tickPart(CalamityMultipart part, Vec3 vec3i,double Y) {
+        Vec3 vec3 = (vec3i).yRot(-this.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
+        part.setPos(this.getX() + vec3.x, this.getY() + Y, this.getZ() + vec3.z);
+    }
 
     @Override
     public void awardKillScore(Entity entity, int i, DamageSource damageSource) {

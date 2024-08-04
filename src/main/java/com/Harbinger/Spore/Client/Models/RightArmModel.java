@@ -13,14 +13,21 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
 public class RightArmModel<T extends HowitzerArm> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "rightarmmodel"), "main");
 	private final ModelPart RightArmJoint;
+	private final ModelPart Joint;
+	private final ModelPart Joint2;
+	private final ModelPart Foot;
 
 	public RightArmModel(ModelPart root) {
 		this.RightArmJoint = root.getChild("RightArmJoint");
+		this.Joint = RightArmJoint.getChild("RightArm").getChild("RightArmSeg2");
+		this.Joint2 = Joint.getChild("RightArmSeg3");
+		this.Foot = Joint2.getChild("RightArmSeg4");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -192,7 +199,9 @@ public class RightArmModel<T extends HowitzerArm> extends EntityModel<T> {
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+		this.Joint.zRot = -0.7f + Mth.sin(ageInTicks/10)/6;
+		this.Joint2.xRot = Mth.sin(ageInTicks/9)/7;
+		this.Foot.yRot = Mth.cos(ageInTicks/7)/6;
 	}
 
 	@Override

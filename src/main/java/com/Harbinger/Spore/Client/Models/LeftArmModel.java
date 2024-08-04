@@ -13,14 +13,27 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
 public class LeftArmModel<T extends HowitzerArm> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "leftarmmodel"), "main");
 	private final ModelPart LeftArmJoint;
+	private final ModelPart LeftForArm;
+	private final ModelPart LeftForForArm;
+	private final ModelPart LeftArmTendril1;
+	private final ModelPart LeftArmTendril2;
+	private final ModelPart LeftArmTendril3;
+	private final ModelPart LeftArmTendril4;
 
 	public LeftArmModel(ModelPart root) {
 		this.LeftArmJoint = root.getChild("LeftArmJoint");
+		this.LeftForArm = LeftArmJoint.getChild("LeftArm").getChild("LeftArmSeg2");
+		this.LeftForForArm = LeftForArm.getChild("LeftArmSeg3");
+		this.LeftArmTendril1 = LeftForForArm.getChild("Tendril1");
+		this.LeftArmTendril2 = LeftForForArm.getChild("Tendril2");
+		this.LeftArmTendril3 = LeftForForArm.getChild("LeftArmSeg4").getChild("Tendril3");
+		this.LeftArmTendril4 = LeftForForArm.getChild("LeftArmSeg4").getChild("Tendril4");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -275,7 +288,13 @@ public class LeftArmModel<T extends HowitzerArm> extends EntityModel<T> {
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+		this.LeftForArm.zRot = 0.8f + Mth.sin(ageInTicks/9)/7;
+		this.LeftForForArm.zRot = 0.8f + Mth.sin(ageInTicks/8)/7;
+		this.LeftArmTendril1.zRot = Mth.sin(ageInTicks/8)/2;
+		this.LeftArmTendril1.getChild("Seg2Tendril1").getChild("Seg3Tendril1").xRot = LeftArmTendril1.zRot;
+		this.LeftArmTendril2.xRot = Mth.cos(ageInTicks/8);
+		this.LeftArmTendril3.zRot = Mth.cos(ageInTicks/7);
+		this.LeftArmTendril4.zRot = Mth.cos(ageInTicks/6)/2;
 	}
 
 	@Override
