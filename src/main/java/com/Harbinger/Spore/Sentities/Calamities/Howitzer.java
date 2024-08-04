@@ -83,17 +83,7 @@ public class Howitzer extends Calamity implements TrueCalamity {
     @Override
     public void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(3,new AOEMeleeAttackGoal(this,1,true,2,5,e-> {return this.TARGET_SELECTOR.test(e);}){
-            @Override
-            public boolean canUse() {
-                return Howitzer.this.isInMeleeRange() && Howitzer.this.getGetLeapTime() > 0 && super.canUse();
-            }
-            @Override
-            protected double getAttackReachSqr(LivingEntity entity) {
-                float f = Howitzer.this.getBbWidth();
-                return (double)(f * 1.5F * f * 1.5F + entity.getBbWidth());
-            }
-        });
+
         this.goalSelector.addGoal(3,new LeapGoal(this,0.9f){
             @Override
             public boolean canUse() {
@@ -103,6 +93,17 @@ public class Howitzer extends Calamity implements TrueCalamity {
             public void start() {
                 super.start();
                 Howitzer.this.setLeapTicks(200);
+            }
+        });
+        this.goalSelector.addGoal(3,new AOEMeleeAttackGoal(this,1,true,2,5,e-> {return this.TARGET_SELECTOR.test(e);}){
+            @Override
+            public boolean canUse() {
+                return Howitzer.this.isInMeleeRange() && super.canUse();
+            }
+            @Override
+            protected double getAttackReachSqr(LivingEntity entity) {
+                float f = Howitzer.this.getBbWidth();
+                return (double)(f * 1.75F * f * 1.75F + entity.getBbWidth());
             }
         });
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.2));
@@ -120,13 +121,13 @@ public class Howitzer extends Calamity implements TrueCalamity {
         }
         this.tickPart(this.mouth, Vec3.ZERO,5);
         if (getRightArmHp()>0){
-            this.tickPart(this.rightArm, new Vec3(-4.5D,0D,-4.5D));
+            this.tickPart(this.rightArm, new Vec3(-3.85D,0D,4D));
         }else{
             this.tickPart(this.rightArm, Vec3.ZERO);
             rightArm.getBoundingBox().inflate(1,0.3,1);
         }
         if (getLeftArmHp() >0){
-            this.tickPart(this.leftArm, new Vec3(4.5D,0D,4.5D));
+            this.tickPart(this.leftArm, new Vec3(3.85D,0D,-4D));
         }else{
             this.tickPart(this.leftArm, Vec3.ZERO);
             leftArm.getBoundingBox().inflate(1,0.3,1);
