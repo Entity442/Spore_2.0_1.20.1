@@ -83,7 +83,7 @@ public class Howitzer extends Calamity implements TrueCalamity {
     @Override
     public void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(3,new LeapGoal(this,1.5f){
+        this.goalSelector.addGoal(3,new LeapGoal(this,0.9f){
             @Override
             public boolean canUse() {
                 return Howitzer.this.isInMeleeRange() && Howitzer.this.getGetLeapTime() <= 0 && Howitzer.this.hasBothArms() &&  super.canUse();
@@ -94,10 +94,10 @@ public class Howitzer extends Calamity implements TrueCalamity {
                 Howitzer.this.setLeapTicks(200);
             }
         });
-        this.goalSelector.addGoal(4,new AOEMeleeAttackGoal(this,1,true,2,5,e-> {return this.TARGET_SELECTOR.test(e);}){
+        this.goalSelector.addGoal(3,new AOEMeleeAttackGoal(this,1,true,2,5,e-> {return this.TARGET_SELECTOR.test(e);}){
             @Override
             public boolean canUse() {
-                return Howitzer.this.isInMeleeRange() && Howitzer.this.getGetLeapTime() > 0 && super.canUse();
+                return Howitzer.this.isInMeleeRange() && super.canUse();
             }
             @Override
             protected double getAttackReachSqr(LivingEntity entity) {
@@ -272,10 +272,10 @@ public class Howitzer extends Calamity implements TrueCalamity {
 
     @Override
     protected int calculateFallDamage(float p_149389_, float p_149390_) {
-        if (super.calculateFallDamage(p_149389_, p_149390_) > 1){
-            damageStomp(this.level(),this.getOnPos(),8,10);
+        if (this.getLeapTime > 0){
+            damageStomp(this.level(),this.getOnPos(),12,16);
         }
-        return 0;
+        return super.calculateFallDamage(p_149389_, p_149390_)-25;
     }
 
     @Override
