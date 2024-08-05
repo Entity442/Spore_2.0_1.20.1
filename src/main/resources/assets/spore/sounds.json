@@ -73,6 +73,12 @@
       "spore:howler"
     ]
   },
+  "landing" :{
+    "subtitle": "sounds.spore.landing",
+    "sounds": [
+      "spore:landing"
+    ]
+  },
   "wendigo_screech" :{
     "subtitle": "sounds.spore.wendigo_screech",
     "sounds": [

@@ -54,6 +54,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> SONAR = soundRegistry("sonar");
 
+    public static final RegistryObject<SoundEvent> LANDING = soundRegistry("landing");
+
     public static final RegistryObject<SoundEvent> SIGNAL = soundRegistry("signal");
 
     public static final RegistryObject<SoundEvent> UMARMER_AMBIENT = soundRegistry("umarmer_ambient");

@@ -81,6 +81,12 @@ public class Howitzer extends Calamity implements TrueCalamity {
     }
 
     @Override
+    public boolean doHurtTarget(Entity entity) {
+        this.playSound(Ssounds.LANDING.get(),0.5f,0.5f);
+        return super.doHurtTarget(entity);
+    }
+
+    @Override
     public void registerGoals() {
         super.registerGoals();
 
@@ -353,5 +359,6 @@ public class Howitzer extends Calamity implements TrueCalamity {
                 living.invulnerableTime = 0;
             }
         }
+        this.playSound(Ssounds.LANDING.get());
     }
 }
