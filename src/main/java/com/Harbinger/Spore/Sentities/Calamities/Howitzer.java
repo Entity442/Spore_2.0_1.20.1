@@ -102,7 +102,7 @@ public class Howitzer extends Calamity implements TrueCalamity {
             @Override
             protected double getAttackReachSqr(LivingEntity entity) {
                 float f = Howitzer.this.getBbWidth();
-                return (double)(f * 1.75F * f * 1.75F + entity.getBbWidth());
+                return (double)(f * f * 1.75F + entity.getBbWidth());
             }
         });
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.2));
@@ -240,7 +240,7 @@ public class Howitzer extends Calamity implements TrueCalamity {
         entityData.set(LEFT_ARM,i);
     }
     public float getMaxArmHp(){
-        return (float) (SConfig.SERVER.sieger_hp.get()/5.0f);
+        return (float) (SConfig.SERVER.howit_hp.get()/5.0f);
     }
 
     @Override
