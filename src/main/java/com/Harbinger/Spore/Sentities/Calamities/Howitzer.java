@@ -13,6 +13,7 @@ import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.FallenMultipart.HowitzerArm;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -335,8 +336,7 @@ public class Howitzer extends Calamity implements TrueCalamity {
                             boolean airBelow = level.getBlockState(blockpos.below()).isAir();
                             if (state.isSolidRender(level,blockpos) && level instanceof ServerLevel serverLevel){
                                 if (airAbove){
-                                    ItemStack stack = new ItemStack(state.getBlock().asItem());
-                                    serverLevel.sendParticles(new ItemParticleOption(ParticleTypes.ITEM,stack),blockpos.getX(), blockpos.getY()+0.3f, blockpos.getZ(),3,(this.random.nextFloat() - 1D) * 0.08D, (this.random.nextFloat() - 1D) * 0.08D, (this.random.nextFloat() - 1D) * 0.08D,0.15F);
+                                    serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK,state),blockpos.getX(), blockpos.getY()+0.3f, blockpos.getZ(),8,random.nextFloat() *0.05f,0.2,random.nextFloat() *0.05f,0.15F);
                                 }
                                 if (airBelow){
                                     FallingBlockEntity.fall(serverLevel,blockpos,state);
@@ -347,7 +347,7 @@ public class Howitzer extends Calamity implements TrueCalamity {
                         }}}}}
         for (Entity entity : entities){
             if (entity instanceof LivingEntity living)
-            for (int i = 0;i<2;i++){
+            for (int i = 0;i<this.random.nextInt(2,4);i++){
                 this.doHurtTarget(living);
                 living.hurtTime = 0;
                 living.invulnerableTime = 0;
