@@ -20,8 +20,8 @@ public class HowitzerArm extends FallenMultipartEntity {
     }
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, (SConfig.SERVER.sieger_hp.get()/4) * SConfig.SERVER.global_health.get())
-                .add(Attributes.ARMOR, (SConfig.SERVER.sieger_armor.get()/4) * SConfig.SERVER.global_armor.get())
+                .add(Attributes.MAX_HEALTH, (SConfig.SERVER.howit_hp.get()/4) * SConfig.SERVER.global_health.get())
+                .add(Attributes.ARMOR, (SConfig.SERVER.howit_armor.get()/4) * SConfig.SERVER.global_armor.get())
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1);
     }
     protected void defineSynchedData() {

@@ -170,33 +170,25 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
         }
         return true;
     }
+
+    @Override
+    public int chemicalRange() {
+        return 32;
+    }
+
+    @Override
+    public List<? extends String> buffs() {
+        return SConfig.SERVER.hinden_buffs.get();
+    }
+
+    @Override
+    public List<? extends String> debuffs() {
+        return SConfig.SERVER.hinden_debuffs.get();
+    }
+
     @Override
     public List<? extends String> getDropList() {
         return SConfig.DATAGEN.hindie_loot.get();
-    }
-    @Override
-    public void chemAttack() {
-        AABB boundingBox = this.getBoundingBox().inflate(32);
-        List<Entity> entities = this.level().getEntities(this, boundingBox);
-        for (Entity entity : entities) {
-            if (entity instanceof LivingEntity livingEntity && !(entity instanceof Infected || entity instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(entity.getEncodeId()) || livingEntity.getItemBySlot(EquipmentSlot.HEAD).getItem() == Sitems.GAS_MASK.get())) {
-                for (String str : SConfig.SERVER.hinden_debuffs.get()){
-                    String[] string = str.split("\\|" );
-                    MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(string[0]));
-                    if (effect != null && !livingEntity.hasEffect(effect)){
-                        livingEntity.addEffect(new MobEffectInstance(effect , Integer.parseUnsignedInt(string[1]), Integer.parseUnsignedInt(string[2])));
-                    }
-                }
-            }else if (entity instanceof LivingEntity livingEntity && (entity instanceof Infected || entity instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(entity.getEncodeId()))){
-                for (String str : SConfig.SERVER.hinden_buffs.get()){
-                    String[] string = str.split("\\|" );
-                    MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(string[0]));
-                    if (effect != null && !livingEntity.hasEffect(effect)){
-                        livingEntity.addEffect(new MobEffectInstance(effect , Integer.parseUnsignedInt(string[1]), Integer.parseUnsignedInt(string[2])));
-                    }
-                }
-            }
-        }
     }
 
     @Override

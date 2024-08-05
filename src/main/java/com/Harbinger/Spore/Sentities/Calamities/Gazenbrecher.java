@@ -2,7 +2,6 @@ package com.Harbinger.Spore.Sentities.Calamities;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sentities;
-import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.CalamityInfectedCommand;
@@ -11,8 +10,6 @@ import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SporeBurstSupport;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SummonScentInCombat;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
-import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
-import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.FallenMultipart.Licker;
 import com.Harbinger.Spore.Sentities.Projectile.BileProjectile;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
@@ -22,13 +19,10 @@ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -39,7 +33,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fluids.FluidType;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 
@@ -236,31 +229,6 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
     }
 
 
-    public void chemAttack() {
-        AABB boundingBox = this.getBoundingBox().inflate(16);
-        List<Entity> entities = this.level().getEntities(this, boundingBox);
-        for (Entity entity : entities) {
-            if (entity instanceof LivingEntity livingEntity && !(entity instanceof Infected || entity instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(entity.getEncodeId()) || livingEntity.getItemBySlot(EquipmentSlot.HEAD).getItem() == Sitems.GAS_MASK.get())) {
-                for (String str : SConfig.SERVER.gazen_debuffs.get()){
-                    String[] string = str.split("\\|" );
-                    MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(string[0]));
-                    if (effect != null && !livingEntity.hasEffect(effect)){
-                        livingEntity.addEffect(new MobEffectInstance(effect , Integer.parseUnsignedInt(string[1]), Integer.parseUnsignedInt(string[2])));
-                    }
-                }
-            }else if (entity instanceof LivingEntity livingEntity && (entity instanceof Infected || entity instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(entity.getEncodeId()))){
-                for (String str : SConfig.SERVER.gazen_buffs.get()){
-                    String[] string = str.split("\\|" );
-                    MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(string[0]));
-                    if (effect != null && !livingEntity.hasEffect(effect)){
-                        livingEntity.addEffect(new MobEffectInstance(effect , Integer.parseUnsignedInt(string[1]), Integer.parseUnsignedInt(string[2])));
-                    }
-                }
-            }
-        }
-    }
-
-
     @Override
     public void registerGoals() {
 
@@ -302,6 +270,21 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
             this.hurt(source,value );
         }
         return true;
+    }
+
+    @Override
+    public int chemicalRange() {
+        return 16;
+    }
+
+    @Override
+    public List<? extends String> buffs() {
+        return SConfig.SERVER.gazen_buffs.get();
+    }
+
+    @Override
+    public List<? extends String> debuffs() {
+        return SConfig.SERVER.gazen_debuffs.get();
     }
 
     boolean calculateHeight(){

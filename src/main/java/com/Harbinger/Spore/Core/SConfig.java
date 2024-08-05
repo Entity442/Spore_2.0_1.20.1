@@ -192,6 +192,13 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_debuffs;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_explosive_effects;
 
+        public final ForgeConfigSpec.ConfigValue<Double> howit_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> howit_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> howit_armor;
+        public final ForgeConfigSpec.ConfigValue<Double> howit_dpsr;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> howit_buffs;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> howit_debuffs;
+
         public final ForgeConfigSpec.ConfigValue<Double> gazen_hp;
         public final ForgeConfigSpec.ConfigValue<Double> gazen_damage;
         public final ForgeConfigSpec.ConfigValue<Double> gazen_armor;
@@ -676,6 +683,18 @@ public class SConfig {
 
             this.hinden_explosive_effects = builder.comment("Default values: minecraft:wither, spore:mycelium, minecraft:weakness, minecraft:poison, spore:corrosion, minecraft:blindness").defineList("Hindenburg explosion ranged effects",
                     Lists.newArrayList("minecraft:wither", "spore:mycelium_ef", "minecraft:weakness", "minecraft:poison", "spore:corrosion", "minecraft:blindness") , o -> o instanceof String);
+            builder.pop();
+
+            builder.push("Howitzer");
+            this.howit_hp = builder.comment("Default 350").defineInRange("Sets Howitzer Max health", 500, 1, Double.MAX_VALUE);
+            this.howit_damage = builder.comment("Default 25").defineInRange("Sets Howitzer Damage", 15, 1, Double.MAX_VALUE);
+            this.howit_armor = builder.comment("Default 15").defineInRange("Sets Howitzer Armor", 10, 1, Double.MAX_VALUE);
+            this.howit_dpsr = builder.comment("Default 100").defineInRange("Sets Howitzer Damage Cap , set to 0 to disable", 100, 1, Double.MAX_VALUE);
+            this.howit_buffs = builder.comment("Default values: minecraft:speed|600|0, minecraft:strength|600|0, minecraft:resistance|600|1").defineList("Gazenbreacher buffs",
+                    Lists.newArrayList("minecraft:speed|600|0", "minecraft:strength|600|0", "minecraft:resistance|600|1") , o -> o instanceof String);
+
+            this.howit_debuffs = builder.comment("Default values: minecraft:blindness|600|0, spore:mycelium|600|1, minecraft:slowness|600|1").defineList("Gazenbreacher debuffs",
+                    Lists.newArrayList("minecraft:blindness|600|0", "spore:mycelium_ef|600|1", "minecraft:slowness|600|1") , o -> o instanceof String);
             builder.pop();
 
             builder.push("Brute");

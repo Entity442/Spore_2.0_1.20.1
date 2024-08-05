@@ -63,17 +63,16 @@ public class Howitzer extends Calamity implements TrueCalamity {
     }
 
     @Override
-    public void chemAttack() {
-
+    public double getDamageCap() {
+        return SConfig.SERVER.howit_dpsr.get();
     }
-
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, SConfig.SERVER.sieger_hp.get() * SConfig.SERVER.global_health.get())
+                .add(Attributes.MAX_HEALTH, SConfig.SERVER.howit_hp.get() * SConfig.SERVER.global_health.get())
                 .add(Attributes.MOVEMENT_SPEED, 0.2)
-                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.sieger_damage.get() * SConfig.SERVER.global_damage.get())
-                .add(Attributes.ARMOR, SConfig.SERVER.sieger_armor.get() * SConfig.SERVER.global_armor.get())
+                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.howit_damage.get() * SConfig.SERVER.global_damage.get())
+                .add(Attributes.ARMOR, SConfig.SERVER.howit_armor.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.FOLLOW_RANGE, 64)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1)
                 .add(Attributes.ATTACK_KNOCKBACK, 2);
@@ -195,6 +194,22 @@ public class Howitzer extends Calamity implements TrueCalamity {
         }
         return true;
     }
+
+    @Override
+    public int chemicalRange() {
+        return 16;
+    }
+
+    @Override
+    public List<? extends String> buffs() {
+        return SConfig.SERVER.howit_buffs.get();
+    }
+
+    @Override
+    public List<? extends String> debuffs() {
+        return SConfig.SERVER.howit_debuffs.get();
+    }
+
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(RIGHT_ARM, this.getMaxArmHp());
