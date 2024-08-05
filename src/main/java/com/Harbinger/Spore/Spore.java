@@ -19,6 +19,7 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.DeferredRegister;
@@ -50,6 +51,8 @@ public class Spore
         Spotion.register(modEventBus);
         Sparticles.register(modEventBus);
         Ssounds.register(modEventBus);
+        Sfluids.SPORE_FLUID.register(modEventBus);
+        Sfluids.SPORE_FLUID_TYPE.register(modEventBus);
         Sfeatures.register(modEventBus);
         ScreativeTab.register(modEventBus);
         SMenu.register(modEventBus);
@@ -63,6 +66,10 @@ public class Spore
         final DeferredRegister<Codec<? extends StructureModifier>> structureModifiers = DeferredRegister.create(ForgeRegistries.Keys.STRUCTURE_MODIFIER_SERIALIZERS, Spore.MODID);
         structureModifiers.register(modEventBus);
         structureModifiers.register("spore_structure_spawns", StructureModification::makeCodec);
+
+    }
+    public void loadComplete(FMLLoadCompleteEvent event) {
+        event.enqueueWork(Sfluids::postInit);
     }
 }
 

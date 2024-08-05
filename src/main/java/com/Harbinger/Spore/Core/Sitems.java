@@ -1,11 +1,14 @@
 package com.Harbinger.Spore.Core;
 
+import com.Harbinger.Spore.Fluids.BileLiquid;
 import com.Harbinger.Spore.Sitems.*;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -298,7 +301,8 @@ public class Sitems {
 
     public  static final RegistryObject<Item> CORRUPTED_RECORD = ITEMS.register("corrupted_record",
             CorruptedRecord::new);
-
+    public  static final RegistryObject<Item> BUCKET_OF_BILE = ITEMS.register("bucket_of_bile",
+            () -> new BucketItem(Sfluids.Bile_FLUID_SOURCE,new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
     public  static final RegistryObject<Item> GAS_MASK = ITEMS.register("gas_mask",
             GasMaskItem::new);
     public  static final RegistryObject<Item> SCANNER = ITEMS.register("scanner",

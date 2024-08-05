@@ -170,13 +170,13 @@ public class Howitzer extends Calamity implements TrueCalamity {
         return this.subEntities;
     }
 
-    public void recreateFromPacket(ClientboundAddEntityPacket p_218825_) {
-        super.recreateFromPacket(p_218825_);
+    public void recreateFromPacket(ClientboundAddEntityPacket entityPacket) {
+        super.recreateFromPacket(entityPacket);
         if (true) return;
         CalamityMultipart[] calamityMultiparts = this.getSubEntities();
 
         for(int i = 0; i < calamityMultiparts.length; ++i) {
-            calamityMultiparts[i].setId(i + p_218825_.getId());
+            calamityMultiparts[i].setId(i + entityPacket.getId());
         }
     }
     public boolean hurt(CalamityMultipart calamityMultipart, DamageSource source, float value) {
