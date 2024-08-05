@@ -69,6 +69,7 @@ public class BileLiquid extends FluidType {
     public boolean move(FluidState state, LivingEntity entity, Vec3 movementVector, double gravity) {
         if (entity instanceof UtilityEntity || entity instanceof Infected){
             movementVector.scale(1.2);
+            entity.setDeltaMovement(entity.getDeltaMovement().add(0,0.01,0));
         }else{
             movementVector.scale(0.7f);
             if (entity.tickCount % 40 == 0){
@@ -81,4 +82,6 @@ public class BileLiquid extends FluidType {
         }
         return super.move(state, entity, movementVector, gravity);
     }
+
+
 }
