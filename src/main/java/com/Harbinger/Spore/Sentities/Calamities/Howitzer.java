@@ -98,7 +98,7 @@ public class Howitzer extends Calamity implements TrueCalamity {
         this.goalSelector.addGoal(3,new AOEMeleeAttackGoal(this,1,true,2,5,e-> {return this.TARGET_SELECTOR.test(e);}){
             @Override
             public boolean canUse() {
-                return Howitzer.this.isInMeleeRange() && super.canUse();
+                return (Howitzer.this.isInMeleeRange() || !Howitzer.this.tooDeapTooShoot()) && super.canUse();
             }
             @Override
             protected double getAttackReachSqr(LivingEntity entity) {
