@@ -3,10 +3,7 @@ package com.Harbinger.Spore.Client;
 import com.Harbinger.Spore.Client.Layers.CustomArmorLayer;
 import com.Harbinger.Spore.Client.Models.*;
 import com.Harbinger.Spore.Client.Renderers.*;
-import com.Harbinger.Spore.Core.SMenu;
-import com.Harbinger.Spore.Core.SblockEntities;
-import com.Harbinger.Spore.Core.Sentities;
-import com.Harbinger.Spore.Core.Sparticles;
+import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Particles.AcidParticle;
 import com.Harbinger.Spore.Particles.BloodParticle;
 import com.Harbinger.Spore.Particles.SporeParticle;
@@ -15,6 +12,8 @@ import com.Harbinger.Spore.Spore;
 import com.Harbinger.Spore.sEvents.SItemProperties;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ArmorStandRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
@@ -175,7 +174,8 @@ public class ClientModEvents {
 
     @SubscribeEvent
     public static void clientSetup(final FMLClientSetupEvent event) {
-
+        ItemBlockRenderTypes.setRenderLayer(Sfluids.Bile_FLUID_SOURCE.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(Sfluids.BILE_FLUID_FLOWING.get(), RenderType.translucent());
 
         SItemProperties.addCustomItemProperties();
 
