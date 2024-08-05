@@ -174,9 +174,6 @@ public class ClientModEvents {
 
     @SubscribeEvent
     public static void clientSetup(final FMLClientSetupEvent event) {
-        ItemBlockRenderTypes.setRenderLayer(Sfluids.Bile_FLUID_SOURCE.get(), RenderType.translucent());
-        ItemBlockRenderTypes.setRenderLayer(Sfluids.BILE_FLUID_FLOWING.get(), RenderType.translucent());
-
         SItemProperties.addCustomItemProperties();
 
         event.enqueueWork(() -> {

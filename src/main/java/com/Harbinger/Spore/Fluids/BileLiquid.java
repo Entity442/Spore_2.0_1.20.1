@@ -1,9 +1,18 @@
 package com.Harbinger.Spore.Fluids;
 
+import com.Harbinger.Spore.Core.Seffects;
+import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
+import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
@@ -44,5 +53,32 @@ public class BileLiquid extends FluidType {
                 return new Vector3f(172,131,36);
             }
         });
+    }
+
+    @Override
+    public boolean canSwim(Entity entity) {
+        return entity instanceof UtilityEntity || entity instanceof Infected;
+    }
+
+    @Override
+    public boolean canExtinguish(Entity entity) {
+        return true;
+    }
+
+    @Override
+    public boolean move(FluidState state, LivingEntity entity, Vec3 movementVector, double gravity) {
+        if (entity instanceof UtilityEntity || entity instanceof Infected){
+            movementVector.scale(1.2);
+        }else{
+            movementVector.scale(0.7f);
+            if (entity.tickCount % 40 == 0){
+                entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS,100,0));
+                entity.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN,100,0));
+                entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,100,0));
+                entity.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),200,0));
+                entity.hurt(entity.damageSources().generic(),1f);
+            }
+        }
+        return super.move(state, entity, movementVector, gravity);
     }
 }
