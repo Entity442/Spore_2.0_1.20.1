@@ -14,7 +14,6 @@ import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.FallenMultipart.HowitzerArm;
 import com.Harbinger.Spore.Sentities.Projectile.FleshBomb;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -93,10 +92,10 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
     public void registerGoals() {
         super.registerGoals();
 
-        this.goalSelector.addGoal(2, new ScatterShotRangedGoal(this,1,60,256,1,3){
+        this.goalSelector.addGoal(2, new ScatterShotRangedGoal(this,1,80,256,1,3){
             @Override
             public boolean canUse() {
-                return super.canUse() && Howitzer.this.tooDeapTooShoot();
+                return !Howitzer.this.isInMeleeRange() && super.canUse();
             }
         });
         this.goalSelector.addGoal(3,new LeapGoal(this,0.9f){
@@ -113,7 +112,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
         this.goalSelector.addGoal(3,new AOEMeleeAttackGoal(this,1,true,2,5,e-> {return this.TARGET_SELECTOR.test(e);}){
             @Override
             public boolean canUse() {
-                return (Howitzer.this.isInMeleeRange() || !Howitzer.this.tooDeapTooShoot()) && super.canUse();
+                return Howitzer.this.isInMeleeRange() && Howitzer.this.getLeapTime > 0 && super.canUse();
             }
             @Override
             protected double getAttackReachSqr(LivingEntity entity) {
@@ -261,7 +260,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
 
     @Override
     public boolean hasLineOfSight(Entity entity) {
-        if (canEntitySeeTheSky(entity) && canEntitySeeTheSky(this)){
+        if (canEntitySeeTheSky(entity) && canEntitySeeTheSky(this) || entity.distanceToSqr(this) < 200){
             return true;
         }else
         return super.hasLineOfSight(entity) || calculateHouseThiccness(entity);
@@ -288,17 +287,6 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
             }
         }
         return floorPositions.size() < 4 || roofPositions.size() < 4;
-    }
-    private boolean tooDeapTooShoot(){
-        List<BlockPos> roofPositions = new ArrayList<>();
-        AABB roofAABB = this.getBoundingBox().inflate(1,8,1).move(0,6,0);
-        for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(roofAABB.minX), Mth.floor(roofAABB.minY), Mth.floor(roofAABB.minZ), Mth.floor(roofAABB.maxX), Mth.floor(roofAABB.maxY), Mth.floor(roofAABB.maxZ))) {
-            BlockState blockstate = this.level().getBlockState(blockpos);
-            if (blockstate.isSolidRender(this.level(),blockpos)){
-                roofPositions.add(blockpos);
-            }
-        }
-        return roofPositions.size() < 8;
     }
 
     @Override
@@ -370,19 +358,36 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
         }
         this.playSound(Ssounds.LANDING.get());
     }
+    private FleshBomb.BombType compareEntity(LivingEntity living){
+        AABB aabb = living.getBoundingBox().inflate(4);
+        List<Entity> extra_targets = level().getEntities(living,aabb,entity -> {return entity instanceof LivingEntity livingEntity && TARGET_SELECTOR.test(living);});
+        List<BlockPos> burnable_material = new ArrayList<>();
+        for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+            if (level().getBlockState(blockpos).isFlammable(level(),blockpos, Direction.UP)){
+                burnable_material.add(blockpos);
+            }
+        }
+        if (burnable_material.size() > 8){
+            return Math.random() < 0.3f ? FleshBomb.BombType.BILE : FleshBomb.BombType.FLAME;
+        }
+        if (extra_targets.size() > 1 || living.getArmorValue() >=10){
+            return FleshBomb.BombType.BILE;
+        }
+        return FleshBomb.BombType.BASIC;
+
+    }
 
     @Override
     public void performRangedAttack(LivingEntity entity, float p_33318_) {
-        float damage = (float) (SConfig.SERVER.howit_ranged_damage.get() * SConfig.SERVER.global_damage.get() * 1f);
-        FleshBomb.BombType type = entity.level().canSeeSky(entity.getOnPos()) ? Util.getRandom(FleshBomb.BombType.values(),random) : FleshBomb.BombType.BILE;
-        FleshBomb bomb = new FleshBomb(level(),this,damage, type,random.nextInt(4,7));
+        float damage = (float) (SConfig.SERVER.howit_ranged_damage.get() * SConfig.SERVER.global_damage.get());
+        FleshBomb bomb = new FleshBomb(level(),this,damage,compareEntity(entity),random.nextInt(4,7));
         bomb.setLivingEntityPredicate(TARGET_SELECTOR);
         double dx = entity.getX() - this.getX();
         double dy = entity.getY() + this.getEyeHeight();
         double dz = entity.getZ() - this.getZ();
         float value = random.nextFloat() * 0.5f;
         bomb.moveTo(this.getX() + value,this.getY()+5,this.getZ()+ value);
-        bomb.shoot(dx * 0.3f,dy+ Math.hypot(dx, dz) * 0.8F,dz* 0.3f, 2f, 12.0F);
+        bomb.shoot(dx * 0.5f,dy+ Math.hypot(dx, dz) * 0.8F,dz* 0.5f, 2f, 16.0F);
         level().addFreshEntity(bomb);
     }
 }

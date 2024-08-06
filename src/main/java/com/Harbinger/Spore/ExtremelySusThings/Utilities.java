@@ -4,6 +4,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -41,6 +43,7 @@ public class Utilities {
         for (Entity entity : entities){
             entity.hurt(owner.damageSources().explosion(null),damage);
         }
+        level.playSound(null,pos, SoundEvents.GENERIC_EXPLODE, SoundSource.MASTER);
     }
     public static void convertBlocks(ServerLevel level, Entity owner, BlockPos pos, double range, BlockState state){
         for(int i = 0; i <= 2*range; ++i) {
