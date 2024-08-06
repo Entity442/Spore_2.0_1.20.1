@@ -196,6 +196,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> howit_damage;
         public final ForgeConfigSpec.ConfigValue<Double> howit_armor;
         public final ForgeConfigSpec.ConfigValue<Double> howit_dpsr;
+        public final ForgeConfigSpec.ConfigValue<Double> howit_ranged_damage;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> howit_buffs;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> howit_debuffs;
 
@@ -686,10 +687,11 @@ public class SConfig {
             builder.pop();
 
             builder.push("Howitzer");
-            this.howit_hp = builder.comment("Default 350").defineInRange("Sets Howitzer Max health", 500, 1, Double.MAX_VALUE);
-            this.howit_damage = builder.comment("Default 25").defineInRange("Sets Howitzer Damage", 15, 1, Double.MAX_VALUE);
-            this.howit_armor = builder.comment("Default 15").defineInRange("Sets Howitzer Armor", 10, 1, Double.MAX_VALUE);
+            this.howit_hp = builder.comment("Default 500").defineInRange("Sets Howitzer Max health", 500, 1, Double.MAX_VALUE);
+            this.howit_damage = builder.comment("Default 15").defineInRange("Sets Howitzer Damage", 15, 1, Double.MAX_VALUE);
+            this.howit_armor = builder.comment("Default 10").defineInRange("Sets Howitzer Armor", 10, 1, Double.MAX_VALUE);
             this.howit_dpsr = builder.comment("Default 100").defineInRange("Sets Howitzer Damage Cap , set to 0 to disable", 100, 1, Double.MAX_VALUE);
+            this.howit_ranged_damage = builder.comment("Default 10").defineInRange("Sets Howitzer Ranged Damage", 10, 1, Double.MAX_VALUE);
             this.howit_buffs = builder.comment("Default values: minecraft:speed|600|0, minecraft:strength|600|0, minecraft:resistance|600|1").defineList("Gazenbreacher buffs",
                     Lists.newArrayList("minecraft:speed|600|0", "minecraft:strength|600|0", "minecraft:resistance|600|1") , o -> o instanceof String);
 

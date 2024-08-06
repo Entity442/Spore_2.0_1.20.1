@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Sentities.Projectile;
 import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
+import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -11,6 +12,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
@@ -18,6 +20,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraftforge.network.PlayMessages;
 
 import java.util.function.Predicate;
 
@@ -25,18 +28,26 @@ public class FleshBomb extends AbstractArrow {
     private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(FleshBomb.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Integer> BOMB_TYPE = SynchedEntityData.defineId(FleshBomb.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> EXPLOSION = SynchedEntityData.defineId(FleshBomb.class, EntityDataSerializers.INT);
-    private Predicate<LivingEntity> livingEntityPredicate;
-    public FleshBomb(Level level) {
-        super(Sentities.STINGER.get(), level);
-    }
+    private Predicate<LivingEntity> livingEntityPredicate = (entity) -> {return true;};
+
     public FleshBomb(Level level,LivingEntity entity,float damage,BombType type,int range) {
-        super(Sentities.STINGER.get(), level);
+        super(Sentities.FLESH_BOMB.get(), level);
         setBombType(type.getValue());
         setExplosion(range);
         setDamage(damage);
         setOwner(entity);
     }
 
+    public FleshBomb(EntityType<FleshBomb> fleshBombEntityType, Level level) {
+        super(fleshBombEntityType,level);
+    }
+
+    public FleshBomb(PlayMessages.SpawnEntity spawnEntity, Level level) {
+        super(Sentities.FLESH_BOMB.get(), level);
+    }
+    public void setLivingEntityPredicate(Predicate<LivingEntity> value){
+        this.livingEntityPredicate = value;
+    }
 
     @Override
     protected ItemStack getPickupItem() {

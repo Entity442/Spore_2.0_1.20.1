@@ -207,9 +207,10 @@ public class Sentities {
             EntityType.Builder.of((EntityType<StingerProjectile> p_33002_, Level level) -> new StingerProjectile(level), MobCategory.MISC)
                     .setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(0.4f, 0.4f));
 
+
     public static final RegistryObject<EntityType<FleshBomb>> FLESH_BOMB = register("flesh_bomb",
-            EntityType.Builder.of((EntityType<FleshBomb> p_33002_, Level level) -> new FleshBomb(level), MobCategory.MISC)
-                    .setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(1f, 1f));
+            EntityType.Builder.<FleshBomb>of(FleshBomb::new, MobCategory.MISC).setCustomClientFactory(FleshBomb::new)
+                    .setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(0.5f, 0.5f));
 
     public static final RegistryObject<EntityType<ScentEntity>> SCENT = SPORE_ENTITIES.register("scent",
             () -> EntityType.Builder.of(ScentEntity::new, MobCategory.MISC).sized(0.2f,0.2f)

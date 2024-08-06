@@ -5,16 +5,19 @@ import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.CalamityInfectedCommand;
+import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.ScatterShotRangedGoal;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SporeBurstSupport;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SummonScentInCombat;
 import com.Harbinger.Spore.Sentities.AI.LeapGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.FallenMultipart.HowitzerArm;
+import com.Harbinger.Spore.Sentities.Projectile.FleshBomb;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
@@ -30,7 +33,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.item.FallingBlockEntity;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -39,7 +42,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Howitzer extends Calamity implements TrueCalamity {
+public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob {
     public static final EntityDataAccessor<Float> RIGHT_ARM = SynchedEntityData.defineId(Howitzer.class, EntityDataSerializers.FLOAT);
     public static final EntityDataAccessor<Float> LEFT_ARM = SynchedEntityData.defineId(Howitzer.class, EntityDataSerializers.FLOAT);
     private final CalamityMultipart[] subEntities;
@@ -90,6 +93,12 @@ public class Howitzer extends Calamity implements TrueCalamity {
     public void registerGoals() {
         super.registerGoals();
 
+        this.goalSelector.addGoal(2, new ScatterShotRangedGoal(this,1,60,256,1,3){
+            @Override
+            public boolean canUse() {
+                return super.canUse() && Howitzer.this.tooDeapTooShoot();
+            }
+        });
         this.goalSelector.addGoal(3,new LeapGoal(this,0.9f){
             @Override
             public boolean canUse() {
@@ -360,5 +369,20 @@ public class Howitzer extends Calamity implements TrueCalamity {
             }
         }
         this.playSound(Ssounds.LANDING.get());
+    }
+
+    @Override
+    public void performRangedAttack(LivingEntity entity, float p_33318_) {
+        float damage = (float) (SConfig.SERVER.howit_ranged_damage.get() * SConfig.SERVER.global_damage.get() * 1f);
+        FleshBomb.BombType type = entity.level().canSeeSky(entity.getOnPos()) ? Util.getRandom(FleshBomb.BombType.values(),random) : FleshBomb.BombType.BILE;
+        FleshBomb bomb = new FleshBomb(level(),this,damage, type,random.nextInt(4,7));
+        bomb.setLivingEntityPredicate(TARGET_SELECTOR);
+        double dx = entity.getX() - this.getX();
+        double dy = entity.getY() + this.getEyeHeight();
+        double dz = entity.getZ() - this.getZ();
+        float value = random.nextFloat() * 0.5f;
+        bomb.moveTo(this.getX() + value,this.getY()+5,this.getZ()+ value);
+        bomb.shoot(dx * 0.3f,dy+ Math.hypot(dx, dz) * 0.8F,dz* 0.3f, 2f, 12.0F);
+        level().addFreshEntity(bomb);
     }
 }
