@@ -92,7 +92,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
     public void registerGoals() {
         super.registerGoals();
 
-        this.goalSelector.addGoal(2, new ScatterShotRangedGoal(this,1,80,256,1,3){
+        this.goalSelector.addGoal(2, new ScatterShotRangedGoal(this,1,80,64,1,3){
             @Override
             public boolean canUse() {
                 return !Howitzer.this.isInMeleeRange() && super.canUse();
