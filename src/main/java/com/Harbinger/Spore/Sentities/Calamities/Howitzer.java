@@ -76,7 +76,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
                 .add(Attributes.MOVEMENT_SPEED, 0.2)
                 .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.howit_damage.get() * SConfig.SERVER.global_damage.get())
                 .add(Attributes.ARMOR, SConfig.SERVER.howit_armor.get() * SConfig.SERVER.global_armor.get())
-                .add(Attributes.FOLLOW_RANGE, 64)
+                .add(Attributes.FOLLOW_RANGE, 128)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1)
                 .add(Attributes.ATTACK_KNOCKBACK, 2);
 
