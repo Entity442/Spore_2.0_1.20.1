@@ -28,15 +28,16 @@ public class FleshBombRenderer<T extends FleshBomb>extends EntityRenderer<T> {
         this.model = new BileRound<>();
     }
 
-    public void render(T entity, float p_116112_, float p_116113_, PoseStack stack, MultiBufferSource source, int p_116116_) {
+    public void render(T entity, float value2, float value, PoseStack stack, MultiBufferSource source, int p_116116_) {
         stack.pushPose();
         stack.mulPose(Axis.ZN.rotationDegrees(180));
-        stack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(p_116113_, entity.yRotO, entity.getYRot()) - 90.0F));
-        stack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(p_116113_, entity.xRotO, entity.getXRot()) + 90.0F));
+        stack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(value, entity.yRotO, entity.getYRot()) - 90.0F));
+        stack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(value, entity.xRotO, entity.getXRot()) + 90.0F));
         VertexConsumer vertexconsumer = ItemRenderer.getFoilBufferDirect(source, this.model.renderType(this.getTextureLocation(entity)), false, false);
+        this.model.setupAnim(entity,0,0,entity.tickCount,0,0);
         this.model.renderToBuffer(stack, vertexconsumer, p_116116_, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         stack.popPose();
-        super.render(entity, p_116112_, p_116113_, stack, source, p_116116_);
+        super.render(entity, value2, value, stack, source, p_116116_);
     }
 
     public ResourceLocation getTextureLocation(FleshBomb bileProjectile) {
