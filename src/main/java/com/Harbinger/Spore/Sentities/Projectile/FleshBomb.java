@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sentities.Projectile;
 
 import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.Core.Sentities;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
@@ -101,6 +102,14 @@ public class FleshBomb extends AbstractArrow {
             }
         }
         discard();
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (tickCount % 70 == 0){
+            this.playSound(Ssounds.FALLING_BOMB.get());
+        }
     }
 
     @Override

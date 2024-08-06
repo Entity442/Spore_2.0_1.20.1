@@ -79,6 +79,18 @@
       "spore:landing"
     ]
   },
+  "howitzer_ambient" :{
+    "subtitle": "sounds.spore.howitzer_ambient",
+    "sounds": [
+      "spore:howitzer_ambient"
+    ]
+  },
+  "falling_bomb" :{
+    "subtitle": "sounds.spore.falling_bomb",
+    "sounds": [
+      "spore:falling_bomb"
+    ]
+  },
   "wendigo_screech" :{
     "subtitle": "sounds.spore.wendigo_screech",
     "sounds": [

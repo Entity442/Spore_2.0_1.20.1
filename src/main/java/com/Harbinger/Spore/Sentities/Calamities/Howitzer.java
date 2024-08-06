@@ -24,6 +24,8 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -397,5 +399,24 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
         bomb.moveTo(this.getX() + value,this.getY()+7,this.getZ()+ value);
         bomb.shoot(dx * 0.085F,6.5f+ Math.hypot(dx, dz) * 0.02F,dz  * 0.085F, 2f, 14.0F);
         level().addFreshEntity(bomb);
+        this.playSound(Ssounds.FALLING_BOMB.get());
+    }
+    protected SoundEvent getAmbientSound() {
+        if (this.getTarget() != null && this.distanceToSqr(this.getTarget()) > 200){
+            return null;
+        }
+        return Ssounds.HOWITZER_AMBIENT.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource p_34327_) {
+        return Ssounds.INF_DAMAGE.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return Ssounds.INF_DAMAGE.get();
+    }
+
+    protected SoundEvent getStepSound() {
+        return SoundEvents.RAVAGER_STEP;
     }
 }
