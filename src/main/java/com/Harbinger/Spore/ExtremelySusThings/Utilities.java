@@ -31,8 +31,8 @@ public class Utilities {
                         if (distance<range+(0.5)){
                             BlockPos blockpos = pos.offset( i-(int)range,j-(int)range,k-(int)range);
                             RandomSource source = RandomSource.create();
-                            float destrySpeed = level.getBlockState(pos).getDestroySpeed(level,blockpos);
-                            if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(level, owner) && destrySpeed <= blockHardness && destrySpeed >=0){
+                            BlockState state = level.getBlockState(blockpos);
+                            if ((state.getDestroySpeed(level,blockpos) <= blockHardness && state.getDestroySpeed(level,blockpos) >=0) && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(level, owner)){
                                 level.removeBlock(blockpos,dropItems);
                             }
                             float value = source.nextFloat() * 0.05f;

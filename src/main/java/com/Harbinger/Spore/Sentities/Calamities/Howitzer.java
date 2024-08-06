@@ -101,7 +101,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
         this.goalSelector.addGoal(3,new LeapGoal(this,0.9f){
             @Override
             public boolean canUse() {
-                return Howitzer.this.isInMeleeRange() && Howitzer.this.getGetLeapTime() <= 0 && Howitzer.this.hasBothArms() &&  super.canUse();
+                return Howitzer.this.getGetLeapTime() <= 0 && Howitzer.this.hasBothArms() &&  super.canUse();
             }
             @Override
             public void start() {
@@ -337,11 +337,11 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
                             BlockState state = level.getBlockState(blockpos);
                             boolean airAbove = level.getBlockState(blockpos.above()).isAir();
                             boolean airBelow = level.getBlockState(blockpos.below()).isAir();
-                            if (state.isSolidRender(level,blockpos) && level instanceof ServerLevel serverLevel){
+                            if (level instanceof ServerLevel serverLevel){
                                 if (airAbove){
                                     serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK,state),blockpos.getX(), blockpos.getY()+0.3f, blockpos.getZ(),8,random.nextFloat() *0.05f,0.2,random.nextFloat() *0.05f,0.15F);
                                 }
-                                if (airBelow){
+                                if (airBelow && state.getDestroySpeed(level,pos) >= 0){
                                     FallingBlockEntity.fall(serverLevel,blockpos,state);
                                     serverLevel.removeBlock(blockpos,false);
                                 }
@@ -386,8 +386,8 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
         double dy = entity.getY() + this.getEyeHeight();
         double dz = entity.getZ() - this.getZ();
         float value = random.nextFloat() * 0.5f;
-        bomb.moveTo(this.getX() + value,this.getY()+5,this.getZ()+ value);
-        bomb.shoot(dx * 0.5f,dy+ Math.hypot(dx, dz) * 0.8F,dz* 0.5f, 2f, 16.0F);
+        bomb.moveTo(this.getX() + value,this.getY()+7,this.getZ()+ value);
+        bomb.shoot(dx * 0.5f,dy+ Math.hypot(dx, dz) * 0.8F,dz  * 0.5f, 2f, 14.0F);
         level().addFreshEntity(bomb);
     }
 }
