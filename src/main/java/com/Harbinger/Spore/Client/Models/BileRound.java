@@ -80,8 +80,8 @@ public class BileRound<T extends FleshBomb> extends EntityModel<T> {
 		part.zScale = 1 + Mth.cos(value/6)/6;
 	}
 	private void animateTendril(ModelPart part,float value){
-		part.xRot = Mth.sin(value/6)/2;
-		part.yRot = Mth.sin(value/7)/3;
+		part.xRot = Mth.sin(value/9)/2;
+		part.yRot = Mth.sin(value/9)/3;
 	}
 
 	@Override
@@ -90,9 +90,9 @@ public class BileRound<T extends FleshBomb> extends EntityModel<T> {
 		animateTendril(Tendrils.getChild("root_3"),ageInTicks);
 		animateTendril(Tendrils.getChild("root_3").getChild("r3seg2"),ageInTicks);
 		animateTendril(Tendrils.getChild("root_3").getChild("r3seg2").getChild("r3seg3"),ageInTicks);
-		animateTendril(Tendrils.getChild("root_2"),-ageInTicks);
-		animateTendril(Tendrils.getChild("root_2").getChild("r2seg2"),-ageInTicks);
-		animateTendril(Tendrils.getChild("root_2").getChild("r2seg2").getChild("r2seg3"),-ageInTicks);
+		animateTendril(Tendrils.getChild("root_2"),ageInTicks);
+		animateTendril(Tendrils.getChild("root_2").getChild("r2seg2"),ageInTicks);
+		animateTendril(Tendrils.getChild("root_2").getChild("r2seg2").getChild("r2seg3"),ageInTicks);
 		animateTendril(Tendrils.getChild("root_1"),ageInTicks);
 		animateTendril(Tendrils.getChild("root_1").getChild("r1seg2"),ageInTicks);
 		animateTendril(Tendrils.getChild("root_1").getChild("r1seg2").getChild("r1seg3"),ageInTicks);
