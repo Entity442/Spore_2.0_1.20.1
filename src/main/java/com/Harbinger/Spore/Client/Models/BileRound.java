@@ -81,7 +81,7 @@ public class BileRound<T extends FleshBomb> extends EntityModel<T> {
 	}
 	private void animateTendril(ModelPart part,float value){
 		part.xRot = Mth.sin(value/6)/2;
-		part.y = Mth.sin(value/7)/3;
+		part.yRot = Mth.sin(value/7)/3;
 	}
 
 	@Override
