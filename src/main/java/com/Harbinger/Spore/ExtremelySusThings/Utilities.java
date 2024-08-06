@@ -46,7 +46,7 @@ public class Utilities {
         for (Entity entity : entities){
             entity.hurt(level.damageSources().mobAttack((LivingEntity) owner),damage);
         }
-        level.playSound(null,pos, SoundEvents.GENERIC_EXPLODE, SoundSource.MASTER);
+        level.playSound(null,pos, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS);
     }
     public static void convertBlocks(ServerLevel level, Entity owner, BlockPos pos, double range, BlockState state){
         for(int i = 0; i <= 2*range; ++i) {

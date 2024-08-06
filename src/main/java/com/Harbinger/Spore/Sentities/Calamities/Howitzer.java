@@ -337,7 +337,6 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
                         if (distance<range+(0.5)){
                             BlockPos blockpos = pos.offset( i-(int)range,j-(int)range,k-(int)range);
                             BlockState state = level.getBlockState(blockpos);
-                            boolean airAbove = level.getBlockState(blockpos.above()).isAir();
                             boolean airBelow = level.getBlockState(blockpos.below()).isAir();
                             if (level instanceof ServerLevel serverLevel){
                                 if (airBelow && state.getDestroySpeed(level,pos) >= 0){
@@ -345,20 +344,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
                                     serverLevel.removeBlock(blockpos,false);
                                 }
                             }
-
                         }}}}}
-        for (int i = 0; i <= 2*range; ++i){
-            for(int j = 0; j <= 2*range; ++j) {
-                double distance = Mth.sqrt((float) ((i-range)*(i-range) + (j-range)*(j-range)));
-                if (Math.abs(i) != 2 || Math.abs(j) != 2) {
-                    if (distance<range+(0.5)){
-                        BlockPos blockpos = pos.offset( i-(int)range,0,j-(int)range);
-                        BlockState state = level.getBlockState(blockpos);
-                        if (level instanceof ServerLevel serverLevel)
-                        serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK,state),blockpos.getX(), blockpos.getY()+0.3f, blockpos.getZ(),8,random.nextFloat() *0.05f,0.2,random.nextFloat() *0.05f,0.15F);
-                    }}
-            }
-        }
         for (Entity entity : entities){
             if (entity instanceof LivingEntity living)
             for (int i = 0;i<2;i++){
