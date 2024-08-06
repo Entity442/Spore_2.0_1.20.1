@@ -34,10 +34,12 @@ public class Utilities {
                             BlockState state = level.getBlockState(blockpos);
                             if ((state.getDestroySpeed(level,blockpos) <= blockHardness && state.getDestroySpeed(level,blockpos) >=0) && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(level, owner)){
                                 level.removeBlock(blockpos,dropItems);
+                                if (Math.random() < 0.3){
+                                    float value = source.nextFloat() * 0.05f;
+                                    level.sendParticles(particleTypes,blockpos.getX(),blockpos.getY(),blockpos.getZ(),1,value,0,value,1);
+                                }
                             }
-                            float value = source.nextFloat() * 0.05f;
-                            level.sendParticles(particleTypes,blockpos.getX(),blockpos.getY(),blockpos.getZ(),1,value,0,value,1);
-                        }}}}}
+                          }}}}}
         AABB searchbox = AABB.ofSize(new Vec3(pos.getX(), pos.getY(), pos.getZ()), range*2, range*2, range*2);
         List<Entity> entities = level.getEntities(owner,searchbox, predicate);
         for (Entity entity : entities){

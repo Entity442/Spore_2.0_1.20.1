@@ -101,7 +101,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
         this.goalSelector.addGoal(3,new LeapGoal(this,0.9f){
             @Override
             public boolean canUse() {
-                return Howitzer.this.getGetLeapTime() <= 0 && Howitzer.this.hasBothArms() &&  super.canUse();
+                return Howitzer.this.getGetLeapTime() <= 0 && Howitzer.this.hasBothArms() && Howitzer.this.isInMeleeRange() && super.canUse();
             }
             @Override
             public void start() {
@@ -383,11 +383,10 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
         FleshBomb bomb = new FleshBomb(level(),this,damage,compareEntity(entity),random.nextInt(4,7));
         bomb.setLivingEntityPredicate(TARGET_SELECTOR);
         double dx = entity.getX() - this.getX();
-        double dy = entity.getY() + this.getEyeHeight();
         double dz = entity.getZ() - this.getZ();
         float value = random.nextFloat() * 0.5f;
         bomb.moveTo(this.getX() + value,this.getY()+7,this.getZ()+ value);
-        bomb.shoot(dx * 0.5f,dy+ Math.hypot(dx, dz) * 0.8F,dz  * 0.5f, 2f, 14.0F);
+        bomb.shoot(dx * 0.1f,6.5f,dz  * 0.1f, 2f, 14.0F);
         level().addFreshEntity(bomb);
     }
 }
