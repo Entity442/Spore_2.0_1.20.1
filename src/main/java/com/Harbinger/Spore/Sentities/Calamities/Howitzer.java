@@ -395,7 +395,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
         double dz = entity.getZ() - this.getZ();
         float value = random.nextFloat() * 0.5f;
         bomb.moveTo(this.getX() + value,this.getY()+7,this.getZ()+ value);
-        bomb.shoot(dx * 0.075F,6.5f+ Math.hypot(dx, dz) * 0.02F,dz  * 0.075F, 2f, 14.0F);
+        bomb.shoot(dx * 0.085F,6.5f+ Math.hypot(dx, dz) * 0.02F,dz  * 0.085F, 2f, 14.0F);
         level().addFreshEntity(bomb);
     }
 }
