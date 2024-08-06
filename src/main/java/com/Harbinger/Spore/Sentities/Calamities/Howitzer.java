@@ -291,7 +291,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
 
     @Override
     protected int calculateFallDamage(float p_149389_, float p_149390_) {
-        if (this.getLeapTime > 0){
+        if (this.getLeapTime >140){
             damageStomp(this.level(),this.getOnPos(),12,8);
         }
         return super.calculateFallDamage(p_149389_, p_149390_)-25;
@@ -338,9 +338,6 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
                             boolean airAbove = level.getBlockState(blockpos.above()).isAir();
                             boolean airBelow = level.getBlockState(blockpos.below()).isAir();
                             if (level instanceof ServerLevel serverLevel){
-                                if (airAbove){
-                                    serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK,state),blockpos.getX(), blockpos.getY()+0.3f, blockpos.getZ(),8,random.nextFloat() *0.05f,0.2,random.nextFloat() *0.05f,0.15F);
-                                }
                                 if (airBelow && state.getDestroySpeed(level,pos) >= 0){
                                     FallingBlockEntity.fall(serverLevel,blockpos,state);
                                     serverLevel.removeBlock(blockpos,false);
@@ -348,9 +345,21 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
                             }
 
                         }}}}}
+        for (int i = 0; i <= 2*range; ++i){
+            for(int j = 0; j <= 2*range; ++j) {
+                double distance = Mth.sqrt((float) ((i-range)*(i-range) + (j-range)*(j-range)));
+                if (Math.abs(i) != 2 || Math.abs(j) != 2) {
+                    if (distance<range+(0.5)){
+                        BlockPos blockpos = pos.offset( i-(int)range,0,j-(int)range);
+                        BlockState state = level.getBlockState(blockpos);
+                        if (level instanceof ServerLevel serverLevel)
+                        serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK,state),blockpos.getX(), blockpos.getY()+0.3f, blockpos.getZ(),8,random.nextFloat() *0.05f,0.2,random.nextFloat() *0.05f,0.15F);
+                    }}
+            }
+        }
         for (Entity entity : entities){
             if (entity instanceof LivingEntity living)
-            for (int i = 0;i<this.random.nextInt(2,4);i++){
+            for (int i = 0;i<2;i++){
                 this.doHurtTarget(living);
                 living.hurtTime = 0;
                 living.invulnerableTime = 0;
@@ -386,7 +395,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
         double dz = entity.getZ() - this.getZ();
         float value = random.nextFloat() * 0.5f;
         bomb.moveTo(this.getX() + value,this.getY()+7,this.getZ()+ value);
-        bomb.shoot(dx * 0.1f,6.5f,dz  * 0.1f, 2f, 14.0F);
+        bomb.shoot(dx * 0.075F,6.5f+ Math.hypot(dx, dz) * 0.02F,dz  * 0.075F, 2f, 14.0F);
         level().addFreshEntity(bomb);
     }
 }

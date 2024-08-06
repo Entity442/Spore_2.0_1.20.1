@@ -9,6 +9,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -43,7 +44,7 @@ public class Utilities {
         AABB searchbox = AABB.ofSize(new Vec3(pos.getX(), pos.getY(), pos.getZ()), range*2, range*2, range*2);
         List<Entity> entities = level.getEntities(owner,searchbox, predicate);
         for (Entity entity : entities){
-            entity.hurt(owner.damageSources().explosion(null),damage);
+            entity.hurt(level.damageSources().mobAttack((LivingEntity) owner),damage);
         }
         level.playSound(null,pos, SoundEvents.GENERIC_EXPLODE, SoundSource.MASTER);
     }
