@@ -14,6 +14,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
 public class BileRound<T extends FleshBomb> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -73,10 +74,28 @@ public class BileRound<T extends FleshBomb> extends EntityModel<T> {
 
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
+	private void animateTumor(ModelPart part,float value){
+		part.xScale = 1 + Mth.cos(value/6)/6;
+		part.yScale = 1 + Mth.cos(value/6)/6;
+		part.zScale = 1 + Mth.cos(value/6)/6;
+	}
+	private void animateTendril(ModelPart part,float value){
+		part.xRot = Mth.sin(value/6)/2;
+		part.y = Mth.sin(value/7)/3;
+	}
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+		animateTumor(Tumor,ageInTicks);
+		animateTendril(Tendrils.getChild("root_3"),ageInTicks);
+		animateTendril(Tendrils.getChild("root_3").getChild("r3seg2"),ageInTicks);
+		animateTendril(Tendrils.getChild("root_3").getChild("r3seg2").getChild("r3seg3"),ageInTicks);
+		animateTendril(Tendrils.getChild("root_2"),-ageInTicks);
+		animateTendril(Tendrils.getChild("root_2").getChild("r2seg2"),-ageInTicks);
+		animateTendril(Tendrils.getChild("root_2").getChild("r2seg2").getChild("r2seg3"),-ageInTicks);
+		animateTendril(Tendrils.getChild("root_1"),ageInTicks);
+		animateTendril(Tendrils.getChild("root_1").getChild("r1seg2"),ageInTicks);
+		animateTendril(Tendrils.getChild("root_1").getChild("r1seg2").getChild("r1seg3"),ageInTicks);
 	}
 
 	@Override
