@@ -126,6 +126,7 @@ public class FleshBomb extends AbstractArrow {
             }if (getBombType() == 2){
                 Utilities.convertBlocks(serverLevel,this.getOwner(),result.getBlockPos(),getExplosion(), Sblocks.BILE.get().defaultBlockState());
             }
+            this.playSound(SoundEvents.GENERIC_EXPLODE);
         }
         discard();
     }

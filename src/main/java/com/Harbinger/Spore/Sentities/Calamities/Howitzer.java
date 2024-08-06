@@ -388,9 +388,6 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
         this.playSound(Ssounds.FALLING_BOMB.get());
     }
     protected SoundEvent getAmbientSound() {
-        if (this.getTarget() != null && this.distanceToSqr(this.getTarget()) > 200){
-            return null;
-        }
         return Ssounds.HOWITZER_AMBIENT.get();
     }
 
