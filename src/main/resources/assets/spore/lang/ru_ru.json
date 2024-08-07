@@ -66,6 +66,7 @@
   "block.spore.infested_laboratory_block3": "Заражённый Лабораторный блок",
   "block.spore.overgrown_spawner": "Заражённый создатель",
   "block.spore.freeze_burned_biomass": "Заморозить сожженную биомассу",
+  "block.spore.bile": "желчь",
 
 
 
@@ -121,6 +122,7 @@
   "item.spore.r_elytron": "Перестроенный элитрон",
   "item.spore.knife": "Заражённый нож",
   "item.spore.rapier": "Заражённая рапира",
+  "item.spore.bucket_of_bile": "Ведро желчи",
 
   "item.spore.amethyst_dust": "Аметистовая пыль",
   "item.spore.compound": "Составная смесь",
@@ -181,6 +183,7 @@
   "item.spore.verva_spawnegg": "Верварунг",
   "item.spore.delusioner_spawnegg": "обманщик",
   "item.spore.gastgaber_spawnegg": "Хозяин",
+  "item.spore.howitzer_spawnegg": "Гаубица",
 
 
   "item.spore.scent_spawnegg": "Споры",
@@ -234,6 +237,8 @@
   "entity.spore.verva": "Верварунг",
   "entity.spore.delusioner": "обманщик",
   "entity.spore.gastgaber": "Хозяин",
+  "entity.spore.howitzer": "Гаубица",
+  "entity.spore.howit_arm": "Гаубичная рука",
 
   "entity.spore.thrown_tumor": "Опухоль",
   "entity.spore.thrown_spear": "Заражённое копьё",
@@ -312,7 +317,9 @@
   "sounds.spore.delusioner_ambient": "Заблуждающийся хрюканье",
   "sounds.spore.delusioner_casting": "Кастинг иллюзиониста",
   "sounds.spore.machine": "Машинная работа",
-
+  "sounds.spore.landing": "Посадка",
+  "sounds.spore.howitzer_ambient": "Гаубичный рычание",
+  "sounds.spore.falling_bomb": "Падающая плоть",
 
 
   "item.line.shift": "Питательный суп, приготовленный из животной материи.",

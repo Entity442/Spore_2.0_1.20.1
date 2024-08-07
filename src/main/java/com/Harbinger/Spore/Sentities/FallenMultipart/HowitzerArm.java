@@ -13,6 +13,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 
+import java.util.List;
+
 public class HowitzerArm extends FallenMultipartEntity {
     public static final EntityDataAccessor<Boolean> RIGHT = SynchedEntityData.defineId(HowitzerArm.class, EntityDataSerializers.BOOLEAN);
     public HowitzerArm(EntityType<? extends PathfinderMob> type, Level level) {
@@ -24,6 +26,11 @@ public class HowitzerArm extends FallenMultipartEntity {
                 .add(Attributes.ARMOR, (SConfig.SERVER.howit_armor.get()/4) * SConfig.SERVER.global_armor.get())
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1);
     }
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.howit_foot_loot.get();
+    }
+
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(RIGHT, true);

@@ -68,8 +68,7 @@
   "block.spore.infested_laboratory_block3": "Infested Laboratory Block",
   "block.spore.overgrown_spawner": "Infested Spawner",
   "block.spore.freeze_burned_biomass": "Freeze Burned Biomass",
-
-
+  "block.spore.bile": "Bile",
 
 
   "item.spore.claw": "Claw",
@@ -126,6 +125,7 @@
   "item.spore.r_elytron": "Reconstructed Elytron",
   "item.spore.knife": "Infected Knife",
   "item.spore.rapier": "Infected Rapier",
+  "item.spore.bucket_of_bile": "Bucket of Bile",
 
   "item.spore.amethyst_dust": "Amethyst Dust",
   "item.spore.gas_mask": "Gas Mask",
@@ -190,7 +190,7 @@
   "item.spore.verva_spawnegg": "Verwahrung",
   "item.spore.delusioner_spawnegg": "Delusioner",
   "item.spore.gastgaber_spawnegg": "Gastgeber",
-
+  "item.spore.howitzer_spawnegg": "Howitzer",
 
 
   "item.spore.scent_spawnegg": "Scent",
@@ -245,6 +245,9 @@
   "entity.spore.verva": "Verwahrung",
   "entity.spore.delusioner": "Delusioner",
   "entity.spore.gastgaber": "Gastgeber",
+  "entity.spore.howitzer": "Howitzer",
+  "entity.spore.howit_arm": "Howitzer arm",
+
 
 
 
@@ -335,7 +338,9 @@
   "sounds.spore.delusioner_ambient": "Delusioner Grunting",
   "sounds.spore.delusioner_casting": "Delusioner Casting",
   "sounds.spore.machine": "Machine Working",
-
+  "sounds.spore.landing": "Landing",
+  "sounds.spore.howitzer_ambient": "Howitzer Growling",
+  "sounds.spore.falling_bomb": "Falling Flesh",
 
 
   "item.line.shift": "A nutrient soup made out of animal matter.",

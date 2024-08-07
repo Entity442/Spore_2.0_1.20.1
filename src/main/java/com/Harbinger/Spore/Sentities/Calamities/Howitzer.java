@@ -315,6 +315,10 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
             }
         }
     }
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.howit_loot.get();
+    }
 
     public float summonDetashedPart(boolean isRight){
         double offset = isRight ? 3D : -3D;
@@ -382,9 +386,10 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
         bomb.setLivingEntityPredicate(TARGET_SELECTOR);
         double dx = entity.getX() - this.getX();
         double dz = entity.getZ() - this.getZ();
+        double dy = entity.getY() - this.getY();
         float value = random.nextFloat() * 0.5f;
         bomb.moveTo(this.getX() + value,this.getY()+7,this.getZ()+ value);
-        bomb.shoot(dx * 0.085F,6.5f+ Math.hypot(dx, dz) * 0.02F,dz  * 0.085F, 2f, 14.0F);
+        bomb.shoot(dx * 0.085F,6.5f+ Math.hypot(dx, dz) * 0.02F +(dy>0?dy:0*0.5),dz  * 0.085F, 2f, 14.0F);
         level().addFreshEntity(bomb);
         this.playSound(Ssounds.FALLING_BOMB.get());
     }

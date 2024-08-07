@@ -69,6 +69,7 @@
   "block.spore.infested_laboratory_block3": "感染的实验室砖",
   "block.spore.overgrown_spawner": "散孢刷怪笼",
   "block.spore.freeze_burned_biomass": "冻结烧焦腐生质",
+  "block.spore.bile": "胆汁",
 
 
 
@@ -128,6 +129,7 @@
   "item.spore.r_elytron": "鞘翅·改",
   "item.spore.knife": "染菌之刃",
   "item.spore.rapier": "染菌细剑",
+  "item.spore.bucket_of_bile": "一桶胆汁",
 
   "item.spore.amethyst_dust": "紫水晶粉",
   "item.spore.compound": "复合物",
@@ -189,6 +191,7 @@
   "item.spore.brotkatze_spawnegg": "舔食兽刷怪蛋",
   "item.spore.inquisitor_spawnegg": "抓取者刷怪蛋",
   "item.spore.gastgaber_spawnegg": "主持人",
+  "item.spore.howitzer_spawnegg": "榴弹炮",
 
 
 
@@ -244,6 +247,8 @@
   "entity.spore.inquisitor": "抓取者",
   "entity.spore.tendril": "真菌卷须",
   "entity.spore.gastgaber": "主持人",
+  "entity.spore.howitzer": "Howitzer",
+  "entity.spore.howit_arm": "Howitzer arm",
 
   "entity.spore.thrown_tumor": "投掷的肿瘤",
   "entity.spore.thrown_spear": "投掷的长矛",
@@ -330,7 +335,10 @@
   "sounds.spore.brot_ambient": "舔食兽尖叫",
   "sounds.spore.delusioner_ambient": "幻术菌妖鬼咕噜",
   "sounds.spore.delusioner_casting": "幻术菌妖鬼施法",
-  "sounds.spore.machine": "Machine Working",
+  "sounds.spore.machine": "机器工作",
+  "sounds.spore.landing": "降落",
+  "sounds.spore.howitzer_ambient": "榴弹炮咆哮",
+  "sounds.spore.falling_bomb": "血肉掉落",
 
   "item.line.shift": "用动物肉制作的营养汤。",
   "item.line.normal": "按住 SHIFT 查看信息。",
