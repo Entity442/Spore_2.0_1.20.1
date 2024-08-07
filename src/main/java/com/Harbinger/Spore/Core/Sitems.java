@@ -302,7 +302,7 @@ public class Sitems {
     public  static final RegistryObject<Item> CORRUPTED_RECORD = ITEMS.register("corrupted_record",
             CorruptedRecord::new);
     public  static final RegistryObject<Item> BUCKET_OF_BILE = ITEMS.register("bucket_of_bile",
-            () -> new BucketItem(Sfluids.Bile_FLUID_SOURCE,new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
+            () -> new SporeBucket(Sfluids.Bile_FLUID_SOURCE,new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
     public  static final RegistryObject<Item> GAS_MASK = ITEMS.register("gas_mask",
             GasMaskItem::new);
     public  static final RegistryObject<Item> SCANNER = ITEMS.register("scanner",

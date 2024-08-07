@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 public class BileLiquid extends FluidType {
 
     public static final ResourceLocation FLUID_STILL = new ResourceLocation("spore:block/bile_static");
-    public static final ResourceLocation FLUID_FLOWING = new ResourceLocation("spore:block/bile_static");
+    public static final ResourceLocation FLUID_FLOWING = new ResourceLocation("spore:block/bile_flow");
     public static final ResourceLocation OVERLAY = new ResourceLocation("spore:textures/extra/bile_overlay.png");
 
     public BileLiquid(Properties properties) {
