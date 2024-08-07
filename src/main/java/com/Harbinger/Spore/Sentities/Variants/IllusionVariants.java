@@ -13,9 +13,11 @@ public enum IllusionVariants {
     SLASHER(6, "spore:slasher"),
     LEAPER(7, "spore:leaper"),
     WENDIGO(8, "spore:wendigo"),
-    GRIEFER(9, "spore:griefer")
-    ;
-
+    GRIEFER(9, "spore:griefer"),
+    GASTGABER(10, "spore:gastgaber"),
+    BROTKATZE(11, "spore:brot"),
+    INQUISITOR(12, "spore:inquisitor"),
+    CREEPER(13, "minecraft:creeper");
 
     IllusionVariants(int variant, String entity){
         this.variant = variant;
