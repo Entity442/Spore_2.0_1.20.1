@@ -95,13 +95,13 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
     public void registerGoals() {
         super.registerGoals();
 
-        this.goalSelector.addGoal(2, new ScatterShotRangedGoal(this,1,80,64,1,3){
+        this.goalSelector.addGoal(4, new ScatterShotRangedGoal(this,1,80,64,1,3){
             @Override
             public boolean canUse() {
                 return !Howitzer.this.isInMeleeRange() && super.canUse();
             }
         });
-        this.goalSelector.addGoal(3,new LeapGoal(this,0.9f){
+        this.goalSelector.addGoal(5,new LeapGoal(this,0.9f){
             @Override
             public boolean canUse() {
                 return Howitzer.this.getGetLeapTime() <= 0 && Howitzer.this.hasBothArms() && Howitzer.this.isInMeleeRange() && super.canUse();
@@ -112,7 +112,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
                 Howitzer.this.setLeapTicks(200);
             }
         });
-        this.goalSelector.addGoal(3,new AOEMeleeAttackGoal(this,1,true,2,5,e-> {return this.TARGET_SELECTOR.test(e);}){
+        this.goalSelector.addGoal(5,new AOEMeleeAttackGoal(this,1,true,2,5,e-> {return this.TARGET_SELECTOR.test(e);}){
             @Override
             public boolean canUse() {
                 return Howitzer.this.isInMeleeRange() && Howitzer.this.getLeapTime > 0 && super.canUse();
@@ -123,7 +123,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
                 return (double)(f * f * 1.75F + entity.getBbWidth());
             }
         });
-        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.2));
+        this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.2));
         this.goalSelector.addGoal(6,new CalamityInfectedCommand(this));
         this.goalSelector.addGoal(7,new SummonScentInCombat(this));
         this.goalSelector.addGoal(8,new SporeBurstSupport(this));
