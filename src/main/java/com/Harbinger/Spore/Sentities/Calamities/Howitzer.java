@@ -112,7 +112,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
             @Override
             protected double getAttackReachSqr(LivingEntity entity) {
                 float f = Howitzer.this.getBbWidth();
-                return (double)(f * 1.75F * f * 1.75F + entity.getBbWidth());
+                return (double)(f * 3F + entity.getBbWidth());
             }
         });
         this.goalSelector.addGoal(4, new ScatterShotRangedGoal(this,1,80,64,1,3){
