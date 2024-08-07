@@ -3,22 +3,21 @@ package com.Harbinger.Spore.Sentities.Calamities;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
-import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.CalamityInfectedCommand;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.ScatterShotRangedGoal;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SporeBurstSupport;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SummonScentInCombat;
+import com.Harbinger.Spore.Sentities.AI.HurtTargetGoal;
 import com.Harbinger.Spore.Sentities.AI.LeapGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
+import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.FallenMultipart.HowitzerArm;
 import com.Harbinger.Spore.Sentities.Projectile.FleshBomb;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -94,14 +93,14 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
     @Override
     public void registerGoals() {
         super.registerGoals();
-
-        this.goalSelector.addGoal(4, new ScatterShotRangedGoal(this,1,80,64,1,3){
+        this.goalSelector.addGoal(1, new HurtTargetGoal(this , livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}, Infected.class).setAlertOthers(Infected.class));
+        this.goalSelector.addGoal(2, new ScatterShotRangedGoal(this,1,80,64,1,3){
             @Override
             public boolean canUse() {
                 return !Howitzer.this.isInMeleeRange() && super.canUse();
             }
         });
-        this.goalSelector.addGoal(5,new LeapGoal(this,0.9f){
+        this.goalSelector.addGoal(3,new LeapGoal(this,0.9f){
             @Override
             public boolean canUse() {
                 return Howitzer.this.getGetLeapTime() <= 0 && Howitzer.this.hasBothArms() && Howitzer.this.isInMeleeRange() && super.canUse();
@@ -112,7 +111,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
                 Howitzer.this.setLeapTicks(200);
             }
         });
-        this.goalSelector.addGoal(5,new AOEMeleeAttackGoal(this,1,true,2,5,e-> {return this.TARGET_SELECTOR.test(e);}){
+        this.goalSelector.addGoal(4,new AOEMeleeAttackGoal(this,1,true,2,5,e-> {return this.TARGET_SELECTOR.test(e);}){
             @Override
             public boolean canUse() {
                 return Howitzer.this.isInMeleeRange() && Howitzer.this.getLeapTime > 0 && super.canUse();
@@ -123,7 +122,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
                 return (double)(f * f * 1.75F + entity.getBbWidth());
             }
         });
-        this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.2));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.2));
         this.goalSelector.addGoal(6,new CalamityInfectedCommand(this));
         this.goalSelector.addGoal(7,new SummonScentInCombat(this));
         this.goalSelector.addGoal(8,new SporeBurstSupport(this));
