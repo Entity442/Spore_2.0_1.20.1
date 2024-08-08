@@ -48,6 +48,7 @@ import java.util.List;
 public class Calamity extends UtilityEntity implements Enemy {
     public static final EntityDataAccessor<Integer> KILLS = SynchedEntityData.defineId(Calamity.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<BlockPos> SEARCH_AREA = SynchedEntityData.defineId(Calamity.class, EntityDataSerializers.BLOCK_POS);
+    public static final EntityDataAccessor<Boolean> ROOTED = SynchedEntityData.defineId(Calamity.class, EntityDataSerializers.BOOLEAN);
     private int breakCounter;
     private int stun = 0;
 
@@ -96,6 +97,11 @@ public class Calamity extends UtilityEntity implements Enemy {
         return SdamageTypes.calamity_damage3(this);
     }
 
+    @Override
+    public void setTarget(@Nullable LivingEntity p_21544_) {
+        super.setTarget(p_21544_);
+        if (isRooted()){this.setRooted(false);}
+    }
 
     protected void tickPart(CalamityMultipart part, double e, double i, double o) {
         part.setPos(this.getX() + e, this.getY() + i, this.getZ() + o);
@@ -133,6 +139,7 @@ public class Calamity extends UtilityEntity implements Enemy {
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt("kills", entityData.get(KILLS));
+        tag.putBoolean("rooted", entityData.get(ROOTED));
         tag.putInt("AreaX", this.getSearchArea().getX());
         tag.putInt("AreaY", this.getSearchArea().getY());
         tag.putInt("AreaZ", this.getSearchArea().getZ());
@@ -174,6 +181,7 @@ public class Calamity extends UtilityEntity implements Enemy {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         entityData.set(KILLS, tag.getInt("kills"));
+        entityData.set(ROOTED, tag.getBoolean("rooted"));
         int i = tag.getInt("AreaX");
         int j = tag.getInt("AreaY");
         int k = tag.getInt("AreaZ");
@@ -182,6 +190,7 @@ public class Calamity extends UtilityEntity implements Enemy {
 
     protected void defineSynchedData() {
         super.defineSynchedData();
+        this.entityData.define(ROOTED, false);
         this.entityData.define(KILLS, 0);
         this.entityData.define(SEARCH_AREA, BlockPos.ZERO);
     }
@@ -191,6 +200,12 @@ public class Calamity extends UtilityEntity implements Enemy {
         return false;
     }
 
+    public boolean isRooted(){
+        return entityData.get(ROOTED);
+    }
+    public void setRooted(boolean value){
+        entityData.set(ROOTED,value);
+    }
 
     @Override
     public void registerGoals() {
@@ -279,9 +294,27 @@ public class Calamity extends UtilityEntity implements Enemy {
     }
     public void ActivateAdaptation(){}
 
+    protected void makeStuck(){
+        this.makeStuckInBlock(Blocks.AIR.defaultBlockState(), new Vec3(0, 1, 0));
+    }
     @Override
     public void tick() {
         super.tick();
+        if (this.tickCount % 1200 == 0 && this.getTarget() == null){
+            if (this.getHealth() <= (this.getMaxHealth()*0.3)){
+                if (isRooted() && (this.onGround() || this.isInFluidType())){
+                    this.setKills(this.getKills()+1);
+                }else{
+                    setRooted(true);
+                }
+            }else{
+                setRooted(false);
+            }
+        }
+        if (isRooted() && !(this.onGround() || this.isInFluidType())){
+            this.setDeltaMovement(this.getDeltaMovement().add(0,-0.1,0));
+            makeStuck();
+        }
         if (this.getRandom().nextInt(300) == 0 && this.getSearchArea() != BlockPos.ZERO){
             relocateExitPoint();
         }
@@ -294,7 +327,7 @@ public class Calamity extends UtilityEntity implements Enemy {
         }
         if (stun > 0 && this.onGround() && this.level() instanceof ServerLevel serverLevel) {
             --stun;
-            this.makeStuckInBlock(Blocks.AIR.defaultBlockState(), new Vec3(0, 1, 0));
+            makeStuck();
             double x0 = this.getX() - (random.nextFloat() - 0.1) * 1.2D;
             double y0 = this.getY() + (random.nextFloat() - 0.25) * 1.25D * 5;
             double z0 = this.getZ() + (random.nextFloat() - 0.1) * 1.2D;

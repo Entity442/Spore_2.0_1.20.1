@@ -2,7 +2,7 @@ package com.Harbinger.Spore.Client.Renderers;
 
 import com.Harbinger.Spore.Client.Layers.HowitzerEmissiveLayer;
 import com.Harbinger.Spore.Client.Models.HowitzerModel;
-import com.Harbinger.Spore.Client.Special.BaseInfectedRenderer;
+import com.Harbinger.Spore.Client.Special.CalamityRenderer;
 import com.Harbinger.Spore.Sentities.Calamities.Howitzer;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -11,7 +11,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class HowitzerRenderer<Type extends Howitzer> extends BaseInfectedRenderer<Type , HowitzerModel<Type>> {
+public class HowitzerRenderer<Type extends Howitzer> extends CalamityRenderer<Type , HowitzerModel<Type>> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/howitzer.png");
     private static final ResourceLocation EYE_TEXTURE = new ResourceLocation(Spore.MODID,

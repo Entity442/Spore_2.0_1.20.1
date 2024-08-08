@@ -1,7 +1,7 @@
 package com.Harbinger.Spore.Client.Renderers;
 
 import com.Harbinger.Spore.Client.Models.HindieModel;
-import com.Harbinger.Spore.Client.Special.BaseInfectedRenderer;
+import com.Harbinger.Spore.Client.Special.CalamityRenderer;
 import com.Harbinger.Spore.Sentities.Calamities.Hinderburg;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -10,7 +10,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class HindieRenderer<Type extends Hinderburg> extends BaseInfectedRenderer<Type , HindieModel<Type>> {
+public class HindieRenderer<Type extends Hinderburg> extends CalamityRenderer<Type , HindieModel<Type>> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/hindie.png");
     private static final ResourceLocation OVERCLOCKED = new ResourceLocation(Spore.MODID,

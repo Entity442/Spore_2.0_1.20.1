@@ -2,9 +2,8 @@ package com.Harbinger.Spore.Client.Renderers;
 
 import com.Harbinger.Spore.Client.Layers.SiegerArrowLayer;
 import com.Harbinger.Spore.Client.Layers.SiegerHatLayer;
-import com.Harbinger.Spore.Client.Models.SiegerArrowModel;
 import com.Harbinger.Spore.Client.Models.SiegerModel;
-import com.Harbinger.Spore.Client.Special.BaseInfectedRenderer;
+import com.Harbinger.Spore.Client.Special.CalamityRenderer;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -13,7 +12,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class SiegerRenderer<Type extends Sieger> extends BaseInfectedRenderer<Type , SiegerModel<Type>> {
+public class SiegerRenderer<Type extends Sieger> extends CalamityRenderer<Type , SiegerModel<Type>> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/sieger.png");
     private static final ResourceLocation WAR = new ResourceLocation(Spore.MODID,
