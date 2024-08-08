@@ -220,6 +220,7 @@ public class Calamity extends UtilityEntity implements Enemy {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
+        setRooted(false);
         if (this.getRandom().nextInt(20) == 0){
             this.grief(this.getBoundingBox().inflate(this.setInflation(),0.0,this.setInflation()));
         }
@@ -294,26 +295,14 @@ public class Calamity extends UtilityEntity implements Enemy {
     }
     public void ActivateAdaptation(){}
 
-    protected void makeStuck(){
-        this.makeStuckInBlock(Blocks.AIR.defaultBlockState(), new Vec3(0, 1, 0));
-    }
     @Override
     public void tick() {
         super.tick();
-        if (this.tickCount % 1200 == 0 && this.getTarget() == null){
-            if (this.getHealth() <= (this.getMaxHealth()*0.3)){
-                if (isRooted() && (this.onGround() || this.isInFluidType())){
-                    this.setKills(this.getKills()+1);
-                }else{
-                    setRooted(true);
-                }
-            }else{
-                setRooted(false);
-            }
+        if (this.tickCount % 1200 == 0){
+            setRooted(this.getTarget() == null && this.getHealth() <= (this.getMaxHealth()*0.3) && onGround());
         }
-        if (isRooted() && !(this.onGround() || this.isInFluidType())){
-            this.setDeltaMovement(this.getDeltaMovement().add(0,-0.1,0));
-            makeStuck();
+        if (isRooted()){
+            this.makeStuckInBlock(Blocks.AIR.defaultBlockState(), new Vec3(0, 1, 0));
         }
         if (this.getRandom().nextInt(300) == 0 && this.getSearchArea() != BlockPos.ZERO){
             relocateExitPoint();
@@ -327,7 +316,7 @@ public class Calamity extends UtilityEntity implements Enemy {
         }
         if (stun > 0 && this.onGround() && this.level() instanceof ServerLevel serverLevel) {
             --stun;
-            makeStuck();
+            this.makeStuckInBlock(Blocks.AIR.defaultBlockState(), new Vec3(0, 1, 0));
             double x0 = this.getX() - (random.nextFloat() - 0.1) * 1.2D;
             double y0 = this.getY() + (random.nextFloat() - 0.25) * 1.25D * 5;
             double z0 = this.getZ() + (random.nextFloat() - 0.1) * 1.2D;
