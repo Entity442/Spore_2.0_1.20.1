@@ -26,9 +26,8 @@ public class CalamityRoots<T extends Calamity> extends RenderLayer<T, RootsModel
     public void render(PoseStack stack, MultiBufferSource bufferSource, int value, T type, float p_117353_, float p_117354_, float p_117355_, float p_117356_, float p_117357_, float p_117358_) {
         if (type.isRooted()){
             stack.pushPose();
-            VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityCutout(LOCATION));
+            VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityCutoutNoCull(LOCATION));
             model.renderToBuffer(stack,consumer,value, OverlayTexture.NO_OVERLAY,1,1,1,1);
-            model.extendRoots(type);
             stack.popPose();
         }
     }
