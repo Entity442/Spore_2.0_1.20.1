@@ -300,6 +300,7 @@ public class Calamity extends UtilityEntity implements Enemy {
         super.tick();
         if (this.tickCount % 1200 == 0){
             setRooted(this.getTarget() == null && this.getHealth() <= (this.getMaxHealth()*0.3) && onGround());
+            if (isRooted()){this.setKills(getKills()+1);}
         }
         if (isRooted()){
             this.makeStuckInBlock(Blocks.AIR.defaultBlockState(), new Vec3(0, 1, 0));
