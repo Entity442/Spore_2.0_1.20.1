@@ -6,9 +6,11 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -20,9 +22,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BiologicalReagent extends BaseItem {
-    public BiologicalReagent(Properties p_41383_) {
-        super(p_41383_);
+    private final AcceptedTypes type;
+    public BiologicalReagent(AcceptedTypes types) {
+        super(new Item.Properties());
+        type = types;
     }
+    public static final TagKey<Item> ALL_TYPES = ItemTags.create(new ResourceLocation(Spore.MODID,"enchantable_items"));
+    public static final TagKey<Item> WEAPON_TYPES = ItemTags.create(new ResourceLocation(Spore.MODID,"enchantable_items"));
+    public static final TagKey<Item> ARMOR_TYPES_TYPES = ItemTags.create(new ResourceLocation(Spore.MODID,"enchantable_items"));
 
     @Override
     public boolean isFoil(ItemStack p_41453_) {
@@ -40,7 +47,14 @@ public class BiologicalReagent extends BaseItem {
     }
 
     public boolean testSlotCompat(ItemStack stack){
-        return stack.is(ItemTags.create(new ResourceLocation(Spore.MODID,"enchantable_items")));
+        if (type == AcceptedTypes.ALL_TYPES){
+            return stack.is(ALL_TYPES);
+        }else if (type == AcceptedTypes.WEAPON_TYPES){
+            return stack.is(WEAPON_TYPES);
+        }else if (type == AcceptedTypes.ARMOR_TYPES){
+            return stack.is(ARMOR_TYPES_TYPES);
+        }
+        return false;
     }
 
     private double chance(){
@@ -71,5 +85,11 @@ public class BiologicalReagent extends BaseItem {
         list.add(Component.translatable("item.reagent.line1"));
         list.add(Component.translatable(getAppliedEnchantment().getDescriptionId()));
         list.add(Component.translatable("item.reagent.line2").withStyle(ChatFormatting.BLACK));
+    }
+
+    public enum AcceptedTypes{
+        ALL_TYPES,
+        WEAPON_TYPES,
+        ARMOR_TYPES;
     }
 }

@@ -260,7 +260,7 @@ public class Sitems {
     public  static final RegistryObject<Item> VIGIL_EYE = ITEMS.register("vigil_eye",
             VigilEye::new);
     public  static final RegistryObject<Item> SYMBIOTIC_REAGENT = ITEMS.register("symbiotic_reagent",
-            () -> new BiologicalReagent(new Item.Properties()){
+            () -> new BiologicalReagent(BiologicalReagent.AcceptedTypes.ALL_TYPES){
                 @Override
                 public Enchantment getAppliedEnchantment() {
                     return Senchantments.SYMBIOTIC_RECONSTITUTION.get();
