@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "spore:inf_helmet",
+    "spore:inf_chest",
+    "spore:inf_pants",
+    "spore:inf_boots",
+    "spore:plated_helmet",
+    "spore:plated_chest",
+    "spore:plated_pants",
+    "spore:plated_boots",
+    "spore:living_helmet",
+    "spore:living_chest",
+    "spore:living_pants",
+    "spore:living_boots",
+    "spore:r_elytron",
+    "spore:inf_up_chest"
+  ]
+}

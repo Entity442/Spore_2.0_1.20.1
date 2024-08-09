@@ -28,8 +28,8 @@ public class BiologicalReagent extends BaseItem {
         type = types;
     }
     public static final TagKey<Item> ALL_TYPES = ItemTags.create(new ResourceLocation(Spore.MODID,"enchantable_items"));
-    public static final TagKey<Item> WEAPON_TYPES = ItemTags.create(new ResourceLocation(Spore.MODID,"enchantable_items"));
-    public static final TagKey<Item> ARMOR_TYPES_TYPES = ItemTags.create(new ResourceLocation(Spore.MODID,"enchantable_items"));
+    public static final TagKey<Item> WEAPON_TYPES = ItemTags.create(new ResourceLocation(Spore.MODID,"enchantable_weapon_items"));
+    public static final TagKey<Item> ARMOR_TYPES_TYPES = ItemTags.create(new ResourceLocation(Spore.MODID,"enchantable_armor_items"));
 
     @Override
     public boolean isFoil(ItemStack p_41453_) {
@@ -82,14 +82,22 @@ public class BiologicalReagent extends BaseItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag tooltipFlag) {
+        list.add(Component.translatable(type.getId()));
         list.add(Component.translatable("item.reagent.line1"));
         list.add(Component.translatable(getAppliedEnchantment().getDescriptionId()));
         list.add(Component.translatable("item.reagent.line2").withStyle(ChatFormatting.BLACK));
     }
 
     public enum AcceptedTypes{
-        ALL_TYPES,
-        WEAPON_TYPES,
-        ARMOR_TYPES;
+        ALL_TYPES("reagent_type1"),
+        WEAPON_TYPES("reagent_type2"),
+        ARMOR_TYPES("reagent_type3");
+        private final String id;
+        AcceptedTypes(String ids){
+            id = ids;
+        }
+        public String getId(){
+            return id;
+        }
     }
 }
