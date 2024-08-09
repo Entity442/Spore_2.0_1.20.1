@@ -5,7 +5,9 @@ import java.util.Comparator;
 
 public enum UmarmerVariants {
     DEFAULT(0),
-    CHARRED(1);
+    CHARRED(1),
+    BILE(2),
+    CORROSIVE(3);
 
     private static final UmarmerVariants[] BY_ID = Arrays.stream(values()).sorted(Comparator.
             comparingInt(UmarmerVariants::getId)).toArray(UmarmerVariants[]::new);

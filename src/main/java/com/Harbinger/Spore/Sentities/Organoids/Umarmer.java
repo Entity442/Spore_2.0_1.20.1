@@ -340,6 +340,12 @@ public class Umarmer extends Organoid {
         if (entity instanceof LivingEntity livingEntity){
             if (this.getVariant() == UmarmerVariants.CHARRED){
                 livingEntity.setSecondsOnFire(10);
+            }else if (this.getVariant() == UmarmerVariants.BILE){
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,200,0));
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS,200,0));
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS,200,0));
+            }else if (this.getVariant() == UmarmerVariants.CORROSIVE){
+                livingEntity.addEffect(new MobEffectInstance(Seffects.CORROSION.get(),600,1));
             }
             livingEntity.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),600,1));
             livingEntity.knockback(1.2F, -Mth.sin(this.getYRot() * ((float) Math.PI / 180F)), Mth.cos(this.getYRot() * ((float) Math.PI / 180F)));

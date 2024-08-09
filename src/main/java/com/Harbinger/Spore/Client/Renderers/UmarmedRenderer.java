@@ -22,6 +22,10 @@ public class UmarmedRenderer<Type extends Umarmer> extends OrganoidMobRenderer<T
                         new ResourceLocation(Spore.MODID, "textures/entity/umarmer.png"));
                 p_114874_.put(UmarmerVariants.CHARRED,
                         new ResourceLocation(Spore.MODID, "textures/entity/umarmer_crispy.png"));
+                p_114874_.put(UmarmerVariants.BILE,
+                        new ResourceLocation(Spore.MODID, "textures/entity/umarmer_bile.png"));
+                p_114874_.put(UmarmerVariants.CORROSIVE,
+                        new ResourceLocation(Spore.MODID, "textures/entity/umarmer_corrosive.png"));
             });
     public UmarmedRenderer(EntityRendererProvider.Context context) {
         super(context, new UmarmerModel<>(context.bakeLayer(UmarmerModel.LAYER_LOCATION)), 1.2f);
