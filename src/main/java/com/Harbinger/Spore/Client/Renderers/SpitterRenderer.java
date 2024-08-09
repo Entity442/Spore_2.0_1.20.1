@@ -22,6 +22,8 @@ public class SpitterRenderer <Type extends Spitter> extends BaseInfectedRenderer
                         new ResourceLocation(Spore.MODID, "textures/entity/spitter.png"));
                 p_114874_.put(SpitterVariants.EXPLOSIVE,
                         new ResourceLocation(Spore.MODID, "textures/entity/exploding_spitter.png"));
+                p_114874_.put(SpitterVariants.BILE,
+                        new ResourceLocation(Spore.MODID, "textures/entity/spitter_bile.png"));
             });
     private static final ResourceLocation EYES_TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/eyes/spitter.png");

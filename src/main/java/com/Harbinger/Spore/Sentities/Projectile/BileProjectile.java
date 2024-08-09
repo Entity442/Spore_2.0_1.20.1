@@ -78,9 +78,10 @@ public class BileProjectile extends Projectile implements ItemSupplier {
     }
 
     @Override
-    protected void onHitBlock(BlockHitResult p_37258_) {
-        super.onHitBlock(p_37258_);
-        discard();
+    protected void onHitBlock(BlockHitResult hitResult) {
+        super.onHitBlock(hitResult);
+        if (level().getBlockState(hitResult.getBlockPos()).isSolidRender(level(),hitResult.getBlockPos()))
+            discard();
     }
 
     @Override

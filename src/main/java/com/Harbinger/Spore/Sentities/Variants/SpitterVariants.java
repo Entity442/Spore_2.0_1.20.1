@@ -5,7 +5,8 @@ import java.util.Comparator;
 
 public enum SpitterVariants {
     DEFAULT(0),
-    EXPLOSIVE(1);
+    EXPLOSIVE(1),
+    BILE(2);
 
     private static final SpitterVariants[] BY_ID = Arrays.stream(values()).sorted(Comparator.
             comparingInt(SpitterVariants::getId)).toArray(SpitterVariants[]::new);
