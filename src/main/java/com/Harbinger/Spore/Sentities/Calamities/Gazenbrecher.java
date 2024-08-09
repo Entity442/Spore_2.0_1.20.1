@@ -306,7 +306,7 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
     @Override
     public void performRangedAttack(LivingEntity livingEntity, float p_33318_) {
         if(!level().isClientSide){
-            BileProjectile tumor = new BileProjectile(level(), this);
+            BileProjectile tumor = new BileProjectile(level(), this,TARGET_SELECTOR);
             Vec3  vec3 = (new Vec3(3D, 0.0D, 0.0D)).yRot(-this.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
             double dx = livingEntity.getX() - this.getX();
             double dy = livingEntity.getY() + livingEntity.getEyeHeight();

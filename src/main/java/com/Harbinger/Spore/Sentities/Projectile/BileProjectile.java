@@ -1,14 +1,10 @@
 package com.Harbinger.Spore.Sentities.Projectile;
 
-import com.Harbinger.Spore.Core.SConfig;
-import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Sitems;
-import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
-import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
+import com.Harbinger.Spore.Fluids.BileLiquid;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -17,25 +13,27 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.function.Predicate;
+
 public class BileProjectile extends Projectile implements ItemSupplier {
     private float setBaseDamage;
+    private Predicate<LivingEntity> target = livingEntity -> {return true;};
     public BileProjectile( Level level) {
         super(Sentities.BILE.get(), level);
-
     }
 
-    public BileProjectile(Level level,LivingEntity livingEntity) {
+    public BileProjectile(Level level,LivingEntity livingEntity,Predicate<LivingEntity> predicate) {
         super(Sentities.BILE.get(), level);
         this.setOwner(livingEntity);
+        this.target = predicate;
     }
 
     @Override
@@ -65,12 +63,11 @@ public class BileProjectile extends Projectile implements ItemSupplier {
     protected void onHitEntity(EntityHitResult entityHitResult) {
         if (!this.level().isClientSide()) {
             Entity entity = entityHitResult.getEntity();
-            if (!(entity instanceof PartEntity || entity instanceof Infected || entity instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(entity.getEncodeId()))){
+            if (entity instanceof LivingEntity livingEntity && target.test(livingEntity)){
                 entity.hurt(this.level().damageSources().mobProjectile(this,(LivingEntity) this.getOwner()),this.getDamage());
-            }
-            if (entity instanceof LivingEntity livingEntity){
-                livingEntity.addEffect(new MobEffectInstance(Seffects.STUNT.get(),80,1));
-                livingEntity.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),60,2));
+                for (MobEffectInstance instance : BileLiquid.bileEffects()){
+                    livingEntity.addEffect(instance);
+                }
             }
             if (entity instanceof Boat boat){
                 boat.setDamage(50);
@@ -78,6 +75,12 @@ public class BileProjectile extends Projectile implements ItemSupplier {
         }else{
             super.onHitEntity(entityHitResult);
         }
+    }
+
+    @Override
+    protected void onHitBlock(BlockHitResult p_37258_) {
+        super.onHitBlock(p_37258_);
+        discard();
     }
 
     @Override
