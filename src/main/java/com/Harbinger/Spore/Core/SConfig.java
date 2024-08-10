@@ -199,6 +199,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> howit_ranged_damage;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> howit_buffs;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> howit_debuffs;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> howit_summmons;
 
         public final ForgeConfigSpec.ConfigValue<Double> gazen_hp;
         public final ForgeConfigSpec.ConfigValue<Double> gazen_damage;
@@ -697,6 +698,9 @@ public class SConfig {
 
             this.howit_debuffs = builder.comment("Default values: minecraft:blindness|600|0, spore:mycelium|600|1, minecraft:slowness|600|1").defineList("Gazenbreacher debuffs",
                     Lists.newArrayList("minecraft:blindness|600|0", "spore:mycelium_ef|600|1", "minecraft:slowness|600|1") , o -> o instanceof String);
+            this.howit_summmons = builder.defineList("Mobs that may spawn out of its dropped bombs",
+                    Lists.newArrayList("spore:inf_vindicator", "spore:busser", "spore:brute",
+                            "spore:knight", "spore:griefer", "spore:leaper", "spore:inf_evoker", "spore:spitter", "spore:stalker", "spore:braiomil") , o -> o instanceof String);
             builder.pop();
 
             builder.push("Brute");
@@ -788,7 +792,8 @@ public class SConfig {
                     Lists.newArrayList(
                             "spore:inf_human",
                             "spore:inf_villager",
-                            "spore:inf_pillager" ) , o -> o instanceof String);
+                            "spore:inf_pillager"
+                            ,"spore:inf_husk" ) , o -> o instanceof String);
             this.scent_summon = builder.comment("Default true").define("Should scent summon entities?",true);
             this.scent_summon_cooldown = builder.comment("Default 300").define("The average amount of time it will take for a mob to be summoned",300);
             builder.pop();

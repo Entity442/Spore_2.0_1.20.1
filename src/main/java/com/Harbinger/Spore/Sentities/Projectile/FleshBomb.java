@@ -1,20 +1,21 @@
 package com.Harbinger.Spore.Sentities.Projectile;
 
+import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import net.minecraft.Util;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -22,13 +23,16 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraftforge.network.PlayMessages;
+import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 public class FleshBomb extends AbstractArrow {
     private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(FleshBomb.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Integer> BOMB_TYPE = SynchedEntityData.defineId(FleshBomb.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> EXPLOSION = SynchedEntityData.defineId(FleshBomb.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> CARRIER = SynchedEntityData.defineId(FleshBomb.class, EntityDataSerializers.BOOLEAN);
     private Predicate<LivingEntity> livingEntityPredicate = (entity) -> {return true;};
 
     public FleshBomb(Level level,LivingEntity entity,float damage,BombType type,int range) {
@@ -59,6 +63,7 @@ public class FleshBomb extends AbstractArrow {
         this.entityData.define(DAMAGE, 2f);
         this.entityData.define(BOMB_TYPE, 0);
         this.entityData.define(EXPLOSION, 5);
+        this.entityData.define(CARRIER, false);
     }
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
@@ -66,6 +71,7 @@ public class FleshBomb extends AbstractArrow {
         this.setDamage(tag.getFloat("damage"));
         this.setBombType(tag.getInt("bomb_type"));
         this.setExplosion(tag.getInt("explosion"));
+        this.setCarrier(tag.getBoolean("carrier"));
     }
 
     @Override
@@ -74,6 +80,7 @@ public class FleshBomb extends AbstractArrow {
         tag.putFloat("damage",this.getDamage());
         tag.putInt("bomb_type",this.getBombType());
         tag.putInt("explosion",this.getExplosion());
+        tag.putBoolean("carrier",this.getCarrier());
     }
 
     public float getDamage(){return entityData.get(DAMAGE);}
@@ -82,7 +89,8 @@ public class FleshBomb extends AbstractArrow {
     public void setBombType(int value){entityData.set(BOMB_TYPE,value);}
     public int getExplosion(){return entityData.get(EXPLOSION);}
     public void setExplosion(int value){entityData.set(EXPLOSION,value);}
-
+    public boolean getCarrier(){return entityData.get(CARRIER);}
+    public void setCarrier(boolean value){entityData.set(CARRIER,value);}
     @Override
     protected boolean canHitEntity(Entity entity) {
         return entity instanceof LivingEntity living && livingEntityPredicate.test(living);
@@ -126,6 +134,9 @@ public class FleshBomb extends AbstractArrow {
             }if (getBombType() == 2){
                 Utilities.convertBlocks(serverLevel,this.getOwner(),result.getBlockPos(),getExplosion(), Sblocks.BILE.get().defaultBlockState());
             }
+            if (this.getCarrier()){
+                SummonInfected(serverLevel);
+            }
             this.playSound(SoundEvents.GENERIC_EXPLODE);
         }
         discard();
@@ -140,6 +151,32 @@ public class FleshBomb extends AbstractArrow {
         }
         public int getValue() {
             return value;
+        }
+    }
+
+    @Override
+    public void onSyncedDataUpdated(EntityDataAccessor<?> accessor) {
+        super.onSyncedDataUpdated(accessor);
+        if (accessor.equals(CARRIER)){
+            this.refreshDimensions();
+        }
+    }
+
+    @Override
+    public EntityDimensions getDimensions(Pose pose) {
+        return this.getCarrier() ? super.getDimensions(pose).scale(2) : super.getDimensions(pose);
+    }
+
+    private void SummonInfected(ServerLevel serverLevel){
+        List<? extends String> values = SConfig.SERVER.howit_summmons.get();
+        int randomIndex = this.random.nextInt(values.size());
+        ResourceLocation randomElement1 = new ResourceLocation(values.get(randomIndex));
+        EntityType<?> randomElement = ForgeRegistries.ENTITY_TYPES.getValue(randomElement1);
+        Mob waveentity = (Mob) randomElement.create(this.level());
+        if (waveentity != null){
+            waveentity.setPos(this.getX(), this.getY(), this.getZ());
+            waveentity.finalizeSpawn(serverLevel, this.level().getCurrentDifficultyAt(new BlockPos((int) this.getX(),(int)  this.getY(),(int)  this.getZ())), MobSpawnType.NATURAL, null, null);
+            serverLevel.addFreshEntity(waveentity);
         }
     }
 }

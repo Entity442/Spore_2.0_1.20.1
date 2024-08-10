@@ -33,6 +33,8 @@ public class FleshBombRenderer<T extends FleshBomb>extends EntityRenderer<T> {
         stack.mulPose(Axis.ZN.rotationDegrees(180));
         stack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(value, entity.yRotO, entity.getYRot()) - 90.0F));
         stack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(value, entity.xRotO, entity.getXRot()) + 90.0F));
+        int scaling = entity.getCarrier() ? 2 : 1;
+        stack.scale(scaling,scaling,scaling);
         VertexConsumer vertexconsumer = ItemRenderer.getFoilBufferDirect(source, this.model.renderType(this.getTextureLocation(entity)), false, false);
         this.model.setupAnim(entity,0,0,entity.tickCount,0,0);
         this.model.renderToBuffer(stack, vertexconsumer, p_116116_, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
