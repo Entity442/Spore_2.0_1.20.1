@@ -21,6 +21,7 @@ public class FleshBombRenderer<T extends FleshBomb>extends EntityRenderer<T> {
     public static final ResourceLocation BASIC_ROUND = new ResourceLocation(Spore.MODID,"textures/entity/basicround.png");
     public static final ResourceLocation FLAMMABLE_ROUND = new ResourceLocation(Spore.MODID,"textures/entity/fireround.png");
     public static final ResourceLocation BILE_ROUND = new ResourceLocation(Spore.MODID,"textures/entity/bileround.png");
+    public static final ResourceLocation ACID_ROUND = new ResourceLocation(Spore.MODID,"textures/entity/acidround.png");
     private final BileRound<T> model;
 
     public FleshBombRenderer(EntityRendererProvider.Context context) {
@@ -47,6 +48,8 @@ public class FleshBombRenderer<T extends FleshBomb>extends EntityRenderer<T> {
             return FLAMMABLE_ROUND;
         }else if (bileProjectile.getBombType() == 2){
             return BILE_ROUND;
+        }else if (bileProjectile.getBombType() == 3){
+            return ACID_ROUND;
         }else{
             return BASIC_ROUND;
         }
