@@ -46,8 +46,12 @@ public class MutagenicReactant extends Enchantment {
     @Override
     public void doPostHurt(LivingEntity livingEntity, Entity entity, int value) {
         if (Math.random() < 0.2){
-            MobEffectInstance effect = badMutations().get(livingEntity.getRandom().nextInt(badMutations().size()));
-            livingEntity.addEffect(effect);
+            livingEntity.getArmorSlots().forEach(stack -> {
+                if (stack.getEnchantmentLevel(this) > 0){
+                    MobEffectInstance effect = badMutations().get(livingEntity.getRandom().nextInt(badMutations().size()));
+                    livingEntity.addEffect(effect);
+                }
+            });
         }
         super.doPostAttack(livingEntity, entity, value);
     }
