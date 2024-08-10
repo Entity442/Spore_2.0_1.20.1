@@ -110,6 +110,10 @@
 
 
   "item.spore.symbiotic_reagent": "Symbiotic Reagent",
+  "item.spore.cryogenic_reagent": "Cryogenic Reagent",
+  "item.spore.gastric_reagent": "Gastric Reagent",
+  "item.spore.corrosive_reagent": "Corrosive Reagent",
+
 
   "item.spore.saber": "Infected Saber",
   "item.spore.infected_bow": "Infected Bow",
@@ -259,7 +263,12 @@
 
 
   "enchantment.spore.symbiotic_reconstitution": "Symbiotic Reconstitution",
+  "enchantment.spore.cryogenic_aspect": "Cryogenic Aspect",
+  "enchantment.spore.gastric_spewage": "Gastric Spewage",
+  "enchantment.spore.corrosive_potency": "Corrosive Potency",
   "enchantment.spore.unwavering_nature": "Unwavering Nature",
+  "enchantment.spore.mutagenic_reactant": "Mutagenic Reactant",
+
 
   "effect.spore.mycelium_ef": "Mycelium Infection",
   "effect.spore.stunt": "Stunt",
@@ -301,6 +310,10 @@
   "spore.name.calamity": "Calamity",
   "spore.name.experiment": "Experiment",
   "spore.name.unknown": "Unknown",
+
+  "spore.name.reagent_type1": "Any type",
+  "spore.name.reagent_type2": "Weapon type",
+  "spore.name.reagent_type3": "Armor type",
 
   "item.reagent.line1": "Carries the properties of ",
   "item.reagent.line2": "it may also bestow side effects",

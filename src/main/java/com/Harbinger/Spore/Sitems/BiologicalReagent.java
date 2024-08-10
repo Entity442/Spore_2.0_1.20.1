@@ -36,9 +36,10 @@ public class BiologicalReagent extends BaseItem {
         return true;
     }
 
-    public List<Enchantment> curses(){
+    public static List<Enchantment> curses(){
         List<Enchantment> enchantments = new ArrayList<>();
         enchantments.add(Senchantments.UNWAVERING_NATURE.get());
+        enchantments.add(Senchantments.MUTAGENIC_REACTANT.get());
         return enchantments;
     }
 
@@ -89,9 +90,9 @@ public class BiologicalReagent extends BaseItem {
     }
 
     public enum AcceptedTypes{
-        ALL_TYPES("reagent_type1"),
-        WEAPON_TYPES("reagent_type2"),
-        ARMOR_TYPES("reagent_type3");
+        ALL_TYPES("spore.name.reagent_type1"),
+        WEAPON_TYPES("spore.name.reagent_type2"),
+        ARMOR_TYPES("spore.name.reagent_type3");
         private final String id;
         AcceptedTypes(String ids){
             id = ids;

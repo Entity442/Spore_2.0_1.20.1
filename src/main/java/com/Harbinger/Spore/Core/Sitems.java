@@ -266,6 +266,27 @@ public class Sitems {
                     return Senchantments.SYMBIOTIC_RECONSTITUTION.get();
                 }
             });
+    public  static final RegistryObject<Item> CRYOGENIC_REAGENT = ITEMS.register("cryogenic_reagent",
+            () -> new BiologicalReagent(BiologicalReagent.AcceptedTypes.WEAPON_TYPES){
+                @Override
+                public Enchantment getAppliedEnchantment() {
+                    return Senchantments.CRYOGENIC_ASPECT.get();
+                }
+            });
+    public  static final RegistryObject<Item> GASTRIC_REAGENT = ITEMS.register("gastric_reagent",
+            () -> new BiologicalReagent(BiologicalReagent.AcceptedTypes.WEAPON_TYPES){
+                @Override
+                public Enchantment getAppliedEnchantment() {
+                    return Senchantments.GASTRIC_SPEWAGE.get();
+                }
+            });
+    public  static final RegistryObject<Item> CORROSIVE_REAGENT = ITEMS.register("corrosive_reagent",
+            () -> new BiologicalReagent(BiologicalReagent.AcceptedTypes.WEAPON_TYPES){
+                @Override
+                public Enchantment getAppliedEnchantment() {
+                    return Senchantments.CORROSIVE_POTENCY.get();
+                }
+            });
 
     public  static final RegistryObject<Item> INF_HELMET = ITEMS.register("inf_helmet",
             InfectedHelmet::new);
