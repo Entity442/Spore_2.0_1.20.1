@@ -107,6 +107,9 @@
   "item.spore.circuit_board": "Печатная плата",
 
   "item.spore.symbiotic_reagent": "Симбиотический реагент",
+  "item.spore.cryogenic_reagent": "Криогенный реагент",
+  "item.spore.gastric_reagent": "Желудочный реагент",
+  "item.spore.corrosive_reagent": "Коррозионный реагент",
 
   "item.spore.saber": "Заражённая сабля",
   "item.spore.infected_bow": "Заражённый лук",
@@ -245,6 +248,12 @@
   "entity.spore.acid_ball": "Кислотный шарик",
   "entity.spore.acid": "Кислота",
 
+  "enchantment.spore.symbiotic_reconstitution": "Симбиотическая реконструкция",
+  "enchantment.spore.cryogenic_aspect": "Криогенный аспект",
+  "enchantment.spore.gastric_spewage": "Желудочные выделения",
+  "enchantment.spore.corrosive_potency": "Коррозионная сила",
+  "enchantment.spore.unwavering_nature": "Непоколебимая природа",
+  "enchantment.spore.mutagenic_reactant": "Мутагенный реагент",
 
   "effect.spore.mycelium_ef": "Мицелиевая инфекция",
   "effect.spore.stunt": "Трюк",
@@ -286,6 +295,10 @@
   "spore.name.calamity": "Бедствие",
   "spore.name.experiment": "Эксперимент",
   "spore.name.unknown": "Неизвестный",
+
+  "spore.name.reagent_type1": "Любой тип",
+  "spore.name.reagent_type2": "Тип оружия",
+  "spore.name.reagent_type3": "Тип брони",
 
   "item.reagent.line1": "Носит свойства ",
   "item.reagent.line2": "это также может вызывать побочные эффекты",

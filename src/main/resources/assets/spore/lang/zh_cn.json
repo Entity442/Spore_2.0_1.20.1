@@ -113,6 +113,9 @@
 
 
   "item.spore.symbiotic_reagent": "共生试剂",
+  "item.spore.cryogenic_reagent": "低温试剂",
+  "item.spore.gastric_reagent": "胃液试剂",
+  "item.spore.corrosive_reagent": "腐蚀性试剂",
 
 
   "item.spore.saber": "染菌军刀",
@@ -257,7 +260,11 @@
   "entity.spore.acid": "酸液",
 
   "enchantment.spore.symbiotic_reconstitution": "共生重塑",
+  "enchantment.spore.cryogenic_aspect": "低温方面",
+  "enchantment.spore.gastric_spewage": "胃涌出物",
+  "enchantment.spore.corrosive_potency": "腐蚀性",
   "enchantment.spore.unwavering_nature": "染菌诅咒",
+  "enchantment.spore.mutagenic_reactant": "诱变反应物",
 
   "effect.spore.mycelium_ef": "菌丝感染",
   "effect.spore.stunt": "击晕",
@@ -299,6 +306,10 @@
   "spore.name.calamity": "灾害",
   "spore.name.experiment": "实验",
   "spore.name.unknown": "未知",
+
+  "spore.name.reagent_type1": "任何类型",
+  "spore.name.reagent_type2": "武器类型",
+  "spore.name.reagent_type3": "装甲类型",
 
   "item.reagent.line1": "具有如下特性： ",
   "item.reagent.line2": "也可能带来副作用：",
