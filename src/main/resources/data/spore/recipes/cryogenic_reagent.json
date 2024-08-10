@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "T##",
+    "#R#",
+    "##T"
+  ],
+  "key": {
+    "R": {
+      "item": "spore:symbiotic_reagent"
+    },
+    "#": {
+      "item": "spore:freeze_burned_biomass"
+    },
+    "T": {
+      "item": "spore:ice_canister"
+    }
+},
+  "result": {
+    "item": "spore:cryogenic_reagent"
+  }
+}

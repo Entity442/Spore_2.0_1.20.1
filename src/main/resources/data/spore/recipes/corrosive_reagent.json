@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " ##",
+    " R#",
+    "T  "
+  ],
+  "key": {
+    "R": {
+      "item": "spore:symbiotic_reagent"
+    },
+    "#": {
+      "item": "spore:corrosive_sack"
+    },
+    "T": {
+      "item": "spore:altered_spleen"
+    }
+},
+  "result": {
+    "item": "spore:corrosive_reagent"
+  }
+}

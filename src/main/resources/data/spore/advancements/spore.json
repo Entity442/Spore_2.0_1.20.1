@@ -89,9 +89,11 @@
       "spore:circuit_board",
       "spore:ice_canister",
       "spore:zoaholic",
-      "spore:incubator"
+      "spore:incubator",
 
-
+      "spore:corrosive_reagent",
+      "spore:cryogenic_reagent",
+      "spore:gastric_reagent"
     ]
   }
 }
