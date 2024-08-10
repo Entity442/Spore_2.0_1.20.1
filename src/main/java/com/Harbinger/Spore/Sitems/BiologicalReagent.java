@@ -83,7 +83,7 @@ public class BiologicalReagent extends BaseItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag tooltipFlag) {
-        list.add(Component.translatable(type.getId()));
+        list.add(Component.translatable(type.getId()).withStyle(ChatFormatting.GOLD));
         list.add(Component.translatable("item.reagent.line1"));
         list.add(Component.translatable(getAppliedEnchantment().getDescriptionId()));
         list.add(Component.translatable("item.reagent.line2").withStyle(ChatFormatting.BLACK));

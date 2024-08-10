@@ -5,11 +5,15 @@ import com.Harbinger.Spore.Core.Senchantments;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.EvolvingInfected;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.enchantment.Enchantment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MutagenicReactant extends Enchantment {
     public MutagenicReactant(EquipmentSlot... slots) {
@@ -37,8 +41,19 @@ public class MutagenicReactant extends Enchantment {
 
     @Override
     public void doPostHurt(LivingEntity livingEntity, Entity entity, int value) {
-        if (livingEntity instanceof ServerPlayer serverPlayer)
-        livingEntity.getArmorSlots().forEach(stack -> {stack.hurt(50,livingEntity.getRandom(),serverPlayer);});
+        if (Math.random() < 0.2){
+            MobEffectInstance effect = badMutations().get(livingEntity.getRandom().nextInt(badMutations().size()));
+            livingEntity.addEffect(effect);
+        }
         super.doPostAttack(livingEntity, entity, value);
+    }
+
+    public static List<MobEffectInstance> badMutations(){
+        List<MobEffectInstance> values = new ArrayList<>();
+        values.add(new MobEffectInstance(MobEffects.WEAKNESS,160,0));
+        values.add(new MobEffectInstance(MobEffects.POISON,80,0));
+        values.add(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,120,0));
+        values.add(new MobEffectInstance(MobEffects.CONFUSION,200,0));
+        return values;
     }
 }
