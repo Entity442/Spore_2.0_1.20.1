@@ -30,12 +30,18 @@ public class UnwaveringNature extends Enchantment {
 
     @Override
     public void doPostHurt(LivingEntity livingEntity, Entity entity, int value) {
-        livingEntity.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),600,0));
-        if (Math.random() < 0.05){
-            ScentEntity scent = new ScentEntity(Sentities.SCENT.get(),livingEntity.level());
-            scent.moveTo(livingEntity.getX(),livingEntity.getY(),livingEntity.getZ());
-            livingEntity.level().addFreshEntity(scent);
-        }
+        livingEntity.getArmorSlots().forEach(stack -> {
+            if (stack.getEnchantmentLevel(this) > 0){
+                if (!livingEntity.hasEffect(Seffects.MYCELIUM.get())){
+                    livingEntity.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),600,0));
+                }
+                if (Math.random() < 0.05){
+                    ScentEntity scent = new ScentEntity(Sentities.SCENT.get(),livingEntity.level());
+                    scent.moveTo(livingEntity.getX(),livingEntity.getY(),livingEntity.getZ());
+                    livingEntity.level().addFreshEntity(scent);
+                }
+            }
+        });
         super.doPostAttack(livingEntity, entity, value);
     }
 }
