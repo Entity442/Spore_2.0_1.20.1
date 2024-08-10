@@ -15,7 +15,7 @@ public class CryogenicAspect extends Enchantment {
     public void doPostAttack(LivingEntity livingEntity, Entity entity, int value) {
         super.doPostAttack(livingEntity, entity, value);
         if (entity instanceof LivingEntity livingEntity1 && livingEntity1.canFreeze()){
-            livingEntity1.setTicksFrozen(livingEntity1.getTicksFrozen()+200);
+            livingEntity1.setTicksFrozen(livingEntity1.getTicksFrozen()+300);
         }
     }
 }
