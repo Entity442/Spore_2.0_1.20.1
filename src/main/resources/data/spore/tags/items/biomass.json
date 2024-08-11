@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "spore:biomass_block",
+    "spore:sicken_biomass_block",
+    "spore:calcified_biomass_block",
+    "spore:membrane_block",
+    "spore:rooted_biomass"
+  ]
+}
