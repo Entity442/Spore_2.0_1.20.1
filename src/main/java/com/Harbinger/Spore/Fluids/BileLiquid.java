@@ -45,15 +45,6 @@ public class BileLiquid extends FluidType {
                 return FLUID_FLOWING;
             }
 
-            @Override
-            public ResourceLocation getRenderOverlayTexture(Minecraft mc) {
-                return OVERLAY;
-            }
-
-            @Override
-            public @NotNull Vector3f modifyFogColor(Camera camera, float partialTick, ClientLevel level, int renderDistance, float darkenWorldAmount, Vector3f fluidFogColor) {
-                return new Vector3f(172,131,36);
-            }
         });
     }
 
