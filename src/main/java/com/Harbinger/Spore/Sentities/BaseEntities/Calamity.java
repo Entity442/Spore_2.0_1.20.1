@@ -30,6 +30,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
@@ -329,7 +330,6 @@ public class Calamity extends UtilityEntity implements Enemy {
             this.setKills(this.getKills()-1);
         }
     }
-
 
     public int getDestroySpeed(){
         return SConfig.SERVER.calamity_bd.get();

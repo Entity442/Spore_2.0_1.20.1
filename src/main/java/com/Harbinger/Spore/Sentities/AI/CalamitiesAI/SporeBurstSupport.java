@@ -10,6 +10,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -37,6 +38,7 @@ public class SporeBurstSupport extends Goal {
     }
 
     private void sporeBurst(List<? extends String> buffs,List<? extends String> debuffs,int range){
+        calamity.playAmbientSound();
         AABB boundingBox = calamity.getBoundingBox().inflate(range);
         List<Entity> entities = calamity.level().getEntities(calamity, boundingBox);
         for (Entity entity : entities) {
