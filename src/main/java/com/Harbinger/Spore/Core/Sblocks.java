@@ -79,6 +79,7 @@ public class Sblocks {
     public static final RegistryObject<Block> INFESTED_LABORATORY_BLOCK3 = BLOCKS.register("infested_laboratory_block3", () -> new SelectableBlock(BlockBehaviour.Properties.of().sound(SoundType.STONE).strength(3f, 10f)));
     public static final RegistryObject<Block> OVERGROWN_SPAWNER = BLOCKS.register("overgrown_spawner", OvergrownSpawner::new);
     public static final RegistryObject<Block> BRAIN_REMNANTS = BLOCKS.register("brain_remnants", BrainRemnants::new);
+    public static final RegistryObject<Block> OUTPOST_WATCHER = BLOCKS.register("outpost_watcher", OutpostWatcher::new);
 
     public static final RegistryObject<Block> ROTTEN_LOG = BLOCKS.register("rotten_log", () -> new FlamableRotatingBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LOG).sound(SoundType.WOOD)));
     public static final RegistryObject<Block> ROTTEN_PLANKS = BLOCKS.register("rotten_planks", () -> new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.WOOD).ignitedByLava()));

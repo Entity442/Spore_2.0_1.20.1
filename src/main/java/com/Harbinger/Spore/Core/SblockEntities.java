@@ -45,6 +45,10 @@ public class SblockEntities {
             BLOCK_ENTITIES.register("brain_remnants", () ->
                     BlockEntityType.Builder.of(BrainRemnantBlockEntity::new,
                             Sblocks.BRAIN_REMNANTS.get()).build(null));
+    public static final RegistryObject<BlockEntityType<OutpostWatcherBlockEntity>> OUTPOST_WATCHER =
+            BLOCK_ENTITIES.register("outpost_watcher_entity", () ->
+                    BlockEntityType.Builder.of(OutpostWatcherBlockEntity::new,
+                            Sblocks.OUTPOST_WATCHER.get()).build(null));
 
 
     public static void register(IEventBus eventBus) {
