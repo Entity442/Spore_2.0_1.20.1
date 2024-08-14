@@ -11,7 +11,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.level.Level;
@@ -87,7 +86,7 @@ public class OutpostWatcherBlockEntity extends BlockEntity implements AnimatedEn
                         SummonScent(entity,level,entity.getX(),entity.getY(),entity.getZ());
                     }
                     if (Math.random() < 0.1f && level instanceof ServerLevel serverLevel){
-                        SummonOrganoids(entity,serverLevel,entity.getX(),entity.getY(),entity.getZ(),Math.random()<=0.5f,blockPos);
+                        SummonOrganoids(serverLevel,entity.getX(),entity.getY(),entity.getZ(),Math.random()<=0.5f,blockPos);
                     }
                 }
             }
@@ -102,7 +101,7 @@ public class OutpostWatcherBlockEntity extends BlockEntity implements AnimatedEn
         scent.moveTo(x,y,z);
         level.addFreshEntity(scent);
     }
-    private void SummonOrganoids(LivingEntity target,ServerLevel level, double x, double y, double z, boolean range,BlockPos pos){
+    private void SummonOrganoids(ServerLevel level, double x, double y, double z, boolean range, BlockPos pos){
         if (range){
             Umarmer umarmer = new Umarmer(Sentities.UMARMED.get(),level);
             umarmer.moveTo(x,y,z);
@@ -110,11 +109,9 @@ public class OutpostWatcherBlockEntity extends BlockEntity implements AnimatedEn
             umarmer.finalizeSpawn(level,level.getCurrentDifficultyAt(new BlockPos(pos)), MobSpawnType.MOB_SUMMONED,null,null);
             level.addFreshEntity(umarmer);
         }else{
-            RandomSource source = RandomSource.create();
-            BlockPos randomPosition = Utilities.generateRandomPosTowardDirection(target.getOnPos(),6,source,pos);
             Usurper usurper = new Usurper(Sentities.USURPER.get(),level);
             usurper.moveTo(x,y,z);
-            usurper.teleportTo(randomPosition.getY(),randomPosition.getY(),randomPosition.getZ());
+            usurper.teleportTo(x,y,z);
             usurper.finalizeSpawn(level,level.getCurrentDifficultyAt(new BlockPos(pos)), MobSpawnType.MOB_SUMMONED,null,null);
             level.addFreshEntity(usurper);
         }
