@@ -1141,6 +1141,7 @@ public class SConfig {
 
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> block_cleaning;
         public final ForgeConfigSpec.ConfigValue<Integer> cryo_range;
+        public final ForgeConfigSpec.ConfigValue<Integer> outpost_range;
         public final ForgeConfigSpec.ConfigValue<Integer> spawner_range;
         public DataGen(ForgeConfigSpec.Builder builder){
             builder.push("Loot Tables");
@@ -1293,6 +1294,7 @@ public class SConfig {
             this.biomass_lump_kills = builder.comment("Default 5").defineInRange("Biomass Lump minimal kills", 5, 0, Integer.MAX_VALUE);
             this.hive_spawn_kills = builder.comment("Default 25").defineInRange("Reconstructed Mind Block kills", 25, 0, Integer.MAX_VALUE);
             this.spawner_range = builder.comment("Default 32").defineInRange("The range of the overgrown spawner", 32, 0, Integer.MAX_VALUE);
+            this.outpost_range = builder.comment("Default 50").defineInRange("The range of the Outpost watcher", 50, 0, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Block infection");
             this.block_infection = builder.defineList("Blocks and their infected counterparts",

@@ -13,10 +13,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -61,7 +58,7 @@ public class OutpostWatcherBlockEntity extends BlockEntity implements AnimatedEn
 
     public static <E extends BlockEntity> void serverTick(Level level, BlockPos blockPos, BlockState blockState, OutpostWatcherBlockEntity e) {
         e.tick();
-        if (e.getTicks() % 60 == 0){
+        if (e.getTicks() % 200 == 0){
             e.checkForPotentialTargets(level,blockPos);
         }
     }
@@ -77,7 +74,7 @@ public class OutpostWatcherBlockEntity extends BlockEntity implements AnimatedEn
 
     public void checkForPotentialTargets(Level level,BlockPos blockPos){
         if (level.getDifficulty() != Difficulty.PEACEFUL){
-            int range =2 * SConfig.DATAGEN.cryo_range.get();
+            int range =2 * SConfig.DATAGEN.outpost_range.get();
             AABB aabb = AABB.ofSize(new Vec3(blockPos.getX(), blockPos.getY(), blockPos.getZ()), range, range, range);
             List<LivingEntity> possibleTargets = level.getEntitiesOfClass(LivingEntity.class,aabb);
             List<ScentEntity> amountofScents = new ArrayList<>();
@@ -85,12 +82,13 @@ public class OutpostWatcherBlockEntity extends BlockEntity implements AnimatedEn
                 if (entity instanceof ScentEntity scent){amountofScents.add(scent);}
             }
             for (LivingEntity entity: possibleTargets){
-                if (amountofScents.size() <= SConfig.SERVER.scent_cap.get()){
-                    if (Utilities.TARGET_SELECTOR.test(entity)){
+                EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(entity);
+                if (Utilities.TARGET_SELECTOR.test(entity)){
+                    if (amountofScents.size() <= SConfig.SERVER.scent_cap.get()){
                         SummonScent(entity,level,entity.getX(),entity.getY(),entity.getZ());
-                        if (Math.random() < 0.1f && level instanceof ServerLevel serverLevel){
-                            SummonOrganoids(entity,serverLevel,entity.getX(),entity.getY(),entity.getZ(),Math.random()<=0.5f,blockPos);
-                        }
+                    }
+                    if (Math.random() < 0.1f && level instanceof ServerLevel serverLevel){
+                        SummonOrganoids(entity,serverLevel,entity.getX(),entity.getY(),entity.getZ(),Math.random()<=0.5f,blockPos);
                     }
                 }
             }
