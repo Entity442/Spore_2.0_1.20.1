@@ -1,5 +1,8 @@
 package com.Harbinger.Spore.ExtremelySusThings;
 
+import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
+import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -10,11 +13,14 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.AbstractFish;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 
@@ -64,4 +70,24 @@ public class Utilities {
                         }}}}}
     }
 
+
+    public static Predicate<LivingEntity> TARGET_SELECTOR = (entity) -> {
+        if (entity instanceof Infected || entity instanceof UtilityEntity){
+            return false;
+        }else if ((entity instanceof AbstractFish || entity instanceof Animal) && !SConfig.SERVER.at_an.get()){
+            return false;
+        }else if (!SConfig.SERVER.blacklist.get().isEmpty()){
+            for(String string : SConfig.SERVER.blacklist.get()){
+                if (string.endsWith(":") && entity.getEncodeId() != null){
+                    String[] mod = string.split(":");
+                    String[] iterations = entity.getEncodeId().split(":");
+                    if (Objects.equals(mod[0], iterations[0])){
+                        return false;
+                    }
+                }
+            }
+            return !SConfig.SERVER.blacklist.get().contains(entity.getEncodeId());
+        }
+        return true;
+    };
 }
