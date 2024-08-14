@@ -158,7 +158,7 @@ public class ZoaholicBlockEntity extends BlockEntity implements AnimatedEntity{
 
     @Nullable
     protected LivingEntity getAnomaly(Level level,BlockPos blockPos){
-        int range =2 * SConfig.SERVER.proto_range.get();
+        int range =2 * SConfig.DATAGEN.zoaholic_range.get();
         AABB aabb = AABB.ofSize(new Vec3(blockPos.getX(), blockPos.getY(), blockPos.getZ()), range, range, range);
         List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, aabb,e -> e instanceof Proto || e instanceof Calamity);
         for(LivingEntity entity : entities) {
