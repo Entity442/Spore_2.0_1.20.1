@@ -71,7 +71,7 @@ public class HiveSpawn extends Block implements EntityBlock {
                 }
             }else if (structureBlocks.getKills() >= SConfig.DATAGEN.hive_spawn_kills.get() && !checkForOtherMinds(blockPos,level)){
                 StructureTemplate template = level.getStructureManager().getOrCreate(new ResourceLocation(Spore.MODID, "mega_biomass_tower"));
-                BlockPos pos = new BlockPos(blockPos.getX() - 4, blockPos.getY() - 4, blockPos.getZ() - 4);
+                BlockPos pos = new BlockPos(blockPos.getX() - 4, blockPos.getY() - 3, blockPos.getZ() - 4);
                 template.placeInWorld(level, pos, pos, new StructurePlaceSettings().setIgnoreEntities(true), random, 3);
 
             }
