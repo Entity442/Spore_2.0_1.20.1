@@ -81,7 +81,7 @@ public class OutpostWatcherBlockEntity extends BlockEntity implements AnimatedEn
             }
             for (LivingEntity entity: possibleTargets){
                 EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(entity);
-                if (Utilities.TARGET_SELECTOR.test(entity)){
+                if (Utilities.TARGET_SELECTOR.test(entity) && entity.onGround()){
                     if (Math.random() < 0.3f && amountofScents.size() <= SConfig.SERVER.scent_cap.get()){
                         SummonScent(entity,level,entity.getX(),entity.getY(),entity.getZ());
                     }
