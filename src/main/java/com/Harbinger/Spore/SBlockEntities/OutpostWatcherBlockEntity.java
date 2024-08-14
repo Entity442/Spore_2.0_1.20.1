@@ -14,7 +14,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -84,7 +83,7 @@ public class OutpostWatcherBlockEntity extends BlockEntity implements AnimatedEn
             for (LivingEntity entity: possibleTargets){
                 EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(entity);
                 if (Utilities.TARGET_SELECTOR.test(entity)){
-                    if (amountofScents.size() <= SConfig.SERVER.scent_cap.get()){
+                    if (Math.random() < 0.3f && amountofScents.size() <= SConfig.SERVER.scent_cap.get()){
                         SummonScent(entity,level,entity.getX(),entity.getY(),entity.getZ());
                     }
                     if (Math.random() < 0.1f && level instanceof ServerLevel serverLevel){
@@ -95,7 +94,7 @@ public class OutpostWatcherBlockEntity extends BlockEntity implements AnimatedEn
         }
     }
 
-    private void SummonScent(LivingEntity target,Level level,double x, double y, double z){
+    private void SummonScent(LivingEntity target, Level level, double x, double y, double z){
         AABB aabb = target.getBoundingBox().inflate(3);
         List<Entity> entityList = level.getEntities(target,aabb, entity -> {return  entity instanceof LivingEntity livingEntity && Utilities.TARGET_SELECTOR.test(livingEntity);});
         ScentEntity scent = new ScentEntity(Sentities.SCENT.get(),level);
