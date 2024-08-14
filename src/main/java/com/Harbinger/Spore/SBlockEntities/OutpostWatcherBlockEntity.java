@@ -1,12 +1,30 @@
 package com.Harbinger.Spore.SBlockEntities;
 
+import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.SblockEntities;
+import com.Harbinger.Spore.Core.Sentities;
+import com.Harbinger.Spore.ExtremelySusThings.Utilities;
+import com.Harbinger.Spore.Sentities.Organoids.Umarmer;
+import com.Harbinger.Spore.Sentities.Organoids.Usurper;
+import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OutpostWatcherBlockEntity extends BlockEntity implements AnimatedEntity{
     public int ticks;
@@ -30,7 +48,6 @@ public class OutpostWatcherBlockEntity extends BlockEntity implements AnimatedEn
             ticks = 0;
         }
     }
-
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
@@ -44,6 +61,9 @@ public class OutpostWatcherBlockEntity extends BlockEntity implements AnimatedEn
 
     public static <E extends BlockEntity> void serverTick(Level level, BlockPos blockPos, BlockState blockState, OutpostWatcherBlockEntity e) {
         e.tick();
+        if (e.getTicks() % 60 == 0){
+            e.checkForPotentialTargets(level,blockPos);
+        }
     }
 
     @Override
@@ -54,4 +74,54 @@ public class OutpostWatcherBlockEntity extends BlockEntity implements AnimatedEn
     public static <E extends BlockEntity> void clientTick(Level level, BlockPos pos, BlockState state, OutpostWatcherBlockEntity e) {
         e.tick();
     }
+
+    public void checkForPotentialTargets(Level level,BlockPos blockPos){
+        if (level.getDifficulty() != Difficulty.PEACEFUL){
+            int range =2 * SConfig.DATAGEN.cryo_range.get();
+            AABB aabb = AABB.ofSize(new Vec3(blockPos.getX(), blockPos.getY(), blockPos.getZ()), range, range, range);
+            List<LivingEntity> possibleTargets = level.getEntitiesOfClass(LivingEntity.class,aabb);
+            List<ScentEntity> amountofScents = new ArrayList<>();
+            for (LivingEntity entity : possibleTargets){
+                if (entity instanceof ScentEntity scent){amountofScents.add(scent);}
+            }
+            for (LivingEntity entity: possibleTargets){
+                if (amountofScents.size() <= SConfig.SERVER.scent_cap.get()){
+                    if (Utilities.TARGET_SELECTOR.test(entity)){
+                        SummonScent(entity,level,entity.getX(),entity.getY(),entity.getZ());
+                        if (Math.random() < 0.1f && level instanceof ServerLevel serverLevel){
+                            SummonOrganoids(entity,serverLevel,entity.getX(),entity.getY(),entity.getZ(),Math.random()<=0.5f,blockPos);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void SummonScent(LivingEntity target,Level level,double x, double y, double z){
+        AABB aabb = target.getBoundingBox().inflate(3);
+        List<Entity> entityList = level.getEntities(target,aabb, entity -> {return  entity instanceof LivingEntity livingEntity && Utilities.TARGET_SELECTOR.test(livingEntity);});
+        ScentEntity scent = new ScentEntity(Sentities.SCENT.get(),level);
+        scent.setOvercharged(entityList.size() > 2);
+        scent.moveTo(x,y,z);
+        level.addFreshEntity(scent);
+    }
+    private void SummonOrganoids(LivingEntity target,ServerLevel level, double x, double y, double z, boolean range,BlockPos pos){
+        if (range){
+            Umarmer umarmer = new Umarmer(Sentities.UMARMED.get(),level);
+            umarmer.moveTo(x,y,z);
+            umarmer.teleportTo(x,y,z);
+            umarmer.finalizeSpawn(level,level.getCurrentDifficultyAt(new BlockPos(pos)), MobSpawnType.MOB_SUMMONED,null,null);
+            level.addFreshEntity(umarmer);
+        }else{
+            RandomSource source = RandomSource.create();
+            BlockPos randomPosition = Utilities.generateRandomPosTowardDirection(target.getOnPos(),6,source,pos);
+            Usurper usurper = new Usurper(Sentities.USURPER.get(),level);
+            usurper.moveTo(x,y,z);
+            usurper.teleportTo(randomPosition.getY(),randomPosition.getY(),randomPosition.getZ());
+            usurper.finalizeSpawn(level,level.getCurrentDifficultyAt(new BlockPos(pos)), MobSpawnType.MOB_SUMMONED,null,null);
+            level.addFreshEntity(usurper);
+        }
+    }
+
+
 }

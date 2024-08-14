@@ -13,6 +13,9 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.util.GoalUtils;
+import net.minecraft.world.entity.ai.util.RandomPos;
 import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.block.state.BlockState;
@@ -90,4 +93,23 @@ public class Utilities {
         }
         return true;
     };
+
+    public static BlockPos generateRandomPosTowardDirection(BlockPos pos1, int value, RandomSource source, BlockPos pos) {
+        int i = pos.getX();
+        int j = pos.getZ();
+        if (value > 1) {
+            if (pos1.getX() > (double) pos.getX()) {
+                i -= source.nextInt(value / 2);
+            } else {
+                i += source.nextInt(value / 2);
+            }
+
+            if (pos1.getZ() > (double) pos.getZ()) {
+                j -= source.nextInt(value / 2);
+            } else {
+                j += source.nextInt(value / 2);
+            }
+        }
+        return BlockPos.containing((double)i + pos1.getX(), (double)pos.getY() + pos1.getY(), (double)j + pos1.getZ());
+    }
 }
