@@ -111,7 +111,7 @@ public class Organoid extends UtilityEntity implements Enemy {
     @Override
     protected void customServerAiStep() {
         super.customServerAiStep();
-        if (this.tickCount % 20 == 0 && this.getHealth() < this.getMaxHealth()){
+        if (this.tickCount % 20 == 0 && this.getHealth() < this.getMaxHealth() && this.getTicksFrozen() <=0){
             setHealth(getHealth()+1);
         }
     }
