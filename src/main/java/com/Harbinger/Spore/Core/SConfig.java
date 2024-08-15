@@ -113,6 +113,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> reconstructor_terrain;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> reconstructor_air;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> reconstructor_water;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> reconstructor_underground;
 
         public final ForgeConfigSpec.ConfigValue<Double> vigil_hp;
         public final ForgeConfigSpec.ConfigValue<Double> vigil_armor;
@@ -776,6 +777,8 @@ public class SConfig {
                     Lists.newArrayList("spore:hindenburg","spore:howitzer" ) , o -> o instanceof String);
             this.reconstructor_water = builder.defineList("Mobs that are summoned for water support",
                     Lists.newArrayList("spore:gazenbreacher" ) , o -> o instanceof String);
+            this.reconstructor_underground = builder.defineList("Mobs that are summoned for underground support",
+                    Lists.newArrayList("spore:gazenbreacher","spore:sieger" ) , o -> o instanceof String);
             builder.pop();
 
 

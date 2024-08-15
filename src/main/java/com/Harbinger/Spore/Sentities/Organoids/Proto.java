@@ -36,15 +36,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class Proto extends Organoid implements CasingGenerator {
     private static final EntityDataAccessor<Integer> HOSTS = SynchedEntityData.defineId(Proto.class, EntityDataSerializers.INT);
@@ -450,15 +448,15 @@ public class Proto extends Organoid implements CasingGenerator {
         BlockPos blockPosTop = blockPos.above();
         if (level instanceof  ServerLevel serverLevel && serverLevel.isEmptyBlock(blockPos) && (serverLevel.isEmptyBlock(blockPosTop) || serverLevel.getBlockState(blockPosTop).liquid())){
             if (pos != null){
-                BiomassReformator creature = new BiomassReformator(Sentities.RECONSTRUCTOR.get(),level);
-                creature.setLocation(pos);
+                BiomassReformator.TERRAIN terrain = BiomassReformator.TERRAIN.GROUND_LEVEL;
                 if (pos.getY() > 120){
-                    creature.setState(2);
+                    terrain = BiomassReformator.TERRAIN.AIR_LEVEL;
+                }else if (checkForLiquids(pos)){
+                    terrain = BiomassReformator.TERRAIN.WATER_LEVEL;
                 }else if (pos.getY()<63){
-                    creature.setState(1);
-                }else {
-                    creature.setState(0);
+                 terrain = BiomassReformator.TERRAIN.UNDERGROUND;
                 }
+                BiomassReformator creature = new BiomassReformator(Sentities.RECONSTRUCTOR.get(),level,terrain,pos);
                 creature.tickEmerging();
                 creature.setPos(entity.getX()+a,entity.getY()+c,entity.getZ()+b);
                 level.addFreshEntity(creature);
@@ -468,6 +466,17 @@ public class Proto extends Organoid implements CasingGenerator {
                 this.setSignal(false);
             }
         }
+    }
+
+    private boolean checkForLiquids(BlockPos blockPos){
+        AABB aabb = AABB.ofSize(new Vec3(blockPos.getX(), blockPos.getY(), blockPos.getZ()), 14, 14, 14);
+        List<BlockPos> liquids = new ArrayList<>();
+        for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+            if (level().getBlockState(blockpos).getFluidState() != Fluids.EMPTY.defaultFluidState()){
+                liquids.add(blockpos);
+            }
+        }
+        return liquids.size() > 6 && blockPos.getY() <70;
     }
 
     public boolean checkForCalamities(BlockPos pos){

@@ -6,6 +6,7 @@ import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
+import com.Harbinger.Spore.Sentities.Variants.BusserVariants;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -30,6 +31,8 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -40,8 +43,15 @@ public class BiomassReformator extends Organoid {
     private static final EntityDataAccessor<BlockPos> LOCATION = SynchedEntityData.defineId(BiomassReformator.class, EntityDataSerializers.BLOCK_POS);
     private int breakCounter;
 
+    public BiomassReformator(EntityType<? extends PathfinderMob> type, Level level,TERRAIN terrain,BlockPos pos) {
+        super(type, level);
+        this.entityData.set(STATE,terrain.value);
+        this.setLocation(pos);
+    }
     public BiomassReformator(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
+        this.entityData.set(STATE,0);
+        this.setLocation(BlockPos.ZERO);
     }
     private int eatingTicks = 0;
 
@@ -99,12 +109,6 @@ public class BiomassReformator extends Organoid {
         return entityData.get(BIOMASS);
     }
 
-    public void setState(int state){
-        entityData.set(STATE,state);
-    }
-    public int getState(){
-        return entityData.get(STATE);
-    }
     public void setLocation(BlockPos pos){
         entityData.set(LOCATION,pos);
     }
@@ -230,9 +234,6 @@ public class BiomassReformator extends Organoid {
     @Override
     protected void customServerAiStep() {
         super.customServerAiStep();
-        if (this.getHealth() < this.getMaxHealth() && !this.hasEffect(MobEffects.REGENERATION)){
-            this.addEffect(new MobEffectInstance(MobEffects.REGENERATION,200,0));
-        }
         if (getBiomass() > 1){
             int age = 1;
             if (this.getBiomass() > (SConfig.SERVER.reconstructor_biomass.get()/4) && this.getBiomass() < (SConfig.SERVER.reconstructor_biomass.get()/2)){
@@ -252,15 +253,8 @@ public class BiomassReformator extends Organoid {
     }
 
     private void Summon(Entity entity ,boolean value){
-        List<? extends String> ev = SConfig.SERVER.reconstructor_terrain.get();
-        if (Math.random() < 0.3){
-            entityData.set(STATE,this.random.nextInt(3));
-        }
-        if (entityData.get(STATE) == 1){
-            ev = SConfig.SERVER.reconstructor_water.get();
-        }if (entityData.get(STATE) == 2){
-            ev = SConfig.SERVER.reconstructor_air.get();
-        }
+        if (Math.random() <=0.3f){this.entityData.set(STATE,this.random.nextInt(TERRAIN.values().length));}
+        List<? extends String> ev = this.getVariant().getList();
         Random rand = new Random();
             int randomIndex = rand.nextInt(ev.size());
             ResourceLocation randomElement1 = new ResourceLocation(ev.get(randomIndex));
@@ -297,5 +291,33 @@ public class BiomassReformator extends Organoid {
     @Override
     public int getEmerge_tick() {
         return 60;
+    }
+
+    public TERRAIN getVariant() {
+        return TERRAIN.byId(this.entityData.get(STATE) & 255);
+    }
+
+    public enum TERRAIN{
+        GROUND_LEVEL(0,SConfig.SERVER.reconstructor_terrain.get()),
+        WATER_LEVEL(1,SConfig.SERVER.reconstructor_water.get()),
+        AIR_LEVEL(2,SConfig.SERVER.reconstructor_air.get()),
+        UNDERGROUND(3,SConfig.SERVER.reconstructor_underground.get());
+        private final int value;
+        private final List<? extends String> list;
+        TERRAIN(int v, List<? extends String> l){
+            this.value = v;
+            this.list = l;
+        }
+        public int getValue(){
+            return value;
+        }
+        public List<? extends String> getList(){
+            return list;
+        }
+        private static final TERRAIN[] BY_ID = Arrays.stream(values()).sorted(Comparator.
+                comparingInt(TERRAIN::getValue)).toArray(TERRAIN[]::new);
+        public static TERRAIN byId(int id) {
+            return BY_ID[id % BY_ID.length];
+        }
     }
 }
