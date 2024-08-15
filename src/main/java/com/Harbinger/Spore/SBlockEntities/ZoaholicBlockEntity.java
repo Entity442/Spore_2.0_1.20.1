@@ -171,15 +171,28 @@ public class ZoaholicBlockEntity extends BlockEntity implements AnimatedEntity{
         RandomSource randomSource = RandomSource.create();
         ItemStack stack = new ItemStack(Items.PAPER);
         if (livingEntity != null){
-            int x = livingEntity.getBlockX() + randomSource.nextInt(-50,50);
-            int z = livingEntity.getBlockZ() + randomSource.nextInt(-50,50);
-            String component = Component.translatable("zoaholic.line_3").getString();
-            stack.setHoverName(Component.literal(component+" X:"+x + " Z:"+z));
+            if (Math.random() < 0.2f){
+                alertAnomaly(blockPos,livingEntity);
+                stack.setHoverName(Component.translatable("zoaholic.line_5"));
+            }else{
+                int x = livingEntity.getBlockX() + randomSource.nextInt(-50,50);
+                int z = livingEntity.getBlockZ() + randomSource.nextInt(-50,50);
+                String component = Component.translatable("zoaholic.line_3").getString();
+                stack.setHoverName(Component.literal(component+" X:"+x + " Z:"+z));
+            }
         }else{
             stack.setHoverName(Component.translatable("zoaholic.line_4"));
         }
         ItemEntity item = new ItemEntity(level,blockPos.getX(),blockPos.getY()+0.5,blockPos.getZ(),stack);
         level.addFreshEntity(item);
+    }
+    private void alertAnomaly(BlockPos pos,LivingEntity livingEntity){
+        if (livingEntity instanceof Proto proto){
+            proto.setSignal(true);
+            proto.setPlace(pos);
+        }else if (livingEntity instanceof Calamity calamity){
+            calamity.setSearchArea(pos);
+        }
     }
 
     public void spreadMadness(Level level,BlockPos blockPos){
