@@ -6,6 +6,7 @@ import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -18,10 +19,13 @@ import net.minecraft.world.entity.ai.util.GoalUtils;
 import net.minecraft.world.entity.ai.util.RandomPos;
 import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -94,22 +98,14 @@ public class Utilities {
         return true;
     };
 
-    public static BlockPos generateRandomPosTowardDirection(BlockPos pos1, int value, RandomSource source, BlockPos pos) {
-        int i = pos.getX();
-        int j = pos.getZ();
-        if (value > 1) {
-            if (pos1.getX() > (double) pos.getX()) {
-                i -= source.nextInt(value / 2);
-            } else {
-                i += source.nextInt(value / 2);
-            }
-
-            if (pos1.getZ() > (double) pos.getZ()) {
-                j -= source.nextInt(value / 2);
-            } else {
-                j += source.nextInt(value / 2);
+    public static List<Item> helmetList(){
+        List<Item> values = new ArrayList<>();
+        for (String string : SConfig.SERVER.gas_masks.get()){
+            Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(string));
+            if (item != null){
+                values.add(item);
             }
         }
-        return BlockPos.containing((double)i + pos1.getX(), (double)pos.getY() + pos1.getY(), (double)j + pos1.getZ());
+        return values;
     }
 }

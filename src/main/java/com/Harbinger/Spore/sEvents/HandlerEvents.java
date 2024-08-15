@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
 import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
+import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.SBlockEntities.BrainRemnantBlockEntity;
 import com.Harbinger.Spore.SBlockEntities.CDUBlockEntity;
 import com.Harbinger.Spore.SBlockEntities.LivingStructureBlocks;
@@ -300,7 +301,7 @@ public class HandlerEvents {
                                     player.displayClientMessage(Component.literal("Stored Location " + reformator.getLocation()),false);
                                     player.displayClientMessage(Component.literal("Buffs " + reformator.getActiveEffects()),false);
                                     player.displayClientMessage(Component.literal("Biomass " + reformator.getBiomass()),false);
-                                    player.displayClientMessage(Component.literal("State " + reformator.getState()),false);
+                                    player.displayClientMessage(Component.literal("State " + reformator.getVariant().getValue()),false);
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
                             }else if(entity1 instanceof Vigil vigil) {
                                     player.displayClientMessage(Component.literal("Entity "+ vigil.getEncodeId() + " " + vigil.getCustomName()),false);
@@ -590,15 +591,8 @@ public class HandlerEvents {
     public static void ProtectFromEffect(MobEffectEvent.Applicable event)
     {
         if (event.getEntity() != null){
-            List<Item> masks =  new ArrayList<>();
-            for (String string : SConfig.SERVER.gas_masks.get()){
-                Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(string));
-                if (item != null){
-                 masks.add(item);
-                }
-            }
             event.getEffectInstance();
-            if (event.getEffectInstance().getEffect() == Seffects.MYCELIUM.get() && masks.contains(event.getEntity().getItemBySlot(EquipmentSlot.HEAD).getItem())){
+            if (event.getEffectInstance().getEffect() == Seffects.MYCELIUM.get() && Utilities.helmetList().contains(event.getEntity().getItemBySlot(EquipmentSlot.HEAD).getItem())){
                 event.setResult(Event.Result.DENY);
             }
             if (SConfig.SERVER.faw_target.get() && event.getEntity().getType().is(TagKey.create(Registries.ENTITY_TYPE,

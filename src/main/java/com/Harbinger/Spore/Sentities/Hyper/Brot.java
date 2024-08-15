@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Sentities.Hyper;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.PullGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Hyper;
@@ -77,7 +78,7 @@ public class Brot extends Hyper {
         AABB boundingBox = pLivingEntity.getBoundingBox().inflate(12);
         List<Entity> entities = pLivingEntity.level().getEntities(pLivingEntity, boundingBox);
         for (Entity entity : entities) {
-            if ((entity instanceof LivingEntity livingEntity) && !(livingEntity.getItemBySlot(EquipmentSlot.HEAD).getItem() == Sitems.GAS_MASK.get()) && TARGET_SELECTOR.test(livingEntity)) {
+            if (entity instanceof LivingEntity livingEntity && !Utilities.helmetList().contains(livingEntity.getItemBySlot(EquipmentSlot.HEAD).getItem()) && TARGET_SELECTOR.test(livingEntity)) {
                 for (String str : SConfig.SERVER.brot_effects.get()){
                     String[] string = str.split("\\|" );
                     MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(string[0]));

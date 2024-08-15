@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Sentities.AI.CalamitiesAI;
 
+import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
@@ -8,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
@@ -43,7 +45,7 @@ public class SporeBurstSupport extends Goal {
         List<Entity> entities = calamity.level().getEntities(calamity, boundingBox);
         for (Entity entity : entities) {
             if (entity instanceof LivingEntity living){
-                if (calamity.TARGET_SELECTOR.test(living)){
+                if (calamity.TARGET_SELECTOR.test(living) && !Utilities.helmetList().contains(living.getItemBySlot(EquipmentSlot.HEAD).getItem())){
                     applyEffects(living,debuffs);
                 }
                 if (living instanceof UtilityEntity || living instanceof Infected){
