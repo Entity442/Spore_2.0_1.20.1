@@ -2,6 +2,7 @@ package com.Harbinger.Spore.SBlockEntities;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.SblockEntities;
+import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.Organoids.Umarmer;
@@ -80,8 +81,7 @@ public class OutpostWatcherBlockEntity extends BlockEntity implements AnimatedEn
                 if (entity instanceof ScentEntity scent){amountofScents.add(scent);}
             }
             for (LivingEntity entity: possibleTargets){
-                EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(entity);
-                if (Utilities.TARGET_SELECTOR.test(entity) && entity.onGround()){
+                if (Utilities.TARGET_SELECTOR.test(entity) && EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(entity) && !entity.hasEffect(Seffects.SYMBIOSIS.get()) &&  entity.onGround()){
                     if (Math.random() < 0.3f && amountofScents.size() <= SConfig.SERVER.scent_cap.get()){
                         SummonScent(entity,level,entity.getX(),entity.getY(),entity.getZ());
                     }
