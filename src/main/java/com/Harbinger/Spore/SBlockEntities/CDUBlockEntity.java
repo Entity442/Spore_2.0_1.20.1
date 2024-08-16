@@ -3,11 +3,14 @@ package com.Harbinger.Spore.SBlockEntities;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.SblockEntities;
 import com.Harbinger.Spore.Core.Sblocks;
+import com.Harbinger.Spore.Sentities.Utility.InfectionTendril;
+import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -19,7 +22,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -27,7 +29,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class CDUBlockEntity extends BlockEntity{
     public final int maxFuel = 12000;
@@ -120,9 +121,11 @@ public class CDUBlockEntity extends BlockEntity{
                 }
                 for (Entity entity : entities){
                     if (entity instanceof LivingEntity livingEntity &&
-                            (livingEntity.getType().is(TagKey.create(ForgeRegistries.ENTITY_TYPES.getRegistryKey(),
-                                    new ResourceLocation("minecraft:freeze_hurts_extra_types"))))){
+                            (livingEntity.getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES))){
                         livingEntity.hurt(livingEntity.damageSources().freeze(),5);
+                    }
+                    if (entity instanceof ScentEntity || entity instanceof InfectionTendril){
+                        entity.discard();
                     }
                 }
             }
