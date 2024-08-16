@@ -84,7 +84,7 @@ public interface FoliageSpread {
                                     }
                                     level.setBlock(blockpos, _bs, 3);
                                 }
-                                if (blockstate.is(BlockTags.STAIRS) && blockstate.getDestroySpeed(level ,blockpos) < 5 && Math.random() < 0.3){
+                                if (blockstate.is(BlockTags.WOODEN_STAIRS) && blockstate.getDestroySpeed(level ,blockpos) < 5 && Math.random() < 0.3){
                                     BlockState _bs = Sblocks.ROTTEN_STAIR.get().defaultBlockState();
                                     for (Map.Entry<Property<?>, Comparable<?>> entry : blockstate.getValues().entrySet()) {
                                         Property _property = _bs.getBlock().getStateDefinition().getProperty(entry.getKey().getName());

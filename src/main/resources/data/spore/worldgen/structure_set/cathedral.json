@@ -1,0 +1,15 @@
+
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 5345624,
+    "separation": 16,
+    "spacing": 48
+  },
+  "structures": [
+    {
+      "structure": "spore:cathedral",
+      "weight": 1
+    }
+  ]
+}
