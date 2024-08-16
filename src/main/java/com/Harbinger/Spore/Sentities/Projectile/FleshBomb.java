@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -115,6 +116,15 @@ public class FleshBomb extends AbstractArrow {
         super.tick();
         if (tickCount % 70 == 0){
             this.playSound(Ssounds.FALLING_BOMB.get());
+        }
+        if (this.getBombType() == 1){
+            for (int i = 0; i < 360; i++) {
+                if (i % 40 == 0) {
+                    this.level().addParticle(ParticleTypes.LARGE_SMOKE,
+                            this.getX() , this.getY(), this.getZ() ,
+                            Math.cos(i) * 0.25d, 0.25d, Math.sin(i) * 0.25d);
+                }
+            }
         }
     }
 
