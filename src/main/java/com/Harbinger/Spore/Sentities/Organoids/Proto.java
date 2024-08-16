@@ -451,10 +451,10 @@ public class Proto extends Organoid implements CasingGenerator {
                 BiomassReformator.TERRAIN terrain = BiomassReformator.TERRAIN.GROUND_LEVEL;
                 if (pos.getY() > 120){
                     terrain = BiomassReformator.TERRAIN.AIR_LEVEL;
-                }else if (checkForLiquids(pos)){
-                    terrain = BiomassReformator.TERRAIN.WATER_LEVEL;
                 }else if (pos.getY()<63){
                  terrain = BiomassReformator.TERRAIN.UNDERGROUND;
+                }else if (checkForLiquids(pos)){
+                    terrain = BiomassReformator.TERRAIN.WATER_LEVEL;
                 }
                 BiomassReformator creature = new BiomassReformator(Sentities.RECONSTRUCTOR.get(),level,terrain,pos);
                 creature.tickEmerging();
