@@ -25,7 +25,16 @@ public class LaceratorModel<T extends Lacerator> extends EntityModel<T> {
 	private final ModelPart LeftArm;
 	private final ModelPart RightLeg;
 	private final ModelPart LeftLeg;
-
+	private final ModelPart RightForArm;
+	private final ModelPart LeftSegment1;
+	private final ModelPart LeftSegment2;
+	private final ModelPart LeftSegment3;
+	private final ModelPart RightForLeg;
+	private final ModelPart LeftForLeg;
+	private final ModelPart Saw;
+	private final ModelPart Gear1;
+	private final ModelPart Gear2;
+	private final ModelPart Gear3;
 
 	public LaceratorModel(ModelPart root) {
 		this.jason = root.getChild("jason");
@@ -35,6 +44,16 @@ public class LaceratorModel<T extends Lacerator> extends EntityModel<T> {
 		this.LeftArm = Torso.getChild("arms").getChild("leftarm");
 		this.RightLeg = jason.getChild("legs").getChild("rightleg");
 		this.LeftLeg = jason.getChild("legs").getChild("leftleg");
+		this.RightForArm = RightArm.getChild("rightarmseg2");
+		this.LeftSegment1 = LeftArm.getChild("leftarmseg2").getChild("leftarmchainseg1");
+		this.LeftSegment2 = LeftSegment1.getChild("leftarmchainseg2");
+		this.LeftSegment3 = LeftSegment2.getChild("leftarmchainseg3");
+		this.RightForLeg = RightLeg.getChild("rightlegseg2");
+		this.LeftForLeg = LeftLeg.getChild("leftlegseg2");
+		this.Saw = RightForArm.getChild("saw");
+		this.Gear1 = Torso.getChild("Engine").getChild("Gears").getChild("Gear1");
+		this.Gear2 = Torso.getChild("Engine").getChild("Gears").getChild("Gear2");
+		this.Gear3 = Torso.getChild("Engine").getChild("Gears").getChild("Gear3");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -279,15 +298,12 @@ public class LaceratorModel<T extends Lacerator> extends EntityModel<T> {
 
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
-	private void animateLeftArm(ModelPart part,float limbSwing,float limbSwingAmount , float value){
-		if (!(limbSwingAmount > -0.15F && limbSwingAmount < 0.15F)){
-			part.xRot = Mth.cos(limbSwing * 0.8F) * -0.4F * limbSwingAmount;
-		}else
-			part.xRot = Mth.sin(value/8)/10;
+	private void animateLeftArm(ModelPart part, float value){
+		part.xRot = Mth.sin(value/8)/10;
 	}
 	private void animateRightArm(ModelPart part,float value,T entity){
 		if (entity.isAggressive()){
-			part.xRot = 0.7f + Mth.cos(value/7)/9;
+			part.xRot = -1.2f + Mth.cos(value/7)/9;
 		}else{
 			part.xRot = Mth.cos(value/7)/9;
 		}
@@ -299,9 +315,22 @@ public class LaceratorModel<T extends Lacerator> extends EntityModel<T> {
 		this.RightLeg.xRot = Mth.cos(limbSwing * 0.6F) * 0.6F * -limbSwingAmount;
 		this.Head.yRot = netHeadYaw / (180F / (float) Math.PI);
 		this.Head.xRot = headPitch /  ( 90F / (float) Math.PI);
-		this.Torso.xRot = 0.2f + Mth.cos(ageInTicks/8)/8;
-		animateLeftArm(LeftArm,limbSwing,limbSwingAmount,ageInTicks);
+		this.LeftForLeg.xRot = this.LeftLeg.xRot < 0 ? -this.LeftLeg.xRot : 0;
+		this.RightForLeg.xRot = this.RightLeg.xRot < 0 ? -this.RightLeg.xRot : 0;
+		animateLeftArm(LeftArm,ageInTicks);
 		animateRightArm(RightArm,ageInTicks,entity);
+		if (entity.isAggressive()){
+			RightForArm.xRot = -0.8f;
+		}else{
+			this.RightForArm.xRot = this.RightArm.xRot < 0 ? this.RightArm.xRot : 0;
+		}
+		animateLeftArm(LeftSegment1,ageInTicks);
+		animateLeftArm(LeftSegment2,ageInTicks);
+		animateLeftArm(LeftSegment3,ageInTicks);
+		this.Saw.xRot = ageInTicks/2;
+		this.Gear1.xRot = ageInTicks/2;
+		this.Gear2.xRot = -ageInTicks/2;
+		this.Gear3.xRot = ageInTicks;
 	}
 
 	@Override
