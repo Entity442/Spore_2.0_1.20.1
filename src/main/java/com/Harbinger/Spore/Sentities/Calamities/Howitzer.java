@@ -261,7 +261,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
         entityData.set(LEFT_ARM,i);
     }
     public float getMaxArmHp(){
-        return (float) (SConfig.SERVER.howit_hp.get()/5.0f);
+        return (float) (SConfig.SERVER.howit_hp.get()/4.0f);
     }
 
     @Override

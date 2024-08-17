@@ -20,7 +20,6 @@ public class InfectedModel<T extends InfectedHuman> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "infectedmodel"), "main");
 	private final ModelPart body;
-	private int i;
 
 	public InfectedModel(ModelPart root) {
 		this.body = root.getChild("body");
