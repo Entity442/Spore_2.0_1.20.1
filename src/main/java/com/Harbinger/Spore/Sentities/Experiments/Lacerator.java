@@ -110,5 +110,10 @@ public class Lacerator extends Experiment {
             entity.hurtTime = 5;
             entity.invulnerableTime = 5;
         }
+        @Override
+        public void start() {
+            super.start();
+            this.mob.playSound(Ssounds.SAW_SOUND.get());
+        }
     }
 }
