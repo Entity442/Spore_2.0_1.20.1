@@ -327,7 +327,7 @@ public class LaceratorModel<T extends Lacerator> extends EntityModel<T> {
 		animateLeftArm(LeftSegment1,ageInTicks);
 		animateLeftArm(LeftSegment2,ageInTicks);
 		animateLeftArm(LeftSegment3,ageInTicks);
-		this.Saw.xRot = ageInTicks/2;
+		this.Saw.xRot = entity.isAggressive() ? ageInTicks/2 : ageInTicks/6;
 		this.Gear1.xRot = ageInTicks/2;
 		this.Gear2.xRot = -ageInTicks/2;
 		this.Gear3.xRot = ageInTicks;

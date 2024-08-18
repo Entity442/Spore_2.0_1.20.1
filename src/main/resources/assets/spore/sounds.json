@@ -5,6 +5,18 @@
       "spore:corrupted_record"
     ]
   },
+  "engine" :{
+    "subtitle": "sounds.spore.engine",
+    "sounds": [
+      "spore:engine"
+    ]
+  },
+  "saw_sound" :{
+    "subtitle": "sounds.spore.saw_sound",
+    "sounds": [
+      "spore:saw_sound"
+    ]
+  },
 "inf_damage" :{
   "subtitle": "sounds.spore.damage",
   "sounds": [

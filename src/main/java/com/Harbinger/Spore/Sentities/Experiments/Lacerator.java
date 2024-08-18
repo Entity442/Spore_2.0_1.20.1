@@ -8,10 +8,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
@@ -75,6 +74,24 @@ public class Lacerator extends Experiment {
         this.playSound(this.getStepSound(), 0.15F, 1.0F);
     }
 
+    @Override
+    public void tick() {
+        super.tick();
+        if (tickCount % 40 == 0){
+            this.playSound(Ssounds.ENGINE.get());
+            if (this.isAggressive()){
+                this.playSound(Ssounds.SAW_SOUND.get());
+            }
+        }
+    }
+
+    @Override
+    public boolean doHurtTarget(Entity entity) {
+        if (entity instanceof LivingEntity livingEntity && Math.random() < 0.1f){
+            livingEntity.addEffect(new MobEffectInstance(MobEffects.WITHER,200,0));
+        }
+        return super.doHurtTarget(entity);
+    }
 
     public static class LaceratorMeleeAttackGoal extends CustomMeleeAttackGoal{
 

@@ -100,6 +100,10 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> GAST_AMBIENT = soundRegistry("gast_ambient");
 
+    public static final RegistryObject<SoundEvent> SAW_SOUND = soundRegistry("saw_sound");
+
+    public static final RegistryObject<SoundEvent> ENGINE = soundRegistry("engine");
+
     private Ssounds() {
     }
 }
