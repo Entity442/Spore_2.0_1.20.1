@@ -144,15 +144,15 @@ public class CustomMeleeAttackGoal extends Goal {
     protected void checkAndPerformAttack(LivingEntity entity, double at) {
         double d0 = this.getAttackReachSqr(entity);
         if (at <= d0 && this.ticksUntilNextAttack <= 0 && mob.hasLineOfSight(entity)) {
-            this.resetAttackCooldown();
+            this.resetAttackCooldown(attackInterval);
             this.mob.swing(InteractionHand.MAIN_HAND);
             this.mob.doHurtTarget(entity);
         }
 
     }
 
-    protected void resetAttackCooldown() {
-        this.ticksUntilNextAttack = this.adjustedTickDelay(attackInterval);
+    protected void resetAttackCooldown(int value) {
+        this.ticksUntilNextAttack = this.adjustedTickDelay(value);
     }
 
     protected boolean isTimeToAttack() {
