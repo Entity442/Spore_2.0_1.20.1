@@ -27,14 +27,6 @@ public class StructureModification implements StructureModifier {
 
     @Override
     public void modify(Holder<Structure> structure, Phase phase, ModifiableStructureInfo.StructureInfo.Builder builder) {
-        if (structure.is(BuiltinStructures.WOODLAND_MANSION)){
-            builder.getStructureSettings().getOrAddSpawnOverrides(MobCategory.MONSTER).addSpawn(new MobSpawnSettings.SpawnerData(Sentities.INF_EVOKER.get(),60,2,4));
-            builder.getStructureSettings().getOrAddSpawnOverrides(MobCategory.MONSTER).addSpawn(new MobSpawnSettings.SpawnerData(Sentities.INF_VINDICATOR.get(),80,3,6));}
-
-        if (structure.is(BuiltinStructures.PILLAGER_OUTPOST)){
-            builder.getStructureSettings().getOrAddSpawnOverrides(MobCategory.MONSTER).addSpawn(new MobSpawnSettings.SpawnerData(Sentities.INF_PILLAGER.get(),60,2,4));
-        }
-
         if (structure.is(TagKey.create(Registries.STRUCTURE,new ResourceLocation(Spore.MODID,"laboratories")))){
             if (!SConfig.SERVER.structure_spawns.get().isEmpty()){
                 for (String str : SConfig.SERVER.structure_spawns.get()) {
