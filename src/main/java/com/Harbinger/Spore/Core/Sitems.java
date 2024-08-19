@@ -395,6 +395,7 @@ public class Sitems {
     public static final RegistryObject<Item> GROWTH_MYCELIUM = block(Sblocks.GROWTH_MYCELIUM);
     public static final RegistryObject<Item> FUNGAL_STEP_SAPLING = block(Sblocks.FUNGAL_STEM_SAPLING);
     public static final RegistryObject<Item> MYCELIUM_VEINS = block(Sblocks.MYCELIUM_VEINS);
+    public static final RegistryObject<Item> BIOMASS_BULB = block(Sblocks.BIOMASS_BULB);
 
     public static final RegistryObject<Item> ROTTEN_LOG = block(Sblocks.ROTTEN_LOG);
     public static final RegistryObject<Item> ROTTEN_PLANKS = block(Sblocks.ROTTEN_PLANKS);

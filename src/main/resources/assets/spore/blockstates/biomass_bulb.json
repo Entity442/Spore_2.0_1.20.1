@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/biomass_bulb"
+      },
+      {
+        "model": "spore:block/biomass_bulb",
+        "y": 90
+      },
+      {
+        "model": "spore:block/biomass_bulb",
+        "y": 180
+      },
+      {
+        "model": "spore:block/biomass_bulb",
+        "y": 270
+      }
+    ]
+  }
+}
