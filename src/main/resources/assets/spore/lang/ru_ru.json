@@ -190,7 +190,7 @@
   "item.spore.illusion_spawnegg": "Галлюцинация",
   "item.spore.braurei_spawnegg": "Браурей",
   "item.spore.verva_spawnegg": "Верварунг",
-  "item.spore.delusioner_spawnegg": "обманщик",
+  "item.spore.delusioner_spawnegg": "Обманщик",
   "item.spore.gastgaber_spawnegg": "Хозяин",
   "item.spore.howitzer_spawnegg": "Ховитзер",
 
@@ -246,7 +246,7 @@
   "entity.spore.illusion": "Галлюцинация",
   "entity.spore.braurei": "Браурей",
   "entity.spore.verva": "Верварунг",
-  "entity.spore.delusioner": "обманщик",
+  "entity.spore.delusioner": "Обманщик",
   "entity.spore.gastgaber": "Хозяин",
   "entity.spore.howitzer": "Ховитзер",
   "entity.spore.howit_arm": "Рука Ховитзера",
@@ -264,7 +264,7 @@
   "enchantment.spore.mutagenic_reactant": "Мутагенный реагент",
 
   "effect.spore.mycelium_ef": "Мицелиевая инфекция",
-  "effect.spore.stunt": "Трюк",
+  "effect.spore.stunt": "Ошеломление",
   "effect.spore.starvation": "Голод",
   "effect.spore.marker": "Маркер",
   "effect.spore.corrosion": "Коррозия",

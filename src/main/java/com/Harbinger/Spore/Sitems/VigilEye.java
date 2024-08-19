@@ -44,7 +44,7 @@ public class VigilEye extends BaseItem{
     public void releaseUsing(ItemStack stack, Level level, LivingEntity livingEntity, int value) {
         super.releaseUsing(stack, level, livingEntity, value);
         if (!level.isClientSide){
-        AABB searchbox = livingEntity.getBoundingBox().inflate(32);
+        AABB searchbox = livingEntity.getBoundingBox().inflate(128);
         List<Entity> entities = level.getEntities(livingEntity,searchbox);
         for (Entity entity : entities){
             if (entity instanceof LivingEntity living && (living instanceof Infected || living instanceof Organoid || living instanceof Calamity)){
