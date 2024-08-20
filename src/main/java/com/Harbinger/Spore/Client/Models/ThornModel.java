@@ -13,16 +13,31 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
 public class ThornModel<T extends Thorn> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "thornmodel"), "main");
 	private final ModelPart Torn;
-
+	private final ModelPart Head;
+	private final ModelPart Jaw;
+	private final ModelPart RightArm;
+	private final ModelPart LeftArm;
+	private final ModelPart RightLeg;
+	private final ModelPart LeftLeg;
+	private final ModelPart RightForLeg;
+	private final ModelPart LeftForLeg;
 
 	public ThornModel(ModelPart root) {
 		this.Torn = root.getChild("Torn");
-
+		this.Head = Torn.getChild("LowerTorso").getChild("UpperTorso").getChild("Head");
+		this.Jaw = Head.getChild("Jaw");
+		this.RightArm = Torn.getChild("LowerTorso").getChild("UpperTorso").getChild("Arms").getChild("LeftArmJoint");
+		this.LeftArm = Torn.getChild("LowerTorso").getChild("UpperTorso").getChild("Arms").getChild("RightArmJoint");
+		this.RightLeg = Torn.getChild("Legs").getChild("RightLeg");
+		this.LeftLeg = Torn.getChild("Legs").getChild("LeftLeg");
+		this.RightForLeg = RightLeg.getChild("RightFoot");
+		this.LeftForLeg = LeftLeg.getChild("LeftFoot");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -476,10 +491,24 @@ public class ThornModel<T extends Thorn> extends EntityModel<T> {
 
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
+	private void animateArms(ModelPart part,T entity,float value){
+		if (entity.isAggressive()){
+			part.xRot = -1.5f + Mth.cos(value/6)/6;
+		}else{
+			part.xRot = Mth.cos(value/6)/8;
+		}
+	}
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+		this.Head.yRot = netHeadYaw / (180F / (float) Math.PI);
+		this.Jaw.xRot = 0.4f + Mth.cos(ageInTicks/6)/6;
+		this.LeftLeg.xRot = Mth.cos(limbSwing * 0.6F) * 0.6F * limbSwingAmount;
+		this.RightLeg.xRot = Mth.cos(limbSwing * 0.6F) * 0.6F * -limbSwingAmount;
+		this.LeftForLeg.xRot = this.LeftLeg.xRot < 0 ? -this.LeftLeg.xRot : 0;
+		this.RightForLeg.xRot = this.RightLeg.xRot < 0 ? -this.RightLeg.xRot : 0;
+		animateArms(RightArm,entity,ageInTicks);
+		animateArms(LeftArm,entity,-ageInTicks);
 	}
 
 	@Override
