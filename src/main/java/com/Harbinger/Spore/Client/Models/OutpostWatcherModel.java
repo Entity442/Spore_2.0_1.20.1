@@ -185,7 +185,7 @@ public class OutpostWatcherModel<T extends OutpostWatcherBlockEntity> extends Bl
 			vec32 = new Vec3(vec32.x, 0.0D, vec32.z);
 			Vec3 vec33 = (new Vec3(vec31.x - vec3.x, 0.0D, vec31.z - vec3.z)).normalize().yRot(((float)Math.PI / 2F));
 			double d1 = vec32.dot(vec33);
-			part.x = Mth.sqrt((float)Math.abs(d1)) * 0.1F * (float)Math.signum(d1);
+			part.x = Mth.sqrt((float)Math.abs(d1)) * 0.01F * (float)Math.signum(d1);
 		}
 	}
 
