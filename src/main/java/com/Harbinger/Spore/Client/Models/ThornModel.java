@@ -27,17 +27,37 @@ public class ThornModel<T extends Thorn> extends EntityModel<T> {
 	private final ModelPart LeftLeg;
 	private final ModelPart RightForLeg;
 	private final ModelPart LeftForLeg;
+	private final ModelPart LeftLegThorns1;
+	private final ModelPart LeftLegThorns2;
+	private final ModelPart RightLegThorns1;
+	private final ModelPart RightLegThorns2;
+	private final ModelPart TorsoThorns1;
+	private final ModelPart TorsoThorns2;
+	private final ModelPart HeadThorns;
+	private final ModelPart RightArmThorns1;
+	private final ModelPart RightArmThorns2;
+	private final ModelPart LeftArmThorns1;
 
 	public ThornModel(ModelPart root) {
 		this.Torn = root.getChild("Torn");
 		this.Head = Torn.getChild("LowerTorso").getChild("UpperTorso").getChild("Head");
 		this.Jaw = Head.getChild("Jaw");
-		this.RightArm = Torn.getChild("LowerTorso").getChild("UpperTorso").getChild("Arms").getChild("LeftArmJoint");
-		this.LeftArm = Torn.getChild("LowerTorso").getChild("UpperTorso").getChild("Arms").getChild("RightArmJoint");
+		this.LeftArm = Torn.getChild("LowerTorso").getChild("UpperTorso").getChild("Arms").getChild("LeftArmJoint");
+		this.RightArm = Torn.getChild("LowerTorso").getChild("UpperTorso").getChild("Arms").getChild("RightArmJoint");
 		this.RightLeg = Torn.getChild("Legs").getChild("RightLeg");
 		this.LeftLeg = Torn.getChild("Legs").getChild("LeftLeg");
 		this.RightForLeg = RightLeg.getChild("RightFoot");
 		this.LeftForLeg = LeftLeg.getChild("LeftFoot");
+		this.LeftLegThorns1  = LeftLeg.getChild("LeftLegThornsSeg1");
+		this.LeftLegThorns2 = LeftForLeg.getChild("LeftFootThorns");
+		this.RightLegThorns1 = RightLeg.getChild("RightLegThornsSeg1");
+		this.RightLegThorns2 = RightForLeg.getChild("RightLegThornsSeg2");
+		this.TorsoThorns1  = Torn.getChild("LowerTorso").getChild("LowerTorsoThorn");
+		this.TorsoThorns2  = Torn.getChild("LowerTorso").getChild("UpperTorso").getChild("UpperTorsoThorn");
+		this.HeadThorns = Head.getChild("HeadFlower").getChild("ThornBloom");
+		this.RightArmThorns1 = RightArm.getChild("RightArm").getChild("RightArmThornsSeg1");
+		this.RightArmThorns2 = RightArm.getChild("RightArm").getChild("RightArmSeg2").getChild("RightArmThornsSeg2");
+		this.LeftArmThorns1 = LeftArm.getChild("LeftArm").getChild("LeftArmSeg2").getChild("LeftArmThorns");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -498,6 +518,9 @@ public class ThornModel<T extends Thorn> extends EntityModel<T> {
 			part.xRot = Mth.cos(value/6)/8;
 		}
 	}
+	private void animateSpike(T entity ,ModelPart part,float value){
+		part.yScale = entity.hurtTime > 0 ? 2 : 1 + Mth.sin(value/7)/7;
+	}
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
@@ -508,7 +531,64 @@ public class ThornModel<T extends Thorn> extends EntityModel<T> {
 		this.LeftForLeg.xRot = this.LeftLeg.xRot < 0 ? -this.LeftLeg.xRot : 0;
 		this.RightForLeg.xRot = this.RightLeg.xRot < 0 ? -this.RightLeg.xRot : 0;
 		animateArms(RightArm,entity,ageInTicks);
-		animateArms(LeftArm,entity,-ageInTicks);
+		animateArms(LeftArm,entity,ageInTicks);
+		animateSpike(entity,LeftLegThorns1.getChild("Thorn55"),-ageInTicks);
+		animateSpike(entity,LeftLegThorns1.getChild("Thorn56"),ageInTicks);
+		animateSpike(entity,LeftLegThorns1.getChild("Thorn57"),-ageInTicks/2);
+		animateSpike(entity,LeftLegThorns1.getChild("Thorn58"),ageInTicks);
+		animateSpike(entity,LeftLegThorns2.getChild("Thorn51"),-ageInTicks);
+		animateSpike(entity,LeftLegThorns2.getChild("Thorn52"),ageInTicks/2);
+		animateSpike(entity,LeftLegThorns2.getChild("Thorn53"),-ageInTicks);
+		animateSpike(entity,LeftLegThorns2.getChild("Thorn54"),ageInTicks);
+		animateSpike(entity,RightLegThorns1.getChild("Thorn43"),-ageInTicks/2);
+		animateSpike(entity,RightLegThorns1.getChild("Thorn44"),ageInTicks);
+		animateSpike(entity,RightLegThorns1.getChild("Thorn45"),-ageInTicks);
+		animateSpike(entity,RightLegThorns1.getChild("Thorn46"),ageInTicks);
+		animateSpike(entity,RightLegThorns2.getChild("Thorn47"),-ageInTicks/2);
+		animateSpike(entity,RightLegThorns2.getChild("Thorn48"),-ageInTicks);
+		animateSpike(entity,RightLegThorns2.getChild("Thorn49"),ageInTicks);
+		animateSpike(entity,RightLegThorns2.getChild("Thorn50"),-ageInTicks);
+		animateSpike(entity,TorsoThorns1.getChild("Thorn11"),-ageInTicks);
+		animateSpike(entity,TorsoThorns1.getChild("Thorn12"),-ageInTicks/2);
+		animateSpike(entity,TorsoThorns1.getChild("Thorn13"),ageInTicks);
+		animateSpike(entity,TorsoThorns1.getChild("Thorn14"),-ageInTicks);
+		animateSpike(entity,TorsoThorns1.getChild("Thorn15"),ageInTicks/2);
+		animateSpike(entity,TorsoThorns1.getChild("Thorn16"),-ageInTicks);
+		animateSpike(entity,TorsoThorns1.getChild("Thorn17"),-ageInTicks);
+		animateSpike(entity,TorsoThorns1.getChild("Thorn18"),ageInTicks/2);
+		animateSpike(entity,TorsoThorns1.getChild("Thorn19"),-ageInTicks);
+		animateSpike(entity,TorsoThorns1.getChild("Thorn20"),ageInTicks);
+		animateSpike(entity,TorsoThorns2.getChild("Thorn1"),-ageInTicks);
+		animateSpike(entity,TorsoThorns2.getChild("Thorn2"),ageInTicks);
+		animateSpike(entity,TorsoThorns2.getChild("Thorn3"),-ageInTicks);
+		animateSpike(entity,TorsoThorns2.getChild("Thorn4"),ageInTicks);
+		animateSpike(entity,TorsoThorns2.getChild("Thorn5"),ageInTicks/2);
+		animateSpike(entity,TorsoThorns2.getChild("Thorn6"),-ageInTicks);
+		animateSpike(entity,TorsoThorns2.getChild("Thorn7"),ageInTicks);
+		animateSpike(entity,TorsoThorns2.getChild("Thorn8"),ageInTicks/2);
+		animateSpike(entity,TorsoThorns2.getChild("Thorn9"),-ageInTicks);
+		animateSpike(entity,TorsoThorns2.getChild("Thorn10"),ageInTicks/2);
+		animateSpike(entity,HeadThorns.getChild("Thorn59"),ageInTicks);
+		animateSpike(entity,HeadThorns.getChild("Thorn60"),-ageInTicks/2);
+		animateSpike(entity,HeadThorns.getChild("Thorn61"),-ageInTicks);
+		animateSpike(entity,RightArmThorns1.getChild("Thorn31"),-ageInTicks);
+		animateSpike(entity,RightArmThorns1.getChild("Thorn32"),ageInTicks);
+		animateSpike(entity,RightArmThorns1.getChild("Thorn33"),-ageInTicks);
+		animateSpike(entity,RightArmThorns1.getChild("Thorn34"),ageInTicks);
+		animateSpike(entity,RightArmThorns2.getChild("Thorn35"),ageInTicks/2);
+		animateSpike(entity,RightArmThorns2.getChild("Thorn36"),-ageInTicks);
+		animateSpike(entity,RightArmThorns2.getChild("Thorn37"),ageInTicks/2);
+		animateSpike(entity,RightArmThorns2.getChild("Thorn38"),-ageInTicks);
+		animateSpike(entity,LeftArmThorns1.getChild("Thorn21"),-ageInTicks);
+		animateSpike(entity,LeftArmThorns1.getChild("Thorn22"),ageInTicks);
+		animateSpike(entity,LeftArmThorns1.getChild("Thorn23"),-ageInTicks);
+		animateSpike(entity,LeftArmThorns1.getChild("Thorn24"),ageInTicks);
+		animateSpike(entity,LeftArmThorns1.getChild("Thorn25"),-ageInTicks/2);
+		animateSpike(entity,LeftArmThorns1.getChild("Thorn26"),-ageInTicks);
+		animateSpike(entity,LeftArmThorns1.getChild("Thorn27"),ageInTicks);
+		animateSpike(entity,LeftArmThorns1.getChild("Thorn28"),ageInTicks/2);
+		animateSpike(entity,LeftArmThorns1.getChild("Thorn29"),-ageInTicks);
+		animateSpike(entity,LeftArmThorns1.getChild("Thorn30"),-ageInTicks);
 	}
 
 	@Override
