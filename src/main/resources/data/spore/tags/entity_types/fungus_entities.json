@@ -3,7 +3,6 @@
   "values": [
     "spore:inf_human",
     "spore:inf_husk",
-    "spore:inf_hazmat",
     "spore:inf_player",
     "spore:knight",
     "spore:griefer",
@@ -30,12 +29,17 @@
     "spore:proto",
     "spore:vigil",
     "spore:umarmed",
-    "spore:usurper",
     "spore:sieger",
     "spore:gazenbreacher",
-    "spore:hindenburg",
-    "spore:tumoroid_nuke",
     "spore:licker",
+    "spore:verva",
+    "spore:delusioner",
+    "spore:wendigo",
+    "spore:brot",
+    "spore:inquisitor",
+    "spore:plagued",
+    "spore:lacerator",
+    "spore:gastgaber",
     "spore:howitzer",
-    "spore:gastgaber"
+    "spore:thorn"
   ]}
