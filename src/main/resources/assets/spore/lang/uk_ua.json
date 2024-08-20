@@ -197,7 +197,7 @@
   "item.spore.delusioner_spawnegg": "Ілюзіоніст",
   "item.spore.gastgaber_spawnegg": "Гастґебер",
   "item.spore.howitzer_spawnegg": "Гаубиця",
-
+  "item.spore.thorn_spawnegg": "Verdathorn",
 
   "item.spore.scent_spawnegg": "Спори",
   "item.spore.scent_overcharged_spawnegg": "Перенасичені спори",
@@ -221,6 +221,7 @@
   "entity.spore.howler": "Ревун",
   "entity.spore.stalker": "Сталкер",
   "entity.spore.brute": "Звір",
+  "entity.spore.thorn": "Verdathorn",
   "entity.spore.scent": "Спори",
   "entity.spore.claw": "Кігті",
   "entity.spore.busser": "Гарпія",

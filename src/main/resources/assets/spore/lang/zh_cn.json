@@ -197,7 +197,7 @@
   "item.spore.inquisitor_spawnegg": "抓取者刷怪蛋",
   "item.spore.gastgaber_spawnegg": "主持人",
   "item.spore.howitzer_spawnegg": "榴弹炮",
-
+  "item.spore.thorn_spawnegg": "维达松",
 
 
   "item.spore.scent_spawnegg": "支援孢气刷怪蛋",
@@ -221,6 +221,7 @@
   "entity.spore.howler": "咆哮者",
   "entity.spore.stalker": "追迹者",
   "entity.spore.brute": "蛮兽",
+  "entity.spore.thorn": "维达松",
   "entity.spore.scent": "支援孢气",
   "entity.spore.claw": "菌爪",
   "entity.spore.busser": "孢摄蝠",

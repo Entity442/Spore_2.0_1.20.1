@@ -193,7 +193,7 @@
   "item.spore.delusioner_spawnegg": "Обманщик",
   "item.spore.gastgaber_spawnegg": "Хозяин",
   "item.spore.howitzer_spawnegg": "Ховитзер",
-
+  "item.spore.thorn_spawnegg": "Вердатхорн",
 
   "item.spore.scent_spawnegg": "Споры",
   "item.spore.scent_overcharged_spawnegg": "Перенасыщенные споры",
@@ -217,6 +217,7 @@
   "entity.spore.howler": "Воющий",
   "entity.spore.stalker": "Сталкер",
   "entity.spore.brute": "Животное",
+  "entity.spore.thorn": "Вердатхорн",
   "entity.spore.scent": "Споры",
   "entity.spore.claw": "Коготь",
   "entity.spore.busser": "Фаурес",
