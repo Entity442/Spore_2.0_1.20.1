@@ -78,6 +78,7 @@ public class Attributes {
         event.put(Sentities.GASTGABER.get(), GastGeber.createAttributes().build());
         event.put(Sentities.HOWITZER.get(), Howitzer.createAttributes().build());
         event.put(Sentities.LACERATOR.get(), Lacerator.createAttributes().build());
+        event.put(Sentities.THORN.get(), Thorn.createAttributes().build());
     }
 }
 

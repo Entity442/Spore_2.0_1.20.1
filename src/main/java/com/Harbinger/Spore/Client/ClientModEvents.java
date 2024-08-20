@@ -89,6 +89,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(InquisitorModel.LAYER_LOCATION, InquisitorModel::createBodyLayer);
         event.registerLayerDefinition(BrotkatzeModel.LAYER_LOCATION, BrotkatzeModel::createBodyLayer);
         event.registerLayerDefinition(BulletModel.LAYER_LOCATION, BulletModel::createBodyLayer);
+        event.registerLayerDefinition(ThornModel.LAYER_LOCATION, ThornModel::createBodyLayer);
         event.registerLayerDefinition(PlaguedModel.LAYER_LOCATION, PlaguedModel::createBodyLayer);
         event.registerLayerDefinition(RangedBusserModel.LAYER_LOCATION, RangedBusserModel::createBodyLayer);
         event.registerLayerDefinition(StingerModel.LAYER_LOCATION, StingerModel::createBodyLayer);
@@ -136,6 +137,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.INF_HAZMAT.get(), InfectedHazmatRenderer::new);
         event.registerEntityRenderer(Sentities.INF_PLAYER.get(), InfectedPlayerRenderer::new);
         event.registerEntityRenderer(Sentities.LACERATOR.get(), LaceratorRenderer::new);
+        event.registerEntityRenderer(Sentities.THORN.get(), ThornRenderer::new);
         event.registerEntityRenderer(Sentities.SCAMPER.get(), ScamperHumanRenderer::new);
         event.registerEntityRenderer(Sentities.MOUND.get(), MoundRenderer::new);
         event.registerEntityRenderer(Sentities.RECONSTRUCTOR.get(), BiomassReconfiguratorRenderer::new);
