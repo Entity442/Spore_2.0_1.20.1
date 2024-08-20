@@ -76,7 +76,7 @@ public class InfectedHusk extends Infected implements EvolvingInfected {
     @Override
     public void baseTick() {
         super.baseTick();
-        tickEvolution(this,SConfig.SERVER.human_ev.get());
+        tickEvolution(this,SConfig.SERVER.husk_ev.get());
     }
 
     @Nullable

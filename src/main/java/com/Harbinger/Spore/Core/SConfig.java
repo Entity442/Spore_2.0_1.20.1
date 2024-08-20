@@ -1152,6 +1152,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inquisitor_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> brot_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> lacerator_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> thorn_loot;
 
 
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> name;
@@ -1229,6 +1230,10 @@ public class SConfig {
 
             this.inf_volatile_loot = builder.defineList("Volatile",
                     Lists.newArrayList("spore:mutated_fiber|70|1|5","spore:armor_fragment|80|2|6","spore:mutated_heart|10|1|1","spore:claw_fragment|80|6|9","spore:innards|50|1|1","spore:tumor|100|2|4") , o -> o instanceof String);
+
+            this.thorn_loot = builder.defineList("VervaThorn",
+                    Lists.newArrayList("spore:mutated_fiber|70|3|8","spore:armor_fragment|80|4|14","spore:mutated_heart|10|1|1","spore:claw_fragment|80|6|14") , o -> o instanceof String);
+
 
             this.gastgaber_loot = builder.defineList("Gastgaber",
                     Lists.newArrayList("spore:mutated_fiber|80|5|12","spore:armor_fragment|80|2|6","spore:mutated_heart|10|1|3","spore:claw_fragment|80|6|9","spore:innards|50|1|2","spore:tumor|100|4|8","spore:tendons|60|3|7") , o -> o instanceof String);
