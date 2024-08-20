@@ -33,10 +33,10 @@ public class Thorn extends EvolvedInfected {
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, SConfig.SERVER.knight_hp.get() * SConfig.SERVER.global_health.get())
+                .add(Attributes.MAX_HEALTH, SConfig.SERVER.thorn_hp.get() * SConfig.SERVER.global_health.get())
                 .add(Attributes.MOVEMENT_SPEED, 0.2)
-                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.knight_damage.get() * SConfig.SERVER.global_damage.get())
-                .add(Attributes.ARMOR, SConfig.SERVER.knight_armor.get() * SConfig.SERVER.global_armor.get())
+                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.thorn_damage.get() * SConfig.SERVER.global_damage.get())
+                .add(Attributes.ARMOR, SConfig.SERVER.thorn_armor.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.FOLLOW_RANGE, 32)
                 .add(Attributes.ATTACK_KNOCKBACK, 1);
 
@@ -45,7 +45,7 @@ public class Thorn extends EvolvedInfected {
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if (source.getEntity() instanceof LivingEntity livingEntity){
-            livingEntity.hurt(this.level().damageSources().thorns(this),amount *0.2f);
+            livingEntity.hurt(this.level().damageSources().thorns(this),amount *0.4f);
         }
         return super.hurt(source, amount);
     }

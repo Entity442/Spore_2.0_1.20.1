@@ -161,6 +161,10 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> knight_damage;
         public final ForgeConfigSpec.ConfigValue<Double> knight_armor;
 
+        public final ForgeConfigSpec.ConfigValue<Double> thorn_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> thorn_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> thorn_armor;
+
         public final ForgeConfigSpec.ConfigValue<Double> gastgeber_hp;
         public final ForgeConfigSpec.ConfigValue<Double> gastgeber_damage;
         public final ForgeConfigSpec.ConfigValue<Double> gastgeber_armor;
@@ -388,6 +392,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> villager_ev;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> pil_ev;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> wit_ev;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> husk_ev;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> undespawn;
 
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_summon;
@@ -508,6 +513,9 @@ public class SConfig {
             this.wit_ev = builder.defineList("Infected Witch Evolutions",
                     Lists.newArrayList(
                             "spore:volatile") , o -> o instanceof String);
+            this.husk_ev = builder.defineList("Infected Husk Evolutions",
+                    Lists.newArrayList(
+                            "spore:thorn") , o -> o instanceof String);
 
             this.undespawn = builder.defineList("Mobs that won't despawn after being created from assimilation",
                     Lists.newArrayList("spore:inf_villager", "spore:inf_pillager", "spore:inf_witch") , o -> o instanceof String);
@@ -880,6 +888,12 @@ public class SConfig {
             this.knight_hp = builder.comment("Default 25").defineInRange("Sets Knight Max health", 25, 1, Double.MAX_VALUE);
             this.knight_damage = builder.comment("Default 7").defineInRange("Sets Knight Damage", 7, 1, Double.MAX_VALUE);
             this.knight_armor = builder.comment("Default 7").defineInRange("Sets Knight Armor", 7, 1, Double.MAX_VALUE);
+            builder.pop();
+
+            builder.push("Vervathorn");
+            this.thorn_hp = builder.comment("Default 40").defineInRange("Sets Vervathorn Max health", 40, 1, Double.MAX_VALUE);
+            this.thorn_damage = builder.comment("Default 7").defineInRange("Sets Vervathorn Damage", 7, 1, Double.MAX_VALUE);
+            this.thorn_armor = builder.comment("Default 10").defineInRange("Sets Vervathorn Armor", 10, 1, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("Gastgeber");

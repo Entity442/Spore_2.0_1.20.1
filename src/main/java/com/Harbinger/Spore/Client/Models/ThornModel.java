@@ -16,12 +16,13 @@ import net.minecraft.resources.ResourceLocation;
 
 public class ThornModel<T extends Thorn> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "thorn"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "thornmodel"), "main");
 	private final ModelPart Torn;
 
 
 	public ThornModel(ModelPart root) {
 		this.Torn = root.getChild("Torn");
+
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -46,9 +47,9 @@ public class ThornModel<T extends Thorn> extends EntityModel<T> {
 
 		PartDefinition Thorn11 = LowerTorsoThorn.addOrReplaceChild("Thorn11", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.6071F, -0.8797F, 1.4668F, 1.0666F, -1.2305F, 0.1897F));
 
-		PartDefinition Plane2_r1 = Thorn11.addOrReplaceChild("Plane2_r1", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane2_r1 = Thorn11.addOrReplaceChild("Plane2_r1", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane1_r1 = Thorn11.addOrReplaceChild("Plane1_r1", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane1_r1 = Thorn11.addOrReplaceChild("Plane1_r1", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn12 = LowerTorsoThorn.addOrReplaceChild("Thorn12", CubeListBuilder.create().texOffs(0, 0).addBox(1.8539F, -1.8513F, -1.5443F, 2.0F, 5.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.3014F, 0.0312F, 3.9695F, 1.4354F, 0.3093F, 0.5109F));
 
@@ -76,33 +77,33 @@ public class ThornModel<T extends Thorn> extends EntityModel<T> {
 
 		PartDefinition Thorn16 = LowerTorsoThorn.addOrReplaceChild("Thorn16", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.7393F, -1.2808F, -1.1729F, -1.2778F, -0.8709F, 0.1479F));
 
-		PartDefinition Plane3_r1 = Thorn16.addOrReplaceChild("Plane3_r1", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane3_r1 = Thorn16.addOrReplaceChild("Plane3_r1", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane2_r2 = Thorn16.addOrReplaceChild("Plane2_r2", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane2_r2 = Thorn16.addOrReplaceChild("Plane2_r2", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn17 = LowerTorsoThorn.addOrReplaceChild("Thorn17", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.1824F, -1.131F, -1.9673F, -1.2662F, 0.1363F, -0.5345F));
 
-		PartDefinition Plane4_r1 = Thorn17.addOrReplaceChild("Plane4_r1", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane4_r1 = Thorn17.addOrReplaceChild("Plane4_r1", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
 		PartDefinition Plane3_r2 = Thorn17.addOrReplaceChild("Plane3_r2", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn18 = LowerTorsoThorn.addOrReplaceChild("Thorn18", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.9114F, -0.9903F, -0.9919F, -1.9082F, -0.0273F, 0.4139F));
 
-		PartDefinition Plane5_r1 = Thorn18.addOrReplaceChild("Plane5_r1", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane5_r1 = Thorn18.addOrReplaceChild("Plane5_r1", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane4_r2 = Thorn18.addOrReplaceChild("Plane4_r2", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane4_r2 = Thorn18.addOrReplaceChild("Plane4_r2", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn19 = LowerTorsoThorn.addOrReplaceChild("Thorn19", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.672F, 0.1314F, -1.7477F, -1.4177F, 0.6664F, -0.106F));
 
-		PartDefinition Plane6_r1 = Thorn19.addOrReplaceChild("Plane6_r1", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane6_r1 = Thorn19.addOrReplaceChild("Plane6_r1", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane5_r2 = Thorn19.addOrReplaceChild("Plane5_r2", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane5_r2 = Thorn19.addOrReplaceChild("Plane5_r2", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn20 = LowerTorsoThorn.addOrReplaceChild("Thorn20", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.1109F, -2.5608F, -1.6989F, -2.4645F, 0.2022F, -1.0011F));
 
-		PartDefinition Plane7_r1 = Thorn20.addOrReplaceChild("Plane7_r1", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane7_r1 = Thorn20.addOrReplaceChild("Plane7_r1", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane6_r2 = Thorn20.addOrReplaceChild("Plane6_r2", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane6_r2 = Thorn20.addOrReplaceChild("Plane6_r2", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition UpperTorso = LowerTorso.addOrReplaceChild("UpperTorso", CubeListBuilder.create().texOffs(0, 14).addBox(-4.5F, -6.0F, -3.0F, 9.0F, 7.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -7.0F, 0.0F, 0.7854F, 0.0F, 0.0F));
 
@@ -132,21 +133,21 @@ public class ThornModel<T extends Thorn> extends EntityModel<T> {
 
 		PartDefinition Thorn59 = ThornBloom.addOrReplaceChild("Thorn59", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.7053F, 1.6014F, 0.1904F, 2.7685F, 0.9894F, -0.9487F));
 
-		PartDefinition Plane5_r3 = Thorn59.addOrReplaceChild("Plane5_r3", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane5_r3 = Thorn59.addOrReplaceChild("Plane5_r3", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane4_r3 = Thorn59.addOrReplaceChild("Plane4_r3", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane4_r3 = Thorn59.addOrReplaceChild("Plane4_r3", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn60 = ThornBloom.addOrReplaceChild("Thorn60", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.7245F, 1.4394F, 0.0823F, 1.1609F, 1.1674F, -1.9921F));
 
-		PartDefinition Plane6_r3 = Thorn60.addOrReplaceChild("Plane6_r3", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane6_r3 = Thorn60.addOrReplaceChild("Plane6_r3", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane5_r4 = Thorn60.addOrReplaceChild("Plane5_r4", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane5_r4 = Thorn60.addOrReplaceChild("Plane5_r4", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn61 = ThornBloom.addOrReplaceChild("Thorn61", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.7753F, 1.5015F, -0.685F, -0.6174F, 0.6091F, 2.6389F));
 
-		PartDefinition Plane7_r2 = Thorn61.addOrReplaceChild("Plane7_r2", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane7_r2 = Thorn61.addOrReplaceChild("Plane7_r2", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane6_r4 = Thorn61.addOrReplaceChild("Plane6_r4", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane6_r4 = Thorn61.addOrReplaceChild("Plane6_r4", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Arms = UpperTorso.addOrReplaceChild("Arms", CubeListBuilder.create(), PartPose.offset(4.5F, -4.0F, 0.0F));
 
@@ -170,63 +171,63 @@ public class ThornModel<T extends Thorn> extends EntityModel<T> {
 
 		PartDefinition Thorn21 = LeftArmThorns.addOrReplaceChild("Thorn21", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.3009F, 2.3767F, 0.4286F, 1.3149F, -0.7448F, -0.1992F));
 
-		PartDefinition Plane2_r3 = Thorn21.addOrReplaceChild("Plane2_r3", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane2_r3 = Thorn21.addOrReplaceChild("Plane2_r3", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane1_r2 = Thorn21.addOrReplaceChild("Plane1_r2", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane1_r2 = Thorn21.addOrReplaceChild("Plane1_r2", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn22 = LeftArmThorns.addOrReplaceChild("Thorn22", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.7197F, 0.1008F, 0.2932F, 1.4354F, 0.3093F, 0.5109F));
 
-		PartDefinition Plane3_r3 = Thorn22.addOrReplaceChild("Plane3_r3", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane3_r3 = Thorn22.addOrReplaceChild("Plane3_r3", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane2_r4 = Thorn22.addOrReplaceChild("Plane2_r4", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane2_r4 = Thorn22.addOrReplaceChild("Plane2_r4", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn23 = LeftArmThorns.addOrReplaceChild("Thorn23", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.081F, -1.7945F, 1.0466F, 2.2943F, -0.2944F, -0.6424F));
 
-		PartDefinition Plane4_r4 = Thorn23.addOrReplaceChild("Plane4_r4", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane4_r4 = Thorn23.addOrReplaceChild("Plane4_r4", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane3_r4 = Thorn23.addOrReplaceChild("Plane3_r4", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane3_r4 = Thorn23.addOrReplaceChild("Plane3_r4", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn24 = LeftArmThorns.addOrReplaceChild("Thorn24", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.492F, 2.3772F, 0.383F, 1.2373F, 0.8328F, 0.0336F));
 
-		PartDefinition Plane5_r5 = Thorn24.addOrReplaceChild("Plane5_r5", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane5_r5 = Thorn24.addOrReplaceChild("Plane5_r5", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane4_r5 = Thorn24.addOrReplaceChild("Plane4_r5", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane4_r5 = Thorn24.addOrReplaceChild("Plane4_r5", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn25 = LeftArmThorns.addOrReplaceChild("Thorn25", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.6193F, -0.7673F, 1.3567F, 2.7891F, -0.4687F, 1.0727F));
 
-		PartDefinition Plane6_r5 = Thorn25.addOrReplaceChild("Plane6_r5", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane6_r5 = Thorn25.addOrReplaceChild("Plane6_r5", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane5_r6 = Thorn25.addOrReplaceChild("Plane5_r6", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane5_r6 = Thorn25.addOrReplaceChild("Plane5_r6", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn26 = LeftArmThorns.addOrReplaceChild("Thorn26", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.4807F, 1.9195F, -0.5216F, -1.1332F, -1.1162F, -0.0232F));
 
-		PartDefinition Plane3_r5 = Thorn26.addOrReplaceChild("Plane3_r5", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane3_r5 = Thorn26.addOrReplaceChild("Plane3_r5", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane2_r5 = Thorn26.addOrReplaceChild("Plane2_r5", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane2_r5 = Thorn26.addOrReplaceChild("Plane2_r5", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn27 = LeftArmThorns.addOrReplaceChild("Thorn27", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.6908F, -0.7883F, -1.3589F, -1.7622F, -0.414F, -0.5551F));
 
-		PartDefinition Plane4_r6 = Thorn27.addOrReplaceChild("Plane4_r6", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane4_r6 = Thorn27.addOrReplaceChild("Plane4_r6", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane3_r6 = Thorn27.addOrReplaceChild("Plane3_r6", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane3_r6 = Thorn27.addOrReplaceChild("Plane3_r6", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn28 = LeftArmThorns.addOrReplaceChild("Thorn28", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.0512F, -1.8476F, -1.1524F, -2.2278F, -0.678F, 0.6907F));
 
-		PartDefinition Plane5_r7 = Thorn28.addOrReplaceChild("Plane5_r7", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane5_r7 = Thorn28.addOrReplaceChild("Plane5_r7", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane4_r7 = Thorn28.addOrReplaceChild("Plane4_r7", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane4_r7 = Thorn28.addOrReplaceChild("Plane4_r7", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn29 = LeftArmThorns.addOrReplaceChild("Thorn29", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.2522F, 1.395F, -1.8088F, -1.4177F, 0.6664F, -0.106F));
 
-		PartDefinition Plane6_r6 = Thorn29.addOrReplaceChild("Plane6_r6", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane6_r6 = Thorn29.addOrReplaceChild("Plane6_r6", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane5_r8 = Thorn29.addOrReplaceChild("Plane5_r8", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane5_r8 = Thorn29.addOrReplaceChild("Plane5_r8", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn30 = LeftArmThorns.addOrReplaceChild("Thorn30", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.4725F, -1.8879F, -0.334F, -2.6074F, 0.4797F, -1.4189F));
 
-		PartDefinition Plane7_r3 = Thorn30.addOrReplaceChild("Plane7_r3", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane7_r3 = Thorn30.addOrReplaceChild("Plane7_r3", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane6_r7 = Thorn30.addOrReplaceChild("Plane6_r7", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane6_r7 = Thorn30.addOrReplaceChild("Plane6_r7", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition RightArmJoint = Arms.addOrReplaceChild("RightArmJoint", CubeListBuilder.create(), PartPose.offset(-9.0F, -0.5F, 0.0F));
 
@@ -236,27 +237,27 @@ public class ThornModel<T extends Thorn> extends EntityModel<T> {
 
 		PartDefinition Thorn31 = RightArmThornsSeg1.addOrReplaceChild("Thorn31", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.1207F, 2.3403F, 0.598F, 1.3705F, -0.3619F, -0.3029F));
 
-		PartDefinition Plane2_r6 = Thorn31.addOrReplaceChild("Plane2_r6", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane2_r6 = Thorn31.addOrReplaceChild("Plane2_r6", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane1_r3 = Thorn31.addOrReplaceChild("Plane1_r3", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane1_r3 = Thorn31.addOrReplaceChild("Plane1_r3", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn32 = RightArmThornsSeg1.addOrReplaceChild("Thorn32", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.7197F, 0.1008F, -0.7932F, -1.4354F, -0.3093F, 0.5109F));
 
-		PartDefinition Plane3_r7 = Thorn32.addOrReplaceChild("Plane3_r7", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane3_r7 = Thorn32.addOrReplaceChild("Plane3_r7", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
-		PartDefinition Plane2_r7 = Thorn32.addOrReplaceChild("Plane2_r7", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane2_r7 = Thorn32.addOrReplaceChild("Plane2_r7", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
 		PartDefinition Thorn33 = RightArmThornsSeg1.addOrReplaceChild("Thorn33", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0628F, 1.2614F, -0.3512F, -2.8119F, -0.7063F, -1.1651F));
 
-		PartDefinition Plane4_r8 = Thorn33.addOrReplaceChild("Plane4_r8", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane4_r8 = Thorn33.addOrReplaceChild("Plane4_r8", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane3_r8 = Thorn33.addOrReplaceChild("Plane3_r8", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane3_r8 = Thorn33.addOrReplaceChild("Plane3_r8", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn34 = RightArmThornsSeg1.addOrReplaceChild("Thorn34", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.1712F, -0.1349F, -0.0031F, 2.864F, 1.1858F, -0.3065F));
 
-		PartDefinition Plane5_r9 = Thorn34.addOrReplaceChild("Plane5_r9", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane5_r9 = Thorn34.addOrReplaceChild("Plane5_r9", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane4_r9 = Thorn34.addOrReplaceChild("Plane4_r9", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane4_r9 = Thorn34.addOrReplaceChild("Plane4_r9", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition RightArmSeg2 = RightArm.addOrReplaceChild("RightArmSeg2", CubeListBuilder.create().texOffs(0, 55).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 6.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.0F, 4.5F, 0.0F));
 
@@ -264,65 +265,65 @@ public class ThornModel<T extends Thorn> extends EntityModel<T> {
 
 		PartDefinition Thorn35 = RightArmThornsSeg2.addOrReplaceChild("Thorn35", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.1207F, 2.3403F, 0.598F, 1.3705F, 0.3619F, 0.3029F));
 
-		PartDefinition Plane2_r8 = Thorn35.addOrReplaceChild("Plane2_r8", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane2_r8 = Thorn35.addOrReplaceChild("Plane2_r8", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
-		PartDefinition Plane1_r4 = Thorn35.addOrReplaceChild("Plane1_r4", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane1_r4 = Thorn35.addOrReplaceChild("Plane1_r4", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
 		PartDefinition Thorn36 = RightArmThornsSeg2.addOrReplaceChild("Thorn36", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.7197F, 0.1008F, -0.7932F, -1.4354F, 0.3093F, -0.5109F));
 
-		PartDefinition Plane3_r9 = Thorn36.addOrReplaceChild("Plane3_r9", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane3_r9 = Thorn36.addOrReplaceChild("Plane3_r9", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane2_r9 = Thorn36.addOrReplaceChild("Plane2_r9", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane2_r9 = Thorn36.addOrReplaceChild("Plane2_r9", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn37 = RightArmThornsSeg2.addOrReplaceChild("Thorn37", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.0628F, 1.2614F, -0.3512F, -2.8119F, 0.7063F, 1.1651F));
 
-		PartDefinition Plane4_r10 = Thorn37.addOrReplaceChild("Plane4_r10", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane4_r10 = Thorn37.addOrReplaceChild("Plane4_r10", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
-		PartDefinition Plane3_r10 = Thorn37.addOrReplaceChild("Plane3_r10", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane3_r10 = Thorn37.addOrReplaceChild("Plane3_r10", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
 		PartDefinition Thorn38 = RightArmThornsSeg2.addOrReplaceChild("Thorn38", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.6944F, 2.0381F, -0.0666F, 0.9441F, -1.1858F, 0.3065F));
 
-		PartDefinition Plane5_r10 = Thorn38.addOrReplaceChild("Plane5_r10", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane5_r10 = Thorn38.addOrReplaceChild("Plane5_r10", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
-		PartDefinition Plane4_r11 = Thorn38.addOrReplaceChild("Plane4_r11", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane4_r11 = Thorn38.addOrReplaceChild("Plane4_r11", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
 		PartDefinition UpperTorsoThorn = UpperTorso.addOrReplaceChild("UpperTorsoThorn", CubeListBuilder.create(), PartPose.offset(1.0F, -3.5F, 0.0F));
 
 		PartDefinition Thorn1 = UpperTorsoThorn.addOrReplaceChild("Thorn1", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, -3.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.7393F, 1.2808F, -1.1729F, 1.3149F, -0.7448F, -0.1992F));
 
-		PartDefinition Plane2_r10 = Thorn1.addOrReplaceChild("Plane2_r10", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane2_r10 = Thorn1.addOrReplaceChild("Plane2_r10", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane1_r5 = Thorn1.addOrReplaceChild("Plane1_r5", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane1_r5 = Thorn1.addOrReplaceChild("Plane1_r5", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn2 = UpperTorsoThorn.addOrReplaceChild("Thorn2", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, -3.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0154F, -0.4986F, -1.709F, 1.4354F, 0.3093F, 0.5109F));
 
-		PartDefinition Plane3_r11 = Thorn2.addOrReplaceChild("Plane3_r11", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane3_r11 = Thorn2.addOrReplaceChild("Plane3_r11", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane2_r11 = Thorn2.addOrReplaceChild("Plane2_r11", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane2_r11 = Thorn2.addOrReplaceChild("Plane2_r11", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn3 = UpperTorsoThorn.addOrReplaceChild("Thorn3", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, -3.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.6518F, 2.1942F, -1.7638F, 2.2943F, -0.2944F, -0.6424F));
 
-		PartDefinition Plane4_r12 = Thorn3.addOrReplaceChild("Plane4_r12", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane4_r12 = Thorn3.addOrReplaceChild("Plane4_r12", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane3_r12 = Thorn3.addOrReplaceChild("Plane3_r12", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane3_r12 = Thorn3.addOrReplaceChild("Plane3_r12", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn4 = UpperTorsoThorn.addOrReplaceChild("Thorn4", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, -3.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.001F, 0.0809F, -1.6795F, 1.2373F, 0.8328F, 0.0336F));
 
-		PartDefinition Plane5_r11 = Thorn4.addOrReplaceChild("Plane5_r11", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane5_r11 = Thorn4.addOrReplaceChild("Plane5_r11", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane4_r13 = Thorn4.addOrReplaceChild("Plane4_r13", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane4_r13 = Thorn4.addOrReplaceChild("Plane4_r13", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn5 = UpperTorsoThorn.addOrReplaceChild("Thorn5", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, -3.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.3693F, 1.3527F, -1.6647F, 1.6547F, -0.4687F, 1.0727F));
 
-		PartDefinition Plane6_r8 = Thorn5.addOrReplaceChild("Plane6_r8", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane6_r8 = Thorn5.addOrReplaceChild("Plane6_r8", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane5_r12 = Thorn5.addOrReplaceChild("Plane5_r12", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane5_r12 = Thorn5.addOrReplaceChild("Plane5_r12", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn6 = UpperTorsoThorn.addOrReplaceChild("Thorn6", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, -3.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.7393F, 1.2808F, 1.1729F, -1.2778F, -0.8709F, 0.1479F));
 
-		PartDefinition Plane3_r13 = Thorn6.addOrReplaceChild("Plane3_r13", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane3_r13 = Thorn6.addOrReplaceChild("Plane3_r13", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane2_r12 = Thorn6.addOrReplaceChild("Plane2_r12", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane2_r12 = Thorn6.addOrReplaceChild("Plane2_r12", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn7 = UpperTorsoThorn.addOrReplaceChild("Thorn7", CubeListBuilder.create().texOffs(0, 0).addBox(-1.0F, -0.8333F, -1.0F, 2.0F, 5.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.1861F, 1.3099F, 2.0684F, 1.4858F, -0.0947F, 2.5939F));
 
@@ -338,15 +339,15 @@ public class ThornModel<T extends Thorn> extends EntityModel<T> {
 
 		PartDefinition Thorn9 = UpperTorsoThorn.addOrReplaceChild("Thorn9", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, -3.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.672F, -0.1314F, 1.7477F, -1.4177F, 0.6664F, -0.106F));
 
-		PartDefinition Plane6_r9 = Thorn9.addOrReplaceChild("Plane6_r9", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane6_r9 = Thorn9.addOrReplaceChild("Plane6_r9", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane5_r13 = Thorn9.addOrReplaceChild("Plane5_r13", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane5_r13 = Thorn9.addOrReplaceChild("Plane5_r13", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn10 = UpperTorsoThorn.addOrReplaceChild("Thorn10", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, -3.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.1109F, 2.5608F, 1.6989F, -2.6074F, 0.4797F, -1.4189F));
 
-		PartDefinition Plane7_r4 = Thorn10.addOrReplaceChild("Plane7_r4", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, -1.5F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -4.5F, 0.0F, 0.0F, -0.7854F, -3.1416F));
+		PartDefinition Plane7_r4 = Thorn10.addOrReplaceChild("Plane7_r4", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, -1.5F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -4.5F, 0.0F, 0.0F, -0.7854F, -3.1416F));
 
-		PartDefinition Plane6_r10 = Thorn10.addOrReplaceChild("Plane6_r10", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane6_r10 = Thorn10.addOrReplaceChild("Plane6_r10", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Legs = Torn.addOrReplaceChild("Legs", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
@@ -356,27 +357,27 @@ public class ThornModel<T extends Thorn> extends EntityModel<T> {
 
 		PartDefinition Thorn55 = LeftLegThornsSeg1.addOrReplaceChild("Thorn55", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.1207F, 2.3403F, -0.598F, -1.3705F, -0.3619F, 0.3029F));
 
-		PartDefinition Plane2_r13 = Thorn55.addOrReplaceChild("Plane2_r13", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane2_r13 = Thorn55.addOrReplaceChild("Plane2_r13", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane1_r6 = Thorn55.addOrReplaceChild("Plane1_r6", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane1_r6 = Thorn55.addOrReplaceChild("Plane1_r6", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn56 = LeftLegThornsSeg1.addOrReplaceChild("Thorn56", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.9001F, 3.7615F, 0.7671F, 1.3506F, 0.9418F, -0.7314F));
 
-		PartDefinition Plane3_r14 = Thorn56.addOrReplaceChild("Plane3_r14", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane3_r14 = Thorn56.addOrReplaceChild("Plane3_r14", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
-		PartDefinition Plane2_r14 = Thorn56.addOrReplaceChild("Plane2_r14", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane2_r14 = Thorn56.addOrReplaceChild("Plane2_r14", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
 		PartDefinition Thorn57 = LeftLegThornsSeg1.addOrReplaceChild("Thorn57", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.0628F, 1.2614F, 0.3512F, 2.8119F, -0.7063F, 1.1651F));
 
-		PartDefinition Plane4_r14 = Thorn57.addOrReplaceChild("Plane4_r14", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane4_r14 = Thorn57.addOrReplaceChild("Plane4_r14", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane3_r15 = Thorn57.addOrReplaceChild("Plane3_r15", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane3_r15 = Thorn57.addOrReplaceChild("Plane3_r15", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn58 = LeftLegThornsSeg1.addOrReplaceChild("Thorn58", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.6944F, 2.0381F, 0.0666F, -0.9441F, 1.1858F, 0.3065F));
 
-		PartDefinition Plane5_r14 = Thorn58.addOrReplaceChild("Plane5_r14", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane5_r14 = Thorn58.addOrReplaceChild("Plane5_r14", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane4_r15 = Thorn58.addOrReplaceChild("Plane4_r15", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane4_r15 = Thorn58.addOrReplaceChild("Plane4_r15", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition LeftFoot = LeftLeg.addOrReplaceChild("LeftFoot", CubeListBuilder.create().texOffs(63, 33).addBox(-2.0F, 0.0F, -1.0F, 4.0F, 3.0F, 4.0F, new CubeDeformation(0.0F))
 		.texOffs(32, 8).addBox(-1.0F, 3.0F, 0.0F, 2.0F, 3.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 6.0F, -1.0F));
@@ -385,27 +386,27 @@ public class ThornModel<T extends Thorn> extends EntityModel<T> {
 
 		PartDefinition Thorn51 = LeftFootThorns.addOrReplaceChild("Thorn51", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.2181F, -1.1213F, -0.2339F, -0.4978F, -0.3619F, 0.3029F));
 
-		PartDefinition Plane2_r15 = Thorn51.addOrReplaceChild("Plane2_r15", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane2_r15 = Thorn51.addOrReplaceChild("Plane2_r15", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane1_r7 = Thorn51.addOrReplaceChild("Plane1_r7", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane1_r7 = Thorn51.addOrReplaceChild("Plane1_r7", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn52 = LeftFootThorns.addOrReplaceChild("Thorn52", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.164F, -0.8112F, 0.6108F, 0.4319F, -0.3093F, -0.5109F));
 
-		PartDefinition Plane3_r16 = Thorn52.addOrReplaceChild("Plane3_r16", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane3_r16 = Thorn52.addOrReplaceChild("Plane3_r16", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
-		PartDefinition Plane2_r16 = Thorn52.addOrReplaceChild("Plane2_r16", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane2_r16 = Thorn52.addOrReplaceChild("Plane2_r16", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
 		PartDefinition Thorn53 = LeftFootThorns.addOrReplaceChild("Thorn53", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.5241F, -0.7505F, -0.4286F, 3.0303F, 0.3908F, 2.6921F));
 
-		PartDefinition Plane4_r16 = Thorn53.addOrReplaceChild("Plane4_r16", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane4_r16 = Thorn53.addOrReplaceChild("Plane4_r16", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane3_r17 = Thorn53.addOrReplaceChild("Plane3_r17", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane3_r17 = Thorn53.addOrReplaceChild("Plane3_r17", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn54 = LeftFootThorns.addOrReplaceChild("Thorn54", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0668F, -0.8932F, -0.0493F, -0.2023F, 1.1858F, 0.3065F));
 
-		PartDefinition Plane5_r15 = Thorn54.addOrReplaceChild("Plane5_r15", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane5_r15 = Thorn54.addOrReplaceChild("Plane5_r15", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane4_r17 = Thorn54.addOrReplaceChild("Plane4_r17", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane4_r17 = Thorn54.addOrReplaceChild("Plane4_r17", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition RightLeg = Legs.addOrReplaceChild("RightLeg", CubeListBuilder.create().texOffs(0, 55).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 6.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.0F, -12.0F, 0.0F));
 
@@ -413,27 +414,27 @@ public class ThornModel<T extends Thorn> extends EntityModel<T> {
 
 		PartDefinition Thorn43 = RightLegThornsSeg1.addOrReplaceChild("Thorn43", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, -3.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.1207F, -2.3403F, -0.598F, 1.3705F, -0.3619F, -0.3029F));
 
-		PartDefinition Plane2_r17 = Thorn43.addOrReplaceChild("Plane2_r17", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane2_r17 = Thorn43.addOrReplaceChild("Plane2_r17", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane1_r8 = Thorn43.addOrReplaceChild("Plane1_r8", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane1_r8 = Thorn43.addOrReplaceChild("Plane1_r8", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn44 = RightLegThornsSeg1.addOrReplaceChild("Thorn44", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, -3.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.7197F, -0.1008F, 0.7932F, -1.4354F, -0.3093F, 0.5109F));
 
-		PartDefinition Plane3_r18 = Thorn44.addOrReplaceChild("Plane3_r18", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane3_r18 = Thorn44.addOrReplaceChild("Plane3_r18", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
-		PartDefinition Plane2_r18 = Thorn44.addOrReplaceChild("Plane2_r18", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane2_r18 = Thorn44.addOrReplaceChild("Plane2_r18", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
 		PartDefinition Thorn45 = RightLegThornsSeg1.addOrReplaceChild("Thorn45", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, -3.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.0628F, -1.2614F, 0.3512F, -1.8782F, 0.5142F, -1.6751F));
 
-		PartDefinition Plane4_r18 = Thorn45.addOrReplaceChild("Plane4_r18", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane4_r18 = Thorn45.addOrReplaceChild("Plane4_r18", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane3_r19 = Thorn45.addOrReplaceChild("Plane3_r19", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane3_r19 = Thorn45.addOrReplaceChild("Plane3_r19", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn46 = RightLegThornsSeg1.addOrReplaceChild("Thorn46", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, -3.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.3244F, -0.3359F, -1.3874F, 1.7781F, 0.2438F, 0.2283F));
 
-		PartDefinition Plane5_r16 = Thorn46.addOrReplaceChild("Plane5_r16", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane5_r16 = Thorn46.addOrReplaceChild("Plane5_r16", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane4_r19 = Thorn46.addOrReplaceChild("Plane4_r19", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane4_r19 = Thorn46.addOrReplaceChild("Plane4_r19", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, -3.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition RightFoot = RightLeg.addOrReplaceChild("RightFoot", CubeListBuilder.create().texOffs(16, 55).addBox(-2.0F, 0.0F, -1.0F, 4.0F, 6.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 6.0F, -1.0F));
 
@@ -441,27 +442,27 @@ public class ThornModel<T extends Thorn> extends EntityModel<T> {
 
 		PartDefinition Thorn47 = RightLegThornsSeg2.addOrReplaceChild("Thorn47", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.772F, 0.4382F, -0.7411F, -1.3705F, -0.3619F, 0.3029F));
 
-		PartDefinition Plane2_r19 = Thorn47.addOrReplaceChild("Plane2_r19", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane2_r19 = Thorn47.addOrReplaceChild("Plane2_r19", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane1_r9 = Thorn47.addOrReplaceChild("Plane1_r9", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane1_r9 = Thorn47.addOrReplaceChild("Plane1_r9", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn48 = RightLegThornsSeg2.addOrReplaceChild("Thorn48", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.7197F, 0.1008F, 0.7932F, 1.4354F, -0.3093F, -0.5109F));
 
-		PartDefinition Plane3_r20 = Thorn48.addOrReplaceChild("Plane3_r20", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane3_r20 = Thorn48.addOrReplaceChild("Plane3_r20", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
-		PartDefinition Plane2_r20 = Thorn48.addOrReplaceChild("Plane2_r20", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane2_r20 = Thorn48.addOrReplaceChild("Plane2_r20", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
 		PartDefinition Thorn49 = RightLegThornsSeg2.addOrReplaceChild("Thorn49", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.4141F, 1.1545F, 0.2456F, -2.8604F, -0.7063F, 1.1651F));
 
-		PartDefinition Plane4_r20 = Thorn49.addOrReplaceChild("Plane4_r20", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane4_r20 = Thorn49.addOrReplaceChild("Plane4_r20", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane3_r21 = Thorn49.addOrReplaceChild("Plane3_r21", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane3_r21 = Thorn49.addOrReplaceChild("Plane3_r21", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition Thorn50 = RightLegThornsSeg2.addOrReplaceChild("Thorn50", CubeListBuilder.create().texOffs(0, 27).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.6292F, 0.603F, 0.3027F, -0.9441F, 1.1858F, 0.3065F));
 
-		PartDefinition Plane5_r17 = Thorn50.addOrReplaceChild("Plane5_r17", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+		PartDefinition Plane5_r17 = Thorn50.addOrReplaceChild("Plane5_r17", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
 
-		PartDefinition Plane4_r21 = Thorn50.addOrReplaceChild("Plane4_r21", CubeListBuilder.create().texOffs(0, 27).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition Plane4_r21 = Thorn50.addOrReplaceChild("Plane4_r21", CubeListBuilder.create().texOffs(0, 31).addBox(0.0F, 0.0F, -0.5F, 0.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition RightFootFungus = RightFoot.addOrReplaceChild("RightFootFungus", CubeListBuilder.create(), PartPose.offset(-1.0593F, 4.1608F, 0.6525F));
 
