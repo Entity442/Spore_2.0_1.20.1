@@ -234,7 +234,7 @@ public class Sieger extends Calamity implements RangedAttackMob, TrueCalamity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        return super.hurt(source,this.isAdapted() ? amount/2 : amount);
+        return super.hurt(source,this.isAdapted() ? amount * 0.7f : amount);
     }
 
     @Override
