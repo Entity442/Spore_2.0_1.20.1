@@ -4,10 +4,7 @@ import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
-import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.CalamityInfectedCommand;
-import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.ScatterShotRangedGoal;
-import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SporeBurstSupport;
-import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SummonScentInCombat;
+import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.*;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.FallenMultipart.Licker;
@@ -242,6 +239,7 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
                 return super.canUse() && (calculateHeight() || calculateDistance());
             }
         });
+        this.goalSelector.addGoal(4,new GazenWaterLeapGoal(this));
         this.goalSelector.addGoal(4, new AOEMeleeAttackGoal(this, 1.5, false,2.5 ,6,livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}){
             protected double getAttackReachSqr(LivingEntity entity) {
                 float f = Gazenbrecher.this.getBbWidth();
