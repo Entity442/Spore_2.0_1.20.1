@@ -23,7 +23,9 @@ import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.phys.Vec3;
@@ -198,6 +200,26 @@ public class Wendigo extends Hyper {
                 .add(Attributes.ATTACK_KNOCKBACK, 1)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1);
 
+    }
+
+    @Override
+    public boolean doHurtTarget(Entity entity) {
+        if (entity instanceof LivingEntity livingEntity){undressTarget(livingEntity);}
+        return super.doHurtTarget(entity);
+    }
+
+    private void undressTarget(LivingEntity livingEntity){
+        dropItem(livingEntity,livingEntity.getItemBySlot(EquipmentSlot.HEAD),EquipmentSlot.HEAD);
+        dropItem(livingEntity,livingEntity.getItemBySlot(EquipmentSlot.CHEST),EquipmentSlot.CHEST);
+        dropItem(livingEntity,livingEntity.getItemBySlot(EquipmentSlot.LEGS),EquipmentSlot.LEGS);
+        dropItem(livingEntity,livingEntity.getItemBySlot(EquipmentSlot.FEET),EquipmentSlot.FEET);
+    }
+    private void dropItem(LivingEntity livingEntity,ItemStack stack,EquipmentSlot slot){
+        if (Math.random() < 0.1f){
+            ItemEntity entity = new ItemEntity(this.level(),this.getX(),this.getY(),this.getZ(),stack);
+            level().addFreshEntity(entity);
+            livingEntity.setItemSlot(slot,ItemStack.EMPTY);
+        }
     }
 
     @Override
