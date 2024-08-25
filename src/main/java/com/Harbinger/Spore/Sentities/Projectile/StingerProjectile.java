@@ -58,6 +58,13 @@ public class StingerProjectile extends AbstractArrow {
             living.addEffect(new MobEffectInstance(MobEffects.POISON,200,2));
             living.setArrowCount(living.getArrowCount() - 1);
         }
+        this.discard();
+    }
+
+    @Override
+    protected void onHitBlock(BlockHitResult p_36755_) {
+        super.onHitBlock(p_36755_);
+        this.discard();
     }
 
     @Override
