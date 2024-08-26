@@ -519,7 +519,7 @@ public class Proto extends Organoid implements CasingGenerator {
 
     @Override
     public boolean hasLineOfSight(Entity entity) {
-        if (entity instanceof LivingEntity livingEntity && livingEntity.hasEffect(Seffects.MARKER.get())){
+        if (entity instanceof LivingEntity livingEntity && TARGET_SELECTOR.test(livingEntity)){
             return true;
         }
         return super.hasLineOfSight(entity);

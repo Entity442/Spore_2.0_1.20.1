@@ -22,9 +22,6 @@ import java.util.List;
 
 public interface CasingGenerator {
     private boolean compare(Level level,BlockPos blockpos){
-        if (level.getBlockState(blockpos).getBlock() instanceof MembraneBlock){
-            return false;
-        }
         boolean propery1 = level.getBlockState(blockpos.below()).isSolidRender(level,blockpos);
         boolean propery2 = level.getBlockState(blockpos.above()).isSolidRender(level,blockpos);
         boolean properzx1 = level.getBlockState(blockpos.east()).isSolidRender(level,blockpos);
@@ -41,7 +38,6 @@ public interface CasingGenerator {
         values.add(Sblocks.ROOTED_BIOMASS.get().defaultBlockState());
         values.add(Sblocks.CALCIFIED_BIOMASS_BLOCK.get().defaultBlockState());
         values.add(Sblocks.SICKEN_BIOMASS_BLOCK.get().defaultBlockState());
-        values.add(Sblocks.MEMBRANE_BLOCK.get().defaultBlockState());
         return values;
     }
     default void generateChasing(BlockPos pos,Entity entity, int radius){
