@@ -67,8 +67,12 @@ public interface CasingGenerator {
                                     if (Math.random() < 0.001){
                                         createPussSpots(blockpos,level,randomSource.nextInt(2,5));
                                     }
-                                    if (Math.random() < 0.01 && level.getBlockState(blockpos.above()).isAir()){
-                                        createFungalStalks(blockpos,level,randomSource.nextInt(4,12),randomSource);
+                                    if (Math.random() < 0.005){
+                                        if (level.getBlockState(blockpos.above()).isAir()){
+                                            createFungalStalks(blockpos,level,randomSource,false);
+                                        }else if (level.getBlockState(blockpos.below()).isAir()){
+                                            createFungalStalks(blockpos,level,randomSource,true);
+                                        }
                                     }
                                 }
                             }
@@ -124,14 +128,30 @@ public interface CasingGenerator {
                         }
                     }}}}
     }
-    default void createFungalStalks(BlockPos pos,Level level,int range,RandomSource source){
-        List<Integer> offsets = new ArrayList<>(){{add(-1);add(0);add(1);}};
-        List<Integer> offsets2 = new ArrayList<>(){{add(-1);add(0);add(1);}};
+    default void createFungalStalks(BlockPos pos,Level level,RandomSource source,boolean down){
+        int random  =down ? -source.nextInt(4,16) : source.nextInt(4,16);
         List<BlockState> states = new ArrayList<>(){{add(Sblocks.MYCELIUM_BLOCK.get().defaultBlockState());add(Sblocks.FUNGAL_SHELL.get().defaultBlockState());}};
-        BlockPos blockPos = pos;
-        for (int i = 0; i <= range;i++){
-            blockPos = blockPos.offset(offsets.get(source.nextInt(offsets.size())),i,offsets2.get(source.nextInt(offsets.size())));
-            level.setBlock(blockPos,states.get(source.nextInt(states.size())),3);
+        for (int i = 0; i <= random;i++){
+            BlockState state = states.get(source.nextInt(states.size()));
+            int randomX = source.nextInt(-1,1);
+            int randomZ = source.nextInt(-1,1);
+            BlockPos blockPos = pos.offset(randomX,i,randomZ);
+            if (i % 2 == 0){
+                if (level.getBlockState(blockPos).isAir()){
+                    level.setBlock(blockPos,state,3);
+                }
+                if (level.getBlockState(blockPos.above()).isAir()){
+                    level.setBlock(blockPos.above(),state,3);
+                }
+            }
+            if (i == random){
+                if (level.getBlockState(blockPos.above()).isAir()){
+                    level.setBlock(blockPos.above(),Sblocks.ORGANITE.get().defaultBlockState(),3);
+                }
+                if (level.getBlockState(blockPos.below()).isAir()){
+                    level.setBlock(blockPos.below(),state,3);
+                }
+            }
         }
     }
 }
