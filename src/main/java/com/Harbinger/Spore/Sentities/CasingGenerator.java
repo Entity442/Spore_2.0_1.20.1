@@ -144,12 +144,12 @@ public interface CasingGenerator {
                     level.setBlock(blockPos.above(),state,3);
                 }
             }
-            if (i == random){
+            if (i == random-1){
                 if (level.getBlockState(blockPos.above()).isAir()){
                     level.setBlock(blockPos.above(),Sblocks.ORGANITE.get().defaultBlockState(),3);
                 }
-                if (level.getBlockState(blockPos.below()).isAir()){
-                    level.setBlock(blockPos.below(),state,3);
+                if (level.getBlockState(blockPos).isAir()){
+                    level.setBlock(blockPos,state,3);
                 }
             }
         }
