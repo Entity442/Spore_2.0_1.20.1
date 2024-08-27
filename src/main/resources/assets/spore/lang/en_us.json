@@ -258,7 +258,12 @@
   "entity.spore.howitzer": "Howitzer",
   "entity.spore.howit_arm": "Howitzer arm",
 
-
+  "enchantment.spore.symbiotic_reconstitution.desc": "Slowly heals the item while the host is under the influence of the Symbiosis effect.",
+  "enchantment.spore.cryogenic_aspect.desc": "Chills the victim down to its core , slowing their movement speed and dealing freezing damage.",
+  "enchantment.spore.gastric_spewage.desc": "The item possesses the properties of bile and its victim feels the effects of being showered with it.",
+  "enchantment.spore.corrosive_potency.desc": "The item possesses the properties of corrosion and its victims will feel their melting properties.",
+  "enchantment.spore.unwavering_nature.desc": "The flesh refuses to forget its origins of infecting its victims as well as the owner.",
+  "enchantment.spore.mutagenic_reactant.desc": "The instability of the fungus seeks to aid its brother not its owner.",
 
 
   "entity.spore.thrown_tumor": "Tumor",
