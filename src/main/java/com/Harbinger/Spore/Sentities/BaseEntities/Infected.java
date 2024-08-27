@@ -471,7 +471,7 @@ public class Infected extends Monster{
         }
     }
     public void spawnWithPoints(){
-        if (!SConfig.SERVER.at_mob.get() && Math.random() < 0.1 && this instanceof EvolvingInfected){
+        if (!SConfig.SERVER.at_mob.get() && Math.random() < 0.3 && this instanceof EvolvingInfected){
             this.setEvoPoints(SConfig.SERVER.min_kills.get());
         }
     }
@@ -480,5 +480,13 @@ public class Infected extends Monster{
         if (living instanceof ArmedInfected armedInfected){
             armedInfected.enchantItems(living);
         }
+    }
+
+    @Override
+    public boolean hasLineOfSight(Entity entity) {
+        if (entity instanceof LivingEntity livingEntity && livingEntity.hasEffect(Seffects.MARKER.get())){
+            return true;
+        }
+        return super.hasLineOfSight(entity);
     }
 }

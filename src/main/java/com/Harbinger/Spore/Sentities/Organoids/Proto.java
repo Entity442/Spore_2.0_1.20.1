@@ -154,7 +154,7 @@ public class Proto extends Organoid implements CasingGenerator {
         if (getSignal() && getPlace() != null && checkForCalamities(this.getPlace())){
             this.SummonConstructor(this.level(),this,this.getPlace());
         }
-        if (this.tickCount % 3000 == 0){
+        if (this.tickCount % 3000 == 0 && SConfig.SERVER.proto_madness.get()){
             this.giveMadness(this);
         }
     }

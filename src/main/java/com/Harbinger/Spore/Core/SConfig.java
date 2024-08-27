@@ -268,6 +268,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Boolean> proto_chunk;
         public final ForgeConfigSpec.ConfigValue<Boolean> proto_raid;
         public final ForgeConfigSpec.ConfigValue<Boolean> proto_casing;
+        public final ForgeConfigSpec.ConfigValue<Boolean> proto_madness;
         public final ForgeConfigSpec.ConfigValue<Double> proto_raid_chance;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> proto_sapient_target;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> proto_summonable_troops;
@@ -751,7 +752,8 @@ public class SConfig {
             this.proto_chunk = builder.comment("Default true").define("Should the hivemind generate a chunkloader at its location?",true);
             this.proto_raid = builder.comment("Default true").define("Should the hivemind send Vigils to raid?",true);
             this.proto_casing = builder.comment("Default true").define("Should the hivemind build a wall of flesh around itself?",true);
-            this.proto_raid_chance = builder.comment("Default 1.0").defineInRange("Sets The chance for a raid to start", 1, 0.1, Double.MAX_VALUE);
+            this.proto_madness = builder.comment("Default true").define("Should the hivemind spread madness?",true);
+            this.proto_raid_chance = builder.comment("Default 3.0").defineInRange("Sets The chance for a raid to start", 3, 0.1, Double.MAX_VALUE);
             this.proto_sapient_target = builder.defineList("Sentient Mobs targeted by the hivemind",
                     Lists.newArrayList("minecraft:villager","minecraft:pillager","guardvillagers:guard","minecraft:evoker","minecraft:vindicator",
                             "recruits:recruit","recruits:bowman","recruits:recruit_shieldman", "recruits:nomad","recruits:horseman","roamers:roamer") , o -> o instanceof String);
