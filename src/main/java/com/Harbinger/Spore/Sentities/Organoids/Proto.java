@@ -186,7 +186,7 @@ public class Proto extends Organoid implements CasingGenerator {
         @Override
         public boolean canUse() {
             Entity target = this.proto.getTarget();
-            return this.proto.tickCount % 40 == 0  && target != null && target.distanceToSqr(proto) < 400 && checkForScent() ;
+            return this.proto.tickCount % 40 == 0  && target != null && proto.distanceToSqr(target) < 400 && checkForScent() ;
         }
 
         private boolean checkForScent() {
@@ -195,9 +195,7 @@ public class Proto extends Organoid implements CasingGenerator {
             if (entities.size() >= 1){
                 return false;
             }
-            AABB aabb = this.proto.getBoundingBox().inflate(8);
-            List<Entity> entities1 = this.proto.level().getEntities(this.proto, aabb ,EntitySelector.NO_CREATIVE_OR_SPECTATOR);
-            return entities1.size() < 3;
+            return true;
         }
 
         @Override
