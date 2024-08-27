@@ -255,7 +255,12 @@
   "entity.spore.howitzer": "Хауіцер",
   "entity.spore.howit_arm": "Гармата Хауіцера",
 
-
+  "enchantment.spore.symbiotic_reconstitution.desc": "Зміцнює симбіотичний зв’язок між вами та вашим обладнанням, загоюючи рани під час симбіозу.",
+  "enchantment.spore.cryogenic_aspect.desc": "Охолоджує жертву до глибини душі, сповільнюючи швидкість її руху та завдаючи шкоди від замерзання.",
+  "enchantment.spore.gastric_spewage.desc": "Плоть володіє властивостями жовчі, і її жертва відчуває наслідки обливання нею.",
+  "enchantment.spore.corrosive_potency.desc": "Плоть має властивості корозії, і її жертви відчують її танучий дотик.",
+  "enchantment.spore.unwavering_nature.desc": "Плоть відмовляється забути своє походження, заражаючи своїх жертв, а також господаря.",
+  "enchantment.spore.mutagenic_reactant.desc": "Нестабільність гриба прагне допомогти своєму братові, а не господареві.",
 
 
   "entity.spore.thrown_tumor": "Пухлина",

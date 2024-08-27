@@ -252,6 +252,14 @@
   "entity.spore.howitzer": "Ховитзер",
   "entity.spore.howit_arm": "Рука Ховитзера",
 
+  "enchantment.spore.symbiotic_reconstitution.desc": "Укрепляет симбиотическую связь между вами и вашим снаряжением, залечивая его раны во время симбиоза.",
+  "enchantment.spore.cryogenic_aspect.desc": "Охлаждает жертву до глубины души, замедляя скорость ее передвижения и нанося замораживающий урон.",
+  "enchantment.spore.gastric_spewage.desc": "Плоть обладает свойствами желчи, и ее жертва ощущает эффект от опрыскивания ею.",
+  "enchantment.spore.corrosive_potency.desc": "Плоть обладает свойствами коррозии, и ее жертвы почувствуют ее тающее прикосновение.",
+  "enchantment.spore.unwavering_nature.desc": "Плоть отказывается забывать свое происхождение, заражая как своих жертв, так и хозяина.",
+  "enchantment.spore.mutagenic_reactant.desc": "Нестабильность гриба направлена на помощь своим родственникам, а не хозяину.",
+
+
   "entity.spore.thrown_tumor": "Опухоль",
   "entity.spore.thrown_spear": "Заражённое копьё",
   "entity.spore.acid_ball": "Кислотный шарик",

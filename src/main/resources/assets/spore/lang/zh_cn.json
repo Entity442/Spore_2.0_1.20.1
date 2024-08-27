@@ -257,6 +257,14 @@
   "entity.spore.howitzer": "榴弹炮",
   "entity.spore.howit_arm": "榴弹炮臂”",
 
+  "enchantment.spore.symbiotic_reconstitution.desc": "加强你和你的装备之间的共生纽带，在共生状态下修复伤口。",
+  "enchantment.spore.cryogenic_aspect.desc": "使受害者浑身冰冷，减慢他们的移动速度并造成冰冻伤害。",
+  "enchantment.spore.gastric_spewage.desc": "肉体具有胆汁的特性，受害者会感受到被胆汁沐浴的效果。",
+  "enchantment.spore.corrosive_potency.desc": "肉体具有腐蚀的特性，受害者会感受到它们融化的触感。",
+  "enchantment.spore.unwavering_nature.desc": "肉体拒绝忘记它感染受害者和宿主的起源。",
+  "enchantment.spore.mutagenic_reactant.desc": "真菌的不稳定性旨在帮助它的兄弟而不是它的宿主。",
+
+
   "entity.spore.thrown_tumor": "投掷的肿瘤",
   "entity.spore.thrown_spear": "投掷的长矛",
   "entity.spore.acid_ball": "酸球",

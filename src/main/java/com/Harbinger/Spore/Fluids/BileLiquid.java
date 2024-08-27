@@ -65,7 +65,7 @@ public class BileLiquid extends FluidType {
             entity.setDeltaMovement(entity.getDeltaMovement().add(0,0.01,0));
             gravity = 0;
         }else{
-            movementVector.scale(0.7f);
+            movementVector.scale(0.4f);
             if (entity.tickCount % 40 == 0){
                 for (MobEffectInstance instance:bileEffects()){
                     entity.addEffect(instance);
@@ -80,7 +80,7 @@ public class BileLiquid extends FluidType {
         values.add(new MobEffectInstance(MobEffects.WEAKNESS,100,0));
         values.add(new MobEffectInstance(MobEffects.BLINDNESS,100,0));
         values.add(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,100,0));
-        values.add(new MobEffectInstance(Seffects.MYCELIUM.get(),200,0));
+        values.add(new MobEffectInstance(MobEffects.DIG_SLOWDOWN,200,0));
         return values;
     }
 
