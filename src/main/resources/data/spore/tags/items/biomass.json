@@ -5,6 +5,7 @@
     "spore:sicken_biomass_block",
     "spore:calcified_biomass_block",
     "spore:membrane_block",
-    "spore:rooted_biomass"
+    "spore:rooted_biomass",
+    "spore:gastric_biomass_block"
   ]
 }

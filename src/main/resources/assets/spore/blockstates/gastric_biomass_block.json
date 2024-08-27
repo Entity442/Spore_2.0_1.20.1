@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/gastric_biomass_block"
+      },
+      {
+        "model": "spore:block/gastric_biomass_block",
+        "y": 90
+      },
+      {
+        "model": "spore:block/gastric_biomass_block",
+        "y": 180
+      },
+      {
+        "model": "spore:block/gastric_biomass_block",
+        "y": 270
+      }
+    ]
+  }
+}

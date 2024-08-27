@@ -278,6 +278,7 @@ public class Infected extends Monster{
         states.add(Sblocks.MEMBRANE_BLOCK.get().defaultBlockState());
         states.add(Sblocks.ROOTED_BIOMASS.get().defaultBlockState());
         states.add(Sblocks.ROOTED_MYCELIUM.get().defaultBlockState());
+        states.add(Sblocks.GASTRIC_BIOMASS.get().defaultBlockState());
         return states;
     }
 

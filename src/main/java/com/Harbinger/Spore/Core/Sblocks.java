@@ -93,6 +93,7 @@ public class Sblocks {
     public static final RegistryObject<Block> ROOTED_BIOMASS = BLOCKS.register("rooted_biomass", () -> new Block(BlockBehaviour.Properties.of().strength(2f,2f).sound(SoundType.SLIME_BLOCK)));
     public static final RegistryObject<Block> BIOMASS_BLOCK = BLOCKS.register("biomass_block", () -> new Block(BlockBehaviour.Properties.of().strength(2f,2f).sound(SoundType.SLIME_BLOCK)));
     public static final RegistryObject<Block> SICKEN_BIOMASS_BLOCK = BLOCKS.register("sicken_biomass_block", () -> new SickenBiomassBlock(BlockBehaviour.Properties.of().strength(4f,4f).sound(SoundType.SLIME_BLOCK)));
+    public static final RegistryObject<Block> GASTRIC_BIOMASS = BLOCKS.register("gastric_biomass_block", () -> new GastricBiomassBlock(BlockBehaviour.Properties.of().strength(4f,4f).sound(SoundType.SLIME_BLOCK)));
     public static final RegistryObject<Block> CALCIFIED_BIOMASS_BLOCK = BLOCKS.register("calcified_biomass_block", () -> new Block(BlockBehaviour.Properties.of().strength(8f,20f).sound(SoundType.SLIME_BLOCK)));
     public static final RegistryObject<Block> MEMBRANE_BLOCK = BLOCKS.register("membrane_block", MembraneBlock::new);
     public static final RegistryObject<Block> ROOTED_MYCELIUM = BLOCKS.register("rooted_mycelium", () -> new Block(BlockBehaviour.Properties.of().strength(2f,2f).sound(SoundType.SLIME_BLOCK)));

@@ -42,6 +42,7 @@ public interface CasingGenerator {
         values.add(Sblocks.ROOTED_BIOMASS.get().defaultBlockState());
         values.add(Sblocks.CALCIFIED_BIOMASS_BLOCK.get().defaultBlockState());
         values.add(Sblocks.SICKEN_BIOMASS_BLOCK.get().defaultBlockState());
+        values.add(Sblocks.GASTRIC_BIOMASS.get().defaultBlockState());
         return values;
     }
     default void generateChasing(BlockPos pos,Entity entity, int radius){
@@ -117,7 +118,7 @@ public interface CasingGenerator {
                         if (distance<range+(0.5) && distance>range-(0.5)){
                             BlockPos blockpos = pos.offset( i-(int)range,j-(int)range,k-(int)range);
                             if (level.getBlockState(blockpos).isAir()){
-                                level.setBlock(blockpos,Math.random() < 0.5 ? Sblocks.SICKEN_BIOMASS_BLOCK.get().defaultBlockState() : Sblocks.BIOMASS_BLOCK.get().defaultBlockState(), 3);
+                                level.setBlock(blockpos,Math.random() < 0.5 ? Sblocks.GASTRIC_BIOMASS.get().defaultBlockState() : Sblocks.BIOMASS_BLOCK.get().defaultBlockState(), 3);
                             }
                         }
                         if (distance<range-(0.5)){
