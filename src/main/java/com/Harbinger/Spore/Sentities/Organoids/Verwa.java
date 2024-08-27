@@ -159,6 +159,9 @@ public class Verwa extends Organoid {
         return Ssounds.INF_DAMAGE.get();
     }
 
+    public void setStoredMob(String storedMob){
+        entityData.set(STORED_MOB,storedMob);
+    }
 
     @Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance p_33283_, MobSpawnType p_33284_, @Nullable SpawnGroupData p_33285_, @Nullable CompoundTag p_33286_) {

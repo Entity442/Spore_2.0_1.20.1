@@ -186,7 +186,7 @@ public class Proto extends Organoid implements CasingGenerator {
         @Override
         public boolean canUse() {
             Entity target = this.proto.getTarget();
-            return  target != null  && this.proto.random.nextInt(20) == 0 && checkForScent() ;
+            return this.proto.tickCount % 40 == 0  && target != null && target.distanceToSqr(proto) < 400 && checkForScent() ;
         }
 
         private boolean checkForScent() {
@@ -222,7 +222,7 @@ public class Proto extends Organoid implements CasingGenerator {
 
         @Override
         public boolean canUse() {
-            return this.proto.getTarget() != null &&  this.proto.random.nextInt(150) == 0;
+            return this.proto.getTarget() != null &&  this.proto.tickCount % 100 == 0;
         }
         @Override
         public void start() {
@@ -362,6 +362,10 @@ public class Proto extends Organoid implements CasingGenerator {
         if(amount > SConfig.SERVER.proto_dpsr.get() && SConfig.SERVER.proto_dpsr.get() > 0){
             return super.hurt(source, (float) (SConfig.SERVER.proto_dpsr.get() * 1F));
         }
+        if (source.getEntity() != null && Math.random() < 0.3f){
+            for (int i = 0;i<random.nextInt(1,4);i++)
+            SummonHelpers();
+        }
         return super.hurt(source, amount);
     }
     protected SoundEvent getAmbientSound() {
@@ -465,6 +469,20 @@ public class Proto extends Organoid implements CasingGenerator {
                 }
                 this.setSignal(false);
             }
+        }
+    }
+    public void SummonHelpers(){
+        int a = random.nextInt(-12,12);
+        int b = random.nextInt(-12,12);
+        int c = random.nextInt(-4,4);
+        if (level() instanceof ServerLevel serverLevel){
+            List<String> hypers = new ArrayList<>(){{add("spore:inquisitor");add("spore:wendigo");add("spore:brot");}};
+            int i = hypers.size();
+            Verwa verwa = new Verwa(Sentities.VERVA.get(),serverLevel);
+            verwa.setStoredMob(hypers.get(random.nextInt(i)));
+            verwa.moveTo(this.getX()+a,this.getY()+c,this.getZ()+b);
+            verwa.tickEmerging();
+            level().addFreshEntity(verwa);
         }
     }
 
