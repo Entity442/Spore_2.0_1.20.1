@@ -166,13 +166,12 @@ public class Howler extends EvolvedInfected {
         int r = random.nextInt(-8, 8);
         int c = random.nextInt(-8, 8);
         List<? extends String> ev = SConfig.SERVER.howler_summon.get();
-
-        for (int i = 0; i < 1; ++i) {
-            int randomIndex = rand.nextInt(ev.size());
-            ResourceLocation randomElement1 = new ResourceLocation(ev.get(randomIndex));
-            EntityType<?> randomElement = ForgeRegistries.ENTITY_TYPES.getValue(randomElement1);
-            Mob waveentity = (Mob) randomElement.create(level);
-            waveentity.setPos(entity.getX() + r, entity.getY() + 0.5D + d, entity.getZ() + c);
+        int randomIndex = rand.nextInt(ev.size());
+        ResourceLocation randomElement1 = new ResourceLocation(ev.get(randomIndex));
+        EntityType<?> randomElement = ForgeRegistries.ENTITY_TYPES.getValue(randomElement1);
+        Mob waveentity = (Mob) randomElement.create(level);
+        if (waveentity != null){
+            waveentity.teleportRelative(entity.getX() + r, entity.getY() + 0.5D + d, entity.getZ() + c);
             waveentity.finalizeSpawn(world, level.getCurrentDifficultyAt(new BlockPos((int) entity.getX()  ,(int) entity.getY() ,(int) entity.getZ() )), MobSpawnType.NATURAL, null,null);
             level.addFreshEntity(waveentity);
             this.scream = true;

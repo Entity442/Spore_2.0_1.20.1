@@ -474,13 +474,13 @@ public class Proto extends Organoid implements CasingGenerator {
     public void SummonHelpers(){
         int a = random.nextInt(-12,12);
         int b = random.nextInt(-12,12);
-        int c = random.nextInt(-4,4);
+        int c = random.nextInt(4);
         if (level() instanceof ServerLevel serverLevel){
             List<String> hypers = new ArrayList<>(){{add("spore:inquisitor");add("spore:wendigo");add("spore:brot");}};
             int i = hypers.size();
             Verwa verwa = new Verwa(Sentities.VERVA.get(),serverLevel);
             verwa.setStoredMob(hypers.get(random.nextInt(i)));
-            verwa.moveTo(this.getX()+a,this.getY()+c,this.getZ()+b);
+            verwa.teleportRelative(this.getX()+a,this.getY()+c,this.getZ()+b);
             verwa.tickEmerging();
             level().addFreshEntity(verwa);
         }
