@@ -215,13 +215,16 @@ public class Wendigo extends Hyper {
         dropItem(livingEntity,livingEntity.getItemBySlot(EquipmentSlot.FEET),EquipmentSlot.FEET);
     }
     private void dropItem(LivingEntity livingEntity,ItemStack stack,EquipmentSlot slot){
-        if (Math.random() < 0.1f){
+        if (Math.random() < 0.1f && shouldDropItemsPerSlot(slot)){
             ItemEntity entity = new ItemEntity(this.level(),this.getX(),this.getY(),this.getZ(),stack);
             level().addFreshEntity(entity);
             livingEntity.setItemSlot(slot,ItemStack.EMPTY);
         }
     }
 
+    public static boolean shouldDropItemsPerSlot(EquipmentSlot slot){
+        return true;
+    }
     @Override
     public void tick() {
         super.tick();
