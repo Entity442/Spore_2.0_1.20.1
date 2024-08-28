@@ -73,6 +73,8 @@ public class CDUBlockEntity extends BlockEntity{
         states.add(Sblocks.CALCIFIED_BIOMASS_BLOCK.get().defaultBlockState());
         states.add(Sblocks.MEMBRANE_BLOCK.get().defaultBlockState());
         states.add(Sblocks.ROOTED_BIOMASS.get().defaultBlockState());
+        states.add(Sblocks.GASTRIC_BIOMASS.get().defaultBlockState());
+        states.add(Sblocks.BILE.get().defaultBlockState());
         states.add(Sblocks.ROOTED_MYCELIUM.get().defaultBlockState());
         return states;
     }
