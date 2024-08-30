@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Client.Renderers;
 
+import com.Harbinger.Spore.Client.Layers.HindenburgLightsLayer;
 import com.Harbinger.Spore.Client.Models.HindieModel;
 import com.Harbinger.Spore.Client.Special.CalamityRenderer;
 import com.Harbinger.Spore.Sentities.Calamities.Hinderburg;
@@ -21,7 +22,7 @@ public class HindieRenderer<Type extends Hinderburg> extends CalamityRenderer<Ty
 
     public HindieRenderer(EntityRendererProvider.Context context) {
         super(context, new HindieModel<>(context.bakeLayer(HindieModel.LAYER_LOCATION)), 4f);
-
+        this.addLayer(new HindenburgLightsLayer<>(this));
     }
 
     @Override
