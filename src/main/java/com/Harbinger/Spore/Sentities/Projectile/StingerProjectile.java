@@ -75,7 +75,7 @@ public class StingerProjectile extends AbstractArrow {
     @Override
     public void tick() {
         super.tick();
-        if (this.inGround)
+        if (this.tickCount % 200 == 0)
             this.discard();
     }
 
