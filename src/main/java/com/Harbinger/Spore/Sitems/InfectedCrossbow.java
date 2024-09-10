@@ -1,8 +1,10 @@
 package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Senchantments;
 import com.Harbinger.Spore.Core.Sitems;
+import com.Harbinger.Spore.Fluids.BileLiquid;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import net.minecraft.ChatFormatting;
@@ -18,10 +20,12 @@ import net.minecraft.stats.Stats;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.CrossbowAttackMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.entity.projectile.FireworkRocketEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.*;
@@ -196,14 +200,14 @@ public class InfectedCrossbow extends CrossbowItem {
         });
     }
 
-    private static void shootProjectile(Level p_40895_, LivingEntity p_40896_, InteractionHand p_40897_, ItemStack p_40898_, ItemStack p_40899_, float p_40900_, boolean p_40901_, float p_40902_, float p_40903_, float p_40904_) {
+    private static void shootProjectile(Level p_40895_, LivingEntity p_40896_, InteractionHand p_40897_, ItemStack stack, ItemStack p_40899_, float p_40900_, boolean p_40901_, float p_40902_, float p_40903_, float p_40904_) {
         if (!p_40895_.isClientSide) {
             boolean flag = p_40899_.is(Items.FIREWORK_ROCKET);
             Projectile projectile;
             if (flag) {
                 projectile = new FireworkRocketEntity(p_40895_, p_40899_, p_40896_, p_40896_.getX(), p_40896_.getEyeY() - (double)0.15F, p_40896_.getZ(), true);
             } else {
-                projectile = getArrow(p_40895_, p_40896_, p_40898_, p_40899_);
+                projectile = getArrow(p_40895_, p_40896_, stack, p_40899_);
                 if (p_40901_ || p_40904_ != 0.0F) {
                     ((AbstractArrow)projectile).pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                 }
@@ -211,7 +215,7 @@ public class InfectedCrossbow extends CrossbowItem {
 
             if (p_40896_ instanceof CrossbowAttackMob) {
                 CrossbowAttackMob crossbowattackmob = (CrossbowAttackMob)p_40896_;
-                crossbowattackmob.shootCrossbowProjectile(crossbowattackmob.getTarget(), p_40898_, projectile, p_40904_);
+                crossbowattackmob.shootCrossbowProjectile(crossbowattackmob.getTarget(), stack, projectile, p_40904_);
             } else {
                 Vec3 vec31 = p_40896_.getUpVector(1.0F);
                 Quaternionf quaternionf = (new Quaternionf()).setAngleAxis((double)(p_40904_ * ((float)Math.PI / 180F)), vec31.x, vec31.y, vec31.z);
@@ -220,9 +224,12 @@ public class InfectedCrossbow extends CrossbowItem {
                 projectile.shoot((double)vector3f.x(), (double)vector3f.y(), (double)vector3f.z(), p_40902_, p_40903_);
             }
 
-            p_40898_.hurtAndBreak(flag ? 3 : 1, p_40896_, (p_40858_) -> {
+            stack.hurtAndBreak(flag ? 3 : 1, p_40896_, (p_40858_) -> {
                 p_40858_.broadcastBreakEvent(p_40897_);
             });
+            if (projectile instanceof Arrow arrow){
+                abstractEffects(stack,arrow);
+            }
             p_40895_.addFreshEntity(projectile);
             p_40895_.playSound(null, p_40896_.getX(), p_40896_.getY(), p_40896_.getZ(), SoundEvents.CROSSBOW_SHOOT, SoundSource.PLAYERS, 1.0F, p_40900_);
         }
@@ -375,6 +382,16 @@ public class InfectedCrossbow extends CrossbowItem {
 
     public int getDefaultProjectileRange() {
         return 8;
+    }
+
+    public static void abstractEffects(ItemStack stack, Arrow arrow){
+        if (stack.getEnchantmentLevel(Senchantments.CORROSIVE_POTENCY.get())>0){
+            arrow.addEffect(new MobEffectInstance(Seffects.CORROSION.get(),200,1));
+        }
+        if (stack.getEnchantmentLevel(Senchantments.GASTRIC_SPEWAGE.get())>0){
+            for (MobEffectInstance instance : BileLiquid.bileEffects())
+                arrow.addEffect(instance);
+        }
     }
 }
 

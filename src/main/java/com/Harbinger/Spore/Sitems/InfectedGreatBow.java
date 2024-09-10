@@ -1,14 +1,17 @@
 package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Senchantments;
 import com.Harbinger.Spore.Core.Sitems;
+import com.Harbinger.Spore.Fluids.BileLiquid;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -16,6 +19,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
@@ -87,7 +91,9 @@ public class InfectedGreatBow extends BowItem{
                         if (flag1 || player.getAbilities().instabuild && (itemstack.is(Items.SPECTRAL_ARROW) || itemstack.is(Items.TIPPED_ARROW))) {
                             abstractarrow.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                         }
-
+                        if (abstractarrow instanceof Arrow arrow){
+                            abstractEffects(p_40667_,arrow);
+                        }
                         p_40668_.addFreshEntity(abstractarrow);
                     }
 
@@ -122,4 +128,13 @@ public class InfectedGreatBow extends BowItem{
         return super.canApplyAtEnchantingTable(stack, enchantment) || ImmutableSet.of(Enchantments.SHARPNESS, Enchantments.FIRE_ASPECT, Enchantments.MOB_LOOTING).contains(enchantment);
     }
 
+    public void abstractEffects(ItemStack stack, Arrow arrow){
+        if (stack.getEnchantmentLevel(Senchantments.CORROSIVE_POTENCY.get())>0){
+            arrow.addEffect(new MobEffectInstance(Seffects.CORROSION.get(),200,1));
+        }
+        if (stack.getEnchantmentLevel(Senchantments.GASTRIC_SPEWAGE.get())>0){
+            for (MobEffectInstance instance : BileLiquid.bileEffects())
+            arrow.addEffect(instance);
+        }
+    }
 }
