@@ -187,6 +187,10 @@ public class Sentities {
             () -> EntityType.Builder.of(GastGeber::new, ORGANOID).sized(1.1f, 2f)
                     .build(new ResourceLocation(Spore.MODID, "gastgaber").toString()));
 
+    public static final RegistryObject<EntityType<Specter>> SPECTER = SPORE_ENTITIES.register("specter",
+            () -> EntityType.Builder.of(Specter::new, INFECTED).sized(1.1f, 2.5f)
+                    .build(new ResourceLocation(Spore.MODID, "specter").toString()));
+
 
     public static final RegistryObject<EntityType<AcidBall>> ACID_BALL = register("acid_ball",
             EntityType.Builder.<AcidBall>of(AcidBall::new, MobCategory.MISC).setCustomClientFactory((spawnEntity, level) -> new AcidBall(level))
