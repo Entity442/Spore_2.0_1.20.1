@@ -350,18 +350,6 @@ public class Mound extends Organoid {
         List<InfectionTendril> entities = level.getEntitiesOfClass(InfectionTendril.class, aabb);
         return entities.size() <= 4;
     }
-    @Override
-    protected void customServerAiStep() {
-        super.customServerAiStep();
-        if (getAge() > 1){
-            AttributeInstance health = this.getAttribute(Attributes.MAX_HEALTH);
-            assert health != null;
-            health.setBaseValue(SConfig.SERVER.mound_hp.get() * entityData.get(AGE) * SConfig.SERVER.global_health.get());
-            AttributeInstance armor = this.getAttribute(Attributes.ARMOR);
-            assert armor != null;
-            armor.setBaseValue(SConfig.SERVER.mound_armor.get() * entityData.get(AGE) * SConfig.SERVER.global_armor.get());
-        }
-    }
 
     @Override
     public boolean hurt(DamageSource p_21016_, float p_21017_) {
@@ -403,7 +391,17 @@ public class Mound extends Organoid {
 
     @Override
     public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor) {
+        double health = SConfig.SERVER.mound_hp.get() * entityData.get(AGE) * SConfig.SERVER.global_health.get();
+        double armor = SConfig.SERVER.mound_armor.get() * entityData.get(AGE) * SConfig.SERVER.global_armor.get();
         if (AGE.equals(dataAccessor)){
+            AttributeInstance hp = this.getAttribute(Attributes.MAX_HEALTH);
+            AttributeInstance def = this.getAttribute(Attributes.ARMOR);
+            if (hp != null){
+                hp.setBaseValue(health);
+            }
+            if (def != null){
+                def.setBaseValue(armor);
+            }
             this.refreshDimensions();
         }
         super.onSyncedDataUpdated(dataAccessor);
