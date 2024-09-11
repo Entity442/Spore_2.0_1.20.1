@@ -422,8 +422,8 @@ public class SpecterModel<T extends Specter> extends EntityModel<T> implements T
 		this.animateTentacleX(Tentacle9Seg1,Mth.sin(ageInTicks/6)/3);
 		this.animateTentacleZ(Tentacle9Seg2,Mth.cos(ageInTicks/5)/5);
 		this.animateTentacleZ(Tentacle9Seg3,Mth.cos(ageInTicks/7)/4);
-		animateTumor(Tumor1,Mth.cos(ageInTicks/8)/4);
-		animateTumor(Tumor1,Mth.sin(ageInTicks/7)/5);
+		animateTumor(Tumor1,Mth.cos(ageInTicks/8)/10);
+		animateTumor(Tumor2,Mth.sin(ageInTicks/7)/10);
 	}
 
 	@Override
