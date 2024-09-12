@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sentities.Utility;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
+import com.Harbinger.Spore.Sentities.AI.LocHiv.SearchAreaGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -32,6 +33,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 public class Specter extends UtilityEntity implements Enemy {
@@ -72,6 +74,7 @@ public class Specter extends UtilityEntity implements Enemy {
 
     @Override
     protected void registerGoals() {
+        this.goalSelector.addGoal(2,new SearchAroundGoal(this));
         this.goalSelector.addGoal(3,new RandomStrollGoal(this,1));
         super.registerGoals();
     }
@@ -178,10 +181,58 @@ public class Specter extends UtilityEntity implements Enemy {
     }
 
     public static class SearchAroundGoal extends Goal{
+        private final Specter specter;
+        public int tryTicks;
 
+        public SearchAroundGoal(Specter specter){
+            this.specter = specter;
+            this.setFlags(EnumSet.of(Flag.MOVE));
+        }
         @Override
         public boolean canUse() {
-            return false;
+            return !specter.getTargetedBlocks().isEmpty() && this.specter.getTarget() == null;
+        }
+
+        protected void moveToBlock(BlockPos pos){
+            if (specter.hasLineOfSightOnBlock(pos)){
+                specter.navigation.moveTo(pos.getX()+0.5D,pos.getY()+1D,pos.getZ()+0.5D,1);
+            }
+        }
+        @Override
+        public void start() {
+            this.moveToBlock(specter.targetedBlocks.get(0));
+            this.tryTicks = 0;
+            super.start();
+        }
+
+
+        @Override
+        public boolean canContinueToUse() {
+            return specter.getTarget() == null;
+        }
+
+        public boolean shouldRecalculatePath() {
+            return this.tryTicks % 40 == 0;
+        }
+
+
+        @Override
+        public boolean requiresUpdateEveryTick() {
+            return true;
+        }
+
+        @Override
+        public void tick() {
+            super.tick();
+            ++this.tryTicks;
+            BlockPos pos = this.specter.targetedBlocks.get(0);
+            if (pos != null && shouldRecalculatePath()){
+                moveToBlock(pos);
+            }
+            if (pos != null && pos.closerToCenterThan(this.specter.position(),9.0)){
+                specter.level().removeBlock(pos,true);
+                specter.targetedBlocks.remove(pos);
+            }
         }
     }
 }
