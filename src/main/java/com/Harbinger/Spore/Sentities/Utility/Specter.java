@@ -3,17 +3,43 @@ package com.Harbinger.Spore.Sentities.Utility;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Specter extends UtilityEntity implements Enemy {
+    public static final EntityDataAccessor<Boolean> ON_CEILING = SynchedEntityData.defineId(Specter.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Boolean> INVISIBLE = SynchedEntityData.defineId(Specter.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Integer> BIOMASS = SynchedEntityData.defineId(Specter.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Float> STOMACH = SynchedEntityData.defineId(Specter.class, EntityDataSerializers.FLOAT);
+    private List<BlockPos> targetedBlocks = new ArrayList<>();
     public Specter(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
     }
@@ -28,7 +54,7 @@ public class Specter extends UtilityEntity implements Enemy {
     }
     @Override
     public boolean dampensVibrations() {
-        return true;
+        return isInvisible();
     }
 
 
@@ -48,5 +74,114 @@ public class Specter extends UtilityEntity implements Enemy {
     protected void registerGoals() {
         this.goalSelector.addGoal(3,new RandomStrollGoal(this,1));
         super.registerGoals();
+    }
+
+
+    public void setOnCeiling(boolean value){
+        entityData.set(ON_CEILING,value);
+    }
+    public boolean isOnCeiling(){
+        return entityData.get(ON_CEILING);
+    }
+    public void setInvisible(boolean value){
+        entityData.set(INVISIBLE,value);
+    }
+    public boolean isInvisible(){
+        return entityData.get(INVISIBLE);
+    }
+    public void setBiomass(int value){
+        entityData.set(BIOMASS,value);
+    }
+    public int getBiomass(){
+        return entityData.get(BIOMASS);
+    }
+    public void setStomach(float value){
+        entityData.set(STOMACH,value);
+    }
+    public float getStomach(){
+        return entityData.get(STOMACH);
+    }
+
+    public List<BlockPos> getTargetedBlocks() {
+        return targetedBlocks;
+    }
+    public void removeBlockFromTarget(BlockPos pos){
+        targetedBlocks.remove(pos);
+    }
+
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        entityData.define(ON_CEILING,false);
+        entityData.define(INVISIBLE,false);
+        entityData.define(STOMACH,0f);
+        entityData.define(BIOMASS,0);
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        setInvisible(tag.getBoolean("invisible"));
+        setOnCeiling(tag.getBoolean("ceiling"));
+        setBiomass(tag.getInt("biomass"));
+        setStomach(tag.getFloat("food"));
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putBoolean("invisible",isInvisible());
+        tag.putBoolean("ceiling",isOnCeiling());
+        tag.putInt("biomass",getBiomass());
+        tag.putFloat("food",getStomach());
+    }
+    private List<Block> targetBlocks(){
+        return new ArrayList<>(){{add(Blocks.TORCH);add(Blocks.REDSTONE_TORCH);add(Blocks.LANTERN);}};
+    }
+    private boolean food(Container container){
+        return container.hasAnyMatching((ItemStack::isEdible));
+    }
+
+    public void searchBlocks(){
+        AABB aabb = this.getBoundingBox().inflate(32);
+        for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+            Block block = level().getBlockState(blockpos).getBlock();
+            BlockEntity blockEntity = this.level().getBlockEntity(blockpos);
+            if (targetBlocks().contains(block) || (blockEntity instanceof Container container && food(container))){
+                if (hasLineOfSightOnBlock(blockpos)){
+                    targetedBlocks.add(blockpos);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (tickCount % 200 == 0){searchBlocks();}
+    }
+
+    @Override
+    public boolean hasLineOfSight(Entity entity) {
+        return super.hasLineOfSight(entity);
+    }
+
+
+    public boolean hasLineOfSightOnBlock(BlockPos pos){
+        Vec3 vec3 = new Vec3(this.getX(), this.getEyeY(), this.getZ());
+        Vec3 vec31 = new Vec3(pos.getX(), pos.getY(), pos.getZ());
+        if (vec31.distanceTo(vec3) > 128.0D) {
+            return false;
+        } else {
+            return this.level().clip(new ClipContext(vec3, vec31, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this)).getType() == HitResult.Type.MISS;
+        }
+    }
+
+    public static class SearchAroundGoal extends Goal{
+
+        @Override
+        public boolean canUse() {
+            return false;
+        }
     }
 }
