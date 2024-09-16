@@ -149,13 +149,14 @@ public class Specter extends UtilityEntity implements Enemy {
     }
 
     public void searchBlocks(){
-        AABB aabb = this.getBoundingBox().inflate(32);
+        AABB aabb = this.getBoundingBox().inflate(32,4,32);
         for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
             Block block = level().getBlockState(blockpos).getBlock();
             BlockEntity blockEntity = this.level().getBlockEntity(blockpos);
             if (targetBlocks().contains(block) || (blockEntity instanceof Container container && food(container))){
                 if (hasLineOfSightBlocks(blockpos) && this.random.nextFloat() < 0.5f){
                     setTargetPos(blockpos);
+                    break;
                 }
             }
         }
@@ -170,7 +171,13 @@ public class Specter extends UtilityEntity implements Enemy {
     @Override
     public void tick() {
         super.tick();
-        if (tickCount % 200 == 0){searchBlocks();}
+        if (tickCount % 200 == 0){
+            searchBlocks();
+        if (getStomach() > 10f){
+            setBiomass(getBiomass()+1);
+            setStomach(getStomach()-10f);
+        }
+        }
     }
 
     @Override
@@ -186,7 +193,11 @@ public class Specter extends UtilityEntity implements Enemy {
                 if (stack.isEdible() && properties != null){
                     this.setStomach(this.getStomach()+properties.getNutrition() + properties.getSaturationModifier());
                     this.playSound(SoundEvents.GENERIC_EAT);
-                    stack.shrink(this.random.nextInt(stack.getCount()));
+                    if (stack.getCount() > 1){
+                        stack.shrink(this.random.nextInt(stack.getCount()));
+                    }else{
+                        stack.shrink(stack.getCount());
+                    }
                 }
             }
         }else{
@@ -211,7 +222,7 @@ public class Specter extends UtilityEntity implements Enemy {
         }
 
         protected void moveToBlock(BlockPos pos){
-            if (pos != null && this.specter.navigation.isStableDestination(pos))
+            if (pos != null)
             specter.navigation.moveTo(pos.getX()+0.5D,pos.getY()+1D,pos.getZ()+0.5D,1);
         }
         @Override
@@ -247,6 +258,7 @@ public class Specter extends UtilityEntity implements Enemy {
             }
             if (pos != null && pos.closerToCenterThan(this.specter.position(),3.5f)){
                 specter.interractWithBlock(pos);
+                specter.searchBlocks();
                 openChest(pos);
                 specter.setTargetPos((BlockPos) null);
             }
