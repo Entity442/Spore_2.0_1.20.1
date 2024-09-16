@@ -31,6 +31,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -41,7 +42,8 @@ public class Specter extends UtilityEntity implements Enemy {
     public static final EntityDataAccessor<Boolean> INVISIBLE = SynchedEntityData.defineId(Specter.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Integer> BIOMASS = SynchedEntityData.defineId(Specter.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Float> STOMACH = SynchedEntityData.defineId(Specter.class, EntityDataSerializers.FLOAT);
-    private List<BlockPos> targetedBlocks = new ArrayList<>();
+    @Nullable
+    private BlockPos pos;
     public Specter(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
     }
@@ -105,11 +107,11 @@ public class Specter extends UtilityEntity implements Enemy {
         return entityData.get(STOMACH);
     }
 
-    public List<BlockPos> getTargetedBlocks() {
-        return targetedBlocks;
+    public BlockPos getPos() {
+        return pos;
     }
-    public void removeBlockFromTarget(BlockPos pos){
-        targetedBlocks.remove(pos);
+    public void setPos(@Nullable BlockPos pos) {
+        this.pos = pos;
     }
 
     @Override
@@ -152,7 +154,8 @@ public class Specter extends UtilityEntity implements Enemy {
             BlockEntity blockEntity = this.level().getBlockEntity(blockpos);
             if (targetBlocks().contains(block) || (blockEntity instanceof Container container && food(container))){
                 if (hasLineOfSightOnBlock(blockpos)){
-                    targetedBlocks.add(blockpos);
+                    setPos(blockpos);
+                    break;
                 }
             }
         }
@@ -176,7 +179,7 @@ public class Specter extends UtilityEntity implements Enemy {
         if (vec31.distanceTo(vec3) > 128.0D) {
             return false;
         } else {
-            return this.level().clip(new ClipContext(vec3, vec31, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this)).getType() == HitResult.Type.MISS;
+            return this.level().clip(new ClipContext(vec3, vec31, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this)).getType() == HitResult.Type.BLOCK;
         }
     }
 
@@ -190,17 +193,16 @@ public class Specter extends UtilityEntity implements Enemy {
         }
         @Override
         public boolean canUse() {
-            return !specter.getTargetedBlocks().isEmpty() && this.specter.getTarget() == null;
+            return specter.getPos() != null && this.specter.getTarget() == null;
         }
 
         protected void moveToBlock(BlockPos pos){
-            if (specter.hasLineOfSightOnBlock(pos)){
-                specter.navigation.moveTo(pos.getX()+0.5D,pos.getY()+1D,pos.getZ()+0.5D,1);
-            }
+            if (pos != null)
+            specter.navigation.moveTo(pos.getX()+0.5D,pos.getY()+1D,pos.getZ()+0.5D,1);
         }
         @Override
         public void start() {
-            this.moveToBlock(specter.targetedBlocks.get(0));
+            this.moveToBlock(specter.getPos());
             this.tryTicks = 0;
             super.start();
         }
@@ -225,13 +227,13 @@ public class Specter extends UtilityEntity implements Enemy {
         public void tick() {
             super.tick();
             ++this.tryTicks;
-            BlockPos pos = this.specter.targetedBlocks.get(0);
+            BlockPos pos = specter.getPos();
             if (pos != null && shouldRecalculatePath()){
                 moveToBlock(pos);
             }
             if (pos != null && pos.closerToCenterThan(this.specter.position(),9.0)){
                 specter.level().removeBlock(pos,true);
-                specter.targetedBlocks.remove(pos);
+                specter.setPos((BlockPos) null);
             }
         }
     }
