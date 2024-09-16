@@ -2,7 +2,6 @@ package com.Harbinger.Spore.Sentities.Utility;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
-import com.Harbinger.Spore.Sentities.AI.LocHiv.SearchAreaGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -10,6 +9,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
@@ -21,15 +21,16 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
@@ -43,7 +44,7 @@ public class Specter extends UtilityEntity implements Enemy {
     public static final EntityDataAccessor<Integer> BIOMASS = SynchedEntityData.defineId(Specter.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Float> STOMACH = SynchedEntityData.defineId(Specter.class, EntityDataSerializers.FLOAT);
     @Nullable
-    private BlockPos pos;
+    private BlockPos Targetpos;
     public Specter(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
     }
@@ -106,12 +107,12 @@ public class Specter extends UtilityEntity implements Enemy {
     public float getStomach(){
         return entityData.get(STOMACH);
     }
-
-    public BlockPos getPos() {
-        return pos;
+    @Nullable
+    public BlockPos getTargetPos() {
+        return Targetpos;
     }
-    public void setPos(@Nullable BlockPos pos) {
-        this.pos = pos;
+    public void setTargetPos(@Nullable BlockPos pos) {
+        this.Targetpos = pos;
     }
 
     @Override
@@ -153,12 +154,17 @@ public class Specter extends UtilityEntity implements Enemy {
             Block block = level().getBlockState(blockpos).getBlock();
             BlockEntity blockEntity = this.level().getBlockEntity(blockpos);
             if (targetBlocks().contains(block) || (blockEntity instanceof Container container && food(container))){
-                if (hasLineOfSightOnBlock(blockpos)){
-                    setPos(blockpos);
-                    break;
+                if (hasLineOfSightBlocks(blockpos) && this.random.nextFloat() < 0.5f){
+                    setTargetPos(blockpos);
                 }
             }
         }
+    }
+
+    public boolean hasLineOfSightBlocks(BlockPos pos) {
+        BlockHitResult raytraceresult = this.level().clip(new ClipContext(this.getEyePosition(1.0F), new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
+        BlockPos position = raytraceresult.getBlockPos();
+        return pos.equals(position) || this.level().isEmptyBlock(pos) || this.level().getBlockEntity(pos) == this.level().getBlockEntity(position);
     }
 
     @Override
@@ -172,16 +178,23 @@ public class Specter extends UtilityEntity implements Enemy {
         return super.hasLineOfSight(entity);
     }
 
-
-    public boolean hasLineOfSightOnBlock(BlockPos pos){
-        Vec3 vec3 = new Vec3(this.getX(), this.getEyeY(), this.getZ());
-        Vec3 vec31 = new Vec3(pos.getX(), pos.getY(), pos.getZ());
-        if (vec31.distanceTo(vec3) > 128.0D) {
-            return false;
-        } else {
-            return this.level().clip(new ClipContext(vec3, vec31, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this)).getType() == HitResult.Type.BLOCK;
+    public boolean interractWithBlock(BlockPos pos){
+        if (level().getBlockEntity(pos) instanceof Container container && food(container)){
+            for (int i = 0; i < container.getContainerSize();i++){
+                ItemStack stack = container.getItem(i);
+                FoodProperties properties = stack.getFoodProperties(this);
+                if (stack.isEdible() && properties != null){
+                    this.setStomach(this.getStomach()+properties.getNutrition() + properties.getSaturationModifier());
+                    this.playSound(SoundEvents.GENERIC_EAT);
+                    stack.shrink(this.random.nextInt(stack.getCount()));
+                }
+            }
+        }else{
+            level().destroyBlock(pos,true,this);
         }
+        return true;
     }
+
 
     public static class SearchAroundGoal extends Goal{
         private final Specter specter;
@@ -191,18 +204,19 @@ public class Specter extends UtilityEntity implements Enemy {
             this.specter = specter;
             this.setFlags(EnumSet.of(Flag.MOVE));
         }
+
         @Override
         public boolean canUse() {
-            return specter.getPos() != null && this.specter.getTarget() == null;
+            return specter.getTargetPos() != null && this.specter.getTarget() == null;
         }
 
         protected void moveToBlock(BlockPos pos){
-            if (pos != null)
+            if (pos != null && this.specter.navigation.isStableDestination(pos))
             specter.navigation.moveTo(pos.getX()+0.5D,pos.getY()+1D,pos.getZ()+0.5D,1);
         }
         @Override
         public void start() {
-            this.moveToBlock(specter.getPos());
+            this.moveToBlock(specter.getTargetPos());
             this.tryTicks = 0;
             super.start();
         }
@@ -227,13 +241,23 @@ public class Specter extends UtilityEntity implements Enemy {
         public void tick() {
             super.tick();
             ++this.tryTicks;
-            BlockPos pos = specter.getPos();
+            BlockPos pos = specter.getTargetPos();
             if (pos != null && shouldRecalculatePath()){
                 moveToBlock(pos);
             }
-            if (pos != null && pos.closerToCenterThan(this.specter.position(),9.0)){
-                specter.level().removeBlock(pos,true);
-                specter.setPos((BlockPos) null);
+            if (pos != null && pos.closerToCenterThan(this.specter.position(),3.5f)){
+                specter.interractWithBlock(pos);
+                openChest(pos);
+                specter.setTargetPos((BlockPos) null);
+            }
+        }
+        public void openChest(BlockPos pos) {
+            BlockEntity entity = this.specter.level().getBlockEntity(pos);
+            if (entity instanceof ChestBlockEntity chestBlock) {
+                this.specter.playSound(SoundEvents.CHEST_OPEN);
+                this.specter.level().blockEvent(pos, chestBlock.getBlockState().getBlock(), 1, 1);
+                this.specter.level().updateNeighborsAt(pos, chestBlock.getBlockState().getBlock());
+                this.specter.level().updateNeighborsAt(pos.below(), chestBlock.getBlockState().getBlock());
             }
         }
     }

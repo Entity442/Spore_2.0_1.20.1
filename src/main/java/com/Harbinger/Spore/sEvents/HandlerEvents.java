@@ -19,6 +19,7 @@ import com.Harbinger.Spore.Sentities.Hyper.Inquisitor;
 import com.Harbinger.Spore.Sentities.Organoids.*;
 import com.Harbinger.Spore.Sentities.Utility.GastGeber;
 import com.Harbinger.Spore.Sentities.Utility.Illusion;
+import com.Harbinger.Spore.Sentities.Utility.Specter;
 import com.Harbinger.Spore.Sentities.Variants.SlasherVariants;
 import com.Harbinger.Spore.Sitems.InfectedCombatShovel;
 import com.Harbinger.Spore.Sitems.InfectedMaul;
@@ -334,6 +335,15 @@ public class HandlerEvents {
                                     player.displayClientMessage(Component.literal("Target ? " + delusionare.getTarget()),false);
                                     player.displayClientMessage(Component.literal("Magic state " + delusionare.getSpellById() + " casting "+delusionare.isCasting()),false);
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
+                            }else if(entity1 instanceof Specter specter) {
+                                player.displayClientMessage(Component.literal("Entity "+ specter.getEncodeId() + " " + specter.getCustomName()),false);
+                                player.displayClientMessage(Component.literal("Current Health " + specter.getHealth()),false);
+                                player.displayClientMessage(Component.literal("Buffs " + specter.getActiveEffects()),false);
+                                player.displayClientMessage(Component.literal("Target ? " + specter.getTarget()),false);
+                                player.displayClientMessage(Component.literal("Target Pos " + specter.getTargetPos()),false);
+                                player.displayClientMessage(Component.literal("Stomach " + specter.getStomach()),false);
+                                player.displayClientMessage(Component.literal("Biomass " + specter.getBiomass()),false);
+                                player.displayClientMessage(Component.literal("-------------------------"),false);
                             }
                         }
                     }
