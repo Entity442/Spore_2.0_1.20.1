@@ -258,9 +258,9 @@ public class Specter extends UtilityEntity implements Enemy {
             }
             if (pos != null && pos.closerToCenterThan(this.specter.position(),3.5f)){
                 specter.interractWithBlock(pos);
-                specter.searchBlocks();
                 openChest(pos);
                 specter.setTargetPos((BlockPos) null);
+                specter.searchBlocks();
             }
         }
         public void openChest(BlockPos pos) {

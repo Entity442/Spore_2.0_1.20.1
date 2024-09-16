@@ -18,7 +18,7 @@ import java.util.List;
 
 public class MutagenicReactant extends Enchantment {
     public MutagenicReactant(EquipmentSlot... slots) {
-        super(Rarity.COMMON, Senchantments.FUNGAL_ITEMS, slots);
+        super(Rarity.VERY_RARE, Senchantments.FUNGAL_ITEMS, slots);
     }
 
     @Override

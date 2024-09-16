@@ -8,7 +8,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 
 public class CryogenicAspect extends Enchantment {
     public CryogenicAspect(EquipmentSlot... slots) {
-        super(Rarity.COMMON, Senchantments.FUNGAL_ITEMS, slots);
+        super(Rarity.VERY_RARE, Senchantments.FUNGAL_ITEMS, slots);
     }
 
     @Override
