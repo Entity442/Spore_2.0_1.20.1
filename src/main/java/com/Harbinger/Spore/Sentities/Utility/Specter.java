@@ -1,15 +1,19 @@
 package com.Harbinger.Spore.Sentities.Utility;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
@@ -25,10 +29,10 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -43,6 +47,7 @@ public class Specter extends UtilityEntity implements Enemy {
     public static final EntityDataAccessor<Boolean> INVISIBLE = SynchedEntityData.defineId(Specter.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Integer> BIOMASS = SynchedEntityData.defineId(Specter.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Float> STOMACH = SynchedEntityData.defineId(Specter.class, EntityDataSerializers.FLOAT);
+    public static final List<BlockState> states = new ArrayList<>(){{add(Blocks.TORCH.defaultBlockState());add(Blocks.REDSTONE_TORCH.defaultBlockState());add(Blocks.TNT.defaultBlockState());add(Sblocks.CDU.get().defaultBlockState());}};
     @Nullable
     private BlockPos Targetpos;
     public Specter(EntityType<? extends PathfinderMob> type, Level level) {
@@ -141,9 +146,6 @@ public class Specter extends UtilityEntity implements Enemy {
         tag.putInt("biomass",getBiomass());
         tag.putFloat("food",getStomach());
     }
-    private List<Block> targetBlocks(){
-        return new ArrayList<>(){{add(Blocks.TORCH);add(Blocks.REDSTONE_TORCH);add(Blocks.LANTERN);}};
-    }
     private boolean food(Container container){
         return container.hasAnyMatching((ItemStack::isEdible));
     }
@@ -151,9 +153,9 @@ public class Specter extends UtilityEntity implements Enemy {
     public void searchBlocks(){
         AABB aabb = this.getBoundingBox().inflate(32,4,32);
         for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
-            Block block = level().getBlockState(blockpos).getBlock();
+            BlockState block = level().getBlockState(blockpos);
             BlockEntity blockEntity = this.level().getBlockEntity(blockpos);
-            if (targetBlocks().contains(block) || (blockEntity instanceof Container container && food(container))){
+            if (states.contains(block) || (blockEntity instanceof Container container && food(container))){
                 if (hasLineOfSightBlocks(blockpos) && this.random.nextFloat() < 0.5f){
                     setTargetPos(blockpos);
                     break;
