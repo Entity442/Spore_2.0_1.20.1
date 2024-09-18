@@ -4,8 +4,9 @@ import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
-import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
+import com.Harbinger.Spore.Sentities.AI.HybridPathNavigation;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
+import com.Harbinger.Spore.Sentities.MovementControls.InfectedWallMovementControl;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -39,7 +40,6 @@ import java.util.EnumSet;
 import java.util.List;
 
 public class Specter extends UtilityEntity implements Enemy {
-    public static final EntityDataAccessor<Boolean> ON_CEILING = SynchedEntityData.defineId(Specter.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> INVISIBLE = SynchedEntityData.defineId(Specter.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Integer> BIOMASS = SynchedEntityData.defineId(Specter.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Float> STOMACH = SynchedEntityData.defineId(Specter.class, EntityDataSerializers.FLOAT);
@@ -48,8 +48,21 @@ public class Specter extends UtilityEntity implements Enemy {
     private BlockPos Targetpos;
     public Specter(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
+        this.moveControl = new InfectedWallMovementControl(this);
+        this.navigation = new HybridPathNavigation(this,this.level());
+        this.setMaxUpStep(1F);
     }
 
+    public void travel(Vec3 vec) {
+        if (this.isEffectiveAi() && this.isInFluidType()) {
+            this.moveRelative(0.1F, vec);
+            this.move(MoverType.SELF, this.getDeltaMovement());
+            Vec3 vec3 = this.moveControl.getWantedY() > this.getY() ? new Vec3(0,0.01,0) : new Vec3(0,-0.01,0);
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.75D).add(vec3));
+        } else {
+            super.travel(vec);
+        }
+    }
     @Override
     public boolean removeWhenFarAway(double value) {
         if (this.level() instanceof ServerLevel serverLevel){
@@ -69,10 +82,12 @@ public class Specter extends UtilityEntity implements Enemy {
         return !isInvisible();
     }
 
+
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, SConfig.SERVER.gastgeber_hp.get() * SConfig.SERVER.global_health.get())
                 .add(Attributes.MOVEMENT_SPEED, 0.35)
+                .add(Attributes.FLYING_SPEED, 0.35)
                 .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.gastgeber_damage.get() * SConfig.SERVER.global_damage.get())
                 .add(Attributes.ARMOR, SConfig.SERVER.gastgeber_armor.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.FOLLOW_RANGE, 48)
@@ -89,17 +104,9 @@ public class Specter extends UtilityEntity implements Enemy {
                 return 4.0 + entity.getBbWidth() * entity.getBbWidth();}});
         this.goalSelector.addGoal(4,new SearchAroundGoal(this));
         this.goalSelector.addGoal(5,new RandomStrollGoal(this,1));
-        this.goalSelector.addGoal(6,new FloatDiveGoal(this));
         super.registerGoals();
     }
 
-
-    public void setOnCeiling(boolean value){
-        entityData.set(ON_CEILING,value);
-    }
-    public boolean isOnCeiling(){
-        return entityData.get(ON_CEILING);
-    }
     public void setInvisible(boolean value){
         entityData.set(INVISIBLE,value);
     }
@@ -129,7 +136,6 @@ public class Specter extends UtilityEntity implements Enemy {
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        entityData.define(ON_CEILING,false);
         entityData.define(INVISIBLE,false);
         entityData.define(STOMACH,0f);
         entityData.define(BIOMASS,0);
@@ -139,7 +145,6 @@ public class Specter extends UtilityEntity implements Enemy {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         setInvisible(tag.getBoolean("invisible"));
-        setOnCeiling(tag.getBoolean("ceiling"));
         setBiomass(tag.getInt("biomass"));
         setStomach(tag.getFloat("food"));
     }
@@ -148,7 +153,6 @@ public class Specter extends UtilityEntity implements Enemy {
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putBoolean("invisible",isInvisible());
-        tag.putBoolean("ceiling",isOnCeiling());
         tag.putInt("biomass",getBiomass());
         tag.putFloat("food",getStomach());
     }
@@ -218,6 +222,10 @@ public class Specter extends UtilityEntity implements Enemy {
         return true;
     }
 
+    @Override
+    protected int calculateFallDamage(float p_21237_, float p_21238_) {
+        return super.calculateFallDamage(p_21237_, p_21238_) - 15;
+    }
 
     public static class SearchAroundGoal extends Goal{
         private final Specter specter;
