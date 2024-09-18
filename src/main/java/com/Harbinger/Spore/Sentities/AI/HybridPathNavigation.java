@@ -57,7 +57,7 @@ public class HybridPathNavigation extends GroundPathNavigation {
             }
 
         }
-        if(mob.tickCount % 10 == 0 && mob.getTarget() != null){
+        if(mob.tickCount % 10 == 0 && mob.getTarget() != null && isInLiquid()){
             UnderWaterLeaps(mob.getTarget());
         }
         if (this.canFloat() && mob.getRandom().nextFloat() < 0.4F){
@@ -76,13 +76,23 @@ public class HybridPathNavigation extends GroundPathNavigation {
 
     @Override
     protected PathFinder createPathFinder(int value) {
-        this.nodeEvaluator = new SwimmingNode();
-        this.nodeEvaluator.setCanPassDoors(true);
-        return new PathFinder(this.nodeEvaluator,value) {
-            protected float distance(Node node, Node node1) {
-                return node.distanceManhattan(node1);
-            }
-        };
+        if (mob.isInFluidType()){
+            this.nodeEvaluator = new SwimmingNode();
+            this.nodeEvaluator.setCanPassDoors(true);
+            return new PathFinder(this.nodeEvaluator,value) {
+                protected float distance(Node node, Node node1) {
+                    return node.distanceManhattan(node1);
+                }
+            };
+        }else{
+         this.nodeEvaluator = new ClimberNodeNavigator();
+         this.nodeEvaluator.setCanPassDoors(true);
+            return new PathFinder(this.nodeEvaluator,value) {
+                protected float distance(Node node, Node node1) {
+                    return node.distanceManhattan(node1);
+                }
+            };
+        }
     }
 
     protected static class SwimmingNode extends SwimNodeEvaluator {
