@@ -3,23 +3,19 @@ package com.Harbinger.Spore.Sentities.Utility;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
+import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
+import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -68,6 +64,10 @@ public class Specter extends UtilityEntity implements Enemy {
     }
 
 
+    @Override
+    public boolean canBeSeenByAnyone() {
+        return !isInvisible();
+    }
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
@@ -75,15 +75,21 @@ public class Specter extends UtilityEntity implements Enemy {
                 .add(Attributes.MOVEMENT_SPEED, 0.35)
                 .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.gastgeber_damage.get() * SConfig.SERVER.global_damage.get())
                 .add(Attributes.ARMOR, SConfig.SERVER.gastgeber_armor.get() * SConfig.SERVER.global_armor.get())
-                .add(Attributes.FOLLOW_RANGE, 20)
+                .add(Attributes.FOLLOW_RANGE, 48)
                 .add(Attributes.ATTACK_KNOCKBACK, 3);
 
     }
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(2,new SearchAroundGoal(this));
-        this.goalSelector.addGoal(3,new RandomStrollGoal(this,1));
+        addTargettingGoals();
+        this.goalSelector.addGoal(3, new CustomMeleeAttackGoal(this, 1.2, false) {
+            @Override
+            protected double getAttackReachSqr(LivingEntity entity) {
+                return 4.0 + entity.getBbWidth() * entity.getBbWidth();}});
+        this.goalSelector.addGoal(4,new SearchAroundGoal(this));
+        this.goalSelector.addGoal(5,new RandomStrollGoal(this,1));
+        this.goalSelector.addGoal(6,new FloatDiveGoal(this));
         super.registerGoals();
     }
 
@@ -179,6 +185,10 @@ public class Specter extends UtilityEntity implements Enemy {
             setBiomass(getBiomass()+1);
             setStomach(getStomach()-10f);
         }
+        }
+        if (tickCount % 20 == 0){
+            Entity entity = this.getTarget();
+            this.setInvisible(entity != null && entity.distanceToSqr(this) >60D);
         }
     }
 

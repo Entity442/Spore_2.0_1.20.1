@@ -4,6 +4,8 @@ import com.Harbinger.Spore.Client.Models.SpecterModel;
 import com.Harbinger.Spore.Client.Special.BaseInfectedRenderer;
 import com.Harbinger.Spore.Sentities.Utility.Specter;
 import com.Harbinger.Spore.Spore;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -30,5 +32,14 @@ public class SpecterRenderer<Type extends Specter> extends BaseInfectedRenderer<
     @Override
     public ResourceLocation eyeLayerTexture() {
         return EYES_TEXTURE;
+    }
+
+    @Override
+    public void render(Type type, float value1, float value2, PoseStack stack, MultiBufferSource bufferSource, int light) {
+        if (type.isInvisible()){
+            return;
+        }else{
+            super.render(type, value1, value2, stack, bufferSource, light);
+        }
     }
 }
