@@ -193,6 +193,7 @@
   "item.spore.verva_spawnegg": "Верварунг",
   "item.spore.delusioner_spawnegg": "Обманщик",
   "item.spore.gastgaber_spawnegg": "Хозяин",
+  "entity.spore.specter_spawnegg": "Призрак",
   "item.spore.howitzer_spawnegg": "Ховитзер",
   "item.spore.thorn_spawnegg": "Вердатхорн",
 
@@ -210,6 +211,7 @@
   "entity.spore.inf_witch": "Заражённая ведьма",
   "entity.spore.inf_pillager": "Заражённый разбойник",
   "entity.spore.spitter": "Плевун",
+  "entity.spore.specter": "Призрак",
   "entity.spore.leaper": "Прыгун",
   "entity.spore.slasher": "Рубака",
   "entity.spore.inf_vindicator": "Заражённый поборник",

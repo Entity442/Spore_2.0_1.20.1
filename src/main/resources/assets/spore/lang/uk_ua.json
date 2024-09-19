@@ -197,6 +197,7 @@
   "item.spore.verva_spawnegg": "Інкубатор",
   "item.spore.delusioner_spawnegg": "Ілюзіоніст",
   "item.spore.gastgaber_spawnegg": "Гастґебер",
+  "entity.spore.specter_spawnegg": "Привид",
   "item.spore.howitzer_spawnegg": "Гаубиця",
   "item.spore.thorn_spawnegg": "Verdathorn",
 
@@ -214,6 +215,7 @@
   "entity.spore.inf_witch": "Інфікована відьма",
   "entity.spore.inf_pillager": "Інфікований розбійник",
   "entity.spore.spitter": "Плювач",
+  "entity.spore.specter": "Привид",
   "entity.spore.leaper": "Стрибун",
   "entity.spore.slasher": "Потрошитель",
   "entity.spore.inf_vindicator": "Інфікований поборник",
