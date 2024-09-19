@@ -104,6 +104,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> ENGINE = soundRegistry("engine");
 
+    public static final RegistryObject<SoundEvent> SPECTER_AMBIENT = soundRegistry("specter_ambient");
+
     private Ssounds() {
     }
 }

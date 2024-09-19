@@ -31,6 +31,12 @@
       "spore:growl2"
     ]
   },
+  "specter_ambient" :{
+  "subtitle": "sounds.spore.growl",
+  "sounds": [
+    "spore:specter_ambient"
+  ]
+},
   "braurei_ambient" :{
     "subtitle": "sounds.spore.braurei_ambient",
     "sounds": [

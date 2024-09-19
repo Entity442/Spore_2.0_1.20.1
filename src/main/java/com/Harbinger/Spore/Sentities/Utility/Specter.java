@@ -1,9 +1,6 @@
 package com.Harbinger.Spore.Sentities.Utility;
 
-import com.Harbinger.Spore.Core.SConfig;
-import com.Harbinger.Spore.Core.Sblocks;
-import com.Harbinger.Spore.Core.Seffects;
-import com.Harbinger.Spore.Core.Sentities;
+import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
 import com.Harbinger.Spore.Sentities.AI.ClimberMovement;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
@@ -16,6 +13,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
@@ -62,6 +60,12 @@ public class Specter extends UtilityEntity implements Enemy {
         this.navigation = new HybridPathNavigation(this,this.level());
         this.setMaxUpStep(1F);
     }
+
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.gastgaber_loot.get();
+    }
+
 
     public void travel(Vec3 vec) {
         if (this.isEffectiveAi() && this.isInFluidType()) {
@@ -220,7 +224,7 @@ public class Specter extends UtilityEntity implements Enemy {
         return this.tickCount % 20 == 0 && value > 0 && value <=getBreaking();
     }
     public int getBreaking(){
-        return SConfig.SERVER.experiment_bd.get();
+        return SConfig.SERVER.hyper_bd.get();
     }
 
 
@@ -265,6 +269,23 @@ public class Specter extends UtilityEntity implements Enemy {
             }
         }
     }
+
+    protected SoundEvent getAmbientSound() {
+        return isInvisible() ? null : Ssounds.SPECTER_AMBIENT.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource p_34327_) {
+        return Ssounds.INF_DAMAGE.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return Ssounds.INF_DAMAGE.get();
+    }
+
+    protected SoundEvent getStepSound() {
+        return SoundEvents.ZOMBIE_STEP;
+    }
+
 
     @Override
     public boolean hasLineOfSight(Entity entity) {

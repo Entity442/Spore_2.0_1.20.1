@@ -1165,6 +1165,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> brot_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> lacerator_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> thorn_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> specter_loot;
 
 
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> name;
@@ -1249,6 +1250,8 @@ public class SConfig {
 
             this.gastgaber_loot = builder.defineList("Gastgaber",
                     Lists.newArrayList("spore:mutated_fiber|80|5|12","spore:armor_fragment|80|2|6","spore:mutated_heart|10|1|3","spore:claw_fragment|80|6|9","spore:innards|50|1|2","spore:tumor|100|4|8","spore:tendons|60|3|7") , o -> o instanceof String);
+            this.specter_loot = builder.defineList("Specter",
+                    Lists.newArrayList("spore:mutated_fiber|80|5|17","spore:armor_fragment|80|2|9","spore:mutated_heart|10|1|3","spore:claw_fragment|80|6|9","spore:innards|50|1|2","spore:tumor|100|4|8","spore:tendons|60|3|7") , o -> o instanceof String);
 
 
             this.sca_loot = builder.defineList("Scamper",
