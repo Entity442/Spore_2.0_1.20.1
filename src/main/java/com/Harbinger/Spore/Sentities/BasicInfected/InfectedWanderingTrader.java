@@ -1,10 +1,14 @@
 package com.Harbinger.Spore.Sentities.BasicInfected;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.EvolvingInfected;
+import com.Harbinger.Spore.Sentities.Utility.Specter;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
@@ -96,5 +100,25 @@ public class InfectedWanderingTrader extends Infected implements EvolvingInfecte
     public void baseTick() {
         super.baseTick();
         tickEvolution(this,SConfig.SERVER.villager_ev.get());
+    }
+
+    @Override
+    public void Evolve(Infected livingEntity, List<? extends String> value) {
+        if (this.getLinked() && random.nextFloat() < 0.3F){
+            Specter specter = new Specter(Sentities.SPECTER.get(),level());
+            specter.setBiomass(this.getKills() + this.getEvoPoints());
+            specter.setCustomName(this.getCustomName());
+            specter.moveTo(this.getX(),this.getY(),this.getZ());
+            level().addFreshEntity(specter);
+            this.discard();
+            if (level() instanceof ServerLevel serverLevel){
+                double x0 = livingEntity.getX() - (random.nextFloat() - 0.1) * 0.1D;
+                double y0 = livingEntity.getY() + (random.nextFloat() - 0.25) * 0.15D * 5;
+                double z0 = livingEntity.getZ() + (random.nextFloat() - 0.1) * 0.1D;
+                serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x0, y0, z0, 2, 0, 0, 0, 1);
+            }
+        }else{
+            EvolvingInfected.super.Evolve(livingEntity, value);
+        }
     }
 }

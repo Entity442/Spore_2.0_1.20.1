@@ -108,10 +108,10 @@ public class Specter extends UtilityEntity implements Enemy {
     }
 
     private void buffAI(){
-        if (this.getHealth() < this.getMaxHealth()){
+        if (this.getHealth() < this.getMaxHealth() && !hasEffect(MobEffects.REGENERATION)){
             addEffect(new MobEffectInstance(MobEffects.REGENERATION,400,this.getHealth() < this.getMaxHealth()/2 ? 1:0));
             this.setBiomass(this.getBiomass()-1);
-        }if (this.isOnFire()){
+        }if (this.isOnFire()&& !hasEffect(MobEffects.FIRE_RESISTANCE)){
             addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE,200,0));
             this.setBiomass(this.getBiomass()-1);
         }

@@ -199,6 +199,7 @@
   "item.spore.verva_spawnegg": "Verwahrung",
   "item.spore.delusioner_spawnegg": "Delusioner",
   "item.spore.gastgaber_spawnegg": "Gastgeber",
+  "item.spore.specter_spawnegg": "Specter",
   "item.spore.howitzer_spawnegg": "Howitzer",
 
 
@@ -240,6 +241,7 @@
   "entity.spore.proto": "Proto Hivemind",
   "entity.spore.reconstructor": "Womb",
   "entity.spore.wendigo": "Wendigo",
+  "entity.spore.specter": "Specter",
   "entity.spore.inquisitor": "Inquisitor",
   "entity.spore.brot": "Brotkatze",
   "entity.spore.sieger": "Sieger",
