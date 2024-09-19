@@ -40,6 +40,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.fluids.FluidType;
 import org.checkerframework.checker.guieffect.qual.SafeEffect;
 import org.jetbrains.annotations.Nullable;
 
@@ -110,10 +111,7 @@ public class Specter extends UtilityEntity implements Enemy {
         if (this.getHealth() < this.getMaxHealth()){
             addEffect(new MobEffectInstance(MobEffects.REGENERATION,400,this.getHealth() < this.getMaxHealth()/2 ? 1:0));
             this.setBiomass(this.getBiomass()-1);
-        }if (this.getLastDamageSource() == this.damageSources().drown()){
-            addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING,200,0));
-            this.setBiomass(this.getBiomass()-1);
-        }if (this.getLastDamageSource() == this.damageSources().onFire()){
+        }if (this.isOnFire()){
             addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE,200,0));
             this.setBiomass(this.getBiomass()-1);
         }
@@ -208,9 +206,14 @@ public class Specter extends UtilityEntity implements Enemy {
     }
 
     @Override
+    public boolean canDrownInFluidType(FluidType type) {
+        return false;
+    }
+
+    @Override
     public void awardKillScore(Entity p_19953_, int p_19954_, DamageSource p_19955_) {
-        super.awardKillScore(p_19953_, p_19954_, p_19955_);
         this.setBiomass(this.getBiomass()+1);
+        super.awardKillScore(p_19953_, p_19954_, p_19955_);
     }
     public boolean blockBreakingParameter(BlockState blockstate, BlockPos blockpos) {
         float value = blockstate.getDestroySpeed(this.level(),blockpos);
