@@ -665,6 +665,13 @@ public class HandlerEvents {
             if (original_damage < recalculated_damage){
                 event.setAmount((float) recalculated_damage);
             }
+        }if (living instanceof Specter specter) {
+            float original_damage = event.getAmount();
+            AttributeInstance attack = specter.getAttribute(Attributes.ATTACK_DAMAGE);
+            double recalculated_damage = attack != null ? attack.getValue()/4 : original_damage;
+            if (original_damage < recalculated_damage){
+                event.setAmount((float) recalculated_damage);
+            }
         }
         if (living instanceof Illusion illusion && !illusion.getSeeAble()){
             event.setAmount((float) (SConfig.SERVER.halucinations_damage.get()*1f));
