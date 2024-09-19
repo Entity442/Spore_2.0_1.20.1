@@ -134,7 +134,6 @@ public class Specter extends UtilityEntity implements Enemy {
     }
 
     public void setInvisible(boolean value){
-        this.playSound(Ssounds.MADNESS.get());
         entityData.set(INVISIBLE,value);
     }
     public boolean isInvisible(){
@@ -309,13 +308,10 @@ public class Specter extends UtilityEntity implements Enemy {
                 ItemStack stack = container.getItem(i);
                 FoodProperties properties = stack.getFoodProperties(this);
                 if (stack.isEdible() && properties != null){
-                    this.setStomach(this.getStomach()+properties.getNutrition() + properties.getSaturationModifier());
+                    int amount = stack.getCount() > 1 ? this.random.nextInt(stack.getCount()) : stack.getCount();
                     this.playSound(SoundEvents.GENERIC_EAT);
-                    if (stack.getCount() > 1){
-                        stack.shrink(this.random.nextInt(stack.getCount()));
-                    }else{
-                        stack.shrink(stack.getCount());
-                    }
+                    stack.shrink(amount);
+                    this.setStomach((this.getStomach()+properties.getNutrition() + properties.getSaturationModifier())*amount);
                 }
             }
         }else{
