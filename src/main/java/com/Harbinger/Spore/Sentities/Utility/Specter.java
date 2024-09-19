@@ -305,7 +305,7 @@ public class Specter extends UtilityEntity implements Enemy {
 
     @Override
     public boolean hurt(DamageSource source, float p_21017_) {
-        if (source.getEntity() != null){
+        if (source.getEntity() != null && random.nextFloat() < 0.1f){
             ScentEntity scent = new ScentEntity(Sentities.SCENT.get(),level());
             scent.moveTo(this.getX(),this.getY(),this.getZ());
             level().addFreshEntity(scent);
