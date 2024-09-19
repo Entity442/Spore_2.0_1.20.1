@@ -50,7 +50,6 @@ public class Specter extends UtilityEntity implements Enemy {
     public static final List<BlockState> states = new ArrayList<>(){{add(Blocks.TORCH.defaultBlockState());add(Blocks.REDSTONE_TORCH.defaultBlockState());add(Blocks.TNT.defaultBlockState());add(Sblocks.CDU.get().defaultBlockState());}};
     @Nullable
     private BlockPos Targetpos;
-    private int ticksUntilInvis;
     public Specter(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         this.moveControl = new InfectedWallMovementControl(this);
@@ -241,30 +240,19 @@ public class Specter extends UtilityEntity implements Enemy {
             setStomach(getStomach()-10f);
         }
         }
-        if (tickCount % 20 == 0 && ticksUntilInvis > 0){
-            Entity entity = this.getTarget();
-            if (entity == null){
-                this.setInvisible(isAggressive());
-            }else{
-                if (entity.distanceToSqr(this) >70D){
-                    this.setInvisible(true);
-                }else{
-                    this.setInvisible(false);
-                    ticksUntilInvis = 100;
-                }
-            }
-        }
         if (tickCount % 20 == 0 && getBiomass() > 0){
             this.buffAI();
-        }
-        if (ticksUntilInvis > 0){
-            ticksUntilInvis--;
         }
         if (tickCount % 40 == 0 && horizontalCollision){
             griefBlocks(this.getTarget());
         }
     }
 
+    @Override
+    public void setTarget(@Nullable LivingEntity entity) {
+        super.setTarget(entity);
+        this.setInvisible(entity != null && entity.distanceToSqr(this) > 50D);
+    }
 
     private void griefBlocks(LivingEntity livingEntity){
         AABB aabb = (livingEntity != null && livingEntity.getY() > this.getY()) ? this.getBoundingBox().inflate(-0.2D,0.5D,-0.2D).move(0,0.5,0) : this.getBoundingBox().inflate(0.5D).move(0,0.5,0);
