@@ -2,7 +2,6 @@ package com.Harbinger.Spore.Sentities.Utility;
 
 import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
-import com.Harbinger.Spore.Sentities.AI.ClimberMovement;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.HybridPathNavigation;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
@@ -18,7 +17,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -39,7 +37,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fluids.FluidType;
-import org.checkerframework.checker.guieffect.qual.SafeEffect;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -244,15 +241,24 @@ public class Specter extends UtilityEntity implements Enemy {
             setStomach(getStomach()-10f);
         }
         }
-        if (tickCount % 20 == 0 && ticksUntilInvis <= 0){
+        if (tickCount % 20 == 0 && ticksUntilInvis > 0){
             Entity entity = this.getTarget();
-            this.setInvisible(entity != null && entity.distanceToSqr(this) >60D);
-        }
-        if (ticksUntilInvis > 0){
-            ticksUntilInvis--;
+            if (entity == null){
+                this.setInvisible(isAggressive());
+            }else{
+                if (entity.distanceToSqr(this) >70D){
+                    this.setInvisible(true);
+                }else{
+                    this.setInvisible(false);
+                    ticksUntilInvis = 100;
+                }
+            }
         }
         if (tickCount % 20 == 0 && getBiomass() > 0){
             this.buffAI();
+        }
+        if (ticksUntilInvis > 0){
+            ticksUntilInvis--;
         }
         if (tickCount % 40 == 0 && horizontalCollision){
             griefBlocks(this.getTarget());
@@ -290,16 +296,6 @@ public class Specter extends UtilityEntity implements Enemy {
     @Override
     public boolean hasLineOfSight(Entity entity) {
         return super.hasLineOfSight(entity);
-    }
-
-    @Override
-    public void onSyncedDataUpdated(List<SynchedEntityData.DataValue<?>> values) {
-        if (INVISIBLE.equals(values)){
-            if (!this.isInvisible()){
-                this.ticksUntilInvis = 100;
-            }
-        }
-        super.onSyncedDataUpdated(values);
     }
 
     public boolean interractWithBlock(BlockPos pos){
