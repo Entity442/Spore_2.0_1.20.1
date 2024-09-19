@@ -180,7 +180,7 @@ public class Sitems {
             () -> new SporeSpawnEgg(Sentities.GASTGABER,-241247216,SpawnEggType.UNKNOWN));
 
     public  static final RegistryObject<Item> SPECTER_SPAWNEGG = ITEMS.register("specter_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.SPECTER,-241247216,SpawnEggType.UNKNOWN));
+            () -> new SporeSpawnEgg(Sentities.SPECTER,-876534333,SpawnEggType.UNKNOWN));
 
     public  static final RegistryObject<Item> MOUND_SPAWNEGG = ITEMS.register("mound_spawnegg",
             () -> new SporeSpawnEgg(Sentities.MOUND,-5750208,SpawnEggType.ORGANOID));

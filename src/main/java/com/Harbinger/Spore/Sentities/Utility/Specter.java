@@ -2,6 +2,8 @@ package com.Harbinger.Spore.Sentities.Utility;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sblocks;
+import com.Harbinger.Spore.Core.Seffects;
+import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
 import com.Harbinger.Spore.Sentities.AI.ClimberMovement;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
@@ -17,6 +19,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -34,6 +40,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import org.checkerframework.checker.guieffect.qual.SafeEffect;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -47,6 +54,7 @@ public class Specter extends UtilityEntity implements Enemy {
     public static final List<BlockState> states = new ArrayList<>(){{add(Blocks.TORCH.defaultBlockState());add(Blocks.REDSTONE_TORCH.defaultBlockState());add(Blocks.TNT.defaultBlockState());add(Sblocks.CDU.get().defaultBlockState());}};
     @Nullable
     private BlockPos Targetpos;
+    private int ticksUntilInvis;
     public Specter(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         this.moveControl = new InfectedWallMovementControl(this);
@@ -60,6 +68,9 @@ public class Specter extends UtilityEntity implements Enemy {
             this.move(MoverType.SELF, this.getDeltaMovement());
             Vec3 vec3 = this.moveControl.getWantedY() > this.getY() ? new Vec3(0,0.01,0) : new Vec3(0,-0.01,0);
             this.setDeltaMovement(this.getDeltaMovement().scale(0.75D).add(vec3));
+            if (this.navigation.canFloat() && this.getRandom().nextFloat() < 0.4F){
+                this.getJumpControl().jump();
+            }
         } else {
             super.travel(vec);
         }
@@ -86,14 +97,26 @@ public class Specter extends UtilityEntity implements Enemy {
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, SConfig.SERVER.gastgeber_hp.get() * SConfig.SERVER.global_health.get())
+                .add(Attributes.MAX_HEALTH, SConfig.SERVER.specter_hp.get() * SConfig.SERVER.global_health.get())
                 .add(Attributes.MOVEMENT_SPEED, 0.35)
-                .add(Attributes.FLYING_SPEED, 0.35)
-                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.gastgeber_damage.get() * SConfig.SERVER.global_damage.get())
-                .add(Attributes.ARMOR, SConfig.SERVER.gastgeber_armor.get() * SConfig.SERVER.global_armor.get())
+                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.specter_damage.get() * SConfig.SERVER.global_damage.get())
+                .add(Attributes.ARMOR, SConfig.SERVER.specter_armor.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.FOLLOW_RANGE, 48)
                 .add(Attributes.ATTACK_KNOCKBACK, 3);
 
+    }
+
+    private void buffAI(){
+        if (this.getHealth() < this.getMaxHealth()){
+            addEffect(new MobEffectInstance(MobEffects.REGENERATION,400,this.getHealth() < this.getMaxHealth()/2 ? 1:0));
+            this.setBiomass(this.getBiomass()-1);
+        }if (this.getLastDamageSource() == this.damageSources().drown()){
+            addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING,200,0));
+            this.setBiomass(this.getBiomass()-1);
+        }if (this.getLastDamageSource() == this.damageSources().onFire()){
+            addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE,200,0));
+            this.setBiomass(this.getBiomass()-1);
+        }
     }
 
     @Override
@@ -175,6 +198,29 @@ public class Specter extends UtilityEntity implements Enemy {
         }
     }
 
+    @Override
+    public boolean doHurtTarget(Entity entity) {
+        if (entity instanceof LivingEntity livingEntity){
+            livingEntity.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),200,1));
+            livingEntity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS,100,0));
+        }
+        return super.doHurtTarget(entity);
+    }
+
+    @Override
+    public void awardKillScore(Entity p_19953_, int p_19954_, DamageSource p_19955_) {
+        super.awardKillScore(p_19953_, p_19954_, p_19955_);
+        this.setBiomass(this.getBiomass()+1);
+    }
+    public boolean blockBreakingParameter(BlockState blockstate, BlockPos blockpos) {
+        float value = blockstate.getDestroySpeed(this.level(),blockpos);
+        return this.tickCount % 20 == 0 && value > 0 && value <=getBreaking();
+    }
+    public int getBreaking(){
+        return SConfig.SERVER.experiment_bd.get();
+    }
+
+
     public boolean hasLineOfSightBlocks(BlockPos pos) {
         BlockHitResult raytraceresult = this.level().clip(new ClipContext(this.getEyePosition(1.0F), new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
         BlockPos position = raytraceresult.getBlockPos();
@@ -191,15 +237,46 @@ public class Specter extends UtilityEntity implements Enemy {
             setStomach(getStomach()-10f);
         }
         }
-        if (tickCount % 20 == 0){
+        if (tickCount % 20 == 0 && ticksUntilInvis <= 0){
             Entity entity = this.getTarget();
             this.setInvisible(entity != null && entity.distanceToSqr(this) >60D);
+        }
+        if (ticksUntilInvis > 0){
+            ticksUntilInvis--;
+        }
+        if (tickCount % 20 == 0 && getBiomass() > 0){
+            this.buffAI();
+        }
+        if (tickCount % 40 == 0 && horizontalCollision){
+            griefBlocks(this.getTarget());
+        }
+    }
+
+
+    private void griefBlocks(LivingEntity livingEntity){
+        AABB aabb = (livingEntity != null && livingEntity.getY() > this.getY()) ? this.getBoundingBox().inflate(-0.2D,0.5D,-0.2D).move(0,0.5,0) : this.getBoundingBox().inflate(0.5D).move(0,0.5,0);
+        for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+            BlockState blockstate = this.level().getBlockState(blockpos);
+            if (blockBreakingParameter(blockstate,blockpos)) {
+                interactBlock(blockpos,this.level());
+            }
         }
     }
 
     @Override
     public boolean hasLineOfSight(Entity entity) {
         return super.hasLineOfSight(entity);
+    }
+
+    @Override
+    public void onSyncedDataUpdated(List<SynchedEntityData.DataValue<?>> values) {
+        if (INVISIBLE.equals(values)){
+            this.playSound(SoundEvents.TNT_PRIMED);
+            if (!this.isInvisible()){
+                this.ticksUntilInvis = 100;
+            }
+        }
+        super.onSyncedDataUpdated(values);
     }
 
     public boolean interractWithBlock(BlockPos pos){
@@ -221,6 +298,16 @@ public class Specter extends UtilityEntity implements Enemy {
             level().destroyBlock(pos,true,this);
         }
         return true;
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float p_21017_) {
+        if (source.getEntity() != null){
+            ScentEntity scent = new ScentEntity(Sentities.SCENT.get(),level());
+            scent.moveTo(this.getX(),this.getY(),this.getZ());
+            level().addFreshEntity(scent);
+        }
+        return super.hurt(source, p_21017_);
     }
 
     @Override
@@ -293,5 +380,25 @@ public class Specter extends UtilityEntity implements Enemy {
                 this.specter.level().updateNeighborsAt(pos.below(), chestBlock.getBlockState().getBlock());
             }
         }
+    }
+
+    protected List<BlockState> biomass(){
+        List<BlockState> states = new ArrayList<>();
+        states.add(Sblocks.BIOMASS_BLOCK.get().defaultBlockState());
+        states.add(Sblocks.SICKEN_BIOMASS_BLOCK.get().defaultBlockState());
+        states.add(Sblocks.CALCIFIED_BIOMASS_BLOCK.get().defaultBlockState());
+        states.add(Sblocks.MEMBRANE_BLOCK.get().defaultBlockState());
+        states.add(Sblocks.ROOTED_BIOMASS.get().defaultBlockState());
+        states.add(Sblocks.ROOTED_MYCELIUM.get().defaultBlockState());
+        states.add(Sblocks.GASTRIC_BIOMASS.get().defaultBlockState());
+        return states;
+    }
+
+    public boolean interactBlock(BlockPos blockPos, Level level) {
+        BlockState state = level.getBlockState(blockPos);
+        if (biomass().contains(state)){
+            return level.setBlock(blockPos, Sblocks.MEMBRANE_BLOCK.get().defaultBlockState(), 3);
+        }
+        return level.destroyBlock(blockPos, false, this);
     }
 }

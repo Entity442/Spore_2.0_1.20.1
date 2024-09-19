@@ -60,9 +60,6 @@ public class HybridPathNavigation extends GroundPathNavigation {
         if(mob.tickCount % 10 == 0 && mob.getTarget() != null && isInLiquid()){
             UnderWaterLeaps(mob.getTarget());
         }
-        if (this.canFloat() && mob.getRandom().nextFloat() < 0.4F){
-            this.mob.getJumpControl().jump();
-        }
     }
 
     public void UnderWaterLeaps(LivingEntity target){

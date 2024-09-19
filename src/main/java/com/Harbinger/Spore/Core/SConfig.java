@@ -176,6 +176,10 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> stalker_damage;
         public final ForgeConfigSpec.ConfigValue<Double> stalker_armor;
 
+        public final ForgeConfigSpec.ConfigValue<Double> specter_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> specter_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> specter_armor;
+
         public final ForgeConfigSpec.ConfigValue<Double> scamper_hp;
         public final ForgeConfigSpec.ConfigValue<Double> scamper_damage;
         public final ForgeConfigSpec.ConfigValue<Double> scamper_armor;
@@ -843,6 +847,12 @@ public class SConfig {
             this.stalker_hp = builder.comment("Default 55").defineInRange("Sets Stalker Max health", 55, 1, Double.MAX_VALUE);
             this.stalker_damage = builder.comment("Default 10").defineInRange("Sets Stalker Damage", 10, 1, Double.MAX_VALUE);
             this.stalker_armor = builder.comment("Default 3").defineInRange("Sets Stalker Armor", 3, 0, Double.MAX_VALUE);
+            builder.pop();
+
+            builder.push("Specter");
+            this.specter_hp = builder.comment("Default 70").defineInRange("Sets Specter Max health", 70, 1, Double.MAX_VALUE);
+            this.specter_damage = builder.comment("Default 10").defineInRange("Sets Specter Damage", 10, 1, Double.MAX_VALUE);
+            this.specter_armor = builder.comment("Default 8").defineInRange("Sets Specter Armor", 8, 0, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("Plagued");

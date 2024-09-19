@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "spore:item/unknown_color",
+    "layer1": "spore:item/unknown"
+  }
+}
