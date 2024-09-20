@@ -232,8 +232,7 @@ public class Infected extends Monster{
 
         if (SConfig.SERVER.weaktocold.get()){
         if (!this.level().isClientSide && this.tickCount % 20 == 0 && (this.isInPowderSnow || this.isFreazing())) {
-            this.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 1, false, false), Infected.this);
-            this.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0, false, false), Infected.this);
+            this.setTicksFrozen(this.getTicksFrozen()+100);
         }}
 
         if (canStarve() && this.tickCount % 20 == 0){

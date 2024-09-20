@@ -29,6 +29,7 @@ public interface EvolvingInfected {
                 if (infected.getEvolutionCoolDown() >= SConfig.SERVER.evolution_age_human.get()){
                     this.Evolve(infected,value);
                 }else{
+                    if (infected.getTicksFrozen() <= 0)
                     infected.setEvolution(infected.getEvolutionCoolDown()+1);
                 }
             }
@@ -40,6 +41,7 @@ public interface EvolvingInfected {
                 if (infected.getEvolutionCoolDown() >= SConfig.SERVER.evolution_age_human.get()){
                     this.HyperEvolve();
                 }else{
+                    if (infected.getTicksFrozen() <= 0)
                     infected.setEvolution(infected.getEvolutionCoolDown()+1);
                 }
             }
