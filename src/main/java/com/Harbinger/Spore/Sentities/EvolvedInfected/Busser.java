@@ -308,7 +308,6 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
         double dz = entity.getZ() - this.getZ();
         stinger.shoot(dx, dy - stinger.getY() + Math.hypot(dx, dz) * 0.2F, dz, 1f * 2, 12.0F);
         this.level().addFreshEntity(stinger);
-        this.level().addFreshEntity(stinger);
         this.setDeltaMovement(this.getDeltaMovement().add(0,0.3,0));
     }
 }
