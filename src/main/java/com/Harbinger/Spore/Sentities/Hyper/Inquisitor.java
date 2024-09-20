@@ -52,6 +52,14 @@ public class Inquisitor extends Hyper {
     }
     public void setBonusDamage(int value){
         entityData.set(DAMAGE_BONUS,value);
+        AttributeInstance damage = this.getAttribute(Attributes.ATTACK_DAMAGE);
+        if (damage != null){
+            double new_damage = (SConfig.SERVER.inquisitor_damage.get()*SConfig.SERVER.global_damage.get()) + (this.getBonusDamage()*0.5);
+            damage.setBaseValue(new_damage);
+            if (new_damage > (SConfig.SERVER.inquisitor_damage.get()*2*SConfig.SERVER.global_damage.get())){
+                this.setBonusDamage(this.getBonusDamage()-1);
+            }
+        }
     }
     public int getBonusDamage(){
         return entityData.get(DAMAGE_BONUS);
@@ -87,17 +95,9 @@ public class Inquisitor extends Hyper {
         super.aiStep();
         if (this.tickCount % 10 == 0){
             AttributeInstance armor = this.getAttribute(Attributes.ARMOR);
-            AttributeInstance damage = this.getAttribute(Attributes.ATTACK_DAMAGE);
             if (armor != null && this.getHealth() < this.getMaxHealth()){
                 double new_armor = (this.getMaxHealth()-this.getHealth())/2 + (SConfig.SERVER.inquisitor_armor.get() * SConfig.SERVER.global_armor.get());
                 armor.setBaseValue(new_armor);
-            }
-            if (damage != null){
-                double new_damage = (SConfig.SERVER.inquisitor_damage.get()*SConfig.SERVER.global_damage.get()) + (this.getBonusDamage()*0.5);
-                damage.setBaseValue(new_damage);
-                if (new_damage > (SConfig.SERVER.inquisitor_damage.get()*2*SConfig.SERVER.global_damage.get())){
-                    this.setBonusDamage(this.getBonusDamage()-1);
-                }
             }
         }
     }

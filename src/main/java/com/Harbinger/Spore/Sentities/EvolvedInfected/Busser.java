@@ -198,13 +198,6 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
     @Override
     protected void customServerAiStep() {
         if (this.getTypeVariant() == 1){
-                AttributeInstance health = this.getAttribute(Attributes.MAX_HEALTH);
-                assert health != null;
-                health.setBaseValue(SConfig.SERVER.bus_hp.get() * 2 * SConfig.SERVER.global_health.get());
-                AttributeInstance armor = this.getAttribute(Attributes.ARMOR);
-                assert armor != null;
-                armor.setBaseValue(SConfig.SERVER.bus_armor.get() * 2 * SConfig.SERVER.global_armor.get());
-
             if (this.isVehicle()){
                 this.setDeltaMovement(this.getDeltaMovement().add(0,0.03,0));
                 if (this.flytimeV < 200){
@@ -217,6 +210,19 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
         }
         if (!this.getMoveControl().hasWanted() && this.getTarget() == null){this.setDeltaMovement(this.getDeltaMovement().add(0,-0.005,0));}
         super.customServerAiStep();
+    }
+
+    @Override
+    public void onSyncedDataUpdated(List<SynchedEntityData.DataValue<?>> accesor) {
+        super.onSyncedDataUpdated(accesor);
+        if (DATA_ID_TYPE_VARIANT.equals(accesor)){
+            if (this.getTypeVariant() == 1){
+                AttributeInstance health = this.getAttribute(Attributes.MAX_HEALTH);
+                AttributeInstance armor = this.getAttribute(Attributes.ARMOR);
+                if (health != null){health.setBaseValue(SConfig.SERVER.bus_hp.get() * 2 * SConfig.SERVER.global_health.get());}
+                if (armor != null){armor.setBaseValue(SConfig.SERVER.bus_armor.get() * 2 * SConfig.SERVER.global_armor.get());}
+            }
+        }
     }
 
     public void defineSynchedData() {
