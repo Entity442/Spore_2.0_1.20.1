@@ -28,6 +28,8 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
@@ -48,6 +50,7 @@ import java.util.List;
 
 public class Calamity extends UtilityEntity implements Enemy {
     public static final EntityDataAccessor<Integer> KILLS = SynchedEntityData.defineId(Calamity.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Integer> CALCIUM = SynchedEntityData.defineId(Calamity.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<BlockPos> SEARCH_AREA = SynchedEntityData.defineId(Calamity.class, EntityDataSerializers.BLOCK_POS);
     public static final EntityDataAccessor<Boolean> ROOTED = SynchedEntityData.defineId(Calamity.class, EntityDataSerializers.BOOLEAN);
     private int breakCounter;
@@ -118,7 +121,12 @@ public class Calamity extends UtilityEntity implements Enemy {
 
     @Override
     public void awardKillScore(Entity entity, int i, DamageSource damageSource) {
+        AttributeInstance armor = this.getAttribute(Attributes.ARMOR);
         this.entityData.set(KILLS, entityData.get(KILLS) + 1);
+        if (canCalcify() && armor != null){
+            this.entityData.set(CALCIUM, entityData.get(CALCIUM) + 1);
+            armor.setBaseValue(armor.getValue() +this.entityData.get(CALCIUM));
+        }
         super.awardKillScore(entity, i, damageSource);
     }
 
@@ -140,6 +148,7 @@ public class Calamity extends UtilityEntity implements Enemy {
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt("kills", entityData.get(KILLS));
+        tag.putInt("calcium", entityData.get(CALCIUM));
         tag.putBoolean("rooted", entityData.get(ROOTED));
         tag.putInt("AreaX", this.getSearchArea().getX());
         tag.putInt("AreaY", this.getSearchArea().getY());
@@ -182,6 +191,7 @@ public class Calamity extends UtilityEntity implements Enemy {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         entityData.set(KILLS, tag.getInt("kills"));
+        entityData.set(CALCIUM, tag.getInt("calcium"));
         entityData.set(ROOTED, tag.getBoolean("rooted"));
         int i = tag.getInt("AreaX");
         int j = tag.getInt("AreaY");
@@ -193,7 +203,11 @@ public class Calamity extends UtilityEntity implements Enemy {
         super.defineSynchedData();
         this.entityData.define(ROOTED, false);
         this.entityData.define(KILLS, 0);
+        this.entityData.define(CALCIUM, 0);
         this.entityData.define(SEARCH_AREA, BlockPos.ZERO);
+    }
+    public boolean canCalcify(){
+        return true;
     }
 
     @Override

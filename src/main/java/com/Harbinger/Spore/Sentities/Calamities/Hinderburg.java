@@ -86,6 +86,11 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
     }
 
     @Override
+    public boolean canCalcify() {
+        return false;
+    }
+
+    @Override
     public boolean isNoGravity() {
         return true;
     }
