@@ -56,6 +56,7 @@ public class Spore
         Sfeatures.register(modEventBus);
         ScreativeTab.register(modEventBus);
         SMenu.register(modEventBus);
+        Spaintings.register(modEventBus);
         SblockEntities.register(modEventBus);
 
         final DeferredRegister<Codec<? extends BiomeModifier>> biomeModifiers =
