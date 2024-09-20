@@ -20,7 +20,7 @@ public abstract class BaseInfectedRenderer<T extends Mob, M extends EntityModel<
     @Override
     protected boolean isShaking(T type) {
         if (type instanceof Infected infected){
-            return infected.getTicksFrozen() > 0;
+            return infected.isFreazing();
         }
         if (type instanceof Calamity calamity){
             return calamity.isStunned();
