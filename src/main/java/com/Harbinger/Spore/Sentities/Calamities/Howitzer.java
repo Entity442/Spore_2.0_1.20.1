@@ -391,6 +391,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
         FleshBomb bomb = new FleshBomb(level(),this,damage,compareEntity(entity),random.nextInt(4,7));
         bomb.setLivingEntityPredicate(TARGET_SELECTOR);
         bomb.setCarrier(Math.random() < 0.2f);
+        bomb.setTarget(entity);
         double dx = entity.getX() - this.getX();
         double dz = entity.getZ() - this.getZ();
         double dy = entity.getY() - this.getY();

@@ -21,8 +21,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PlayMessages;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -33,6 +35,8 @@ public class FleshBomb extends AbstractArrow {
     private static final EntityDataAccessor<Integer> EXPLOSION = SynchedEntityData.defineId(FleshBomb.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> CARRIER = SynchedEntityData.defineId(FleshBomb.class, EntityDataSerializers.BOOLEAN);
     private Predicate<LivingEntity> livingEntityPredicate = (entity) -> {return true;};
+    @Nullable
+    private Entity target;
 
     public FleshBomb(Level level,LivingEntity entity,float damage,BombType type,int range) {
         super(Sentities.FLESH_BOMB.get(), level);
@@ -40,6 +44,9 @@ public class FleshBomb extends AbstractArrow {
         setExplosion(range);
         setDamage(damage);
         setOwner(entity);
+    }
+    public void setTarget(Entity entity){
+        this.target = entity;
     }
 
     public FleshBomb(EntityType<FleshBomb> fleshBombEntityType, Level level) {
@@ -125,6 +132,17 @@ public class FleshBomb extends AbstractArrow {
                             Math.cos(i) * 0.25d, 0.25d, Math.sin(i) * 0.25d);
                 }
             }
+        }
+        aimForTarget();
+    }
+    private void aimForTarget(){
+        if (target != null){
+            Vec3 vec3 = this.getDeltaMovement();
+            Vec3 vec31 = new Vec3(this.target.getX() - this.getX(), 0.0D, this.target.getZ() - this.getZ());
+            if (vec31.lengthSqr() > 1.0E-7D) {
+                vec31 = vec31.normalize().scale(0.01D);
+            }
+            this.setDeltaMovement(vec3.add(vec31.x,0 , vec31.z));
         }
     }
 
