@@ -46,7 +46,7 @@ import java.util.List;
 public class Specter extends UtilityEntity implements Enemy {
     public static final EntityDataAccessor<Boolean> INVISIBLE = SynchedEntityData.defineId(Specter.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Integer> BIOMASS = SynchedEntityData.defineId(Specter.class, EntityDataSerializers.INT);
-    public static final EntityDataAccessor<Float> STOMACH = SynchedEntityData.defineId(Specter.class, EntityDataSerializers.FLOAT);
+    public static final EntityDataAccessor<Integer> STOMACH = SynchedEntityData.defineId(Specter.class, EntityDataSerializers.INT);
     public static final List<BlockState> states = new ArrayList<>(){{add(Blocks.TORCH.defaultBlockState());add(Blocks.REDSTONE_TORCH.defaultBlockState());add(Blocks.TNT.defaultBlockState());add(Sblocks.CDU.get().defaultBlockState());}};
     @Nullable
     private BlockPos Targetpos;
@@ -141,10 +141,10 @@ public class Specter extends UtilityEntity implements Enemy {
     public int getBiomass(){
         return entityData.get(BIOMASS);
     }
-    public void setStomach(float value){
+    public void setStomach(int value){
         entityData.set(STOMACH,value);
     }
-    public float getStomach(){
+    public int getStomach(){
         return entityData.get(STOMACH);
     }
     @Nullable
@@ -159,7 +159,7 @@ public class Specter extends UtilityEntity implements Enemy {
     protected void defineSynchedData() {
         super.defineSynchedData();
         entityData.define(INVISIBLE,false);
-        entityData.define(STOMACH,0f);
+        entityData.define(STOMACH,0);
         entityData.define(BIOMASS,0);
     }
 
@@ -168,7 +168,7 @@ public class Specter extends UtilityEntity implements Enemy {
         super.readAdditionalSaveData(tag);
         setInvisible(tag.getBoolean("invisible"));
         setBiomass(tag.getInt("biomass"));
-        setStomach(tag.getFloat("food"));
+        setStomach(tag.getInt("stomach"));
     }
 
     @Override
@@ -176,7 +176,7 @@ public class Specter extends UtilityEntity implements Enemy {
         super.addAdditionalSaveData(tag);
         tag.putBoolean("invisible",isInvisible());
         tag.putInt("biomass",getBiomass());
-        tag.putFloat("food",getStomach());
+        tag.putInt("stomach",getStomach());
     }
     private boolean food(Container container){
         return container.hasAnyMatching((ItemStack::isEdible));
@@ -237,7 +237,7 @@ public class Specter extends UtilityEntity implements Enemy {
             searchBlocks();
         if (getStomach() > 10f){
             setBiomass(getBiomass()+1);
-            setStomach(getStomach()-10f);
+            setStomach(getStomach()-10);
         }
         }
         if (tickCount % 20 == 0 && getBiomass() > 0){
@@ -295,7 +295,7 @@ public class Specter extends UtilityEntity implements Enemy {
                     int amount = stack.getCount() > 1 ? this.random.nextInt(stack.getCount()) : stack.getCount();
                     this.playSound(SoundEvents.GENERIC_EAT);
                     stack.shrink(amount);
-                    this.setStomach((this.getStomach()+properties.getNutrition() + properties.getSaturationModifier())*amount);
+                    this.setStomach(this.getStomach()+(int)(properties.getNutrition() + properties.getSaturationModifier())*amount);
                 }
             }
         }else{
