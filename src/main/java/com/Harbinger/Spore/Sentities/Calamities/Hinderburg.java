@@ -86,7 +86,7 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
     }
 
     @Override
-    public boolean canCalcify() {
+    public boolean canCalcify(Entity entity) {
         return false;
     }
 

@@ -20,6 +20,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
@@ -123,7 +124,7 @@ public class Calamity extends UtilityEntity implements Enemy {
     public void awardKillScore(Entity entity, int i, DamageSource damageSource) {
         AttributeInstance armor = this.getAttribute(Attributes.ARMOR);
         this.entityData.set(KILLS, entityData.get(KILLS) + 1);
-        if (canCalcify() && armor != null){
+        if (canCalcify(entity) && armor != null){
             this.entityData.set(CALCIUM, entityData.get(CALCIUM) + 1);
             armor.setBaseValue(armor.getValue() +this.entityData.get(CALCIUM));
         }
@@ -206,8 +207,8 @@ public class Calamity extends UtilityEntity implements Enemy {
         this.entityData.define(CALCIUM, 0);
         this.entityData.define(SEARCH_AREA, BlockPos.ZERO);
     }
-    public boolean canCalcify(){
-        return true;
+    public boolean canCalcify(Entity entity){
+        return entity.getType().is(EntityTypeTags.SKELETONS);
     }
 
     @Override
