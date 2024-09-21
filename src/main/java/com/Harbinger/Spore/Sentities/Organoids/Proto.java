@@ -240,7 +240,7 @@ public class Proto extends Organoid implements CasingGenerator {
 
 
     protected boolean checkForOrganoids(Entity entity){
-        AABB aabb = entity.getBoundingBox().inflate(8);
+        AABB aabb = entity.getBoundingBox().inflate(12);
         List<Entity> entities = level().getEntities(this,aabb,entity1 -> { return entity1 instanceof Organoid;});
         return entities.size() <= 4;
     }

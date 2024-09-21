@@ -110,6 +110,7 @@
   "item.spore.brain_noodles": "Brain Noodles",
   "item.spore.ice_canister": "Ice Canister",
   "item.spore.circuit_board": "Circuit Board",
+  "item.spore.combat_pickaxe": "Combat Pickaxe",
 
 
   "item.spore.symbiotic_reagent": "Symbiotic Reagent",
@@ -377,6 +378,8 @@
   "zoaholic.line_3": "Anomaly detected at ",
   "zoaholic.line_4": "No anomaly detected",
   "zoaholic.line_5": "The anomaly has found you...",
+  "inf_pickaxe_no_ores": "No ores found",
+  "inf_pickaxe_found_ores": "Found Traces of ",
 
   "hivemind_summon_message": "Endure...",
   "calamity_summon_message": "Prepare...",

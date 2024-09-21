@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GG#",
+    " RG",
+    "T G"
+  ],
+  "key": {
+    "R": {
+      "item": "spore:living_core"
+    },
+    "G": {
+      "item": "spore:fleshy_claw"
+    },
+    "#": {
+      "item": "spore:hardened_bind"
+    },
+    "T": {
+      "item": "spore:fleshy_bone"
+    }
+  },
+  "result": {
+    "item": "spore:combat_pickaxe"
+  }
+}

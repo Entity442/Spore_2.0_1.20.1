@@ -321,6 +321,9 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Integer> maul_durability;
         public final ForgeConfigSpec.ConfigValue<Integer> maul_damage;
 
+        public final ForgeConfigSpec.ConfigValue<Integer> inf_pickaxe_durability;
+        public final ForgeConfigSpec.ConfigValue<Integer> inf_pickaxe_damage;
+
         public final ForgeConfigSpec.ConfigValue<Integer> scythe_durability;
         public final ForgeConfigSpec.ConfigValue<Integer> scythe_damage;
 
@@ -1024,6 +1027,10 @@ public class SConfig {
             builder.push("Maul");
             this.maul_durability = builder.comment("Default 3000").define("Durability",3000);
             this.maul_damage = builder.comment("Default 7").defineInRange("Damage", 7, 1, Integer.MAX_VALUE);
+            builder.pop();
+            builder.push("Pickaxe");
+            this.inf_pickaxe_durability = builder.comment("Default 2500").define("Durability",2500);
+            this.inf_pickaxe_damage = builder.comment("Default 10").defineInRange("Damage", 10, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Sickle");
             this.sickle_durability = builder.comment("Default 1200").define("Durability",1200);
