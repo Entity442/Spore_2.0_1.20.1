@@ -25,6 +25,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.npc.InventoryCarrier;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
@@ -283,6 +284,12 @@ public class Specter extends UtilityEntity implements Enemy {
 
     @Override
     public boolean hasLineOfSight(Entity entity) {
+        if (entity instanceof LivingEntity livingEntity && livingEntity.hasEffect(Seffects.MARKER.get())){
+            return true;
+        }
+        if (entity instanceof InventoryCarrier carrier && carrier.getInventory().hasAnyMatching(ItemStack::isEdible)){
+            return true;
+        }
         return super.hasLineOfSight(entity);
     }
 
