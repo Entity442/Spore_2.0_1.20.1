@@ -108,6 +108,7 @@
   "item.spore.brain_noodles": "Мозговая лапша",
   "item.spore.ice_canister": "Канистра со льдом",
   "item.spore.circuit_board": "Печатная плата",
+  "item.spore.combat_pickaxe": "Боевая кирка",
 
   "item.spore.symbiotic_reagent": "Симбиотический реагент",
   "item.spore.cryogenic_reagent": "Криогенный реагент",
@@ -362,6 +363,8 @@
   "zoaholic.line_3": "Аномалия обнаружена на",
   "zoaholic.line_4": "Аномалий не обнаружено",
   "zoaholic.line_5": "Аномалия нашла тебя...",
+  "inf_pickaxe_no_ores": "Руды не найдены",
+  "inf_pickaxe_found_ores": "Найдены следы",
 
   "hivemind_summon_message": "Выдержи...",
   "calamity_summon_message": "Приготовься...",

@@ -110,6 +110,7 @@
   "item.spore.brain_noodles": "脑花面条",
   "item.spore.ice_canister": "冰罐",
   "item.spore.circuit_board": "电路板",
+  "item.spore.combat_pickaxe": "戰鬥鎬",
 
 
   "item.spore.symbiotic_reagent": "共生试剂",
@@ -377,6 +378,8 @@
   "zoaholic.line_3": "在此处检测到异常：",
   "zoaholic.line_4": "未检测到异常",
   "zoaholic.line_5": "异常检测到你……",
+  "inf_pickaxe_no_ores": "未發現礦石",
+  "inf_pickaxe_found_ores": "發現蹤跡 ",
 
   "hivemind_summon_message": "忍受吧……",
   "calamity_summon_message": "准备好……",

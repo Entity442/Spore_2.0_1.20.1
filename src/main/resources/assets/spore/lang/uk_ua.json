@@ -109,6 +109,7 @@
   "item.spore.brain_noodles": "Мізкова лапша",
   "item.spore.ice_canister": "Каністра льоду",
   "item.spore.circuit_board": "Друкована плата",
+  "item.spore.combat_pickaxe": "Бойова кирка",
 
 
 
@@ -374,6 +375,8 @@
   "zoaholic.line_3": "Аномалію виявлено на ",
   "zoaholic.line_4": "Аномалій не виявлено",
   "zoaholic.line_5": "Аномалія знайшла вас...",
+  "inf_pickaxe_no_ores": "Руди не знайдено",
+  "inf_pickaxe_found_ores": "Знайдені сліди ",
 
   "hivemind_summon_message": "Витримай...",
   "calamity_summon_message": "Приготуйтеся...",
