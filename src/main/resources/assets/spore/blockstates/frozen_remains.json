@@ -1,0 +1,51 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/frozen_remains_1"
+      },
+      {
+        "model": "spore:block/frozen_remains_2"
+      },
+      {
+        "model": "spore:block/frozen_remains_3"
+      },
+      {
+        "model": "spore:block/frozen_remains_1",
+        "y": 90
+      },
+      {
+        "model": "spore:block/frozen_remains_2",
+        "y": 90
+      },
+      {
+        "model": "spore:block/frozen_remains_3",
+        "y": 90
+      },
+      {
+        "model": "spore:block/frozen_remains_1",
+        "y": 180
+      },
+      {
+        "model": "spore:block/frozen_remains_2",
+        "y": 180
+      },
+      {
+        "model": "spore:block/frozen_remains_3",
+        "y": 180
+      },
+      {
+        "model": "spore:block/frozen_remains_1",
+        "y": 270
+      },
+      {
+        "model": "spore:block/frozen_remains_2",
+        "y": 270
+      },
+      {
+        "model": "spore:block/frozen_remains_3",
+        "y": 270
+      }
+    ]
+  }
+}

@@ -445,6 +445,19 @@ public class Infected extends Monster{
                 }
             }
         }
+        if ((isFreazing() || getTicksFrozen() > 0) && Math.random() < 0.3){
+            AABB aabb = this.getBoundingBox().inflate(1);
+            for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+                BlockState blockState = level().getBlockState(blockpos);
+                BlockState above = level().getBlockState(blockpos.above());
+                if (!level().isClientSide() && blockState.isSolidRender(level(),blockpos) && above.isAir()){
+                    if (Math.random() < 0.3){
+                        level().setBlock(blockpos.above(), Sblocks.FROZEN_REMAINS.get().defaultBlockState(), 3);
+                        break;
+                    }
+                }
+            }
+        }
         super.die(source);
     }
     @org.jetbrains.annotations.Nullable

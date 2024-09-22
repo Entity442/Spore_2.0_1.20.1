@@ -104,4 +104,5 @@ public class Sblocks {
     public static final RegistryObject<LiquidBlock> BILE = BLOCKS.register("bile", () -> new BileLiquidBlock(Sfluids.Bile_FLUID_SOURCE, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).noCollission().strength(100.0F).lightLevel(state -> 1).emissiveRendering((state, world, pos) -> false).noLootTable().replaceable().liquid().pushReaction(PushReaction.DESTROY)));
 
     public static final RegistryObject<Block> REMAINS = BLOCKS.register("remains", Remains::new);
+    public static final RegistryObject<Block> FROZEN_REMAINS = BLOCKS.register("frozen_remains", FrozenRemains::new);
 }
