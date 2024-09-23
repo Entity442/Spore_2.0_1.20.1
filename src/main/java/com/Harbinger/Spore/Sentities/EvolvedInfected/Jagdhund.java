@@ -3,10 +3,14 @@ package com.Harbinger.Spore.Sentities.EvolvedInfected;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ItemParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
@@ -15,6 +19,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
@@ -40,17 +45,25 @@ public class Jagdhund extends EvolvedInfected {
 
     }
     public void tickDigIn(){
-        if (digInTimeOut <= 0){
-            digInTimeOut = 40;
-        }else{
+        if (digInTimeOut >= 0){
             --digInTimeOut;
+            if (!dig_in.isStarted() && this.level().isClientSide){
+                dig_in.start(tickCount);
+            }
+        }else{
+            digOutTimeOut = 40;
+            setUnderground(true);
         }
     }
     public void tickDigOut(){
-        if (digOutTimeOut <= 0){
-            digOutTimeOut = 50;
-        }else{
+        if (digOutTimeOut >= 0){
             --digOutTimeOut;
+            if (!dig_out.isStarted() && this.level().isClientSide){
+                dig_out.start(tickCount);
+            }
+        }else{
+            digOutTimeOut = 50;
+            setUnderground(false);
         }
     }
 
@@ -59,13 +72,6 @@ public class Jagdhund extends EvolvedInfected {
     }
 
     public void setUnderground(boolean value){
-        if (value){
-            dig_out.stop();
-            tickDigIn();
-        }else {
-            dig_in.stop();
-            tickDigOut();
-        }
         entityData.set(UNDERGROUND,value);
     }
     public boolean isUnderground(){
@@ -110,25 +116,29 @@ public class Jagdhund extends EvolvedInfected {
         Entity target = this.getTarget();
         if (target != null && !isDigging()){
             if (target.distanceToSqr(this) > 100 && !isUnderground()){
-                setUnderground(true);
+                digInTimeOut = 40;
             }
             if (target.distanceToSqr(this) < 50 && isUnderground()){
-                setUnderground(false);
+                digOutTimeOut = 50;
             }
         }
-        if (isDigging()){
+        if (isDigging() || (isUnderground())){
             this.makeStuckInBlock(Blocks.AIR.defaultBlockState(),new Vec3(0,1,0));
+            for (int l = 0 ;l<this.random.nextInt(3,6);l++){
+                if (level() instanceof ServerLevel serverLevel) {
+                    int xi = random.nextInt(-1,1);
+                    int zi = random.nextInt(-1,1);
+                    if (level().getBlockState(this.getOnPos()).getBlock().asItem() != ItemStack.EMPTY.getItem()) {
+                        serverLevel.sendParticles(new ItemParticleOption(ParticleTypes.ITEM, new ItemStack((level().getBlockState(this.getOnPos())).getBlock())), getX() + xi, getY() - 0.1D, getZ() + zi, 3,
+                                ((double) random.nextFloat() - 1D) * 0.08D, ((double) random.nextFloat() - 1D) * 0.08D, ((double) random.nextFloat() - 1D) * 0.08D, 0.15F);
+                    }
+                }
+            }
         }
         if (digInTimeOut > 0){
-            if (digOutTimeOut >39 && this.level().isClientSide){
-                dig_in.start(tickCount);
-            }
             tickDigIn();
         }
         if (digOutTimeOut > 0){
-            if (digOutTimeOut >49 && this.level().isClientSide){
-                dig_out.start(tickCount);
-            }
             tickDigOut();
         }
     }
