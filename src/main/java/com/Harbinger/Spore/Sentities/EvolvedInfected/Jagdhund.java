@@ -41,7 +41,6 @@ public class Jagdhund extends EvolvedInfected {
     }
     public void tickDigIn(){
         if (digInTimeOut <= 0){
-            dig_in.start(tickCount);
             digInTimeOut = 40;
         }else{
             --digInTimeOut;
@@ -49,7 +48,6 @@ public class Jagdhund extends EvolvedInfected {
     }
     public void tickDigOut(){
         if (digOutTimeOut <= 0){
-            dig_out.start(tickCount);
             digOutTimeOut = 50;
         }else{
             --digOutTimeOut;
@@ -121,8 +119,18 @@ public class Jagdhund extends EvolvedInfected {
         if (isDigging()){
             this.makeStuckInBlock(Blocks.AIR.defaultBlockState(),new Vec3(0,1,0));
         }
-        if (digInTimeOut > 0){tickDigIn();}
-        if (digOutTimeOut > 0){tickDigOut();}
+        if (digInTimeOut > 0){
+            if (digOutTimeOut >39 && this.level().isClientSide){
+                dig_in.start(tickCount);
+            }
+            tickDigIn();
+        }
+        if (digOutTimeOut > 0){
+            if (digOutTimeOut >49 && this.level().isClientSide){
+                dig_out.start(tickCount);
+            }
+            tickDigOut();
+        }
     }
 
     @Override
