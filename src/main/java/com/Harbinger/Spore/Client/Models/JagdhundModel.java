@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Client.Models;// Made with Blockbench 4.11.0
 // Paste this class into your mod and generate all required imports
 
 
+import com.Harbinger.Spore.Client.Animations.JagdAnimation;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Jagdhund;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -18,7 +19,7 @@ import net.minecraft.util.Mth;
 public class JagdhundModel<T extends Jagdhund> extends HierarchicalModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "jagdhundmodel"), "main");
-	private final ModelPart Digger;
+	private final ModelPart Body;
 	private final ModelPart RightLeg;
 	private final ModelPart LeftLeg;
 	private final ModelPart RightArm;
@@ -36,17 +37,17 @@ public class JagdhundModel<T extends Jagdhund> extends HierarchicalModel<T> {
 	private final ModelPart Tongue2;
 	private final ModelPart Tongue3;
 
-
 	public JagdhundModel(ModelPart root) {
-		this.Digger = root.getChild("Digger");
-		this.RightLeg = Digger.getChild("Legs").getChild("RightLegJoint");
-		this.LeftLeg = Digger.getChild("Legs").getChild("LeftLegJoint");
-		this.RightArm = Digger.getChild("LowerTorso").getChild("UpperTorso").getChild("Arms").getChild("RightArmJoint");
-		this.LeftArm = Digger.getChild("LowerTorso").getChild("UpperTorso").getChild("Arms").getChild("LeftArmJoint");
+		this.Body = root.getChild("Body");
+		ModelPart digger = Body.getChild("Digger");
+		this.RightLeg = digger.getChild("Legs").getChild("RightLegJoint");
+		this.LeftLeg = digger.getChild("Legs").getChild("LeftLegJoint");
+		this.RightArm = digger.getChild("LowerTorso").getChild("UpperTorso").getChild("Arms").getChild("RightArmJoint");
+		this.LeftArm = digger.getChild("LowerTorso").getChild("UpperTorso").getChild("Arms").getChild("LeftArmJoint");
 		this.RightForArm = RightArm.getChild("RightArm").getChild("RightArmSeg2");
 		this.LeftForArm = LeftArm.getChild("LeftArm").getChild("LeftArmSeg2");
-		this.Tumor = Digger.getChild("LowerTorso").getChild("ChestTumors");
-		this.Neck1 = Digger.getChild("LowerTorso").getChild("UpperTorso").getChild("Neck");
+		this.Tumor = digger.getChild("LowerTorso").getChild("ChestTumors");
+		this.Neck1 = digger.getChild("LowerTorso").getChild("UpperTorso").getChild("Neck");
 		this.Neck2 = Neck1.getChild("NeckSeg2");
 		this.Head = Neck2.getChild("Head");
 		this.Jaw = Head.getChild("Jaw").getChild("TopJawJoint");
@@ -61,7 +62,9 @@ public class JagdhundModel<T extends Jagdhund> extends HierarchicalModel<T> {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition Digger = partdefinition.addOrReplaceChild("Digger", CubeListBuilder.create(), PartPose.offset(0.0F, 24.0F, 0.0F));
+		PartDefinition Body = partdefinition.addOrReplaceChild("Body", CubeListBuilder.create(), PartPose.offset(0.0F, 24.0F, 0.0F));
+
+		PartDefinition Digger = Body.addOrReplaceChild("Digger", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition LowerTorso = Digger.addOrReplaceChild("LowerTorso", CubeListBuilder.create().texOffs(38, 47).addBox(-3.4286F, -0.7143F, -1.4643F, 7.0F, 1.0F, 4.0F, new CubeDeformation(0.0F))
 		.texOffs(57, 21).addBox(-3.4286F, -6.7143F, 1.5357F, 7.0F, 6.0F, 1.0F, new CubeDeformation(0.0F))
@@ -147,7 +150,7 @@ public class JagdhundModel<T extends Jagdhund> extends HierarchicalModel<T> {
 
 		PartDefinition LeftArm = LeftArmJoint.addOrReplaceChild("LeftArm", CubeListBuilder.create().texOffs(40, 0).addBox(-1.0F, -1.5F, -1.5F, 8.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -1.1683F, -0.4802F, -0.6538F));
 
-		PartDefinition LeftArmSeg2 = LeftArm.addOrReplaceChild("LeftArmSeg2", CubeListBuilder.create().texOffs(22, 46).mirror().addBox(0.0F, -1.0F, -1.0F, 2.0F, 16.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(7.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.3927F));
+		PartDefinition LeftArmSeg2 = LeftArm.addOrReplaceChild("LeftArmSeg2", CubeListBuilder.create().texOffs(22, 46).mirror().addBox(0.0F, -1.0F, -1.0F, 2.0F, 16.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(7.0F, 0.0F, 0.0F));
 
 		PartDefinition LeftArm2 = LeftArmSeg2.addOrReplaceChild("LeftArm2", CubeListBuilder.create(), PartPose.offset(-1.2706F, 5.0793F, 1.2948F));
 
@@ -325,39 +328,44 @@ public class JagdhundModel<T extends Jagdhund> extends HierarchicalModel<T> {
 		part.zScale = 1+ Mth.sin(age/6)/6;
 	}
 	private void animateTongue(ModelPart part,float value){
-		part.xRot = part.getInitialPose().xRot + Mth.sin(value/6)/5;
+		part.xRot = part.getInitialPose().xRot + Mth.sin(value/6)/7;
 		part.zRot = Mth.sin(value/5)/5;
 	}
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		float moveValue  = Mth.cos(limbSwing * 0.3F) * 0.8F * limbSwingAmount;
-		float neckMovement = netHeadYaw / (360F / (float) Math.PI)/3;
-		RightLeg.yRot = moveValue * 0.6f;
-		LeftLeg.yRot = -RightLeg.yRot;
-		RightArm.yRot = moveValue *1.2f;
-		RightForArm.zRot = RightArm.yRot * 0.6f;
-		LeftArm.yRot = RightArm.yRot;
-		LeftForArm.zRot = LeftArm.yRot * 0.6f;
-		animateTumor(Tumor,ageInTicks);
-		Neck1.zRot = neckMovement/3;
-		Neck2.yRot = neckMovement/3;
-		Head.yRot = -neckMovement/3;
-		Jaw.xRot = Mth.cos(ageInTicks/6)/5;
-		RightJaw.zRot = Mth.cos(ageInTicks/6)/5;
-		LeftJaw.zRot = -RightJaw.zRot;
-		animateTongue(Tongue1,ageInTicks);
-		animateTongue(Tongue2,ageInTicks);
-		animateTongue(Tongue3,ageInTicks);
+		this.root().getAllParts().forEach(ModelPart::resetPose);
+		if (!entity.isDigging()){
+			float moveValue  = Mth.cos(limbSwing * 0.3F) * 0.8F * limbSwingAmount;
+			float neckMovement = netHeadYaw / (360F / (float) Math.PI)/3;
+			RightLeg.yRot = moveValue * 0.6f;
+			LeftLeg.yRot = -RightLeg.yRot;
+			RightArm.yRot = moveValue *1.2f;
+			RightForArm.zRot = RightArm.yRot * 0.6f;
+			LeftArm.yRot = RightArm.yRot;
+			LeftForArm.zRot = LeftArm.yRot * 0.6f;
+			animateTumor(Tumor,ageInTicks);
+			Neck1.zRot = neckMovement/3;
+			Neck2.yRot = neckMovement/3;
+			Head.yRot = -neckMovement/3;
+			Jaw.xRot = Mth.cos(ageInTicks/6)/5;
+			RightJaw.zRot = Mth.cos(ageInTicks/6)/5;
+			LeftJaw.zRot = -RightJaw.zRot;
+			animateTongue(Tongue1,ageInTicks);
+			animateTongue(Tongue2,ageInTicks);
+			animateTongue(Tongue3,ageInTicks);
+		}
+		this.animate(entity.dig_in, JagdAnimation.DIG_IN,ageInTicks,1.0F);
+		this.animate(entity.dig_out,JagdAnimation.EMERGE,ageInTicks,1.0F);
 	}
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		Digger.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		Body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
-
 	@Override
 	public ModelPart root() {
-		return Digger;
+		return Body;
 	}
+
 }
