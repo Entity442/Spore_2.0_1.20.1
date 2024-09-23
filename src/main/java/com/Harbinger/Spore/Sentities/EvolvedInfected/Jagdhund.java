@@ -62,11 +62,11 @@ public class Jagdhund extends EvolvedInfected {
 
     public void setUnderground(boolean value){
         if (value){
-            tickDigIn();
             dig_out.stop();
+            tickDigIn();
         }else {
-            tickDigOut();
             dig_in.stop();
+            tickDigOut();
         }
         entityData.set(UNDERGROUND,value);
     }
@@ -123,7 +123,6 @@ public class Jagdhund extends EvolvedInfected {
         }
         if (digInTimeOut > 0){tickDigIn();}
         if (digOutTimeOut > 0){tickDigOut();}
-
     }
 
     @Override
