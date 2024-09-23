@@ -1,11 +1,15 @@
 package com.Harbinger.Spore.Sentities.EvolvedInfected;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 
@@ -23,5 +27,17 @@ public class Jagdhund extends EvolvedInfected {
                 .add(Attributes.FOLLOW_RANGE, 32)
                 .add(Attributes.ATTACK_KNOCKBACK, 1);
 
+    }
+
+    @Override
+    protected void registerGoals() {
+        this.goalSelector.addGoal(3, new CustomMeleeAttackGoal(this, 1.5, false) {
+            @Override
+            protected double getAttackReachSqr(LivingEntity entity) {
+                return 3.0 + entity.getBbWidth() * entity.getBbWidth();}});
+
+        this.goalSelector.addGoal(4, new RandomStrollGoal(this, 0.8));
+        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
+        super.registerGoals();
     }
 }

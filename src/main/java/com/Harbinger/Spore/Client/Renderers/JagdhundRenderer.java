@@ -1,10 +1,8 @@
 package com.Harbinger.Spore.Client.Renderers;
 
 import com.Harbinger.Spore.Client.Models.JagdhundModel;
-import com.Harbinger.Spore.Client.Models.LeaperModel;
 import com.Harbinger.Spore.Client.Special.BaseInfectedRenderer;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Jagdhund;
-import com.Harbinger.Spore.Sentities.EvolvedInfected.Leaper;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
