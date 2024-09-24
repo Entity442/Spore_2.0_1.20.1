@@ -32,8 +32,6 @@ public class Jagdhund extends EvolvedInfected {
     public Jagdhund(EntityType<? extends Monster> type, Level level) {
         super(type, level);
     }
-    public AnimationState dig_in = new AnimationState();
-    public AnimationState dig_out = new AnimationState();
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
@@ -94,15 +92,9 @@ public class Jagdhund extends EvolvedInfected {
         if (this.tickCount % 10 == 0 && target != null){
             if (target.distanceToSqr(this) > 100 && !isUnderground() && !isBurrowing()){
                 tickBurrowing();
-                if (level().isClientSide){
-                    dig_in.start(tickCount);
-                }
             }
             if (target.distanceToSqr(this) < 50 && isUnderground() && !isEmerging()){
                 tickEmerging();
-                if (level().isClientSide){
-                    dig_out.start(tickCount);
-                }
             }
         }
         if (isEmerging() || isBurrowing()){
@@ -123,14 +115,6 @@ public class Jagdhund extends EvolvedInfected {
         } else if (this.isBurrowing()){
             this.tickBurrowing();
         }
-        if (level().isClientSide){
-            if (!isBurrowing()){
-                dig_in.stop();
-            }
-            if (!isEmerging()){
-                dig_out.stop();
-            }
-        }
     }
 
     public boolean isEmerging(){
@@ -138,7 +122,7 @@ public class Jagdhund extends EvolvedInfected {
     }
     public void tickEmerging(){
         int emerging = this.entityData.get(EMERGE);
-        if (emerging > 50){
+        if (emerging > 40){
             this.setUnderground(false);
             emerging = -1;
         }
@@ -182,5 +166,16 @@ public class Jagdhund extends EvolvedInfected {
             return new EntityDimensions(1.2f,0.1f,false);
         }
         return super.getDimensions(pose);
+    }
+
+    public int getEmerge(){return entityData.get(EMERGE);}
+    public int getBorrow(){return entityData.get(BORROW);}
+
+    public int getBorrow_tick() {
+        return 60;
+    }
+
+    public int getEmerge_tick() {
+        return 60;
     }
 }

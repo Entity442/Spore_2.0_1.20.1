@@ -3,7 +3,6 @@ package com.Harbinger.Spore.Client.Models;// Made with Blockbench 4.11.0
 // Paste this class into your mod and generate all required imports
 
 
-import com.Harbinger.Spore.Client.Animations.JagdAnimation;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Jagdhund;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -339,7 +338,12 @@ public class JagdhundModel<T extends Jagdhund> extends HierarchicalModel<T> {
 		float neckMovement = netHeadYaw / (360F / (float) Math.PI)/3;
 		RightLeg.yRot = moveValue * 0.6f;
 		LeftLeg.yRot = -RightLeg.yRot;
-		RightArm.yRot = moveValue *1.2f;
+		if (entity.isBurrowing() || entity.isEmerging()){
+			float digValue = Mth.sin(ageInTicks/3)/2;
+			RightArm.yRot = digValue *1.2f;
+		} else{
+			RightArm.yRot = moveValue *1.2f;
+		}
 		RightForArm.zRot = RightArm.yRot * 0.6f;
 		LeftArm.yRot = RightArm.yRot;
 		LeftForArm.zRot = LeftArm.yRot * 0.6f;
@@ -353,8 +357,6 @@ public class JagdhundModel<T extends Jagdhund> extends HierarchicalModel<T> {
 		animateTongue(Tongue1,ageInTicks);
 		animateTongue(Tongue2,ageInTicks);
 		animateTongue(Tongue3,ageInTicks);
-		this.animate(entity.dig_in, JagdAnimation.DIG_IN,ageInTicks,1.0F);
-		this.animate(entity.dig_out,JagdAnimation.EMERGE,ageInTicks,1.0F);
 	}
 
 	@Override

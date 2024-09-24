@@ -36,8 +36,25 @@ public class JagdhundRenderer<Type extends Jagdhund> extends BaseInfectedRendere
 
     @Override
     public void render(Type type, float p_115456_, float p_115457_, PoseStack stack, MultiBufferSource bufferSource, int p_115460_) {
+        shadowRadius = type.isUnderground() ? 0f : 0.5f;
+        if (type.isBurrowing() || type.isEmerging()){
+            float a = type.getBbHeight() * 2;
+            float b = 0.0f;
+            if (type.isBurrowing()){
+                b =0 - (a / type.getBorrow_tick()) * type.getBorrow();
+            }else if (type.isEmerging()){
+                b = -a + ((a / type.getEmerge_tick()) * type.getEmerge());
+            }
+            stack.translate(0.0,b,0.0);
+        }
         if (!type.isUnderground() || type.isEmerging() || type.isBurrowing()){
             super.render(type, p_115456_, p_115457_, stack, bufferSource, p_115460_);
         }
     }
+
+    @Override
+    protected boolean isShaking(Type type) {
+        return super.isShaking(type) || type.isBurrowing() || type.isEmerging();
+    }
+
 }
