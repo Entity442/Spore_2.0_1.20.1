@@ -196,9 +196,11 @@
   "item.spore.verva_spawnegg": "Верварунг",
   "item.spore.delusioner_spawnegg": "Обманщик",
   "item.spore.gastgaber_spawnegg": "Хозяин",
-  "entity.spore.specter_spawnegg": "Призрак",
+  "item.spore.specter_spawnegg": "Призрак",
   "item.spore.howitzer_spawnegg": "Ховитзер",
   "item.spore.thorn_spawnegg": "Вердатхорн",
+  "item.spore.jagd_spawnegg": "Ягдхунд",
+
 
   "item.spore.scent_spawnegg": "Споры",
   "item.spore.scent_overcharged_spawnegg": "Перенасыщенные споры",
@@ -254,9 +256,12 @@
   "entity.spore.braurei": "Браурей",
   "entity.spore.verva": "Верварунг",
   "entity.spore.delusioner": "Обманщик",
+  "entity.spore.specter_spawnegg": "Призрак",
   "entity.spore.gastgaber": "Хозяин",
   "entity.spore.howitzer": "Ховитзер",
   "entity.spore.howit_arm": "Рука Ховитзера",
+  "entity.spore.jagd": "Ягдхунд",
+
 
   "enchantment.spore.symbiotic_reconstitution.desc": "Укрепляет симбиотическую связь между вами и вашим снаряжением, залечивая его раны во время симбиоза.",
   "enchantment.spore.cryogenic_aspect.desc": "Охлаждает жертву до глубины души, замедляя скорость ее передвижения и нанося замораживающий урон.",

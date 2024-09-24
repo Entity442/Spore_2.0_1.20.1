@@ -85,6 +85,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> wendigo_hp;
         public final ForgeConfigSpec.ConfigValue<Double> wendigo_damage;
         public final ForgeConfigSpec.ConfigValue<Double> wendigo_armor;
+        public final ForgeConfigSpec.ConfigValue<Boolean> wendigo_disarmor;
 
         public final ForgeConfigSpec.ConfigValue<Double> inquisitor_hp;
         public final ForgeConfigSpec.ConfigValue<Double> inquisitor_damage;
@@ -160,6 +161,10 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> knight_hp;
         public final ForgeConfigSpec.ConfigValue<Double> knight_damage;
         public final ForgeConfigSpec.ConfigValue<Double> knight_armor;
+
+        public final ForgeConfigSpec.ConfigValue<Double> jagd_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> jagd_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> jagd_armor;
 
         public final ForgeConfigSpec.ConfigValue<Double> thorn_hp;
         public final ForgeConfigSpec.ConfigValue<Double> thorn_damage;
@@ -523,7 +528,7 @@ public class SConfig {
                             "spore:volatile") , o -> o instanceof String);
             this.husk_ev = builder.defineList("Infected Husk Evolutions",
                     Lists.newArrayList(
-                            "spore:thorn") , o -> o instanceof String);
+                            "spore:thorn","spore:jagd") , o -> o instanceof String);
 
             this.undespawn = builder.defineList("Mobs that won't despawn after being created from assimilation",
                     Lists.newArrayList("spore:inf_villager", "spore:inf_pillager", "spore:inf_witch") , o -> o instanceof String);
@@ -589,6 +594,7 @@ public class SConfig {
             this.wendigo_hp = builder.comment("Default 75").defineInRange("Sets Wendigo Max health", 75, 1, Double.MAX_VALUE);
             this.wendigo_damage = builder.comment("Default 15").defineInRange("Sets Wendigo Damage", 15, 1, Double.MAX_VALUE);
             this.wendigo_armor = builder.comment("Default 8").defineInRange("Sets Wendigo Armor", 8, 1, Double.MAX_VALUE);
+            this.wendigo_disarmor = builder.comment("Default true").define("Should the wendigo take off ur armor?",true);
             builder.pop();
 
             builder.push("Inquisitor");
@@ -650,16 +656,16 @@ public class SConfig {
             this.vigil_armor = builder.comment("Default 5").defineInRange("Sets Vigil Armor", 5, 1, Double.MAX_VALUE);
             this.vigil_wave_size = builder.comment("Default 15").defineInRange("Sets the maximum size of the wave", 15, 1, Integer.MAX_VALUE);
             this.vigil_base_wave = builder.comment("The base wave of infected a vigil can summon").defineList("Vigil min wave",
-                    Lists.newArrayList("spore:inf_human" ,"spore:inf_drowned" , "spore:inf_villager","spore:inf_pillager","spore:inf_drowned") , o -> o instanceof String);
+                    Lists.newArrayList("spore:inf_human","spore:inf_husk" ,"spore:inf_drowned" , "spore:inf_villager","spore:inf_pillager","spore:inf_drowned") , o -> o instanceof String);
 
             this.vigil_middle_wave = builder.comment("The mixed wave of infected a vigil can summon").defineList("Vigil mix wave",
                     Lists.newArrayList("spore:inf_human", "spore:inf_villager", "spore:inf_pillager", "spore:inf_wanderer",
-                            "spore:knight", "spore:griefer", "spore:leaper", "spore:inf_evoker", "spore:spitter") , o -> o instanceof String);
+                            "spore:knight", "spore:griefer", "spore:thorn", "spore:jagd", "spore:leaper", "spore:inf_evoker", "spore:spitter") , o -> o instanceof String);
 
             this.vigil_max_wave = builder.comment("The max wave of infected a vigil can summon").defineList("Vigil max wave",
                     Lists.newArrayList("spore:inf_vindicator", "spore:busser", "spore:inf_witch", "spore:brute",
-                            "spore:knight", "spore:griefer", "spore:leaper", "spore:inf_evoker", "spore:spitter", "spore:stalker",
-                            "spore:howler", "spore:braiomil") , o -> o instanceof String);
+                            "spore:knight", "spore:griefer", "spore:thorn", "spore:jagd", "spore:leaper", "spore:inf_evoker", "spore:spitter", "spore:stalker",
+                            "spore:howler", "spore:braiomil", "spore:wendigo", "spore:inquisitor", "spore:brot") , o -> o instanceof String);
 
             builder.pop();
 
@@ -667,7 +673,7 @@ public class SConfig {
             this.sieger_hp = builder.comment("Default 300").defineInRange("Sets Sieger Max health", 300, 1, Double.MAX_VALUE);
             this.sieger_damage = builder.comment("Default 30").defineInRange("Sets Sieger Damage", 30, 1, Double.MAX_VALUE);
             this.sieger_armor = builder.comment("Default 25").defineInRange("Sets Sieger Armor", 25, 1, Double.MAX_VALUE);
-            this.sieger_dpsr = builder.comment("Default 70").defineInRange("Sets Sieger Damage Cap , set to 0 to disable", 70, 1, Double.MAX_VALUE);
+            this.sieger_dpsr = builder.comment("Default 70").defineInRange("Sets Sieger Damage Cap , set to 0 to disable", 70, 0, Double.MAX_VALUE);
 
             this.sieger_buffs = builder.comment("Default values: minecraft:speed|600|0 ,minecraft:strength|600|0 ,minecraft:resistance|600|1").defineList("Sieger buffs",
                     Lists.newArrayList("minecraft:speed|600|0" , "minecraft:strength|600|0","minecraft:resistance|600|1") , o -> o instanceof String);
@@ -683,7 +689,7 @@ public class SConfig {
             this.gazen_hp = builder.comment("Default 350").defineInRange("Sets Gazenbreacher Max health", 350, 1, Double.MAX_VALUE);
             this.gazen_damage = builder.comment("Default 25").defineInRange("Sets Gazenbreacher Damage", 25, 1, Double.MAX_VALUE);
             this.gazen_armor = builder.comment("Default 15").defineInRange("Sets Gazenbreacher Armor", 15, 1, Double.MAX_VALUE);
-            this.gazen_dpsr = builder.comment("Default 100").defineInRange("Sets Gazenbreacher Damage Cap , set to 0 to disable", 100, 1, Double.MAX_VALUE);
+            this.gazen_dpsr = builder.comment("Default 100").defineInRange("Sets Gazenbreacher Damage Cap , set to 0 to disable", 100, 0, Double.MAX_VALUE);
             this.gazen_ranged_damage = builder.comment("Default 10").defineInRange("Sets Gazenbreacher bile damage", 10, 1, Double.MAX_VALUE);
 
             this.gazen_buffs = builder.comment("Default values: minecraft:speed|600|0, minecraft:conduit_power|600|0, minecraft:resistance|600|1").defineList("Gazenbreacher buffs",
@@ -697,7 +703,7 @@ public class SConfig {
             this.hinden_hp = builder.comment("Default 400").defineInRange("Sets Hindenburg Max health", 400, 1, Double.MAX_VALUE);
             this.hinden_damage = builder.comment("Default 15").defineInRange("Sets Hindenburg Danage", 15, 1, Double.MAX_VALUE);
             this.hinden_armor = builder.comment("Default 5").defineInRange("Sets Hindenburg Armor", 5, 1, Double.MAX_VALUE);
-            this.hinden_dpsr = builder.comment("Default 40").defineInRange("Sets Hindenburg Damage Cap , set to 0 to disable", 40, 1, Double.MAX_VALUE);
+            this.hinden_dpsr = builder.comment("Default 40").defineInRange("Sets Hindenburg Damage Cap , set to 0 to disable", 40, 0, Double.MAX_VALUE);
             this.hinden_buffs = builder.comment("Default values: minecraft:jump_boost|600|0, minecraft:slow_falling|600|0, minecraft:resistance|600|1").defineList("Hindenburg buffs",
                     Lists.newArrayList("minecraft:jump_boost|600|0", "minecraft:slow_falling|600|0", "minecraft:resistance|600|1") , o -> o instanceof String);
 
@@ -712,7 +718,7 @@ public class SConfig {
             this.howit_hp = builder.comment("Default 500").defineInRange("Sets Howitzer Max health", 500, 1, Double.MAX_VALUE);
             this.howit_damage = builder.comment("Default 15").defineInRange("Sets Howitzer Damage", 15, 1, Double.MAX_VALUE);
             this.howit_armor = builder.comment("Default 10").defineInRange("Sets Howitzer Armor", 10, 1, Double.MAX_VALUE);
-            this.howit_dpsr = builder.comment("Default 100").defineInRange("Sets Howitzer Damage Cap , set to 0 to disable", 100, 1, Double.MAX_VALUE);
+            this.howit_dpsr = builder.comment("Default 100").defineInRange("Sets Howitzer Damage Cap , set to 0 to disable", 100, 0, Double.MAX_VALUE);
             this.howit_ranged_damage = builder.comment("Default 10").defineInRange("Sets Howitzer Ranged Damage", 10, 1, Double.MAX_VALUE);
             this.howit_buffs = builder.comment("Default values: minecraft:speed|600|0, minecraft:strength|600|0, minecraft:resistance|600|1").defineList("Gazenbreacher buffs",
                     Lists.newArrayList("minecraft:speed|600|0", "minecraft:strength|600|0", "minecraft:resistance|600|1") , o -> o instanceof String);
@@ -903,6 +909,12 @@ public class SConfig {
             this.knight_hp = builder.comment("Default 25").defineInRange("Sets Knight Max health", 25, 1, Double.MAX_VALUE);
             this.knight_damage = builder.comment("Default 7").defineInRange("Sets Knight Damage", 7, 1, Double.MAX_VALUE);
             this.knight_armor = builder.comment("Default 7").defineInRange("Sets Knight Armor", 7, 1, Double.MAX_VALUE);
+            builder.pop();
+
+            builder.push("Jagdhund");
+            this.jagd_hp = builder.comment("Default 35").defineInRange("Sets Jagdhund Max health", 35, 1, Double.MAX_VALUE);
+            this.jagd_damage = builder.comment("Default 7").defineInRange("Sets Jagdhund Damage", 7, 1, Double.MAX_VALUE);
+            this.jagd_armor = builder.comment("Default 4").defineInRange("Sets Jagdhund Armor", 4, 1, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("Vervathorn");
@@ -1173,6 +1185,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> lacerator_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> thorn_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> specter_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> jagd_loot;
 
 
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> name;
@@ -1289,6 +1302,9 @@ public class SConfig {
 
             this.proto_loot = builder.defineList("Proto Hivemind",
                     Lists.newArrayList("spore:mutated_fiber|100|10|20","spore:armor_fragment|80|4|14","spore:mutated_heart|80|1|6","spore:cerebrum|100|2|11","spore:spine_fragment|80|2|8") , o -> o instanceof String);
+
+            this.jagd_loot = builder.defineList("Jagdhund",
+                    Lists.newArrayList("spore:mutated_fiber|70|1|5","spore:armor_fragment|80|4|9","spore:mutated_heart|10|1|1","spore:claw_fragment|80|6|9") , o -> o instanceof String);
 
 
             this.mound_loot = builder.defineList("Mound",

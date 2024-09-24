@@ -203,6 +203,7 @@
   "item.spore.gastgaber_spawnegg": "Gastgeber",
   "item.spore.specter_spawnegg": "Specter",
   "item.spore.howitzer_spawnegg": "Howitzer",
+  "item.spore.jagd_spawnegg": "Jagdhund",
 
 
   "item.spore.scent_spawnegg": "Scent",
@@ -262,6 +263,8 @@
   "entity.spore.gastgaber": "Gastgeber",
   "entity.spore.howitzer": "Howitzer",
   "entity.spore.howit_arm": "Howitzer arm",
+  "entity.spore.jagd": "Jagdhund",
+
 
   "enchantment.spore.symbiotic_reconstitution.desc": "Strengthens the symbiotic bond between you and your gear, mending its wounds while under symbiosis.",
   "enchantment.spore.cryogenic_aspect.desc": "Chills the victim down to its core , slowing their movement speed and dealing freezing damage.",

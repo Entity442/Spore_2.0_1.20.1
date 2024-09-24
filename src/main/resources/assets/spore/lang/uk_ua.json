@@ -203,6 +203,8 @@
   "entity.spore.specter_spawnegg": "Привид",
   "item.spore.howitzer_spawnegg": "Гаубиця",
   "item.spore.thorn_spawnegg": "Verdathorn",
+  "entity.spore.jagd_spawnegg": "Ягдхунд",
+
 
   "item.spore.scent_spawnegg": "Спори",
   "item.spore.scent_overcharged_spawnegg": "Перенасичені спори",
@@ -260,6 +262,8 @@
   "entity.spore.gastgaber": "Гастґебер",
   "entity.spore.howitzer": "Хауіцер",
   "entity.spore.howit_arm": "Гармата Хауіцера",
+  "entity.spore.jagd": "Ягдхунд",
+
 
   "enchantment.spore.symbiotic_reconstitution.desc": "Зміцнює симбіотичний зв’язок між вами та вашим обладнанням, загоюючи рани під час симбіозу.",
   "enchantment.spore.cryogenic_aspect.desc": "Охолоджує жертву до глибини душі, сповільнюючи швидкість її руху та завдаючи шкоди від замерзання.",

@@ -43,11 +43,9 @@ public class JagdhundRenderer<Type extends Jagdhund> extends BaseInfectedRendere
             if (type.isBurrowing()){
                 b =0 - (a / type.getBorrow_tick()) * type.getBorrow();
             }else if (type.isEmerging()){
-                b =-a + ((a / type.getEmerge_tick()) * type.getEmerge());
+                b =-0.5f-a + ((a / type.getEmerge_tick()) * type.getEmerge());
             }
-            stack.pushPose();
             stack.translate(0.0,b,0.0);
-            stack.popPose();
         }
         if (!type.isUnderground() || type.isEmerging() || type.isBurrowing()){
             super.render(type, p_115456_, p_115457_, stack, bufferSource, p_115460_);

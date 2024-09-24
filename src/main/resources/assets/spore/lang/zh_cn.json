@@ -204,6 +204,8 @@
   "item.spore.gastgaber_spawnegg": "菌主",
   "item.spore.specter_spawnegg": "幽靈",
   "item.spore.howitzer_spawnegg": "菌械重炮",
+  "item.spore.jagd_spawnegg": "獵犬",
+
 
 
   "item.spore.scent_spawnegg": "毒气",
@@ -263,6 +265,7 @@
   "entity.spore.gastgaber": "菌主",
   "entity.spore.howitzer": "菌械重炮",
   "entity.spore.howit_arm": "菌械重炮肢体",
+  "entity.spore.jagd": "獵犬",
 
   "enchantment.spore.symbiotic_reconstitution.desc": "加强你和你的装备之间的共生纽带，处在共生状态下将修复其损伤。",
   "enchantment.spore.cryogenic_aspect.desc": "使被攻击者感到刺骨的寒意，减慢其移动速度并造成冰冻伤害。",

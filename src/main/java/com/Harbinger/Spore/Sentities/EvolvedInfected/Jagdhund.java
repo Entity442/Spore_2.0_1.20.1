@@ -31,6 +31,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fluids.FluidType;
 
+import java.util.List;
+
 public class Jagdhund extends EvolvedInfected {
     private static final EntityDataAccessor<Boolean> UNDERGROUND = SynchedEntityData.defineId(Jagdhund.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Integer> BORROW = SynchedEntityData.defineId(Jagdhund.class, EntityDataSerializers.INT);
@@ -41,14 +43,20 @@ public class Jagdhund extends EvolvedInfected {
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, SConfig.SERVER.knight_hp.get() * SConfig.SERVER.global_health.get())
+                .add(Attributes.MAX_HEALTH, SConfig.SERVER.jagd_hp.get() * SConfig.SERVER.global_health.get())
                 .add(Attributes.MOVEMENT_SPEED, 0.2)
-                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.knight_damage.get() * SConfig.SERVER.global_damage.get())
-                .add(Attributes.ARMOR, SConfig.SERVER.knight_armor.get() * SConfig.SERVER.global_armor.get())
-                .add(Attributes.FOLLOW_RANGE, 32)
+                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.jagd_damage.get() * SConfig.SERVER.global_damage.get())
+                .add(Attributes.ARMOR, SConfig.SERVER.jagd_armor.get() * SConfig.SERVER.global_armor.get())
+                .add(Attributes.FOLLOW_RANGE, 46)
                 .add(Attributes.ATTACK_KNOCKBACK, 1);
 
     }
+
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.jagd_loot.get();
+    }
+
 
     public void setUnderground(boolean value){
         entityData.set(UNDERGROUND,value);
