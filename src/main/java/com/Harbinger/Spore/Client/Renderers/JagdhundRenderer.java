@@ -36,6 +36,8 @@ public class JagdhundRenderer<Type extends Jagdhund> extends BaseInfectedRendere
 
     @Override
     public void render(Type type, float p_115456_, float p_115457_, PoseStack stack, MultiBufferSource bufferSource, int p_115460_) {
-        super.render(type, p_115456_, p_115457_, stack, bufferSource, p_115460_);
+        if (!type.isUnderground() || type.isEmerging() || type.isBurrowing()){
+            super.render(type, p_115456_, p_115457_, stack, bufferSource, p_115460_);
+        }
     }
 }

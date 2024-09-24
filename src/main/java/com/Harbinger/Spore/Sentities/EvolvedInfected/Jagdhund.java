@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Sentities.EvolvedInfected;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
+import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -26,13 +27,13 @@ import net.minecraft.world.phys.Vec3;
 
 public class Jagdhund extends EvolvedInfected {
     private static final EntityDataAccessor<Boolean> UNDERGROUND = SynchedEntityData.defineId(Jagdhund.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Integer> BORROW = SynchedEntityData.defineId(Jagdhund.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Integer> EMERGE = SynchedEntityData.defineId(Jagdhund.class, EntityDataSerializers.INT);
     public Jagdhund(EntityType<? extends Monster> type, Level level) {
         super(type, level);
     }
     public AnimationState dig_in = new AnimationState();
     public AnimationState dig_out = new AnimationState();
-    private int digInTimeOut = 0;
-    private int digOutTimeOut = 0;
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
@@ -43,32 +44,6 @@ public class Jagdhund extends EvolvedInfected {
                 .add(Attributes.FOLLOW_RANGE, 32)
                 .add(Attributes.ATTACK_KNOCKBACK, 1);
 
-    }
-    public void tickDigIn(){
-        if (digInTimeOut >= 0){
-            --digInTimeOut;
-            if (!dig_in.isStarted() && this.level().isClientSide){
-                dig_in.start(tickCount);
-            }
-        }else{
-            digOutTimeOut = 40;
-            setUnderground(true);
-        }
-    }
-    public void tickDigOut(){
-        if (digOutTimeOut >= 0){
-            --digOutTimeOut;
-            if (!dig_out.isStarted() && this.level().isClientSide){
-                dig_out.start(tickCount);
-            }
-        }else{
-            digOutTimeOut = 50;
-            setUnderground(false);
-        }
-    }
-
-    public boolean isDigging(){
-      return digInTimeOut > 0 || digOutTimeOut > 0;
     }
 
     public void setUnderground(boolean value){
@@ -90,6 +65,8 @@ public class Jagdhund extends EvolvedInfected {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(UNDERGROUND,false);
+        this.entityData.define(BORROW, 0);
+        this.entityData.define(EMERGE, 0);
     }
 
     @Override
@@ -114,15 +91,21 @@ public class Jagdhund extends EvolvedInfected {
     public void tick() {
         super.tick();
         Entity target = this.getTarget();
-        if (target != null && !isDigging()){
-            if (target.distanceToSqr(this) > 100 && !isUnderground()){
-                digInTimeOut = 40;
+        if (this.tickCount % 10 == 0 && target != null){
+            if (target.distanceToSqr(this) > 100 && !isUnderground() && !isBurrowing()){
+                tickBurrowing();
+                if (level().isClientSide){
+                    dig_in.start(tickCount);
+                }
             }
-            if (target.distanceToSqr(this) < 50 && isUnderground()){
-                digOutTimeOut = 50;
+            if (target.distanceToSqr(this) < 50 && isUnderground() && !isEmerging()){
+                tickEmerging();
+                if (level().isClientSide){
+                    dig_out.start(tickCount);
+                }
             }
         }
-        if (isDigging() || (isUnderground())){
+        if (isEmerging() || isBurrowing()){
             this.makeStuckInBlock(Blocks.AIR.defaultBlockState(),new Vec3(0,1,0));
             for (int l = 0 ;l<this.random.nextInt(3,6);l++){
                 if (level() instanceof ServerLevel serverLevel) {
@@ -135,12 +118,42 @@ public class Jagdhund extends EvolvedInfected {
                 }
             }
         }
-        if (digInTimeOut > 0){
-            tickDigIn();
+        if (this.isEmerging()){
+            this.tickEmerging();
+        } else if (this.isBurrowing()){
+            this.tickBurrowing();
         }
-        if (digOutTimeOut > 0){
-            tickDigOut();
+        if (level().isClientSide){
+            if (!isBurrowing()){
+                dig_in.stop();
+            }
+            if (!isEmerging()){
+                dig_out.stop();
+            }
         }
+    }
+
+    public boolean isEmerging(){
+        return this.entityData.get(EMERGE) > 0;
+    }
+    public void tickEmerging(){
+        int emerging = this.entityData.get(EMERGE);
+        if (emerging > 50){
+            this.setUnderground(false);
+            emerging = -1;
+        }
+        this.entityData.set(EMERGE, emerging + 1);
+    }
+    public boolean isBurrowing(){
+        return this.entityData.get(BORROW) > 0;
+    }
+    public void tickBurrowing(){
+        int burrowing = this.entityData.get(BORROW);
+        if (burrowing > 40) {
+            this.setUnderground(true);
+            burrowing = -1;
+        }
+        this.entityData.set(BORROW, burrowing + 1);
     }
 
     @Override
@@ -148,7 +161,7 @@ public class Jagdhund extends EvolvedInfected {
         if (source.is(DamageTypes.IN_FIRE) || source.is(DamageTypes.ON_FIRE) || source.is(DamageTypes.EXPLOSION)){
             return super.hurt(source, amount);
         }
-        if (isUnderground() || isDigging()){
+        if (isUnderground() || isEmerging() || isBurrowing()){
             return false;
         }
         return super.hurt(source, amount);

@@ -335,26 +335,24 @@ public class JagdhundModel<T extends Jagdhund> extends HierarchicalModel<T> {
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
-		if (!entity.isDigging()){
-			float moveValue  = Mth.cos(limbSwing * 0.3F) * 0.8F * limbSwingAmount;
-			float neckMovement = netHeadYaw / (360F / (float) Math.PI)/3;
-			RightLeg.yRot = moveValue * 0.6f;
-			LeftLeg.yRot = -RightLeg.yRot;
-			RightArm.yRot = moveValue *1.2f;
-			RightForArm.zRot = RightArm.yRot * 0.6f;
-			LeftArm.yRot = RightArm.yRot;
-			LeftForArm.zRot = LeftArm.yRot * 0.6f;
-			animateTumor(Tumor,ageInTicks);
-			Neck1.zRot = neckMovement/3;
-			Neck2.yRot = neckMovement/3;
-			Head.yRot = -neckMovement/3;
-			Jaw.xRot = Mth.cos(ageInTicks/6)/5;
-			RightJaw.zRot = Mth.cos(ageInTicks/6)/5;
-			LeftJaw.zRot = -RightJaw.zRot;
-			animateTongue(Tongue1,ageInTicks);
-			animateTongue(Tongue2,ageInTicks);
-			animateTongue(Tongue3,ageInTicks);
-		}
+		float moveValue  = Mth.cos(limbSwing * 0.3F) * 0.8F * limbSwingAmount;
+		float neckMovement = netHeadYaw / (360F / (float) Math.PI)/3;
+		RightLeg.yRot = moveValue * 0.6f;
+		LeftLeg.yRot = -RightLeg.yRot;
+		RightArm.yRot = moveValue *1.2f;
+		RightForArm.zRot = RightArm.yRot * 0.6f;
+		LeftArm.yRot = RightArm.yRot;
+		LeftForArm.zRot = LeftArm.yRot * 0.6f;
+		animateTumor(Tumor,ageInTicks);
+		Neck1.zRot = neckMovement/3;
+		Neck2.yRot = neckMovement/3;
+		Head.yRot = -neckMovement/3;
+		Jaw.xRot = Mth.cos(ageInTicks/6)/5;
+		RightJaw.zRot = Mth.cos(ageInTicks/6)/5;
+		LeftJaw.zRot = -RightJaw.zRot;
+		animateTongue(Tongue1,ageInTicks);
+		animateTongue(Tongue2,ageInTicks);
+		animateTongue(Tongue3,ageInTicks);
 		this.animate(entity.dig_in, JagdAnimation.DIG_IN,ageInTicks,1.0F);
 		this.animate(entity.dig_out,JagdAnimation.EMERGE,ageInTicks,1.0F);
 	}
