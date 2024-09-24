@@ -58,7 +58,8 @@
   "delusioner_ambient" :{
     "subtitle": "sounds.spore.delusioner_ambient",
     "sounds": [
-      "spore:delusioner_ambient"
+      "spore:delusioner_ambient",
+      "spore:delusioner_ambient1"
     ]
   },
   "delusioner_casting" :{
