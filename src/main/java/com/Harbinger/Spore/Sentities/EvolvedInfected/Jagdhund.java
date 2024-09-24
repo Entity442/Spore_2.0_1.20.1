@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities.EvolvedInfected;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
@@ -12,6 +13,8 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
@@ -24,6 +27,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fluids.FluidType;
 
@@ -71,6 +75,12 @@ public class Jagdhund extends EvolvedInfected {
 
     @Override
     protected void registerGoals() {
+        this.goalSelector.addGoal(2,new LeapAtTargetGoal(this,0.4f){
+            @Override
+            public boolean canUse() {
+                return super.canUse() && !isUnderground();
+            }
+        });
         this.goalSelector.addGoal(3, new CustomMeleeAttackGoal(this, 1.5, false) {
             @Override
             protected void checkAndPerformAttack(LivingEntity entity, double at) {
@@ -81,12 +91,7 @@ public class Jagdhund extends EvolvedInfected {
             @Override
             protected double getAttackReachSqr(LivingEntity entity) {
                 return 3.0 + entity.getBbWidth() * entity.getBbWidth();}});
-        this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F){
-            @Override
-            public boolean canUse() {
-                return super.canUse() && !isUnderground();
-            }
-        });
+
         this.goalSelector.addGoal(4, new RandomStrollGoal(this, 0.8));
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         super.registerGoals();
@@ -97,7 +102,7 @@ public class Jagdhund extends EvolvedInfected {
         super.tick();
         Entity target = this.getTarget();
         if (this.tickCount % 20 == 0){
-            if (!isSoftEnough(getOnPos()) && isUnderground() && !isEmerging()){
+            if ((!isSoftEnough(getOnPos()) || isInFluidType()) && isUnderground() && !isEmerging()){
                 tickEmerging();
             }
         }
@@ -136,17 +141,12 @@ public class Jagdhund extends EvolvedInfected {
     }
 
     @Override
-    protected boolean canRide(Entity entity) {
-        return entity instanceof LivingEntity;
-    }
-
-    @Override
     public boolean canDrownInFluidType(FluidType type) {
         return super.canDrownInFluidType(type) && !isUnderground();
     }
 
     private boolean isSoftEnough(BlockPos pos){
-        return level().getBlockState(pos).getDestroySpeed(level(),pos) < 4 && !isInFluidType();
+        return level().getBlockState(pos).getDestroySpeed(level(),pos) < 4;
     }
 
     public boolean isEmerging(){
@@ -154,7 +154,7 @@ public class Jagdhund extends EvolvedInfected {
     }
     public void tickEmerging(){
         int emerging = this.entityData.get(EMERGE);
-        if (emerging > this.getEmerge_tick()){
+        if (emerging > getEmerge_tick()){
             this.setUnderground(false);
             emerging = -1;
         }
@@ -165,7 +165,7 @@ public class Jagdhund extends EvolvedInfected {
     }
     public void tickBurrowing(){
         int burrowing = this.entityData.get(BORROW);
-        if (burrowing > this.getBorrow_tick()) {
+        if (burrowing > getBorrow_tick()) {
             this.setUnderground(true);
             burrowing = -1;
         }
@@ -181,14 +181,6 @@ public class Jagdhund extends EvolvedInfected {
             return false;
         }
         return super.hurt(source, amount);
-    }
-
-    @Override
-    public boolean doHurtTarget(Entity entity) {
-        if (random.nextFloat() < 0.4){
-            this.startRiding(entity);
-        }
-        return super.doHurtTarget(entity);
     }
 
     @Override
@@ -221,5 +213,28 @@ public class Jagdhund extends EvolvedInfected {
 
     public int getEmerge_tick() {
         return 60;
+    }
+
+    protected SoundEvent getAmbientSound() {
+        return isUnderground() ? null : Ssounds.INF_GROWL.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource p_34327_) {
+        return Ssounds.INF_DAMAGE.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return Ssounds.INF_DAMAGE.get();
+    }
+
+    protected SoundEvent getStepSound() {
+        return SoundEvents.ZOMBIE_STEP;
+    }
+
+    protected void playStepSound(BlockPos pos, BlockState state) {
+        if (isUnderground()){
+            this.playSound(state.getSoundType(level(),pos,this).getBreakSound(), 0.15F, 0.5F);
+        }else
+        this.playSound(this.getStepSound(), 0.15F, 1.0F);
     }
 }
