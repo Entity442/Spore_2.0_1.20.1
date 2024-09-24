@@ -17,6 +17,7 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.monster.Monster;
@@ -24,6 +25,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.fluids.FluidType;
 
 public class Jagdhund extends EvolvedInfected {
     private static final EntityDataAccessor<Boolean> UNDERGROUND = SynchedEntityData.defineId(Jagdhund.class, EntityDataSerializers.BOOLEAN);
@@ -79,7 +81,12 @@ public class Jagdhund extends EvolvedInfected {
             @Override
             protected double getAttackReachSqr(LivingEntity entity) {
                 return 3.0 + entity.getBbWidth() * entity.getBbWidth();}});
-
+        this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F){
+            @Override
+            public boolean canUse() {
+                return super.canUse() && !isUnderground();
+            }
+        });
         this.goalSelector.addGoal(4, new RandomStrollGoal(this, 0.8));
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         super.registerGoals();
@@ -89,8 +96,13 @@ public class Jagdhund extends EvolvedInfected {
     public void tick() {
         super.tick();
         Entity target = this.getTarget();
+        if (this.tickCount % 20 == 0){
+            if (!isSoftEnough(getOnPos()) && isUnderground() && !isEmerging()){
+                tickEmerging();
+            }
+        }
         if (this.tickCount % 10 == 0 && target != null){
-            if (target.distanceToSqr(this) > 100 && !isUnderground() && !isBurrowing()){
+            if (target.distanceToSqr(this) > 100 && !isUnderground() && !isBurrowing() && isSoftEnough(getOnPos())){
                 tickBurrowing();
             }
             if (target.distanceToSqr(this) < 50 && isUnderground() && !isEmerging()){
@@ -99,16 +111,10 @@ public class Jagdhund extends EvolvedInfected {
         }
         if (isEmerging() || isBurrowing()){
             this.makeStuckInBlock(Blocks.AIR.defaultBlockState(),new Vec3(0,1,0));
-            for (int l = 0 ;l<this.random.nextInt(3,6);l++){
-                if (level() instanceof ServerLevel serverLevel) {
-                    int xi = random.nextInt(-1,1);
-                    int zi = random.nextInt(-1,1);
-                    if (level().getBlockState(this.getOnPos()).getBlock().asItem() != ItemStack.EMPTY.getItem()) {
-                        serverLevel.sendParticles(new ItemParticleOption(ParticleTypes.ITEM, new ItemStack((level().getBlockState(this.getOnPos())).getBlock())), getX() + xi, getY() - 0.1D, getZ() + zi, 3,
-                                ((double) random.nextFloat() - 1D) * 0.08D, ((double) random.nextFloat() - 1D) * 0.08D, ((double) random.nextFloat() - 1D) * 0.08D, 0.15F);
-                    }
-                }
-            }
+            SummonParticles(getOnPos());
+        }
+        if (this.navigation.isInProgress() && isUnderground()){
+            SummonParticles(getOnPos());
         }
         if (this.isEmerging()){
             this.tickEmerging();
@@ -116,13 +122,39 @@ public class Jagdhund extends EvolvedInfected {
             this.tickBurrowing();
         }
     }
+    private void SummonParticles(BlockPos pos){
+        for (int l = 0 ;l<this.random.nextInt(3,6);l++){
+            if (level() instanceof ServerLevel serverLevel) {
+                int xi = random.nextInt(-1,1);
+                int zi = random.nextInt(-1,1);
+                if (level().getBlockState(pos).getBlock().asItem() != ItemStack.EMPTY.getItem()) {
+                    serverLevel.sendParticles(new ItemParticleOption(ParticleTypes.ITEM, new ItemStack((level().getBlockState(pos)).getBlock())), getX() + xi, getY() - 0.1D, getZ() + zi, 3,
+                            ((double) random.nextFloat() - 1D) * 0.08D, ((double) random.nextFloat() - 1D) * 0.08D, ((double) random.nextFloat() - 1D) * 0.08D, 0.15F);
+                }
+            }
+        }
+    }
+
+    @Override
+    protected boolean canRide(Entity entity) {
+        return entity instanceof LivingEntity;
+    }
+
+    @Override
+    public boolean canDrownInFluidType(FluidType type) {
+        return super.canDrownInFluidType(type) && !isUnderground();
+    }
+
+    private boolean isSoftEnough(BlockPos pos){
+        return level().getBlockState(pos).getDestroySpeed(level(),pos) < 4 && !isInFluidType();
+    }
 
     public boolean isEmerging(){
         return this.entityData.get(EMERGE) > 0;
     }
     public void tickEmerging(){
         int emerging = this.entityData.get(EMERGE);
-        if (emerging > 40){
+        if (emerging > this.getEmerge_tick()){
             this.setUnderground(false);
             emerging = -1;
         }
@@ -133,7 +165,7 @@ public class Jagdhund extends EvolvedInfected {
     }
     public void tickBurrowing(){
         int burrowing = this.entityData.get(BORROW);
-        if (burrowing > 40) {
+        if (burrowing > this.getBorrow_tick()) {
             this.setUnderground(true);
             burrowing = -1;
         }
@@ -151,6 +183,18 @@ public class Jagdhund extends EvolvedInfected {
         return super.hurt(source, amount);
     }
 
+    @Override
+    public boolean doHurtTarget(Entity entity) {
+        if (random.nextFloat() < 0.4){
+            this.startRiding(entity);
+        }
+        return super.doHurtTarget(entity);
+    }
+
+    @Override
+    public double getMyRidingOffset() {
+        return -1;
+    }
 
     @Override
     public void onSyncedDataUpdated(EntityDataAccessor<?> accessor) {
