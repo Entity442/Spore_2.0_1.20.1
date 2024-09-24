@@ -7,6 +7,7 @@ import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -52,7 +53,7 @@ public class Thorn extends EvolvedInfected {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (source.getEntity() instanceof LivingEntity livingEntity && livingEntity.distanceToSqr(this)<100D){
+        if (source.getDirectEntity() instanceof LivingEntity livingEntity && livingEntity.distanceToSqr(this)<100D && !source.is(DamageTypes.THORNS)){
             livingEntity.hurt(this.level().damageSources().thorns(this),amount);
         }
         return super.hurt(source, amount);

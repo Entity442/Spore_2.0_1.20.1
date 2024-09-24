@@ -528,7 +528,8 @@ public class SConfig {
                             "spore:volatile") , o -> o instanceof String);
             this.husk_ev = builder.defineList("Infected Husk Evolutions",
                     Lists.newArrayList(
-                            "spore:thorn","spore:jagd") , o -> o instanceof String);
+                            "spore:thorn",
+                            "spore:jagd") , o -> o instanceof String);
 
             this.undespawn = builder.defineList("Mobs that won't despawn after being created from assimilation",
                     Lists.newArrayList("spore:inf_villager", "spore:inf_pillager", "spore:inf_witch") , o -> o instanceof String);
