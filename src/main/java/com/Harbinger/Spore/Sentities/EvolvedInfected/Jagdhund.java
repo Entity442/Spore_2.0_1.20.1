@@ -100,7 +100,7 @@ public class Jagdhund extends EvolvedInfected {
             }
             @Override
             protected double getAttackReachSqr(LivingEntity entity) {
-                return 3.0 + entity.getBbWidth() * entity.getBbWidth();}});
+                return 6.0 + entity.getBbWidth() * entity.getBbWidth();}});
 
         this.goalSelector.addGoal(4, new RandomStrollGoal(this, 0.8));
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
