@@ -77,6 +77,12 @@
       "spore:madness_whisper4"
     ]
   },
+  "rebirth" :{
+    "subtitle": "sounds.spore.proto_ambient",
+    "sounds": [
+      "spore:rebirth"
+    ]
+  },
   "spore_area_ambient" :{
     "subtitle": "sounds.spore.spore_area_ambient",
     "sounds": [

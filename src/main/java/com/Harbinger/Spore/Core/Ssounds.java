@@ -20,6 +20,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> AREA_AMBIENT = soundRegistry("spore_area_ambient");
 
+    public static final RegistryObject<SoundEvent> REBIRTH = soundRegistry("rebirth");
+
     public static final RegistryObject<SoundEvent> INF_DAMAGE = soundRegistry("inf_damage");
 
     public static final RegistryObject<SoundEvent> INF_GROWL = soundRegistry("inf_growl");

@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sblocks;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sentities;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.SBlockEntities.HiveSpawnBlockEntity;
 import com.Harbinger.Spore.SBlockEntities.LivingStructureBlocks;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
@@ -11,6 +12,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
@@ -67,7 +69,10 @@ public class HiveSpawn extends Block implements EntityBlock {
                     level.addFreshEntity(proto);
                 }
                 if (!level.isClientSide()){
-                    level.getServer().getPlayerList().broadcastSystemMessage(Component.translatable("hivemind_summon_message"), false);
+                    for(ServerPlayer player : level.getServer().getPlayerList().getPlayers()){
+                        player.displayClientMessage(Component.translatable("hivemind_summon_message"), false);
+                        player.playSound(Ssounds.REBIRTH.get());
+                    }
                 }
             }else if (structureBlocks.getKills() >= SConfig.DATAGEN.hive_spawn_kills.get() && !checkForOtherMinds(blockPos,level)){
                 StructureTemplate template = level.getStructureManager().getOrCreate(new ResourceLocation(Spore.MODID, "mega_biomass_tower"));
