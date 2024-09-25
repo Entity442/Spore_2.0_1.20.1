@@ -3,7 +3,6 @@ package com.Harbinger.Spore.Sentities.BaseEntities;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.BufferAI;
-import com.Harbinger.Spore.Sentities.AI.LocHiv.InfectedParkourGoal;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.LocalTargettingGoal;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.SearchAreaGoal;
 import net.minecraft.core.BlockPos;

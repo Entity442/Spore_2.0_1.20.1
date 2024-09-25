@@ -5,7 +5,6 @@ import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
 import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.BufferAI;
-import com.Harbinger.Spore.Sentities.AI.LocHiv.InfectedParkourGoal;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.LocalTargettingGoal;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.SearchAreaGoal;
 import net.minecraft.core.BlockPos;
@@ -27,9 +26,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.List;
 
 public class Hyper extends Infected{
     public static final EntityDataAccessor<BlockPos> NEST = SynchedEntityData.defineId(Infected.class, EntityDataSerializers.BLOCK_POS);
