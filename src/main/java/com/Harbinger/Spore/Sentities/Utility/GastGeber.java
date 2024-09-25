@@ -100,7 +100,6 @@ public class GastGeber extends EvolvedInfected implements FoliageSpread {
 
     @Override
     protected void addRegularGoals() {
-        this.goalSelector.addGoal(0,new InfectedParkourGoal(this));
         this.goalSelector.addGoal(3,new MeleeAttackGoal(this ,1.5,true){
             @Override
             public boolean canUse() {

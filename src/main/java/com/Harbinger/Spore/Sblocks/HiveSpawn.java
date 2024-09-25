@@ -13,6 +13,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
@@ -68,11 +69,9 @@ public class HiveSpawn extends Block implements EntityBlock {
                     proto.loadChunks();
                     level.addFreshEntity(proto);
                 }
-                if (!level.isClientSide()){
-                    for(ServerPlayer player : level.getServer().getPlayerList().getPlayers()){
-                        player.displayClientMessage(Component.translatable("hivemind_summon_message"), false);
-                        player.playSound(Ssounds.REBIRTH.get());
-                    }
+                for(ServerPlayer player : level.getServer().getPlayerList().getPlayers()){
+                    player.playNotifySound(Ssounds.REBIRTH.get(),SoundSource.AMBIENT,1f,1f);
+                    player.displayClientMessage(Component.translatable("hivemind_summon_message"), false);
                 }
             }else if (structureBlocks.getKills() >= SConfig.DATAGEN.hive_spawn_kills.get() && !checkForOtherMinds(blockPos,level)){
                 StructureTemplate template = level.getStructureManager().getOrCreate(new ResourceLocation(Spore.MODID, "mega_biomass_tower"));

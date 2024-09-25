@@ -46,7 +46,6 @@ public class Hyper extends Infected{
 
     @Override
     protected void addRegularGoals() {
-        this.goalSelector.addGoal(0,new InfectedParkourGoal(this));
         this.goalSelector.addGoal(3,new LocalTargettingGoal(this));
         this.goalSelector.addGoal(4,new GoBackToTheNest(this));
         this.goalSelector.addGoal(4, new SearchAreaGoal(this, 1.2));
