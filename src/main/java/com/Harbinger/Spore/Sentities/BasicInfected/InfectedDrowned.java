@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.ReturnToWater;
+import com.Harbinger.Spore.Sentities.AI.SemiWaterNavigation;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.MovementControls.WaterXlandMovement;
 import com.Harbinger.Spore.Sentities.WaterInfected;
@@ -36,14 +37,11 @@ import net.minecraftforge.fluids.FluidType;
 import java.util.List;
 
 public class InfectedDrowned extends Infected implements WaterInfected {
-    protected final WaterBoundPathNavigation waterNavigation;
-    protected final GroundPathNavigation groundNavigation;
     public InfectedDrowned(EntityType<? extends Infected> type, Level level) {
         super(type, level);
         this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
-        this.moveControl = new WaterXlandMovement(this,0.5f);
-        this.waterNavigation = new WaterBoundPathNavigation(this, this.level());
-        this.groundNavigation = new GroundPathNavigation(this, this.level());
+        this.moveControl = new WaterXlandMovement(this);
+        this.navigation = new SemiWaterNavigation(this,level);
     }
 
     public void travel(Vec3 p_32858_) {
@@ -51,8 +49,6 @@ public class InfectedDrowned extends Infected implements WaterInfected {
             this.moveRelative(0.1F, p_32858_);
             this.move(MoverType.SELF, this.getDeltaMovement());
             this.setDeltaMovement(this.getDeltaMovement().scale(0.85D));
-                this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
-
         } else {
             super.travel(p_32858_);
         }
@@ -67,29 +63,18 @@ public class InfectedDrowned extends Infected implements WaterInfected {
         return this.isInFluidType() ? 2.0f : 1.0f;
     }
 
-    public void updateSwimming() {
-        if (!this.level().isClientSide) {
-            if (this.isEffectiveAi() && this.isEyeInFluidType(Fluids.WATER.getFluidType())) {
-                this.navigation = this.waterNavigation;
-                this.setSwimming(true);
-            } else {
-                this.navigation = this.groundNavigation;
-                this.setSwimming(false);
-            }
-        }
-
-    }
-
-    public int getMaxAirSupply() {
-        return 600;
-    }
-    protected int increaseAirSupply(int p_28389_) {
-        return this.getMaxAirSupply();
-    }
-
     @Override
     public boolean canDrownInFluidType(FluidType type) {
         return false;
+    }
+
+    @Override
+    protected void customServerAiStep() {
+        if (!this.isInWater() && tickCount % 20 == 0){
+            AttributeInstance speed = this.getAttribute(Attributes.MOVEMENT_SPEED);
+            assert speed != null;
+            speed.setBaseValue(0.15);
+        }
     }
 
     @Override

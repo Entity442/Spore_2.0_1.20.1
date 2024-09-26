@@ -96,6 +96,19 @@ public class Delusionare extends Organoid {
         if (entityData.get(SPELL_TIME)>0){
             this.tickSpell();
         }
+        if (tickCount % 1200 == 0 && this.getTarget() == null){
+            tickBurrowing();
+        }
+    }
+
+    @Override
+    public void tickBurrowing(){
+        int burrowing = this.entityData.get(BORROW);
+        if (burrowing > this.getBorrow_tick()) {
+            this.discard();
+            burrowing = -1;
+        }
+        this.entityData.set(BORROW, burrowing + 1);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
