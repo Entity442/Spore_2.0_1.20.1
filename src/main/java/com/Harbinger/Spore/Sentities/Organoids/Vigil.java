@@ -80,13 +80,13 @@ public class Vigil extends Organoid implements TraceableEntity{
     public void tickBurrowing(){
         int burrowing = this.entityData.get(BORROW);
         if (burrowing > this.getBorrow_tick()) {
+            burrowing = -1;
             if (this.isStalker() && this.getTarget() != null){
                 this.ReEmerge();
             }else{
                 this.discard();
                 this.TimeToLeave();
             }
-            burrowing = -1;
         }
         this.entityData.set(BORROW, burrowing + 1);
     }
