@@ -4,6 +4,8 @@ import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Damage.SdamageTypes;
+import com.Harbinger.Spore.ExtremelySusThings.Utilities;
+import com.Harbinger.Spore.Fluids.BileLiquid;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.GrieferSwellGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
@@ -133,14 +135,20 @@ public class Griefer extends EvolvedInfected {
 
     public int getSwell(){return swell;}
 
-    private void explodeToxicTumor(){
+    private void explodeToxicTumor(boolean poison){
         AABB boundingBox = this.getBoundingBox().inflate(6);
         List<Entity> entities = this.level().getEntities(this, boundingBox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
 
         for (Entity entity1 : entities) {
-            if (entity1 instanceof LivingEntity livingEntity && !(livingEntity instanceof Infected || livingEntity instanceof UtilityEntity)) {
-                livingEntity.addEffect( new MobEffectInstance(MobEffects.POISON ,  1200, 2));
-                livingEntity.addEffect( new MobEffectInstance(MobEffects.WEAKNESS ,  400, 0));
+            if (entity1 instanceof LivingEntity livingEntity && Utilities.TARGET_SELECTOR.test(livingEntity)) {
+                if (poison){
+                    livingEntity.addEffect( new MobEffectInstance(MobEffects.POISON ,  1200, 2));
+                    livingEntity.addEffect( new MobEffectInstance(MobEffects.WEAKNESS ,  400, 0));
+                }else{
+                    for(MobEffectInstance instance : BileLiquid.bileEffects()){
+                     livingEntity.addEffect(instance);
+                    }
+                }
             }
         }
     }
@@ -159,8 +167,8 @@ public class Griefer extends EvolvedInfected {
             if (SConfig.SERVER.scent_spawn.get()){
                 this.summonScent(this.level(), this.getX(), this.getY(), this.getZ());
             }
-            if (this.getTypeVariant() == 1){
-                explodeToxicTumor();
+            if (this.getTypeVariant() == 1 || this.getTypeVariant() == 3){
+                explodeToxicTumor(this.getTypeVariant() == 1);
             }
             this.discard();
         }
@@ -208,6 +216,11 @@ public class Griefer extends EvolvedInfected {
         if (this.getTypeVariant() == 1 && entity instanceof LivingEntity livingEntity){
             livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON ,600, 0));
         }
+        if (this.getTypeVariant() == 3 && entity instanceof LivingEntity livingEntity){
+            for(MobEffectInstance instance : BileLiquid.bileEffects()){
+                livingEntity.addEffect(instance);
+            }
+        }
         return super.doHurtTarget(entity);
     }
 
@@ -253,9 +266,9 @@ public class Griefer extends EvolvedInfected {
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_146746_, DifficultyInstance p_146747_,
                                         MobSpawnType p_146748_, @Nullable SpawnGroupData p_146749_,
                                         @Nullable CompoundTag p_146750_) {
-        GrieferVariants variant = Math.random() < 0.2 ? GrieferVariants.TOXIC : GrieferVariants.DEFAULT;
+        GrieferVariants variant = Math.random() < 0.5 ? GrieferVariants.DEFAULT : Math.random() < 0.5 ? GrieferVariants.TOXIC : GrieferVariants.BILE;
         if (checkForNucMod()){
-            variant = Math.random() < 0.3 ? GrieferVariants.RADIOACTIVE : GrieferVariants.DEFAULT;
+            variant = Math.random() < 0.5 ? GrieferVariants.DEFAULT : Math.random() < 0.5 ? GrieferVariants.RADIOACTIVE : GrieferVariants.BILE;
         }
         setVariant(variant);
         return super.finalizeSpawn(p_146746_, p_146747_, p_146748_, p_146749_, p_146750_);
