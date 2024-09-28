@@ -8,6 +8,7 @@ import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.EvolvingInfected;
+import com.Harbinger.Spore.Sentities.FoliageSpread;
 import com.Harbinger.Spore.Sentities.Utility.InfectionTendril;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -48,7 +49,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Map;
 
-public class Mound extends Organoid {
+public class Mound extends Organoid implements FoliageSpread {
     private static final EntityDataAccessor<Integer> AGE = SynchedEntityData.defineId(Mound.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> COUNTER = SynchedEntityData.defineId(Mound.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> MAX_AGE = SynchedEntityData.defineId(Mound.class, EntityDataSerializers.INT);
@@ -85,7 +86,17 @@ public class Mound extends Organoid {
                 this.setCounter(this.getCounter() + 1);
             }
             if (this.isAlive() && this.getCounter() >= maxCounter && !level().isClientSide){
-                Spread(this , this.level());
+                double range;
+                if (entityData.get(AGE) == 2){
+                    range = SConfig.SERVER.mound_range_age2.get();
+                } else if (entityData.get(AGE) == 3){
+                    range = SConfig.SERVER.mound_range_age3.get();
+                }else if (entityData.get(AGE) == 4){
+                    range = SConfig.SERVER.mound_range_age4.get();
+                } else {
+                    range = SConfig.SERVER.mound_range_default.get();
+                }
+                SpreadInfection(level(),range,this.getOnPos());
                 this.setCounter(0);
                 if (this.random.nextInt(10) == 0 && entityData.get(AGE) >= 3 && checkForExtraTendrils(this,this.level())){
                     SpreadKin(this,this.level());
@@ -159,163 +170,46 @@ public class Mound extends Organoid {
     public boolean getLinked(){
         return this.entityData.get(LINKED);
     }
-    private void Spread(Entity entity , LevelAccessor level) {
-        double range;
-        if (entityData.get(AGE) == 2){
-            range = SConfig.SERVER.mound_range_age2.get();
-        } else if (entityData.get(AGE) == 3){
-            range = SConfig.SERVER.mound_range_age3.get();
-        }else if (entityData.get(AGE) == 4){
-            range = SConfig.SERVER.mound_range_age4.get();
-        } else {
-            range = SConfig.SERVER.mound_range_default.get();
-        }
 
-        BlockState block1 =  (ForgeRegistries.BLOCKS.tags().getTag(BlockTags.create(new ResourceLocation("spore:ground_foliage")))
-                .getRandomElement(RandomSource.create()).orElse(Blocks.AIR)).defaultBlockState();
-        BlockState block2 =  (ForgeRegistries.BLOCKS.tags().getTag(BlockTags.create(new ResourceLocation("spore:roof_foliage")))
-                .getRandomElement(RandomSource.create()).orElse(Blocks.AIR)).defaultBlockState();
-        BlockState block3 =  (ForgeRegistries.BLOCKS.tags().getTag(BlockTags.create(new ResourceLocation("spore:wall_foliage")))
-                .getRandomElement(RandomSource.create()).orElse(Blocks.AIR)).defaultBlockState();
-        BlockState block4 =  (ForgeRegistries.BLOCKS.tags().getTag(BlockTags.create(new ResourceLocation("spore:block_st")))
-                .getRandomElement(RandomSource.create()).orElse(Blocks.AIR)).defaultBlockState();
-        BlockState block5 =  (ForgeRegistries.BLOCKS.tags().getTag(BlockTags.create(new ResourceLocation("spore:underwater_blocks")))
-                .getRandomElement(RandomSource.create()).orElse(Blocks.WATER)).defaultBlockState();
-
-        AABB aabb = entity.getBoundingBox().inflate(range);
-        if (SConfig.SERVER.mound_foliage.get()){
-            for(int i = 0; i <= 2*range; ++i) {
-                for(int j = 0; j <= 2*range; ++j) {
-                    for(int k = 0; k <= 2*range; ++k) {
-                        double distance = Mth.sqrt((float) ((i-range)*(i-range) + (j-range)*(j-range) + (k-range)*(k-range)));
-                        if (Math.abs(i) != 2 || Math.abs(j) != 2 || Math.abs(k) != 2) {
-                            if (distance<range+(0.5)){
-                                BlockPos blockpos = this.getOnPos().offset( i-(int)range,j-(int)range,k-(int)range);
-
-            BlockState nord = level.getBlockState(blockpos.north());
-            BlockState south = level.getBlockState(blockpos.south());
-            BlockState west = level.getBlockState(blockpos.west());
-            BlockState east = level.getBlockState(blockpos.east());
-            BlockState above = level.getBlockState(blockpos.above());
-            BlockState below = level.getBlockState(blockpos.below());
-            boolean nordT = !nord.isSolidRender(level,blockpos.north());
-            boolean southT = !south.isSolidRender(level,blockpos.south());
-            boolean westT = !west.isSolidRender(level,blockpos.west());
-            boolean eastT = !east.isSolidRender(level,blockpos.east());
-            boolean aboveT = !above.isSolidRender(level,blockpos.above());
-            boolean belowT = !below.isSolidRender(level,blockpos.below());
-
+    @Override
+    public void additionPlacers(Level level, BlockPos pos, double range) {
+        AABB aabb = this.getBoundingBox().inflate(range);
+        for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
             BlockState blockstate = level.getBlockState(blockpos);
-
-            if (Math.random() < 0.02 && blockstate.isSolidRender(level,blockpos)
-                    && (nordT || southT || westT || eastT || aboveT || belowT)){
-                for (String str : SConfig.DATAGEN.block_infection.get()){
-                    String[] string = str.split("\\|" );
-                    ItemStack stack = new ItemStack(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(string[0])));
-                    if (stack != ItemStack.EMPTY && blockstate.getBlock().asItem() == stack.getItem()){
-                        ItemStack itemStack = new ItemStack(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(string[1])));
-                        if (itemStack != ItemStack.EMPTY && itemStack.getItem() instanceof BlockItem blockItem){
-                            level.setBlock(blockpos,blockItem.getBlock().defaultBlockState(),3);
-                        }
-                    }
-                }
-            }
-
-
-
-            if (blockstate.is(BlockTags.LOGS) && blockstate.getDestroySpeed(level ,blockpos) < 5 && Math.random() < 0.3){
-                BlockState _bs = Sblocks.ROTTEN_LOG.get().defaultBlockState();
-                for (Map.Entry<Property<?>, Comparable<?>> entry : blockstate.getValues().entrySet()) {
-                    Property _property = _bs.getBlock().getStateDefinition().getProperty(entry.getKey().getName());
-                    if (_property != null && _bs.getValue(_property) != null)
-                        try {
-                            _bs = _bs.setValue(_property, (Comparable) entry.getValue());
-                        } catch (Exception e) {
-                        }
-                }
-                level.setBlock(blockpos, _bs, 3);
-            }
-            if (blockstate.is(BlockTags.WOODEN_STAIRS) && blockstate.getDestroySpeed(level ,blockpos) < 5 && Math.random() < 0.3){
-                    BlockState _bs = Sblocks.ROTTEN_STAIR.get().defaultBlockState();
-                    for (Map.Entry<Property<?>, Comparable<?>> entry : blockstate.getValues().entrySet()) {
-                        Property _property = _bs.getBlock().getStateDefinition().getProperty(entry.getKey().getName());
-                        if (_property != null && _bs.getValue(_property) != null)
-                            try {
-                                _bs = _bs.setValue(_property, (Comparable) entry.getValue());
-                            } catch (Exception e) {
-                            }
-                    }
-                    level.setBlock(blockpos, _bs, 3);
-            }
-            if (blockstate.is(BlockTags.PLANKS) && blockstate.getDestroySpeed(level ,blockpos) < 5 && Math.random() < 0.3){
-                    BlockState _bs = Sblocks.ROTTEN_PLANKS.get().defaultBlockState();
-                    level.setBlock(blockpos, _bs, 3);
-            }
-
-
-            if (blockstate.isSolidRender(level,blockpos ) && (above.getFluidState().is(Fluids.WATER) || above.getFluidState().is(Fluids.FLOWING_WATER)) && Math.random() < 0.01){
-                if (block5.getBlock().getStateDefinition().getProperty("waterlogged") instanceof BooleanProperty property){
-                    level.setBlock(blockpos.above(),block5.setValue(property, true),3);
-                }else {
-                    level.setBlock(blockpos.above(),block5,3);
-                }
-
-            }
-
-
-            if (above.isAir() && blockstate.isSolidRender(level ,blockpos) && Math.random() < 0.01){level.setBlock(blockpos.above(),block1,3);}
-            if (above.isAir() && blockstate.isSolidRender(level ,blockpos) && Math.random() < 0.01 && entityData.get(STRUCTURE) && entityData.get(AGE) >= entityData.get(MAX_AGE) && this.distanceToSqr(blockpos.getX(),blockpos.getY(),blockpos.getZ()) > 80){
-                level.setBlock(blockpos.above(),block4,3);
-                entityData.set(STRUCTURE,false);
-            }
-            if (below.isAir() && blockstate.isSolidRender(level ,blockpos) && Math.random() < 0.01){
-                if (block2.getBlock().getStateDefinition().getProperty("hanging") instanceof BooleanProperty property){
-                    level.setBlock(blockpos.below(),block2.setValue(property, true),3);
-                }else {
-                    level.setBlock(blockpos.below(),block2,3);}}
-
-
-            if (blockstate.isSolidRender(level , blockpos) && (nordT || southT || westT || eastT || aboveT || belowT)){
-                Direction direction = Direction.NORTH;
-                Direction direction2 = Direction.SOUTH;
-                Direction direction3 = Direction.EAST;
-                Direction direction4 = Direction.WEST;
-                Property<?> property = block3.getBlock().getStateDefinition().getProperty("facing");
-                if (property instanceof DirectionProperty directionProperty && Math.random() < 0.01) {
-                    if (nord.isAir()){
-                        level.setBlock(blockpos.north(),block3.setValue(directionProperty,direction),3);
-                    }
-                    if (south.isAir()){
-                        level.setBlock(blockpos.south(),block3.setValue(directionProperty,direction2),3);
-                    }
-                    if (west.isAir()){
-                        level.setBlock(blockpos.west(),block3.setValue(directionProperty,direction4),3);
-                    }
-                    if (east.isAir()){
-                        level.setBlock(blockpos.east(),block3.setValue(directionProperty,direction3),3);
-                    }
-                }
-            }
-            }}}}}
-        }else{
-            for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
-                BlockState blockstate = level.getBlockState(blockpos);
-                BlockState above = level.getBlockState(blockpos.above());
-                if (above.isAir() && blockstate.isSolidRender(level ,blockpos) && Math.random() < 0.01 && entityData.get(STRUCTURE) && entityData.get(AGE) >= entityData.get(MAX_AGE) && this.distanceToSqr(blockpos.getX(),blockpos.getY(),blockpos.getZ()) > 80){
+            BlockState above = level.getBlockState(blockpos.above());
+            if (Math.random() < 0.1){
+                if (above.isAir() && blockstate.isSolidRender(level ,blockpos) && entityData.get(STRUCTURE) && entityData.get(AGE) >= entityData.get(MAX_AGE) && this.distanceToSqr(blockpos.getX(),blockpos.getY(),blockpos.getZ()) > 80){
+                    BlockState block4 = (ForgeRegistries.BLOCKS.tags().getTag(BlockTags.create(new ResourceLocation("spore:block_st")))
+                            .getRandomElement(RandomSource.create()).orElse(Blocks.AIR)).defaultBlockState();
                     level.setBlock(blockpos.above(),block4,3);
                     entityData.set(STRUCTURE,false);
-                }
-            }
-            List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, aabb);
-            for (LivingEntity en : entities) {
-                if (!(en instanceof Infected || en instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(en.getEncodeId()) || en.getItemBySlot(EquipmentSlot.HEAD).getItem() == Sitems.GAS_MASK.get())){
-                    en.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),600,1));
                 }
             }
         }
     }
 
-
+    @Override
+    public void additionIgnoreConfigPlacers(Level level, BlockPos pos,double range) {
+        AABB aabb = this.getBoundingBox().inflate(range);
+        for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+            BlockState blockstate = level.getBlockState(blockpos);
+            BlockState above = level.getBlockState(blockpos.above());
+            if (Math.random() < 0.1){
+                if (above.isAir() && blockstate.isSolidRender(level ,blockpos) && entityData.get(STRUCTURE) && entityData.get(AGE) >= entityData.get(MAX_AGE) && this.distanceToSqr(blockpos.getX(),blockpos.getY(),blockpos.getZ()) > 80){
+                    BlockState block4 = (ForgeRegistries.BLOCKS.tags().getTag(BlockTags.create(new ResourceLocation("spore:block_st")))
+                            .getRandomElement(RandomSource.create()).orElse(Blocks.AIR)).defaultBlockState();
+                    level.setBlock(blockpos.above(),block4,3);
+                    entityData.set(STRUCTURE,false);
+                }
+            }
+        }
+        List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, aabb);
+        for (LivingEntity en : entities) {
+            if (!(en instanceof Infected || en instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(en.getEncodeId()) || en.getItemBySlot(EquipmentSlot.HEAD).getItem() == Sitems.GAS_MASK.get())){
+                en.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),600,1));
+            }
+        }
+    }
     private void SpreadKin(Entity entity , Level level) {
         AABB aabb = entity.getBoundingBox().inflate(SConfig.SERVER.mound_tendril_checker.get());
         for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
