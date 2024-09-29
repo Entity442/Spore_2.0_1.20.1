@@ -37,14 +37,13 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
-public class HangingPlant extends FlowerBlock {
+public class HangingPlant extends GenericFoliageBlock {
     public static final BooleanProperty HANGING = BlockStateProperties.HANGING;
-    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     protected static final VoxelShape AABB = Shapes.or(box(4.0D, 0.0D, 4.0D, 12.0D, 6.0D, 12.0D));
     protected static final VoxelShape HANGING_AABB = Shapes.or(box(4.0D, 4.0D, 4.0D, 12.0D, 10.0D, 12.0D),box(6.0D, 10.0D, 6.0D, 10.0D, 16.0D, 10.0D));
 
     public HangingPlant() {
-        super(MobEffects.WITHER, 1, BlockBehaviour.Properties.of().strength(0f, 0f).noCollission().sound(SoundType.CROP).randomTicks());
+        super(BlockBehaviour.Properties.of().strength(0f, 0f).noCollission().sound(SoundType.CROP).randomTicks());
         this.registerDefaultState(this.stateDefinition.any().setValue(HANGING, Boolean.FALSE).setValue(WATERLOGGED, Boolean.FALSE));
     }
 

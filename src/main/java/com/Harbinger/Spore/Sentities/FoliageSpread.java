@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sentities;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sblocks;
+import com.Harbinger.Spore.Sblocks.GenericFoliageBlock;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -96,7 +97,7 @@ public interface FoliageSpread {
         }
     }
     default void placeRottenBush(BlockState above,Level level,BlockPos blockpos,BlockState blockstate){
-        if (above.getBlock() instanceof BushBlock && blockstate.isSolidRender(level ,blockpos)){
+        if (above.getBlock() instanceof BushBlock && !(above.getBlock() instanceof GenericFoliageBlock) && blockstate.isSolidRender(level ,blockpos)){
             level.setBlock(blockpos.above(),Sblocks.ROTTEN_BUSH.get().defaultBlockState(), 3);
         }
     }
