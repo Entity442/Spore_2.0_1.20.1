@@ -59,7 +59,7 @@ public interface FoliageSpread {
         boolean eastT = !east.isSolidRender(level,blockpos.east());
         boolean aboveT = !above.isSolidRender(level,blockpos.above());
         boolean belowT = !below.isSolidRender(level,blockpos.below());
-        if (Math.random() < 0.02 && blockstate.isSolidRender(level,blockpos)
+        if (Math.random() < 0.1 && blockstate.isSolidRender(level,blockpos)
                 && (nordT || southT || westT || eastT || aboveT || belowT)){
             convertBlocks(blockstate,level,blockpos);
         }
