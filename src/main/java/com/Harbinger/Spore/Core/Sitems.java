@@ -1,12 +1,10 @@
 package com.Harbinger.Spore.Core;
 
-import com.Harbinger.Spore.Fluids.BileLiquid;
 import com.Harbinger.Spore.Sitems.*;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -411,6 +409,8 @@ public class Sitems {
     public static final RegistryObject<Item> ROTTEN_LOG = block(Sblocks.ROTTEN_LOG);
     public static final RegistryObject<Item> ROTTEN_PLANKS = block(Sblocks.ROTTEN_PLANKS);
     public static final RegistryObject<Item> ROTTEN_STAIR = block(Sblocks.ROTTEN_STAIR);
+    public static final RegistryObject<Item> ROTTEN_BRANCH = block(Sblocks.ROTTEN_BRANCH);
+    public static final RegistryObject<Item> ROTTEN_BUSH = block(Sblocks.ROTTEN_BUSH);
     public static final RegistryObject<Item> ROOTED_BIOMASS = block(Sblocks.ROOTED_BIOMASS);
     public static final RegistryObject<Item> BIOMASS_BLOCK = block(Sblocks.BIOMASS_BLOCK);
     public static final RegistryObject<Item> CALCIFIED_BIOMASS_BLOCK = block(Sblocks.CALCIFIED_BIOMASS_BLOCK);

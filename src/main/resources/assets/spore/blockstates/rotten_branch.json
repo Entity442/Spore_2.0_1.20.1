@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "spore:block/rotten_branch",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "spore:block/rotten_branch",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "spore:block/rotten_branch"
+    },
+    "facing=west": {
+      "model": "spore:block/rotten_branch",
+      "y": 90
+    }
+  }
+}
