@@ -128,23 +128,30 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
     @Override
     public void tick() {
         super.tick();
-        if (this.isAlive()) {
+        if (this.isAlive() && this.getTypeVariant() == 2) {
+            manageExplosiveBusser();
+        }
+    }
 
-            int i = this.getSwellDir();
-            if (i > 0 && this.swell == 0) {
-                this.playSound(SoundEvents.CREEPER_PRIMED, 1.0F, 0.5F);
-                this.gameEvent(GameEvent.PRIME_FUSE);
+    public void manageExplosiveBusser(){
+        int i = this.getSwellDir();
+        if (i > 0 && this.swell == 0) {
+            this.playSound(SoundEvents.CREEPER_PRIMED, 1.0F, 0.5F);
+            this.gameEvent(GameEvent.PRIME_FUSE);
+        }
+        if (i != 0){
+            if (i > 0){
+                this.swell++;
+            }else{
+                this.swell--;
             }
-
-            this.swell += i;
             if (this.swell < 0) {
                 this.swell = 0;
             }
-
-            if (this.swell >= 20) {
-                this.swell = 20;
-                this.explodeBusser();
-            }
+        }
+        if (this.swell >= 20) {
+            this.swell = 20;
+            this.explodeBusser();
         }
     }
 

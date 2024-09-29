@@ -19,6 +19,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -96,11 +97,11 @@ public class CDUBlockEntity extends BlockEntity{
                     if (Math.random() < 0.1){
                         for (String str : SConfig.DATAGEN.block_cleaning.get()){
                             String[] string = str.split("\\|" );
-                            ItemStack stack = new ItemStack(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(string[0])));
-                            if (stack != ItemStack.EMPTY && state.getBlock().asItem() == stack.getItem()){
-                                ItemStack itemStack = new ItemStack(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(string[1])));
-                                if (itemStack != ItemStack.EMPTY && itemStack.getItem() instanceof BlockItem blockItem){
-                                    level.setBlock(blockpos,blockItem.getBlock().defaultBlockState(),3);
+                            Block blockCon1 = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(string[0]));
+                            Block blockCon2 = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(string[1]));
+                            if (blockCon1 != null && blockCon2 != null){
+                                if (blockCon1 == state.getBlock()){
+                                    level.setBlock(blockpos,blockCon2.defaultBlockState(),3);
                                 }
                             }
                         }
