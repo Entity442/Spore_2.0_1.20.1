@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
+    "waterlogged=false": {
       "model": "spore:block/mycelium_growths_small"
+    },
+    "waterlogged=true": {
+      "model": "spore:block/mycelium_growths_small_underwater"
     }
   }
 }
