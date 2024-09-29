@@ -32,7 +32,8 @@ import java.util.Map;
 
 public interface FoliageSpread {
     default void SpreadInfection(Level level, double range, BlockPos pos){
-         if (SConfig.SERVER.mound_foliage.get()){
+        if (!level.isClientSide)
+            if (SConfig.SERVER.mound_foliage.get()){
              additionPlacers(level,pos,range);
              for(int i = 0; i <= 2*range; ++i) {
                 for(int j = 0; j <= 2*range; ++j) {
@@ -45,9 +46,9 @@ public interface FoliageSpread {
                                 SpreadFoliageAndConvert(level,blockstate,blockpos);
                             }}}}}
 
-         }else{
+            }else{
              additionIgnoreConfigPlacers(level,pos,range);
-         }
+            }
     }
     default void SpreadFoliageAndConvert(Level level,BlockState blockstate,BlockPos blockpos){
         BlockState nord = level.getBlockState(blockpos.north());

@@ -24,7 +24,7 @@
                   }
                 }
               ],
-              "name": "spore:rotten_plank"
+              "name": "spore:rotten_branch"
             },
             {
               "type": "minecraft:item",
@@ -33,7 +33,7 @@
                   "add": false,
                   "count": {
                     "type": "minecraft:uniform",
-                    "max": 6.0,
+                    "max": 3.0,
                     "min": 0.0
                   },
                   "function": "minecraft:set_count"
