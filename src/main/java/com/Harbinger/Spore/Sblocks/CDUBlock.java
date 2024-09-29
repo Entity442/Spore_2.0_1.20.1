@@ -89,7 +89,9 @@ public class CDUBlock extends BaseEntityBlock {
                     blockEntity.setFuel(blockEntity.maxFuel);
                     item.shrink(1);
                 }
+                return InteractionResult.SUCCESS;
             }
+            player.displayClientMessage(Component.literal("Current fuel " + blockEntity.getFuel() + "/" + blockEntity.maxFuel),true);
         }
         return InteractionResult.SUCCESS;
     }
