@@ -25,6 +25,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Integer> hunger;
         public final ForgeConfigSpec.ConfigValue<Boolean> at_mob;
         public final ForgeConfigSpec.ConfigValue<Boolean> costumes;
+        public final ForgeConfigSpec.ConfigValue<Boolean> costumes_active;
         public final ForgeConfigSpec.ConfigValue<Boolean> inf_player;
         public final ForgeConfigSpec.ConfigValue<Boolean> at_an;
         public final ForgeConfigSpec.ConfigValue<Boolean> weaktocold;
@@ -457,6 +458,7 @@ public class SConfig {
             this.weaktocold = builder.comment("Default true").define("Should the infected be weak to cold?",true);
             this.should_starve = builder.comment("Default true").define("Should the infected starve overtime?",true);
             this.costumes = builder.comment("Default true").define("Should certain mobs wear costumes on occasions?",true);
+            this.costumes_active = builder.comment("Default false").define("Should the costumes be always active?",false);
             this.higher_thinking = builder.comment("Default true").define("Should some infected have higher thinking such as opening doors or trying to break certain blocks?",true);
             this.hunger = builder.define("Hunger in seconds",300);
 

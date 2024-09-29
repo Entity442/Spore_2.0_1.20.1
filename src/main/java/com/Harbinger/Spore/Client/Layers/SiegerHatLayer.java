@@ -30,7 +30,7 @@ public class SiegerHatLayer<T extends Sieger> extends RenderLayer<T, SiegerModel
         if (SConfig.SERVER.costumes.get()){
             LocalDate localdate = LocalDate.now();
             int j = localdate.get(ChronoField.MONTH_OF_YEAR);
-            if (j == 12){
+            if (j == 12 || SConfig.SERVER.costumes_active.get()){
                 coloredCutoutModelCopyLayerRender(this.getParentModel(), this.model, HAT_LOCATION, stack, bufferSource, p_117351_, type, p_117353_, p_117354_, p_117355_, p_117356_, p_117357_, p_117358_, 1, 1, 1);
             }
         }

@@ -48,7 +48,7 @@ public class HindenburgLightsLayer<T extends Hinderburg> extends RenderLayer<T, 
         if (SConfig.SERVER.costumes.get()){
             LocalDate localdate = LocalDate.now();
             int j = localdate.get(ChronoField.MONTH_OF_YEAR);
-            if (j == 12){
+            if (j == 12 || SConfig.SERVER.costumes_active.get()){
                 stack.pushPose();
                 stack.translate(0,3.5,0);
                 coloredCutoutModelCopyLayerRender(this.getParentModel(), this.model, MAIN_TEXTURE, stack, bufferSource, p_117351_, type, p_117353_, p_117354_, p_117355_, p_117356_, p_117357_, p_117358_, 1, 1, 1);
