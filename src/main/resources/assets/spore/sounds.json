@@ -28,7 +28,10 @@
     "subtitle": "sounds.spore.growl",
     "sounds": [
       "spore:growl",
-      "spore:growl2"
+      "spore:growl2",
+      "spore:growl3",
+      "spore:growl4",
+      "spore:growl5"
     ]
   },
   "specter_ambient" :{

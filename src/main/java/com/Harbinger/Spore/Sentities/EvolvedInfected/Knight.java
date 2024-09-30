@@ -20,6 +20,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -118,4 +119,13 @@ public class Knight extends EvolvedInfected implements EvolvingInfected {
         this.discard();
     }
 
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        AttributeInstance armor = this.getAttribute(Attributes.ARMOR);
+        if (armor != null && this.getHealth() < this.getMaxHealth()){
+            double new_armor = (this.getMaxHealth()-this.getHealth())/2 + (SConfig.SERVER.knight_armor.get() * SConfig.SERVER.global_armor.get());
+            armor.setBaseValue(new_armor);
+        }
+        return super.hurt(source, amount);
+    }
 }

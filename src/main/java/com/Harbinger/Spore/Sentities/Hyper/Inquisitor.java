@@ -90,16 +90,15 @@ public class Inquisitor extends Hyper {
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1);
 
     }
+
     @Override
-    public void aiStep() {
-        super.aiStep();
-        if (this.tickCount % 10 == 0){
-            AttributeInstance armor = this.getAttribute(Attributes.ARMOR);
-            if (armor != null && this.getHealth() < this.getMaxHealth()){
-                double new_armor = (this.getMaxHealth()-this.getHealth())/2 + (SConfig.SERVER.inquisitor_armor.get() * SConfig.SERVER.global_armor.get());
-                armor.setBaseValue(new_armor);
-            }
+    public boolean hurt(DamageSource source, float amount) {
+        AttributeInstance armor = this.getAttribute(Attributes.ARMOR);
+        if (armor != null && this.getHealth() < this.getMaxHealth()){
+            double new_armor = (this.getMaxHealth()-this.getHealth())/2 + (SConfig.SERVER.inquisitor_armor.get() * SConfig.SERVER.global_armor.get());
+            armor.setBaseValue(new_armor);
         }
+        return super.hurt(source, amount);
     }
 
     protected SoundEvent getAmbientSound() {
