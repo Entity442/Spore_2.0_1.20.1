@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Sentities;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.Sblocks.GenericFoliageBlock;
+import com.Harbinger.Spore.Sblocks.SelectableFallingBlock;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -12,13 +13,11 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.BushBlock;
-import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
@@ -208,11 +207,19 @@ public interface FoliageSpread {
                     } catch (Exception e) {
                     }
             }
-            level.setBlock(blockpos, _bs, 3);
+            if (Math.random() < 0.3f){
+                FallingBlockEntity.fall(level,blockpos,_bs);
+            }else {
+                level.setBlock(blockpos, _bs, 3);
+            }
         }
         if (blockstate.is(BlockTags.PLANKS)){
             BlockState _bs = Sblocks.ROTTEN_PLANKS.get().defaultBlockState();
-            level.setBlock(blockpos, _bs, 3);
+            if (Math.random() < 0.3f && level.getBlockState(blockpos.below()).isAir()){
+                FallingBlockEntity.fall(level,blockpos,_bs);
+            }else {
+                level.setBlock(blockpos, _bs, 3);
+            }
         }
     }
 }
