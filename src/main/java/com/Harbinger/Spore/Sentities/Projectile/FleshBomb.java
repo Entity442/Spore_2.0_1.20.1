@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -135,14 +136,23 @@ public class FleshBomb extends AbstractArrow {
         }
         aimForTarget();
     }
+    private float calculate(Entity entity,Entity entity1){
+        float f = (float)(entity.getX() - entity1.getX());
+        float f2 = (float)(entity.getZ() - entity1.getZ());
+        return Mth.sqrt(f * f + f2 * f2);
+    }
     private void aimForTarget(){
-        if (target != null){
+        if (target != null && this.getDeltaMovement().y<0){
             Vec3 vec3 = this.getDeltaMovement();
             Vec3 vec31 = new Vec3(this.target.getX() - this.getX(), 0.0D, this.target.getZ() - this.getZ());
             if (vec31.lengthSqr() > 1.0E-7D) {
-                vec31 = vec31.normalize().scale(0.01D);
+                vec31 = vec31.normalize().scale(0.05D);
             }
-            this.setDeltaMovement(vec3.add(vec31.x,0 , vec31.z));
+            if (target != null &&  calculate(this,target) < 3.5f){
+                this.setDeltaMovement(new Vec3(vec31.x,vec3.y,vec31.z));
+            }else{
+                this.setDeltaMovement(vec3.add(vec31.x,0 , vec31.z));
+            }
         }
     }
 
