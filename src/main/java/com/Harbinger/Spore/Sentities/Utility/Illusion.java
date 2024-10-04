@@ -1,9 +1,11 @@
 package com.Harbinger.Spore.Sentities.Utility;
 
+import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
+import com.Harbinger.Spore.Sentities.ArmorPersentageBypass;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.Variants.IllusionVariants;
 import net.minecraft.Util;
@@ -20,11 +22,12 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import org.jetbrains.annotations.Nullable;
 
-public class Illusion extends UtilityEntity {
+public class Illusion extends UtilityEntity implements ArmorPersentageBypass, Enemy {
     private static final EntityDataAccessor<Boolean> SEE_ABLE = SynchedEntityData.defineId(Illusion.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<String> BODY = SynchedEntityData.defineId(Illusion.class, EntityDataSerializers.STRING);
     private static final EntityDataAccessor<Integer> TYPE = SynchedEntityData.defineId(Illusion.class, EntityDataSerializers.INT);
@@ -157,4 +160,8 @@ public class Illusion extends UtilityEntity {
         return IllusionVariants.byId(this.getTypeVariant() & 255);
     }
 
+    @Override
+    public float amountOfDamage(float value) {
+        return this.getSeeAble() ? 0 : (float) (SConfig.SERVER.halucinations_damage.get() * 1f);
+    }
 }

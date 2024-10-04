@@ -5,6 +5,7 @@ import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.PullGoal;
+import com.Harbinger.Spore.Sentities.ArmorPersentageBypass;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.Variants.SlasherVariants;
 import net.minecraft.core.BlockPos;
@@ -31,7 +32,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class Slasher extends EvolvedInfected {
+public class Slasher extends EvolvedInfected implements ArmorPersentageBypass {
     private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(Slasher.class, EntityDataSerializers.INT);
     public Slasher(EntityType<? extends Monster> type, Level level) {
         super(type, level);
@@ -150,5 +151,10 @@ public class Slasher extends EvolvedInfected {
 
     private void setVariant(SlasherVariants variant) {
         this.entityData.set(DATA_ID_TYPE_VARIANT, variant.getId() & 255);
+    }
+
+    @Override
+    public float amountOfDamage(float value) {
+        return this.getVariant() == SlasherVariants.PIERCER ? (float) (SConfig.SERVER.sla_damage.get() * SConfig.SERVER.global_damage.get() / 2) : 0;
     }
 }
