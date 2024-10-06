@@ -1,11 +1,14 @@
 package com.Harbinger.Spore.Sentities.EvolvedInfected;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.TransportInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.Carrier;
+import com.Harbinger.Spore.Sentities.Projectile.ThrownBlockProjectile;
+import com.Harbinger.Spore.Sentities.Projectile.ThrownTumor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -56,7 +59,7 @@ public class Brute extends EvolvedInfected implements Carrier, RangedAttackMob {
         this.goalSelector.addGoal(2, new RangedAttackGoal(this,1.3,80,48){
             @Override
             public boolean canUse() {
-                return super.canUse() && Brute.this.getCarriedBlock() != null && Brute.this.getTarget() != null && Brute.this.distanceToSqr(Brute.this.getTarget()) > 400.0D;
+                return super.canUse() && Brute.this.getCarriedBlock() != null && Brute.this.getTarget() != null && Brute.this.distanceToSqr(Brute.this.getTarget()) > 200.0D;
             }
         });
         this.goalSelector.addGoal(3, new CustomMeleeAttackGoal(this, 1.3, false) {
@@ -202,13 +205,13 @@ public class Brute extends EvolvedInfected implements Carrier, RangedAttackMob {
     @Override
     public void performRangedAttack(LivingEntity livingEntity, float p_33318_) {
         if(!level().isClientSide && this.getCarriedBlock() != null) {
+            ThrownBlockProjectile thrownBlockProjectile = new ThrownBlockProjectile(level(),this,10f,getCarriedBlock(),TARGET_SELECTOR);
             double dx = livingEntity.getX() - this.getX();
-            double dy = livingEntity.getY() + livingEntity.getEyeHeight();
+            double dy = livingEntity.getY() + livingEntity.getEyeHeight() - 1;
             double dz = livingEntity.getZ() - this.getZ();
-            FallingBlockEntity blockEntity = FallingBlockEntity.fall(level(), new BlockPos((int) this.getX(),(int) this.getY(),(int) this.getZ()), getCarriedBlock());
-            blockEntity.setDeltaMovement(dx * 0.025F, dy - blockEntity.getY() + Math.hypot(dx, dz) * 0.02F, dz * 0.025F);
-            blockEntity.setHurtsEntities(2f,30);
-            level().addFreshEntity(blockEntity);
+            thrownBlockProjectile.moveTo(this.getX(),this.getY()+1.5,this.getZ());
+            thrownBlockProjectile.shoot(dx, dy - thrownBlockProjectile.getY() + Math.hypot(dx, dz) * 0.05F, dz, 1f * 2, 12.0F);
+            level().addFreshEntity(thrownBlockProjectile);
             this.setCarriedBlock(null);
         }
     }

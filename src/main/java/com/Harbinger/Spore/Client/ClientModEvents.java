@@ -173,6 +173,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.ACID.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(Sentities.THROWN_TUMOR.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(Sentities.FLESH_BOMB.get(), FleshBombRenderer::new);
+        event.registerEntityRenderer(Sentities.THROWN_BLOCK.get(), ThrownBlockRenderer::new);
         event.registerEntityRenderer(Sentities.SCENT.get(), ScentEntityRenderer::new);
         event.registerEntityRenderer(Sentities.TENDRIL.get(), TendrilRenderer::new);
         event.registerEntityRenderer(Sentities.STINGER.get(), StingerRenderer::new);

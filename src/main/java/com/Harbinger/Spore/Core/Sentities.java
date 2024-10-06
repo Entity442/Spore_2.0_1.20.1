@@ -224,6 +224,9 @@ public class Sentities {
             EntityType.Builder.of((EntityType<StingerProjectile> p_33002_, Level level) -> new StingerProjectile(level), MobCategory.MISC)
                     .setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(0.4f, 0.4f));
 
+    public static final RegistryObject<EntityType<ThrownBlockProjectile>> THROWN_BLOCK = register("thrown_block",
+            EntityType.Builder.of((EntityType<ThrownBlockProjectile> p_33002_, Level level) -> new ThrownBlockProjectile(level), MobCategory.MISC)
+                    .setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(0.4f, 0.4f));
 
     public static final RegistryObject<EntityType<FleshBomb>> FLESH_BOMB = register("flesh_bomb",
             EntityType.Builder.<FleshBomb>of(FleshBomb::new, MobCategory.MISC).setCustomClientFactory(FleshBomb::new)

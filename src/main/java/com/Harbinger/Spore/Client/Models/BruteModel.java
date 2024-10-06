@@ -211,7 +211,7 @@ public class BruteModel<T extends Brute> extends EntityModel<T> implements Armed
 			LeftArm.yRot = RightArm.getInitialPose().yRot + moveValue;
 			RightArm.yRot = RightArm.getInitialPose().yRot + moveValue;
 			RightForArm.zRot = RightForArm.getInitialPose().zRot + moveValue;
-			LeftForArm.zRot = LeftForArm.getInitialPose().zRot - moveValue;
+			LeftForArm.zRot = LeftForArm.getInitialPose().zRot + moveValue;
 		}
 	}
 
