@@ -1389,7 +1389,9 @@ public class SConfig {
                             ,"spore:infested_sand|minecraft:sand","spore:infested_gravel|minecraft:gravel","spore:infested_netherrack|minecraft:netherrack","spore:infested_end_stone|minecraft:end_stone"
                             ,"spore:infested_soul_sand|minecraft:soul_sand","spore:infested_red_sand|minecraft:red_sand","spore:infested_clay|minecraft:clay","spore:infested_cobblestone|minecraft:cobblestone"
                             ,"spore:infested_cobbled_deepslate|minecraft:cobbled_deepslate","spore:infested_laboratory_block|spore:lab_block","spore:infested_laboratory_block1|spore:lab_block1"
-                            ,"spore:infested_laboratory_block2|spore:lab_block2","spore:infested_laboratory_block3|spore:lab_block3") , o -> o instanceof String);
+                            ,"spore:infested_laboratory_block2|spore:lab_block2","spore:infested_laboratory_block3|spore:lab_block3","spore:biomass_block|the_flesh_that_hates:flesh_block"
+                            ,"spore:biomass_block|the_flesh_that_hates:flesh_sand","spore:biomass_block|the_flesh_that_hates:flesh_tree","spore:biomass_block|the_flesh_that_hates:flesh_plank"
+                            ,"spore:biomass_block|the_flesh_that_hates:flesh_pile","spore:biomass_block|the_flesh_that_hates:tumor","spore:biomass_block|the_flesh_that_hates:purulent_tumor") , o -> o instanceof String);
             this.cryo_range = builder.comment("Default 20").defineInRange("Range", 20, 0, Integer.MAX_VALUE);
             builder.pop();
         }
