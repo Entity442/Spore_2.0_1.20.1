@@ -407,7 +407,6 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> pil_ev;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> wit_ev;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> husk_ev;
-        public final ForgeConfigSpec.ConfigValue<List<? extends String>> undespawn;
 
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_summon;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> howler_summon;
@@ -532,9 +531,6 @@ public class SConfig {
                     Lists.newArrayList(
                             "spore:thorn",
                             "spore:jagd") , o -> o instanceof String);
-
-            this.undespawn = builder.defineList("Mobs that won't despawn after being created from assimilation",
-                    Lists.newArrayList("spore:inf_villager", "spore:inf_pillager", "spore:inf_witch") , o -> o instanceof String);
             this.evolution_age_human = builder.comment("Default 300").define("Evolution Timer in seconds",300);
             this.min_kills = builder.comment("Default 1").define("Minimum amount of kills to start the evolution",1);
             this.min_kills_hyper = builder.comment("Default 7").define("Minimum amount of kills to start the hyper evolution",7);

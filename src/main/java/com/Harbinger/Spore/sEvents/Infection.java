@@ -18,9 +18,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -28,10 +26,14 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
-import java.util.Objects;
 
 @Mod.EventBusSubscriber
 public class Infection {
+    public static final List<? extends String> infectionValues = SConfig.SERVER.inf_human_conv.get();
+    public static void setItemBySlot(Player player , EquipmentSlot slot,Mob entity){
+        entity.setItemSlot(slot,player.getItemBySlot(slot));
+        entity.setDropChance(slot,0);
+    }
     @SubscribeEvent
     public static void onEntityDeath(LivingDeathEvent event) {
         if (event != null && event.getEntity() != null && !event.getEntity().level().isClientSide) {
@@ -89,51 +91,32 @@ public class Infection {
         }
 
         if (entity instanceof Player player && player.hasEffect(Seffects.MYCELIUM.get()) && !world.isClientSide && SConfig.SERVER.inf_player.get()){
-             Component name = player.getName();
-            InfectedPlayer infectedHuman = Sentities.INF_PLAYER.get().create(world);
-            ItemStack head = player.getItemBySlot(EquipmentSlot.HEAD);
-            ItemStack chest = player.getItemBySlot(EquipmentSlot.CHEST);
-            ItemStack legs = player.getItemBySlot(EquipmentSlot.LEGS);
-            ItemStack feet = player.getItemBySlot(EquipmentSlot.FEET);
-            ItemStack hand = player.getItemBySlot(EquipmentSlot.MAINHAND);
-            ItemStack offhand = player.getItemBySlot(EquipmentSlot.OFFHAND);
-            assert infectedHuman != null;
-            infectedHuman.setItemSlot(EquipmentSlot.HEAD , head);
-            infectedHuman.setItemSlot(EquipmentSlot.CHEST , chest);
-            infectedHuman.setItemSlot(EquipmentSlot.LEGS , legs);
-            infectedHuman.setItemSlot(EquipmentSlot.FEET , feet);
-            infectedHuman.setItemSlot(EquipmentSlot.MAINHAND , hand);
-            infectedHuman.setItemSlot(EquipmentSlot.OFFHAND , offhand);
-            infectedHuman.moveTo(event.getEntity().getX(),event.getEntity().getY(),event.getEntity().getZ());
+            Component name = player.getName();
+            InfectedPlayer infectedHuman = new InfectedPlayer(Sentities.INF_PLAYER.get(),player.level());
+            setItemBySlot(player,EquipmentSlot.HEAD,infectedHuman);
+            setItemBySlot(player,EquipmentSlot.CHEST,infectedHuman);
+            setItemBySlot(player,EquipmentSlot.LEGS,infectedHuman);
+            setItemBySlot(player,EquipmentSlot.FEET,infectedHuman);
+            setItemBySlot(player,EquipmentSlot.MAINHAND,infectedHuman);
+            setItemBySlot(player,EquipmentSlot.OFFHAND,infectedHuman);
+            infectedHuman.moveTo(player.getX(),player.getY(),player.getZ());
             infectedHuman.setCustomName(name);
-            infectedHuman.setDropChance(EquipmentSlot.HEAD , 0);
-            infectedHuman.setDropChance(EquipmentSlot.CHEST , 0);
-            infectedHuman.setDropChance(EquipmentSlot.LEGS , 0);
-            infectedHuman.setDropChance(EquipmentSlot.FEET , 0);
-            infectedHuman.setDropChance(EquipmentSlot.OFFHAND , 0);
-            infectedHuman.setDropChance(EquipmentSlot.MAINHAND , 0);
             world.addFreshEntity(infectedHuman);
         }
 
 
-        if (entity instanceof LivingEntity _livEnt && _livEnt.hasEffect(Seffects.MYCELIUM.get()) && !world.isClientSide && !(entity instanceof Player)) {
-
-            ServerLevelAccessor worlder = (ServerLevelAccessor) entity.level();
-            for (String str : SConfig.SERVER.inf_human_conv.get()) {
-                String[] string = str.split("\\|");
-                EntityType<?> value2 =  ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(string[1]));
-                assert value2 != null;
-                Mob mobT = (Mob) value2.create(event.getEntity().level());
-                if (string[0].equals(Objects.requireNonNull(entity.getEncodeId()))) {
-                    assert mobT != null;
-                    mobT.setCustomName(entity.getCustomName());
-                    mobT.setPos(entity.getX(), entity.getY(), entity.getZ());
-                    mobT.finalizeSpawn(worlder, world.getCurrentDifficultyAt(new BlockPos((int)entity.getX(), (int)entity.getY(), (int)entity.getZ())), MobSpawnType.NATURAL, null, null);
-                    if (mobT instanceof Infected infected && SConfig.SERVER.undespawn.get().contains(entity.getEncodeId())){
-                        infected.setPersistent(true);
+        if (entity instanceof LivingEntity livingEntity && livingEntity.hasEffect(Seffects.MYCELIUM.get()) && !world.isClientSide && !(entity instanceof Player)) {
+            if (entity.level() instanceof ServerLevel serverLevel){
+                for (String str: infectionValues){
+                    String[] string = str.split("\\|");
+                    EntityType<?> infected =  ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(string[1]));
+                    Entity infected1 = infected.create(serverLevel);
+                    if (infected1 != null && string[0].equals(livingEntity.getEncodeId())){
+                        infected1.setCustomName(livingEntity.getCustomName());
+                        infected1.setPos(livingEntity.position());
+                        serverLevel.addFreshEntity(infected1);
+                        livingEntity.discard();
                     }
-                    world.addFreshEntity(mobT);
-                    entity.discard();
                 }
             }}
         }
