@@ -124,7 +124,7 @@ public class Infection {
                 EntityType<?> value2 =  ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(string[1]));
                 assert value2 != null;
                 Mob mobT = (Mob) value2.create(event.getEntity().level());
-                if (string[0].contains(Objects.requireNonNull(entity.getEncodeId()))) {
+                if (string[0].equals(Objects.requireNonNull(entity.getEncodeId()))) {
                     assert mobT != null;
                     mobT.setCustomName(entity.getCustomName());
                     mobT.setPos(entity.getX(), entity.getY(), entity.getZ());
