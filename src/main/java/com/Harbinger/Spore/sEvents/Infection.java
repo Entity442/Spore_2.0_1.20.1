@@ -114,6 +114,7 @@ public class Infection {
                     if (infected1 != null && string[0].equals(livingEntity.getEncodeId())){
                         infected1.setCustomName(livingEntity.getCustomName());
                         infected1.setPos(livingEntity.position());
+                        if (infected1 instanceof Mob mob){mob.finalizeSpawn(serverLevel,serverLevel.getCurrentDifficultyAt(livingEntity.getOnPos()),MobSpawnType.CONVERSION,null,null);}
                         serverLevel.addFreshEntity(infected1);
                         livingEntity.discard();
                     }
