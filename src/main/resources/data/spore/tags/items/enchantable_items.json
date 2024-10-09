@@ -1,32 +1,7 @@
 {
   "replace": false,
   "values": [
-    "spore:saber",
-    "spore:greatsword",
-    "spore:armads",
-    "spore:infected_bow",
-    "spore:maul",
-    "spore:scythe",
-    "spore:combat_shovel",
-    "spore:infected_spear",
-    "spore:infected_crossbow",
-    "spore:mace",
-    "spore:sickle",
-    "spore:knife",
-    "spore:rapier",
-    "spore:inf_helmet",
-    "spore:inf_chest",
-    "spore:inf_pants",
-    "spore:inf_boots",
-    "spore:plated_helmet",
-    "spore:plated_chest",
-    "spore:plated_pants",
-    "spore:plated_boots",
-    "spore:living_helmet",
-    "spore:living_chest",
-    "spore:living_pants",
-    "spore:living_boots",
-    "spore:r_elytron",
-    "spore:inf_up_chest"
+    "#spore:enchantable_armor_items",
+    "#spore:enchantable_weapon_items"
   ]
 }

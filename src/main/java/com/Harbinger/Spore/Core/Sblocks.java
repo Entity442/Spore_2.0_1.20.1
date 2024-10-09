@@ -2,8 +2,12 @@ package com.Harbinger.Spore.Core;
 
 import com.Harbinger.Spore.Sblocks.*;
 import com.Harbinger.Spore.Spore;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
@@ -86,7 +90,22 @@ public class Sblocks {
     public static final RegistryObject<Block> ROTTEN_PLANKS = BLOCKS.register("rotten_planks", () -> new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.WOOD).ignitedByLava()));
     public static final RegistryObject<Block> ROTTEN_STAIR = BLOCKS.register("rotten_stair", () -> new StairBlock(Sblocks.ROTTEN_PLANKS.get().defaultBlockState(),BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.WOOD).ignitedByLava()));
     public static final RegistryObject<Block> ROTTEN_BRANCH = BLOCKS.register("rotten_branch", Branch::new);
-    public static final RegistryObject<Block> ROTTEN_BUSH = BLOCKS.register("rotten_bush", () -> new GenericFoliageBlock( BlockBehaviour.Properties.of().sound(SoundType.CROP).strength(0f, 0f).noCollission().noOcclusion().sound(SoundType.CROP)));
+    public static final RegistryObject<Block> ROTTEN_BUSH = BLOCKS.register("rotten_bush", () -> new GenericFoliageBlock( BlockBehaviour.Properties.of().sound(SoundType.CROP).strength(0f, 0f).noCollission().noOcclusion().sound(SoundType.CROP)){
+        @Override
+        public boolean isFlammable(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
+            return true;
+        }
+
+        @Override
+        public int getFlammability(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
+            return 10;
+        }
+
+        @Override
+        public int getFireSpreadSpeed(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
+            return 15;
+        }
+    });
     public static final RegistryObject<Block> BIOMASS_LUMP = BLOCKS.register("biomass_lump", BiomassLump::new);
     public static final RegistryObject<Block> HIVE_SPAWN = BLOCKS.register("hive_spawn", HiveSpawn::new);
 

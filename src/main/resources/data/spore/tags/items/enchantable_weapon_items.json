@@ -13,6 +13,7 @@
     "spore:mace",
     "spore:sickle",
     "spore:knife",
-    "spore:rapier"
+    "spore:rapier",
+    "spore:combat_pickaxe"
   ]
 }
