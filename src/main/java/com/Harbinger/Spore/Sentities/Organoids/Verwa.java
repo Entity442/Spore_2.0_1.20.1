@@ -86,6 +86,7 @@ public class Verwa extends Organoid {
             }
             if (living instanceof Infected infected){
                 infected.setLinked(true);
+                infected.setPersistent(true);
             }
         }
         entity.moveTo(this.getX(),this.getY()+0.2,this.getZ());

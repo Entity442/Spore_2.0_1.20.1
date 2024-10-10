@@ -299,7 +299,7 @@ public class Infected extends Monster{
         if (this.getEvoPoints() >= SConfig.SERVER.min_kills.get() && this instanceof EvolvingInfected){
             return false;
         }
-        return !this.entityData.get(PERSISTENT);
+        return super.removeWhenFarAway(p_21542_);
     }
 
     public boolean isFreazing(){
@@ -425,6 +425,17 @@ public class Infected extends Monster{
 
     @Override
     public void die(DamageSource source) {
+        placeRemains(source);
+        placeFrozenRemains();
+        if (entityData.get(PERSISTENT)){
+            for (int i = 0; i < random.nextInt(1,4);i++){
+                super.die(source);
+            }
+        }else{
+            super.die(source);
+        }
+    }
+    private void placeRemains(DamageSource source){
         if (this.hasEffect(Seffects.STARVATION.get()) && source == this.damageSources().generic()){
             AABB aabb = this.getBoundingBox().inflate(1);
             for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
@@ -444,6 +455,8 @@ public class Infected extends Monster{
                 }
             }
         }
+    }
+    private void placeFrozenRemains(){
         if ((isFreazing() || getTicksFrozen() > 0) && Math.random() < 0.3){
             AABB aabb = this.getBoundingBox().inflate(1);
             for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
@@ -457,7 +470,6 @@ public class Infected extends Monster{
                 }
             }
         }
-        super.die(source);
     }
     @org.jetbrains.annotations.Nullable
     @Override
