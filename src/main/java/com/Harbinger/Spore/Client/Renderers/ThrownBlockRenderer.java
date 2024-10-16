@@ -37,7 +37,7 @@ public class ThrownBlockRenderer extends EntityRenderer<ThrownBlockProjectile> {
     public void renderItem(PoseStack stack, ItemStack itemStack, MultiBufferSource source, float value, Level level, BlockPos pos){
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
         stack.pushPose();
-        stack.scale(0.5f,0.5f,0.5f);
+        stack.scale(1.5f,1.5f,1.5f);
         stack.mulPose(Axis.YP.rotationDegrees(value));
         itemRenderer.renderStatic(itemStack, ItemDisplayContext.FIXED,getLight(level,pos), OverlayTexture.NO_OVERLAY,stack,source,level,1);
         stack.popPose();
