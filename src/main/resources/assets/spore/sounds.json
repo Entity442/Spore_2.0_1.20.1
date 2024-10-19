@@ -40,6 +40,12 @@
     "spore:specter_ambient"
   ]
 },
+  "construct_ambient" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:construct_ambient"
+    ]
+  },
   "braurei_ambient" :{
     "subtitle": "sounds.spore.braurei_ambient",
     "sounds": [
