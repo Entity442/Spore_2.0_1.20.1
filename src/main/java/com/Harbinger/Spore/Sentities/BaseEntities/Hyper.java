@@ -28,6 +28,8 @@ import net.minecraft.world.phys.AABB;
 
 import java.util.EnumSet;
 
+import static com.Harbinger.Spore.ExtremelySusThings.Utilities.biomass;
+
 public class Hyper extends Infected{
     public static final EntityDataAccessor<BlockPos> NEST = SynchedEntityData.defineId(Infected.class, EntityDataSerializers.BLOCK_POS);
     public Hyper(EntityType<? extends Monster> type, Level level) {

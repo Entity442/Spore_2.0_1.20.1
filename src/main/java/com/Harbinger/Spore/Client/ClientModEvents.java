@@ -103,6 +103,8 @@ public class ClientModEvents {
         event.registerLayerDefinition(RootsModel.LAYER_LOCATION, RootsModel::createBodyLayer);
         event.registerLayerDefinition(GastgeberModel.LAYER_LOCATION, GastgeberModel::createBodyLayer);
         event.registerLayerDefinition(SpecterModel.LAYER_LOCATION, SpecterModel::createBodyLayer);
+        event.registerLayerDefinition(InfestedContructModel.LAYER_LOCATION, InfestedContructModel::createBodyLayer);
+        event.registerLayerDefinition(BrokenIronGolemModel.LAYER_LOCATION, BrokenIronGolemModel::createBodyLayer);
         event.registerLayerDefinition(OvergrownSpawnerModel.LAYER_LOCATION, OvergrownSpawnerModel::createBodyLayer);
         event.registerLayerDefinition(brainMatterModel.LAYER_LOCATION, brainMatterModel::createBodyLayer);
         event.registerLayerDefinition(ZoaholicModel.LAYER_LOCATION, ZoaholicModel::createBodyLayer);
@@ -159,6 +161,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.WENDIGO.get(), WendigoRenderer::new);
         event.registerEntityRenderer(Sentities.INQUISITOR.get(), InquisitorRenderer::new);
         event.registerEntityRenderer(Sentities.BROTKATZE.get(), BrotkatzeRenderer::new);
+        event.registerEntityRenderer(Sentities.INF_CONSTRUCT.get(), InfestedConstructRenderer::new);
         event.registerEntityRenderer(Sentities.JAGD.get(), JagdhundRenderer::new);
         event.registerEntityRenderer(Sentities.PLAGUED.get(), PlaguedRenderer::new);
         event.registerEntityRenderer(Sentities.WAVE.get(), WaveRenderer::new);

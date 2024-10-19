@@ -205,7 +205,8 @@
   "entity.spore.specter_spawnegg": "Привид",
   "item.spore.howitzer_spawnegg": "Гаубиця",
   "item.spore.thorn_spawnegg": "Verdathorn",
-  "entity.spore.jagd_spawnegg": "Ягдхунд",
+  "item.spore.jagd_spawnegg": "Ягдхунд",
+  "item.spore.construct_spawnegg": "Заражена конструкція",
 
 
   "item.spore.scent_spawnegg": "Спори",
@@ -265,6 +266,7 @@
   "entity.spore.howitzer": "Хауіцер",
   "entity.spore.howit_arm": "Гармата Хауіцера",
   "entity.spore.jagd": "Ягдхунд",
+  "entity.spore.inf_contruct": "Заражена конструкція",
 
 
   "enchantment.spore.symbiotic_reconstitution.desc": "Зміцнює симбіотичний зв’язок між вами та вашим обладнанням, загоюючи рани під час симбіозу.",

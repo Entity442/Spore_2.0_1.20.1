@@ -202,6 +202,7 @@
   "item.spore.howitzer_spawnegg": "Ховитзера",
   "item.spore.thorn_spawnegg": "Вердатхорна",
   "item.spore.jagd_spawnegg": "Ягдхунда",
+  "item.spore.construct_spawnegg": "Заражённая конструкция",
 
 
   "item.spore.scent_spawnegg": "Споры",
@@ -263,6 +264,7 @@
   "entity.spore.howitzer": "Ховитзер",
   "entity.spore.howit_arm": "Рука Ховитзера",
   "entity.spore.jagd": "Ягдхунд",
+  "entity.spore.inf_contruct": "Заражённая конструкция",
 
 
   "enchantment.spore.symbiotic_reconstitution.desc": "Укрепляет симбиотическую связь между вами и вашим снаряжением, залечивая его раны во время симбиоза.",

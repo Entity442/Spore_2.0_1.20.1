@@ -10,6 +10,8 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
+import static com.Harbinger.Spore.ExtremelySusThings.Utilities.biomass;
+
 public class EvolvedInfected extends Infected {
     public EvolvedInfected(EntityType<? extends Monster> type, Level level) {
         super(type, level);

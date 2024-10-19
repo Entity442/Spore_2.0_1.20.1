@@ -206,6 +206,8 @@
   "item.spore.specter_spawnegg": "Specter",
   "item.spore.howitzer_spawnegg": "Howitzer",
   "item.spore.jagd_spawnegg": "Jagdhund",
+  "item.spore.construct_spawnegg": "Infested Construct",
+
 
 
   "item.spore.scent_spawnegg": "Scent",
@@ -266,6 +268,7 @@
   "entity.spore.howitzer": "Howitzer",
   "entity.spore.howit_arm": "Howitzer arm",
   "entity.spore.jagd": "Jagdhund",
+  "entity.spore.inf_contruct": "Infested Construct",
 
 
   "enchantment.spore.symbiotic_reconstitution.desc": "Strengthens the symbiotic bond between you and your gear, mending its wounds while under symbiosis.",

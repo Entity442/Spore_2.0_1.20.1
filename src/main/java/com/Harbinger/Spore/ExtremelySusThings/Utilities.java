@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.ExtremelySusThings;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import net.minecraft.core.BlockPos;
@@ -107,5 +108,17 @@ public class Utilities {
             }
         }
         return values;
+    }
+
+    public static List<BlockState> biomass(){
+        List<BlockState> states = new ArrayList<>();
+        states.add(Sblocks.BIOMASS_BLOCK.get().defaultBlockState());
+        states.add(Sblocks.SICKEN_BIOMASS_BLOCK.get().defaultBlockState());
+        states.add(Sblocks.CALCIFIED_BIOMASS_BLOCK.get().defaultBlockState());
+        states.add(Sblocks.MEMBRANE_BLOCK.get().defaultBlockState());
+        states.add(Sblocks.ROOTED_BIOMASS.get().defaultBlockState());
+        states.add(Sblocks.ROOTED_MYCELIUM.get().defaultBlockState());
+        states.add(Sblocks.GASTRIC_BIOMASS.get().defaultBlockState());
+        return states;
     }
 }

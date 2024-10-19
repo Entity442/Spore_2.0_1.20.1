@@ -182,6 +182,9 @@ public class Sitems {
     public  static final RegistryObject<Item> SPECTER_SPAWNEGG = ITEMS.register("specter_spawnegg",
             () -> new SporeSpawnEgg(Sentities.SPECTER,-876534333,SpawnEggType.UNKNOWN));
 
+    public  static final RegistryObject<Item> CONSTRUCT_SPAWNEGG = ITEMS.register("construct_spawnegg",
+            () -> new SporeSpawnEgg(Sentities.INF_CONSTRUCT,-65242341,SpawnEggType.UNKNOWN));
+
     public  static final RegistryObject<Item> MOUND_SPAWNEGG = ITEMS.register("mound_spawnegg",
             () -> new SporeSpawnEgg(Sentities.MOUND,-5750208,SpawnEggType.ORGANOID));
 

@@ -50,6 +50,8 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
+import static com.Harbinger.Spore.ExtremelySusThings.Utilities.biomass;
+
 public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageBypass {
     public static final EntityDataAccessor<Integer> KILLS = SynchedEntityData.defineId(Calamity.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<BlockPos> SEARCH_AREA = SynchedEntityData.defineId(Calamity.class, EntityDataSerializers.BLOCK_POS);
@@ -279,23 +281,12 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
         }
         return this.getBoundingBox().inflate(this.setInflation(),0.0,this.setInflation()).move(0.0,1.0,0.0);
     }
-    public List<BlockState> blockList(){
-        List<BlockState> states = new ArrayList<>();
-        states.add(Sblocks.BIOMASS_BLOCK.get().defaultBlockState());
-        states.add(Sblocks.SICKEN_BIOMASS_BLOCK.get().defaultBlockState());
-        states.add(Sblocks.CALCIFIED_BIOMASS_BLOCK.get().defaultBlockState());
-        states.add(Sblocks.MEMBRANE_BLOCK.get().defaultBlockState());
-        states.add(Sblocks.ROOTED_BIOMASS.get().defaultBlockState());
-        states.add(Sblocks.ROOTED_MYCELIUM.get().defaultBlockState());
-        states.add(Sblocks.GASTRIC_BIOMASS.get().defaultBlockState());
-        return states;
-    }
 
     protected void grief(AABB aabb){
         boolean flag = false;
         for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
             BlockState blockstate = this.level().getBlockState(blockpos);
-            if (this.blockList().contains(blockstate)){
+            if (biomass().contains(blockstate)){
                 flag = this.level().setBlock(blockpos, Sblocks.MEMBRANE_BLOCK.get().defaultBlockState(), 3) || flag;
                 breakCounter = 0;
             }else{

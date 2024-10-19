@@ -45,6 +45,8 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
+import static com.Harbinger.Spore.ExtremelySusThings.Utilities.biomass;
+
 public class Specter extends UtilityEntity implements Enemy, ArmorPersentageBypass {
     public static final EntityDataAccessor<Boolean> INVISIBLE = SynchedEntityData.defineId(Specter.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Integer> BIOMASS = SynchedEntityData.defineId(Specter.class, EntityDataSerializers.INT);
@@ -245,7 +247,7 @@ public class Specter extends UtilityEntity implements Enemy, ArmorPersentageBypa
         if (tickCount % 20 == 0 && getBiomass() > 0){
             this.buffAI();
         }
-        if (tickCount % 40 == 0 && horizontalCollision){
+        if (tickCount % 40 == 0 && horizontalCollision && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)){
             griefBlocks(this.getTarget());
         }
     }
@@ -348,7 +350,7 @@ public class Specter extends UtilityEntity implements Enemy, ArmorPersentageBypa
 
         protected void moveToBlock(BlockPos pos){
             if (pos != null)
-            specter.navigation.moveTo(pos.getX()+0.5D,pos.getY()+1D,pos.getZ()+0.5D,1);
+                specter.navigation.moveTo(pos.getX()+0.5D,pos.getY()+1D,pos.getZ()+0.5D,1);
         }
         @Override
         public void start() {
@@ -397,18 +399,6 @@ public class Specter extends UtilityEntity implements Enemy, ArmorPersentageBypa
                 this.specter.level().updateNeighborsAt(pos.below(), chestBlock.getBlockState().getBlock());
             }
         }
-    }
-
-    protected List<BlockState> biomass(){
-        List<BlockState> states = new ArrayList<>();
-        states.add(Sblocks.BIOMASS_BLOCK.get().defaultBlockState());
-        states.add(Sblocks.SICKEN_BIOMASS_BLOCK.get().defaultBlockState());
-        states.add(Sblocks.CALCIFIED_BIOMASS_BLOCK.get().defaultBlockState());
-        states.add(Sblocks.MEMBRANE_BLOCK.get().defaultBlockState());
-        states.add(Sblocks.ROOTED_BIOMASS.get().defaultBlockState());
-        states.add(Sblocks.ROOTED_MYCELIUM.get().defaultBlockState());
-        states.add(Sblocks.GASTRIC_BIOMASS.get().defaultBlockState());
-        return states;
     }
 
     public boolean interactBlock(BlockPos blockPos, Level level) {

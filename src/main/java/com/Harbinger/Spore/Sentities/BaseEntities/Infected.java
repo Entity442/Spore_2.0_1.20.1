@@ -63,6 +63,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
+import static com.Harbinger.Spore.ExtremelySusThings.Utilities.biomass;
+
 public class Infected extends Monster{
     public static final EntityDataAccessor<Integer> HUNGER = SynchedEntityData.defineId(Infected.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Integer> KILLS = SynchedEntityData.defineId(Infected.class, EntityDataSerializers.INT);
@@ -268,17 +270,6 @@ public class Infected extends Monster{
 
     public boolean blockBreakingParameter(BlockState blockstate,BlockPos blockpos){
         return (blockstate.getBlock() instanceof AbstractGlassBlock || blockstate.getBlock() instanceof LeavesBlock) && blockstate.getDestroySpeed(level() ,blockpos) >= 0 && blockstate.getDestroySpeed(level() ,blockpos) < 2;
-    }
-    protected List<BlockState> biomass(){
-        List<BlockState> states = new ArrayList<>();
-        states.add(Sblocks.BIOMASS_BLOCK.get().defaultBlockState());
-        states.add(Sblocks.SICKEN_BIOMASS_BLOCK.get().defaultBlockState());
-        states.add(Sblocks.CALCIFIED_BIOMASS_BLOCK.get().defaultBlockState());
-        states.add(Sblocks.MEMBRANE_BLOCK.get().defaultBlockState());
-        states.add(Sblocks.ROOTED_BIOMASS.get().defaultBlockState());
-        states.add(Sblocks.ROOTED_MYCELIUM.get().defaultBlockState());
-        states.add(Sblocks.GASTRIC_BIOMASS.get().defaultBlockState());
-        return states;
     }
 
     public boolean interactBlock(BlockPos blockPos, Level level) {

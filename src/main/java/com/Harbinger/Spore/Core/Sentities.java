@@ -127,6 +127,11 @@ public class Sentities {
             () -> EntityType.Builder.of(InfectedVendicator::new, INFECTED).sized(0.6f, 1.9f)
                     .build(new ResourceLocation(Spore.MODID, "inf_vindicator").toString()));
 
+    public static final RegistryObject<EntityType<InfestedConstruct>> INF_CONSTRUCT = SPORE_ENTITIES.register("inf_contruct",
+            () -> EntityType.Builder.of(InfestedConstruct::new, INFECTED).sized(1.5f, 2.6f)
+                    .build(new ResourceLocation(Spore.MODID, "inf_contruct").toString()));
+
+
     public static final RegistryObject<EntityType<InfectedEvoker>> INF_EVOKER = SPORE_ENTITIES.register("inf_evoker",
             () -> EntityType.Builder.of(InfectedEvoker::new, INFECTED).sized(0.6f, 1.9f)
                     .build(new ResourceLocation(Spore.MODID, "inf_evoker").toString()));
