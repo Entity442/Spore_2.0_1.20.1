@@ -52,6 +52,7 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
     public Busser(EntityType<? extends Monster> type, Level level) {
         super(type, level);
         this.moveControl = new InfectedArialMovementControl(this , 20,true);
+        this.navigation = new FlyingPathNavigation(this,level);
     }
     public boolean causeFallDamage(float p_147105_, float p_147106_, DamageSource p_147107_) {
         return false;
@@ -70,46 +71,29 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
 
     @Override
     protected void registerGoals() {
-
-        this.goalSelector.addGoal(3, new BusserSwellGoal(this));
-        this.goalSelector.addGoal(3, new PhayerGrabAndDropTargets(this));
-        this.goalSelector.addGoal(3,new ScatterShotRangedGoal(this,1.2,40,20,1,3){
-            @Override
-            public boolean canUse() {
-                return super.canUse() && Busser.this.getTypeVariant() == 3;
-            }
-        });
-        this.goalSelector.addGoal(3, new PullGoal(this, 32, 16) {
-            @Override
-            public boolean canUse() {
-                return super.canUse() && Busser.this.getTypeVariant() == 0  && !(Busser.this.onGround() || Busser.this.isVehicle());
-            }
-        });
-        this.goalSelector.addGoal(4, new CustomMeleeAttackGoal(this, 1.5, false) {
-            @Override
-            protected double getAttackReachSqr(LivingEntity entity) {
-                return 5.0 + entity.getBbWidth() * entity.getBbWidth();
-            }
-
-            @Override
-            public boolean canUse() {
-                return super.canUse() && !(Busser.this.getTypeVariant() == 3);
-            }
-        });
-        this.goalSelector.addGoal(5, new BusserFlyAndDrop(this, 6){
+        if (getTypeVariant() == 3){
+            this.goalSelector.addGoal(3,new ScatterShotRangedGoal(this,1.2,40,20,1,3));
+        }else{
+            this.goalSelector.addGoal(4, new CustomMeleeAttackGoal(this, 1.5, false) {
                 @Override
-                public boolean canUse() {
-                    return Busser.this.getTypeVariant() == 0 && super.canUse();
+                protected double getAttackReachSqr(LivingEntity entity) {
+                    return 5.0 + entity.getBbWidth() * entity.getBbWidth();
                 }
             });
-        this.goalSelector.addGoal(6, new TransportInfected<>(this, Mob.class, 0.8 ,
-                    e -> { return SConfig.SERVER.can_be_carried.get().contains(e.getEncodeId()) || SConfig.SERVER.ranged.get().contains(e.getEncodeId());}){
-                @Override
-                public boolean canUse() {
-                    return Busser.this.getTypeVariant() == 0 && super.canUse();
-                }
-            });
-        this.goalSelector.addGoal(7,new RandomStrollGoal(this ,1.0));
+        }
+        if (getTypeVariant() == 1){
+            this.goalSelector.addGoal(3, new PhayerGrabAndDropTargets(this));
+        }
+        if (getTypeVariant() == 2){
+            this.goalSelector.addGoal(3, new BusserSwellGoal(this));
+        }
+        if (getTypeVariant() == 0){
+            this.goalSelector.addGoal(3, new PullGoal(this, 32, 16));
+            this.goalSelector.addGoal(5, new BusserFlyAndDrop(this, 6));
+            this.goalSelector.addGoal(6, new TransportInfected<>(this, Mob.class, 0.8 ,
+                    e -> { return SConfig.SERVER.can_be_carried.get().contains(e.getEncodeId()) || SConfig.SERVER.ranged.get().contains(e.getEncodeId());}));
+        }
+       this.goalSelector.addGoal(7,new RandomStrollGoal(this ,1.0));
         super.registerGoals();
     }
 
@@ -119,7 +103,7 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
                 .add(Attributes.MOVEMENT_SPEED, 0.2)
                 .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.bus_damage.get() * SConfig.SERVER.global_damage.get())
                 .add(Attributes.ARMOR,  SConfig.SERVER.bus_armor.get() * SConfig.SERVER.global_armor.get())
-                .add(Attributes.FOLLOW_RANGE, 128)
+                .add(Attributes.FOLLOW_RANGE, 48)
                 .add(Attributes.ATTACK_KNOCKBACK, 1)
                 .add(Attributes.FLYING_SPEED, 0.4);
 
@@ -177,20 +161,6 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
         }
     }
 
-
-    @Override
-    protected PathNavigation createNavigation(Level level) {
-        if (this.onGround()){
-            GroundPathNavigation navigation = new GroundPathNavigation(this,level);
-            navigation.canPassDoors();
-            return navigation;
-        }else {
-            FlyingPathNavigation navigation = new FlyingPathNavigation(this,level);
-            navigation.canPassDoors();
-            return navigation;
-        }
-    }
-
     @Override
     public void travel(Vec3 vec) {
         if (this.isEffectiveAi() && !this.onGround()) {
@@ -215,7 +185,6 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
                 }
             }
         }
-        if (!this.getMoveControl().hasWanted() && this.getTarget() == null){this.setDeltaMovement(this.getDeltaMovement().add(0,-0.005,0));}
         super.customServerAiStep();
     }
 
