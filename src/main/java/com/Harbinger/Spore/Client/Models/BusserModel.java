@@ -169,7 +169,7 @@ public class BusserModel<T extends Busser> extends EntityModel<T> {
 		this.busser.getChild("RightArm").zScale = 1.65f;
 		this.busser.getChild("LeftArm").zScale = 1.65f;
 
-		if (entity.onGround() || entity.isInFluidType()){
+		if (entity.isInFluidType()){
 			this.busser.getChild("Tail").yRot = Mth.cos(limbSwing * 0.8F) * 0.8F * limbSwingAmount;
 			this.busser.getChild("Tail").getChild("Tail2").yRot = Mth.cos(limbSwing * 0.8F) * 0.8F * limbSwingAmount;
 			this.busser.getChild("Tail").getChild("Tail2").getChild("Tail3").yRot = Mth.cos(limbSwing * 0.8F) * 0.8F * limbSwingAmount;
