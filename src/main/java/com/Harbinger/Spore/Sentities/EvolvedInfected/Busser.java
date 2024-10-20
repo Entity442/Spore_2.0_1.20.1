@@ -70,16 +70,44 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
     }
 
     @Override
-    protected void registerGoals() {
+    protected void addRegularGoals() {
+        super.addRegularGoals();
+        this.goalSelector.addGoal(7,new RandomStrollGoal(this ,1.0));
+        this.goalSelector.addGoal(4, new CustomMeleeAttackGoal(this, 1.5, false) {
+            @Override
+            public boolean canUse() {
+                return getTypeVariant() != 3 && super.canUse();
+            }
+            @Override
+            protected double getAttackReachSqr(LivingEntity entity) {
+                return 5.0 + entity.getBbWidth() * entity.getBbWidth();
+            }
+        });
+        this.goalSelector.addGoal(3, new PullGoal(this, 32, 16){
+            @Override
+            public boolean canUse() {
+                return getTypeVariant() == 0 && super.canUse();
+            }
+        });
+        this.goalSelector.addGoal(5, new BusserFlyAndDrop(this, 6){
+            @Override
+            public boolean canUse() {
+                return getTypeVariant() == 0 && super.canUse();
+            }
+        });
+        this.goalSelector.addGoal(6, new TransportInfected<>(this, Mob.class, 0.8 ,
+                e -> { return SConfig.SERVER.can_be_carried.get().contains(e.getEncodeId()) || SConfig.SERVER.ranged.get().contains(e.getEncodeId());}){
+            @Override
+            public boolean canUse() {
+                return getTypeVariant() == 0 && super.canUse();
+            }
+        });
+
+    }
+
+    public void addVariantGoals(){
         if (getTypeVariant() == 3){
             this.goalSelector.addGoal(3,new ScatterShotRangedGoal(this,1.2,40,20,1,3));
-        }else{
-            this.goalSelector.addGoal(4, new CustomMeleeAttackGoal(this, 1.5, false) {
-                @Override
-                protected double getAttackReachSqr(LivingEntity entity) {
-                    return 5.0 + entity.getBbWidth() * entity.getBbWidth();
-                }
-            });
         }
         if (getTypeVariant() == 1){
             this.goalSelector.addGoal(3, new PhayerGrabAndDropTargets(this));
@@ -87,14 +115,6 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
         if (getTypeVariant() == 2){
             this.goalSelector.addGoal(3, new BusserSwellGoal(this));
         }
-        if (getTypeVariant() == 0){
-            this.goalSelector.addGoal(3, new PullGoal(this, 32, 16));
-            this.goalSelector.addGoal(5, new BusserFlyAndDrop(this, 6));
-            this.goalSelector.addGoal(6, new TransportInfected<>(this, Mob.class, 0.8 ,
-                    e -> { return SConfig.SERVER.can_be_carried.get().contains(e.getEncodeId()) || SConfig.SERVER.ranged.get().contains(e.getEncodeId());}));
-        }
-       this.goalSelector.addGoal(7,new RandomStrollGoal(this ,1.0));
-        super.registerGoals();
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -185,6 +205,9 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
                 }
             }
         }
+        if (tickCount % 20 == 0 && getTarget() == null && !onGround()){
+            this.setDeltaMovement(this.getDeltaMovement().add(0,-0.2,0));
+        }
         super.customServerAiStep();
     }
 
@@ -208,6 +231,7 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
     @Override
     public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor) {
         if (DATA_ID_TYPE_VARIANT.equals(dataAccessor)){
+            addVariantGoals();
             this.refreshDimensions();
         }
         super.onSyncedDataUpdated(dataAccessor);
