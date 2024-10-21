@@ -12,7 +12,9 @@ import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
+import com.Harbinger.Spore.Sentities.Variants.BusserVariants;
 import com.Harbinger.Spore.Sentities.Variants.GrieferVariants;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -36,6 +38,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
@@ -78,7 +81,6 @@ public class Griefer extends EvolvedInfected {
 
     public void tick() {
         if (this.isAlive()) {
-
             int i = this.getSwellDir();
             if (i > 0 && this.swell == 0) {
                 this.playSound(SoundEvents.CREEPER_PRIMED, 1.0F, 0.5F);
@@ -105,7 +107,7 @@ public class Griefer extends EvolvedInfected {
                                 if (ModList.get().isLoaded("alexscaves")){
                                     MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation("alexscaves:irradiated"));
                                     if (effect != null)
-                                    livingEntity.addEffect(new MobEffectInstance(effect,200,0));
+                                        livingEntity.addEffect(new MobEffectInstance(effect,200,0));
                                 }else{
                                     livingEntity.hurt(SdamageTypes.radiation_damage(this),4);
                                 }
@@ -154,21 +156,19 @@ public class Griefer extends EvolvedInfected {
     }
 
     private void explodeGriefer() {
-        if (!this.level().isClientSide) {
+        if (this.level() instanceof ServerLevel serverLevel) {
             int explosionRadius = this.getTypeVariant() == 2 ? 2 * SConfig.SERVER.explosion.get() : SConfig.SERVER.explosion.get();
-            if (SConfig.SERVER.explosion_on.get()){
-            Level.ExplosionInteraction explosion$blockinteraction = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this) ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
-            this.dead = true;
+            Level.ExplosionInteraction explosion$blockinteraction = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this) && SConfig.SERVER.explosion_on.get() ?
+                    Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
             this.level().explode(this, this.getX(), this.getY(), this.getZ(), (float)explosionRadius, explosion$blockinteraction);
-            } else {
-                this.dead = true;
-                this.level().explode(this, this.getX(), this.getY(), this.getZ(), (float)explosionRadius, Level.ExplosionInteraction.NONE);
-            }
             if (SConfig.SERVER.scent_spawn.get()){
                 this.summonScent(this.level(), this.getX(), this.getY(), this.getZ());
             }
             if (this.getTypeVariant() == 1 || this.getTypeVariant() == 3){
                 explodeToxicTumor(this.getTypeVariant() == 1);
+            }
+            if (this.getTypeVariant() == 4){
+                Utilities.convertBlocks(serverLevel,this,this.getOnPos(),7, Blocks.FIRE.defaultBlockState());
             }
             this.discard();
         }
@@ -261,16 +261,23 @@ public class Griefer extends EvolvedInfected {
         return ModList.get().isLoaded("alexscaves") || ModList.get().isLoaded("bigreactors");
     }
 
+    private GrieferVariants getSpawnVariant(){
+        GrieferVariants variants = Util.getRandom(GrieferVariants.values(), this.random);
+        if (variants == GrieferVariants.TOXIC || variants == GrieferVariants.RADIOACTIVE){
+            if (checkForNucMod()){
+                return GrieferVariants.RADIOACTIVE;
+            }else{
+                return GrieferVariants.TOXIC;
+            }
+        }
+        return variants;
+    }
 
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_146746_, DifficultyInstance p_146747_,
                                         MobSpawnType p_146748_, @Nullable SpawnGroupData p_146749_,
                                         @Nullable CompoundTag p_146750_) {
-        GrieferVariants variant = Math.random() < 0.5 ? GrieferVariants.DEFAULT : Math.random() < 0.5 ? GrieferVariants.TOXIC : GrieferVariants.BILE;
-        if (checkForNucMod()){
-            variant = Math.random() < 0.5 ? GrieferVariants.DEFAULT : Math.random() < 0.5 ? GrieferVariants.RADIOACTIVE : GrieferVariants.BILE;
-        }
-        setVariant(variant);
+        setVariant(getSpawnVariant());
         return super.finalizeSpawn(p_146746_, p_146747_, p_146748_, p_146749_, p_146750_);
     }
 

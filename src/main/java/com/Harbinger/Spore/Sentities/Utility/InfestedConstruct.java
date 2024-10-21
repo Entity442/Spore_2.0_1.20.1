@@ -131,7 +131,7 @@ public class InfestedConstruct extends UtilityEntity implements RangedAttackMob,
 
     private boolean canRangeAttack(){
         LivingEntity livingEntity = this.getTarget();
-        return livingEntity != null && livingEntity.getY() - 2 > this.getY();
+        return isActive() && livingEntity != null && livingEntity.getY() - 2 > this.getY();
     }
     @Override
     protected void defineSynchedData() {

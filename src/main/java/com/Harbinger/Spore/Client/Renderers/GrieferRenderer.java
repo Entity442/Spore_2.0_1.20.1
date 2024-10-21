@@ -26,6 +26,8 @@ public class GrieferRenderer  <Type extends Griefer> extends BaseInfectedRendere
                         new ResourceLocation(Spore.MODID, "textures/entity/griefer_radioactive.png"));
                 p_114874_.put(GrieferVariants.BILE,
                         new ResourceLocation(Spore.MODID, "textures/entity/griefer_bile.png"));
+                p_114874_.put(GrieferVariants.NAPALM,
+                        new ResourceLocation(Spore.MODID, "textures/entity/griefer_napalm.png"));
             });
     private static final ResourceLocation EYES_TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/eyes/griefer.png");

@@ -7,7 +7,8 @@ public enum GrieferVariants {
     DEFAULT(0),
     TOXIC(1),
     RADIOACTIVE(2),
-    BILE(3);
+    BILE(3),
+    NAPALM(4);
 
 
     private static final GrieferVariants[] BY_ID = Arrays.stream(values()).sorted(Comparator.
