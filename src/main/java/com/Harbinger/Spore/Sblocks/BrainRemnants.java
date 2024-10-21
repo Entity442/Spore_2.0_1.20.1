@@ -1,36 +1,52 @@
 package com.Harbinger.Spore.Sblocks;
 
 import com.Harbinger.Spore.Core.SblockEntities;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.SBlockEntities.BrainRemnantBlockEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class BrainRemnants extends BaseEntityBlock {
+    public static final BooleanProperty LIT = BlockStateProperties.LIT;
     public BrainRemnants() {
         super(Properties.of().sound(SoundType.STONE).strength(6f, 20f));
+        this.registerDefaultState(this.stateDefinition.any().setValue(LIT, false));
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new BrainRemnantBlockEntity(pos,state);
+        return new BrainRemnantBlockEntity(pos,state,state.getValue(LIT));
     }
 
     @Override
     public RenderShape getRenderShape(BlockState state) {
-        return RenderShape.INVISIBLE;
+        return state.getValue(LIT) ? RenderShape.MODEL : RenderShape.INVISIBLE;
     }
 
 
@@ -50,5 +66,22 @@ public class BrainRemnants extends BaseEntityBlock {
     @javax.annotation.Nullable
     protected static <T extends BlockEntity> BlockEntityTicker<T> createBrainTicker(Level level, BlockEntityType<T> type, BlockEntityType<? extends BrainRemnantBlockEntity> p_151990_) {
         return level.isClientSide ? createTickerHelper(type, p_151990_, BrainRemnantBlockEntity::clientTick) : createTickerHelper(type, p_151990_, BrainRemnantBlockEntity::serverTick);
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> blockStateBuilder) {
+        super.createBlockStateDefinition(blockStateBuilder);
+        blockStateBuilder.add(LIT);
+    }
+    @Override
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
+        super.use(state, level, pos, player, hand, result);
+        BlockEntity entity = level.getBlockEntity(pos);
+        if (entity instanceof BrainRemnantBlockEntity && player.getItemInHand(hand).getItem() == Items.FLINT_AND_STEEL){
+            level.setBlock(pos,this.defaultBlockState().setValue(LIT,true),3);
+            level.playSound(player, pos, Ssounds.AREA_AMBIENT.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+            return InteractionResult.SUCCESS;
+        }
+        return InteractionResult.PASS;
     }
 }

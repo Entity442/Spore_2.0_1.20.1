@@ -11,6 +11,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -22,8 +23,13 @@ public class BrainRemnantBlockEntity extends BlockEntity implements AnimatedEnti
     private int time = 0;
     private UUID attacker = null;
     private String source = null;
+    private boolean onFire = false;
     public BrainRemnantBlockEntity(BlockPos pos, BlockState state) {
         super(SblockEntities.BRAIN_REMNANTS.get(), pos, state);
+    }
+    public BrainRemnantBlockEntity(BlockPos pos, BlockState state,boolean value) {
+        super(SblockEntities.BRAIN_REMNANTS.get(), pos, state);
+        setOnFire(value);
     }
 
     @Override
@@ -35,6 +41,7 @@ public class BrainRemnantBlockEntity extends BlockEntity implements AnimatedEnti
     public void load(CompoundTag tag) {
         super.load(tag);
         this.setTime(tag.getInt("time"));
+        this.setOnFire(tag.getBoolean("fire"));
         if (tag.contains("source")){
             this.setSource(tag.getString("source"));
         }
@@ -47,6 +54,7 @@ public class BrainRemnantBlockEntity extends BlockEntity implements AnimatedEnti
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         tag.putInt("time",this.getTime());
+        tag.putBoolean("fire",this.isOnFire());
         if (source != null){
             tag.putString("source", source);
         }
@@ -61,6 +69,12 @@ public class BrainRemnantBlockEntity extends BlockEntity implements AnimatedEnti
     }
     public void setTime(int time) {
         this.time = time;
+    }
+    public boolean isOnFire() {
+        return onFire;
+    }
+    public void setOnFire(boolean time) {
+        this.onFire = time;
     }
     public UUID getUUID(){return attacker;}
     public void setUUID(UUID value){this.attacker = value;}
