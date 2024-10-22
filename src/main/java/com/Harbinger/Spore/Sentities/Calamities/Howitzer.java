@@ -199,12 +199,12 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
             this.hurt(source,value*2f);
         }else if (calamityMultipart == this.rightArm){
             this.hurt(source,value *1.5f);
-            float lostHealth = getRightArmHp()-value;
-            this.setRightArmHp(lostHealth > 0 ? lostHealth : summonDetashedPart(true));
+            float lostHealth = getRightArmHp()-this.getDamageAfterArmorAbsorb(source,value);
+            this.setRightArmHp(lostHealth > 0 ? lostHealth : getRightArmHp() != 0 ? summonDetashedPart(true) : 0f);
         }else if (calamityMultipart == this.leftArm){
             this.hurt(source,value*1.5f);
-            float lostHealth = getLeftArmHp()-value;
-            this.setLeftArmHp(lostHealth > 0 ? lostHealth : summonDetashedPart(false));
+            float lostHealth = getLeftArmHp()-this.getDamageAfterArmorAbsorb(source,value);
+            this.setLeftArmHp(lostHealth > 0 ? lostHealth : getLeftArmHp() != 0 ? summonDetashedPart(false) : 0f);
         } else{
             this.hurt(source,value );
         }
