@@ -22,7 +22,7 @@ public class ZoaholicRenderer extends BaseBlockEntityRenderer<ZoaholicBlockEntit
         super(new ZoaholicModel<>());
     }
     @Override
-    public ResourceLocation getTexture() {
+    public ResourceLocation getTexture(ZoaholicBlockEntity block) {
         return TEXTURE;
     }
 

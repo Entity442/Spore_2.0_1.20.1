@@ -241,6 +241,12 @@
       "spore:proto_ambient"
     ]
   },
+  "broken_screams" :{
+    "subtitle": "sounds.spore.proto_ambient",
+    "sounds": [
+      "spore:broken_screams"
+    ]
+  },
   "hinden_ambient" :{
     "subtitle": "sounds.spore.hinden_ambient",
     "sounds": [

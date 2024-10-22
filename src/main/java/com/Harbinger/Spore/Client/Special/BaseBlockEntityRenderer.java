@@ -23,7 +23,7 @@ public abstract class BaseBlockEntityRenderer<T extends BlockEntity & AnimatedEn
     protected BaseBlockEntityRenderer(BlockEntityModel<T> model) {
         this.model = model;
     }
-    public abstract ResourceLocation getTexture();
+    public abstract ResourceLocation getTexture(T block);
     public BlockEntityModel<T> getModel(){return model;}
 
     @Override
@@ -33,7 +33,7 @@ public abstract class BaseBlockEntityRenderer<T extends BlockEntity & AnimatedEn
         }
         pPoseStack.pushPose();
         float f = ((float)blockEntity.getTicks() + partialTicks);
-        VertexConsumer vertexConsumer = pBuffer.getBuffer(RenderType.entityCutout(getTexture()));
+        VertexConsumer vertexConsumer = pBuffer.getBuffer(RenderType.entityCutout(getTexture(blockEntity)));
         setModelScale(pPoseStack,blockEntity);
         this.model.setupAnim(blockEntity,f);
         this.model.renderToBuffer(pPoseStack,vertexConsumer,pPackedLight, pPackedOverlay,1,1,1,1);

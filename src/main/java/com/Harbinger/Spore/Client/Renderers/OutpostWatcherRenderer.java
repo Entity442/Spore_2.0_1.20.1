@@ -15,7 +15,7 @@ public class OutpostWatcherRenderer extends BaseBlockEntityRenderer<OutpostWatch
         super(new OutpostWatcherModel<>());
     }
     @Override
-    public ResourceLocation getTexture() {
+    public ResourceLocation getTexture(OutpostWatcherBlockEntity block) {
         return TEXTURE;
     }
 }

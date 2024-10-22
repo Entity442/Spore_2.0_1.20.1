@@ -11,11 +11,13 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class BrainRemnantsRenderer extends BaseBlockEntityRenderer<BrainRemnantBlockEntity> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,"textures/block/brain_bits.png");
+    private static final ResourceLocation ROASTED_TEXTURE = new ResourceLocation(Spore.MODID,"textures/block/roasted_brain_bits.png");
     public BrainRemnantsRenderer() {
         super(new brainMatterModel<>());
     }
+
     @Override
-    public ResourceLocation getTexture() {
-        return TEXTURE;
+    public ResourceLocation getTexture(BrainRemnantBlockEntity block) {
+        return block.isOnFire() ? ROASTED_TEXTURE : TEXTURE;
     }
 }

@@ -77,9 +77,9 @@ public class BrainRemnants extends BaseEntityBlock {
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
         super.use(state, level, pos, player, hand, result);
         BlockEntity entity = level.getBlockEntity(pos);
-        if (entity instanceof BrainRemnantBlockEntity && player.getItemInHand(hand).getItem() == Items.FLINT_AND_STEEL){
+        if (entity instanceof BrainRemnantBlockEntity && player.getItemInHand(hand).getItem() == Items.FLINT_AND_STEEL && !state.getValue(LIT)){
             level.setBlock(pos,this.defaultBlockState().setValue(LIT,true),3);
-            level.playSound(player, pos, Ssounds.AREA_AMBIENT.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+            level.playSound(player, pos, Ssounds.BROKEN_SCREAMS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;
