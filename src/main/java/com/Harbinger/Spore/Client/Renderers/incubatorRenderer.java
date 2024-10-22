@@ -35,9 +35,10 @@ public class IncubatorRenderer extends BaseBlockEntityRenderer<IncubatorBlockEnt
         super(new IncubatorModel<>());
     }
     @Override
-    public ResourceLocation getTexture() {
+    public ResourceLocation getTexture(IncubatorBlockEntity block) {
         return TEXTURE;
     }
+
     @Override
     public void render(@NotNull IncubatorBlockEntity blockEntity, float partialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
         super.render(blockEntity, partialTicks, pPoseStack, pBuffer, pPackedLight, pPackedOverlay);

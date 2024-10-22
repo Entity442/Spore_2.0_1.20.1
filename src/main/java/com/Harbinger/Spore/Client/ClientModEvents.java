@@ -110,6 +110,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(ZoaholicModel.LAYER_LOCATION, ZoaholicModel::createBodyLayer);
         event.registerLayerDefinition(IncubatorModel.LAYER_LOCATION, IncubatorModel::createBodyLayer);
         event.registerLayerDefinition(OutpostWatcherModel.LAYER_LOCATION, OutpostWatcherModel::createBodyLayer);
+        event.registerLayerDefinition(BrainTentacleModel.LAYER_LOCATION, BrainTentacleModel::createBodyLayer);
     }
 
 
