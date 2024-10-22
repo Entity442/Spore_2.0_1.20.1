@@ -80,6 +80,7 @@ public class BrainRemnants extends BaseEntityBlock {
         if (entity instanceof BrainRemnantBlockEntity brainRemnantBlock && player.getItemInHand(hand).getItem() == Items.FLINT_AND_STEEL && !state.getValue(LIT)){
             level.setBlock(pos,this.defaultBlockState().setValue(LIT,true),3);
             brainRemnantBlock.setOnFire(true);
+            brainRemnantBlock.ticksOnFire = 1;
             level.playSound(player, pos, Ssounds.BROKEN_SCREAMS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
             return InteractionResult.SUCCESS;
         }

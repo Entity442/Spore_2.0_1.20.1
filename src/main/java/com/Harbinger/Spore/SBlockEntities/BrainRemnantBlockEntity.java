@@ -11,7 +11,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -20,6 +19,7 @@ import java.util.UUID;
 
 public class BrainRemnantBlockEntity extends BlockEntity implements AnimatedEntity{
     public int ticks;
+    public int ticksOnFire = 0;
     private int time = 0;
     private UUID attacker = null;
     private String source = null;
@@ -89,6 +89,7 @@ public class BrainRemnantBlockEntity extends BlockEntity implements AnimatedEnti
 
     public static <E extends BrainRemnantBlockEntity> void serverTick(Level level, BlockPos pos, BlockState state, E e) {
         tick(level,pos,state,e);
+        tickOnFire(level,pos,state,e);
     }
 
     public static <E extends BrainRemnantBlockEntity> void clientTick(Level level, BlockPos pos, BlockState state, E e) {
@@ -96,6 +97,16 @@ public class BrainRemnantBlockEntity extends BlockEntity implements AnimatedEnti
             e.ticks++;
         }else{
             e.ticks = 0;
+        }
+    }
+    public static void tickOnFire(Level level, BlockPos pos, BlockState state, BrainRemnantBlockEntity entity){
+        if (entity.ticksOnFire > 0 && entity.isOnFire()){
+            entity.ticksOnFire++;
+            if (entity.ticksOnFire >= 50){
+                entity.ticksOnFire = 0;
+                level.removeBlock(pos,false);
+                level.explode(null,pos.getX(),pos.getY(),pos.getZ(),2f, Level.ExplosionInteraction.NONE);
+            }
         }
     }
 
