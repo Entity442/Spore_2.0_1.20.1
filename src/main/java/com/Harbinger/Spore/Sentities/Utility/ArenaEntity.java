@@ -26,6 +26,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.*;
@@ -134,6 +135,7 @@ public class ArenaEntity extends UtilityEntity {
         if (!waveHosts.isEmpty()){
             if (!isWaveActive()){
                 compareEntity(waveHosts);
+                startWave(true);
             }
             for (Entity entity : waveHosts){
                 if (entity.getY() > this.getY()+3 && Math.random() < 0.1f){
@@ -286,6 +288,39 @@ public class ArenaEntity extends UtilityEntity {
                     level().addFreshEntity(itemEntity);
                 }
             }
+        }
+    }
+
+    @Override
+    public boolean canBeSeenAsEnemy() {
+        return false;
+    }
+
+    @Override
+    public boolean canBeCollidedWith() {
+        return false;
+    }
+    @Override
+    public boolean isPushedByFluid(FluidType type) {
+        return false;
+    }
+    @Override
+    public boolean isPushable() {
+        return false;
+    }
+
+    @Override
+    public EntityDimensions getDimensions(Pose pose) {
+        if (this.isUnderground()){
+            return new EntityDimensions(1.2f,0.1f,false);
+        }
+        return super.getDimensions(pose);
+    }
+    @Override
+    public void onSyncedDataUpdated(EntityDataAccessor<?> accessor) {
+        super.onSyncedDataUpdated(accessor);
+        if (UNDERGROUND.equals(accessor)){
+            refreshDimensions();
         }
     }
 }
