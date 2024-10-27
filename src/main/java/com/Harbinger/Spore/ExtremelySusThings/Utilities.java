@@ -15,12 +15,10 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.ai.util.GoalUtils;
-import net.minecraft.world.entity.ai.util.RandomPos;
 import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -120,5 +118,31 @@ public class Utilities {
         states.add(Sblocks.ROOTED_MYCELIUM.get().defaultBlockState());
         states.add(Sblocks.GASTRIC_BIOMASS.get().defaultBlockState());
         return states;
+    }
+
+    public static void moveToSoftPlace(Entity entity,double X, double Y , double Z, Level level){
+        if (level instanceof ServerLevel serverLevel){
+            BlockPos blockpos = BlockPos.containing(X, Y, Z);
+            boolean flag = false;
+            if (serverLevel.hasChunkAt(blockpos)) {
+                AABB aabb = AABB.ofSize(new Vec3(blockpos.getX(), blockpos.getY(), blockpos.getZ()), 7, 7, 7);
+                for(BlockPos blockPos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+                    BlockState state = serverLevel.getBlockState(blockPos.below());
+                    if (state.getDestroySpeed(serverLevel,blockpos) < 4 && state.isCollisionShapeFullBlock(level,blockpos)){
+                        if (serverLevel.noCollision(entity,entity.getBoundingBox().inflate(1)) &&
+                                (!serverLevel.containsAnyLiquid(entity.getBoundingBox().inflate(1)) || serverLevel.isWaterAt(blockpos))){
+                            flag = true;
+                            blockpos = blockPos;
+                            break;
+                        }
+                    }
+                }
+                if (flag){
+                    entity.moveTo(blockpos,entity.getYRot(),entity.getXRot());
+                }else{
+                    entity.discard();
+                }
+            }
+        }
     }
 }

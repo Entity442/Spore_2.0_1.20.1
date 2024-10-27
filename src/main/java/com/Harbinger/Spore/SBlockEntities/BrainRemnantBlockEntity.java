@@ -2,7 +2,9 @@ package com.Harbinger.Spore.SBlockEntities;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.SblockEntities;
+import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Sentities.Organoids.Proto;
+import com.Harbinger.Spore.Sentities.Utility.ArenaEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -106,6 +108,11 @@ public class BrainRemnantBlockEntity extends BlockEntity implements AnimatedEnti
                 entity.ticksOnFire = 0;
                 level.removeBlock(pos,false);
                 level.explode(null,pos.getX(),pos.getY(),pos.getZ(),2f, Level.ExplosionInteraction.NONE);
+                ArenaEntity arenaEntity = new ArenaEntity(Sentities.ARENA_TENDRIL.get(), level);
+                arenaEntity.moveTo(pos.getX(),pos.getY(),pos.getZ());
+                arenaEntity.tickEmerging();
+                arenaEntity.recalculateHosts();
+                level.addFreshEntity(arenaEntity);
             }
         }
     }

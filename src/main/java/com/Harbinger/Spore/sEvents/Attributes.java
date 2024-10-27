@@ -82,6 +82,7 @@ public class Attributes {
         event.put(Sentities.SPECTER.get(), Specter.createAttributes().build());
         event.put(Sentities.JAGD.get(), Jagdhund.createAttributes().build());
         event.put(Sentities.INF_CONSTRUCT.get(),InfestedConstruct.createAttributes().build());
+        event.put(Sentities.ARENA_TENDRIL.get(),ArenaEntity.createAttributes().build());
     }
 }
 

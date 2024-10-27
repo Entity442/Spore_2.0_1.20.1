@@ -3,7 +3,6 @@ package com.Harbinger.Spore.Client.Models;// Made with Blockbench 4.10.4
 // Paste this class into your mod and generate all required imports
 
 
-import com.Harbinger.Spore.Sentities.Projectile.BileProjectile;
 import com.Harbinger.Spore.Sentities.Projectile.FleshBomb;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;

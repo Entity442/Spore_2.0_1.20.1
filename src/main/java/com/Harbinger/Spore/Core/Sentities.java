@@ -192,6 +192,10 @@ public class Sentities {
             () -> EntityType.Builder.of(Illusion::new, MobCategory.MISC).sized(1f, 2f)
                     .build(new ResourceLocation(Spore.MODID, "illusion").toString()));
 
+    public static final RegistryObject<EntityType<ArenaEntity>> ARENA_TENDRIL = SPORE_ENTITIES.register("arena_tendril",
+            () -> EntityType.Builder.of(ArenaEntity::new, ORGANOID).sized(1f, 3f)
+                    .build(new ResourceLocation(Spore.MODID, "arena_tendril").toString()));
+
     public static final RegistryObject<EntityType<GastGeber>> GASTGABER = SPORE_ENTITIES.register("gastgaber",
             () -> EntityType.Builder.of(GastGeber::new, ORGANOID).sized(1.1f, 2f)
                     .build(new ResourceLocation(Spore.MODID, "gastgaber").toString()));

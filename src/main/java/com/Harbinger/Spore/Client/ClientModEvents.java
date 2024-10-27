@@ -111,6 +111,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(IncubatorModel.LAYER_LOCATION, IncubatorModel::createBodyLayer);
         event.registerLayerDefinition(OutpostWatcherModel.LAYER_LOCATION, OutpostWatcherModel::createBodyLayer);
         event.registerLayerDefinition(BrainTentacleModel.LAYER_LOCATION, BrainTentacleModel::createBodyLayer);
+        event.registerLayerDefinition(ArenaTendrilModel.LAYER_LOCATION, ArenaTendrilModel::createBodyLayer);
     }
 
 
@@ -183,6 +184,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.STINGER.get(), StingerRenderer::new);
         event.registerEntityRenderer(Sentities.BRAUREI.get(), BraureiRenderer::new);
         event.registerEntityRenderer(Sentities.DELUSIONARE.get(), DelusionareRenderer::new);
+        event.registerEntityRenderer(Sentities.ARENA_TENDRIL.get(), RaidTendrilRenderer::new);
 
         event.registerBlockEntityRenderer(SblockEntities.OVERGROWN_SPAWNER.get(), new OvergrownSpawnerRenderer());
         event.registerBlockEntityRenderer(SblockEntities.BRAIN_REMNANTS.get(), new BrainRemnantsRenderer());
