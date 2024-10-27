@@ -43,8 +43,10 @@ public class ArenaEntity extends UtilityEntity {
     public ArenaEntity(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
     }
+
     @Override
     protected void defineSynchedData() {
+        super.defineSynchedData();
         entityData.define(BORROW,0);
         entityData.define(EMERGE,0);
         entityData.define(WAVE_SIZE,0);
@@ -56,6 +58,7 @@ public class ArenaEntity extends UtilityEntity {
 
     @Override
     public void readAdditionalSaveData(CompoundTag compoundTag) {
+        super.readAdditionalSaveData(compoundTag);
         setWaveSize(compoundTag.getInt("size"));
         setWaveLevel(compoundTag.getInt("level"));
         setAmountOfSpecialSpawns(compoundTag.getInt("special"));
@@ -65,6 +68,7 @@ public class ArenaEntity extends UtilityEntity {
 
     @Override
     public void addAdditionalSaveData(CompoundTag compoundTag) {
+        super.addAdditionalSaveData(compoundTag);
         compoundTag.putInt("size",getWaveSize());
         compoundTag.putInt("level",getWaveLevel());
         compoundTag.putInt("special",getSpecialSpawns());
@@ -131,7 +135,7 @@ public class ArenaEntity extends UtilityEntity {
                 compareEntity(waveHosts);
             }
             for (Entity entity : waveHosts){
-                if (entity.getY() > this.getY()+2){
+                if (entity.getY() > this.getY()+3 && Math.random() < 0.1f){
                     summonUsurper();
                 }
             }
@@ -204,7 +208,7 @@ public class ArenaEntity extends UtilityEntity {
         }else {
             this.setWaveSize(getWaveSize()-1);
         }
-        if (this.getWaveLevel() >= 2 && Math.random() < (getWaveLevel()-1) * 0.1f){
+        if (this.getWaveLevel() >= 2 && Math.random() < (getWaveLevel()-1) * 0.01f){
             this.summonBomb();
         }
     }

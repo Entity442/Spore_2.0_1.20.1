@@ -46,8 +46,13 @@ public class RaidTendrilRenderer<Type extends ArenaEntity> extends BaseInfectedR
             }
             stack.translate(0.0,b,0.0);
         }
-        if (!type.isUnderground()){
+        if (!type.isUnderground() || type.isEmerging() || type.isBurrowing()){
             super.render(type, p_115456_, p_115457_, stack, p_115459_, p_115460_);
         }
+    }
+
+    @Override
+    protected boolean isShaking(Type type) {
+        return type.isBurrowing() || type.isEmerging();
     }
 }
