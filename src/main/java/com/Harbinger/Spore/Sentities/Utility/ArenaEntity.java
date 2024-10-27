@@ -241,8 +241,11 @@ public class ArenaEntity extends UtilityEntity {
         int e = this.getWaveSize() > 3 ? random.nextInt(4) : this.getWaveSize();
         int wave = Math.min(this.getWaveLevel(), 2);
         if (e <= 0){
-            dropLoot();
+            if (this.isWaveActive()){
+                dropLoot();
+            }
             discard();
+            return;
         }
         for (int i = 0;i<e;i++){
             boolean special = this.getSpecialSpawns() > 0 && Math.random() < 0.1f;
