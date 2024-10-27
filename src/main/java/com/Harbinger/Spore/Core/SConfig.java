@@ -1225,6 +1225,12 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Integer> zoaholic_range;
         public final ForgeConfigSpec.ConfigValue<Integer> outpost_range;
         public final ForgeConfigSpec.ConfigValue<Integer> spawner_range;
+
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> raid_level_1;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> raid_level_2;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> raid_level_3;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> special;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> drops;
         public DataGen(ForgeConfigSpec.Builder builder){
             builder.push("Loot Tables");
             builder.comment("item|chance to drop(1-100)|minimum amount|maximum amount. Only values above 0 will be taken in consideration.");
@@ -1411,6 +1417,18 @@ public class SConfig {
                             ,"spore:infested_cobbled_deepslate|minecraft:cobbled_deepslate","spore:infested_laboratory_block|spore:lab_block","spore:infested_laboratory_block1|spore:lab_block1"
                             ,"spore:infested_laboratory_block2|spore:lab_block2","spore:infested_laboratory_block3|spore:lab_block3") , o -> o instanceof String);
             this.cryo_range = builder.comment("Default 20").defineInRange("Range", 20, 0, Integer.MAX_VALUE);
+            builder.pop();
+            builder.push("Raid system parameters");
+            this.raid_level_1= builder.comment("Raid level 1 spawns").defineList("",
+                    Lists.newArrayList("spore:inf_human","spore:inf_husk" ,"spore:inf_drowned" , "spore:inf_villager","spore:inf_pillager","spore:inf_player","spore:inf_witch") , o -> o instanceof String);
+            this.raid_level_2= builder.comment("Raid level 2 spawns").defineList("",
+                    Lists.newArrayList("spore:inf_human","spore:howler","spore:inf_husk","spore:knight","spore:brute","spore:slasher","spore:inf_witch","spore:braiomil" , "spore:inf_villager","spore:jagd","spore:inf_pillager","spore:inf_player") , o -> o instanceof String);
+            this.raid_level_3= builder.comment("Raid level 3 spawns").defineList("",
+                    Lists.newArrayList("spore:griefer","spore:howler","spore:thorn","spore:busser","spore:knight","spore:brute","spore:slasher","spore:volatile","spore:braiomil" , "spore:leaper", "spore:spitter","spore:jagd","spore:inf_pillager","spore:stalker","spore:inf_vindicator","spore:inf_evoker") , o -> o instanceof String);
+            this.special= builder.comment("Special Spawns").defineList("",
+                    Lists.newArrayList("spore:brot","spore:inquisitor","spore:gastgaber" ,"spore:wendigo" , "spore:specter","spore:plagued","spore:lacerator","spore:inf_construct") , o -> o instanceof String);
+            this.drops= builder.comment("Items that may drop at the end of the raid").defineList("",
+                    Lists.newArrayList("spore:fleshy_bone","spore:hardened_bind","spore:fleshy_claw" ,"spore:living_core" , "spore:spine","spore:armor_plate","spore:plated_muscle","spore:altered_spleen","spore:corrosive_sack","spore:sickle_fragment","spore:vigil_eye","spore:symbiotic_reagent","spore:cryogenic_reagent","spore:gastric_reagent","spore:corrosive_reagent") , o -> o instanceof String);
             builder.pop();
         }
     }

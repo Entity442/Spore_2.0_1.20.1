@@ -14,20 +14,21 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.npc.InventoryCarrier;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ArenaEntity extends UtilityEntity {
     public static final EntityDataAccessor<Integer> BORROW = SynchedEntityData.defineId(ArenaEntity.class, EntityDataSerializers.INT);
@@ -231,20 +232,20 @@ public class ArenaEntity extends UtilityEntity {
     }
     public Map<Integer,List<? extends String>> getWaveSpawns(){
         Map<Integer,List<? extends String>> values = new HashMap<>();
-        values.put(0, SConfig.SERVER.vigil_base_wave.get());
-        values.put(1, SConfig.SERVER.vigil_middle_wave.get());
-        values.put(2, SConfig.SERVER.vigil_max_wave.get());
+        values.put(0, SConfig.DATAGEN.raid_level_1.get());
+        values.put(1, SConfig.DATAGEN.raid_level_2.get());
+        values.put(2, SConfig.DATAGEN.raid_level_3.get());
         return values;
     }
     public void calculateSummons(){
         int e = this.getWaveSize() > 3 ? random.nextInt(4) : this.getWaveSize();
-        boolean special = this.getSpecialSpawns() > 0 && Math.random() < 0.1f;
         int wave = Math.min(this.getWaveLevel(), 2);
         if (e <= 0){
             discard();
         }
         for (int i = 0;i<e;i++){
-            summonVerva(special,getWaveSpawns().get(wave));
+            boolean special = this.getSpecialSpawns() > 0 && Math.random() < 0.1f;
+            summonVerva(special,special ? SConfig.DATAGEN.special.get() : getWaveSpawns().get(wave));
         }
     }
     public boolean checkForInfected(){
@@ -267,6 +268,20 @@ public class ArenaEntity extends UtilityEntity {
         }
         if (this.tickCount % 400 == 0 && checkForInfected()){
             tickEmerging();
+        }
+    }
+
+    public void dropLoot(){
+        for (String string : SConfig.DATAGEN.drops.get()){
+            Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(string));
+            if (item != null){
+                int i = getWaveLevel() > 0 ? random.nextInt(getWaveLevel(),3 * getWaveLevel()) : 1;
+                if (Math.random() < 0.1f * Math.min(1,getWaveLevel())){
+                    ItemStack itemStack = new ItemStack(item,i);
+                    ItemEntity itemEntity = new ItemEntity(this.level(), this.getX() , this.getY(),this.getZ(),itemStack);
+                    level().addFreshEntity(itemEntity);
+                }
+            }
         }
     }
 }
