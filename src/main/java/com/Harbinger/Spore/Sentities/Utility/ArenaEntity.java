@@ -152,7 +152,7 @@ public class ArenaEntity extends UtilityEntity {
         for (Entity entity : entities){
             if (entity instanceof LivingEntity living){
                 for (int i = 0;i<living.getArmorValue();i++){
-                    if (i % 2 == 0){
+                    if (i % 5 == 0){
                         setWaveSize(getWaveSize()+1);
                     }
                     if (i % 7 == 0){
@@ -241,6 +241,7 @@ public class ArenaEntity extends UtilityEntity {
         int e = this.getWaveSize() > 3 ? random.nextInt(4) : this.getWaveSize();
         int wave = Math.min(this.getWaveLevel(), 2);
         if (e <= 0){
+            dropLoot();
             discard();
         }
         for (int i = 0;i<e;i++){
