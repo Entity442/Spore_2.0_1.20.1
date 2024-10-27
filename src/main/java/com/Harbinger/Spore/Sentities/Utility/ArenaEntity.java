@@ -1,15 +1,13 @@
 package com.Harbinger.Spore.Sentities.Utility;
 
-import com.Harbinger.Spore.Core.SConfig;
-import com.Harbinger.Spore.Core.Seffects;
-import com.Harbinger.Spore.Core.Senchantments;
-import com.Harbinger.Spore.Core.Sentities;
+import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.Organoids.Usurper;
 import com.Harbinger.Spore.Sentities.Organoids.Verwa;
 import com.Harbinger.Spore.Sentities.Projectile.FleshBomb;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -26,6 +24,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -37,7 +36,6 @@ public class ArenaEntity extends UtilityEntity {
     public static final EntityDataAccessor<Integer> WAVE_SIZE = SynchedEntityData.defineId(ArenaEntity.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Integer> WAVE_LEVEL = SynchedEntityData.defineId(ArenaEntity.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Integer> SPECIAL_SPAWNS = SynchedEntityData.defineId(ArenaEntity.class, EntityDataSerializers.INT);
-    public static final EntityDataAccessor<Boolean> UNDERGROUND = SynchedEntityData.defineId(ArenaEntity.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> START = SynchedEntityData.defineId(ArenaEntity.class, EntityDataSerializers.BOOLEAN);
     private List<Entity> waveHosts = new ArrayList<>();
     public List<FleshBomb.BombType> bombTypes = new ArrayList<>(){{add(FleshBomb.BombType.BASIC);add(FleshBomb.BombType.FLAME);add(FleshBomb.BombType.BILE);add(FleshBomb.BombType.ACID);}};
@@ -54,7 +52,6 @@ public class ArenaEntity extends UtilityEntity {
         entityData.define(WAVE_SIZE,0);
         entityData.define(WAVE_LEVEL,0);
         entityData.define(SPECIAL_SPAWNS,0);
-        entityData.define(UNDERGROUND,true);
         entityData.define(START,false);
     }
 
@@ -64,7 +61,6 @@ public class ArenaEntity extends UtilityEntity {
         setWaveSize(compoundTag.getInt("size"));
         setWaveLevel(compoundTag.getInt("level"));
         setAmountOfSpecialSpawns(compoundTag.getInt("special"));
-        setUnderground(compoundTag.getBoolean("underground"));
         startWave(compoundTag.getBoolean("start"));
     }
 
@@ -74,18 +70,15 @@ public class ArenaEntity extends UtilityEntity {
         compoundTag.putInt("size",getWaveSize());
         compoundTag.putInt("level",getWaveLevel());
         compoundTag.putInt("special",getSpecialSpawns());
-        compoundTag.putBoolean("underground",isUnderground());
         compoundTag.putBoolean("start",isWaveActive());
     }
 
     public void setWaveSize(int size){entityData.set(WAVE_SIZE,size);}
     public void setWaveLevel(int level){entityData.set(WAVE_LEVEL,level);}
     public void setAmountOfSpecialSpawns(int amount){entityData.set(SPECIAL_SPAWNS,amount);}
-    public void setUnderground(boolean value){entityData.set(UNDERGROUND,value);}
     public int getWaveSize(){return entityData.get(WAVE_SIZE);}
     public int getWaveLevel(){return entityData.get(WAVE_LEVEL);}
     public int getSpecialSpawns(){return entityData.get(SPECIAL_SPAWNS);}
-    public boolean isUnderground(){return entityData.get(UNDERGROUND);}
     public void startWave(boolean value){entityData.set(START,value);}
     public boolean isWaveActive(){return entityData.get(START);}
 
@@ -104,8 +97,6 @@ public class ArenaEntity extends UtilityEntity {
     public void tickEmerging(){
         int emerging = this.entityData.get(EMERGE);
         if (emerging > 60){
-            this.setUnderground(false);
-            tickBurrowing();
             emerging = -1;
         }
         this.entityData.set(EMERGE, emerging + 1);
@@ -116,9 +107,11 @@ public class ArenaEntity extends UtilityEntity {
     public void tickBurrowing(){
         int burrowing = this.entityData.get(BORROW);
         if (burrowing > 60) {
-            this.setUnderground(true);
-            calculateSummons();
             burrowing = -1;
+            if (this.isWaveActive()){
+                dropLoot();
+            }
+            discard();
         }
         this.entityData.set(BORROW, burrowing + 1);
     }
@@ -135,7 +128,6 @@ public class ArenaEntity extends UtilityEntity {
         if (!waveHosts.isEmpty()){
             if (!isWaveActive()){
                 compareEntity(waveHosts);
-                startWave(true);
             }
             for (Entity entity : waveHosts){
                 if (entity.getY() > this.getY()+3 && Math.random() < 0.1f){
@@ -193,7 +185,7 @@ public class ArenaEntity extends UtilityEntity {
                         }
                     }
                 }
-
+                startWave(true);
             }
         }
     }
@@ -243,10 +235,7 @@ public class ArenaEntity extends UtilityEntity {
         int e = this.getWaveSize() > 3 ? random.nextInt(4) : this.getWaveSize();
         int wave = Math.min(this.getWaveLevel(), 2);
         if (e <= 0){
-            if (this.isWaveActive()){
-                dropLoot();
-            }
-            discard();
+            tickBurrowing();
             return;
         }
         for (int i = 0;i<e;i++){
@@ -268,6 +257,9 @@ public class ArenaEntity extends UtilityEntity {
         }
         if (isEmerging()){
             tickEmerging();
+        }
+        if (this.tickCount % 80 == 0){
+            calculateSummons();
         }
         if (this.tickCount % 40 == 0){
             recalculateHosts();
@@ -310,17 +302,11 @@ public class ArenaEntity extends UtilityEntity {
     }
 
     @Override
-    public EntityDimensions getDimensions(Pose pose) {
-        if (this.isUnderground()){
-            return new EntityDimensions(1.2f,0.1f,false);
-        }
-        return super.getDimensions(pose);
-    }
-    @Override
-    public void onSyncedDataUpdated(EntityDataAccessor<?> accessor) {
-        super.onSyncedDataUpdated(accessor);
-        if (UNDERGROUND.equals(accessor)){
-            refreshDimensions();
-        }
+    public void aiStep() {
+        super.aiStep();
+        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(this.getX()+ random.nextInt(-16, 16),this.getY()+ random.nextInt( -16, 16), this.getZ() + random.nextInt( -16, 16));
+        Vec3 vec3 =  new Vec3(this.getX()-blockpos$mutableblockpos.getX(),this.getY()-blockpos$mutableblockpos.getY(),this.getZ()-blockpos$mutableblockpos.getZ());
+        vec3.normalize();
+        level().addParticle(Sparticles.SPORE_PARTICLE.get(), (double) blockpos$mutableblockpos.getX() + random.nextDouble(), (double) blockpos$mutableblockpos.getY() + random.nextDouble(), (double) blockpos$mutableblockpos.getZ() + random.nextDouble(), vec3.x, vec3.y, vec3.z);
     }
 }
