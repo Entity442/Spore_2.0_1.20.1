@@ -13,6 +13,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -241,6 +242,7 @@ public class ArenaEntity extends UtilityEntity {
             boolean special = this.getSpecialSpawns() > 0 && Math.random() < 0.1f;
             summonVerva(special,special ? SConfig.DATAGEN.special.get() : getWaveSpawns().get(wave));
         }
+        this.playSound(SoundEvents.BELL_RESONATE);
     }
     public boolean checkForInfected(){
         AABB aabb = this.getBoundingBox().inflate(8);

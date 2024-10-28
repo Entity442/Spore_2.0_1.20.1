@@ -11,6 +11,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -87,6 +88,9 @@ public class Verwa extends Organoid {
             if (living instanceof Infected infected){
                 infected.setLinked(true);
                 infected.setPersistent(true);
+            }
+            if (level() instanceof ServerLevel serverLevel && living instanceof Mob mob){
+                mob.finalizeSpawn(serverLevel,level().getCurrentDifficultyAt(this.getOnPos()),MobSpawnType.SPAWNER,null,null);
             }
         }
         entity.moveTo(this.getX(),this.getY()+0.2,this.getZ());
