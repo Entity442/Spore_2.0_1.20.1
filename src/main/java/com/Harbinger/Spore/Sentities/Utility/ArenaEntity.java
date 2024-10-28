@@ -97,6 +97,7 @@ public class ArenaEntity extends UtilityEntity {
     public void tickEmerging(){
         int emerging = this.entityData.get(EMERGE);
         if (emerging > 60){
+            recalculateHosts();
             emerging = -1;
         }
         this.entityData.set(EMERGE, emerging + 1);
@@ -108,9 +109,7 @@ public class ArenaEntity extends UtilityEntity {
         int burrowing = this.entityData.get(BORROW);
         if (burrowing > 60) {
             burrowing = -1;
-            if (this.isWaveActive()){
-                dropLoot();
-            }
+            dropLoot();
             discard();
         }
         this.entityData.set(BORROW, burrowing + 1);
@@ -234,7 +233,7 @@ public class ArenaEntity extends UtilityEntity {
     public void calculateSummons(){
         int e = this.getWaveSize() > 3 ? random.nextInt(4) : this.getWaveSize();
         int wave = Math.min(this.getWaveLevel(), 2);
-        if (e <= 0){
+        if (getWaveSize() <= 0 && checkForInfected() && isWaveActive()){
             tickBurrowing();
             return;
         }
@@ -258,14 +257,11 @@ public class ArenaEntity extends UtilityEntity {
         if (isEmerging()){
             tickEmerging();
         }
-        if (this.tickCount % 80 == 0){
+        if (this.tickCount % 300 == 0){
             calculateSummons();
         }
         if (this.tickCount % 40 == 0){
             recalculateHosts();
-        }
-        if (this.tickCount % 400 == 0 && checkForInfected()){
-            tickEmerging();
         }
     }
 
@@ -299,14 +295,5 @@ public class ArenaEntity extends UtilityEntity {
     @Override
     public boolean isPushable() {
         return false;
-    }
-
-    @Override
-    public void aiStep() {
-        super.aiStep();
-        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(this.getX()+ random.nextInt(-16, 16),this.getY()+ random.nextInt( -16, 16), this.getZ() + random.nextInt( -16, 16));
-        Vec3 vec3 =  new Vec3(this.getX()-blockpos$mutableblockpos.getX(),this.getY()-blockpos$mutableblockpos.getY(),this.getZ()-blockpos$mutableblockpos.getZ());
-        vec3.normalize();
-        level().addParticle(Sparticles.SPORE_PARTICLE.get(), (double) blockpos$mutableblockpos.getX() + random.nextDouble(), (double) blockpos$mutableblockpos.getY() + random.nextDouble(), (double) blockpos$mutableblockpos.getZ() + random.nextDouble(), vec3.x, vec3.y, vec3.z);
     }
 }
