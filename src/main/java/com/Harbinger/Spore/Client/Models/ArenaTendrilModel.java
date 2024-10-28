@@ -13,8 +13,9 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.util.Mth;
 
-public class ArenaTendrilModel<T extends ArenaEntity> extends EntityModel<T> {
+public class ArenaTendrilModel<T extends ArenaEntity> extends EntityModel<T> implements TentacledModel{
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "arena_tendril"), "main");
 	private final ModelPart Tendril;
@@ -157,10 +158,26 @@ public class ArenaTendrilModel<T extends ArenaEntity> extends EntityModel<T> {
 
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
+	public void animateEye(ModelPart part,float value){
+		animateTentacleX(part,value);
+		animateTentacleY(part,value);
+		animateTentacleZ(part,value);
+	}
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+		animateTumor(TumorBase, Mth.sin(ageInTicks/6)/6);
+		TendrilSeg1.yRot = netHeadYaw / (180F / (float) Math.PI);
+		animateTentacleX(TendrilSeg2,Mth.sin(ageInTicks/8)/3);
+		animateTentacleX(TendrilSeg3,-Mth.sin(ageInTicks/8)/3);
+		animateTumor(T2Tumors,Mth.cos(ageInTicks/5)/4);
+		Jaw2.yRot = Mth.cos(ageInTicks/7)/7;
+		animateEye(S2BEye1,Mth.cos(ageInTicks/3)/5);
+		animateEye(S2BEye2,Mth.sin(ageInTicks/5)/6);
+		animateEye(S2BEye3,Mth.cos(ageInTicks/6)/7);
+		animateTumor(Tumors,Mth.cos(ageInTicks/3)/8);
+		Head.yRot = headPitch /  ( 90F / (float) Math.PI);
+		animateEye(Eye,Mth.sin(ageInTicks/4)/3);
 	}
 
 	@Override

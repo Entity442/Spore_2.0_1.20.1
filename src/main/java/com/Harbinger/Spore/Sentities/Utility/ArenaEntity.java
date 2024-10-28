@@ -272,7 +272,7 @@ public class ArenaEntity extends UtilityEntity {
             Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(string));
             if (item != null){
                 int i = getWaveLevel() > 0 ? random.nextInt(getWaveLevel(),3 * getWaveLevel()) : 1;
-                if (Math.random() < 0.1f * Math.min(1,getWaveLevel())){
+                if (Math.random() < 0.2f * Math.min(1,getWaveLevel())){
                     ItemStack itemStack = new ItemStack(item,i);
                     ItemEntity itemEntity = new ItemEntity(this.level(), this.getX() , this.getY(),this.getZ(),itemStack);
                     level().addFreshEntity(itemEntity);
