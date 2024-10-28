@@ -203,7 +203,7 @@ public class ArenaEntity extends UtilityEntity {
         }else {
             this.setWaveSize(getWaveSize()-1);
         }
-        if (this.getWaveLevel() >= 2 && Math.random() < (getWaveLevel()-1) * 0.01f){
+        if (this.getWaveLevel() >= 2 && Math.random() < (getWaveLevel()-1) * 0.05f){
             this.summonBomb();
         }
     }
