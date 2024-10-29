@@ -157,6 +157,9 @@ public class ArenaEntity extends UtilityEntity {
                     if (i % 4 == 0){
                         setWaveSize(getWaveSize()+1);
                     }
+                    if (i % 50 == 0){
+                        setWaveLevel(getWaveLevel()+1);
+                    }
                 }
                 if (living.hasEffect(Seffects.SYMBIOSIS.get())){
                     setAmountOfSpecialSpawns(getSpecialSpawns()+1);
