@@ -18,6 +18,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.npc.InventoryCarrier;
 import net.minecraft.world.item.Item;
@@ -249,7 +250,7 @@ public class ArenaEntity extends UtilityEntity {
     }
     public boolean checkForInfected(){
         AABB aabb = this.getBoundingBox().inflate(8);
-        List<Entity> list = level().getEntities(this,aabb,entity -> {return entity instanceof Infected || entity instanceof UtilityEntity;});
+        List<Entity> list = level().getEntities(this,aabb,entity -> {return (entity instanceof Infected || entity instanceof UtilityEntity) && !(entity instanceof ArenaEntity);});
         return list.size() < 4;
     }
 
@@ -300,5 +301,11 @@ public class ArenaEntity extends UtilityEntity {
     @Override
     public boolean isPushable() {
         return false;
+    }
+
+    @Override
+    protected void registerGoals() {
+        super.registerGoals();
+        goalSelector.addGoal(1,new RandomLookAroundGoal(this));
     }
 }
