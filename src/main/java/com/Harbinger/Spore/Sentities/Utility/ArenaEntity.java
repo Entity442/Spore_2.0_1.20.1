@@ -15,6 +15,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -120,9 +121,13 @@ public class ArenaEntity extends UtilityEntity {
     public int getBorrow(){return entityData.get(BORROW);}
 
     @Override
-    public boolean hurt(DamageSource p_21016_, float p_21017_) {
+    public boolean hurt(DamageSource source, float p_21017_) {
+        if (source.is(DamageTypes.FELL_OUT_OF_WORLD)){
+            return super.hurt(source, p_21017_);
+        }
         return false;
     }
+
     public void recalculateHosts(){
         waveHosts.clear();
         waveHosts = level().getEntities(this,this.getBoundingBox().inflate(16), entity -> {return entity instanceof LivingEntity && !(entity instanceof UtilityEntity || entity instanceof Infected);});
@@ -307,5 +312,10 @@ public class ArenaEntity extends UtilityEntity {
     protected void registerGoals() {
         super.registerGoals();
         goalSelector.addGoal(1,new RandomLookAroundGoal(this));
+    }
+
+    @Override
+    public boolean isInvulnerable() {
+        return true;
     }
 }

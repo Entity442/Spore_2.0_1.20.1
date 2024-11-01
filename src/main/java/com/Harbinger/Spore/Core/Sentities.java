@@ -13,6 +13,7 @@ import com.Harbinger.Spore.Sentities.FallenMultipart.Licker;
 import com.Harbinger.Spore.Sentities.FallenMultipart.SiegerTail;
 import com.Harbinger.Spore.Sentities.Hyper.Brot;
 import com.Harbinger.Spore.Sentities.Hyper.Inquisitor;
+import com.Harbinger.Spore.Sentities.Hyper.Ogre;
 import com.Harbinger.Spore.Sentities.Hyper.Wendigo;
 import com.Harbinger.Spore.Sentities.Organoids.*;
 import com.Harbinger.Spore.Sentities.Projectile.*;
@@ -155,6 +156,10 @@ public class Sentities {
     public static final RegistryObject<EntityType<Brot>> BROTKATZE = SPORE_ENTITIES.register("brot",
             () -> EntityType.Builder.of(Brot::new, INFECTED).sized(1.8f, 1.8f)
                     .build(new ResourceLocation(Spore.MODID, "brot").toString()));
+
+    public static final RegistryObject<EntityType<Ogre>> OGRE = SPORE_ENTITIES.register("ogre",
+            () -> EntityType.Builder.of(Ogre::new, INFECTED).sized(2.5f, 3f)
+                    .build(new ResourceLocation(Spore.MODID, "ogre").toString()));
 
     public static final RegistryObject<EntityType<Brute>> BRUTE = SPORE_ENTITIES.register("brute",
             () -> EntityType.Builder.of(Brute::new, INFECTED).sized(1.8f,1.6f)
