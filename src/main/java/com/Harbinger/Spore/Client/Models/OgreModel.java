@@ -13,15 +13,72 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
-public class OgreModel<T extends Ogre> extends EntityModel<T> {
+public class OgreModel<T extends Ogre> extends EntityModel<T> implements TentacledModel{
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "ogremodel"), "main");
 	private final ModelPart H_brute;
+	private final ModelPart TailSegment1;
+	private final ModelPart TailSegment2;
+	private final ModelPart TailSegment3;
+	private final ModelPart TailSegment4;
+	private final ModelPart TailTumor;
+	private final ModelPart TailSpikes;
+	private final ModelPart TailBody;
+	private final ModelPart Spike1;
+	private final ModelPart Spike2;
+	private final ModelPart Spike3;
+	private final ModelPart Spike4;
+	private final ModelPart Spike5;
+	private final ModelPart Spike6;
+	private final ModelPart Spike7;
+	private final ModelPart Jaw1;
+	private final ModelPart Jaw2;
+	private final ModelPart Jaw3;
+	private final ModelPart HeadY;
+	private final ModelPart HeadX;
+	private final ModelPart Legs;
+	private final ModelPart RightBackLeg;
+	private final ModelPart RightBackForLeg;
+	private final ModelPart LeftBackLeg;
+	private final ModelPart LeftBackForLeg;
+	private final ModelPart RightFrontArm;
+	private final ModelPart LeftFrontArm;
+	private final ModelPart RightFrontForArm;
+	private final ModelPart LeftFrontForArm;
 
 
 	public OgreModel(ModelPart root) {
 		this.H_brute = root.getChild("H_brute");
+		this.TailSegment1 = H_brute.getChild("Tail");
+		this.TailSegment2 = TailSegment1.getChild("TailSeg2");
+		this.TailSegment3 = TailSegment2.getChild("TailSeg3");
+		this.TailSegment4 = TailSegment3.getChild("TailSeg4");
+		this.TailTumor = TailSegment4.getChild("TumorTip").getChild("Tumors");
+		this.TailSpikes = TailSegment4.getChild("TumorTip").getChild("Thorns");
+		this.TailBody = TailSegment4.getChild("TumorTip").getChild("Impaled");
+		this.Spike1 = TailSpikes.getChild("Thorn1");
+		this.Spike2 = TailSpikes.getChild("Thorn2");
+		this.Spike3 = TailSpikes.getChild("Thorn3");
+		this.Spike4 = TailSpikes.getChild("Thorn4");
+		this.Spike5 = TailSpikes.getChild("Thorn5");
+		this.Spike6 = TailSpikes.getChild("Thorn6");
+		this.Spike7 = TailSpikes.getChild("Thorn7");
+		this.Jaw1 = H_brute.getChild("LowerTorso").getChild("UpperTorso").getChild("Jaw");
+		this.Jaw2 = Jaw1.getChild("TorsoMiddle").getChild("TorsoTop");
+		this.Jaw3 = Jaw2.getChild("JawTip");
+		this.HeadY = H_brute.getChild("LowerTorso").getChild("UpperTorso").getChild("Neck");
+		this.HeadX = HeadY.getChild("Head");
+		this.Legs = H_brute.getChild("Legs");
+		this.RightBackLeg = Legs.getChild("RightLeg");
+		this.RightBackForLeg = RightBackLeg.getChild("RightLegSeg2");
+		this.LeftBackLeg = Legs.getChild("LeftLeg");
+		this.LeftBackForLeg = LeftBackLeg.getChild("LeftLegSeg2");
+		this.RightFrontArm = H_brute.getChild("LowerTorso").getChild("UpperTorso").getChild("Arms").getChild("RightArm");
+		this.LeftFrontArm = H_brute.getChild("LowerTorso").getChild("UpperTorso").getChild("Arms").getChild("LeftArm");
+		this.RightFrontForArm = RightFrontArm.getChild("RightArmSeg2");
+		this.LeftFrontForArm = LeftFrontArm.getChild("LeftArmSeg2");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -483,10 +540,42 @@ public class OgreModel<T extends Ogre> extends EntityModel<T> {
 
 		return LayerDefinition.create(meshdefinition, 512, 512);
 	}
+	public void animateSpike(ModelPart part,float value){
+		part.yScale = 1 + value;
+	}
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+		float tailSpin = Mth.sin(ageInTicks/8)/4;
+		float spikeValue = Mth.cos(ageInTicks/8)/4;
+		float walkingValue = Mth.cos(limbSwing * 0.2F) * 0.8F * limbSwingAmount;
+		animateTentacleY(TailSegment1,tailSpin);
+		animateTentacleY(TailSegment2,tailSpin);
+		animateTentacleY(TailSegment3,tailSpin);
+		animateTentacleY(TailSegment4,tailSpin);
+		animateTumor(TailTumor,Mth.cos(ageInTicks/7)/6);
+		animateSpike(Spike1,spikeValue);
+		animateSpike(Spike2,-spikeValue);
+		animateSpike(Spike3,spikeValue);
+		animateSpike(Spike4,-spikeValue);
+		animateSpike(Spike5,spikeValue);
+		animateSpike(Spike6,-spikeValue);
+		animateSpike(Spike7,spikeValue);
+		TailBody.visible = entity.hasImpaledBody();
+		this.Jaw1.xRot = entity.isAggressive() ? (float) (0.5 + Mth.sin(ageInTicks / 2) / 8) : 0;
+		this.Jaw2.xRot =this.Jaw2.getInitialPose().xRot + Mth.sin(ageInTicks / 8) / 8;
+		this.Jaw3.xRot = Mth.sin(ageInTicks / 8) / 8;
+		this.HeadY.yRot = netHeadYaw / (180F / (float) Math.PI);
+		this.HeadX.xRot = headPitch /  ( 90F / (float) Math.PI);
+		this.Legs.yRot = walkingValue * 0.3f;
+		this.LeftBackLeg.xRot = this.LeftBackLeg.getInitialPose().xRot + walkingValue;
+		this.LeftBackForLeg.xRot = this.LeftBackForLeg.getInitialPose().xRot - walkingValue;
+		this.RightBackLeg.xRot = this.RightBackLeg.getInitialPose().xRot - walkingValue;
+		this.RightBackForLeg.xRot = this.RightBackForLeg.getInitialPose().xRot + walkingValue;
+		this.RightFrontArm.zRot = this.RightFrontArm.getInitialPose().zRot + walkingValue * 0.6f;
+		this.LeftFrontArm.zRot = this.LeftFrontArm.getInitialPose().zRot +walkingValue * 0.6f;
+		this.RightFrontForArm.zRot =this.RightFrontForArm.getInitialPose().zRot + walkingValue * 0.3f;
+		this.LeftFrontForArm.zRot =this.LeftFrontForArm.getInitialPose().zRot + walkingValue * 0.3f;
 	}
 
 	@Override
