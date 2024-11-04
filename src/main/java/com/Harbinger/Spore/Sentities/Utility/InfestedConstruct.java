@@ -206,16 +206,20 @@ public class InfestedConstruct extends UtilityEntity implements RangedAttackMob,
 
     @Override
     public boolean hurt(DamageSource source, float value) {
-        value = resistentSources().contains(source) ? value/2:value;
-        if (getMachineHealth() > 0f){
-            float damage = getDamageAfterArmorAbsorb(source,value);
-            setMachineHealth(damage > getMachineHealth() ? 0 : getMachineHealth()-damage);
-            hurtTime = 10;
-            playHurtSound(source);
-        }else{
-            return super.hurt(source, value);
+        if (this.invulnerableTime == 0){
+            value = resistentSources().contains(source) ? value/2:value;
+            if (getMachineHealth() > 0f){
+                float damage = getDamageAfterArmorAbsorb(source,value);
+                setMachineHealth(damage > getMachineHealth() ? 0 : getMachineHealth()-damage);
+                this.invulnerableTime = 20;
+                hurtTime = 10;
+                playHurtSound(source);
+            }else{
+                return super.hurt(source, value);
+            }
+            return true;
         }
-        return true;
+        return false;
     }
     public boolean hasLineOfSightBlocks(BlockPos pos) {
         BlockHitResult raytraceresult = this.level().clip(new ClipContext(this.getEyePosition(1.0F), new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
