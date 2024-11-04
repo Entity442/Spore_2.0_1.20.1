@@ -397,7 +397,15 @@ public class HandlerEvents {
             }
         }
     }
-
+    @SubscribeEvent
+    public static void onServerStart(ServerStartedEvent event){
+        ServerLevel level  = event.getServer().overworld();
+        SporeSavedData data = SporeSavedData.getDataLocation(level);
+        if (data != null){
+            SporeSavedData.StartupData(level);
+            SporeSavedData.resetHive(level);
+        }
+    }
     @SubscribeEvent
     public static void onEntityDeath(LivingDeathEvent event) {
         if (event != null && event.getEntity() != null && event.getEntity().level().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
@@ -429,10 +437,6 @@ public class HandlerEvents {
                         event.getEntity().level().addFreshEntity(item);}}
             }
         }
-    }
-    @SubscribeEvent
-    public static void Start(ServerStartedEvent event){
-        SporeSavedData.StartupData(event.getServer().overworld());
     }
 
     @SubscribeEvent

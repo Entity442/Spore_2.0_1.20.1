@@ -20,6 +20,11 @@ public class SporeSavedData extends SavedData {
         data.amountOfHiveminds++;
         data.setDirty();
     }
+    public static void resetHive(ServerLevel level){
+        SporeSavedData data = level.getDataStorage().computeIfAbsent(SporeSavedData::load,SporeSavedData::new,NAME);
+        data.amountOfHiveminds = 0;
+        data.setDirty();
+    }
     public static void addTime(ServerLevel level){
         SporeSavedData data = level.getDataStorage().computeIfAbsent(SporeSavedData::load,SporeSavedData::new,NAME);
         data.minutesBeforeSpawning++;

@@ -24,6 +24,7 @@ public class CalamityVigilCall extends Goal {
         super.start();
         RandomSource randomSource = RandomSource.create();
         Vigil vigil = new Vigil(Sentities.VIGIL.get(),calamity.level());
+        vigil.setProto(calamity);
         vigil.tickEmerging();
         vigil.randomTeleport(calamity.getX()+randomSource.nextInt(-20,20),calamity.getY(),calamity.getZ()+randomSource.nextInt(-20,20),false);
         calamity.level().addFreshEntity(vigil);

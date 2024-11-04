@@ -19,14 +19,18 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.AABB;
@@ -43,7 +47,7 @@ public class Vigil extends Organoid implements TraceableEntity{
     private static final EntityDataAccessor<Boolean> STALKER = SynchedEntityData.defineId(Vigil.class, EntityDataSerializers.BOOLEAN);
     private int summon_counter;
     @Nullable
-    private Proto proto;
+    private Mob proto;
     public Vigil(EntityType<? extends UtilityEntity> type, Level level) {
         super(type, level);
         setPersistenceRequired();
@@ -111,7 +115,7 @@ public class Vigil extends Organoid implements TraceableEntity{
     public boolean isStalker(){return entityData.get(STALKER);}
 
     @Nullable
-    public void setProto(Proto entity){
+    public void setProto(Mob entity){
         this.proto = entity;
     }
     @Override
@@ -364,6 +368,14 @@ public class Vigil extends Organoid implements TraceableEntity{
                 }
             }
         }
+    }
+
+    @Override
+    protected InteractionResult mobInteract(Player player, InteractionHand interactionHand) {
+        if (getOwner() instanceof LivingEntity living){
+            living.addEffect(new MobEffectInstance(MobEffects.GLOWING,200,0));
+        }
+        return super.mobInteract(player, interactionHand);
     }
 
     @Override
