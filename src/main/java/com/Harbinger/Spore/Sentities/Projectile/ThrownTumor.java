@@ -129,6 +129,7 @@ public class ThrownTumor extends ThrowableItemProjectile {
     public void freezeTargets(List<Entity> entityList){
         for (Entity entity : entityList){
             if (entity instanceof LivingEntity livingEntity){
+                livingEntity.invulnerableTime = 0;
                 livingEntity.hurt(level().damageSources().freeze(),5);
                 livingEntity.setTicksFrozen(getTicksFrozen()+200);
             }
