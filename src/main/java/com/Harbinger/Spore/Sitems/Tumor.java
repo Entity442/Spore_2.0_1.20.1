@@ -12,8 +12,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class Tumor extends BaseItem {
-    public Tumor(Properties properties) {
-        super(properties);
+    private final TumorType type;
+    public Tumor(TumorType type) {
+        super(new Item.Properties().stacksTo(16));
+        this.type = type;
     }
 
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
@@ -22,6 +24,7 @@ public class Tumor extends BaseItem {
         if (!level.isClientSide) {
             ThrownTumor tumor = new ThrownTumor(level, player);
             tumor.setItem(itemstack);
+            tumor.setType(type.getType());
             tumor.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.5F, 1.0F);
             level.addFreshEntity(tumor);
         }
@@ -32,5 +35,18 @@ public class Tumor extends BaseItem {
         }
 
         return InteractionResultHolder.sidedSuccess(itemstack, level.isClientSide());
+    }
+
+    public enum TumorType{
+        REGULAR(0),
+        SICKEN(1),
+        CALCIFIED(2),
+        FROZEN(3),
+        BILE(4);
+        private int type;
+        TumorType(int e){
+            type=e;
+        }
+        public int getType(){return type;}
     }
 }

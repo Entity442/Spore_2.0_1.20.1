@@ -74,7 +74,15 @@ public class Sitems {
     public  static final RegistryObject<Item> R_WING = ITEMS.register("r_wing",
             () -> new BaseItem( new Item.Properties()));
     public  static final RegistryObject<Item> TUMOR = ITEMS.register("tumor",
-            () -> new Tumor( new Item.Properties().stacksTo(16)));
+            () -> new Tumor(Tumor.TumorType.REGULAR));
+    public  static final RegistryObject<Item> SICKEN_TUMOR = ITEMS.register("sicken_tumor",
+            () -> new Tumor(Tumor.TumorType.SICKEN));
+    public  static final RegistryObject<Item> CALCIFIED_TUMOR = ITEMS.register("calcified_tumor",
+            () -> new Tumor(Tumor.TumorType.CALCIFIED));
+    public  static final RegistryObject<Item> BILE_TUMOR = ITEMS.register("bile_tumor",
+            () -> new Tumor(Tumor.TumorType.BILE));
+    public  static final RegistryObject<Item> FROZEN_TUMOR = ITEMS.register("frozen_tumor",
+            () -> new Tumor(Tumor.TumorType.FROZEN));
     public  static final RegistryObject<Item> SAUSAGE = ITEMS.register("sausage",
             () -> new BaseItem(new Item.Properties().stacksTo(16).food(new FoodProperties.Builder().nutrition(8).saturationMod(0.8F).effect(()-> new MobEffectInstance(Seffects.MYCELIUM.get(),200,0),0.4f)
                     .effect(()-> new MobEffectInstance(MobEffects.ABSORPTION,300,1),1f).meat().build())));

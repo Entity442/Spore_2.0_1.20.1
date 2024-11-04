@@ -15,6 +15,9 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OgreModel<T extends Ogre> extends EntityModel<T> implements TentacledModel{
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "ogremodel"), "main");
@@ -577,7 +580,19 @@ public class OgreModel<T extends Ogre> extends EntityModel<T> implements Tentacl
 		this.RightFrontForArm.zRot =this.RightFrontForArm.getInitialPose().zRot + walkingValue * 0.3f;
 		this.LeftFrontForArm.zRot =this.LeftFrontForArm.getInitialPose().zRot + walkingValue * 0.3f;
 	}
-
+	@Override
+	public void prepareMobModel(T entity, float value1, float value2, float value3) {
+		super.prepareMobModel(entity, value1, value2, value3);
+		int attackAnimationTick = entity.getAttackAnimationTick();
+		if (attackAnimationTick > 0) {
+			float spinValue = -2.0F + 1.5F * Mth.triangleWave((float)attackAnimationTick - value3, 10.0F);
+			H_brute.yRot = spinValue;
+			TailSegment1.yRot = spinValue;
+			TailSegment2.yRot = spinValue/2;
+			TailSegment3.yRot = spinValue/2;
+			TailSegment4.yRot = spinValue/2;
+		}
+	}
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		H_brute.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);

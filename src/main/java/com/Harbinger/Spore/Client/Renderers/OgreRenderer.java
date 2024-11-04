@@ -31,9 +31,4 @@ public class OgreRenderer<Type extends Ogre> extends BaseInfectedRenderer<Type ,
     public ResourceLocation eyeLayerTexture() {
         return EYES_TEXTURE;
     }
-
-    @Override
-    protected boolean isShaking(Type type) {
-        return super.isShaking(type) || type.isAggressive();
-    }
 }
