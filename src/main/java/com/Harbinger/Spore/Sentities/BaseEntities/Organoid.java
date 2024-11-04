@@ -1,5 +1,7 @@
 package com.Harbinger.Spore.Sentities.BaseEntities;
 
+import com.Harbinger.Spore.Sentities.Organoids.Mound;
+import com.Harbinger.Spore.Sentities.Organoids.Proto;
 import com.Harbinger.Spore.Sentities.Projectile.AcidBall;
 import com.Harbinger.Spore.Sentities.Projectile.Vomit;
 import net.minecraft.core.BlockPos;
@@ -22,10 +24,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fluids.FluidType;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class Organoid extends UtilityEntity implements Enemy {
     public static final EntityDataAccessor<Integer> BORROW = SynchedEntityData.defineId(Organoid.class, EntityDataSerializers.INT);
@@ -45,6 +49,9 @@ public class Organoid extends UtilityEntity implements Enemy {
             this.tickEmerging();
         } else if (this.isBurrowing()){
             this.tickBurrowing();
+        }
+        if (tickCount % 200 == 0 && !(this instanceof Proto || this instanceof Mound)){
+            regulateSpawns();
         }
     }
 
@@ -149,5 +156,12 @@ public class Organoid extends UtilityEntity implements Enemy {
             return false;
         }
         return super.addEffect(instance, entity);
+    }
+    public void regulateSpawns(){
+        AABB aabb = this.getBoundingBox().inflate(6);
+        List<Entity> entityList = level().getEntities(this,aabb, entity -> {return entity instanceof Organoid && !(entity instanceof Proto || entity instanceof Mound);});
+        if (entityList.size() > 4){
+            tickBurrowing();
+        }
     }
 }
