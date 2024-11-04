@@ -86,16 +86,12 @@ public class Mound extends Organoid implements FoliageSpread {
                 this.setCounter(this.getCounter() + 1);
             }
             if (this.isAlive() && this.getCounter() >= maxCounter && !level().isClientSide){
-                double range;
-                if (entityData.get(AGE) == 2){
-                    range = SConfig.SERVER.mound_range_age2.get();
-                } else if (entityData.get(AGE) == 3){
-                    range = SConfig.SERVER.mound_range_age3.get();
-                }else if (entityData.get(AGE) == 4){
-                    range = SConfig.SERVER.mound_range_age4.get();
-                } else {
-                    range = SConfig.SERVER.mound_range_default.get();
-                }
+                double range = switch (entityData.get(AGE)) {
+                    case 2 -> SConfig.SERVER.mound_range_age2.get();
+                    case 3 -> SConfig.SERVER.mound_range_age3.get();
+                    case 4 -> SConfig.SERVER.mound_range_age4.get();
+                    default -> SConfig.SERVER.mound_range_default.get();
+                };
                 SpreadInfection(level(),range,this.getOnPos());
                 this.setCounter(0);
                 if (this.random.nextInt(10) == 0 && entityData.get(AGE) >= 3 && checkForExtraTendrils(this,this.level())){
