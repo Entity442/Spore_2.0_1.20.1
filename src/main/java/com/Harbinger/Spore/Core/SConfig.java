@@ -1428,7 +1428,7 @@ public class SConfig {
             this.special= builder.defineList("Special Spawns",
                     Lists.newArrayList("spore:brot","spore:inquisitor","spore:gastgaber" ,"spore:wendigo" , "spore:specter","spore:plagued","spore:lacerator","spore:inf_construct") , o -> o instanceof String);
             this.drops= builder.defineList("Items that may drop at the end of the raid",
-                    Lists.newArrayList("spore:fleshy_bone","spore:hardened_bind","spore:fleshy_claw" ,"spore:living_core" , "spore:spine","spore:armor_plate","spore:plated_muscle","spore:altered_spleen","spore:corrosive_sack","spore:sickle_fragment","spore:vigil_eye","spore:symbiotic_reagent","spore:cryogenic_reagent","spore:gastric_reagent","spore:corrosive_reagent") , o -> o instanceof String);
+                    Lists.newArrayList("spore:fleshy_bone","spore:hardened_bind","spore:fleshy_claw" ,"spore:living_core" , "spore:spine","spore:armor_plate","spore:plated_muscle","spore:altered_spleen","spore:corrosive_sack","spore:sickle_fragment","spore:vigil_eye","spore:symbiotic_reagent","spore:cryogenic_reagent","spore:gastric_reagent","spore:corrosive_reagent","spore:calcified_tumor","spore:frozen_tumor","spore:sicken_tumor","spore:bile_tumor") , o -> o instanceof String);
             builder.pop();
         }
     }

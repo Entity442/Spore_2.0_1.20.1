@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RRR",
+    "RCR",
+    "RRR"
+  ],
+  "key": {
+    "R": {
+      "item": "spore:tumor"
+    },
+    "C": {
+      "item": "spore:spine_fragment"
+    }
+  },
+  "result": {
+    "count": 8,
+    "item": "spore:calcified_tumor"
+  }
+}
