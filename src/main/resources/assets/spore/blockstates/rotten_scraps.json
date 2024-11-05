@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/rotten_scraps"
+      },
+      {
+        "model": "spore:block/rotten_scraps",
+        "y": 90
+      },
+      {
+        "model": "spore:block/rotten_scraps",
+        "y": 180
+      },
+      {
+        "model": "spore:block/rotten_scraps",
+        "y": 270
+      }
+    ]
+  }
+}

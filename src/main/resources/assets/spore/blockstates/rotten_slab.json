@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "spore:block/rotten_slab"
+    },
+    "type=double": {
+      "model": "spore:block/rotten_planks"
+    },
+    "type=top": {
+      "model": "spore:block/rotten_slab_top"
+    }
+  }
+}

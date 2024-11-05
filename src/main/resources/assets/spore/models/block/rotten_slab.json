@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "spore:block/rotten_plank1",
+    "top": "spore:block/rotten_plank1",
+    "side": "spore:block/rotten_plank1"
+  }
+}

@@ -420,6 +420,8 @@ public class Sitems {
     public static final RegistryObject<Item> ROTTEN_LOG = block(Sblocks.ROTTEN_LOG);
     public static final RegistryObject<Item> ROTTEN_PLANKS = block(Sblocks.ROTTEN_PLANKS);
     public static final RegistryObject<Item> ROTTEN_STAIR = block(Sblocks.ROTTEN_STAIR);
+    public static final RegistryObject<Item> ROTTEN_SLAB = block(Sblocks.ROTTEN_SLAB);
+    public static final RegistryObject<Item> ROTTEN_SCRAPS = block(Sblocks.ROTTEN_SCRAPS);
     public static final RegistryObject<Item> ROTTEN_BRANCH = block(Sblocks.ROTTEN_BRANCH);
     public static final RegistryObject<Item> ROTTEN_BUSH = block(Sblocks.ROTTEN_BUSH);
     public static final RegistryObject<Item> ROOTED_BIOMASS = block(Sblocks.ROOTED_BIOMASS);
