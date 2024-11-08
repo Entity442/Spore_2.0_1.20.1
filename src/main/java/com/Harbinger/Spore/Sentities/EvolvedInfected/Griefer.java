@@ -142,7 +142,7 @@ public class Griefer extends EvolvedInfected {
         List<Entity> entities = this.level().getEntities(this, boundingBox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
 
         for (Entity entity1 : entities) {
-            if (entity1 instanceof LivingEntity livingEntity && Utilities.TARGET_SELECTOR.test(livingEntity)) {
+            if (entity1 instanceof LivingEntity livingEntity && Utilities.TARGET_SELECTOR.Test(livingEntity)) {
                 if (poison){
                     livingEntity.addEffect( new MobEffectInstance(MobEffects.POISON ,  1200, 2));
                     livingEntity.addEffect( new MobEffectInstance(MobEffects.WEAKNESS ,  400, 0));

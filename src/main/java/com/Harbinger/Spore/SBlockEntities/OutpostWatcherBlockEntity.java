@@ -81,7 +81,7 @@ public class OutpostWatcherBlockEntity extends BlockEntity implements AnimatedEn
                 if (entity instanceof ScentEntity scent){amountofScents.add(scent);}
             }
             for (LivingEntity entity: possibleTargets){
-                if (Utilities.TARGET_SELECTOR.test(entity) && EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(entity) && !entity.hasEffect(Seffects.SYMBIOSIS.get()) &&  entity.onGround()){
+                if (Utilities.TARGET_SELECTOR.Test(entity) && EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(entity) && !entity.hasEffect(Seffects.SYMBIOSIS.get()) &&  entity.onGround()){
                     if (Math.random() < 0.3f && amountofScents.size() <= SConfig.SERVER.scent_cap.get()){
                         SummonScent(entity,level,entity.getX(),entity.getY(),entity.getZ());
                     }
@@ -95,7 +95,7 @@ public class OutpostWatcherBlockEntity extends BlockEntity implements AnimatedEn
 
     private void SummonScent(LivingEntity target, Level level, double x, double y, double z){
         AABB aabb = target.getBoundingBox().inflate(3);
-        List<Entity> entityList = level.getEntities(target,aabb, entity -> {return  entity instanceof LivingEntity livingEntity && Utilities.TARGET_SELECTOR.test(livingEntity);});
+        List<Entity> entityList = level.getEntities(target,aabb, entity -> {return  entity instanceof LivingEntity livingEntity && Utilities.TARGET_SELECTOR.Test(livingEntity);});
         ScentEntity scent = new ScentEntity(Sentities.SCENT.get(),level);
         scent.setOvercharged(entityList.size() > 2);
         scent.moveTo(x,y,z);

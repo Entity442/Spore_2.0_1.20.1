@@ -229,7 +229,7 @@ public class ArenaEntity extends UtilityEntity {
         int Z = random.nextInt(-32,32);
         FleshBomb.BombType type = bombTypes.get(random.nextInt(bombTypes.size()));
         FleshBomb verva = new FleshBomb(level(),this,10f, type,random.nextInt(2,5));
-        verva.setLivingEntityPredicate(Utilities.TARGET_SELECTOR);
+        verva.setLivingEntityPredicate(Utilities.TARGET_SELECTOR_PREDICATE);
         verva.moveTo(this.getX()+X,this.getY()+100,this.getZ()+Z);
         level().addFreshEntity(verva);
     }
