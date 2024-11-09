@@ -310,4 +310,12 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
         this.level().addFreshEntity(stinger);
         this.setDeltaMovement(this.getDeltaMovement().add(0,0.3,0));
     }
+
+    @Override
+    public String getMutation() {
+        if (getTypeVariant() != 0){
+            return this.getVariant().getName();
+        }
+        return super.getMutation();
+    }
 }

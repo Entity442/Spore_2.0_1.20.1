@@ -4,15 +4,20 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public enum SlasherVariants {
-    DEFAULT(0),
-    PIERCER(1);
+    DEFAULT(0,"default"),
+    PIERCER(1,"spore.entity.variant.piercer");
 
     private static final SlasherVariants[] BY_ID = Arrays.stream(values()).sorted(Comparator.
             comparingInt(SlasherVariants::getId)).toArray(SlasherVariants[]::new);
     private final int id;
+    private final String name;
 
-    SlasherVariants(int id) {
+    SlasherVariants(int id, String name) {
         this.id = id;
+        this.name = name;
+    }
+    public String getName(){
+        return name;
     }
 
     public int getId() {

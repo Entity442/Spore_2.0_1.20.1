@@ -157,4 +157,12 @@ public class Slasher extends EvolvedInfected implements ArmorPersentageBypass {
     public float amountOfDamage(float value) {
         return this.getVariant() == SlasherVariants.PIERCER ? (float) (SConfig.SERVER.sla_damage.get() * SConfig.SERVER.global_damage.get() / 2) : 0;
     }
+
+    @Override
+    public String getMutation() {
+        if (getTypeVariant() != 0){
+            return this.getVariant().getName();
+        }
+        return super.getMutation();
+    }
 }

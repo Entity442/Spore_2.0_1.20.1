@@ -4,19 +4,24 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public enum GrieferVariants {
-    DEFAULT(0),
-    TOXIC(1),
-    RADIOACTIVE(2),
-    BILE(3),
-    NAPALM(4);
+    DEFAULT(0,"default"),
+    TOXIC(1,"spore.entity.variant.toxic"),
+    RADIOACTIVE(2,"spore.entity.variant.radioactive"),
+    BILE(3,"spore.entity.variant.bile"),
+    NAPALM(4,"spore.entity.variant.napalm");
 
 
     private static final GrieferVariants[] BY_ID = Arrays.stream(values()).sorted(Comparator.
             comparingInt(GrieferVariants::getId)).toArray(GrieferVariants[]::new);
     private final int id;
+    private final String name;
 
-    GrieferVariants(int id) {
+    GrieferVariants(int id, String name) {
         this.id = id;
+        this.name = name;
+    }
+    public String getName(){
+        return name;
     }
 
     public int getId() {
