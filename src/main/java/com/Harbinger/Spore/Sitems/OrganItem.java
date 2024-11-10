@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class OrganItem extends BaseItem{
-    private static String info;
+    private final String info;
     public OrganItem(Properties properties,String value) {
         super(properties);
         info = value;
