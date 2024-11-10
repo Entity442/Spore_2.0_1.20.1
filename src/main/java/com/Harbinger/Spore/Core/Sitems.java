@@ -28,7 +28,7 @@ public class Sitems {
     }
 
     public  static final RegistryObject<Item> CLAW_FRAGMENT = ITEMS.register("claw_fragment",
-            () -> new BaseItem( new Item.Properties()));
+            () -> new OrganItem( new Item.Properties(),"spore.organ.claw"));
     public  static final RegistryObject<Item> CLAW = ITEMS.register("claw",
             () -> new BaseItem( new Item.Properties()));
     public  static final RegistryObject<Item> ARMOR_FRAGMENT = ITEMS.register("armor_fragment",

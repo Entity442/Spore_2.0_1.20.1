@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Sentities.BaseEntities.*;
+import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
 import com.Harbinger.Spore.Sentities.Organoids.Mound;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -13,6 +14,8 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ClickAction;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -119,6 +122,9 @@ public class ScannerItem extends BaseItem2 {
             if (infected.getMutation() != null){
                 player.displayClientMessage(Component.translatable(infected.getMutation()),false);
             }
+            if (infected instanceof Scamper scamper){
+                player.displayClientMessage(Component.literal(Component.translatable("spore.scanner.line.scamper").getString() + scamper.getAge() + "/" + SConfig.SERVER.scamper_age.get()),false);
+            }
         }
         if (entity instanceof Mound mound){
             player.displayClientMessage(Component.literal(Component.translatable("spore.scanner.line.10").getString() + mound.getLinked()),false);
@@ -154,5 +160,15 @@ public class ScannerItem extends BaseItem2 {
                 player.displayClientMessage(Component.translatable(item.getDescriptionId()), false);
             }
         }
+    }
+
+    @Override
+    public boolean overrideStackedOnOther(ItemStack stack, Slot slot, ClickAction clickAction, Player player) {
+        ItemStack itemStack = slot.getItem();
+        if (itemStack.getItem() instanceof OrganItem organItem && !organItem.isScanned(itemStack) && clickAction == ClickAction.SECONDARY){
+            organItem.setScanned(itemStack);
+            return true;
+        }
+        return false;
     }
 }
