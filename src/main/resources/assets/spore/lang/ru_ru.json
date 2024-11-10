@@ -119,6 +119,8 @@
   "item.spore.ice_canister": "Канистра со льдом",
   "item.spore.circuit_board": "Печатная плата",
   "item.spore.combat_pickaxe": "Боевая кирка",
+  "item.spore.scanner": "Сканер",
+
 
   "item.spore.symbiotic_reagent": "Симбиотический реагент",
   "item.spore.cryogenic_reagent": "Криогенный реагент",
@@ -271,6 +273,40 @@
   "entity.spore.howit_arm": "Рука Ховитзера",
   "entity.spore.jagd": "Ягдхунд",
   "entity.spore.inf_contruct": "Заражённая конструкция",
+
+  "spore.entity.variant.kidnapper" : "Мутация похитителя",
+  "spore.entity.variant.kamikaze": "Мутация Камикадзе",
+  "spore.entity.variant.noxious": "Вредная мутация",
+  "spore.entity.variant.toxic" : "Токсичная мутация",
+  "spore.entity.variant.radioactive": "Радиоактивная мутация",
+  "spore.entity.variant.bile" : "Мутация желчи",
+  "spore.entity.variant.napalm" : "Мутация напалма",
+  "spore.entity.variant.piercer": "Мутация Пирсера",
+  "spore.entity.variant.bomber" : "Мутация бомбардировщика",
+
+  "spore.scanner.danger.calamity" : "БЕГАТЬ",
+  "spore.scanner.danger.hyper" : "Очень высокий",
+  "spore.scanner.danger.evolved" : "Средний-Высокий",
+  "spore.scanner.danger.experiment" : "Высокий",
+  "spore.scanner.danger.infected" : "Низкий",
+  "spore.scanner.danger.organoid" : "Переменная",
+  "spore.scanner.danger.utility" : "Неизвестный",
+
+  "spore.scanner.line.1" : "Неизвестный",
+  "spore.scanner.line.2" : "Предмет ",
+  "spore.scanner.line.3" : "Подвиды ",
+  "spore.scanner.line.4" : "Здоровье ",
+  "spore.scanner.line.5" : "Уровень угрозы ",
+  "spore.scanner.line.6" : "Биомасса ",
+  "spore.scanner.line.7" : "Эволюционные точки ",
+  "spore.scanner.line.8" : "Секунды до эволюции: ",
+  "spore.scanner.line.9" : "Секунды до голодания: ",
+  "spore.scanner.line.10" : "Связано ли? ",
+  "spore.scanner.line.11" : "Возраст ",
+  "spore.scanner.line.12" : "Секунды до роста ",
+  "spore.scanner.line.13" : "Нет частей, которые можно собирать ",
+  "spore.scanner.line.14" : "Части, пригодные для сбора урожая ",
+
 
 
   "enchantment.spore.symbiotic_reconstitution.desc": "Укрепляет симбиотическую связь между вами и вашим снаряжением, залечивая его раны во время симбиоза.",

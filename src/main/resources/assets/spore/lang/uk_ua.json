@@ -120,8 +120,7 @@
   "item.spore.ice_canister": "Каністра льоду",
   "item.spore.circuit_board": "Друкована плата",
   "item.spore.combat_pickaxe": "Бойова кирка",
-
-
+  "item.spore.scanner": "Сканер",
 
   "item.spore.symbiotic_reagent": "Сімбіотичний реагент",
   "item.spore.cryogenic_reagent": "Кріогенний реагент",
@@ -274,6 +273,38 @@
   "entity.spore.jagd": "Ягдхунд",
   "entity.spore.inf_contruct": "Заражена конструкція",
 
+  "spore.entity.variant.kidnapper" : "Мутація викрадача",
+  "spore.entity.variant.kamikaze": "Камікадзе Мутація",
+  "spore.entity.variant.noxious": "Шкідлива мутація",
+  "spore.entity.variant.toxic" : "Токсична мутація",
+  "spore.entity.variant.radioactive": "Радіоактивна мутація",
+  "spore.entity.variant.bile" : "Мутація жовчі",
+  "spore.entity.variant.napalm" : "Напалмова мутація",
+  "spore.entity.variant.piercer": "Мутація Пірсера",
+  "spore.entity.variant.bomber" : "Мутація бомбардувальника",
+
+  "spore.scanner.danger.calamity" : "БІГАТИ",
+  "spore.scanner.danger.hyper" : "Дуже висока",
+  "spore.scanner.danger.evolved" : "Середньо-високий",
+  "spore.scanner.danger.experiment" : "Високий",
+  "spore.scanner.danger.infected" : "Низький",
+  "spore.scanner.danger.organoid" : "змінна",
+  "spore.scanner.danger.utility" : "Невідомий",
+
+  "spore.scanner.line.1" : "Невідомий",
+  "spore.scanner.line.2" : "Тема ",
+  "spore.scanner.line.3" : "Підвид ",
+  "spore.scanner.line.4" : "Здоров'я ",
+  "spore.scanner.line.5" : "Рівень загрози ",
+  "spore.scanner.line.6" : "Біомаса ",
+  "spore.scanner.line.7" : "Еволюційні точки ",
+  "spore.scanner.line.8" : "Секунди до еволюції: ",
+  "spore.scanner.line.9" : "Секунди до голоду: ",
+  "spore.scanner.line.10" : "Пов’язано? ",
+  "spore.scanner.line.11" : "Вік ",
+  "spore.scanner.line.12" : "Секунди до росту ",
+  "spore.scanner.line.13" : "Немає придатних для збирання частин ",
+  "spore.scanner.line.14" : "Збиральні частини ",
 
   "enchantment.spore.symbiotic_reconstitution.desc": "Зміцнює симбіотичний зв’язок між вами та вашим обладнанням, загоюючи рани під час симбіозу.",
   "enchantment.spore.cryogenic_aspect.desc": "Охолоджує жертву до глибини душі, сповільнюючи швидкість її руху та завдаючи шкоди від замерзання.",
