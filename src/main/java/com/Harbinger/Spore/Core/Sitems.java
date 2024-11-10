@@ -28,17 +28,17 @@ public class Sitems {
     }
 
     public  static final RegistryObject<Item> CLAW_FRAGMENT = ITEMS.register("claw_fragment",
-            () -> new OrganItem( new Item.Properties(),"spore.organ.claw"));
+            () -> new OrganItem( new Item.Properties(),"spore.scanner.organ.claw_fragment"));
     public  static final RegistryObject<Item> CLAW = ITEMS.register("claw",
             () -> new BaseItem( new Item.Properties()));
     public  static final RegistryObject<Item> ARMOR_FRAGMENT = ITEMS.register("armor_fragment",
-            () -> new BaseItem( new Item.Properties()));
+            () -> new OrganItem( new Item.Properties(),"spore.scanner.organ.armor_fragment"));
     public  static final RegistryObject<Item> MUTATED_HEART = ITEMS.register("mutated_heart",
-            () -> new BaseItem( new Item.Properties()));
+            () -> new OrganItem( new Item.Properties(),"spore.scanner.organ.mutated_heart"));
     public  static final RegistryObject<Item> MUTATED_FIBER = ITEMS.register("mutated_fiber",
-            () -> new BaseItem( new Item.Properties()));
+            () -> new OrganItem( new Item.Properties(),"spore.scanner.organ.mutated_fiber"));
     public  static final RegistryObject<Item> WING_MEMBRANE = ITEMS.register("wing_membrane",
-            () -> new BaseItem( new Item.Properties()));
+            () -> new OrganItem( new Item.Properties(),"spore.scanner.organ.wing_membrane"));
     public  static final RegistryObject<Item> FLESHY_BONE = ITEMS.register("fleshy_bone",
             () -> new BaseItem( new Item.Properties()));
     public  static final RegistryObject<Item> HARDENED_BIND = ITEMS.register("hardened_bind",
@@ -52,7 +52,7 @@ public class Sitems {
     public  static final RegistryObject<Item> NERVES = ITEMS.register("nerves",
             () -> new BaseItem( new Item.Properties()));
     public  static final RegistryObject<Item> CEREBRUM = ITEMS.register("cerebrum",
-            () -> new BaseItem( new Item.Properties()));
+            () -> new OrganItem( new Item.Properties(),"spore.scanner.organ.cerebrum"));
     public  static final RegistryObject<Item> SPINE = ITEMS.register("spine",
             () -> new BaseItem( new Item.Properties()));
     public  static final RegistryObject<Item> ARMOR_PLATE = ITEMS.register("armor_plate",
@@ -60,11 +60,11 @@ public class Sitems {
     public  static final RegistryObject<Item> PLATED_MUSCLE = ITEMS.register("plated_muscle",
             () -> new BaseItem( new Item.Properties()));
     public  static final RegistryObject<Item> ALVEOLIC_SACK = ITEMS.register("alveolic_sack",
-            () -> new BaseItem( new Item.Properties()));
+            () -> new OrganItem( new Item.Properties(),"spore.scanner.organ.alveolic_sack"));
     public  static final RegistryObject<Item> ALTERED_SPLEEN = ITEMS.register("altered_spleen",
-            () -> new BaseItem( new Item.Properties()));
+            () -> new OrganItem( new Item.Properties(),"spore.scanner.organ.altered_spleen"));
     public  static final RegistryObject<Item> CORROSIVE_SACK = ITEMS.register("corrosive_sack",
-            () -> new BaseItem( new Item.Properties()));
+            () -> new OrganItem( new Item.Properties(),"spore.scanner.organ.corrosive_sack"));
     public  static final RegistryObject<Item> TENDONS = ITEMS.register("tendons",
             () -> new BaseItem( new Item.Properties()));
     public  static final RegistryObject<Item> INNARDS = ITEMS.register("innards",
