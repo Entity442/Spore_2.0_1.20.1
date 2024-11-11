@@ -312,14 +312,14 @@
   "spore.scanner.line.14" : "Harvestable parts ",
 
   "spore.scanner.organ.default" : "Needs further scanning",
-  "spore.scanner.organ.claw_fragment" : "High",
-  "spore.scanner.organ.armor_fragment" : "High",
+  "spore.scanner.organ.claw_fragment" : "The jagged remnants of an infected creature's natural weaponry. These splintered claws are infused with minerals scavenged from the host's body, giving them an unnatural resilience",
+  "spore.scanner.organ.armor_fragment" : "Skin fragments hardened with layers of keratin and veined with invasive fungal growths, these fragments possess a unique blend of flexibility and durability.",
   "spore.scanner.organ.mutated_heart" : "An enlarged strengthen heart, it has developed a membrane capable of producing new blood and stem cells. Seems to have grown a few more chambers.",
-  "spore.scanner.organ.mutated_fiber" : "High",
+  "spore.scanner.organ.mutated_fiber" : "A grotesque blend of muscle tissue intertwined with dense fungal hyphae, creating a material that is both unnaturally strong and flexible.",
   "spore.scanner.organ.wing_membrane" : "A thin, leathery membrane torn off the wings of an aerial threat, it feels very rough to the touch. You can feel an innumerable amount of tiny veins running throughout the tissue.",
-  "spore.scanner.organ.cerebrum" : "High",
+  "spore.scanner.organ.cerebrum" : "The altered brain of an infected creature, its higher-thinking zones reduced to scarred tissue while in return it presents a high sensitive to electrical and magnetic fields.",
   "spore.scanner.organ.alveolic_sack" : "A large lung like organ, filled with millions of contorted alveoli. These warped lungs seem to serve an alternative purpose, it can now diffuse noxious toxins from the host into the air.",
-  "spore.scanner.organ.altered_spleen" : "High",
+  "spore.scanner.organ.altered_spleen" : "An abnormally enlarged organ from an infected creature, swollen with highly oxygenated blood, modified by the infection to maximize survival by flooding the system with adrenaline in an instant.",
   "spore.scanner.organ.corrosive_sack" : "A gland of some sort secretes a very acidic substance that smells foul. It is possibly a recycled gastric gland from the digestive system however, it is far too mutilated to properly identify its original form.",
 
 
