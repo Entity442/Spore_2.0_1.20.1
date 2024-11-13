@@ -143,7 +143,7 @@ public class Stalker extends EvolvedInfected implements EvolvingInfected {
     }
 
     @Override
-    public void HyperEvolve() {
+    public void HyperEvolve(LivingEntity living) {
         Wendigo wendigo = new Wendigo(Sentities.WENDIGO.get(),this.level());
         Collection<MobEffectInstance> collection = this.getActiveEffects();
         for(MobEffectInstance mobeffectinstance : collection) {
@@ -154,14 +154,9 @@ public class Stalker extends EvolvedInfected implements EvolvingInfected {
         wendigo.setCustomName(this.getCustomName());
         wendigo.setPos(this.getX(),this.getY(),this.getZ());
         if (this.level() instanceof ServerLevel serverLevel)
-        wendigo.finalizeSpawn(serverLevel,serverLevel.getCurrentDifficultyAt(this.getOnPos()), MobSpawnType.CONVERSION,null,null);
+            wendigo.finalizeSpawn(serverLevel,serverLevel.getCurrentDifficultyAt(this.getOnPos()), MobSpawnType.CONVERSION,null,null);
         this.level().addFreshEntity(wendigo);
-        if (this.level() instanceof ServerLevel serverLevel){
-            double x0 = this.getX() - (random.nextFloat() - 0.1) * 0.1D;
-            double y0 = this.getY() + (random.nextFloat() - 0.25) * 0.15D * 5;
-            double z0 = this.getZ() + (random.nextFloat() - 0.1) * 0.1D;
-            serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x0, y0, z0, 2, 0, 0, 0, 1);
-        }
         this.discard();
+        EvolvingInfected.super.HyperEvolve(living);
     }
 }

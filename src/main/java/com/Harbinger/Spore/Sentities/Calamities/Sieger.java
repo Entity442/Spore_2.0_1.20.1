@@ -346,4 +346,12 @@ public class Sieger extends Calamity implements RangedAttackMob, TrueCalamity {
         siegerTail.moveTo(this.getX() + vec3.x, this.getY() + 1.6,this.getZ()+ vec3.z);
         this.level().addFreshEntity(siegerTail);
     }
+
+    @Override
+    public String getMutation() {
+        if (isAdapted()){
+            return "spore.entity.variant.war_torn";
+        }
+        return super.getMutation();
+    }
 }

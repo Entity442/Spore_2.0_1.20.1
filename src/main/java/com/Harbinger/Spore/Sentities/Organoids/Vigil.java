@@ -403,4 +403,12 @@ public class Vigil extends Organoid implements TraceableEntity{
         setStalker(Math.random() < 0.3f);
         return super.finalizeSpawn(p_146746_, p_146747_, p_146748_, p_146749_, p_146750_);
     }
+
+    @Override
+    public String getMutation() {
+        if (isStalker()){
+            return "spore.entity.variant.stalker";
+        }
+        return super.getMutation();
+    }
 }

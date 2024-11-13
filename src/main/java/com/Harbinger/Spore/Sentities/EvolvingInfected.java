@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sentities;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sentities;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
@@ -9,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -16,6 +18,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -31,7 +34,7 @@ public interface EvolvingInfected {
                     this.Evolve(infected,value);
                 }else{
                     if (!infected.hasEffect(MobEffects.WEAKNESS))
-                    infected.setEvolution(infected.getEvolutionCoolDown()+1);
+                        infected.setEvolution(infected.getEvolutionCoolDown()+1);
                 }
             }
         }
@@ -40,18 +43,31 @@ public interface EvolvingInfected {
         if (infected.tickCount % 20 == 0){
             if (infected.getEvoPoints() >= SConfig.SERVER.min_kills_hyper.get()){
                 if (infected.getEvolutionCoolDown() >= SConfig.SERVER.evolution_age_human.get()){
-                    this.HyperEvolve();
+                    this.HyperEvolve(infected);
                 }else{
                     if (!infected.hasEffect(MobEffects.WEAKNESS))
-                    infected.setEvolution(infected.getEvolutionCoolDown()+1);
+                        infected.setEvolution(infected.getEvolutionCoolDown()+1);
                 }
             }
         }
     }
 
-    default void HyperEvolve(){
+    default void HyperEvolve(LivingEntity living){
+        if (living.level() instanceof ServerLevel serverLevel){
+            double x0 = living.getX() - (living.getRandom().nextFloat() - 0.1) * 0.1D;
+            double y0 = living.getY() + (living.getRandom().nextFloat() - 0.25) * 0.15D * 5;
+            double z0 = living.getZ() + (living.getRandom().nextFloat() - 0.1) * 0.1D;
+            serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x0, y0, z0, 2, 0, 0, 0, 1);
+            ringPlayers(living);
+        }
     }
-
+    default void ringPlayers(LivingEntity living){
+        List<Entity> entities = living.level().getEntities(living,living.getBoundingBox().inflate(64),entity -> {return entity instanceof Player;
+        });
+        for (Entity entity : entities){
+            if (entity instanceof Player player){player.playNotifySound(Ssounds.HYPER_EVOLVE.get(), SoundSource.AMBIENT,1f,1f);}
+        }
+    }
     default  void Evolve(Infected livingEntity, List<? extends String> value){
         if (livingEntity != null && value != null && livingEntity.level() instanceof ServerLevel world){
             Level level = livingEntity.level();

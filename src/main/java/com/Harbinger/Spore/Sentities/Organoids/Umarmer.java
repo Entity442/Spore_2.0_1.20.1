@@ -665,4 +665,12 @@ public class Umarmer extends Organoid {
         }
         return super.getDimensions(pose);
     }
+
+    @Override
+    public String getMutation() {
+        if (getTypeVariant() != 0){
+            return this.getVariant().getName();
+        }
+        return super.getMutation();
+    }
 }

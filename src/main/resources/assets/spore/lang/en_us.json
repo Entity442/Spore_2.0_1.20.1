@@ -286,6 +286,12 @@
   "spore.entity.variant.napalm" : "Napalm Mutation",
   "spore.entity.variant.piercer": "Piercer Mutation",
   "spore.entity.variant.bomber" : "Bomber Mutation",
+  "spore.entity.variant.stalker" : "Stalker Mutation",
+  "spore.entity.variant.crispy" : "Crispy Mutation",
+  "spore.entity.variant.corrosive" : "Corrosive Mutation",
+  "spore.entity.variant.war_torn" : "War Torn Mutation",
+  "spore.entity.variant.overclocked" : "Overclocked Mutation",
+
 
   "spore.scanner.danger.calamity" : "RUN",
   "spore.scanner.danger.hyper" : "Very High",

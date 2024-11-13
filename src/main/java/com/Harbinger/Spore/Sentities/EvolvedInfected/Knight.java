@@ -96,8 +96,9 @@ public class Knight extends EvolvedInfected implements EvolvingInfected {
     protected void playStepSound(BlockPos p_34316_, BlockState p_34317_) {
         this.playSound(this.getStepSound(), 0.15F, 1.0F);
     }
+
     @Override
-    public void HyperEvolve() {
+    public void HyperEvolve(LivingEntity living) {
         Inquisitor inquisitor = new Inquisitor(Sentities.INQUISITOR.get(),this.level());
         Collection<MobEffectInstance> collection = this.getActiveEffects();
         for(MobEffectInstance mobeffectinstance : collection) {
@@ -110,13 +111,8 @@ public class Knight extends EvolvedInfected implements EvolvingInfected {
         if (this.level() instanceof ServerLevel serverLevel)
             inquisitor.finalizeSpawn(serverLevel,serverLevel.getCurrentDifficultyAt(this.getOnPos()), MobSpawnType.CONVERSION,null,null);
         this.level().addFreshEntity(inquisitor);
-        if (this.level() instanceof ServerLevel serverLevel){
-            double x0 = this.getX() - (random.nextFloat() - 0.1) * 0.1D;
-            double y0 = this.getY() + (random.nextFloat() - 0.25) * 0.15D * 5;
-            double z0 = this.getZ() + (random.nextFloat() - 0.1) * 0.1D;
-            serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x0, y0, z0, 2, 0, 0, 0, 1);
-        }
         this.discard();
+        EvolvingInfected.super.HyperEvolve(living);
     }
 
     @Override

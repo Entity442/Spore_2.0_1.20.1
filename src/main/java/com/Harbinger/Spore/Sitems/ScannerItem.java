@@ -126,6 +126,9 @@ public class ScannerItem extends BaseItem2 {
                 player.displayClientMessage(Component.literal(Component.translatable("spore.scanner.line.scamper").getString() + scamper.getAge() + "/" + SConfig.SERVER.scamper_age.get()),false);
             }
         }
+        if (entity instanceof UtilityEntity utilityEntity && utilityEntity.getMutation() != null){
+            player.displayClientMessage(Component.translatable(utilityEntity.getMutation()),false);
+        }
         if (entity instanceof Mound mound){
             player.displayClientMessage(Component.literal(Component.translatable("spore.scanner.line.10").getString() + mound.getLinked()),false);
             player.displayClientMessage(Component.literal(Component.translatable("spore.scanner.line.11").getString() + mound.getAge()),false);

@@ -236,11 +236,7 @@ public interface FoliageSpread {
         }
         if (blockstate.is(BlockTags.WOODEN_DOORS) || blockstate.is(BlockTags.WOODEN_TRAPDOORS) || blockstate.is(BlockTags.WOODEN_FENCES) || blockstate.is(BlockTags.WOODEN_PRESSURE_PLATES)){
             BlockState _bs = Sblocks.ROTTEN_SCRAPS.get().defaultBlockState();
-            if (Math.random() < 0.3f && level.getBlockState(blockpos.below()).isAir()){
-                FallingBlockEntity.fall(level,blockpos,_bs);
-            }else {
-                level.setBlock(blockpos, _bs, 3);
-            }
+            FallingBlockEntity.fall(level,blockpos,_bs);
         }
     }
 }

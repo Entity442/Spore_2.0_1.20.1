@@ -115,4 +115,8 @@ public class UtilityEntity extends PathfinderMob {
         Biome biome = level().getBiome(pos).value();
         return SConfig.SERVER.weaktocold.get() && biome.getBaseTemperature() <= 0.2;
     }
+
+    public String getMutation(){
+        return null;
+    }
 }

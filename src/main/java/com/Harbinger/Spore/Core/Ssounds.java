@@ -112,6 +112,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> BROKEN_SCREAMS = soundRegistry("broken_screams");
 
+    public static final RegistryObject<SoundEvent> HYPER_EVOLVE = soundRegistry("hyper_evolve");
+
     private Ssounds() {
     }
 }

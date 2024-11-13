@@ -107,6 +107,12 @@
       "spore:howler"
     ]
   },
+  "hyper_evolve" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:hyper_evolve"
+    ]
+  },
   "landing" :{
     "subtitle": "sounds.spore.landing",
     "sounds": [

@@ -354,4 +354,12 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
         }
         return Ssounds.GAZEN_AMBIENT.get();
     }
+
+    @Override
+    public String getMutation() {
+        if (isAdaptedToFire()){
+            return "spore.entity.variant.crispy";
+        }
+        return super.getMutation();
+    }
 }
