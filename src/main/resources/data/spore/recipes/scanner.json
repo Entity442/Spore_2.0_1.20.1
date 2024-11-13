@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "TRR",
+    "  X"
+  ],
+  "key": {
+    "R": {
+      "item": "spore:circuit_board"
+    },
+    "#": {
+      "item": "spore:compound_plate"
+    },
+    "T": {
+      "item": "minecraft:observer"
+    },
+    "X": {
+      "item": "minecraft:lever"
+    }
+},
+  "result": {
+    "item": "spore:scanner"
+  }
+}

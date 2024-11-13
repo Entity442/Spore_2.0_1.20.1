@@ -282,6 +282,11 @@
   "spore.entity.variant.napalm" : "Напалмова мутація",
   "spore.entity.variant.piercer": "Мутація Пірсера",
   "spore.entity.variant.bomber" : "Мутація бомбардувальника",
+  "spore.entity.variant.stalker" : "Розігнана мутація",
+  "spore.entity.variant.crispy" : "Хрустка мутація",
+  "spore.entity.variant.corrosive" : "Корозійна мутація",
+  "spore.entity.variant.war_torn" : "Розірвана війною мутація",
+  "spore.entity.variant.overclocked" : "Розігнана мутація",
 
   "spore.scanner.danger.calamity" : "БІГАТИ",
   "spore.scanner.danger.hyper" : "Дуже висока",

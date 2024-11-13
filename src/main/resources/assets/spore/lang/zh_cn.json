@@ -287,6 +287,11 @@
   "spore.entity.variant.napalm" : "凝固汽油彈突變",
   "spore.entity.variant.piercer": "穿孔突變",
   "spore.entity.variant.bomber" : "轟炸機突變",
+  "spore.entity.variant.stalker" : "潛行者突變",
+  "spore.entity.variant.crispy" : "脆皮突變",
+  "spore.entity.variant.corrosive" : "腐蝕突變",
+  "spore.entity.variant.war_torn" : "戰亂突變",
+  "spore.entity.variant.overclocked" : "超頻變異",
 
   "spore.scanner.danger.calamity" : "跑步",
   "spore.scanner.danger.hyper" : "非常高",

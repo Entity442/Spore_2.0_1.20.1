@@ -283,6 +283,11 @@
   "spore.entity.variant.napalm" : "Мутация напалма",
   "spore.entity.variant.piercer": "Мутация Пирсера",
   "spore.entity.variant.bomber" : "Мутация бомбардировщика",
+  "spore.entity.variant.stalker" : "Мутация Сталкера",
+  "spore.entity.variant.crispy" : "Хрустящая мутация",
+  "spore.entity.variant.corrosive" : "Коррозионная мутация",
+  "spore.entity.variant.war_torn" : "Мутация, вызванная войной",
+  "spore.entity.variant.overclocked" : "Разогнанная мутация",
 
   "spore.scanner.danger.calamity" : "БЕГАТЬ",
   "spore.scanner.danger.hyper" : "Очень высокий",
