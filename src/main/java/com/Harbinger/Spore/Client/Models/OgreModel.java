@@ -579,6 +579,8 @@ public class OgreModel<T extends Ogre> extends EntityModel<T> implements Tentacl
 		this.LeftFrontArm.zRot = this.LeftFrontArm.getInitialPose().zRot +walkingValue * 0.6f;
 		this.RightFrontForArm.zRot =this.RightFrontForArm.getInitialPose().zRot + walkingValue * 0.3f;
 		this.LeftFrontForArm.zRot =this.LeftFrontForArm.getInitialPose().zRot + walkingValue * 0.3f;
+		this.RightFrontArm.y = this.RightFrontArm.getInitialPose().y + walkingValue * 1.3f;
+		this.LeftFrontArm.y = this.LeftFrontArm.getInitialPose().y - walkingValue * 1.3f;
 	}
 	@Override
 	public void prepareMobModel(T entity, float value1, float value2, float value3) {
