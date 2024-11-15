@@ -588,6 +588,7 @@ public class OgreModel<T extends Ogre> extends EntityModel<T> implements Tentacl
 		int attackAnimationTick = entity.getAttackAnimationTick();
 		if (attackAnimationTick > 0) {
 			float spinValue = -2.0F + 1.5F * Mth.triangleWave((float)attackAnimationTick - value3, 10.0F);
+			H_brute.yRot = spinValue * 2f;
 			TailSegment1.yRot = spinValue;
 			TailSegment2.yRot = spinValue/2;
 			TailSegment3.yRot = spinValue/2;

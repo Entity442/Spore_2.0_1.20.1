@@ -212,6 +212,7 @@
   "item.spore.thorn_spawnegg": "Verdathorn",
   "item.spore.jagd_spawnegg": "Ягдхунд",
   "item.spore.construct_spawnegg": "Заражена конструкція",
+  "item.spore.ogre_spawnegg": "Огр",
 
 
   "item.spore.scent_spawnegg": "Спори",
@@ -272,6 +273,7 @@
   "entity.spore.howit_arm": "Гармата Хауіцера",
   "entity.spore.jagd": "Ягдхунд",
   "entity.spore.inf_contruct": "Заражена конструкція",
+  "entity.spore.ogre": "Огр",
 
   "spore.entity.variant.kidnapper" : "Мутація викрадача",
   "spore.entity.variant.kamikaze": "Камікадзе Мутація",

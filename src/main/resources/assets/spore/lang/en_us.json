@@ -214,6 +214,7 @@
   "item.spore.howitzer_spawnegg": "Howitzer",
   "item.spore.jagd_spawnegg": "Jagdhund",
   "item.spore.construct_spawnegg": "Infested Construct",
+  "item.spore.ogre_spawnegg": "Ogre",
 
 
 
@@ -276,6 +277,8 @@
   "entity.spore.howit_arm": "Howitzer arm",
   "entity.spore.jagd": "Jagdhund",
   "entity.spore.inf_contruct": "Infested Construct",
+  "entity.spore.ogre": "Ogre",
+
 
   "spore.entity.variant.kidnapper" : "Kidnapper Mutation",
   "spore.entity.variant.kamikaze": "Kamikaze Mutation",

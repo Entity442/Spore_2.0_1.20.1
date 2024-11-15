@@ -211,6 +211,7 @@
   "item.spore.thorn_spawnegg": "Вердатхорна",
   "item.spore.jagd_spawnegg": "Ягдхунда",
   "item.spore.construct_spawnegg": "Заражённая конструкция",
+  "item.spore.ogre_spawnegg": "Огр",
 
 
   "item.spore.scent_spawnegg": "Споры",
@@ -273,6 +274,8 @@
   "entity.spore.howit_arm": "Рука Ховитзера",
   "entity.spore.jagd": "Ягдхунд",
   "entity.spore.inf_contruct": "Заражённая конструкция",
+  "entity.spore.ogre": "Огр",
+
 
   "spore.entity.variant.kidnapper" : "Мутация похитителя",
   "spore.entity.variant.kamikaze": "Мутация Камикадзе",

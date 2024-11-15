@@ -2,11 +2,15 @@ package com.Harbinger.Spore.Sentities.EvolvedInfected;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
+import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.TransportInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.Carrier;
+import com.Harbinger.Spore.Sentities.EvolvingInfected;
+import com.Harbinger.Spore.Sentities.Hyper.Brot;
+import com.Harbinger.Spore.Sentities.Hyper.Ogre;
 import com.Harbinger.Spore.Sentities.Projectile.ThrownBlockProjectile;
 import com.Harbinger.Spore.Sentities.Projectile.ThrownTumor;
 import net.minecraft.core.BlockPos;
@@ -16,6 +20,7 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -38,10 +43,11 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public class Brute extends EvolvedInfected implements Carrier, RangedAttackMob {
+public class Brute extends EvolvedInfected implements Carrier, RangedAttackMob, EvolvingInfected {
     private static final EntityDataAccessor<Optional<BlockState>> DATA_CARRY_STATE = SynchedEntityData.defineId(Brute.class, EntityDataSerializers.OPTIONAL_BLOCK_STATE);
     public Brute(EntityType<? extends Monster> type, Level level) {
         super(type, level);
@@ -142,7 +148,7 @@ public class Brute extends EvolvedInfected implements Carrier, RangedAttackMob {
         if (getCarriedBlock() == null && this.random.nextInt(250) == 0){
             this.setCarriedBlock(blocky());
         }
-
+        this.tickHyperEvolution(this);
     }
     private boolean switchy() {
         if (this.getTarget() != null){
@@ -228,4 +234,21 @@ public class Brute extends EvolvedInfected implements Carrier, RangedAttackMob {
         return null;
     }
 
+    @Override
+    public void HyperEvolve(LivingEntity living) {
+        Ogre ogre = new Ogre(Sentities.OGRE.get(),this.level());
+        Collection<MobEffectInstance> collection = this.getActiveEffects();
+        for(MobEffectInstance mobeffectinstance : collection) {
+            ogre.addEffect(new MobEffectInstance(mobeffectinstance));
+        }
+        ogre.setKills(this.getKills());
+        ogre.setEvoPoints(this.getEvoPoints()-SConfig.SERVER.min_kills_hyper.get());
+        ogre.setCustomName(this.getCustomName());
+        ogre.setPos(this.getX(),this.getY(),this.getZ());
+        if (this.level() instanceof ServerLevel serverLevel)
+            ogre.finalizeSpawn(serverLevel,serverLevel.getCurrentDifficultyAt(this.getOnPos()), MobSpawnType.CONVERSION,null,null);
+        this.level().addFreshEntity(ogre);
+        this.discard();
+        EvolvingInfected.super.HyperEvolve(living);
+    }
 }
