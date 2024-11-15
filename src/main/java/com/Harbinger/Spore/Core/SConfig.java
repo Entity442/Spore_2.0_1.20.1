@@ -92,6 +92,10 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> inquisitor_damage;
         public final ForgeConfigSpec.ConfigValue<Double> inquisitor_armor;
 
+        public final ForgeConfigSpec.ConfigValue<Double> ogre_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> ogre_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> ogre_armor;
+
         public final ForgeConfigSpec.ConfigValue<Double> brot_hp;
         public final ForgeConfigSpec.ConfigValue<Double> brot_damage;
         public final ForgeConfigSpec.ConfigValue<Double> brot_armor;
@@ -608,6 +612,12 @@ public class SConfig {
             this.inquisitor_hp = builder.comment("Default 60").defineInRange("Sets Inquisitor Max health", 60, 1, Double.MAX_VALUE);
             this.inquisitor_damage = builder.comment("Default 20").defineInRange("Sets Inquisitor Damage", 20, 1, Double.MAX_VALUE);
             this.inquisitor_armor = builder.comment("Default 7").defineInRange("Sets Inquisitor Armor", 7, 1, Double.MAX_VALUE);
+            builder.pop();
+
+            builder.push("Ogre");
+            this.ogre_hp = builder.comment("Default 100").defineInRange("Sets Ogre Max health", 100, 1, Double.MAX_VALUE);
+            this.ogre_damage = builder.comment("Default 20").defineInRange("Sets Ogre Damage", 20, 1, Double.MAX_VALUE);
+            this.ogre_armor = builder.comment("Default 12").defineInRange("Sets Ogre Armor", 12, 1, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("Brotkatze");
@@ -1200,6 +1210,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> braurei_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inquisitor_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> brot_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> ogre_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> lacerator_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> thorn_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> specter_loot;
@@ -1352,6 +1363,10 @@ public class SConfig {
 
             this.inquisitor_loot = builder.defineList("Inquisitor",
                     Lists.newArrayList("spore:mutated_fiber|70|5|9","spore:armor_fragment|80|12|22","spore:mutated_heart|50|1|1","spore:claw_fragment|80|5|15") , o -> o instanceof String);
+
+            this.ogre_loot = builder.defineList("Inquisitor",
+                    Lists.newArrayList("spore:mutated_fiber|70|12|34","spore:armor_fragment|80|12|22","spore:mutated_heart|50|1|1","spore:claw_fragment|80|5|15") , o -> o instanceof String);
+
 
             this.brot_loot = builder.defineList("Brotkatze",
                     Lists.newArrayList("spore:mutated_fiber|70|5|9","spore:armor_fragment|80|2|10","spore:mutated_heart|50|1|1","spore:claw_fragment|80|5|10","spore:alveolic_sack|80|2|4") , o -> o instanceof String);

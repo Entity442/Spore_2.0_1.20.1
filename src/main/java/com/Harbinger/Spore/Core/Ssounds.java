@@ -114,6 +114,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> HYPER_EVOLVE = soundRegistry("hyper_evolve");
 
+    public static final RegistryObject<SoundEvent> OGRE_AMBIENT = soundRegistry("ogre_ambient");
+
     private Ssounds() {
     }
 }

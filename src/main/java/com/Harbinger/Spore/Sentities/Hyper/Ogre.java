@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sentities.Hyper;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.ArmorPersentageBypass;
 import com.Harbinger.Spore.Sentities.BaseEntities.Hyper;
@@ -11,6 +12,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -40,6 +43,11 @@ public class Ogre extends Hyper implements RangedAttackMob , ArmorPersentageBypa
     }
     public boolean canDoTailAttack(){return attacks > 2;}
 
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.ogre_loot.get();
+    }
+
     public boolean hasImpaledBody(){
         return this.entityData.get(HAS_IMPALED_BODY);
     }
@@ -62,9 +70,9 @@ public class Ogre extends Hyper implements RangedAttackMob , ArmorPersentageBypa
     }
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, SConfig.SERVER.inquisitor_hp.get() * SConfig.SERVER.global_health.get())
-                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.inquisitor_damage.get() * SConfig.SERVER.global_damage.get())
-                .add(Attributes.ARMOR, SConfig.SERVER.inquisitor_armor.get() * SConfig.SERVER.global_armor.get())
+                .add(Attributes.MAX_HEALTH, SConfig.SERVER.ogre_hp.get() * SConfig.SERVER.global_health.get())
+                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.ogre_damage.get() * SConfig.SERVER.global_damage.get())
+                .add(Attributes.ARMOR, SConfig.SERVER.ogre_armor.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.MOVEMENT_SPEED, 0.27)
                 .add(Attributes.FOLLOW_RANGE, 32)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1);
@@ -73,7 +81,7 @@ public class Ogre extends Hyper implements RangedAttackMob , ArmorPersentageBypa
     @Override
     protected void addRegularGoals() {
         super.addRegularGoals();
-        this.goalSelector.addGoal(3, new AOEMeleeAttackGoal(this ,1.2,true, 1.2 ,5, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
+        this.goalSelector.addGoal(3, new AOEMeleeAttackGoal(this ,1.2,true, 1.2 ,7, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
         this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F));
         this.goalSelector.addGoal(6, new RandomStrollGoal(this, 0.8));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
@@ -96,7 +104,7 @@ public class Ogre extends Hyper implements RangedAttackMob , ArmorPersentageBypa
         }
     }
     public void handleEntityEvent(byte value) {
-        if (value == 4) {
+        if (value == 4 && canDoTailAttack()) {
             this.attackAnimationTick = 10;
         } else {
             super.handleEntityEvent(value);
@@ -105,14 +113,15 @@ public class Ogre extends Hyper implements RangedAttackMob , ArmorPersentageBypa
 
     @Override
     public boolean doHurtTarget(Entity entity) {
-        if (canDoTailAttack() && entity instanceof LivingEntity living){
+        if (canDoTailAttack() && !this.isVehicle() && entity instanceof LivingEntity living){
             this.attackAnimationTick = 10;
             living.knockback((10f),  Mth.sin(this.getYRot() * ((float) Math.PI / 180F)), (double) (-Mth.cos(this.getYRot() * ((float) Math.PI / 180F))));
             this.attacks = 0;
+            living.addEffect(new MobEffectInstance(MobEffects.CONFUSION,120));
         }else{
             attacks++;
         }
-        if (entity instanceof Player player && Math.random() < 0.3){
+        if (entity instanceof Player player && Math.random() < 0.2){
             player.startRiding(this);
         }
         return super.doHurtTarget(entity);
@@ -165,6 +174,7 @@ public class Ogre extends Hyper implements RangedAttackMob , ArmorPersentageBypa
     public void performRangedThrow(LivingEntity entity) {
         LivingEntity livingEntity = this.getTarget();
         if (livingEntity != null){
+            this.attackAnimationTick = 10;
             Vec3 vec3 = entity.getDeltaMovement();
             double d0 = entity.getX() + vec3.x - livingEntity.getX();
             double d1 = entity.getEyeY() - (double)1.1F - this.getY();
@@ -207,4 +217,21 @@ public class Ogre extends Hyper implements RangedAttackMob , ArmorPersentageBypa
         }
         return super.isVehicle();
     }
+
+    protected SoundEvent getAmbientSound() {
+        return Ssounds.OGRE_AMBIENT.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource p_34327_) {
+        return Ssounds.INF_DAMAGE.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return Ssounds.INF_DAMAGE.get();
+    }
+
+    protected SoundEvent getStepSound() {
+        return SoundEvents.ZOMBIE_STEP;
+    }
+
 }

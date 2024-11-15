@@ -113,6 +113,12 @@
       "spore:hyper_evolve"
     ]
   },
+  "ogre_ambient" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:ogre_ambient"
+    ]
+  },
   "landing" :{
     "subtitle": "sounds.spore.landing",
     "sounds": [
