@@ -15,9 +15,6 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class OgreModel<T extends Ogre> extends EntityModel<T> implements TentacledModel{
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "ogremodel"), "main");
