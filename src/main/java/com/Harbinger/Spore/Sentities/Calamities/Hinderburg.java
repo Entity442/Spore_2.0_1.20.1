@@ -301,6 +301,8 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
     }
     public void SummonNuke(){
             TumoroidNuke tnt = new TumoroidNuke(this.level(),this);
+            tnt.setOverclocked(this.entityData.get(ADAPTATION));
+            tnt.setBuster(Math.random() < 0.2);
             this.entityData.set(DROPPED_BOMBS,entityData.get(DROPPED_BOMBS)+1);
             this.level().addFreshEntity(tnt);
             this.setBomb(0);
