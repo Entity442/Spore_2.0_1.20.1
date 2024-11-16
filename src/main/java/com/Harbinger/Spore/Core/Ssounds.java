@@ -116,6 +116,10 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> OGRE_AMBIENT = soundRegistry("ogre_ambient");
 
+    public static final RegistryObject<SoundEvent> CALAMITY_SPAWN = soundRegistry("calamity_spawn");
+
+    public static final RegistryObject<SoundEvent> CALAMITY_INCOMING = soundRegistry("calamity_incoming");
+
     private Ssounds() {
     }
 }

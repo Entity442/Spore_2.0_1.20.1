@@ -92,6 +92,18 @@
       "spore:rebirth"
     ]
   },
+  "calamity_spawn" :{
+    "subtitle": "sounds.spore.proto_ambient",
+    "sounds": [
+      "spore:calamity_spawn"
+    ]
+  },
+  "calamity_incoming" :{
+    "subtitle": "sounds.spore.proto_ambient",
+    "sounds": [
+      "spore:calamity_incoming"
+    ]
+  },
   "spore_area_ambient" :{
     "subtitle": "sounds.spore.spore_area_ambient",
     "sounds": [
