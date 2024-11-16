@@ -20,6 +20,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -117,7 +118,8 @@ public class TumoroidNuke extends UtilityEntity{
     public void explodeNuke(BlockPos offset,boolean fire,int value){
         if (!this.level().isClientSide){
             Entity entity = this.hinderburg != null ? this.hinderburg : this;
-            this.level().explode(entity,this.getX() + offset.getX(),this.getY()+ offset.getY(),this.getZ()+ offset.getZ(),value, Level.ExplosionInteraction.MOB);
+            Level.ExplosionInteraction explosion$blockinteraction = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this) ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
+            this.level().explode(entity,this.getX() + offset.getX(),this.getY()+ offset.getY(),this.getZ()+ offset.getZ(),value, explosion$blockinteraction);
             if (fire && this.level() instanceof ServerLevel serverLevel){
                 Utilities.convertBlocks(serverLevel,this,this.getOnPos(),14, Blocks.FIRE.defaultBlockState());
             }
