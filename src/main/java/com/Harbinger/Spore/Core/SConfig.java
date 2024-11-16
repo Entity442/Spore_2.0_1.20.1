@@ -32,7 +32,6 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Boolean> should_starve;
         public final ForgeConfigSpec.ConfigValue<Boolean> higher_thinking;
 
-
         public final ForgeConfigSpec.ConfigValue<Boolean> faw_target;
         public final ForgeConfigSpec.ConfigValue<Boolean> skulk_target;
 
@@ -1233,6 +1232,8 @@ public class SConfig {
 
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> block_cleaning;
         public final ForgeConfigSpec.ConfigValue<Integer> cryo_range;
+        public final ForgeConfigSpec.ConfigValue<Boolean> cryo_spawns_snow;
+
         public final ForgeConfigSpec.ConfigValue<Integer> zoaholic_range;
         public final ForgeConfigSpec.ConfigValue<Integer> outpost_range;
         public final ForgeConfigSpec.ConfigValue<Integer> spawner_range;
@@ -1242,6 +1243,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> raid_level_3;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> special;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> drops;
+
         public DataGen(ForgeConfigSpec.Builder builder){
             builder.push("Loot Tables");
             builder.comment("item|chance to drop(1-100)|minimum amount|maximum amount. Only values above 0 will be taken in consideration.");
@@ -1432,6 +1434,7 @@ public class SConfig {
                             ,"spore:infested_cobbled_deepslate|minecraft:cobbled_deepslate","spore:infested_laboratory_block|spore:lab_block","spore:infested_laboratory_block1|spore:lab_block1"
                             ,"spore:infested_laboratory_block2|spore:lab_block2","spore:infested_laboratory_block3|spore:lab_block3") , o -> o instanceof String);
             this.cryo_range = builder.comment("Default 20").defineInRange("Range", 20, 0, Integer.MAX_VALUE);
+            this.cryo_spawns_snow = builder.comment("Default true").define("Should spawn snow?", true);
             builder.pop();
             builder.push("Raid system parameters");
             this.raid_level_1= builder.defineList("Raid level 1 spawns",

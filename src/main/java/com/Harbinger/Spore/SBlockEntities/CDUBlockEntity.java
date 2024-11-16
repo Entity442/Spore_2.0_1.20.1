@@ -111,7 +111,7 @@ public class CDUBlockEntity extends BlockEntity{
                            level.setBlock(blockpos,Sblocks.FROST_BURNED_BIOMASS.get().defaultBlockState(),3);
                        }
                     }
-                    if (Math.random() < 0.001){
+                    if (SConfig.DATAGEN.cryo_spawns_snow.get() && Math.random() < 0.001){
                         BlockState blockState1 = level.getBlockState(blockpos.above());
                         if (state.isSolidRender(level,blockPos) && blockState1.isAir()){
                             RandomSource randomSource = RandomSource.create();
