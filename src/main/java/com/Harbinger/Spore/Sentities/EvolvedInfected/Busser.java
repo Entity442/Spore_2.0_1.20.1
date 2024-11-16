@@ -210,7 +210,6 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
         }
         super.customServerAiStep();
     }
-
     public void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(DATA_ID_TYPE_VARIANT, 0);

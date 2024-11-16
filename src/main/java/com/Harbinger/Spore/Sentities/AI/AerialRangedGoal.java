@@ -5,6 +5,8 @@ import com.Harbinger.Spore.Sentities.Calamities.Hinderburg;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.level.pathfinder.Path;
 
@@ -45,7 +47,10 @@ public class AerialRangedGoal extends ScatterShotRangedGoal {
         if (this.target != null){
             double d0 = this.mob.distanceToSqr(this.target);
             boolean flag = this.mob.getSensing().hasLineOfSight(this.target);
-            if (d0/4 < (double)this.attackRadiusSqr) {
+            if (d0/4 < (double)this.attackRadiusSqr && d0/2 > (double)this.attackRadiusSqr) {
+                this.Orbit(target);
+            }
+            if (this.mob.getY() < target.getY()+8 || d0/2 < (double)this.attackRadiusSqr){
                 this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0,0.1,0));
             }
 
@@ -74,12 +79,16 @@ public class AerialRangedGoal extends ScatterShotRangedGoal {
         }
     }
 
-
+    private void Orbit(LivingEntity target) {
+        mob.setDeltaMovement(mob.getDeltaMovement().multiply(0, 1, 0)
+                .add(target.position().subtract(mob.position()).normalize().multiply(1, 0, 1)
+                        .yRot(90)).scale(mob.getAttributeValue(Attributes.MOVEMENT_SPEED) * 1.5));
+    }
 
     @Override
     public void start() {
         if (mob.tickCount % 40 == 0)
-        this.mob.getNavigation().moveTo(path, this.speedModifier);
+            this.mob.getNavigation().moveTo(path, this.speedModifier);
         super.start();
     }
 }

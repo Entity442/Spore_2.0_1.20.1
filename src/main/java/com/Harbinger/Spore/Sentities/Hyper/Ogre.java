@@ -124,6 +124,7 @@ public class Ogre extends Hyper implements RangedAttackMob , ArmorPersentageBypa
         if (entity instanceof Player player && Math.random() < 0.2){
             player.startRiding(this);
         }
+        if (entity instanceof LivingEntity living){living.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),  600, 0), this);}
         return super.doHurtTarget(entity);
     }
 
