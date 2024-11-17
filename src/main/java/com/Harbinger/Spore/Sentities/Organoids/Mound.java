@@ -211,7 +211,7 @@ public class Mound extends Organoid implements FoliageSpread {
         for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
             BlockState blockState = level.getBlockState(blockpos);
 
-            if (isStructureBlock(blockpos) || isChestWithFood(blockpos) || blockState.is(Sblocks.REMAINS.get()) || blockState.is(Blocks.SPAWNER)){
+            if (isStructureBlock(blockpos) || (isChestWithFood(blockpos) && SConfig.SERVER.tendril_chest.get()) || (blockState.is(Sblocks.REMAINS.get()) && SConfig.SERVER.tendril_corpse.get()) || (blockState.is(Blocks.SPAWNER) && SConfig.SERVER.tendril_spawner.get())){
                 InfectionTendril tendril = new InfectionTendril(Sentities.TENDRIL.get(),level);
                 tendril.setAgeM(this.getMaxAge() -1);
                 tendril.setSearchArea(blockpos);

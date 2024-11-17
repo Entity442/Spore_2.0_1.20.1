@@ -427,6 +427,9 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> flee;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> attack;
 
+        public final ForgeConfigSpec.ConfigValue<Boolean> tendril_chest;
+        public final ForgeConfigSpec.ConfigValue<Boolean> tendril_spawner;
+        public final ForgeConfigSpec.ConfigValue<Boolean> tendril_corpse;
 
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> howler_effects_buff;
 
@@ -994,6 +997,12 @@ public class SConfig {
             this.player_hp = builder.comment("Default 21").defineInRange("Infected Player Max health", 21, 1, Double.MAX_VALUE);
             this.player_damage = builder.comment("Default 4").defineInRange("Infected Player Damage", 4, 1, Double.MAX_VALUE);
             this.player_armor = builder.comment("Default 2").defineInRange("Infected Player Armor", 2, 1, Double.MAX_VALUE);
+            builder.pop();
+
+            builder.push("Tendril");
+            this.tendril_chest = builder.comment("Default true").define("Should tendrils go to food containers ?",true);
+            this.tendril_spawner = builder.comment("Default true").define("Should tendrils go to spawners ?",true);
+            this.tendril_corpse = builder.comment("Default true").define("Should tendrils go to human remains ?",true);
             builder.pop();
 
             builder.push("Spitter");
