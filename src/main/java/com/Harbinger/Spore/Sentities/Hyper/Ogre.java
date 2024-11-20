@@ -97,6 +97,7 @@ public class Ogre extends Hyper implements RangedAttackMob , ArmorPersentageBypa
         if (tickCount % 200 == 0){
             LivingEntity livingEntity = this.getTarget();
             if (livingEntity != null && this.hasLineOfSight(livingEntity)){
+                this.level().broadcastEntityEvent(this, (byte)4);
                 for (int i = 0;i < random.nextInt(1,4);i++){
                     performRangedAttack(livingEntity,0);
                 }
@@ -104,7 +105,7 @@ public class Ogre extends Hyper implements RangedAttackMob , ArmorPersentageBypa
         }
     }
     public void handleEntityEvent(byte value) {
-        if (value == 4 && canDoTailAttack()) {
+        if (value == 4) {
             this.attackAnimationTick = 10;
         } else {
             super.handleEntityEvent(value);
@@ -115,6 +116,7 @@ public class Ogre extends Hyper implements RangedAttackMob , ArmorPersentageBypa
     public boolean doHurtTarget(Entity entity) {
         if (canDoTailAttack() && !this.isVehicle() && entity instanceof LivingEntity living){
             this.attackAnimationTick = 10;
+            this.level().broadcastEntityEvent(this, (byte)4);
             living.knockback((10f),  Mth.sin(this.getYRot() * ((float) Math.PI / 180F)), (double) (-Mth.cos(this.getYRot() * ((float) Math.PI / 180F))));
             this.attacks = 0;
             living.addEffect(new MobEffectInstance(MobEffects.CONFUSION,120));
@@ -147,7 +149,6 @@ public class Ogre extends Hyper implements RangedAttackMob , ArmorPersentageBypa
     @Override
     public void performRangedAttack(LivingEntity livingEntity, float v) {
         this.attackAnimationTick = 10;
-        this.level().broadcastEntityEvent(this, (byte)4);
         BlockState state = getBlock();
         if(!level().isClientSide && state != null) {
             ThrownBlockProjectile thrownBlockProjectile = new ThrownBlockProjectile(level(),this,10f,state,TARGET_SELECTOR);

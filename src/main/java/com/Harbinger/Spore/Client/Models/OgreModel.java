@@ -590,6 +590,8 @@ public class OgreModel<T extends Ogre> extends EntityModel<T> implements Tentacl
 			TailSegment2.yRot = spinValue/2;
 			TailSegment3.yRot = spinValue/2;
 			TailSegment4.yRot = spinValue/2;
+		}else{
+			H_brute.yRot = 0;
 		}
 	}
 	@Override
