@@ -59,6 +59,8 @@ public class Bloater extends EvolvedInfected implements WaterInfected {
 
     }
 
+    public int getAmountOfTumors(){return 0;}
+
     @Override
     protected void registerGoals() {
 

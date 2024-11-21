@@ -15,12 +15,34 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.util.Mth;
 
-public class BloaterModel<T extends Bloater> extends EntityModel<T> {
+public class BloaterModel<T extends Bloater> extends EntityModel<T> implements TentacledModel{
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "bloatemodelr"), "main");
 	private final ModelPart bloater;
+	private final ModelPart rightLeg;
+	private final ModelPart rightForLeg;
+	private final ModelPart leftLeg;
+	private final ModelPart leftForLeg;
+	private final ModelPart torso;
+	private final ModelPart sea1;
+	private final ModelPart sea2;
+	private final ModelPart tumor1;
+	private final ModelPart tumor2;
+	private final ModelPart tumor3;
+	private final ModelPart tumor4;
 	public BloaterModel(ModelPart root) {
 		this.bloater = root.getChild("bloater");
+		this.rightLeg = bloater.getChild("Legs").getChild("RightLeg");
+		this.rightForLeg = rightLeg.getChild("RightLeg2");
+		this.leftLeg = bloater.getChild("Legs").getChild("LeftLeg");
+		this.leftForLeg = leftLeg.getChild("LeftLeg2");
+		this.sea1 = bloater.getChild("LowerTorso").getChild("TorsoDetails").getChild("BottomSeaPickles");
+		this.tumor1 = bloater.getChild("LowerTorso").getChild("TorsoDetails").getChild("LowerTorsoTumor").getChild("TumorClump1");
+		this.tumor2 = bloater.getChild("LowerTorso").getChild("TorsoDetails").getChild("LowerTorsoTumor").getChild("TumorClump2");
+		this.torso = bloater.getChild("LowerTorso").getChild("UpperTorso");
+		this.tumor3 = torso.getChild("UpperTorsoDetails").getChild("MiddleTorsoTumor").getChild("TumorClump3");
+		this.tumor4 = torso.getChild("UpperTorsoDetails").getChild("MiddleTorsoTumor").getChild("TumorClump4");
+		this.sea2 = torso.getChild("UpperTorsoDetails").getChild("TopSeaPickles");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -293,9 +315,26 @@ public class BloaterModel<T extends Bloater> extends EntityModel<T> {
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
 
+	public void renderTumor(T entity,ModelPart part,float value,int count){
+		if (entity.getAmountOfTumors() >= count){
+			part.visible = true;
+			animateTumor(part,value);
+		}else {
+			part.visible = false;
+		}
+	}
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+		renderTumor(entity,tumor1,Mth.cos(ageInTicks/7)/8,1);
+		renderTumor(entity,tumor2,Mth.sin(ageInTicks/8)/7,2);
+		renderTumor(entity,tumor3,-Mth.sin(ageInTicks/7)/7,3);
+		renderTumor(entity,tumor4,Mth.cos(ageInTicks/8)/7,4);
+		this.sea1.visible = entity.getAmountOfTumors() <= 0;
+		this.sea2.visible = entity.getAmountOfTumors() <= 3;
+		this.leftLeg.xRot = Mth.cos(limbSwing * 0.6F) * 0.6F * limbSwingAmount;
+		this.rightLeg.xRot = Mth.cos(limbSwing * 0.6F) * 0.6F * -limbSwingAmount;
+		this.leftForLeg.xRot = this.leftLeg.xRot < 0 ? -this.leftLeg.xRot : 0;
+		this.rightForLeg.xRot = this.rightLeg.xRot < 0 ? -this.rightLeg.xRot : 0;
 	}
 
 	@Override
