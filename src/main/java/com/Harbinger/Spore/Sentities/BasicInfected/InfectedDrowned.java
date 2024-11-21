@@ -79,14 +79,6 @@ public class InfectedDrowned extends Infected implements WaterInfected {
 
     @Override
     protected void registerGoals() {
-
-        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.5, false) {
-            @Override
-            protected double getAttackReachSqr(LivingEntity entity) {
-                return 3.0 + entity.getBbWidth() * entity.getBbWidth();
-            }
-        });
-
         this.goalSelector.addGoal(4 , new ReturnToWater(this, 1.2));
         this.goalSelector.addGoal(4, new RandomStrollGoal(this ,0.8));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));

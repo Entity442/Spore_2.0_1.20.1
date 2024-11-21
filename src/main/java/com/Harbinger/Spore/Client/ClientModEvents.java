@@ -113,6 +113,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(BrainTentacleModel.LAYER_LOCATION, BrainTentacleModel::createBodyLayer);
         event.registerLayerDefinition(ArenaTendrilModel.LAYER_LOCATION, ArenaTendrilModel::createBodyLayer);
         event.registerLayerDefinition(OgreModel.LAYER_LOCATION, OgreModel::createBodyLayer);
+        event.registerLayerDefinition(BloaterModel.LAYER_LOCATION, BloaterModel::createBodyLayer);
     }
 
 
@@ -173,6 +174,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.GASTGABER.get(), GastGaverRenderer::new);
         event.registerEntityRenderer(Sentities.SPECTER.get(), SpecterRenderer::new);
         event.registerEntityRenderer(Sentities.HOWITZER.get(), HowitzerRenderer::new);
+        event.registerEntityRenderer(Sentities.BLOATER.get(), BloaterRenderer::new);
 
         event.registerEntityRenderer(Sentities.ACID_BALL.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(Sentities.SPIT.get(), BulletRender::new);
