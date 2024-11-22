@@ -215,6 +215,8 @@
   "item.spore.jagd_spawnegg": "Jagdhund",
   "item.spore.construct_spawnegg": "Infested Construct",
   "item.spore.ogre_spawnegg": "Ogre",
+  "item.spore.bloater_spawnegg": "Bloater",
+
 
 
 
@@ -278,6 +280,7 @@
   "entity.spore.jagd": "Jagdhund",
   "entity.spore.inf_contruct": "Infested Construct",
   "entity.spore.ogre": "Ogre",
+  "entity.spore.bloater": "Bloater",
 
 
   "spore.entity.variant.kidnapper" : "Kidnapper Mutation",
