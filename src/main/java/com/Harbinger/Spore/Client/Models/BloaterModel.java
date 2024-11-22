@@ -17,7 +17,7 @@ import net.minecraft.util.Mth;
 
 public class BloaterModel<T extends Bloater> extends EntityModel<T> implements TentacledModel{
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "bloatemodelr"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "bloatermodel"), "main");
 	private final ModelPart bloater;
 	private final ModelPart rightLeg;
 	private final ModelPart rightForLeg;
@@ -30,6 +30,17 @@ public class BloaterModel<T extends Bloater> extends EntityModel<T> implements T
 	private final ModelPart tumor2;
 	private final ModelPart tumor3;
 	private final ModelPart tumor4;
+	private final ModelPart RightArm;
+	private final ModelPart LeftArm;
+	private final ModelPart Head;
+	private final ModelPart Harpoon;
+	private final ModelPart Tentacle1;
+	private final ModelPart Tentacle2;
+	private final ModelPart Tentacle3;
+	private final ModelPart Tentacle1Seg;
+	private final ModelPart Tentacle2Seg;
+	private final ModelPart Tentacle3Seg;
+
 	public BloaterModel(ModelPart root) {
 		this.bloater = root.getChild("bloater");
 		this.rightLeg = bloater.getChild("Legs").getChild("RightLeg");
@@ -43,6 +54,16 @@ public class BloaterModel<T extends Bloater> extends EntityModel<T> implements T
 		this.tumor3 = torso.getChild("UpperTorsoDetails").getChild("MiddleTorsoTumor").getChild("TumorClump3");
 		this.tumor4 = torso.getChild("UpperTorsoDetails").getChild("MiddleTorsoTumor").getChild("TumorClump4");
 		this.sea2 = torso.getChild("UpperTorsoDetails").getChild("TopSeaPickles");
+		this.RightArm = torso.getChild("Arms").getChild("RightArm");
+		this.LeftArm = torso.getChild("Arms").getChild("LeftArm");
+		this.Head = torso.getChild("Head");
+		this.Harpoon = torso.getChild("HarpoonPoint");
+		this.Tentacle1 = bloater.getChild("LowerTorso").getChild("TorsoDetails").getChild("TorsoTendrils").getChild("Tendril1");
+		this.Tentacle2 = bloater.getChild("LowerTorso").getChild("TorsoDetails").getChild("TorsoTendrils").getChild("Tendril2");
+		this.Tentacle3 = bloater.getChild("LowerTorso").getChild("TorsoDetails").getChild("TorsoTendrils").getChild("Tendril3");
+		this.Tentacle1Seg = Tentacle1.getChild("Seg2Tendril1");
+		this.Tentacle2Seg = Tentacle2.getChild("Seg2Tendril2");
+		this.Tentacle3Seg = Tentacle3.getChild("Seg2Tendril3");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -298,7 +319,7 @@ public class BloaterModel<T extends Bloater> extends EntityModel<T> implements T
 
 		PartDefinition LeftLeg2 = LeftLeg.addOrReplaceChild("LeftLeg2", CubeListBuilder.create().texOffs(82, 70).addBox(-2.5F, 0.0F, -2.5F, 5.0F, 6.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 6.0F, 0.0F));
 
-		PartDefinition LeftFootFin = LeftLeg.addOrReplaceChild("LeftFootFin", CubeListBuilder.create().texOffs(36, 110).addBox(0.0F, -3.0F, 0.0F, 4.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.5F, 8.25F, -1.0F, 0.0F, -0.6545F, 0.0F));
+		PartDefinition LeftFootFin = LeftLeg2.addOrReplaceChild("LeftFootFin", CubeListBuilder.create().texOffs(36, 110).addBox(0.0F, -3.0F, 0.0F, 4.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.5F, 2.25F, -1.0F, 0.0F, -0.6545F, 0.0F));
 
 		PartDefinition RightLeg = Legs.addOrReplaceChild("RightLeg", CubeListBuilder.create().texOffs(50, 97).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 6.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(-3.0F, -12.0F, 0.0F));
 
@@ -315,7 +336,7 @@ public class BloaterModel<T extends Bloater> extends EntityModel<T> implements T
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
 
-	public void renderTumor(T entity,ModelPart part,float value,int count){
+	public void renderTumor(T entity, ModelPart part, float value, int count){
 		if (entity.getAmountOfTumors() >= count){
 			part.visible = true;
 			animateTumor(part,value);
@@ -325,7 +346,7 @@ public class BloaterModel<T extends Bloater> extends EntityModel<T> implements T
 	}
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		renderTumor(entity,tumor1,Mth.cos(ageInTicks/7)/8,1);
+		renderTumor(entity,tumor1, Mth.cos(ageInTicks/7)/8,1);
 		renderTumor(entity,tumor2,Mth.sin(ageInTicks/8)/7,2);
 		renderTumor(entity,tumor3,-Mth.sin(ageInTicks/7)/7,3);
 		renderTumor(entity,tumor4,Mth.cos(ageInTicks/8)/7,4);
@@ -335,6 +356,18 @@ public class BloaterModel<T extends Bloater> extends EntityModel<T> implements T
 		this.rightLeg.xRot = Mth.cos(limbSwing * 0.6F) * 0.6F * -limbSwingAmount;
 		this.leftForLeg.xRot = this.leftLeg.xRot < 0 ? -this.leftLeg.xRot : 0;
 		this.rightForLeg.xRot = this.rightLeg.xRot < 0 ? -this.rightLeg.xRot : 0;
+		this.animateTentacleY(Head,netHeadYaw / (180F / (float) Math.PI));
+		this.animateTentacleX(Head,headPitch /  ( 90F / (float) Math.PI));
+		this.animateTentacleX(RightArm, entity.isAggressive() ? -89.5F - (Mth.sin(ageInTicks/4)/7) : -Mth.sin(ageInTicks/8)/10);
+		this.animateTentacleX(LeftArm, entity.isAggressive() ? -89.5F + (Mth.sin(ageInTicks/4)/7) : Mth.sin(ageInTicks/8)/10);
+		this.Harpoon.yScale = entity.attackAnim > 0 ? 1f : 0.5f;
+		animateTentacleX(Harpoon,Mth.cos(ageInTicks/6)/8);
+		this.animateTentacleY(Tentacle1,Mth.cos(ageInTicks/6)/5);
+		this.animateTentacleZ(Tentacle1Seg,Mth.cos(ageInTicks/6)/4);
+		this.animateTentacleY(Tentacle2,Mth.cos(ageInTicks/6)/6);
+		this.animateTentacleZ(Tentacle2Seg,Mth.cos(ageInTicks/6)/5);
+		this.animateTentacleY(Tentacle3,Mth.cos(ageInTicks/7)/5);
+		this.animateTentacleZ(Tentacle3Seg,Mth.cos(ageInTicks/7)/4);
 	}
 
 	@Override
