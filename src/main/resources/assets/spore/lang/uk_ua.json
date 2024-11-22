@@ -213,7 +213,7 @@
   "item.spore.jagd_spawnegg": "Ягдхунд",
   "item.spore.construct_spawnegg": "Заражена конструкція",
   "item.spore.ogre_spawnegg": "Огр",
-
+  "item.spore.bloater_spawnegg": "Надувник",
 
   "item.spore.scent_spawnegg": "Спори",
   "item.spore.scent_overcharged_spawnegg": "Перенасичені спори",
@@ -274,6 +274,7 @@
   "entity.spore.jagd": "Ягдхунд",
   "entity.spore.inf_contruct": "Заражена конструкція",
   "entity.spore.ogre": "Огр",
+  "entity.spore.bloater": "Надувник",
 
   "spore.entity.variant.kidnapper" : "Мутація викрадача",
   "spore.entity.variant.kamikaze": "Камікадзе Мутація",
