@@ -81,7 +81,12 @@ public class Ogre extends Hyper implements RangedAttackMob , ArmorPersentageBypa
     @Override
     protected void addRegularGoals() {
         super.addRegularGoals();
-        this.goalSelector.addGoal(3, new AOEMeleeAttackGoal(this ,1.2,true, 1.2 ,7, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
+        this.goalSelector.addGoal(3, new AOEMeleeAttackGoal(this ,1.2,true, 1.2 ,7, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}){
+            @Override
+            protected double getAttackReachSqr(LivingEntity entity) {
+                return Ogre.this.canDoTailAttack() ? super.getAttackReachSqr(entity) * 1.5f:  super.getAttackReachSqr(entity);
+            }
+        });
         this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F));
         this.goalSelector.addGoal(6, new RandomStrollGoal(this, 0.8));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
