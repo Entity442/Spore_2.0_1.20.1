@@ -6,8 +6,8 @@ import com.Harbinger.Spore.Core.Sparticles;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
+import com.Harbinger.Spore.Sentities.AI.HybridPathNavigation;
 import com.Harbinger.Spore.Sentities.AI.ReturnToWater;
-import com.Harbinger.Spore.Sentities.AI.SemiWaterNavigation;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.MovementControls.WaterXlandMovement;
 import com.Harbinger.Spore.Sentities.WaterInfected;
@@ -44,7 +44,7 @@ public class Bloater extends EvolvedInfected implements WaterInfected {
         super(type, level);
         this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
         this.moveControl = new WaterXlandMovement(this);
-        this.navigation = new SemiWaterNavigation(this,level);
+        this.navigation = new HybridPathNavigation(this,this.level());
     }
     public void travel(Vec3 p_32858_) {
         if (this.isEffectiveAi() && this.isInFluidType()) {
