@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CDUBlockEntity extends BlockEntity{
-    public final int maxFuel = 12000;
+    public final int maxFuel = SConfig.DATAGEN.cryo_time.get();
     public int fuel;
     public CDUBlockEntity(BlockPos pos, BlockState state) {
         super(SblockEntities.CDU.get(), pos, state);
@@ -79,59 +79,62 @@ public class CDUBlockEntity extends BlockEntity{
         states.add(Sblocks.ROOTED_MYCELIUM.get().defaultBlockState());
         return states;
     }
+    public void cleanInfection(BlockPos blockPos){
+        int range =2* SConfig.DATAGEN.cryo_range.get();
+        AABB aabb = AABB.ofSize(new Vec3(blockPos.getX(), blockPos.getY(), blockPos.getZ()), range, range, range);
+        List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, aabb);
+
+        for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+            BlockState state = level.getBlockState(blockpos);
+            if (state.is(TagKey.create(ForgeRegistries.BLOCKS.getRegistryKey(),new ResourceLocation(Spore.MODID,"removable_foliage")))){
+                if (Math.random() < 0.2)
+                    level.removeBlock(blockpos,false);
+            }
+            if (Math.random() < 0.1){
+                for (String str : SConfig.DATAGEN.block_cleaning.get()){
+                    String[] string = str.split("\\|" );
+                    Block blockCon1 = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(string[0]));
+                    Block blockCon2 = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(string[1]));
+                    if (blockCon1 != null && blockCon2 != null){
+                        if (blockCon1 == state.getBlock()){
+                            level.setBlock(blockpos,blockCon2.defaultBlockState(),3);
+                        }
+                    }
+                }
+            }
+            if (Math.random() < 0.1){
+                if (this.stateList().contains(state)){
+                    level.setBlock(blockpos,Sblocks.FROST_BURNED_BIOMASS.get().defaultBlockState(),3);
+                }
+            }
+            if (Math.random() < 0.001 && SConfig.DATAGEN.cryo_snow.get()){
+                BlockState blockState1 = level.getBlockState(blockpos.above());
+                if (state.isSolidRender(level,blockPos) && blockState1.isAir()){
+                    RandomSource randomSource = RandomSource.create();
+                    int layer = randomSource.nextInt(1,4);
+                    BlockState snowState = Blocks.SNOW.defaultBlockState();
+                    if (snowState.getBlock().getStateDefinition().getProperty("layers") instanceof IntegerProperty property)
+                        level.setBlock(blockpos.above(),snowState.setValue(property,layer),3);
+                }
+            }
+        }
+        for (Entity entity : entities){
+            if (entity instanceof LivingEntity livingEntity &&
+                    (livingEntity.getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES))){
+                livingEntity.setTicksFrozen(livingEntity.getTicksFrozen()+100);
+                livingEntity.hurt(livingEntity.damageSources().freeze(), (float) (SConfig.DATAGEN.cryo_damage.get() *1f));
+            }
+            if (entity instanceof ScentEntity || entity instanceof InfectionTendril){
+                entity.discard();
+            }
+        }
+    }
 
     public static <E extends BlockEntity> void serverTick(Level level, BlockPos blockPos, BlockState blockState, CDUBlockEntity e) {
         if (e.getFuel() > 0 && !level.isClientSide){
             e.fuel--;
             if (e.getFuel() % 60 == 0){
-                int range =2 * SConfig.DATAGEN.cryo_range.get();
-                AABB aabb = AABB.ofSize(new Vec3(blockPos.getX(), blockPos.getY(), blockPos.getZ()), range, range, range);
-                List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, aabb);
-
-                for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
-                    BlockState state = level.getBlockState(blockpos);
-                    if (state.is(TagKey.create(ForgeRegistries.BLOCKS.getRegistryKey(),new ResourceLocation(Spore.MODID,"removable_foliage")))){
-                        if (Math.random() < 0.2)
-                        level.removeBlock(blockpos,false);
-                    }
-                    if (Math.random() < 0.1){
-                        for (String str : SConfig.DATAGEN.block_cleaning.get()){
-                            String[] string = str.split("\\|" );
-                            Block blockCon1 = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(string[0]));
-                            Block blockCon2 = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(string[1]));
-                            if (blockCon1 != null && blockCon2 != null){
-                                if (blockCon1 == state.getBlock()){
-                                    level.setBlock(blockpos,blockCon2.defaultBlockState(),3);
-                                }
-                            }
-                        }
-                    }
-                    if (Math.random() < 0.1){
-                       if (e.stateList().contains(state)){
-                           level.setBlock(blockpos,Sblocks.FROST_BURNED_BIOMASS.get().defaultBlockState(),3);
-                       }
-                    }
-                    if (Math.random() < 0.001){
-                        BlockState blockState1 = level.getBlockState(blockpos.above());
-                        if (state.isSolidRender(level,blockPos) && blockState1.isAir()){
-                            RandomSource randomSource = RandomSource.create();
-                            int layer = randomSource.nextInt(1,4);
-                            BlockState snowState = Blocks.SNOW.defaultBlockState();
-                            if (snowState.getBlock().getStateDefinition().getProperty("layers") instanceof IntegerProperty property)
-                            level.setBlock(blockpos.above(),snowState.setValue(property,layer),3);
-                        }
-                    }
-                }
-                for (Entity entity : entities){
-                    if (entity instanceof LivingEntity livingEntity &&
-                            (livingEntity.getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES))){
-                        livingEntity.setTicksFrozen(livingEntity.getTicksFrozen()+100);
-                        livingEntity.hurt(livingEntity.damageSources().freeze(),5);
-                    }
-                    if (entity instanceof ScentEntity || entity instanceof InfectionTendril){
-                        entity.discard();
-                    }
-                }
+                e.cleanInfection(blockPos);
             }
          }
     }
