@@ -93,7 +93,7 @@ public class Hyper extends Infected{
         return super.hurt(source, amount);
     }
     public double getDamageCap(){
-        return 25;
+        return getMaxHealth()/3;
     }
 
     public int getBreaking(){

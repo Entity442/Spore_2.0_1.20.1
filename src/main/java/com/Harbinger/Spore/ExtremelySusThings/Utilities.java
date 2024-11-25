@@ -18,7 +18,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -27,6 +26,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.function.Predicate;
 
 
@@ -120,29 +120,16 @@ public class Utilities {
         return states;
     }
 
-    public static void moveToSoftPlace(Entity entity,double X, double Y , double Z, Level level){
-        if (level instanceof ServerLevel serverLevel){
-            BlockPos blockpos = BlockPos.containing(X, Y, Z);
-            boolean flag = false;
-            if (serverLevel.hasChunkAt(blockpos)) {
-                AABB aabb = AABB.ofSize(new Vec3(blockpos.getX(), blockpos.getY(), blockpos.getZ()), 7, 7, 7);
-                for(BlockPos blockPos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
-                    BlockState state = serverLevel.getBlockState(blockPos.below());
-                    if (state.getDestroySpeed(serverLevel,blockpos) < 4 && state.isCollisionShapeFullBlock(level,blockpos)){
-                        if (serverLevel.noCollision(entity,entity.getBoundingBox().inflate(1)) &&
-                                (!serverLevel.containsAnyLiquid(entity.getBoundingBox().inflate(1)) || serverLevel.isWaterAt(blockpos))){
-                            flag = true;
-                            blockpos = blockPos;
-                            break;
-                        }
-                    }
-                }
-                if (flag){
-                    entity.moveTo(blockpos,entity.getYRot(),entity.getXRot());
-                }else{
-                    entity.discard();
-                }
-            }
-        }
+    public static Vec3 generatePositionAway(Vec3 origin, double distance) {
+        Random random = new Random();
+        double theta = random.nextDouble() * 2 * Math.PI; // Random angle around the z-axis (0 to 2π)
+        double phi = Math.acos(2 * random.nextDouble() - 1); // Random angle from the z-axis (0 to π)
+        // Convert spherical coordinates to Cartesian coordinates for the offset
+        double offsetX = Math.sin(phi) * Math.cos(theta) * distance;
+        double offsetY = Math.sin(phi) * Math.sin(theta) * distance;
+        double offsetZ = Math.cos(phi) * distance;
+        // Generate the new position
+        return new Vec3(origin.x + offsetX, origin.y + offsetY,origin.z + offsetZ);
     }
+
 }

@@ -37,7 +37,7 @@ public class EvolvedInfected extends Infected {
         return super.hurt(source, amount);
     }
     public double getDamageCap(){
-        return 15;
+        return getMaxHealth()/3;
     }
 
     @Override
