@@ -115,6 +115,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(OgreModel.LAYER_LOCATION, OgreModel::createBodyLayer);
         event.registerLayerDefinition(BloaterModel.LAYER_LOCATION, BloaterModel::createBodyLayer);
         event.registerLayerDefinition(ScavengerModel.LAYER_LOCATION, ScavengerModel::createBodyLayer);
+        event.registerLayerDefinition(ProtoChritsmasHat.LAYER_LOCATION, ProtoChritsmasHat::createBodyLayer);
     }
 
 

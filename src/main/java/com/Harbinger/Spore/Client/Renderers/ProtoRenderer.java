@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Client.Renderers;
 
 
+import com.Harbinger.Spore.Client.Layers.ProtoHatLayer;
 import com.Harbinger.Spore.Client.Layers.ProtoMembraneLayer;
 import com.Harbinger.Spore.Client.Models.ProtoHivemindModel;
 import com.Harbinger.Spore.Client.Models.ProtoRedesign;
@@ -27,6 +28,7 @@ public class ProtoRenderer extends OrganoidMobRenderer<Proto , EntityModel<Proto
         super(context, new ProtoRedesign<>(context.bakeLayer(ProtoRedesign.LAYER_LOCATION)), 3f);
         nunny = new ProtoHivemindModel<>(context.bakeLayer(ProtoHivemindModel.LAYER_LOCATION));
         this.addLayer(new ProtoMembraneLayer(this));
+        this.addLayer(new ProtoHatLayer<>(this,context.getModelSet()));
     }
 
     @Override
