@@ -34,13 +34,18 @@ public class Scavenger extends EvolvedInfected implements FlyingInfected {
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, SConfig.SERVER.bus_hp.get() * SConfig.SERVER.global_health.get())
+                .add(Attributes.MAX_HEALTH, SConfig.SERVER.scavenger_hp.get() * SConfig.SERVER.global_health.get())
                 .add(Attributes.MOVEMENT_SPEED, 0.2)
-                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.bus_damage.get() * SConfig.SERVER.global_damage.get())
-                .add(Attributes.ARMOR,  SConfig.SERVER.bus_armor.get() * SConfig.SERVER.global_armor.get())
+                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.scavenger_damage.get() * SConfig.SERVER.global_damage.get())
+                .add(Attributes.ARMOR,  SConfig.SERVER.scavenger_armor.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.FOLLOW_RANGE, 48)
                 .add(Attributes.ATTACK_KNOCKBACK, 1)
                 .add(Attributes.FLYING_SPEED, 0.4);
+    }
+
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.scavenger_loot.get();
     }
 
     public boolean canAttack(){return ticksAggressive > 0 || checkForHelp();}
