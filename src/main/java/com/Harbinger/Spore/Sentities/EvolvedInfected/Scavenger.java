@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities.EvolvedInfected;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
@@ -8,6 +9,7 @@ import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.FlyingInfected;
 import com.Harbinger.Spore.Sentities.MovementControls.InfectedArialMovementControl;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -92,7 +94,7 @@ public class Scavenger extends EvolvedInfected implements FlyingInfected {
             screams = 0;
             return;
         }
-        this.playSound(SoundEvents.WARDEN_ANGRY);
+        this.playSound(Ssounds.SCAVENGER_SCREECH.get());
         screams++;
         screamForHelp(living);
     }
@@ -156,6 +158,18 @@ public class Scavenger extends EvolvedInfected implements FlyingInfected {
         this.goalSelector.addGoal(3, new RandomStrollGoal(this, 1));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         super.registerGoals();
+    }
+
+    protected SoundEvent getAmbientSound() {
+        return Ssounds.INF_VILLAGER_GROWL.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource p_34327_) {
+        return Ssounds.INF_VILLAGER_DAMAGE.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return Ssounds.INF_VILLAGER_DEATH.get();
     }
 
 }

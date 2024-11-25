@@ -110,6 +110,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> CONSTRUCT_AMBIENT = soundRegistry("construct_ambient");
 
+    public static final RegistryObject<SoundEvent> SCAVENGER_SCREECH = soundRegistry("scavenger_screech");
+
     public static final RegistryObject<SoundEvent> BROKEN_SCREAMS = soundRegistry("broken_screams");
 
     public static final RegistryObject<SoundEvent> HYPER_EVOLVE = soundRegistry("hyper_evolve");

@@ -46,6 +46,12 @@
       "spore:construct_ambient"
     ]
   },
+  "scavenger_screech" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:scavenger_screech"
+    ]
+  },
   "braurei_ambient" :{
     "subtitle": "sounds.spore.braurei_ambient",
     "sounds": [
