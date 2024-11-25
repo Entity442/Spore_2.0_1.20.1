@@ -2,7 +2,6 @@ package com.Harbinger.Spore.Sentities.Organoids;
 
 import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
-import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
 import com.Harbinger.Spore.SBlockEntities.BrainRemnantBlockEntity;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
@@ -33,7 +32,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -229,7 +227,7 @@ public class Proto extends Organoid implements CasingGenerator {
         @Override
         public void start() {
             LivingEntity target = this.proto.getTarget();
-            if (target != null && checkForOrganoids(target)){
+            if (target != null && checkForOrganoids(target) && target.getBlockStateOn().getDestroySpeed(target.level(),target.getOnPos()) < 4){
                 for (int i = 0; i<proto.random.nextInt(3,6);i++){
                     SummonDefense(target);
                 }
