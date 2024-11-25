@@ -82,12 +82,12 @@ public class Scavenger extends EvolvedInfected implements FlyingInfected {
     }
 
     public void scream(LivingEntity living){
-        this.playSound(SoundEvents.WARDEN_ANGRY);
-        if (screams > 2){
+        if (screams > 3){
             ticksAggressive = 200;
             screams = 0;
             return;
         }
+        this.playSound(SoundEvents.WARDEN_ANGRY);
         screams++;
         screamForHelp(living);
     }
@@ -111,7 +111,10 @@ public class Scavenger extends EvolvedInfected implements FlyingInfected {
 
     private void moveToTarget(LivingEntity living , double range){
         double distance = this.distanceToSqr(living);
-        if (distance > range){
+        if (tickCount % 80 == 0){
+            this.scream(living);
+        }
+        if (distance >= range){
             if (tickCount % 20 == 0){
                 this.getNavigation().moveTo(living,1f);
             }
@@ -124,9 +127,6 @@ public class Scavenger extends EvolvedInfected implements FlyingInfected {
             this.setDeltaMovement(this.getDeltaMovement().multiply(0, 1, 0)
                     .add(living.position().subtract(this.position()).normalize()
                             .yRot(90)).scale(this.getAttributeValue(Attributes.MOVEMENT_SPEED) * 2));
-            if (tickCount % 100 == 0){
-                this.scream(living);
-            }
         }else{
             this.getNavigation().stop();
         }

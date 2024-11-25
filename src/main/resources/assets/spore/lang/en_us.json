@@ -216,6 +216,7 @@
   "item.spore.construct_spawnegg": "Infested Construct",
   "item.spore.ogre_spawnegg": "Ogre",
   "item.spore.bloater_spawnegg": "Bloater",
+  "item.spore.scavenger_spawnegg": "Scavenger",
 
 
 
@@ -281,6 +282,7 @@
   "entity.spore.inf_contruct": "Infested Construct",
   "entity.spore.ogre": "Ogre",
   "entity.spore.bloater": "Bloater",
+  "entity.spore.scavenger": "Scavenger",
 
 
   "spore.entity.variant.kidnapper" : "Kidnapper Mutation",

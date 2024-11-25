@@ -168,6 +168,8 @@ public class Sitems {
             () -> new SporeSpawnEgg(Sentities.THORN,-1243545,SpawnEggType.EVOLVED));
     public  static final RegistryObject<Item> JAGD_SPAWNEGG = ITEMS.register("jagd_spawnegg",
             () -> new SporeSpawnEgg(Sentities.JAGD,-95469235,SpawnEggType.EVOLVED));
+    public  static final RegistryObject<Item> SCAVENGER_SPAWNEGG = ITEMS.register("scavenger_spawnegg",
+            () -> new SporeSpawnEgg(Sentities.SCAVENGER,-54353454,SpawnEggType.EVOLVED));
 
     public  static final RegistryObject<Item> BLOATER_SPAWNEGG = ITEMS.register("bloater_spawnegg",
             () -> new SporeSpawnEgg(Sentities.BLOATER,-6834952,SpawnEggType.EVOLVED));
