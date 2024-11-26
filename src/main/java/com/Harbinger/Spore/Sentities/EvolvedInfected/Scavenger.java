@@ -12,6 +12,8 @@ import com.Harbinger.Spore.Sentities.MovementControls.InfectedArialMovementContr
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -142,7 +144,13 @@ public class Scavenger extends EvolvedInfected implements FlyingInfected {
         }
     }
 
-
+    @Override
+    public boolean doHurtTarget(Entity entity) {
+        if (entity instanceof LivingEntity living){
+            living.addEffect(new MobEffectInstance(MobEffects.HUNGER,1200,0));
+        }
+        return super.doHurtTarget(entity);
+    }
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(2, new CustomMeleeAttackGoal(this, 1.5, false) {
