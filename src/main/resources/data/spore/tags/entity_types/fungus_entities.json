@@ -20,6 +20,10 @@
     "spore:howler",
     "spore:stalker",
     "spore:brute",
+    "spore:scavenger",
+    "spore:bloater",
+    "spore:ogre",
+    "spore:inf_contruct",
     "spore:busser",
     "spore:volatile",
     "spore:inf_drowned",
@@ -46,9 +50,5 @@
     "spore:howitzer",
     "spore:thorn",
     "spore:specter",
-    "spore:jagd",
-    "spore:inf_construct",
-    "spore:ogre",
-    "spore:bloater",
-    "spore:scavenger"
+    "spore:jagd"
   ]}
