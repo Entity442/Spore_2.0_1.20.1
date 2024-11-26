@@ -439,6 +439,12 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Boolean> tendril_spawner;
         public final ForgeConfigSpec.ConfigValue<Boolean> tendril_corpse;
 
+        public final ForgeConfigSpec.ConfigValue<Integer> hinden_explosion;
+        public final ForgeConfigSpec.ConfigValue<Integer> tumor_explosion;
+        public final ForgeConfigSpec.ConfigValue<Integer> gastank_explosion;
+        public final ForgeConfigSpec.ConfigValue<Integer> kami_busser_explosion;
+        public final ForgeConfigSpec.ConfigValue<Integer> volatile_explosion;
+
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> howler_effects_buff;
 
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> mycelium;
@@ -1058,7 +1064,13 @@ public class SConfig {
                     Lists.newArrayList("spore:inf_hazmat|70|2|5","spore:inf_player|20|1|2","spore:plagued|15|1|2","spore:lacerator|20|1|3") , o -> o instanceof String);
 
             builder.pop();
-
+            builder.push("Explosion");
+            this.hinden_explosion = builder.comment("Default 16").define("Hindenburg nuke",16);
+            this.tumor_explosion = builder.comment("Default 2").define("Tumor explosion",2);
+            this.kami_busser_explosion = builder.comment("Default 2").define("Kamikaze Phayres explosion",2);
+            this.volatile_explosion = builder.comment("Default 3").define("Volatile explosion",3);
+            this.gastank_explosion = builder.comment("Default 3").define("Infected Scientist gastank explosion",3);
+            builder.pop();
 
             builder.push("Weapons and Tools OwO");
             builder.push("Gas Masks");

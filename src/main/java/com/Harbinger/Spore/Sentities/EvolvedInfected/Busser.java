@@ -162,7 +162,7 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
     private void explodeBusser() {
         if (!this.level().isClientSide) {
             Level.ExplosionInteraction explosion$blockinteraction = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this) ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
-            this.level().explode(this, this.getX(), this.getY(), this.getZ(), 2f, explosion$blockinteraction);
+            this.level().explode(this, this.getX(), this.getY(), this.getZ(), SConfig.SERVER.kami_busser_explosion.get(), explosion$blockinteraction);
             discard();
             for(int i = 0;i<3;i++){
                 int x = this.random.nextInt(-2,2);

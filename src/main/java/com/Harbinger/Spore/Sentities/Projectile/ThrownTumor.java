@@ -1,14 +1,13 @@
 package com.Harbinger.Spore.Sentities.Projectile;
 
+import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.Fluids.BileLiquid;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -22,14 +21,11 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.PlayMessages;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ThrownTumor extends ThrowableItemProjectile {
     private static final EntityDataAccessor<Integer> TYPE = SynchedEntityData.defineId(ThrownTumor.class, EntityDataSerializers.INT);
@@ -80,7 +76,7 @@ public class ThrownTumor extends ThrowableItemProjectile {
     protected void onHit(HitResult hitResult) {
         super.onHit(hitResult);
         if (!this.level().isClientSide){
-            this.level().explode(this, this.getX(), this.getY(), this.getZ(), (float)2, explode);
+            this.level().explode(this, this.getX(), this.getY(), this.getZ(), (float) SConfig.SERVER.tumor_explosion.get(), explode);
             AABB aabb = this.getBoundingBox().inflate(3);
             List<Entity> entities = level().getEntities(this,aabb);
             switch (entityData.get(TYPE)){

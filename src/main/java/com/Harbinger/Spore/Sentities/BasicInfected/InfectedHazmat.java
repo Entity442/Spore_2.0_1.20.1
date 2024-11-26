@@ -140,7 +140,7 @@ public class InfectedHazmat extends Infected {
 
     private void explodeTank(){
         if (!this.level().isClientSide){
-            this.level().explode(this,this.getX(),this.getY(),this.getZ(),2.5f, Level.ExplosionInteraction.MOB);
+            this.level().explode(this,this.getX(),this.getY(),this.getZ(),SConfig.SERVER.gastank_explosion.get(), Level.ExplosionInteraction.MOB);
             this.discard();
         }
     }

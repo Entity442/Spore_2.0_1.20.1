@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Sentities.Utility;
 
+import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
@@ -84,11 +85,11 @@ public class TumoroidNuke extends UtilityEntity{
         this.tickTimer();
         if (getTimer() <= 0)
             if (entityData.get(BUSTER)){
-                this.explodeNuke(new BlockPos(0,0,0),entityData.get(OVERCLOCKED),8);
-                this.explodeNuke(new BlockPos(0,-5,0),entityData.get(OVERCLOCKED),8);
-                this.explodeNuke(new BlockPos(0,-10,0),entityData.get(OVERCLOCKED),8);
+                this.explodeNuke(new BlockPos(0,0,0),entityData.get(OVERCLOCKED), SConfig.SERVER.hinden_explosion.get()/2);
+                this.explodeNuke(new BlockPos(0,-5,0),entityData.get(OVERCLOCKED),SConfig.SERVER.hinden_explosion.get()/2);
+                this.explodeNuke(new BlockPos(0,-10,0),entityData.get(OVERCLOCKED),SConfig.SERVER.hinden_explosion.get()/2);
             }else {
-                this.explodeNuke(new BlockPos(0,0,0),entityData.get(OVERCLOCKED),16);
+                this.explodeNuke(new BlockPos(0,0,0),entityData.get(OVERCLOCKED),SConfig.SERVER.hinden_explosion.get());
             }
     }
 
