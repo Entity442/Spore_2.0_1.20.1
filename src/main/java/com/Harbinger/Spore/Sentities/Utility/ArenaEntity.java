@@ -7,13 +7,14 @@ import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.Organoids.Usurper;
 import com.Harbinger.Spore.Sentities.Organoids.Verwa;
 import com.Harbinger.Spore.Sentities.Projectile.FleshBomb;
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
@@ -22,12 +23,12 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.npc.InventoryCarrier;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -112,7 +113,9 @@ public class ArenaEntity extends UtilityEntity {
         int burrowing = this.entityData.get(BORROW);
         if (burrowing > 60) {
             burrowing = -1;
-            dropLoot();
+            if (this.isWaveActive()){
+                dropLoot();
+            }
             discard();
         }
         this.entityData.set(BORROW, burrowing + 1);
@@ -317,5 +320,14 @@ public class ArenaEntity extends UtilityEntity {
     @Override
     public boolean isInvulnerable() {
         return true;
+    }
+
+    @Override
+    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+        if (player.getItemInHand(hand).getItem() == Sitems.VIGIL_EYE.get()){
+            this.discard();
+            return InteractionResult.SUCCESS;
+        }
+        return super.mobInteract(player, hand);
     }
 }
