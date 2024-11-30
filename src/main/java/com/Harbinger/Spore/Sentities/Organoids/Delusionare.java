@@ -23,15 +23,21 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.entity.projectile.FireworkRocketEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Delusionare extends Organoid {
     private static final EntityDataAccessor<Integer> SPELL_TIME = SynchedEntityData.defineId(Delusionare.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> SPELL_ID = SynchedEntityData.defineId(Delusionare.class, EntityDataSerializers.INT);
+    private final boolean  isHolidays = LocalDate.now().get(ChronoField.MONTH_OF_YEAR) == 12;
     public Delusionare(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
     }
@@ -215,19 +221,29 @@ public class Delusionare extends Organoid {
             for (int i = 0;i<this.random.nextInt(3,7);i++){
                 int randomX = this.random.nextInt(-4,4);
                 int randomZ =this.random.nextInt(-4,4);
-                Arrow arrow = new Arrow(EntityType.ARROW,this.level());
-                arrow.moveTo(entity.getX() + randomX,entity.getY()+3,entity.getZ()+randomZ);
-                arrow.setOwner(this);
-                if (Math.random() < 0.3){
-                    arrow.setSecondsOnFire(4);
+                if (isHolidays){
+                    FireworkRocketEntity rocketEntity = new FireworkRocketEntity(level(),this,entity.getX() + randomX,entity.getY()+3,entity.getZ()+randomZ,new ItemStack(Items.FIREWORK_ROCKET));
+                    double d0 = entity.getX() - rocketEntity.getX();
+                    double d1 = entity.getY(0.3333333333333333D) - rocketEntity.getY();
+                    double d2 = entity.getZ() - rocketEntity.getZ();
+                    double d3 = Math.sqrt(d0 * d0 + d2 * d2);
+                    rocketEntity.shoot(d0, d1 + d3 * (double)0.2F, d2, 1.6F, (float)(14 - this.level().getDifficulty().getId() * 4));
+                    level().addFreshEntity(rocketEntity);
+                }else{
+                    Arrow arrow = new Arrow(EntityType.ARROW,this.level());
+                    arrow.moveTo(entity.getX() + randomX,entity.getY()+3,entity.getZ()+randomZ);
+                    arrow.setOwner(this);
+                    if (Math.random() < 0.3){
+                        arrow.setSecondsOnFire(4);
+                    }
+                    double d0 = entity.getX() - arrow.getX();
+                    double d1 = entity.getY(0.3333333333333333D) - arrow.getY();
+                    double d2 = entity.getZ() - arrow.getZ();
+                    double d3 = Math.sqrt(d0 * d0 + d2 * d2);
+                    arrow.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(), 600));
+                    arrow.shoot(d0, d1 + d3 * (double)0.2F, d2, 1.6F, (float)(14 - this.level().getDifficulty().getId() * 4));
+                    level().addFreshEntity(arrow);
                 }
-                double d0 = entity.getX() - arrow.getX();
-                double d1 = entity.getY(0.3333333333333333D) - arrow.getY();
-                double d2 = entity.getZ() - arrow.getZ();
-                double d3 = Math.sqrt(d0 * d0 + d2 * d2);
-                arrow.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(), 600));
-                arrow.shoot(d0, d1 + d3 * (double)0.2F, d2, 1.6F, (float)(14 - this.level().getDifficulty().getId() * 4));
-                level().addFreshEntity(arrow);
             }
         }
         if (value == Spells.CAST_INVISIBILITY.getId()){
