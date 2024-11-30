@@ -197,4 +197,12 @@ public class Spitter extends EvolvedInfected implements RangedAttackMob {
         }
         return super.getMutation();
     }
+
+    @Override
+    public boolean hasLineOfSight(Entity entity) {
+        if (entity.isInFluidType()){
+            return false;
+        }
+        return super.hasLineOfSight(entity);
+    }
 }
