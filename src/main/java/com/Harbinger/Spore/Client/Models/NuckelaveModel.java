@@ -3,21 +3,25 @@ package com.Harbinger.Spore.Client.Models;// Made with Blockbench 4.11.2
 // Paste this class into your mod and generate all required imports
 
 
+import com.Harbinger.Spore.Client.Animations.NuckelaveAnimation;
+import com.Harbinger.Spore.Client.Animations.WendigoAnimations;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Nuclealave;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.ArmedModel;
+import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.HumanoidArm;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class NuckelaveModel<T extends Nuclealave> extends EntityModel<T> {
+public class NuckelaveModel<T extends Nuclealave> extends HierarchicalModel<T> implements TentacledModel, ArmedModel {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "nuckelavemodel"), "main");
 	public final boolean showArmorBits;
@@ -50,7 +54,7 @@ public class NuckelaveModel<T extends Nuclealave> extends EntityModel<T> {
 	private final ModelPart FrontLeft2;
 	private final ModelPart LeftLegFungus2;
 	private final ModelPart FootTumor;
-	public final ModelPart BackRightLegWear2;
+	public final ModelPart FrontRightLegWear;
 	private final ModelPart FrontRight;
 	private final ModelPart FRLegTumor;
 	private final ModelPart RightLegFungus;
@@ -103,7 +107,7 @@ public class NuckelaveModel<T extends Nuclealave> extends EntityModel<T> {
 		this.FrontLeft2 = this.FrontLeft.getChild("FrontLeft2");
 		this.LeftLegFungus2 = this.FrontLeft2.getChild("LeftLegFungus2");
 		this.FootTumor = this.FrontLeft2.getChild("FootTumor");
-		this.BackRightLegWear2 = this.FrontLeft.getChild("BackRightLegWear2");
+		this.FrontRightLegWear = this.FrontLeft.getChild("FrontRightLegWear");
 		this.FrontRight = this.FrontLegs.getChild("FrontRight");
 		this.FRLegTumor = this.FrontRight.getChild("FRLegTumor");
 		this.RightLegFungus = this.FrontRight.getChild("RightLegFungus");
@@ -220,7 +224,7 @@ public class NuckelaveModel<T extends Nuclealave> extends EntityModel<T> {
 
 		PartDefinition LeftArm = Arms.addOrReplaceChild("LeftArm", CubeListBuilder.create().texOffs(120, 55).addBox(0.0F, -2.0F, -2.0F, 4.0F, 6.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(3.5F, 1.0F, 0.0F));
 
-		PartDefinition LeftArmWear = LeftArm.addOrReplaceChild("LeftArmWear", CubeListBuilder.create().texOffs(160, 64).addBox(-8.0F, -6.0F, -2.0F, 16.0F, 16.0F, 16.0F, new CubeDeformation(-5.7F)), PartPose.offset(2.0F, -2.0F, -6.0F));
+		PartDefinition LeftArmWear = LeftArm.addOrReplaceChild("LeftArmWear", CubeListBuilder.create().texOffs(160, 64).addBox(-8.0F, -8.0F, -8.0F, 16.0F, 16.0F, 16.0F, new CubeDeformation(-5.7F)), PartPose.offsetAndRotation(2.0F, 0.0F, 0.0F, 0.0F, 3.1416F, 0.0F));
 
 		PartDefinition LeftArmSeg2 = LeftArm.addOrReplaceChild("LeftArmSeg2", CubeListBuilder.create().texOffs(36, 107).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 6.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(2.0F, 4.0F, 0.0F));
 
@@ -263,7 +267,7 @@ public class NuckelaveModel<T extends Nuclealave> extends EntityModel<T> {
 
 		PartDefinition Tumor_r4 = FootTumor.addOrReplaceChild("Tumor_r4", CubeListBuilder.create().texOffs(5, 63).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.258F, 0.1001F, 1.2157F, -0.4919F, -0.7052F, 0.1935F));
 
-		PartDefinition BackRightLegWear2 = FrontLeft.addOrReplaceChild("BackRightLegWear2", CubeListBuilder.create().texOffs(0, 64).addBox(-8.0F, -5.0F, -8.0F, 16.0F, 24.0F, 16.0F, new CubeDeformation(-5.8F)), PartPose.offset(0.0033F, -2.661F, -0.1352F));
+		PartDefinition FrontRightLegWear = FrontLeft.addOrReplaceChild("FrontRightLegWear", CubeListBuilder.create().texOffs(0, 64).addBox(-8.0F, -5.0F, -8.0F, 16.0F, 24.0F, 16.0F, new CubeDeformation(-5.8F)), PartPose.offset(0.0033F, -2.661F, -0.1352F));
 
 		PartDefinition FrontRight = FrontLegs.addOrReplaceChild("FrontRight", CubeListBuilder.create().texOffs(56, 93).addBox(-2.0F, -1.0F, -2.0F, 4.0F, 11.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.9983F, 1.3912F, 0.5442F, -0.6221F, 0.2787F, 0.1438F));
 
@@ -377,8 +381,11 @@ public class NuckelaveModel<T extends Nuclealave> extends EntityModel<T> {
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		this.root().getAllParts().forEach(ModelPart::resetPose);
 		this.Head.yRot = netHeadYaw / (180F / (float) Math.PI);
+		this.animateWalk(NuckelaveAnimation.WALK,limbSwing,limbSwingAmount,3,4f);
 	}
+
 	private List<ModelPart> armorParts(){
 		List<ModelPart> values = new ArrayList<>();
 		values.add(HeadWear);
@@ -387,7 +394,7 @@ public class NuckelaveModel<T extends Nuclealave> extends EntityModel<T> {
 		values.add(FrontRightFootWear);
 		values.add(BackLeftFootWear);
 		values.add(BackRightLegWear);
-		values.add(BackRightLegWear2);
+		values.add(FrontRightLegWear);
 		return values;
 	}
 
@@ -396,11 +403,24 @@ public class NuckelaveModel<T extends Nuclealave> extends EntityModel<T> {
 		Nuckelavee.getAllParts().forEach(part -> {setDraw(part);});
 		Nuckelavee.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
+
+	@Override
+	public ModelPart root() {
+		return Nuckelavee;
+	}
+
 	public void setDraw(ModelPart part){
 		if (armorParts().contains(part)){
 			part.skipDraw = !showArmorBits;
 		}else{
 			part.skipDraw = showArmorBits;
 		}
+	}
+	private ModelPart getArm(HumanoidArm humanoidArm) {
+		return humanoidArm == HumanoidArm.LEFT ? this.LeftArm : this.RightArm;
+	}
+	@Override
+	public void translateToHand(HumanoidArm humanoidArm, PoseStack poseStack) {
+		this.getArm(humanoidArm).translateAndRotate(poseStack);
 	}
 }

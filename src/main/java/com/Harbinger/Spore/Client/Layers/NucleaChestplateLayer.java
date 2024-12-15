@@ -50,7 +50,7 @@ public class NucleaChestplateLayer<T extends Nuclealave> extends RenderLayer<T, 
         this.chestModels.add(this.getParentModel().LeftArmWear);
         this.chestModels.add(this.getParentModel().RightArmWear);
         this.pantsModels.add(this.getParentModel().BackRightLegWear);
-        this.pantsModels.add(this.getParentModel().BackRightLegWear2);
+        this.pantsModels.add(this.getParentModel().FrontRightLegWear);
         this.bootsModels.add(this.getParentModel().BackLeftFootWear);
         this.bootsModels.add(this.getParentModel().FrontRightFootWear);
     }
@@ -137,7 +137,7 @@ public class NucleaChestplateLayer<T extends Nuclealave> extends RenderLayer<T, 
             texture = texture.substring(idx + 1);
         }
 
-        String s1 = String.format(Locale.ROOT, "%s:textures/models/armor/%s_layer_%d%s.png", domain, texture,  1, type == null ? "" : String.format(Locale.ROOT, "_%s", type));
+        String s1 = String.format(Locale.ROOT, "%s:textures/models/armor/%s_layer_%d%s.png", domain, texture,slot == EquipmentSlot.LEGS ? 2 :  1, type == null ? "" : String.format(Locale.ROOT, "_%s", type));
         s1 = ForgeHooksClient.getArmorTexture(entity, stack, s1, slot, type);
         ResourceLocation resourcelocation = ARMOR_LOCATION_CACHE.get(s1);
         if (resourcelocation == null) {

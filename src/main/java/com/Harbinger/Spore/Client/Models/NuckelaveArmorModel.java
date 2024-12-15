@@ -29,9 +29,9 @@ public class NuckelaveArmorModel<T extends Nuclealave> extends EntityModel<T> {
 
 		PartDefinition ChestPlate = partdefinition.addOrReplaceChild("ChestPlate", CubeListBuilder.create(), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-		PartDefinition TorsoBase_r1 = ChestPlate.addOrReplaceChild("TorsoBase_r1", CubeListBuilder.create().texOffs(16, 16).addBox(-4.5F, -6.0F, -2.5F, 8.0F, 6.0F, 4.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(0.5F, -27.1452F, -10.5653F, 0.3054F, 0.0F, 0.0F));
+		PartDefinition TorsoBase_r1 = ChestPlate.addOrReplaceChild("TorsoBase_r1", CubeListBuilder.create().texOffs(16, 16).addBox(-4.5F, -6.0F, -2.5F, 8.0F, 6.0F, 4.0F, new CubeDeformation(0.3F)), PartPose.offsetAndRotation(0.5F, -27.1452F, -10.0653F, 0.3054F, 0.0F, 0.0F));
 
-		PartDefinition TorsoBase_r2 = ChestPlate.addOrReplaceChild("TorsoBase_r2", CubeListBuilder.create().texOffs(17, 20).addBox(-3.0F, -5.0F, -2.0F, 6.0F, 5.0F, 4.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(0.0F, -22.8605F, -9.0898F, 0.3927F, 0.0F, 0.0F));
+		PartDefinition TorsoBase_r2 = ChestPlate.addOrReplaceChild("TorsoBase_r2", CubeListBuilder.create().texOffs(17, 20).addBox(-3.0F, -5.0F, -2.0F, 6.0F, 5.0F, 4.0F, new CubeDeformation(0.3F)), PartPose.offsetAndRotation(0.0F, -22.8605F, -8.8398F, 0.3927F, 0.0F, 0.0F));
 
 		return LayerDefinition.create(meshdefinition, 64, 32);
 	}
@@ -41,9 +41,8 @@ public class NuckelaveArmorModel<T extends Nuclealave> extends EntityModel<T> {
 
 	}
 
-
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int i, int i1, float v, float v1, float v2, float v3) {
-
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+		ChestPlate.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 }
