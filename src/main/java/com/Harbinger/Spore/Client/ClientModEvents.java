@@ -11,6 +11,7 @@ import com.Harbinger.Spore.Particles.AcidParticle;
 import com.Harbinger.Spore.Particles.BloodParticle;
 import com.Harbinger.Spore.Particles.SporeParticle;
 import com.Harbinger.Spore.Screens.ContainerScreen;
+import com.Harbinger.Spore.Sentities.EvolvedInfected.Nuclealave;
 import com.Harbinger.Spore.Spore;
 import com.Harbinger.Spore.sEvents.SItemProperties;
 import net.minecraft.client.Minecraft;
@@ -116,6 +117,8 @@ public class ClientModEvents {
         event.registerLayerDefinition(BloaterModel.LAYER_LOCATION, BloaterModel::createBodyLayer);
         event.registerLayerDefinition(ScavengerModel.LAYER_LOCATION, ScavengerModel::createBodyLayer);
         event.registerLayerDefinition(ProtoChritsmasHat.LAYER_LOCATION, ProtoChritsmasHat::createBodyLayer);
+        event.registerLayerDefinition(NuckelaveModel.LAYER_LOCATION, NuckelaveModel::createBodyLayer);
+        event.registerLayerDefinition(NuckelaveArmorModel.LAYER_LOCATION, NuckelaveArmorModel::createBodyLayer);
     }
 
 
@@ -178,6 +181,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.HOWITZER.get(), HowitzerRenderer::new);
         event.registerEntityRenderer(Sentities.BLOATER.get(), BloaterRenderer::new);
         event.registerEntityRenderer(Sentities.SCAVENGER.get(), ScavengerRenderer::new);
+        event.registerEntityRenderer(Sentities.NUCLEA.get(), NucleaRenderer::new);
 
         event.registerEntityRenderer(Sentities.ACID_BALL.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(Sentities.SPIT.get(), BulletRender::new);

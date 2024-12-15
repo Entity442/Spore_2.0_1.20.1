@@ -87,6 +87,7 @@ public class Attributes {
         event.put(Sentities.ARENA_TENDRIL.get(),ArenaEntity.createAttributes().build());
         event.put(Sentities.BLOATER.get(),Bloater.createAttributes().build());
         event.put(Sentities.SCAVENGER.get(),Scavenger.createAttributes().build());
+        event.put(Sentities.NUCLEA.get(),Nuclealave.createAttributes().build());
     }
 }
 
