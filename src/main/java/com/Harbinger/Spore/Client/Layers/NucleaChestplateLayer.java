@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Client.Layers;
 import com.Harbinger.Spore.Client.Models.NuckelaveArmorModel;
 import com.Harbinger.Spore.Client.Models.NuckelaveModel;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Nuclealave;
+import com.Harbinger.Spore.Spore;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -20,6 +21,7 @@ import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.DyeableLeatherItem;
@@ -41,7 +43,10 @@ public class NucleaChestplateLayer<T extends Nuclealave> extends RenderLayer<T, 
     public final List<ModelPart> chestModels = new ArrayList<>();
     public final List<ModelPart> pantsModels = new ArrayList<>();
     public final List<ModelPart> bootsModels = new ArrayList<>();
-
+    private static final ResourceLocation BLOOD_LAYER1 = new ResourceLocation(Spore.MODID,
+            "textures/overlay/blood_overlay.png");
+    private static final ResourceLocation BLOOD_LAYER2 = new ResourceLocation(Spore.MODID,
+            "textures/overlay/blood_overlay_2.png");
     public NucleaChestplateLayer(RenderLayerParent<T, NuckelaveModel<T>> p_117346_, EntityModelSet set, ModelManager manager) {
         super(p_117346_);
         this.Nucklemodel = new NuckelaveArmorModel<>(set.bakeLayer(NuckelaveArmorModel.LAYER_LOCATION));
@@ -58,7 +63,7 @@ public class NucleaChestplateLayer<T extends Nuclealave> extends RenderLayer<T, 
 
     @Override
     public void render(PoseStack stack, MultiBufferSource bufferSource, int value, T type, float p_117353_, float p_117354_, float p_117355_, float p_117356_, float p_117357_, float p_117358_) {
-        renderArmorBuffer(type,stack,bufferSource,value, OverlayTexture.NO_OVERLAY,1,1,1,1);
+        renderArmorBuffer(type,stack,bufferSource,value);
         renderToBufferPerArmorPiece(type,stack,bufferSource,value,OverlayTexture.NO_OVERLAY,1,1,1,1);
     }
     public void renderToBufferPerArmorPiece(T entity , PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
@@ -77,31 +82,35 @@ public class NucleaChestplateLayer<T extends Nuclealave> extends RenderLayer<T, 
                 float f = (float)(i >> 16 & 255) / 255.0F;
                 float f1 = (float)(i >> 8 & 255) / 255.0F;
                 float f2 = (float)(i & 255) / 255.0F;
-                renderArmor(parts,stack,bufferSource,packedLight,OverlayTexture.NO_OVERLAY,f,f1,f2,1,this.getArmorResource(entity, itemStack, slot, (String)null),flag);
+                renderArmor(parts,stack,bufferSource,packedLight,OverlayTexture.NO_OVERLAY,f,f1,f2,1,this.getArmorResource(entity, itemStack, slot, (String)null),flag,slot);
             } else {
-                renderArmor(parts,stack,bufferSource,packedLight,OverlayTexture.NO_OVERLAY,1,1,1,1,this.getArmorResource(entity, itemStack, slot, (String)null),flag);
+                renderArmor(parts,stack,bufferSource,packedLight,OverlayTexture.NO_OVERLAY,1,1,1,1,this.getArmorResource(entity, itemStack, slot, (String)null),flag,slot);
             }
             ArmorTrim.getTrim(entity.level().registryAccess(), itemStack).ifPresent((p_289638_) -> {
                 this.renderTrim(armorItem.getMaterial(), stack, bufferSource, packedLight, p_289638_, parts, flag);
             });
         }
     }
-    private void renderArmor(List<ModelPart> parts, PoseStack stack, MultiBufferSource bufferSource, int packedLight, int packedOverlay, float red, float green, float blue, float alpha,ResourceLocation location,boolean glint){
+    private void renderArmor(List<ModelPart> parts, PoseStack stack, MultiBufferSource bufferSource, int packedLight, int packedOverlay, float red, float green, float blue, float alpha,ResourceLocation location,boolean glint,EquipmentSlot slot){
         VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityCutoutNoCull(location));
         this.getParentModel().Nuckelavee.getAllParts().forEach(modelPart -> {setInvisible(modelPart,parts);});
         this.getParentModel().Nuckelavee.render(stack, consumer, packedLight, packedOverlay, red, green, blue, alpha);
         if (glint){
             this.getParentModel().Nuckelavee.render(stack, bufferSource.getBuffer(RenderType.entityGlint()), packedLight, packedOverlay, red, green, blue, alpha);
         }
+        renderBloodLayer(this.getParentModel().Nuckelavee,slot,stack,bufferSource,packedLight);
     }
 
     private void setInvisible(ModelPart part,List<ModelPart> parts){
         part.skipDraw = !parts.contains(part);
     }
 
+    private void renderBloodLayer(ModelPart part,EquipmentSlot slot, PoseStack stack, MultiBufferSource bufferSource, int packedLight){
+        VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityTranslucent(slot == EquipmentSlot.LEGS ? BLOOD_LAYER2 : BLOOD_LAYER1));
+        part.render(stack,consumer,packedLight,OverlayTexture.NO_OVERLAY);
+    }
 
-
-    public void renderArmorBuffer(T entity, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderArmorBuffer(T entity, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
         ItemStack itemStack = entity.getItemBySlot(EquipmentSlot.CHEST);
         boolean flag = itemStack.hasFoil();
         if (itemStack.getItem() instanceof ArmorItem armorItem){
@@ -125,6 +134,7 @@ public class NucleaChestplateLayer<T extends Nuclealave> extends RenderLayer<T, 
         if (glint){
             Nucklemodel.ChestPlate.render(poseStack, bufferSource.getBuffer(RenderType.entityGlint()), packedLight, packedOverlay, red, green, blue, alpha);
         }
+        renderBloodLayer(Nucklemodel.ChestPlate,EquipmentSlot.CHEST,poseStack,bufferSource,packedLight);
     }
 
     public ResourceLocation getArmorResource(Entity entity, ItemStack stack, EquipmentSlot slot, @Nullable String type) {
