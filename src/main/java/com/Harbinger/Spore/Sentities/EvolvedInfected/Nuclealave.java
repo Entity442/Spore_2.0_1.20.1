@@ -1,26 +1,35 @@
 package com.Harbinger.Spore.Sentities.EvolvedInfected;
 
 import com.Harbinger.Spore.Core.SConfig;
-import com.Harbinger.Spore.Core.Sitems;
+import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
+import com.Harbinger.Spore.Sentities.ArmedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.RangedAttackGoal;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.entity.monster.RangedAttackMob;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import org.jetbrains.annotations.Nullable;
 
-public class Nuclealave extends EvolvedInfected {
+public class Nuclealave extends EvolvedInfected implements RangedAttackMob , ArmedInfected {
     public Nuclealave(EntityType<? extends Monster> type, Level level) {
         super(type, level);
+        this.setMaxUpStep(1.0F);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -40,18 +49,99 @@ public class Nuclealave extends EvolvedInfected {
         this.setItemSlot(EquipmentSlot.HEAD,new ItemStack(Items.IRON_CHESTPLATE));
         this.setItemSlot(EquipmentSlot.LEGS,new ItemStack(Items.DIAMOND_LEGGINGS));
         this.setItemSlot(EquipmentSlot.FEET,new ItemStack(Items.NETHERITE_BOOTS));
+        this.setItemSlot(EquipmentSlot.MAINHAND,Math.random() > 0.5f ? new ItemStack(Items.DIAMOND_SWORD) : Math.random() > 0.5f ? new ItemStack(Items.BOW) : new ItemStack(Items.SHIELD));
         return super.finalizeSpawn(serverLevelAccessor, p_21435_, p_21436_, p_21437_, p_21438_);
     }
 
     @Override
     protected void addRegularGoals() {
         super.addRegularGoals();
-        this.goalSelector.addGoal(3, new CustomMeleeAttackGoal(this, 1.5, false) {
+        this.goalSelector.addGoal(2,new RangedAttackGoal(this,1.1f,50,20){
+            @Override
+            public boolean canUse() {
+                return canDoRangedAttacks() && super.canUse();
+            }
+            @Override
+            public void start() {
+                super.start();
+                setAggressive(true);
+            }
+            @Override
+            public void stop() {
+                super.stop();
+                setAggressive(false);
+            }
+        });
+        this.goalSelector.addGoal(3, new CustomMeleeAttackGoal(this, 1.3, false) {
+            @Override
+            public boolean canUse() {
+                return !canDoRangedAttacks() && super.canUse();
+            }
             @Override
             protected double getAttackReachSqr(LivingEntity entity) {
                 return 3.0 + entity.getBbWidth() * entity.getBbWidth();}});
 
         this.goalSelector.addGoal(4, new RandomStrollGoal(this, 0.8));
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
+    }
+
+    public boolean canDoRangedAttacks(){
+        LivingEntity living = this.getTarget();
+        if (this.getMainHandItem().getItem() instanceof BowItem || this.getOffhandItem().getItem() instanceof BowItem){
+            return living != null && living.distanceToSqr(this) > 100;
+        }
+        return false;
+    }
+    private boolean hasFireCapabilities(){
+        return this.getMainHandItem().getItem() instanceof FlintAndSteelItem || this.getOffhandItem().getItem() instanceof FlintAndSteelItem;
+    }
+    private boolean canShield(){
+        return this.getMainHandItem().getItem() instanceof ShieldItem || this.getOffhandItem().getItem() instanceof ShieldItem;
+    }
+    private ItemStack getShieldInHand(){
+        if (this.getMainHandItem().getItem() instanceof ShieldItem){
+            return this.getMainHandItem();
+        }else{
+            return this.getOffhandItem();
+        }
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        if (canShield() && source.getEntity() instanceof LivingEntity living && Math.random() < 0.2f){
+            this.playSound(SoundEvents.SHIELD_BLOCK);
+            getShieldInHand().hurtAndBreak((int) amount,living,e -> {});
+            return false;
+        }
+        return super.hurt(source, amount);
+    }
+
+    @Override
+    public boolean doHurtTarget(Entity entity) {
+        if (hasFireCapabilities()){entity.setSecondsOnFire(10);}
+        return super.doHurtTarget(entity);
+    }
+    protected AbstractArrow getArrow(ItemStack p_32156_, float p_32157_) {
+        return ProjectileUtil.getMobArrow(this, p_32156_, p_32157_);
+    }
+    @Override
+    public void performRangedAttack(LivingEntity entity, float v) {
+        ItemStack itemstack = this.getProjectile(this.getItemInHand(ProjectileUtil.getWeaponHoldingHand(this, item -> item instanceof net.minecraft.world.item.BowItem)));
+        AbstractArrow abstractarrow = this.getArrow(itemstack, v);
+        if (this.getMainHandItem().getItem() instanceof net.minecraft.world.item.BowItem)
+            abstractarrow = ((net.minecraft.world.item.BowItem)this.getMainHandItem().getItem()).customArrow(abstractarrow);
+        double d0 = entity.getX() - this.getX();
+        double d1 = entity.getY(0.3333333333333333D) - abstractarrow.getY();
+        double d2 = entity.getZ() - this.getZ();
+        double d3 = Math.sqrt(d0 * d0 + d2 * d2);
+        if(abstractarrow instanceof Arrow arrow){
+            arrow.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(), 600));
+            if (hasFireCapabilities()){
+                arrow.setSecondsOnFire(10);
+            }
+        }
+        abstractarrow.shoot(d0, d1 + d3 * (double)0.2F, d2, 1.6F, (float)(14 - this.level().getDifficulty().getId() * 4));
+        this.playSound(SoundEvents.CROSSBOW_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+        this.level().addFreshEntity(abstractarrow);
     }
 }

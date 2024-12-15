@@ -4,11 +4,11 @@ package com.Harbinger.Spore.Client.Models;// Made with Blockbench 4.11.2
 
 
 import com.Harbinger.Spore.Client.Animations.NuckelaveAnimation;
-import com.Harbinger.Spore.Client.Animations.WendigoAnimations;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Nuclealave;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -16,6 +16,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
 
 import java.util.ArrayList;
@@ -29,51 +30,34 @@ public class NuckelaveModel<T extends Nuclealave> extends HierarchicalModel<T> i
 	private final ModelPart Front;
 	private final ModelPart FrontBodyDetails;
 	private final ModelPart FrontBodyTumor;
-	private final ModelPart LowerChestFungus;
-	private final ModelPart Human;
+    private final ModelPart Human;
 	private final ModelPart TorsoTop;
 	private final ModelPart Head;
 	private final ModelPart Jaw;
-	private final ModelPart upperflower1;
-	private final ModelPart upperflower2;
-	private final ModelPart Horns;
-	private final ModelPart LeftHorn;
-	private final ModelPart RightHorn;
-	public final ModelPart HeadWear;
+    public final ModelPart HeadWear;
 	private final ModelPart Arms;
 	private final ModelPart LeftArm;
 	public final ModelPart LeftArmWear;
-	private final ModelPart LeftArmSeg2;
-	private final ModelPart LeftArmFungus;
-	private final ModelPart RightArm;
+    private final ModelPart RightArm;
 	public final ModelPart RightArmWear;
-	private final ModelPart rightarmfungus;
-	private final ModelPart RightArmSeg2;
-	private final ModelPart FrontLegs;
+    private final ModelPart FrontLegs;
 	private final ModelPart FrontLeft;
 	private final ModelPart FrontLeft2;
-	private final ModelPart LeftLegFungus2;
-	private final ModelPart FootTumor;
+    private final ModelPart FootTumor;
 	public final ModelPart FrontRightLegWear;
 	private final ModelPart FrontRight;
 	private final ModelPart FRLegTumor;
-	private final ModelPart RightLegFungus;
-	private final ModelPart FrontRight2;
+    private final ModelPart FrontRight2;
 	public final ModelPart FrontRightFootWear;
 	private final ModelPart BodyBack;
 	private final ModelPart BackBodyDetails;
 	private final ModelPart BackBodyTumor;
-	private final ModelPart BackFlower;
-	private final ModelPart TorsoFlower;
-	private final ModelPart BackLegs;
+    private final ModelPart BackLegs;
 	private final ModelPart BackLeft;
-	private final ModelPart LeftLegFungus;
-	private final ModelPart BackLeft2;
+    private final ModelPart BackLeft2;
 	public final ModelPart BackLeftFootWear;
 	private final ModelPart BackRight;
-	private final ModelPart BackRight2;
-	private final ModelPart RightLegFungus2;
-	private final ModelPart BRLegTumor;
+    private final ModelPart BRLegTumor;
 	public final ModelPart BackRightLegWear;
 
 	public NuckelaveModel(ModelPart root,boolean value) {
@@ -82,50 +66,33 @@ public class NuckelaveModel<T extends Nuclealave> extends HierarchicalModel<T> i
 		this.Front = this.Nuckelavee.getChild("Front");
 		this.FrontBodyDetails = this.Front.getChild("FrontBodyDetails");
 		this.FrontBodyTumor = this.FrontBodyDetails.getChild("FrontBodyTumor");
-		this.LowerChestFungus = this.FrontBodyDetails.getChild("LowerChestFungus");
 		this.Human = this.Front.getChild("Human");
 		this.TorsoTop = this.Human.getChild("TorsoTop");
 		this.Head = this.TorsoTop.getChild("Head");
 		this.Jaw = this.Head.getChild("Jaw");
-		this.upperflower1 = this.Head.getChild("upperflower1");
-		this.upperflower2 = this.Head.getChild("upperflower2");
-		this.Horns = this.Head.getChild("Horns");
-		this.LeftHorn = this.Horns.getChild("LeftHorn");
-		this.RightHorn = this.Horns.getChild("RightHorn");
 		this.HeadWear = this.Head.getChild("HeadWear");
 		this.Arms = this.TorsoTop.getChild("Arms");
 		this.LeftArm = this.Arms.getChild("LeftArm");
 		this.LeftArmWear = this.LeftArm.getChild("LeftArmWear");
-		this.LeftArmSeg2 = this.LeftArm.getChild("LeftArmSeg2");
-		this.LeftArmFungus = this.LeftArmSeg2.getChild("LeftArmFungus");
 		this.RightArm = this.Arms.getChild("RightArm");
 		this.RightArmWear = this.RightArm.getChild("RightArmWear");
-		this.rightarmfungus = this.RightArm.getChild("rightarmfungus");
-		this.RightArmSeg2 = this.RightArm.getChild("RightArmSeg2");
 		this.FrontLegs = this.Front.getChild("FrontLegs");
 		this.FrontLeft = this.FrontLegs.getChild("FrontLeft");
 		this.FrontLeft2 = this.FrontLeft.getChild("FrontLeft2");
-		this.LeftLegFungus2 = this.FrontLeft2.getChild("LeftLegFungus2");
 		this.FootTumor = this.FrontLeft2.getChild("FootTumor");
 		this.FrontRightLegWear = this.FrontLeft.getChild("FrontRightLegWear");
 		this.FrontRight = this.FrontLegs.getChild("FrontRight");
 		this.FRLegTumor = this.FrontRight.getChild("FRLegTumor");
-		this.RightLegFungus = this.FrontRight.getChild("RightLegFungus");
 		this.FrontRight2 = this.FrontRight.getChild("FrontRight2");
 		this.FrontRightFootWear = this.FrontRight2.getChild("FrontRightFootWear");
 		this.BodyBack = this.Nuckelavee.getChild("BodyBack");
 		this.BackBodyDetails = this.BodyBack.getChild("BackBodyDetails");
 		this.BackBodyTumor = this.BackBodyDetails.getChild("BackBodyTumor");
-		this.BackFlower = this.BackBodyDetails.getChild("BackFlower");
-		this.TorsoFlower = this.BackBodyDetails.getChild("TorsoFlower");
 		this.BackLegs = this.BodyBack.getChild("BackLegs");
 		this.BackLeft = this.BackLegs.getChild("BackLeft");
-		this.LeftLegFungus = this.BackLeft.getChild("LeftLegFungus");
 		this.BackLeft2 = this.BackLeft.getChild("BackLeft2");
 		this.BackLeftFootWear = this.BackLeft2.getChild("BackLeftFootWear");
 		this.BackRight = this.BackLegs.getChild("BackRight");
-		this.BackRight2 = this.BackRight.getChild("BackRight2");
-		this.RightLegFungus2 = this.BackRight2.getChild("RightLegFungus2");
 		this.BRLegTumor = this.BackRight.getChild("BRLegTumor");
 		this.BackRightLegWear = this.BackRight.getChild("BackRightLegWear");
 	}
@@ -382,8 +349,24 @@ public class NuckelaveModel<T extends Nuclealave> extends HierarchicalModel<T> i
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
-		this.Head.yRot = netHeadYaw / (180F / (float) Math.PI);
 		this.animateWalk(NuckelaveAnimation.WALK,limbSwing,limbSwingAmount,3,4f);
+		this.Head.yRot = netHeadYaw / (180F / (float) Math.PI);
+		this.animateTumor(BRLegTumor, Mth.sin(ageInTicks/6)/6);
+		this.animateTumor(FootTumor, Mth.cos(ageInTicks/6)/8);
+		this.animateTumor(FRLegTumor, Mth.sin(ageInTicks/7)/7);
+		this.animateTumor(BackBodyTumor, Mth.cos(ageInTicks/8)/4);
+		this.animateTumor(FrontBodyTumor, Mth.sin(ageInTicks/7)/8);
+		this.animateTentacleX(Jaw,Mth.sin(ageInTicks/6)/6);
+		if (entity.isAggressive()){
+			if (entity.canDoRangedAttacks()){
+				animateBowUsage(RightArm,LeftArm,ageInTicks);
+			}else{
+				animateMeleeUsage(RightArm,LeftArm,entity,ageInTicks);
+			}
+		}else{
+			this.RightArm.xRot = Mth.sin(ageInTicks/6)/6;
+			this.LeftArm.xRot = RightArm.xRot;
+		}
 	}
 
 	private List<ModelPart> armorParts(){
@@ -422,5 +405,23 @@ public class NuckelaveModel<T extends Nuclealave> extends HierarchicalModel<T> i
 	@Override
 	public void translateToHand(HumanoidArm humanoidArm, PoseStack poseStack) {
 		this.getArm(humanoidArm).translateAndRotate(poseStack);
+	}
+
+	public void animateBowUsage(ModelPart rightArm , ModelPart leftArm,float ageInTicks){
+		float $$7 = Mth.sin(this.attackTime * 3.1415927F);
+		float $$8 = Mth.sin((1.0F - (1.0F - this.attackTime) * (1.0F - this.attackTime)) * 3.1415927F);
+		rightArm.zRot = 0.0F;
+		leftArm.zRot = 0.0F;
+		rightArm.yRot = -(0.1F - $$7 * 0.6F);
+		leftArm.yRot = 0.1F - $$7 * 0.6F;
+		rightArm.xRot = -1.5707964F;
+		leftArm.xRot = -1.5707964F;
+        rightArm.xRot -= $$7 * 1.2F - $$8 * 0.4F;
+        rightArm.xRot -= $$7 * 1.2F - $$8 * 0.4F;
+		AnimationUtils.bobArms(rightArm, leftArm, ageInTicks);
+	}
+
+	public void animateMeleeUsage(ModelPart rightArm , ModelPart leftArm,T entity,float ageInTicks){
+		AnimationUtils.swingWeaponDown(rightArm,leftArm,entity,this.attackTime,ageInTicks);
 	}
 }
