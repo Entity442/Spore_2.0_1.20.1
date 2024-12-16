@@ -5,8 +5,10 @@ import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.ArmedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
+import com.Harbinger.Spore.Sentities.BasicInfected.InfectedPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -16,6 +18,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.RangedAttackGoal;
+import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
+import net.minecraft.world.entity.ai.util.GoalUtils;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -30,6 +34,9 @@ public class Nuclealave extends EvolvedInfected implements RangedAttackMob , Arm
     public Nuclealave(EntityType<? extends Monster> type, Level level) {
         super(type, level);
         this.setMaxUpStep(1.0F);
+        if (!this.isNoAi() && GoalUtils.hasGroundPathNavigation(this)) {
+            ((GroundPathNavigation)this.getNavigation()).setCanOpenDoors(true);
+        }
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -43,14 +50,21 @@ public class Nuclealave extends EvolvedInfected implements RangedAttackMob , Arm
 
     }
 
+    protected void populateDefaultEquipmentSlots(RandomSource p_219059_, DifficultyInstance p_219060_) {
+        InfectedPlayer.createName(this,SConfig.DATAGEN.name.get());
+        InfectedPlayer.createItems(this,EquipmentSlot.HEAD,SConfig.DATAGEN.player_h.get());
+        InfectedPlayer.createItems(this,EquipmentSlot.CHEST,SConfig.DATAGEN.player_c.get());
+        InfectedPlayer.createItems(this,EquipmentSlot.LEGS,SConfig.DATAGEN.player_l.get());
+        InfectedPlayer.createItems(this,EquipmentSlot.FEET,SConfig.DATAGEN.player_b.get());
+        InfectedPlayer.createItems(this,EquipmentSlot.MAINHAND,SConfig.DATAGEN.player_hm.get());
+        InfectedPlayer.createItems(this,EquipmentSlot.OFFHAND,SConfig.DATAGEN.player_ho.get());
+    }
+
     @Override
-    public @Nullable SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance p_21435_, MobSpawnType p_21436_, @Nullable SpawnGroupData p_21437_, @Nullable CompoundTag p_21438_) {
-        this.setItemSlot(EquipmentSlot.CHEST,new ItemStack(Items.DIAMOND_CHESTPLATE));
-        this.setItemSlot(EquipmentSlot.HEAD,new ItemStack(Items.IRON_CHESTPLATE));
-        this.setItemSlot(EquipmentSlot.LEGS,new ItemStack(Items.DIAMOND_LEGGINGS));
-        this.setItemSlot(EquipmentSlot.FEET,new ItemStack(Items.NETHERITE_BOOTS));
-        this.setItemSlot(EquipmentSlot.MAINHAND,Math.random() > 0.5f ? new ItemStack(Items.DIAMOND_SWORD) : Math.random() > 0.5f ? new ItemStack(Items.BOW) : new ItemStack(Items.SHIELD));
-        return super.finalizeSpawn(serverLevelAccessor, p_21435_, p_21436_, p_21437_, p_21438_);
+    public @Nullable SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType p_21436_, @Nullable SpawnGroupData p_21437_, @Nullable CompoundTag p_21438_) {
+        ((GroundPathNavigation)this.getNavigation()).setCanOpenDoors(true);
+        this.populateDefaultEquipmentSlots(this.random, instance);
+        return super.finalizeSpawn(serverLevelAccessor, instance, p_21436_, p_21437_, p_21438_);
     }
 
     @Override

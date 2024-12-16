@@ -113,7 +113,7 @@ public class Sentities {
                     .build(new ResourceLocation(Spore.MODID, "bloater").toString()));
 
     public static final RegistryObject<EntityType<Nuclealave>> NUCLEA = SPORE_ENTITIES.register("nuclea",
-            () -> EntityType.Builder.of(Nuclealave::new, INFECTED).sized(0.8f, 1.9f)
+            () -> EntityType.Builder.of(Nuclealave::new, INFECTED).sized(1.1f, 2.2f)
                     .build(new ResourceLocation(Spore.MODID, "nuclea").toString()));
 
     public static final RegistryObject<EntityType<Scamper>> SCAMPER = SPORE_ENTITIES.register("scamper",

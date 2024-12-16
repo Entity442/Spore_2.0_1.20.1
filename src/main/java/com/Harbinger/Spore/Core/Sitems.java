@@ -174,6 +174,8 @@ public class Sitems {
     public  static final RegistryObject<Item> BLOATER_SPAWNEGG = ITEMS.register("bloater_spawnegg",
             () -> new SporeSpawnEgg(Sentities.BLOATER,-6834952,SpawnEggType.EVOLVED));
 
+    public  static final RegistryObject<Item> NUCLEA_SPAWNEGG = ITEMS.register("nuclea_spawnegg",
+            () -> new SporeSpawnEgg(Sentities.NUCLEA,-265262544,SpawnEggType.EVOLVED));
 
     public  static final RegistryObject<Item> SCENT_SPAWNEGG = ITEMS.register("scent_spawnegg",
             () -> new SporeSpawnEgg(Sentities.SCENT,-1,SpawnEggType.UNKNOWN));

@@ -100,78 +100,41 @@ public class InfectedPlayer extends Infected implements RangedAttackMob , ArmedI
         this.populateDefaultEquipmentEnchantments(randomsource, p_33283_);
         return super.finalizeSpawn(p_33282_, p_33283_, p_33284_, p_33285_, p_33286_);
     }
-    
 
+    public static void createItems(LivingEntity living,EquipmentSlot slot,List<? extends String> list){
+        if (living.getItemBySlot(slot) == ItemStack.EMPTY){
+            return;
+        }
+        ItemStack stack = ItemStack.EMPTY;
+        for (String str : list){
+            String[] string = str.split("\\|" );
+            ItemStack itemStack = new ItemStack(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(new ResourceLocation(string[0]))));
+            if (Math.random() < Integer.parseUnsignedInt(string[1]) / 100F) {
+                stack = itemStack;
+            }
+        }
+        living.setItemSlot(slot, stack);
+    }
+    public static void createName(LivingEntity living,List<? extends String> list){
+        if (living.getCustomName() == null){
+            return;
+        }
+        for (int i = 0; i < 1; ++i) {
+            int randomIndex = living.getRandom().nextInt(list.size());
+            Component component = Component.nullToEmpty(list.get(randomIndex));
+            living.setCustomName(component);
+        }
+    }
 
 
     protected void populateDefaultEquipmentSlots(RandomSource p_219059_, DifficultyInstance p_219060_) {
-        ItemStack helmetG = ItemStack.EMPTY;
-        ItemStack chestG = ItemStack.EMPTY;
-        ItemStack legsG = ItemStack.EMPTY;
-        ItemStack bootG = ItemStack.EMPTY;
-        ItemStack mainG = ItemStack.EMPTY;
-        ItemStack offG = ItemStack.EMPTY;
-        List<? extends String> name = SConfig.DATAGEN.name.get();
-        Random rand = new Random();
-        if (this.getCustomName() == null){
-        for (int i = 0; i < 1; ++i) {
-            int randomIndex = rand.nextInt(name.size());
-            Component component = Component.nullToEmpty(name.get(randomIndex));
-            this.setCustomName(component);
-           }
-        }
-
-
-
-        for (String str : SConfig.DATAGEN.player_h.get()){
-            String[] string = str.split("\\|" );
-            ItemStack helmet = new ItemStack(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(new ResourceLocation(string[0]))));
-            if (Math.random() < Integer.parseUnsignedInt(string[1]) / 100F) {
-                helmetG = helmet;
-            }
-        }
-        for (String str : SConfig.DATAGEN.player_c.get()){
-            String[] string = str.split("\\|" );
-            ItemStack chest = new ItemStack(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(new ResourceLocation(string[0]))));
-            if (Math.random() < Integer.parseUnsignedInt(string[1]) / 100F) {
-                chestG = chest;
-            }
-        }
-        for (String str : SConfig.DATAGEN.player_l.get()){
-            String[] string = str.split("\\|" );
-            ItemStack legs = new ItemStack(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(new ResourceLocation(string[0]))));
-            if (Math.random() < Integer.parseUnsignedInt(string[1]) / 100F) {
-                legsG = legs;
-            }
-        }
-        for (String str : SConfig.DATAGEN.player_b.get()){
-            String[] string = str.split("\\|" );
-            ItemStack boot = new ItemStack(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(new ResourceLocation(string[0]))));
-            if (Math.random() < Integer.parseUnsignedInt(string[1]) / 100F) {
-                bootG = boot;
-            }
-        }
-        for (String str : SConfig.DATAGEN.player_hm.get()){
-            String[] string = str.split("\\|" );
-            ItemStack main = new ItemStack(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(new ResourceLocation(string[0]))));
-            if (Math.random() < Integer.parseUnsignedInt(string[1]) / 100F) {
-                mainG = main;
-            }
-        }
-        for (String str : SConfig.DATAGEN.player_ho.get()){
-            String[] string = str.split("\\|" );
-            ItemStack off = new ItemStack(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(new ResourceLocation(string[0]))));
-            if (Math.random() < Integer.parseUnsignedInt(string[1]) / 100F) {
-                offG = off;
-            }
-        }
-        
-        this.setItemSlot(EquipmentSlot.MAINHAND, mainG);
-        this.setItemSlot(EquipmentSlot.OFFHAND, offG);
-        this.setItemSlot(EquipmentSlot.HEAD, helmetG);
-        this.setItemSlot(EquipmentSlot.CHEST, chestG);
-        this.setItemSlot(EquipmentSlot.LEGS, legsG);
-        this.setItemSlot(EquipmentSlot.FEET, bootG);
+        InfectedPlayer.createName(this,SConfig.DATAGEN.name.get());
+        InfectedPlayer.createItems(this,EquipmentSlot.HEAD,SConfig.DATAGEN.player_h.get());
+        InfectedPlayer.createItems(this,EquipmentSlot.CHEST,SConfig.DATAGEN.player_c.get());
+        InfectedPlayer.createItems(this,EquipmentSlot.LEGS,SConfig.DATAGEN.player_l.get());
+        InfectedPlayer.createItems(this,EquipmentSlot.FEET,SConfig.DATAGEN.player_b.get());
+        InfectedPlayer.createItems(this,EquipmentSlot.MAINHAND,SConfig.DATAGEN.player_hm.get());
+        InfectedPlayer.createItems(this,EquipmentSlot.OFFHAND,SConfig.DATAGEN.player_ho.get());
     }
 
     public static AttributeSupplier.Builder createAttributes() {
