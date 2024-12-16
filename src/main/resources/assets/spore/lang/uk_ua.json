@@ -215,6 +215,7 @@
   "item.spore.ogre_spawnegg": "Огр",
   "item.spore.bloater_spawnegg": "Надувник",
   "item.spore.scavenger_spawnegg": "Сміттяр",
+  "item.spore.nuclea_spawnegg": "Nuckelavee",
 
 
   "item.spore.scent_spawnegg": "Спори",
@@ -278,6 +279,7 @@
   "entity.spore.ogre": "Огр",
   "entity.spore.bloater": "Надувник",
   "entity.spore.scavenger": "Сміттяр",
+  "entity.spore.nuclea": "Nuckelavee",
 
 
   "spore.entity.variant.kidnapper" : "Мутація викрадача",

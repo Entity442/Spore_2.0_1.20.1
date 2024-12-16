@@ -218,6 +218,7 @@
   "item.spore.ogre_spawnegg": "食人魔",
   "item.spore.bloater_spawnegg": "腹脹",
   "item.spore.scavenger_spawnegg": "清道夫",
+  "item.spore.nuclea_spawnegg": "納克拉維",
 
 
   "item.spore.scent_spawnegg": "毒气",
@@ -282,6 +283,7 @@
   "entity.spore.ogre": "食人魔",
   "entity.spore.bloater": "腹脹",
   "entity.spore.scavenger": "清道夫",
+  "entity.spore.nuclea": "納克拉維",
 
 
   "spore.entity.variant.kidnapper" : "綁匪變異",

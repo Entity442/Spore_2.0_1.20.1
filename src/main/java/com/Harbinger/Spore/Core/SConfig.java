@@ -177,6 +177,10 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> knight_damage;
         public final ForgeConfigSpec.ConfigValue<Double> knight_armor;
 
+        public final ForgeConfigSpec.ConfigValue<Double> nuckelave_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> nuckelave_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> nuckelave_armor;
+
         public final ForgeConfigSpec.ConfigValue<Double> jagd_hp;
         public final ForgeConfigSpec.ConfigValue<Double> jagd_damage;
         public final ForgeConfigSpec.ConfigValue<Double> jagd_armor;
@@ -426,6 +430,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> wit_ev;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> husk_ev;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> drowned_ev;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> player_ev;
 
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_summon;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> howler_summon;
@@ -562,6 +567,9 @@ public class SConfig {
             this.drowned_ev = builder.defineList("Infected Drowned Evolutions",
                     Lists.newArrayList(
                             "spore:bloater") , o -> o instanceof String);
+            this.player_ev = builder.defineList("Infected Adventurer Evolutions",
+                    Lists.newArrayList(
+                            "spore:nuclea") , o -> o instanceof String);
 
             this.evolution_age_human = builder.comment("Default 300").define("Evolution Timer in seconds",300);
             this.min_kills = builder.comment("Default 1").define("Minimum amount of kills to start the evolution",1);
@@ -970,6 +978,12 @@ public class SConfig {
             this.knight_armor = builder.comment("Default 7").defineInRange("Sets Knight Armor", 7, 1, Double.MAX_VALUE);
             builder.pop();
 
+            builder.push("Nuckelave");
+            this.nuckelave_hp = builder.comment("Default 55").defineInRange("Sets Nuckelave Max health", 55, 1, Double.MAX_VALUE);
+            this.nuckelave_damage = builder.comment("Default 8").defineInRange("Sets Nuckelave Damage", 8, 1, Double.MAX_VALUE);
+            this.nuckelave_armor = builder.comment("Default 6").defineInRange("Sets Nuckelave Armor", 6, 1, Double.MAX_VALUE);
+            builder.pop();
+
             builder.push("Jagdhund");
             this.jagd_hp = builder.comment("Default 35").defineInRange("Sets Jagdhund Max health", 35, 1, Double.MAX_VALUE);
             this.jagd_damage = builder.comment("Default 7").defineInRange("Sets Jagdhund Damage", 7, 1, Double.MAX_VALUE);
@@ -1261,6 +1275,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> construct_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> bloater_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> scavenger_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> nucke_loot;
 
 
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> name;
@@ -1356,6 +1371,9 @@ public class SConfig {
 
             this.bloater_loot = builder.defineList("Bloater",
                     Lists.newArrayList("spore:mutated_fiber|80|3|12","spore:mutated_heart|25|1|1","minecraft:copper_ingot|15|1|1","spore:tumor|100|1|3") , o -> o instanceof String);
+
+            this.nucke_loot = builder.defineList("Nuckelave",
+                    Lists.newArrayList("spore:mutated_fiber|80|3|12","spore:mutated_heart|25|1|1","spore:armor_fragment|80|3|8","spore:tumor|100|1|3") , o -> o instanceof String);
 
 
             this.gastgaber_loot = builder.defineList("Gastgaber",

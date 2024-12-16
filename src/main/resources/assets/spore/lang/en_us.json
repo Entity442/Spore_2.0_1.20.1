@@ -217,6 +217,7 @@
   "item.spore.ogre_spawnegg": "Ogre",
   "item.spore.bloater_spawnegg": "Bloater",
   "item.spore.scavenger_spawnegg": "Scavenger",
+  "item.spore.nuclea_spawnegg": "Nuckelave",
 
 
 
@@ -283,6 +284,7 @@
   "entity.spore.ogre": "Ogre",
   "entity.spore.bloater": "Bloater",
   "entity.spore.scavenger": "Scavenger",
+  "entity.spore.nuclea": "Nuckelave",
 
 
   "spore.entity.variant.kidnapper" : "Kidnapper Mutation",

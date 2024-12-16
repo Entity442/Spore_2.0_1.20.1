@@ -2,13 +2,19 @@ package com.Harbinger.Spore.Sentities.BasicInfected;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
+import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.ArmedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
+import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
+import com.Harbinger.Spore.Sentities.EvolvingInfected;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
@@ -35,11 +41,12 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-public class InfectedPlayer extends Infected implements RangedAttackMob , ArmedInfected {
+public class InfectedPlayer extends Infected implements RangedAttackMob , ArmedInfected, EvolvingInfected {
 
     public InfectedPlayer(EntityType<? extends Monster> type, Level level) {
         super(type, level);
@@ -186,6 +193,75 @@ public class InfectedPlayer extends Infected implements RangedAttackMob , ArmedI
         return ProjectileUtil.getMobArrow(this, p_32156_, p_32157_);
     }
 
+    @Override
+    public void tick() {
+        super.tick();
+        tickEvolution(this,SConfig.SERVER.player_ev.get());
+    }
+    public void setItemBySlot(LivingEntity living,EquipmentSlot slot){
+        living.setItemSlot(slot,this.getItemBySlot(slot));
+    }
+
+    @Override
+    public void Evolve(Infected livingEntity, List<? extends String> value) {
+        if (livingEntity != null && value != null && livingEntity.level() instanceof ServerLevel world){
+            Level level = livingEntity.level();
+            RandomSource random = RandomSource.create();
+            if (Math.random() < 0.9) {
+                Random rand = new Random();
+                for (int i = 0; i < 1; ++i) {
+                    int randomIndex = rand.nextInt(value.size());
+                    ResourceLocation randomElement1 = new ResourceLocation(value.get(randomIndex));
+                    EntityType<?> randomElement = ForgeRegistries.ENTITY_TYPES.getValue(randomElement1);
+                    Entity waveentity = randomElement.create(level);
+                    waveentity.setPos(livingEntity.getX(), livingEntity.getY() + 0.5D, livingEntity.getZ());
+                    waveentity.setCustomName(livingEntity.getCustomName());
+                    if (waveentity instanceof LivingEntity entity){
+                        Collection<MobEffectInstance> collection = livingEntity.getActiveEffects();
+                        for(MobEffectInstance mobeffectinstance : collection) {
+                            entity.addEffect(new MobEffectInstance(mobeffectinstance));
+                        }
+                        setItemBySlot(livingEntity,EquipmentSlot.HEAD);
+                        setItemBySlot(livingEntity,EquipmentSlot.CHEST);
+                        setItemBySlot(livingEntity,EquipmentSlot.LEGS);
+                        setItemBySlot(livingEntity,EquipmentSlot.FEET);
+                        setItemBySlot(livingEntity,EquipmentSlot.MAINHAND);
+                        setItemBySlot(livingEntity,EquipmentSlot.OFFHAND);
+                    }
+                    if (waveentity instanceof Infected infected){
+                        infected.setKills(livingEntity.getKills());
+                        infected.setEvoPoints(livingEntity.getEvoPoints());
+                        infected.setSearchPos(livingEntity.getSearchPos());
+                        infected.setLinked(livingEntity.getLinked());
+                        infected.finalizeSpawn(world, livingEntity.level().getCurrentDifficultyAt(new BlockPos((int) livingEntity.getX(),(int)  livingEntity.getY(),(int)  livingEntity.getZ())), MobSpawnType.NATURAL, null, null);
+                    }
+                    level.addFreshEntity(waveentity);
+
+                    livingEntity.discard();
+                }
+            }else {
+                Scamper scamper = new Scamper(Sentities.SCAMPER.get(), level);
+                scamper.setPos(livingEntity.getX(), livingEntity.getY() + 0.5D, livingEntity.getZ());
+                scamper.setCustomName(livingEntity.getCustomName());
+                scamper.setKills(livingEntity.getKills());
+                scamper.setEvoPoints(livingEntity.getEvoPoints());
+                scamper.setLinked(livingEntity.getLinked());
+                scamper.setSearchPos(livingEntity.getSearchPos());
+                Collection<MobEffectInstance> collection = livingEntity.getActiveEffects();
+                for(MobEffectInstance mobeffectinstance : collection) {
+                    scamper.addEffect(new MobEffectInstance(mobeffectinstance));
+                }
+                level.addFreshEntity(scamper);
+                livingEntity.discard();
+            }
+            if (level instanceof ServerLevel serverLevel){
+                double x0 = livingEntity.getX() - (random.nextFloat() - 0.1) * 0.1D;
+                double y0 = livingEntity.getY() + (random.nextFloat() - 0.25) * 0.15D * 5;
+                double z0 = livingEntity.getZ() + (random.nextFloat() - 0.1) * 0.1D;
+                serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x0, y0, z0, 2, 0, 0, 0, 1);
+            }
+        }
+    }
 
     @Override
     public boolean doHurtTarget(Entity entity) {
