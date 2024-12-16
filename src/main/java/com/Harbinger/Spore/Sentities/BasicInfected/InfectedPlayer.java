@@ -233,7 +233,6 @@ public class InfectedPlayer extends Infected implements RangedAttackMob , ArmedI
                         infected.setEvoPoints(livingEntity.getEvoPoints());
                         infected.setSearchPos(livingEntity.getSearchPos());
                         infected.setLinked(livingEntity.getLinked());
-                        infected.finalizeSpawn(world, livingEntity.level().getCurrentDifficultyAt(new BlockPos((int) livingEntity.getX(),(int)  livingEntity.getY(),(int)  livingEntity.getZ())), MobSpawnType.NATURAL, null, null);
                     }
                     level.addFreshEntity(waveentity);
 
