@@ -198,9 +198,6 @@ public class InfectedPlayer extends Infected implements RangedAttackMob , ArmedI
         super.tick();
         tickEvolution(this,SConfig.SERVER.player_ev.get());
     }
-    public void setItemBySlot(LivingEntity living,EquipmentSlot slot){
-        living.setItemSlot(slot,this.getItemBySlot(slot));
-    }
 
     @Override
     public void Evolve(Infected livingEntity, List<? extends String> value) {
@@ -221,18 +218,15 @@ public class InfectedPlayer extends Infected implements RangedAttackMob , ArmedI
                         for(MobEffectInstance mobeffectinstance : collection) {
                             entity.addEffect(new MobEffectInstance(mobeffectinstance));
                         }
-                        setItemBySlot(livingEntity,EquipmentSlot.HEAD);
-                        setItemBySlot(livingEntity,EquipmentSlot.CHEST);
-                        setItemBySlot(livingEntity,EquipmentSlot.LEGS);
-                        setItemBySlot(livingEntity,EquipmentSlot.FEET);
-                        setItemBySlot(livingEntity,EquipmentSlot.MAINHAND);
-                        setItemBySlot(livingEntity,EquipmentSlot.OFFHAND);
                     }
                     if (waveentity instanceof Infected infected){
                         infected.setKills(livingEntity.getKills());
                         infected.setEvoPoints(livingEntity.getEvoPoints());
                         infected.setSearchPos(livingEntity.getSearchPos());
                         infected.setLinked(livingEntity.getLinked());
+                        for(EquipmentSlot slot : EquipmentSlot.values()){
+                            infected.setItemSlot(slot,this.getItemBySlot(slot));
+                        }
                     }
                     level.addFreshEntity(waveentity);
 
