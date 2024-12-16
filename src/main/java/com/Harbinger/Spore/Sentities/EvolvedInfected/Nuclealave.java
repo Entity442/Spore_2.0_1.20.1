@@ -75,20 +75,16 @@ public class Nuclealave extends EvolvedInfected implements RangedAttackMob , Arm
         return super.finalizeSpawn(serverLevelAccessor, instance, p_21436_, p_21437_, p_21438_);
     }
 
-    public void addEquipmentFromKills(LivingEntity living,EquipmentSlot slot){
-        ItemStack stack = living.getItemBySlot(slot);
-        ItemStack itemStack = this.getItemBySlot(slot);
-        if (itemStack == ItemStack.EMPTY && stack != ItemStack.EMPTY){
-            this.setItemSlot(slot,stack);
-        }
-    }
 
     @Override
     public void awardKillScore(Entity entity, int i, DamageSource damageSource) {
         super.awardKillScore(entity, i, damageSource);
         if (entity instanceof LivingEntity living){
             for (EquipmentSlot slot : EquipmentSlot.values()){
-                addEquipmentFromKills(living,slot);
+                ItemStack stack = living.getItemBySlot(slot);
+                if (this.getItemBySlot(slot) == ItemStack.EMPTY && stack != ItemStack.EMPTY){
+                    this.setItemSlot(slot,stack);
+                }
             }
         }
     }
