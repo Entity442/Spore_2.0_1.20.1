@@ -102,7 +102,7 @@ public class InfectedPlayer extends Infected implements RangedAttackMob , ArmedI
     }
 
     public static void createItems(LivingEntity living,EquipmentSlot slot,List<? extends String> list){
-        if (living.getItemBySlot(slot) == ItemStack.EMPTY){
+        if (living.getItemBySlot(slot) != ItemStack.EMPTY){
             return;
         }
         ItemStack stack = ItemStack.EMPTY;
@@ -116,7 +116,7 @@ public class InfectedPlayer extends Infected implements RangedAttackMob , ArmedI
         living.setItemSlot(slot, stack);
     }
     public static void createName(LivingEntity living,List<? extends String> list){
-        if (living.getCustomName() == null){
+        if (living.getCustomName() != null){
             return;
         }
         for (int i = 0; i < 1; ++i) {
