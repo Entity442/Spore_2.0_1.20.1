@@ -297,6 +297,8 @@
   "spore.entity.variant.corrosive" : "Коррозионная мутация",
   "spore.entity.variant.war_torn" : "Мутация, вызванная войной",
   "spore.entity.variant.overclocked" : "Разогнанная мутация",
+  "spore.entity.variant.hazard" : "Опасная мутация",
+
 
   "spore.scanner.danger.calamity" : "БЕГАТЬ",
   "spore.scanner.danger.hyper" : "Очень высокий",

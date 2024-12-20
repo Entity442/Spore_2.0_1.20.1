@@ -296,6 +296,8 @@
   "spore.entity.variant.corrosive" : "Корозійна мутація",
   "spore.entity.variant.war_torn" : "Розірвана війною мутація",
   "spore.entity.variant.overclocked" : "Розігнана мутація",
+  "spore.entity.variant.hazard" : "Небезпечна мутація",
+
 
   "spore.scanner.danger.calamity" : "БІГАТИ",
   "spore.scanner.danger.hyper" : "Дуже висока",

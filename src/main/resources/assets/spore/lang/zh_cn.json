@@ -300,6 +300,8 @@
   "spore.entity.variant.corrosive" : "腐蝕突變",
   "spore.entity.variant.war_torn" : "戰亂突變",
   "spore.entity.variant.overclocked" : "超頻變異",
+  "spore.entity.variant.hazard" : "危險突變",
+
 
   "spore.scanner.danger.calamity" : "跑步",
   "spore.scanner.danger.hyper" : "非常高",
