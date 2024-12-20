@@ -74,7 +74,6 @@ public class InfectedMace extends Item implements Vanishable {
                 if (k > 0){ en.setSecondsOnFire(10 * k);}
             }
         }
-        entity.addEffect(new MobEffectInstance(Seffects.STUNT.get(), 40, 1));
         return true;
     }
 

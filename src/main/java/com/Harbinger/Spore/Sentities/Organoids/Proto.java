@@ -227,7 +227,7 @@ public class Proto extends Organoid implements CasingGenerator {
         @Override
         public void start() {
             LivingEntity target = this.proto.getTarget();
-            if (target != null && checkForOrganoids(target) && target.getBlockStateOn().getDestroySpeed(target.level(),target.getOnPos()) < 4){
+            if (target != null && checkForOrganoids(target)){
                 for (int i = 0; i<proto.random.nextInt(3,6);i++){
                     SummonDefense(target);
                 }
@@ -254,17 +254,20 @@ public class Proto extends Organoid implements CasingGenerator {
             ResourceLocation randomElement1 = new ResourceLocation(summons.get(randomIndex));
             EntityType<?> randomElement = ForgeRegistries.ENTITY_TYPES.getValue(randomElement1);
             Mob waveentity = (Mob) randomElement.create(this.level());
-            assert waveentity != null;
-            waveentity.randomTeleport(target.getX() + x,target.getY(),target.getZ() + z,false);
-            if (waveentity instanceof Mound mound){
-                mound.setMaxAge(1);
-                mound.setLinked(true);
+            if (waveentity != null){
+                waveentity.randomTeleport(target.getX() + x,target.getY(),target.getZ() + z,false);
+                if (waveentity instanceof Mound mound){
+                    mound.setMaxAge(1);
+                    mound.setLinked(true);
+                }
+                if (waveentity instanceof Vigil vigil){
+                    vigil.setProto(this);
+                }
+                if (checkTheGround(waveentity.getOnPos(),waveentity.level())){
+                    waveentity.finalizeSpawn(world, this.level().getCurrentDifficultyAt(new BlockPos((int) this.getX(),(int)  this.getY(),(int)  this.getZ())), MobSpawnType.NATURAL, null, null);
+                    this.level().addFreshEntity(waveentity);
+                }
             }
-            if (waveentity instanceof Vigil vigil){
-                vigil.setProto(this);
-            }
-            waveentity.finalizeSpawn(world, this.level().getCurrentDifficultyAt(new BlockPos((int) this.getX(),(int)  this.getY(),(int)  this.getZ())), MobSpawnType.NATURAL, null, null);
-            this.level().addFreshEntity(waveentity);
         }
     }
 
@@ -474,7 +477,7 @@ public class Proto extends Organoid implements CasingGenerator {
                 }
                 BiomassReformator creature = new BiomassReformator(Sentities.RECONSTRUCTOR.get(),level,terrain,pos);
                 creature.tickEmerging();
-                creature.setPos(entity.getX()+a,entity.getY()+c,entity.getZ()+b);
+                creature.teleportRelative(entity.getX()+a,entity.getY()+c,entity.getZ()+b);
                 level.addFreshEntity(creature);
                 level.getServer();
                 for(ServerPlayer player : level.getServer().getPlayerList().getPlayers()){
@@ -498,6 +501,16 @@ public class Proto extends Organoid implements CasingGenerator {
             verwa.tickEmerging();
             level().addFreshEntity(verwa);
         }
+    }
+
+    private boolean checkTheGround(BlockPos pos,Level level){
+        for (int i = 0;i < 3;i++){
+            BlockState state = level.getBlockState(pos.below(i));
+            if (state.getDestroySpeed(level,pos.below(i)) > 4 || state.isAir()){
+                return false;
+            }
+        }
+        return true;
     }
 
     private boolean checkForLiquids(BlockPos blockPos){

@@ -142,6 +142,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> braurei_hp;
         public final ForgeConfigSpec.ConfigValue<Double> braurei_armor;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> braurei_buffs;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> braurei_debuffs;
 
         public final ForgeConfigSpec.ConfigValue<Double> inf_evo_hp;
         public final ForgeConfigSpec.ConfigValue<Double> inf_evo_damage;
@@ -706,6 +707,9 @@ public class SConfig {
             this.braurei_armor = builder.comment("Default 6").defineInRange("Sets Braurei Armor", 6, 1, Double.MAX_VALUE);
             this.braurei_buffs = builder.defineList("Braurei buffs",
                     Lists.newArrayList("minecraft:speed", "minecraft:strength", "minecraft:resistance", "minecraft:fire_resistance", "minecraft:regeneration", "minecraft:absorption") , o -> o instanceof String);
+            this.braurei_debuffs = builder.defineList("Hazard Braurei debuffs",
+                    Lists.newArrayList("minecraft:slowness", "minecraft:weakness", "minecraft:wither", "minecraft:poison", "spore:mycelium_ef", "spore:marker") , o -> o instanceof String);
+
             builder.pop();
 
             builder.push("Usurper");

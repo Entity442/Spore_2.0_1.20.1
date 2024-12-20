@@ -31,12 +31,6 @@ public class Seffects {
     public static final RegistryObject<MobEffect> UNEASY = MOB_EFFECTS.register("uneasy",
             Uneasy::new);
 
-    public static final RegistryObject<MobEffect> STUNT = MOB_EFFECTS.register("stunt",() -> new
-            Stunt().addAttributeModifier(Attributes.MOVEMENT_SPEED,
-            "91AEAA56-376B-4498-935B-2F7F68070635", -0.3F, AttributeModifier.Operation.MULTIPLY_TOTAL).addAttributeModifier(Attributes.ATTACK_DAMAGE,
-            "91AEAA56-376B-4498-935B-2F7F68070635", -0.1F, AttributeModifier.Operation.MULTIPLY_TOTAL).addAttributeModifier(Attributes.ATTACK_SPEED,
-            "91AEAA56-376B-4498-935B-2F7F68070635", -0.2F, AttributeModifier.Operation.MULTIPLY_TOTAL));
-
     public static final RegistryObject<MobEffect> MARKER = MOB_EFFECTS.register("marker",
             () -> new Marker().addAttributeModifier(Attributes.FOLLOW_RANGE,
                     "91AEAA56-376B-4498-935B-2F7F68070635",0.5F ,AttributeModifier.Operation.MULTIPLY_TOTAL));

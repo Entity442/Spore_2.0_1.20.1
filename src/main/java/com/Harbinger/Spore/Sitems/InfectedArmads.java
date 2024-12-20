@@ -56,7 +56,6 @@ public class InfectedArmads extends AxeItem {
         itemstack.hurtAndBreak(2, sourceentity, (p_41007_) -> {
             p_41007_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
         });
-        entity.addEffect(new MobEffectInstance(Seffects.STUNT.get(), 40, 1));
         return  true;
     }
     @Override

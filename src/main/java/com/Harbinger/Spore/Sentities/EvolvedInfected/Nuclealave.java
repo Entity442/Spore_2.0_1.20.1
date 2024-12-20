@@ -146,7 +146,7 @@ public class Nuclealave extends EvolvedInfected implements RangedAttackMob , Arm
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (canShield() && source.getEntity() instanceof LivingEntity living && Math.random() < 0.2f){
+        if (canShield() && source.getEntity() instanceof LivingEntity living && Math.random() < 0.35f){
             this.playSound(SoundEvents.SHIELD_BLOCK);
             getShieldInHand().hurtAndBreak((int) amount,living,e -> {});
             return false;

@@ -301,7 +301,7 @@
   "spore.entity.variant.corrosive" : "Corrosive Mutation",
   "spore.entity.variant.war_torn" : "War Torn Mutation",
   "spore.entity.variant.overclocked" : "Overclocked Mutation",
-
+  "spore.entity.variant.hazard" : "Hazardous Mutation",
 
   "spore.scanner.danger.calamity" : "RUN",
   "spore.scanner.danger.hyper" : "Very High",
