@@ -6,6 +6,7 @@ import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
+import com.Harbinger.Spore.Sentities.Variants.ScamperVariants;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
@@ -27,11 +28,11 @@ import java.util.List;
 import java.util.Random;
 
 public interface EvolvingInfected {
-    default void tickEvolution(Infected infected, List<? extends String> value){
+    default void tickEvolution(Infected infected, List<? extends String> value, ScamperVariants variants){
         if (infected.tickCount % 20 == 0){
             if (infected.getEvoPoints() >= SConfig.SERVER.min_kills.get()){
                 if (infected.getEvolutionCoolDown() >= SConfig.SERVER.evolution_age_human.get()){
-                    this.Evolve(infected,value);
+                    this.Evolve(infected,value,variants);
                 }else{
                     if (!infected.hasEffect(MobEffects.WEAKNESS))
                         infected.setEvolution(infected.getEvolutionCoolDown()+1);
@@ -68,7 +69,7 @@ public interface EvolvingInfected {
             if (entity instanceof Player player){player.playNotifySound(Ssounds.HYPER_EVOLVE.get(), SoundSource.AMBIENT,1f,1f);}
         }
     }
-    default  void Evolve(Infected livingEntity, List<? extends String> value){
+    default  void Evolve(Infected livingEntity, List<? extends String> value, ScamperVariants variants){
         if (livingEntity != null && value != null && livingEntity.level() instanceof ServerLevel world){
             Level level = livingEntity.level();
             RandomSource random = RandomSource.create();

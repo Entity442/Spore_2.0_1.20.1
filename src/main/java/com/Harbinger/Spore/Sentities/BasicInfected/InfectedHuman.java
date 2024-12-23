@@ -6,6 +6,7 @@ import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.EvolvingInfected;
+import com.Harbinger.Spore.Sentities.Variants.ScamperVariants;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
@@ -71,7 +72,7 @@ public class InfectedHuman extends Infected implements EvolvingInfected {
     @Override
     public void baseTick() {
         super.baseTick();
-        tickEvolution(this,SConfig.SERVER.human_ev.get());
+        tickEvolution(this,SConfig.SERVER.human_ev.get(), ScamperVariants.DEFAULT);
     }
 
     @Nullable

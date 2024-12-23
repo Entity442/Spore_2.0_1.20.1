@@ -8,6 +8,7 @@ import com.Harbinger.Spore.Sentities.AI.ReturnToWater;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.EvolvingInfected;
 import com.Harbinger.Spore.Sentities.MovementControls.WaterXlandMovement;
+import com.Harbinger.Spore.Sentities.Variants.ScamperVariants;
 import com.Harbinger.Spore.Sentities.WaterInfected;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
@@ -90,7 +91,7 @@ public class InfectedDrowned extends Infected implements WaterInfected , Evolvin
     @Override
     public void tick() {
         super.tick();
-        tickEvolution(this,SConfig.SERVER.drowned_ev.get());
+        tickEvolution(this,SConfig.SERVER.drowned_ev.get(), ScamperVariants.DROWNED);
     }
 
     protected SoundEvent getAmbientSound() {

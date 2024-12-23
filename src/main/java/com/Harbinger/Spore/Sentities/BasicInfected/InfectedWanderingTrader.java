@@ -7,6 +7,7 @@ import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.EvolvingInfected;
 import com.Harbinger.Spore.Sentities.Utility.Specter;
+import com.Harbinger.Spore.Sentities.Variants.ScamperVariants;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -99,11 +100,11 @@ public class InfectedWanderingTrader extends Infected implements EvolvingInfecte
     @Override
     public void baseTick() {
         super.baseTick();
-        tickEvolution(this,SConfig.SERVER.villager_ev.get());
+        tickEvolution(this,SConfig.SERVER.villager_ev.get(), ScamperVariants.VILLAGER);
     }
 
     @Override
-    public void Evolve(Infected livingEntity, List<? extends String> value) {
+    public void Evolve(Infected livingEntity, List<? extends String> value, ScamperVariants variants) {
         if (this.getLinked() && random.nextFloat() < 0.3F){
             Specter specter = new Specter(Sentities.SPECTER.get(),level());
             specter.setBiomass(this.getKills() + this.getEvoPoints());
@@ -118,7 +119,7 @@ public class InfectedWanderingTrader extends Infected implements EvolvingInfecte
                 serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x0, y0, z0, 2, 0, 0, 0, 1);
             }
         }else{
-            EvolvingInfected.super.Evolve(livingEntity, value);
+            EvolvingInfected.super.Evolve(livingEntity, value, variants);
         }
     }
 }
