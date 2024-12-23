@@ -42,13 +42,15 @@ public class Scamper extends EvolvedInfected implements WaterInfected {
     public static final EntityDataAccessor<Integer> AGE = SynchedEntityData.defineId(Scamper.class, EntityDataSerializers.INT);
     public int deployClock = 0;
     public boolean deploying;
+    private final HybridPathNavigation waterNavigation;
+    private final GroundPathNavigation villagerNavigation;
 
     public Scamper(EntityType<? extends Monster> type, Level level) {
         super(type, level);
         setPersistenceRequired();
-        if (getVariant() == ScamperVariants.VILLAGER && this.getNavigation() instanceof GroundPathNavigation groundPathNavigation){
-            groundPathNavigation.setCanOpenDoors(true);
-        }
+        this.waterNavigation = new HybridPathNavigation(this,this.level());
+        this.villagerNavigation  = new GroundPathNavigation(this,level);
+        this.villagerNavigation.setCanOpenDoors(true);
     }
 
     @Override
@@ -113,7 +115,9 @@ public class Scamper extends EvolvedInfected implements WaterInfected {
     @Override
     public PathNavigation getNavigation() {
         if (getVariant() == ScamperVariants.DROWNED){
-            new HybridPathNavigation(this,this.level());
+           return waterNavigation;
+        }else if (getVariant() == ScamperVariants.VILLAGER){
+            return villagerNavigation;
         }
         return super.getNavigation();
     }
