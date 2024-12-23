@@ -8,6 +8,7 @@ import com.Harbinger.Spore.Sentities.Organoids.Mound;
 import com.Harbinger.Spore.Sentities.Utility.GastGeber;
 import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
 import com.Harbinger.Spore.Sentities.Variants.ScamperVariants;
+import com.Harbinger.Spore.Sentities.WaterInfected;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -28,7 +29,6 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.entity.ai.util.GoalUtils;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -37,7 +37,7 @@ import net.minecraftforge.fluids.FluidType;
 
 import java.util.List;
 
-public class Scamper extends EvolvedInfected {
+public class Scamper extends EvolvedInfected implements WaterInfected {
     private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(Busser.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Integer> AGE = SynchedEntityData.defineId(Scamper.class, EntityDataSerializers.INT);
     public int deployClock = 0;
@@ -46,6 +46,9 @@ public class Scamper extends EvolvedInfected {
     public Scamper(EntityType<? extends Monster> type, Level level) {
         super(type, level);
         setPersistenceRequired();
+        if (getVariant() == ScamperVariants.VILLAGER && this.getNavigation() instanceof GroundPathNavigation groundPathNavigation){
+            groundPathNavigation.setCanOpenDoors(true);
+        }
     }
 
     @Override
@@ -111,9 +114,6 @@ public class Scamper extends EvolvedInfected {
     public PathNavigation getNavigation() {
         if (getVariant() == ScamperVariants.DROWNED){
             new HybridPathNavigation(this,this.level());
-        }
-        if (getVariant() == ScamperVariants.VILLAGER && GoalUtils.hasGroundPathNavigation(this)){
-            ((GroundPathNavigation)this.getNavigation()).setCanOpenDoors(true);
         }
         return super.getNavigation();
     }

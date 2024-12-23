@@ -119,6 +119,8 @@ public class ClientModEvents {
         event.registerLayerDefinition(ProtoChritsmasHat.LAYER_LOCATION, ProtoChritsmasHat::createBodyLayer);
         event.registerLayerDefinition(NuckelaveModel.LAYER_LOCATION, NuckelaveModel::createBodyLayer);
         event.registerLayerDefinition(NuckelaveArmorModel.LAYER_LOCATION, NuckelaveArmorModel::createBodyLayer);
+        event.registerLayerDefinition(ScamperVillagerModel.LAYER_LOCATION, ScamperVillagerModel::createBodyLayer);
+        event.registerLayerDefinition(DrownedScamperModel.LAYER_LOCATION, DrownedScamperModel::createBodyLayer);
     }
 
 
