@@ -75,7 +75,6 @@ public class CDUBlockEntity extends BlockEntity{
         states.add(Sblocks.MEMBRANE_BLOCK.get().defaultBlockState());
         states.add(Sblocks.ROOTED_BIOMASS.get().defaultBlockState());
         states.add(Sblocks.GASTRIC_BIOMASS.get().defaultBlockState());
-        states.add(Sblocks.BILE.get().defaultBlockState());
         states.add(Sblocks.ROOTED_MYCELIUM.get().defaultBlockState());
         return states;
     }
@@ -105,6 +104,9 @@ public class CDUBlockEntity extends BlockEntity{
             if (Math.random() < 0.1){
                 if (this.stateList().contains(state)){
                     level.setBlock(blockpos,Sblocks.FROST_BURNED_BIOMASS.get().defaultBlockState(),3);
+                }
+                if (state == Sblocks.BILE.get().defaultBlockState()){
+                    level.setBlock(blockpos,Sblocks.CRUSTED_BILE.get().defaultBlockState(),3);
                 }
             }
             if (Math.random() < 0.001 && SConfig.DATAGEN.cryo_snow.get()){
