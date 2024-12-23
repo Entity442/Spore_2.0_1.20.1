@@ -49,6 +49,8 @@
   "block.spore.biomass_bulb": "Biomass Bulb",
   "block.spore.frozen_remains": "Frozen Remains",
 
+
+
   "block.spore.lab_block1": "Laboratory Block",
   "block.spore.lab_block2": "Laboratory Block",
   "block.spore.lab_block3": "Laboratory Block",
@@ -77,6 +79,7 @@
   "block.spore.overgrown_spawner": "Infested Spawner",
   "block.spore.freeze_burned_biomass": "Freeze Burned Biomass",
   "block.spore.bile": "Bile",
+  "block.spore.crusted_bile": "Crusted Bile",
 
 
   "item.spore.claw": "Claw",
