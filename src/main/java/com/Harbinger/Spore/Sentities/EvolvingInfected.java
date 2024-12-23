@@ -101,6 +101,7 @@ public interface EvolvingInfected {
                 }
             }else {
                 Scamper scamper = new Scamper(Sentities.SCAMPER.get(), level);
+                scamper.setVariant(variants);
                 scamper.setPos(livingEntity.getX(), livingEntity.getY() + 0.5D, livingEntity.getZ());
                 scamper.setCustomName(livingEntity.getCustomName());
                 scamper.setKills(livingEntity.getKills());

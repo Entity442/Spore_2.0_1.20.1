@@ -47,11 +47,7 @@ public class Scamper extends EvolvedInfected {
         super(type, level);
         setPersistenceRequired();
     }
-    public Scamper(EntityType<? extends Monster> type, Level level ,ScamperVariants variants) {
-        super(type, level);
-        this.setVariant(variants);
-        setPersistenceRequired();
-    }
+
     @Override
     public boolean removeWhenFarAway(double distanceToClosestPlayer) {
         return false;
@@ -229,7 +225,7 @@ public class Scamper extends EvolvedInfected {
         return this.entityData.get(DATA_ID_TYPE_VARIANT);
     }
 
-    private void setVariant(ScamperVariants variant) {
+    public void setVariant(ScamperVariants variant) {
         this.entityData.set(DATA_ID_TYPE_VARIANT, variant.getId() & 255);
     }
 
