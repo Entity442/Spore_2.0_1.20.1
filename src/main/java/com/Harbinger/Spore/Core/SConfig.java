@@ -1317,23 +1317,23 @@ public class SConfig {
             this.inf_drow_loot = builder.defineList("Infected Drowned",
                     Lists.newArrayList("spore:mutated_fiber|50|1|3","spore:mutated_heart|5|1|1","minecraft:copper_ingot|15|1|1") , o -> o instanceof String);
             this.inf_villager_loot = builder.defineList("Infected Villager",
-                    Lists.newArrayList("spore:mutated_fiber|50|2|5","spore:mutated_heart|10|1|1","spore:cerebrum|25|1|1","spore:spine_fragment|15|1|3") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mutated_fiber|50|2|5","minecraft:emerald|20|1|1","spore:mutated_heart|10|1|1","spore:cerebrum|25|1|1","spore:spine_fragment|15|1|3") , o -> o instanceof String);
             this.inf_pillager_loot = builder.defineList("Infected Pillager",
-                    Lists.newArrayList("spore:mutated_fiber|50|2|5","spore:mutated_heart|10|1|1","spore:cerebrum|25|1|1","spore:spine_fragment|15|1|3") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mutated_fiber|50|2|5","minecraft:emerald|20|1|1","spore:mutated_heart|10|1|1","spore:cerebrum|25|1|1","spore:spine_fragment|15|1|3") , o -> o instanceof String);
             this.inf_witch_loot = builder.defineList("Infected Witch",
                     Lists.newArrayList("spore:mutated_fiber|50|1|3" ,"minecraft:stick|60|1|6","minecraft:glowstone_dust|30|1|3","spore:cerebrum|30|1|1","spore:spine_fragment|15|1|3") , o -> o instanceof String);
             this.inf_wan_loot = builder.defineList("Infected Wandering Trader",
-                    Lists.newArrayList("spore:mutated_fiber|80|2|5","spore:mutated_heart|10|1|1","spore:cerebrum|30|1|1","spore:spine_fragment|15|1|3") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mutated_fiber|80|2|5","minecraft:emerald|20|1|1","spore:mutated_heart|10|1|1","spore:cerebrum|30|1|1","spore:spine_fragment|15|1|3") , o -> o instanceof String);
             this.inf_evoker_loot = builder.defineList("Infected Evoker",
-                    Lists.newArrayList("spore:mutated_fiber|50|2|5","spore:armor_fragment|70|1|3","spore:claw_fragment|80|3|6","spore:mutated_heart|10|1|1","spore:cerebrum|25|1|1","spore:spine_fragment|15|1|3") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mutated_fiber|50|2|5","minecraft:emerald|20|1|1","spore:armor_fragment|70|1|3","spore:claw_fragment|80|3|6","spore:mutated_heart|10|1|1","spore:cerebrum|25|1|1","spore:spine_fragment|15|1|3") , o -> o instanceof String);
             this.inf_vin_loot = builder.defineList("Infected Vindicator",
-                    Lists.newArrayList("spore:mutated_fiber|50|2|5","spore:armor_fragment|80|1|4","spore:mutated_heart|10|1|1","spore:cerebrum|25|1|1","spore:spine_fragment|15|1|3") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mutated_fiber|50|2|5","minecraft:emerald|20|1|1","spore:armor_fragment|80|1|4","spore:mutated_heart|10|1|1","spore:cerebrum|25|1|1","spore:spine_fragment|15|1|3") , o -> o instanceof String);
             this.inf_claw_loot = builder.defineList("Claw ",
                     Lists.newArrayList("spore:mutated_fiber|50|1|3","spore:armor_fragment|80|1|2","spore:claw_fragment|80|2|6") , o -> o instanceof String);
             this.inf_player_loot = builder.defineList("Infected Adventurer",
                     Lists.newArrayList("spore:mutated_fiber|50|2|5","spore:mutated_heart|10|1|1") , o -> o instanceof String);
             this.inf_husk_loot = builder.defineList("Infected Husk",
-                    Lists.newArrayList("spore:mutated_fiber|50|5|7","spore:mutated_heart|15|1|1") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mutated_fiber|50|5|7","minecraft:bone|70|1|4","spore:mutated_heart|15|1|1") , o -> o instanceof String);
 
             this.plagued_loot = builder.defineList("Plagued",
                     Lists.newArrayList("spore:mutated_fiber|50|5|7", "spore:mutated_heart|10|1|1", "spore:spine_fragment|15|1|3", "spore:cerebrum|25|1|1") , o -> o instanceof String);
@@ -1367,11 +1367,14 @@ public class SConfig {
             this.inf_volatile_loot = builder.defineList("Volatile",
                     Lists.newArrayList("spore:mutated_fiber|70|1|5","spore:armor_fragment|80|2|6","spore:mutated_heart|10|1|1","spore:claw_fragment|80|6|9","spore:innards|50|1|1","spore:tumor|100|2|4") , o -> o instanceof String);
 
+            this.jagd_loot = builder.defineList("Jagdhund",
+                    Lists.newArrayList("spore:mutated_fiber|70|1|5","minecraft:bone|70|1|4","spore:armor_fragment|80|4|9","spore:mutated_heart|10|1|1","spore:claw_fragment|80|6|9") , o -> o instanceof String);
+
             this.thorn_loot = builder.defineList("VervaThorn",
-                    Lists.newArrayList("spore:mutated_fiber|70|3|8","spore:armor_fragment|80|4|14","spore:mutated_heart|10|1|1","spore:claw_fragment|80|6|14") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mutated_fiber|70|3|8","minecraft:bone|70|1|4","spore:armor_fragment|80|4|14","spore:mutated_heart|10|1|1","spore:claw_fragment|80|6|14") , o -> o instanceof String);
 
             this.scavenger_loot = builder.defineList("Scavenger",
-                    Lists.newArrayList("spore:mutated_fiber|80|1|3","spore:armor_fragment|50|1|2","spore:claw_fragment|80|1|3","spore:mutated_heart|10|1|1","spore:wing_membrane|60|1|3") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mutated_fiber|80|1|3","minecraft:bone|70|1|4","spore:armor_fragment|50|1|2","spore:claw_fragment|80|1|3","spore:mutated_heart|10|1|1","spore:wing_membrane|60|1|3") , o -> o instanceof String);
 
             this.bloater_loot = builder.defineList("Bloater",
                     Lists.newArrayList("spore:mutated_fiber|80|3|12","spore:mutated_heart|25|1|1","minecraft:copper_ingot|15|1|1","spore:tumor|100|1|3") , o -> o instanceof String);
@@ -1417,8 +1420,6 @@ public class SConfig {
             this.proto_loot = builder.defineList("Proto Hivemind",
                     Lists.newArrayList("spore:mutated_fiber|100|10|20","spore:armor_fragment|80|4|14","spore:mutated_heart|80|1|6","spore:cerebrum|100|2|11","spore:spine_fragment|80|2|8") , o -> o instanceof String);
 
-            this.jagd_loot = builder.defineList("Jagdhund",
-                    Lists.newArrayList("spore:mutated_fiber|70|1|5","spore:armor_fragment|80|4|9","spore:mutated_heart|10|1|1","spore:claw_fragment|80|6|9") , o -> o instanceof String);
 
 
             this.mound_loot = builder.defineList("Mound",
