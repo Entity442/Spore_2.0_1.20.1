@@ -57,6 +57,7 @@ public class BileLiquid extends FluidType {
         if (entity instanceof UtilityEntity || entity instanceof Infected){
             movementVector.scale(1.2);
             entity.setDeltaMovement(entity.getDeltaMovement().add(0,0.01,0));
+            entity.addEffect(new MobEffectInstance(MobEffects.REGENERATION,0,40));
             gravity = 0;
         }else{
             movementVector.scale(0.4f);
