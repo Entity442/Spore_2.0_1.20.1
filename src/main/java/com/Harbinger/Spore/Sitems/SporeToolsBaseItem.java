@@ -4,9 +4,12 @@ import com.Harbinger.Spore.Core.Sitems;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -38,9 +41,9 @@ public class SporeToolsBaseItem extends BaseItem implements IForgeItem {
     private final double meleeReach;
     private final double meleeRecharge;
     private final int miningLevel;
-    private UUID BONUS_DAMAGE_MODIFIER_UUID = UUID.fromString("035e66d6-5a74-402f-b64c-e61432ec39ba");
-    private UUID BONUS_REACH_MODIFIER_UUID = UUID.fromString("d8c35ba5-f440-4335-92b2-3c8b1b703706");
-    private UUID BONUS_RECHARGE_MODIFIER_UUID = UUID.fromString("6dee499d-60f9-4f91-9ae9-fa62f285cc24");
+    private final UUID BONUS_DAMAGE_MODIFIER_UUID = UUID.fromString("035e66d6-5a74-402f-b64c-e61432ec39ba");
+    private final UUID BONUS_REACH_MODIFIER_UUID = UUID.fromString("d8c35ba5-f440-4335-92b2-3c8b1b703706");
+    private final UUID BONUS_RECHARGE_MODIFIER_UUID = UUID.fromString("6dee499d-60f9-4f91-9ae9-fa62f285cc24");
     public SporeToolsBaseItem(double meleeDamage, double meleeReach, double meleeRecharge, int durability, int miningLevel) {
         super(new Item.Properties().stacksTo(1).durability(durability));
         this.meleeDamage = meleeDamage;
@@ -53,9 +56,9 @@ public class SporeToolsBaseItem extends BaseItem implements IForgeItem {
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE,new AttributeModifier(BONUS_DAMAGE_MODIFIER_UUID,"Tool modifier",calculateTrueDamage(stack)-1, AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BONUS_RECHARGE_MODIFIER_UUID, "Tool modifier", -meleeRecharge, AttributeModifier.Operation.ADDITION));
-        builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(BONUS_REACH_MODIFIER_UUID, "Tool modifier",meleeReach, AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.ATTACK_DAMAGE,new AttributeModifier(BONUS_DAMAGE_MODIFIER_UUID,"Tool modifier",calculateTrueDamage(stack)-1+modifyDamage(stack), AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BONUS_RECHARGE_MODIFIER_UUID, "Tool modifier", -meleeRecharge+modifyRecharge(stack), AttributeModifier.Operation.ADDITION));
+        builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(BONUS_REACH_MODIFIER_UUID, "Tool modifier",meleeReach+modifyRange(stack), AttributeModifier.Operation.ADDITION));
         return slot == EquipmentSlot.MAINHAND && tooHurt(stack) ? builder.build() : ImmutableMultimap.of();
     }
 
@@ -147,17 +150,26 @@ public class SporeToolsBaseItem extends BaseItem implements IForgeItem {
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity living, LivingEntity entity) {
         if (tooHurt(stack)){
+            int lostDurability = this.calculateDurabilityLostForMutations(1,stack);
             if (getAdditionalDurability(stack) > 0){
-                hurtExtraDurability(stack,1,entity);
+                hurtExtraDurability(stack,lostDurability,entity);
             }else{
-                stack.hurtAndBreak(1, entity, (p_43296_) -> {
+                stack.hurtAndBreak(lostDurability, entity, (p_43296_) -> {
                     p_43296_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
                 });
             }
         }
+        doEntityHurtAfterEffects(stack,living,entity);
         return super.hurtEnemy(stack, living, entity);
     }
 
+    @Override
+    public boolean mineBlock(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity living) {
+        if (!tooHurt(stack)){
+            return false;
+        }
+        return super.mineBlock(stack, level, state, pos, living);
+    }
 
     @Override
     public boolean isBarVisible(ItemStack stack) {
@@ -189,6 +201,15 @@ public class SporeToolsBaseItem extends BaseItem implements IForgeItem {
         return super.canApplyAtEnchantingTable(stack, enchantment) || ImmutableSet.of(Enchantments.SHARPNESS, Enchantments.FIRE_ASPECT, Enchantments.KNOCKBACK , Enchantments.MOB_LOOTING , Enchantments.SMITE).contains(enchantment);
     }
 
+    public int calculateDurabilityLostForMutations(int value ,ItemStack stack){
+        if (getVariant(stack) == SporeToolsMutations.TOXIC){
+            return value * 2;
+        }
+        if (getVariant(stack) == SporeToolsMutations.ROTTEN){
+            return value * 2;
+        }
+        return value;
+    }
 
     public SporeToolsMutations getVariant(ItemStack stack) {
         return SporeToolsMutations.byId(this.getTypeVariant(stack) & 255);
@@ -202,6 +223,31 @@ public class SporeToolsBaseItem extends BaseItem implements IForgeItem {
     private void setVariant(SporeToolsMutations variant,ItemStack stack) {
         CompoundTag tag = stack.getOrCreateTagElement(BASE_TAG);
         tag.putInt(MUTATION,variant.getId() & 255);
+    }
+
+    public void doEntityHurtAfterEffects(ItemStack stack, LivingEntity victim, LivingEntity entity){
+        if (getVariant(stack) == SporeToolsMutations.TOXIC){
+            victim.addEffect(new MobEffectInstance(MobEffects.POISON,60,1));
+        }
+        if (getVariant(stack) == SporeToolsMutations.ROTTEN){
+            victim.addEffect(new MobEffectInstance(MobEffects.WITHER,60,1));
+        }
+        if (getVariant(stack) == SporeToolsMutations.CALCIFIED){
+            victim.knockback(1.5F, Mth.sin(entity.getYRot() * ((float) Math.PI / 180F)), (-Mth.cos(entity.getYRot() * ((float) Math.PI / 180F))));
+        }
+        if (getVariant(stack) == SporeToolsMutations.VAMPIRIC && entity.getHealth() < entity.getMaxHealth()){
+            entity.heal(2f);
+        }
+    }
+
+    public double modifyDamage(ItemStack stack){
+        return getVariant(stack) == SporeToolsMutations.VAMPIRIC ? (calculateTrueDamage(stack) * -0.2) : 0;
+    }
+    public double modifyRange(ItemStack stack){
+        return 0;
+    }
+    public double modifyRecharge(ItemStack stack){
+        return getVariant(stack) == SporeToolsMutations.CALCIFIED ? -0.5 : 0;
     }
 
 
