@@ -376,14 +376,6 @@ public class Sitems {
 
 
 
-    public  static final RegistryObject<Item> TEST_MUTANT_WEAPON = ITEMS.register("mutant_weapon",
-            () -> new SporeToolsBaseItem(4,2,3,20,4));
-
-
-
-
-
-
 
 
 

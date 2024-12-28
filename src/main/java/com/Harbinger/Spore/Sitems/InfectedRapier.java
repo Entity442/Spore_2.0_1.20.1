@@ -21,7 +21,7 @@ public class InfectedRapier extends SporeSwordBase {
     public void doEntityHurtAfterEffects(ItemStack stack, LivingEntity victim, LivingEntity entity) {
         super.doEntityHurtAfterEffects(stack, victim, entity);
         int level = stack.getEnchantmentLevel(Senchantments.CORROSIVE_POTENCY.get()) > 0 ? 3 : 1;
-        entity.addEffect(new MobEffectInstance(Seffects.CORROSION.get(),60,level ,true,true));
+        victim.addEffect(new MobEffectInstance(Seffects.CORROSION.get(),60,level ,true,true));
     }
 
     @Override
