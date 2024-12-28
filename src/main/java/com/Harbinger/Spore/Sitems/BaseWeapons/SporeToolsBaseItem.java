@@ -38,10 +38,10 @@ public class SporeToolsBaseItem extends BaseItem implements IForgeItem {
     public String MAX_DURABILITY = "mutant_max_durability";
     public String ENCHANTING = "mutant_enchanting";
     public String MUTATION = "mutation";
-    private final double meleeDamage;
-    private final double meleeReach;
-    private final double meleeRecharge;
-    private final int miningLevel;
+    protected final double meleeDamage;
+    protected final double meleeReach;
+    protected final double meleeRecharge;
+    protected final int miningLevel;
     private final UUID BONUS_DAMAGE_MODIFIER_UUID = UUID.fromString("035e66d6-5a74-402f-b64c-e61432ec39ba");
     private final UUID BONUS_REACH_MODIFIER_UUID = UUID.fromString("d8c35ba5-f440-4335-92b2-3c8b1b703706");
     private final UUID BONUS_RECHARGE_MODIFIER_UUID = UUID.fromString("6dee499d-60f9-4f91-9ae9-fa62f285cc24");
@@ -52,6 +52,11 @@ public class SporeToolsBaseItem extends BaseItem implements IForgeItem {
         this.meleeRecharge = meleeRecharge;
         this.miningLevel = miningLevel;
         Sitems.TINTABLE_ITEMS.add(this);
+    }
+
+    @Override
+    public boolean isValidRepairItem(ItemStack stack, ItemStack itemStack) {
+        return super.isValidRepairItem(stack, itemStack) || itemStack.getItem() == Sitems.BIOMASS.get();
     }
 
     @Override
@@ -151,17 +156,21 @@ public class SporeToolsBaseItem extends BaseItem implements IForgeItem {
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity living, LivingEntity entity) {
         if (tooHurt(stack)){
-            int lostDurability = this.calculateDurabilityLostForMutations(1,stack);
-            if (getAdditionalDurability(stack) > 0){
-                hurtExtraDurability(stack,lostDurability,entity);
-            }else{
-                stack.hurtAndBreak(lostDurability, entity, (p_43296_) -> {
-                    p_43296_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
-                });
-            }
+            hurtTool(stack,entity,1);
         }
         doEntityHurtAfterEffects(stack,living,entity);
         return super.hurtEnemy(stack, living, entity);
+    }
+
+    public void hurtTool(ItemStack stack, LivingEntity entity,int value){
+        int lostDurability = this.calculateDurabilityLostForMutations(value,stack);
+        if (getAdditionalDurability(stack) > 0){
+            hurtExtraDurability(stack,lostDurability,entity);
+        }else{
+            stack.hurtAndBreak(lostDurability, entity, (p_43296_) -> {
+                p_43296_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
+            });
+        }
     }
 
     @Override
