@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Core;
 
 import com.Harbinger.Spore.Sitems.*;
 import com.Harbinger.Spore.Spore;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -20,6 +21,7 @@ import java.util.List;
 public class Sitems {
     public  static  final List<Item> BIOLOGICAL_ITEMS = new ArrayList<>();
     public  static  final List<Item> TECHNOLOGICAL_ITEMS = new ArrayList<>();
+    public  static  final List<Item> TINTABLE_ITEMS = new ArrayList<>();
 
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, Spore.MODID);
@@ -374,7 +376,8 @@ public class Sitems {
 
 
 
-
+    public  static final RegistryObject<Item> TEST_MUTANT_WEAPON = ITEMS.register("mutant_weapon",
+            () -> new SporeToolsBaseItem(4,2,3,20,4));
 
 
 
