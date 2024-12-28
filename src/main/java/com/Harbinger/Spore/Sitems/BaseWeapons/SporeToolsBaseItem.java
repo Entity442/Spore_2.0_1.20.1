@@ -146,10 +146,9 @@ public class SporeToolsBaseItem extends BaseItem implements IForgeItem {
     public void healTool(ItemStack stack,int value){
         if (stack.getDamageValue() < stack.getMaxDamage()){
             stack.setDamageValue(stack.getDamageValue()-value);
-        }else{
-            if (getMaxTrueAdditionalDurability(stack) > getAdditionalDurability(stack)){
-                setAdditionalDurability(getAdditionalDurability(stack)+value,stack);
-            }
+        }
+        if (getMaxTrueAdditionalDurability(stack) > getAdditionalDurability(stack)){
+            setAdditionalDurability(getAdditionalDurability(stack)+value,stack);
         }
     }
 
