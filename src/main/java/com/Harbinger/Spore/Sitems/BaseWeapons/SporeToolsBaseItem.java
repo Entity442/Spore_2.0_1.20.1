@@ -1,6 +1,7 @@
-package com.Harbinger.Spore.Sitems;
+package com.Harbinger.Spore.Sitems.BaseWeapons;
 
 import com.Harbinger.Spore.Core.Sitems;
+import com.Harbinger.Spore.Sitems.BaseItem;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;

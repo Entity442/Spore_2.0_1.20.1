@@ -1,4 +1,4 @@
-package com.Harbinger.Spore.Sitems;
+package com.Harbinger.Spore.Sitems.BaseWeapons;
 
 import java.util.Arrays;
 import java.util.Comparator;

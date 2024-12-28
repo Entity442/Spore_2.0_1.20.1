@@ -22,7 +22,7 @@ import com.Harbinger.Spore.Sentities.Utility.InfestedConstruct;
 import com.Harbinger.Spore.Sentities.Utility.Specter;
 import com.Harbinger.Spore.Sitems.InfectedCombatShovel;
 import com.Harbinger.Spore.Sitems.InfectedMaul;
-import com.Harbinger.Spore.Sitems.SporeToolsBaseItem;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsBaseItem;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;

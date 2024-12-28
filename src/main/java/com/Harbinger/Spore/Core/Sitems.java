@@ -1,8 +1,8 @@
 package com.Harbinger.Spore.Core;
 
 import com.Harbinger.Spore.Sitems.*;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsBaseItem;
 import com.Harbinger.Spore.Spore;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
