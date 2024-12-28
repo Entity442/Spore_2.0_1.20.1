@@ -238,6 +238,15 @@ public class SporeToolsBaseItem extends BaseItem implements IForgeItem {
         if (getVariant(stack) == SporeToolsMutations.VAMPIRIC && entity.getHealth() < entity.getMaxHealth()){
             entity.heal(2f);
         }
+        if (getVariant(stack) == SporeToolsMutations.BEZERK && Math.random() < 0.3){
+            if (Math.random() < 0.5){
+                entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,60,0));
+            } else if (Math.random() < 0.5) {
+                entity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST,60,0));
+            }else {
+                entity.addEffect(new MobEffectInstance(MobEffects.SATURATION,60,0));
+            }
+        }
     }
 
     public double modifyDamage(ItemStack stack){
