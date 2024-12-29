@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.SBlockEntities;
 
 import com.Harbinger.Spore.Core.SblockEntities;
+import com.Harbinger.Spore.Recipes.SurgeryRecipe;
 import com.Harbinger.Spore.Screens.SurgeryMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -14,6 +15,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -24,18 +26,20 @@ import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
+
 public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider {
-    private final ItemStackHandler itemHandler = new ItemStackHandler(21);
-    private static final int STRING_SLOT = 16;
-    private static final int AGENT_SLOT_1 = 17;
-    private static final int AGENT_SLOT_2 = 18;
-    private static final int AGENT_SLOT_3 = 19;
-    private static final int OUTPUT_SLOT = 20;
+    public final ItemStackHandler itemHandler = new ItemStackHandler(20);
+    public static final int STRING_SLOT = 16;
+    public static final int AGENT_SLOT_1 = 17;
+    public static final int AGENT_SLOT_2 = 18;
+    public static final int AGENT_SLOT_3 = 19;
+    public static final int OUTPUT_SLOT = 20;
     private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
     protected final ContainerData data;
     public SurgeryTableBlockEntity(BlockPos p_155229_, BlockState p_155230_) {
         super(SblockEntities.SURGERY_TABLE_ENTITY.get(), p_155229_, p_155230_);
-        this.data = new SimpleContainerData(4);
+        this.data = new SimpleContainerData(20);
     }
 
     @Override
@@ -89,4 +93,28 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
         super.load(pTag);
         itemHandler.deserializeNBT(pTag.getCompound("inventory"));
     }
+    public Optional<SurgeryRecipe> getCurrentRecipe() {
+        SimpleContainer inventory = new SimpleContainer(this.itemHandler.getSlots());
+        for(int i = 0; i < itemHandler.getSlots(); i++) {
+            inventory.setItem(i, this.itemHandler.getStackInSlot(i));
+        }
+        assert this.level != null;
+        return this.level.getRecipeManager().getRecipeFor(SurgeryRecipe.SurgeryRecipeType.INSTANCE, inventory, level);
+    }
+
+    public void consumeItems(){
+        for (int i = 0;i<16;i++){
+            this.itemHandler.extractItem(i, 1, false);
+        }
+    }
+
+    public boolean canInsertItemIntoOutputSlot(Item item) {
+        return this.itemHandler.getStackInSlot(OUTPUT_SLOT).isEmpty() || this.itemHandler.getStackInSlot(OUTPUT_SLOT).is(item);
+    }
+
+    public boolean canInsertAmountIntoOutputSlot(int count) {
+        return this.itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() + count <= this.itemHandler.getStackInSlot(OUTPUT_SLOT).getMaxStackSize();
+    }
+
+
 }

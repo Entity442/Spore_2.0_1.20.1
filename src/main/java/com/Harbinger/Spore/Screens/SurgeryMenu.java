@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Screens;
 import com.Harbinger.Spore.Core.SMenu;
 import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.Core.Sitems;
+import com.Harbinger.Spore.Recipes.SurgeryRecipe;
 import com.Harbinger.Spore.SBlockEntities.SurgeryTableBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -16,13 +17,14 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
+
 public class SurgeryMenu extends AbstractContainerMenu {
     public final SurgeryTableBlockEntity blockEntity;
     private final Level level;
     private final ContainerData data;
     public SurgeryMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
-        this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(20));
-    }
+        this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(20));}
 
     public SurgeryMenu(int pContainerId, Inventory inv, BlockEntity entity, ContainerData data) {
         super(SMenu.SURGERY_MENU.get(), pContainerId);
@@ -80,14 +82,28 @@ public class SurgeryMenu extends AbstractContainerMenu {
                 public boolean mayPlace(ItemStack stack) {
                     return false;
                 }
+
+                @Override
+                public void onTake(Player player, ItemStack stack) {
+                    super.onTake(player, stack);
+                    blockEntity.consumeItems();
+                }
             });
         });
 
         addDataSlots(data);
     }
 
+    @Override
+    public void broadcastChanges() {
+        super.broadcastChanges();
+        updateOutputSlot();
+    }
 
-
+    private void updateOutputSlot() {
+        Optional<SurgeryRecipe> match = blockEntity.getCurrentRecipe();
+        blockEntity.itemHandler.setStackInSlot(SurgeryTableBlockEntity.OUTPUT_SLOT,match.isPresent() ? match.get().getResultItem(null) : ItemStack.EMPTY);
+    }
 
 
     private static final int HOTBAR_SLOT_COUNT = 9;

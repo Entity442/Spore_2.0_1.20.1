@@ -51,6 +51,7 @@ public class Spore
         Spotion.register(modEventBus);
         Sparticles.register(modEventBus);
         Ssounds.register(modEventBus);
+        Srecipes.register(modEventBus);
         Sfluids.SPORE_FLUID.register(modEventBus);
         Sfluids.SPORE_FLUID_TYPE.register(modEventBus);
         Sfeatures.register(modEventBus);
