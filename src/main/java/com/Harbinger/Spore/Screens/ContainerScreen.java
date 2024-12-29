@@ -6,24 +6,10 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-
-import java.util.HashMap;
 
 public class ContainerScreen extends AbstractContainerScreen<ContainerMenu> {
-    private final static HashMap<String, Object> guistate = ContainerMenu.guistate;
-    private final Level world;
-    private final int x, y, z;
-    private final Player entity;
-
     public ContainerScreen(ContainerMenu container, Inventory inventory, Component text) {
         super(container, inventory, text);
-        this.world = container.world;
-        this.x = container.x;
-        this.y = container.y;
-        this.z = container.z;
-        this.entity = container.entity;
         this.imageWidth = 176;
         this.imageHeight = 166;
     }

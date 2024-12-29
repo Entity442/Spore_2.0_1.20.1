@@ -49,6 +49,10 @@ public class SblockEntities {
             BLOCK_ENTITIES.register("outpost_watcher_entity", () ->
                     BlockEntityType.Builder.of(OutpostWatcherBlockEntity::new,
                             Sblocks.OUTPOST_WATCHER.get()).build(null));
+    public static final RegistryObject<BlockEntityType<SurgeryTableBlockEntity>> SURGERY_TABLE_ENTITY =
+            BLOCK_ENTITIES.register("surgery_table_entity", () ->
+                    BlockEntityType.Builder.of(SurgeryTableBlockEntity::new,
+                            Sblocks.SURGERY_TABLE.get()).build(null));
 
 
     public static void register(IEventBus eventBus) {

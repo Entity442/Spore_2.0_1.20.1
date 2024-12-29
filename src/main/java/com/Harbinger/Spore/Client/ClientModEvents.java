@@ -8,6 +8,7 @@ import com.Harbinger.Spore.Particles.AcidParticle;
 import com.Harbinger.Spore.Particles.BloodParticle;
 import com.Harbinger.Spore.Particles.SporeParticle;
 import com.Harbinger.Spore.Screens.ContainerScreen;
+import com.Harbinger.Spore.Screens.SurgeryScreen;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsBaseItem;
 import com.Harbinger.Spore.Spore;
 import com.Harbinger.Spore.sEvents.SItemProperties;
@@ -211,6 +212,7 @@ public class ClientModEvents {
 
         event.enqueueWork(() -> {
             MenuScreens.register(SMenu.CONTAINER.get(), ContainerScreen::new);
+            MenuScreens.register(SMenu.SURGERY_MENU.get(), SurgeryScreen::new);
         });
 
     }
