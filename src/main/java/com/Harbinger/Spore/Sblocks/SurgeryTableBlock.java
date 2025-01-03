@@ -1,5 +1,7 @@
 package com.Harbinger.Spore.Sblocks;
 
+import com.Harbinger.Spore.Core.SblockEntities;
+import com.Harbinger.Spore.SBlockEntities.CDUBlockEntity;
 import com.Harbinger.Spore.SBlockEntities.SurgeryTableBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
@@ -13,6 +15,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -65,5 +69,15 @@ public class SurgeryTableBlock extends BaseEntityBlock {
         }
 
         return InteractionResult.sidedSuccess(pLevel.isClientSide());
+    }
+
+    @javax.annotation.Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState p_153274_, BlockEntityType<T> type) {
+        return createSurgeryTicker(level, type, SblockEntities.SURGERY_TABLE_ENTITY.get());
+    }
+
+    @javax.annotation.Nullable
+    protected static <T extends BlockEntity> BlockEntityTicker<T> createSurgeryTicker(Level level, BlockEntityType<T> type, BlockEntityType<? extends SurgeryTableBlockEntity> p_151990_) {
+        return level.isClientSide ? null : createTickerHelper(type, p_151990_, SurgeryTableBlockEntity::serverTick);
     }
 }

@@ -16,6 +16,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -29,7 +31,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 
 public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider {
-    public final ItemStackHandler itemHandler = new ItemStackHandler(20);
+    public final ItemStackHandler itemHandler = new ItemStackHandler(21);
+    private int tickCooldown = 0;
     public static final int STRING_SLOT = 16;
     public static final int AGENT_SLOT_1 = 17;
     public static final int AGENT_SLOT_2 = 18;
@@ -75,11 +78,12 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
 
 
     public void drops() {
-        SimpleContainer inventory = new SimpleContainer(itemHandler.getSlots());
-        for(int i = 0; i < itemHandler.getSlots(); i++) {
-            inventory.setItem(i, itemHandler.getStackInSlot(i));
+        for (int i = 0; i < itemHandler.getSlots(); i++) {
+            ItemStack stack = itemHandler.getStackInSlot(i);
+            if (!stack.isEmpty()) {
+                Containers.dropItemStack(level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), stack);
+            }
         }
-        Containers.dropContents(this.level, this.worldPosition, inventory);
     }
 
     @Override
@@ -95,26 +99,49 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
     }
     public Optional<SurgeryRecipe> getCurrentRecipe() {
         SimpleContainer inventory = new SimpleContainer(this.itemHandler.getSlots());
-        for(int i = 0; i < itemHandler.getSlots(); i++) {
+        for(int i = 0; i < 16; i++) {
             inventory.setItem(i, this.itemHandler.getStackInSlot(i));
         }
         assert this.level != null;
         return this.level.getRecipeManager().getRecipeFor(SurgeryRecipe.SurgeryRecipeType.INSTANCE, inventory, level);
     }
 
-    public void consumeItems(){
-        for (int i = 0;i<16;i++){
-            this.itemHandler.extractItem(i, 1, false);
+    public void consumeItems() {
+        Optional<SurgeryRecipe> match = this.getCurrentRecipe();
+        match.ifPresent(recipe -> {
+            for (int i = 0; i < 16; i++) {
+                ItemStack stack = itemHandler.getStackInSlot(i);
+                if (!stack.isEmpty()) {
+                    itemHandler.extractItem(i, 1, false);
+                }
+            }
+        });
+    }
+
+    public boolean canInsertIntoOutputSlot(ItemStack stack) {
+        ItemStack outputStack = itemHandler.getStackInSlot(OUTPUT_SLOT);
+        return outputStack.isEmpty() ||
+                (outputStack.getItem() == stack.getItem() &&
+                        outputStack.getCount() + stack.getCount() <= outputStack.getMaxStackSize());
+    }
+    public void updateOutputSlot() {
+        Optional<SurgeryRecipe> match = this.getCurrentRecipe();
+        if (match.isPresent()){
+            ItemStack stack = match.get().getResultItem(null);
+            if (canInsertIntoOutputSlot(stack)) {
+                itemHandler.insertItem(OUTPUT_SLOT, stack.copy(), false);
+            }
+        }else {
+            this.itemHandler.setStackInSlot(SurgeryTableBlockEntity.OUTPUT_SLOT, ItemStack.EMPTY);
         }
     }
 
-    public boolean canInsertItemIntoOutputSlot(Item item) {
-        return this.itemHandler.getStackInSlot(OUTPUT_SLOT).isEmpty() || this.itemHandler.getStackInSlot(OUTPUT_SLOT).is(item);
+    public static void serverTick(Level level, BlockPos pos, BlockState state, SurgeryTableBlockEntity entity) {
+        if (entity.tickCooldown > 0) {
+            entity.tickCooldown--;
+        } else {
+            entity.updateOutputSlot();
+            entity.tickCooldown = 20;
+        }
     }
-
-    public boolean canInsertAmountIntoOutputSlot(int count) {
-        return this.itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() + count <= this.itemHandler.getStackInSlot(OUTPUT_SLOT).getMaxStackSize();
-    }
-
-
 }

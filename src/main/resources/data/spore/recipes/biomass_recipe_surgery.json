@@ -1,0 +1,21 @@
+{
+  "type": "spore:surgery",
+  "ingredients": [
+    {
+      "slot": 0,
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "slot": 1,
+      "item": "minecraft:gold_ingot"
+    },
+    {
+      "slot": 2,
+      "item": "minecraft:diamond"
+    }
+  ],
+  "result": {
+    "item": "spore:symbiotic_reagent",
+    "count": 1
+  }
+}

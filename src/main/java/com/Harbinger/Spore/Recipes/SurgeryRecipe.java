@@ -11,7 +11,6 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
-import org.checkerframework.checker.signature.qual.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 public class SurgeryRecipe implements Recipe<SimpleContainer> {
@@ -27,12 +26,12 @@ public class SurgeryRecipe implements Recipe<SimpleContainer> {
 
     @Override
     public boolean matches(SimpleContainer simpleContainer, Level level) {
-        if(level.isClientSide()) {
+        if (level.isClientSide() || simpleContainer.getContainerSize() < 16) {
             return false;
         }
         for (int i = 0; i < 16; i++) {
-            if (!inputItems.get(i).test(simpleContainer.getItem(i))){
-             return false;
+            if (!inputItems.get(i).test(simpleContainer.getItem(i))) {
+                return false;
             }
         }
         return true;
@@ -40,12 +39,12 @@ public class SurgeryRecipe implements Recipe<SimpleContainer> {
 
     @Override
     public ItemStack assemble(SimpleContainer simpleContainer, RegistryAccess registryAccess) {
-        return output.copy();
+        return output == null ? ItemStack.EMPTY : output.copy();
     }
 
     @Override
     public boolean canCraftInDimensions(int width, int height) {
-        return width >= 4 && height >= 4;
+        return width * height >= 16;
     }
 
     @Override
@@ -82,15 +81,12 @@ public class SurgeryRecipe implements Recipe<SimpleContainer> {
         public SurgeryRecipe fromJson(ResourceLocation resourceLocation, JsonObject jsonObject) {
             ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(jsonObject, "output"));
             JsonArray ingredients = GsonHelper.getAsJsonArray(jsonObject, "ingredients");
-            NonNullList<Ingredient> inputs = NonNullList.withSize(1, Ingredient.EMPTY);
-            for (int i = 0; i < 16; i++) {
-                String key = "input" + i;
-                if (jsonObject.has(key)) {
-                    inputs.set(i, Ingredient.fromJson(ingredients.get(i)));
-                } else {
-                    inputs.set(i, Ingredient.EMPTY);
-                }
+            NonNullList<Ingredient> inputs = NonNullList.withSize(16, Ingredient.EMPTY);
+
+            for (int i = 0; i < ingredients.size(); i++) {
+                inputs.set(i, Ingredient.fromJson(ingredients.get(i)));
             }
+
             return new SurgeryRecipe(inputs, output, resourceLocation);
         }
 

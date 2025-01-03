@@ -3,7 +3,6 @@ package com.Harbinger.Spore.Screens;
 import com.Harbinger.Spore.Core.SMenu;
 import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.Core.Sitems;
-import com.Harbinger.Spore.Recipes.SurgeryRecipe;
 import com.Harbinger.Spore.SBlockEntities.SurgeryTableBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -17,22 +16,17 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Optional;
-
 public class SurgeryMenu extends AbstractContainerMenu {
     public final SurgeryTableBlockEntity blockEntity;
     private final Level level;
-    private final ContainerData data;
     public SurgeryMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
-        this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(20));}
+        this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(21));}
 
     public SurgeryMenu(int pContainerId, Inventory inv, BlockEntity entity, ContainerData data) {
         super(SMenu.SURGERY_MENU.get(), pContainerId);
-        checkContainerSize(inv, 2);
+        checkContainerSize(inv, 21);
         blockEntity = ((SurgeryTableBlockEntity) entity);
         this.level = inv.player.level();
-        this.data = data;
-
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
 
@@ -90,19 +84,7 @@ public class SurgeryMenu extends AbstractContainerMenu {
                 }
             });
         });
-
         addDataSlots(data);
-    }
-
-    @Override
-    public void broadcastChanges() {
-        super.broadcastChanges();
-        updateOutputSlot();
-    }
-
-    private void updateOutputSlot() {
-        Optional<SurgeryRecipe> match = blockEntity.getCurrentRecipe();
-        blockEntity.itemHandler.setStackInSlot(SurgeryTableBlockEntity.OUTPUT_SLOT,match.isPresent() ? match.get().getResultItem(null) : ItemStack.EMPTY);
     }
 
 
@@ -115,14 +97,17 @@ public class SurgeryMenu extends AbstractContainerMenu {
     private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
 
     // THIS YOU HAVE TO DEFINE!
-    private static final int TE_INVENTORY_SLOT_COUNT = 2;  // must be the number of slots you have!
+    private static final int TE_INVENTORY_SLOT_COUNT = 20;  // must be the number of slots you have!
 
 
 
     @Override
     public ItemStack quickMoveStack(Player playerIn, int pIndex) {
+        if (pIndex == 20) {
+            return ItemStack.EMPTY; // Prevent shift-clicking from output slot
+        }
         Slot sourceSlot = slots.get(pIndex);
-        if (sourceSlot == null || !sourceSlot.hasItem()) return ItemStack.EMPTY;  //EMPTY_ITEM
+        if (!sourceSlot.hasItem()) return ItemStack.EMPTY;  //EMPTY_ITEM
         ItemStack sourceStack = sourceSlot.getItem();
         ItemStack copyOfSourceStack = sourceStack.copy();
 
