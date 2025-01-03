@@ -69,6 +69,14 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
 
         return super.getCapability(cap, side);
     }
+    public void drops() {
+        for (int i = 0; i < itemHandler.getSlots(); i++) {
+            ItemStack stack = itemHandler.getStackInSlot(i);
+            if (!stack.isEmpty()) {
+                Containers.dropItemStack(level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), stack);
+            }
+        }
+    }
 
     @Override
     public void onLoad() {
@@ -82,16 +90,6 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
         lazyItemHandler.invalidate();
     }
 
-
-    public void drops() {
-        for (int i = 0; i < itemHandler.getSlots(); i++) {
-            ItemStack stack = itemHandler.getStackInSlot(i);
-            if (!stack.isEmpty()) {
-                Containers.dropItemStack(level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), stack);
-            }
-        }
-    }
-
     @Override
     protected void saveAdditional(CompoundTag pTag) {
         pTag.put("inventory", itemHandler.serializeNBT());
@@ -101,8 +99,11 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
     @Override
     public void load(CompoundTag pTag) {
         super.load(pTag);
-        itemHandler.deserializeNBT(pTag.getCompound("inventory"));
+        if (pTag.contains("inventory")) {
+            itemHandler.deserializeNBT(pTag.getCompound("inventory"));
+        }
     }
+
     public Optional<SurgeryRecipe> getCurrentRecipe() {
         SimpleContainer inventory = new SimpleContainer(this.itemHandler.getSlots());
         for (int i = 0; i < 16; i++) {
