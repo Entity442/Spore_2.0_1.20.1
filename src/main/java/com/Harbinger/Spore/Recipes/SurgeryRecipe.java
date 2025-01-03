@@ -44,7 +44,7 @@ public class SurgeryRecipe implements Recipe<SimpleContainer> {
 
     @Override
     public boolean canCraftInDimensions(int width, int height) {
-        return width * height >= 16;
+        return true;
     }
 
     @Override
@@ -84,9 +84,12 @@ public class SurgeryRecipe implements Recipe<SimpleContainer> {
             NonNullList<Ingredient> inputs = NonNullList.withSize(16, Ingredient.EMPTY);
 
             for (int i = 0; i < ingredients.size(); i++) {
-                inputs.set(i, Ingredient.fromJson(ingredients.get(i)));
+                JsonObject ingredientJson = ingredients.get(i).getAsJsonObject();
+                int slot = GsonHelper.getAsInt(ingredientJson, "slot", i);
+                if (slot >= 0 && slot < inputs.size()) {
+                    inputs.set(slot, Ingredient.fromJson(ingredientJson));
+                }
             }
-
             return new SurgeryRecipe(inputs, output, resourceLocation);
         }
 

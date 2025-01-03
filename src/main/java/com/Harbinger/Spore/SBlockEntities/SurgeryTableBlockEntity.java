@@ -99,11 +99,17 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
     }
     public Optional<SurgeryRecipe> getCurrentRecipe() {
         SimpleContainer inventory = new SimpleContainer(this.itemHandler.getSlots());
-        for(int i = 0; i < 16; i++) {
+        for (int i = 0; i < 16; i++) {
             inventory.setItem(i, this.itemHandler.getStackInSlot(i));
         }
-        assert this.level != null;
-        return this.level.getRecipeManager().getRecipeFor(SurgeryRecipe.SurgeryRecipeType.INSTANCE, inventory, level);
+        
+        Optional<SurgeryRecipe> recipe = this.level != null ? this.level.getRecipeManager().getRecipeFor(SurgeryRecipe.SurgeryRecipeType.INSTANCE, inventory, level) : null;
+        if (recipe.isPresent()) {
+            System.out.println("Found matching recipe: " + recipe.get().getId());
+        } else {
+            System.out.println("No matching recipe found.");
+        }
+        return recipe;
     }
 
     public void consumeItems() {
@@ -141,7 +147,7 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
             entity.tickCooldown--;
         } else {
             entity.updateOutputSlot();
-            entity.tickCooldown = 20;
+            entity.tickCooldown = 5;
         }
     }
 }
