@@ -37,7 +37,7 @@ import java.util.Optional;
 
 public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider {
     public final ItemStackHandler itemHandler = new ItemStackHandler(21);
-    public static final TagKey<Item> stringLikeItem = ItemTags.create(new ResourceLocation("spore:stitches"));
+    public final TagKey<Item> stringLikeItem = ItemTags.create(new ResourceLocation("spore:stitches"));
     private int tickCooldown = 0;
     public static final int STRING_SLOT = 16;
     public static final int AGENT_SLOT_1 = 17;
@@ -127,6 +127,7 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
                     itemHandler.extractItem(i, 1, false);
                 }
             }
+            itemHandler.extractItem(STRING_SLOT,1,false);
         });
     }
     public void assembleWeapon(Player player, ItemStack stack){

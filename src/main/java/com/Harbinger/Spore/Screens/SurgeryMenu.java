@@ -50,7 +50,7 @@ public class SurgeryMenu extends AbstractContainerMenu {
             this.addSlot(new SlotItemHandler(iItemHandler,  16, 97, 8){
                 @Override
                 public boolean mayPlace(@NotNull ItemStack stack) {
-                    return stack.getItem() == Items.STRING;
+                    return stack.is(blockEntity.stringLikeItem);
                 }
             });
             this.addSlot(new SlotItemHandler(iItemHandler, 17, 115, 8){
