@@ -3,10 +3,15 @@ package com.Harbinger.Spore.SBlockEntities;
 import com.Harbinger.Spore.Core.SblockEntities;
 import com.Harbinger.Spore.Recipes.SurgeryRecipe;
 import com.Harbinger.Spore.Screens.SurgeryMenu;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsBaseItem;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsMutations;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
@@ -32,6 +37,7 @@ import java.util.Optional;
 
 public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider {
     public final ItemStackHandler itemHandler = new ItemStackHandler(21);
+    public static final TagKey<Item> stringLikeItem = ItemTags.create(new ResourceLocation("spore:stitches"));
     private int tickCooldown = 0;
     public static final int STRING_SLOT = 16;
     public static final int AGENT_SLOT_1 = 17;
@@ -123,6 +129,15 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
             }
         });
     }
+    public void assembleWeapon(Player player, ItemStack stack){
+        if (stack.getItem() instanceof SporeToolsBaseItem item){
+            item.setAdditionalDamage(player.getRandom().nextInt(40,100),stack);
+            item.setMaxAdditionalDurability(player.getRandom().nextInt(40,100),stack);
+            item.setAdditionalDurability(item.getMaxTrueAdditionalDurability(stack),stack);
+            item.setLuck(player.getRandom().nextInt(1,6),stack);
+            item.setVariant(SporeToolsMutations.byId(player.getRandom().nextInt(SporeToolsMutations.values().length)),stack);
+        }
+    }
 
     public boolean canInsertIntoOutputSlot(ItemStack stack) {
         ItemStack outputStack = itemHandler.getStackInSlot(OUTPUT_SLOT);
@@ -131,6 +146,9 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
                         outputStack.getCount() + stack.getCount() <= outputStack.getMaxStackSize());
     }
     public void updateOutputSlot() {
+        if (itemHandler.getStackInSlot(STRING_SLOT) == ItemStack.EMPTY){
+            return;
+        }
         Optional<SurgeryRecipe> match = this.getCurrentRecipe();
         if (match.isPresent()){
             ItemStack stack = match.get().getResultItem(null);

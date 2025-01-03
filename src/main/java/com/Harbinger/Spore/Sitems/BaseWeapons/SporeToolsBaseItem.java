@@ -229,7 +229,7 @@ public class SporeToolsBaseItem extends BaseItem implements IForgeItem {
         return tag.getInt(MUTATION);
     }
 
-    private void setVariant(SporeToolsMutations variant,ItemStack stack) {
+    public void setVariant(SporeToolsMutations variant,ItemStack stack) {
         CompoundTag tag = stack.getOrCreateTagElement(BASE_TAG);
         tag.putInt(MUTATION,variant.getId() & 255);
     }
@@ -268,14 +268,4 @@ public class SporeToolsBaseItem extends BaseItem implements IForgeItem {
         return getVariant(stack) == SporeToolsMutations.CALCIFIED ? -0.5 : 0;
     }
 
-
-    @Override
-    public void onCraftedBy(ItemStack stack, Level level, Player player) {
-        super.onCraftedBy(stack, level, player);
-        setAdditionalDamage(player.getRandom().nextInt(40,100),stack);
-        setMaxAdditionalDurability(player.getRandom().nextInt(40,100),stack);
-        setAdditionalDurability(getMaxTrueAdditionalDurability(stack),stack);
-        setLuck(player.getRandom().nextInt(1,6),stack);
-        setVariant(SporeToolsMutations.byId(player.getRandom().nextInt(SporeToolsMutations.values().length)),stack);
-    }
 }

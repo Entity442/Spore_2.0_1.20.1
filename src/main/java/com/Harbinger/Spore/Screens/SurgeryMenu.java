@@ -81,6 +81,7 @@ public class SurgeryMenu extends AbstractContainerMenu {
                 public void onTake(Player player, ItemStack stack) {
                     super.onTake(player, stack);
                     blockEntity.consumeItems();
+                    blockEntity.assembleWeapon(player,stack);
                 }
             });
         });
