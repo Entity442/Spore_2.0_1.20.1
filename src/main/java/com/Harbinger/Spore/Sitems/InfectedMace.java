@@ -39,7 +39,7 @@ import java.util.UUID;
 
 public class InfectedMace extends SporeToolsBaseItem {
     public InfectedMace() {
-        super(SConfig.SERVER.mace_damage.get(), 2f, -3, SConfig.SERVER.mace_durability.get(), 1);
+        super(SConfig.SERVER.mace_damage.get(), 2f, 3, SConfig.SERVER.mace_durability.get(), 1);
     }
 
     public boolean hurtEnemy(ItemStack stack, LivingEntity entity, LivingEntity livingEntity) {

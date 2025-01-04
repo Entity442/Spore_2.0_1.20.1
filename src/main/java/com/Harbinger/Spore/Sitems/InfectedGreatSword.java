@@ -7,7 +7,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class InfectedGreatSword extends SporeSwordBase {
     public InfectedGreatSword() {
-        super(SConfig.SERVER.greatsword_damage.get(), 3f, -3F, SConfig.SERVER.greatsword_durability.get());
+        super(SConfig.SERVER.greatsword_damage.get(), 3f, 3F, SConfig.SERVER.greatsword_durability.get());
     }
 
     @Override

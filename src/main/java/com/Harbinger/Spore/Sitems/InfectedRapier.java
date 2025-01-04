@@ -14,7 +14,7 @@ import java.util.List;
 
 public class InfectedRapier extends SporeSwordBase {
     public InfectedRapier() {
-        super(SConfig.SERVER.rapier_damage.get(), 2.5, -2, SConfig.SERVER.rapier_durability.get());
+        super(SConfig.SERVER.rapier_damage.get(), 2.5, 2, SConfig.SERVER.rapier_durability.get());
     }
 
     @Override

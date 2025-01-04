@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class InfectedScythe extends SporeToolsBaseItem {
     public InfectedScythe() {
-        super(SConfig.SERVER.scythe_damage.get(), 3f, -3F, SConfig.SERVER.scythe_durability.get(), 3);
+        super(SConfig.SERVER.scythe_damage.get(), 3f, 3F, SConfig.SERVER.scythe_durability.get(), 3);
     }
 
     @Override

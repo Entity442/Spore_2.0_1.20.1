@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class InfectedSickle extends SporeSwordBase {
     public InfectedSickle() {
-        super(SConfig.SERVER.sickle_damage.get(), 3f, -2, SConfig.SERVER.sickle_durability.get());
+        super(SConfig.SERVER.sickle_damage.get(), 3f, 2, SConfig.SERVER.sickle_durability.get());
     }
 
     @Override
