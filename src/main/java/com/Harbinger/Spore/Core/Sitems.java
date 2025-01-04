@@ -279,7 +279,7 @@ public class Sitems {
     public  static final RegistryObject<Item> COMBAT_SHOVEL = ITEMS.register("combat_shovel",
             InfectedCombatShovel::new);
     public  static final RegistryObject<Item> INFECTED_SPEAR = ITEMS.register("infected_spear",
-            () -> new InfectedSpearItem(new Item.Properties().durability(SConfig.SERVER.spear_durability.get())));
+            InfectedSpearItem::new);
     public  static final RegistryObject<Item> INFECTED_CROSSBOW = ITEMS.register("infected_crossbow",
             InfectedCrossbow::new);
     public  static final RegistryObject<Item> MACE = ITEMS.register("mace",
