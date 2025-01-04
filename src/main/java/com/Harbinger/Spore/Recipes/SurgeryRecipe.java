@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Recipes;
 
+import com.Harbinger.Spore.Spore;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
@@ -22,6 +23,11 @@ public class SurgeryRecipe implements Recipe<SimpleContainer> {
         this.inputItems = inputItems;
         this.output = output;
         this.id = id;
+    }
+
+    @Override
+    public NonNullList<Ingredient> getIngredients() {
+        return inputItems;
     }
 
     @Override
@@ -75,7 +81,7 @@ public class SurgeryRecipe implements Recipe<SimpleContainer> {
     }
     public static class SurgeryRecipeSerializer implements RecipeSerializer<SurgeryRecipe> {
         public static final SurgeryRecipeSerializer INSTANCE = new SurgeryRecipeSerializer();
-        public static final String ID = "surgery";
+        public static final ResourceLocation ID = new ResourceLocation(Spore.MODID, "surgery");
 
         @Override
         public SurgeryRecipe fromJson(ResourceLocation resourceLocation, JsonObject jsonObject) {
