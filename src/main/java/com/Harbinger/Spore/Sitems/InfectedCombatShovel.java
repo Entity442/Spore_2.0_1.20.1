@@ -1,116 +1,91 @@
 package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Core.SConfig;
-import com.Harbinger.Spore.Core.Senchantments;
-import com.Harbinger.Spore.Core.Sitems;
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Multimap;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeDiggerTools;
+import com.google.common.collect.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ShovelItem;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.common.ForgeMod;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CampfireBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.ToolActions;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 
-public class InfectedCombatShovel extends ShovelItem {
-    private final Multimap<Attribute, AttributeModifier> defaultModifiers;
+public class InfectedCombatShovel extends SporeDiggerTools {
+    protected static final Map<Block, BlockState> FLATTENABLES;
     public InfectedCombatShovel() {
-        super(new Tier() {
-            public int getUses() {
-                return SConfig.SERVER.shovel_durability.get();
-            }
-
-            public float getSpeed() {
-                return 3;
-            }
-
-            public float getAttackDamageBonus() {return 0;}
-            public int getLevel() {
-                return 5;}
-            public int getEnchantmentValue() {
-                return 3;}
-
-            public Ingredient getRepairIngredient() {
-                return Ingredient.of(Sitems.BIOMASS.get());
-            }}, 3, -3f, new Item.Properties());
-        UUID BONUS_REACH_MODIFIER_UUID = UUID.fromString("30a9271c-d6b2-4651-b088-800acc43f282");
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", SConfig.SERVER.shovel_damage.get() -1, AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", -3F, AttributeModifier.Operation.ADDITION));
-        builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(BONUS_REACH_MODIFIER_UUID, "Tool modifier",2f, AttributeModifier.Operation.ADDITION));
-        this.defaultModifiers = builder.build();
-        Sitems.BIOLOGICAL_ITEMS.add(this);
+        super(SConfig.SERVER.shovel_damage.get(), -3f, 2f, SConfig.SERVER.shovel_durability.get(), 3, BlockTags.MINEABLE_WITH_SHOVEL);
     }
+
+    public InteractionResult useOn(UseOnContext p_43119_) {
+        Level level = p_43119_.getLevel();
+        BlockPos blockpos = p_43119_.getClickedPos();
+        BlockState blockstate = level.getBlockState(blockpos);
+        if (p_43119_.getClickedFace() == Direction.DOWN) {
+            return InteractionResult.PASS;
+        } else {
+            Player player = p_43119_.getPlayer();
+            BlockState blockstate1 = blockstate.getToolModifiedState(p_43119_, ToolActions.SHOVEL_FLATTEN, false);
+            BlockState blockstate2 = null;
+            if (blockstate1 != null && level.isEmptyBlock(blockpos.above())) {
+                level.playSound(player, blockpos, SoundEvents.SHOVEL_FLATTEN, SoundSource.BLOCKS, 1.0F, 1.0F);
+                blockstate2 = blockstate1;
+            } else if (blockstate.getBlock() instanceof CampfireBlock && (Boolean)blockstate.getValue(CampfireBlock.LIT)) {
+                if (!level.isClientSide()) {
+                    level.levelEvent((Player)null, 1009, blockpos, 0);
+                }
+
+                CampfireBlock.dowse(p_43119_.getPlayer(), level, blockpos, blockstate);
+                blockstate2 = (BlockState)blockstate.setValue(CampfireBlock.LIT, false);
+            }
+
+            if (blockstate2 != null) {
+                if (!level.isClientSide) {
+                    level.setBlock(blockpos, blockstate2, 11);
+                    level.gameEvent(GameEvent.BLOCK_CHANGE, blockpos, GameEvent.Context.of(player, blockstate2));
+                    if (player != null) {
+                        p_43119_.getItemInHand().hurtAndBreak(1, player, (p_43122_) -> {
+                            p_43122_.broadcastBreakEvent(p_43119_.getHand());
+                        });
+                    }
+                }
+
+                return InteractionResult.sidedSuccess(level.isClientSide);
+            } else {
+                return InteractionResult.PASS;
+            }
+        }
+    }
+
+    public static @Nullable BlockState getShovelPathingState(BlockState originalState) {
+        return (BlockState)FLATTENABLES.get(originalState.getBlock());
+    }
+
+    public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
+        return ToolActions.DEFAULT_SHOVEL_ACTIONS.contains(toolAction);
+    }
+
+    static {
+        FLATTENABLES = Maps.newHashMap((new ImmutableMap.Builder()).put(Blocks.GRASS_BLOCK, Blocks.DIRT_PATH.defaultBlockState()).put(Blocks.DIRT, Blocks.DIRT_PATH.defaultBlockState()).put(Blocks.PODZOL, Blocks.DIRT_PATH.defaultBlockState()).put(Blocks.COARSE_DIRT, Blocks.DIRT_PATH.defaultBlockState()).put(Blocks.MYCELIUM, Blocks.DIRT_PATH.defaultBlockState()).put(Blocks.ROOTED_DIRT, Blocks.DIRT_PATH.defaultBlockState()).build());
+    }
+
+
     @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-        return super.canApplyAtEnchantingTable(stack, enchantment) || ImmutableSet.of(Enchantments.SHARPNESS, Enchantments.FIRE_ASPECT, Enchantments.MOB_LOOTING).contains(enchantment);
-    }
-    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot) {
-        return slot == EquipmentSlot.MAINHAND ? this.defaultModifiers : super.getDefaultAttributeModifiers(slot);
-    }
-
-
-    public static List<BlockPos> getBlocksToBeDestroyed(int range, BlockPos initalBlockPos, ServerPlayer player)
-    {
-        List<BlockPos> positions = new ArrayList<>();
-
-        BlockHitResult traceResult = player.level().clip(new ClipContext(player.getEyePosition(1f),
-                (player.getEyePosition(1f).add(player.getViewVector(1f).scale(6f))),
-                ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player));
-        if(traceResult.getType() == HitResult.Type.MISS)
-        {
-            return positions;
-        }
-
-        if(traceResult.getDirection() == Direction.DOWN || traceResult.getDirection() == Direction.UP)
-        {
-            for(int x = -range; x <= range; x++)
-            {
-                for(int y = -range; y <= range; y++)
-                {
-                    positions.add(new BlockPos(initalBlockPos.getX() + x, initalBlockPos.getY(), initalBlockPos.getZ() + y));
-                }
-            }
-        }
-
-        if(traceResult.getDirection() == Direction.NORTH || traceResult.getDirection() == Direction.SOUTH)
-        {
-            for(int x = -range; x <= range; x++)
-            {
-                for(int y = -range; y <= range; y++)
-                {
-                    positions.add(new BlockPos(initalBlockPos.getX() + x, initalBlockPos.getY() + y, initalBlockPos.getZ()));
-                }
-            }
-        }
-
-        if(traceResult.getDirection() == Direction.EAST || traceResult.getDirection() == Direction.WEST)
-        {
-            for(int x = -range; x <= range; x++)
-            {
-                for(int y = -range; y <= range; y++)
-                {
-                    positions.add(new BlockPos(initalBlockPos.getX(), initalBlockPos.getY() + y, initalBlockPos.getZ() + x));
-                }
-            }
-        }
-        return positions;
+    public boolean canMultiBreak(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity living) {
+        return !living.isCrouching();
     }
 }

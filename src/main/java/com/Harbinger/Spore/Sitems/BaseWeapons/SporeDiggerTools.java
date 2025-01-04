@@ -32,7 +32,7 @@ public class SporeDiggerTools extends SporeToolsBaseItem{
         if (canMultiBreak( stack,  level,  state,  pos,  living)){
             for (BlockPos blockPos : getBlocksToBeDestroyed(1,pos,living)){
                 if (level.getBlockState(blockPos).is(blocks)){
-                    level.removeBlock(blockPos,true);
+                    level.destroyBlock(blockPos,true,living);
                     hurtTool(stack,living,1);
                 }
             }
