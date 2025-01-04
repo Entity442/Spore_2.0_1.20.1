@@ -331,6 +331,10 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Integer> min_kills;
         public final ForgeConfigSpec.ConfigValue<Integer> min_kills_hyper;
 
+        public final ForgeConfigSpec.ConfigValue<Integer> agent_durability;
+        public final ForgeConfigSpec.ConfigValue<Integer> agent_damage;
+        public final ForgeConfigSpec.ConfigValue<Integer> agent_enchantability;
+
         public final ForgeConfigSpec.ConfigValue<Integer> spear_durability;
         public final ForgeConfigSpec.ConfigValue<Integer> spear_damage;
         public final ForgeConfigSpec.ConfigValue<Integer> spear_range;
@@ -1094,6 +1098,11 @@ public class SConfig {
             builder.push("Gas Masks");
             this.gas_masks = builder.defineList("Gas masks",
                     Lists.newArrayList("spore:gas_mask") , o -> o instanceof String);
+            builder.pop();
+            builder.push("Weapon Agents data");
+            this.agent_durability = builder.comment("Default durability increase 60%").defineInRange("the value resulted will be between half of the max value and the maximum",60,2, Integer.MAX_VALUE);
+            this.agent_damage = builder.comment("Default damage increase 40%").defineInRange("the value resulted will be between half of the max value and the maximum", 40, 2, Integer.MAX_VALUE);
+            this.agent_enchantability = builder.comment("Default 6").defineInRange("the value resulted will be between the minimum and maximum value", 6, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Spear");
             this.spear_durability = builder.comment("Default 500").define("Durability",500);

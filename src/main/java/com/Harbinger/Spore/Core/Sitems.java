@@ -1,7 +1,9 @@
 package com.Harbinger.Spore.Core;
 
 import com.Harbinger.Spore.Sitems.*;
-import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsBaseItem;
+import com.Harbinger.Spore.Sitems.Agents.ConnectingAgent;
+import com.Harbinger.Spore.Sitems.Agents.HardeningAgent;
+import com.Harbinger.Spore.Sitems.Agents.SharpeningAgent;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -371,6 +373,12 @@ public class Sitems {
             () -> new BaseItem2( new Item.Properties()));
     public  static final RegistryObject<Item> COMPOUND_PLATE = ITEMS.register("compound_plate",
             () -> new BaseItem2( new Item.Properties()));
+    public  static final RegistryObject<Item> HARDENING_AGENT = ITEMS.register("hardening_agent",
+            HardeningAgent::new);
+    public  static final RegistryObject<Item> SHARPENING_AGENT = ITEMS.register("sharpening_agent",
+            SharpeningAgent::new);
+    public  static final RegistryObject<Item> INTEGRATING_AGENT = ITEMS.register("integrating_agent",
+            ConnectingAgent::new);
 
 
 

@@ -4,6 +4,7 @@ package com.Harbinger.Spore.SBlockEntities;
 import com.Harbinger.Spore.Core.SblockEntities;
 import com.Harbinger.Spore.Recipes.SurgeryRecipe;
 import com.Harbinger.Spore.Screens.SurgeryMenu;
+import com.Harbinger.Spore.Sitems.Agents.MutationAgents;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsBaseItem;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsMutations;
 import net.minecraft.core.BlockPos;
@@ -33,11 +34,14 @@ import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider {
     public final ItemStackHandler itemHandler = new ItemStackHandler(21);
     public final TagKey<Item> stringLikeItem = ItemTags.create(new ResourceLocation("spore:stitches"));
+    public final TagKey<Item> agentItem = ItemTags.create(new ResourceLocation("spore:agents"));
     private int tickCooldown = 0;
     public static final int STRING_SLOT = 16;
     public static final int AGENT_SLOT_1 = 17;
@@ -118,12 +122,25 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
         });
     }
     public void assembleWeapon(Player player, ItemStack stack){
+        int mutation = 15;
+        int[] e = new int[]{AGENT_SLOT_1,AGENT_SLOT_2,AGENT_SLOT_3};
+        List<MutationAgents> mutagens = new ArrayList<>();
+        for (int i : e){
+            ItemStack itemStack = itemHandler.getStackInSlot(i);
+            if (itemStack.getItem() instanceof MutationAgents mutationAgents){
+                mutagens.add(mutationAgents);
+                itemStack.shrink(1);
+            }
+        }
         if (stack.getItem() instanceof SporeToolsBaseItem item){
-            item.setAdditionalDamage(player.getRandom().nextInt(40,100),stack);
-            item.setMaxAdditionalDurability(player.getRandom().nextInt(40,100),stack);
-            item.setAdditionalDurability(item.getMaxTrueAdditionalDurability(stack),stack);
-            item.setLuck(player.getRandom().nextInt(1,6),stack);
-            item.setVariant(SporeToolsMutations.byId(player.getRandom().nextInt(SporeToolsMutations.values().length)),stack);
+            for (MutationAgents mutagen : mutagens){
+                mutagen.mutateWeapon(stack);
+                mutation = mutation + mutagen.getMutationChance();
+            }
+            if (Math.random() < (mutation * 0.01)){
+                item.setVariant(SporeToolsMutations.byId(player.getRandom().nextInt(SporeToolsMutations.values().length)),stack);
+            }
+            stack.setDamageValue(player.getRandom().nextInt(stack.getMaxDamage()));
         }
     }
 

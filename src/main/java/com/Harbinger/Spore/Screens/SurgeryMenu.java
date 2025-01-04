@@ -56,19 +56,19 @@ public class SurgeryMenu extends AbstractContainerMenu {
             this.addSlot(new SlotItemHandler(iItemHandler, 17, 115, 8){
                 @Override
                 public boolean mayPlace(@NotNull ItemStack stack) {
-                    return stack.getItem() == Sitems.SYMBIOTIC_REAGENT.get();
+                    return stack.is(blockEntity.agentItem);
                 }
             });
             this.addSlot(new SlotItemHandler(iItemHandler, 18, 133, 8){
                 @Override
                 public boolean mayPlace(@NotNull ItemStack stack) {
-                    return stack.getItem() == Sitems.SYMBIOTIC_REAGENT.get();
+                    return stack.is(blockEntity.agentItem);
                 }
             });
             this.addSlot(new SlotItemHandler(iItemHandler, 19, 151, 8){
                 @Override
                 public boolean mayPlace(@NotNull ItemStack stack) {
-                    return stack.getItem() == Sitems.SYMBIOTIC_REAGENT.get();
+                    return stack.is(blockEntity.agentItem);
                 }
             });
             this.addSlot(new SlotItemHandler(iItemHandler,  20, 124, 53){
