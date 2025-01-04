@@ -132,6 +132,18 @@
   "item.spore.gastric_reagent": "Gastric Reagent",
   "item.spore.corrosive_reagent": "Corrosive Reagent",
 
+  "spore.item.mutation.vampiric" : "Vampiric",
+  "spore.item.mutation.calcified" : "Calcified",
+  "spore.item.mutation.bezerk" : "Bezerk",
+  "spore.item.mutation.toxic" : "Toxic",
+  "spore.item.mutation.rotten" : "Rotten",
+
+  "spore.item.damage_increase" : "Damage Increase ",
+  "spore.item.durability_increase" : "Durability Increase ",
+  "spore.item.additional_durability" : "Additional Durability ",
+  "spore.item.enchant" : "Enchantability ",
+  "spore.item.mutation" : "Mutation ",
+
 
   "item.spore.saber": "Infected Saber",
   "item.spore.infected_bow": "Infected Bow",

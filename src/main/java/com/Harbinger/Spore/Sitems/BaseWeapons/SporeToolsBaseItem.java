@@ -5,6 +5,7 @@ import com.Harbinger.Spore.Sitems.BaseItem;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -198,11 +199,13 @@ public class SporeToolsBaseItem extends BaseItem implements IForgeItem {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level p_41422_, List<Component> components, TooltipFlag p_41424_) {
         super.appendHoverText(stack, p_41422_, components, p_41424_);
-        components.add(Component.literal("Damage Increase " + getAdditionalDamage(stack) + "%"));
-        components.add(Component.literal("Durability Increase "+ getMaxAdditionalDurability(stack) + "%"));
-        components.add(Component.literal("Additional Durability "+ getAdditionalDurability(stack)));
-        components.add(Component.literal("Enchant "+ getEnchantmentValue(stack)));
-        components.add(Component.literal("Mutation "+ getVariant(stack).getName()));
+        if (Screen.hasShiftDown()){
+            components.add(Component.literal(Component.translatable("spore.item.damage_increase").getString() + getAdditionalDamage(stack) + "%"));
+           components.add(Component.literal(Component.translatable("spore.item.durability_increase").getString()+ getMaxAdditionalDurability(stack) + "%"));
+            components.add(Component.literal(Component.translatable("spore.item.additional_durability").getString()+ getAdditionalDurability(stack)));
+            components.add(Component.literal(Component.translatable("spore.item.enchant").getString()+ getEnchantmentValue(stack)));
+            components.add(Component.literal(Component.translatable("spore.item.mutation").getString()+Component.translatable(getVariant(stack).getName()).getString()));
+        }
     }
 
     @Override
