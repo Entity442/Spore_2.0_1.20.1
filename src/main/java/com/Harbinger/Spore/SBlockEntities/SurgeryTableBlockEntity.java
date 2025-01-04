@@ -41,7 +41,6 @@ import java.util.Optional;
 public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider {
     public final ItemStackHandler itemHandler = new ItemStackHandler(21);
     public final TagKey<Item> stringLikeItem = ItemTags.create(new ResourceLocation("spore:stitches"));
-    public final TagKey<Item> agentItem = ItemTags.create(new ResourceLocation("spore:agents"));
     private int tickCooldown = 0;
     public static final int STRING_SLOT = 16;
     public static final int AGENT_SLOT_1 = 17;

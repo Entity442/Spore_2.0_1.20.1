@@ -1,8 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    "spore:hardening_agent",
-    "spore:sharpening_agent",
-    "spore:integrating_agent"
-  ]
-}
