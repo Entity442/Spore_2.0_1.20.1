@@ -1,10 +1,13 @@
 package com.Harbinger.Spore.Sitems.BaseWeapons;
 
+import com.google.common.collect.ImmutableSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -26,7 +29,7 @@ public class SporeDiggerTools extends SporeToolsBaseItem{
         if (state.getDestroySpeed(level, pos) != 0.0F) {
             hurtTool(stack,living,1);
         }
-        if (canMultiBreak()){
+        if (canMultiBreak( stack,  level,  state,  pos,  living)){
             for (BlockPos blockPos : getBlocksToBeDestroyed(1,pos,living)){
                 if (level.getBlockState(blockPos).is(blocks)){
                     level.removeBlock(blockPos,true);
@@ -87,7 +90,12 @@ public class SporeDiggerTools extends SporeToolsBaseItem{
         return positions;
     }
 
-    public boolean canMultiBreak(){
+    public boolean canMultiBreak(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity living){
         return false;
+    }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+        return super.canApplyAtEnchantingTable(stack, enchantment) || ImmutableSet.of(Enchantments.BLOCK_EFFICIENCY, Enchantments.BLOCK_FORTUNE, Enchantments.SILK_TOUCH).contains(enchantment);
     }
 }

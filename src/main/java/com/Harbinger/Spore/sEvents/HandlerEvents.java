@@ -20,8 +20,6 @@ import com.Harbinger.Spore.Sentities.Utility.GastGeber;
 import com.Harbinger.Spore.Sentities.Utility.Illusion;
 import com.Harbinger.Spore.Sentities.Utility.InfestedConstruct;
 import com.Harbinger.Spore.Sentities.Utility.Specter;
-import com.Harbinger.Spore.Sitems.InfectedCombatShovel;
-import com.Harbinger.Spore.Sitems.InfectedMaul;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsBaseItem;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.commands.Commands;
@@ -62,7 +60,6 @@ import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
-import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -454,53 +451,6 @@ public class HandlerEvents {
         event.register(Sentities.BROTKATZE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,Infected::checkMonsterInfectedRules, SpawnPlacementRegisterEvent.Operation.AND);
     }
 
-
-    private static final Set<BlockPos> HARVESTED_BLOCKS = new HashSet<>();
-    @SubscribeEvent
-    public static void onExtendedToolUsage(BlockEvent.BreakEvent event)
-    {
-        Player player = event.getPlayer();
-        ItemStack mainHandItem = player.getMainHandItem();
-
-        if(mainHandItem.getItem() instanceof InfectedMaul hammer && player instanceof ServerPlayer serverPlayer && !serverPlayer.isCrouching())
-        {
-            BlockPos initalBlockPos = event.getPos();
-            if (HARVESTED_BLOCKS.contains(initalBlockPos))
-            {
-                return;
-            }
-
-            for (BlockPos pos : InfectedMaul.getBlocksToBeDestroyed(1, initalBlockPos, serverPlayer))
-            {
-                if(pos == initalBlockPos || !hammer.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos)))
-                {
-                    continue;
-                }
-                HARVESTED_BLOCKS.add(pos);
-                serverPlayer.gameMode.destroyBlock(pos);
-                HARVESTED_BLOCKS.remove(pos);
-            }
-        }
-        if(mainHandItem.getItem() instanceof InfectedCombatShovel shovel && player instanceof ServerPlayer serverPlayer && !serverPlayer.isCrouching())
-        {
-            BlockPos initalBlockPos = event.getPos();
-            if (HARVESTED_BLOCKS.contains(initalBlockPos))
-            {
-                return;
-            }
-
-            for (BlockPos pos : InfectedCombatShovel.getBlocksToBeDestroyed(1, initalBlockPos, serverPlayer))
-            {
-                if(pos == initalBlockPos || !shovel.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos)))
-                {
-                    continue;
-                }
-                HARVESTED_BLOCKS.add(pos);
-                serverPlayer.gameMode.destroyBlock(pos);
-                HARVESTED_BLOCKS.remove(pos);
-            }
-        }
-    }
 
 
     @SubscribeEvent
