@@ -5,11 +5,11 @@ import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.SBlockEntities.SurgeryTableBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -155,6 +155,22 @@ public class SurgeryMenu extends AbstractContainerMenu {
     private void addPlayerHotbar(Inventory playerInventory) {
         for (int i = 0; i < 9; ++i) {
             this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
+        }
+    }
+
+    @Override
+    public void removed(Player playerIn) {
+        super.removed(playerIn);
+        if (playerIn instanceof ServerPlayer serverPlayer) {
+            if (!serverPlayer.isAlive() || serverPlayer.hasDisconnected()) {
+                for (int j = 0; j < blockEntity.itemHandler.getSlots(); ++j) {
+                    playerIn.drop(blockEntity.itemHandler.extractItem(j, blockEntity.itemHandler.getStackInSlot(j).getCount(), false), false);
+                }
+            } else {
+                for (int i = 0; i < blockEntity.itemHandler.getSlots(); ++i) {
+                    playerIn.getInventory().placeItemBackInInventory(blockEntity.itemHandler.extractItem(i, blockEntity.itemHandler.getStackInSlot(i).getCount(), false));
+                }
+            }
         }
     }
 }

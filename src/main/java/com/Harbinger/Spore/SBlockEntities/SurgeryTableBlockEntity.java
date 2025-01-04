@@ -1,3 +1,4 @@
+
 package com.Harbinger.Spore.SBlockEntities;
 
 import com.Harbinger.Spore.Core.SblockEntities;
@@ -7,7 +8,6 @@ import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsBaseItem;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsMutations;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
@@ -90,26 +90,12 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
         lazyItemHandler.invalidate();
     }
 
-    @Override
-    protected void saveAdditional(CompoundTag pTag) {
-        pTag.put("inventory", itemHandler.serializeNBT());
-        super.saveAdditional(pTag);
-    }
-
-    @Override
-    public void load(CompoundTag pTag) {
-        super.load(pTag);
-        if (pTag.contains("inventory")) {
-            itemHandler.deserializeNBT(pTag.getCompound("inventory"));
-        }
-    }
-
     public Optional<SurgeryRecipe> getCurrentRecipe() {
         SimpleContainer inventory = new SimpleContainer(this.itemHandler.getSlots());
         for (int i = 0; i < 16; i++) {
             inventory.setItem(i, this.itemHandler.getStackInSlot(i));
         }
-        
+
         Optional<SurgeryRecipe> recipe = this.level != null ? this.level.getRecipeManager().getRecipeFor(SurgeryRecipe.SurgeryRecipeType.INSTANCE, inventory, level) : null;
         if (recipe.isPresent()) {
             System.out.println("Found matching recipe: " + recipe.get().getId());
