@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "spore:block/surgery_table",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "spore:block/surgery_table"
+    },
+    "facing=south": {
+      "model": "spore:block/surgery_table",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "spore:block/surgery_table",
+      "y": 270
+    }
+  }
+}

@@ -40,6 +40,12 @@
     "spore:specter_ambient"
   ]
 },
+  "surgery" :{
+    "subtitle": "sounds.spore.surgery",
+    "sounds": [
+      "spore:surgery"
+    ]
+  },
   "construct_ambient" :{
     "subtitle": "sounds.spore.growl",
     "sounds": [

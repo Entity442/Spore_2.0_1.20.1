@@ -122,6 +122,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> CALAMITY_INCOMING = soundRegistry("calamity_incoming");
 
+    public static final RegistryObject<SoundEvent> SURGERY = soundRegistry("surgery");
+
     private Ssounds() {
     }
 }

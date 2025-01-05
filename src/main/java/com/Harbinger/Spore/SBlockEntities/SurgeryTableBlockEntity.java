@@ -2,6 +2,7 @@
 package com.Harbinger.Spore.SBlockEntities;
 
 import com.Harbinger.Spore.Core.SblockEntities;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Recipes.SurgeryRecipe;
 import com.Harbinger.Spore.Screens.SurgeryMenu;
 import com.Harbinger.Spore.Sitems.Agents.MutationAgents;
@@ -11,6 +12,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.Containers;
@@ -119,6 +121,9 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
             }
             itemHandler.extractItem(STRING_SLOT,1,false);
         });
+        if (level != null){
+            this.level.playLocalSound(this.getBlockPos(), Ssounds.SURGERY.get(), SoundSource.BLOCKS,1f,1f,true);
+        }
     }
     public void assembleWeapon(Player player, ItemStack stack){
         int mutation = 15;
