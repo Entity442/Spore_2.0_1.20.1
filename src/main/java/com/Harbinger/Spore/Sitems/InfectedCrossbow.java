@@ -406,5 +406,14 @@ public class InfectedCrossbow extends CrossbowItem implements SporeWeaponData {
                 arrow.addEffect(instance);
         }
     }
+
+    @Override
+    public boolean hurtEnemy(ItemStack stack, LivingEntity living, LivingEntity entity) {
+        if (tooHurt(stack)){
+            hurtTool(stack,entity,1);
+        }
+        doEntityHurtAfterEffects(stack,living,entity);
+        return super.hurtEnemy(stack, living, entity);
+    }
 }
 
