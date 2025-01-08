@@ -15,6 +15,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -157,7 +158,31 @@ public class InfectedGreatBow extends BowItem implements SporeWeaponData {
             }
         }
     }
+    @Override
+    public boolean isBarVisible(ItemStack stack) {
+        return super.isBarVisible(stack) || getAdditionalDurability(stack) > 0;
+    }
+    @Override
+    public int getBarColor(ItemStack stack) {
+        if (getAdditionalDurability(stack) > 0){
+            return Mth.hsvToRgb( 240.0F, 100.0F, 100.0F);
+        }else{
+            return super.getBarColor(stack);
+        }
+    }
+    @Override
+    public int getEnchantmentValue(ItemStack stack) {
+        int luck = getLuck(stack);
+        return luck > 0 ? luck : 1;
+    }
 
+    @Override
+    public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
+        if (!tooHurt(stack) && entity instanceof Player player){
+            player.getCooldowns().addCooldown(this,60);
+        }
+        return false;
+    }
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity living, LivingEntity entity) {
         if (tooHurt(stack)){

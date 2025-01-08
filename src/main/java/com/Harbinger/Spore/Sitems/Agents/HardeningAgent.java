@@ -1,7 +1,7 @@
 package com.Harbinger.Spore.Sitems.Agents;
 
 import com.Harbinger.Spore.Core.SConfig;
-import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsBaseItem;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
 import net.minecraft.world.item.ItemStack;
 
 public class HardeningAgent extends MutationAgents{
@@ -11,7 +11,7 @@ public class HardeningAgent extends MutationAgents{
 
     @Override
     public void mutateWeapon(ItemStack stack) {
-        if (stack.getItem() instanceof SporeToolsBaseItem item){
+        if (stack.getItem() instanceof SporeWeaponData item){
             int i = SConfig.SERVER.agent_durability.get();
             item.setMaxAdditionalDurability(this.source.nextInt(i/2,i),stack);
         }

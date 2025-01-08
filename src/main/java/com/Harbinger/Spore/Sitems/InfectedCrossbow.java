@@ -20,6 +20,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -395,6 +396,31 @@ public class InfectedCrossbow extends CrossbowItem implements SporeWeaponData {
 
     public int getDefaultProjectileRange() {
         return 8;
+    }
+    @Override
+    public boolean isBarVisible(ItemStack stack) {
+        return super.isBarVisible(stack) || getAdditionalDurability(stack) > 0;
+    }
+    @Override
+    public int getBarColor(ItemStack stack) {
+        if (getAdditionalDurability(stack) > 0){
+            return Mth.hsvToRgb( 240.0F, 100.0F, 100.0F);
+        }else{
+            return super.getBarColor(stack);
+        }
+    }
+    @Override
+    public int getEnchantmentValue(ItemStack stack) {
+        int luck = getLuck(stack);
+        return luck > 0 ? luck : 1;
+    }
+
+    @Override
+    public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
+        if (!tooHurt(stack) && entity instanceof Player player){
+            player.getCooldowns().addCooldown(this,60);
+        }
+        return false;
     }
 
     public static void abstractEffects(ItemStack stack, Arrow arrow){
