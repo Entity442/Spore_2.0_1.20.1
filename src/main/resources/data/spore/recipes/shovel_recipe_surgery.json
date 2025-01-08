@@ -1,0 +1,22 @@
+{
+  "type": "spore:surgery",
+  "ingredients": [
+    {"slot": 3,
+      "item": "spore:fleshy_bone" },
+    {"slot": 5,
+      "item": "spore:claw" },
+    {"slot": 6,
+      "item": "spore:fleshy_bone" },
+    {"slot": 8,
+      "item": "spore:claw" },
+    {"slot": 9,
+      "item": "spore:living_core" },
+    {"slot": 10,
+      "item": "spore:claw" },
+    {"slot": 12,
+      "item": "spore:claw" },
+    {"slot": 13,
+      "item": "spore:claw" }
+  ],
+  "output": { "item": "spore:combat_shovel" }
+}

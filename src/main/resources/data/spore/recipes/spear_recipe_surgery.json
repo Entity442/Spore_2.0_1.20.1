@@ -1,0 +1,22 @@
+{
+  "type": "spore:surgery",
+  "ingredients": [
+    {"slot": 3,
+      "item": "spore:fleshy_bone" },
+    {"slot": 6,
+      "item": "spore:spine" },
+    {"slot": 5,
+      "item": "spore:claw" },
+    {"slot": 8,
+      "item": "spore:fleshy_claw" },
+    {"slot": 9,
+      "item": "spore:living_core" },
+    {"slot": 10,
+      "item": "spore:claw" },
+    {"slot": 12,
+      "item": "spore:fleshy_claw" },
+    {"slot": 13,
+      "item": "spore:fleshy_claw" }
+  ],
+  "output": { "item": "spore:infected_spear" }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "spore:surgery",
+  "ingredients": [
+    {"slot": 2,
+      "item": "spore:claw" },
+    {"slot": 3,
+      "item": "spore:fleshy_bone" },
+    {"slot": 5,
+      "item": "spore:claw" },
+    {"slot": 6,
+      "item": "spore:living_core" },
+    {"slot": 8,
+      "item": "spore:claw" },
+    {"slot": 9,
+      "item": "spore:mutated_fiber" },
+    {"slot": 12,
+      "item": "spore:fleshy_bone" }
+  ],
+  "output": { "item": "spore:saber" }
+}

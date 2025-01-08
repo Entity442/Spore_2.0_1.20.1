@@ -54,7 +54,7 @@ public class InfectedGreatBow extends BowItem implements SporeWeaponData {
 
     @Override
     public void releaseUsing(ItemStack stack, Level level, LivingEntity living, int p_40670_) {
-        if (living instanceof Player player && !tooHurt(stack)) {
+        if (living instanceof Player player && tooHurt(stack)) {
             boolean flag = player.getAbilities().instabuild || EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY_ARROWS, stack) > 0;
             ItemStack itemstack = player.getProjectile(stack);
 

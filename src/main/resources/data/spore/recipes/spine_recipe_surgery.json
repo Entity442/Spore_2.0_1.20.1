@@ -1,0 +1,24 @@
+{
+  "type": "spore:surgery",
+  "ingredients": [
+    {"slot": 1,
+      "item": "spore:nerves" },
+    {"slot": 2,
+      "item": "spore:nerves" },
+    {"slot": 3,
+      "item": "spore:nerves" },
+    {"slot": 5,
+      "item": "spore:spine_fragment" },
+    {"slot": 6,
+      "item": "spore:spine_fragment" },
+    {"slot": 7,
+      "item": "spore:spine_fragment" },
+    {"slot": 9,
+      "item": "spore:nerves" },
+    {"slot": 10,
+      "item": "spore:nerves" },
+    {"slot": 11,
+      "item": "spore:nerves" }
+  ],
+  "output": { "item": "spore:spine" }
+}
