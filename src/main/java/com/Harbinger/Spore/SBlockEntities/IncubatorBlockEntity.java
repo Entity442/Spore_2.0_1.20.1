@@ -2,6 +2,7 @@ package com.Harbinger.Spore.SBlockEntities;
 
 import com.Harbinger.Spore.Core.SblockEntities;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsBaseItem;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -87,8 +88,8 @@ public class IncubatorBlockEntity extends BlockEntity implements AnimatedEntity,
         for (ItemStack stack : stacks) {
             if (stack != ItemStack.EMPTY) {
                 if (getFuel() > 0 && stack.isDamaged()){
-                    if (stack.getItem() instanceof SporeToolsBaseItem baseItem){
-                        baseItem.healTool(stack,1);
+                    if (stack.getItem() instanceof SporeWeaponData data){
+                        data.healTool(stack,1);
                     }else {
                         int l = stack.getDamageValue()-1;
                         stack.setDamageValue(l);
