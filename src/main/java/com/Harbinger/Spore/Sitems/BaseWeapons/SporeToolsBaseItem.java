@@ -7,11 +7,8 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -32,13 +29,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-public class SporeToolsBaseItem extends BaseItem implements IForgeItem {
-    public String BASE_TAG = "agent";
-    public String MELEE_TAG = "mutant_damage";
-    public String MELEE_DURABILITY = "mutant_durability";
-    public String MAX_DURABILITY = "mutant_max_durability";
-    public String ENCHANTING = "mutant_enchanting";
-    public String MUTATION = "mutation";
+public class SporeToolsBaseItem extends BaseItem implements IForgeItem ,SporeWeaponData{
     protected final double meleeDamage;
     protected final double meleeReach;
     protected final double meleeRecharge;
@@ -63,64 +54,16 @@ public class SporeToolsBaseItem extends BaseItem implements IForgeItem {
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE,new AttributeModifier(BONUS_DAMAGE_MODIFIER_UUID,"Tool modifier",calculateTrueDamage(stack)+modifyDamage(stack), AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.ATTACK_DAMAGE,new AttributeModifier(BONUS_DAMAGE_MODIFIER_UUID,"Tool modifier",calculateTrueDamage(stack,meleeDamage)+modifyDamage(stack), AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BONUS_RECHARGE_MODIFIER_UUID, "Tool modifier", -meleeRecharge+modifyRecharge(stack), AttributeModifier.Operation.ADDITION));
         builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(BONUS_REACH_MODIFIER_UUID, "Tool modifier",meleeReach+modifyRange(stack), AttributeModifier.Operation.ADDITION));
         return slot == EquipmentSlot.MAINHAND && tooHurt(stack) ? builder.build() : ImmutableMultimap.of();
     }
 
-    public boolean tooHurt(ItemStack stack){
-        return stack.getDamageValue() < stack.getMaxDamage() - 10;
-    }
-    protected double calculateTrueDamage(ItemStack stack){
-        double value = getAdditionalDamage(stack) * 0.01;
-        if (value > 0){
-            return meleeDamage + (meleeDamage * value);
-        }
-        return meleeDamage;
-    }
     public float getDestroySpeed(ItemStack stack, BlockState blockState) {
         return this.miningLevel;
     }
 
-    public void setAdditionalDamage(double value, ItemStack stack){
-        CompoundTag tag = stack.getOrCreateTagElement(BASE_TAG);
-        tag.putDouble(MELEE_TAG,value);
-    }
-    public double getAdditionalDamage(ItemStack itemStack){
-        CompoundTag tag = itemStack.getOrCreateTagElement(BASE_TAG);
-        return tag.getDouble(MELEE_TAG);
-    }
-
-    public int getMaxAdditionalDurability(ItemStack stack){
-        CompoundTag tag = stack.getOrCreateTagElement(BASE_TAG);
-        return tag.getInt(MAX_DURABILITY);
-    }
-    public void setMaxAdditionalDurability(int value,ItemStack stack){
-        CompoundTag tag = stack.getOrCreateTagElement(BASE_TAG);
-        tag.putInt(MAX_DURABILITY,value);
-    }
-    public int getAdditionalDurability(ItemStack stack){
-        CompoundTag tag = stack.getOrCreateTagElement(BASE_TAG);
-        return tag.getInt(MELEE_DURABILITY);
-    }
-    public void setAdditionalDurability(int value,ItemStack stack){
-        CompoundTag tag = stack.getOrCreateTagElement(BASE_TAG);
-        tag.putInt(MELEE_DURABILITY,value);
-    }
-
-    public void hurtExtraDurability(ItemStack stack,int value,@Nullable LivingEntity living){
-        setAdditionalDurability(getAdditionalDurability(stack)-value,stack);
-    }
-
-    public void setLuck(int value, ItemStack stack){
-        CompoundTag tag = stack.getOrCreateTagElement(BASE_TAG);
-        tag.putDouble(ENCHANTING,value);
-    }
-    public int getLuck(ItemStack itemStack){
-        CompoundTag tag = itemStack.getOrCreateTagElement(BASE_TAG);
-        return tag.getInt(ENCHANTING);
-    }
 
     @Override
     public boolean isEnchantable(ItemStack p_41456_) {
@@ -195,7 +138,6 @@ public class SporeToolsBaseItem extends BaseItem implements IForgeItem {
         }
     }
 
-
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level p_41422_, List<Component> components, TooltipFlag p_41424_) {
         super.appendHoverText(stack, p_41422_, components, p_41424_);
@@ -226,46 +168,8 @@ public class SporeToolsBaseItem extends BaseItem implements IForgeItem {
         return value;
     }
 
-    public SporeToolsMutations getVariant(ItemStack stack) {
-        return SporeToolsMutations.byId(this.getTypeVariant(stack) & 255);
-    }
-
-    private int getTypeVariant(ItemStack stack) {
-        CompoundTag tag = stack.getOrCreateTagElement(BASE_TAG);
-        return tag.getInt(MUTATION);
-    }
-
-    public void setVariant(SporeToolsMutations variant,ItemStack stack) {
-        CompoundTag tag = stack.getOrCreateTagElement(BASE_TAG);
-        tag.putInt(MUTATION,variant.getId() & 255);
-    }
-
-    public void doEntityHurtAfterEffects(ItemStack stack, LivingEntity victim, LivingEntity entity){
-        if (getVariant(stack) == SporeToolsMutations.TOXIC){
-            victim.addEffect(new MobEffectInstance(MobEffects.POISON,60,1));
-        }
-        if (getVariant(stack) == SporeToolsMutations.ROTTEN){
-            victim.addEffect(new MobEffectInstance(MobEffects.WITHER,60,1));
-        }
-        if (getVariant(stack) == SporeToolsMutations.CALCIFIED){
-            victim.knockback(1.5F, Mth.sin(entity.getYRot() * ((float) Math.PI / 180F)), (-Mth.cos(entity.getYRot() * ((float) Math.PI / 180F))));
-        }
-        if (getVariant(stack) == SporeToolsMutations.VAMPIRIC && entity.getHealth() < entity.getMaxHealth()){
-            entity.heal(2f);
-        }
-        if (getVariant(stack) == SporeToolsMutations.BEZERK && Math.random() < 0.3){
-            if (Math.random() < 0.5){
-                entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,60,0));
-            } else if (Math.random() < 0.5) {
-                entity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST,60,0));
-            }else {
-                entity.addEffect(new MobEffectInstance(MobEffects.SATURATION,60,0));
-            }
-        }
-    }
-
     public double modifyDamage(ItemStack stack){
-        return getVariant(stack) == SporeToolsMutations.VAMPIRIC ? (calculateTrueDamage(stack) * -0.2) : 0;
+        return getVariant(stack) == SporeToolsMutations.VAMPIRIC ? (calculateTrueDamage(stack,meleeDamage) * -0.2) : 0;
     }
     public double modifyRange(ItemStack stack){
         return 0;

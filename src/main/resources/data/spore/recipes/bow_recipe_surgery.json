@@ -1,0 +1,20 @@
+{
+  "type": "spore:surgery",
+  "ingredients": [
+    {"slot": 2,
+      "item": "spore:fleshy_claw" },
+    {"slot": 3,
+      "item": "spore:claw" },
+    {"slot": 5,
+      "item": "spore:fleshy_claw" },
+    {"slot": 6,
+      "item": "spore:tendons" },
+    {"slot": 8,
+      "item": "spore:fleshy_claw" },
+    {"slot": 9,
+      "item": "spore:tendons" },
+    {"slot": 12,
+      "item": "spore:claw" }
+  ],
+  "output": { "item": "spore:infected_bow" }
+}

@@ -1,0 +1,24 @@
+{
+  "type": "spore:surgery",
+  "ingredients": [
+    {"slot": 0,
+      "item": "spore:armor_fragment" },
+    {"slot": 1,
+      "item": "spore:nerves" },
+    {"slot": 2,
+      "item": "spore:armor_fragment" },
+    {"slot": 4,
+      "item": "spore:mutated_fiber" },
+    {"slot": 5,
+      "item": "spore:mutated_fiber" },
+    {"slot": 6,
+      "item": "spore:mutated_fiber" },
+    {"slot": 8,
+      "item": "spore:armor_fragment" },
+    {"slot": 9,
+      "item": "spore:nerves" },
+    {"slot": 10,
+      "item": "spore:armor_fragment" }
+  ],
+  "output": { "item": "spore:armor_plate" }
+}

@@ -8,6 +8,7 @@ import com.Harbinger.Spore.Screens.SurgeryMenu;
 import com.Harbinger.Spore.Sitems.Agents.MutationAgents;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsBaseItem;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsMutations;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -136,7 +137,7 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
                 itemStack.shrink(1);
             }
         }
-        if (stack.getItem() instanceof SporeToolsBaseItem item){
+        if (stack.getItem() instanceof SporeWeaponData item){
             for (MutationAgents mutagen : mutagens){
                 mutagen.mutateWeapon(stack);
                 mutation = mutation + mutagen.getMutationChance();
@@ -150,9 +151,7 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
 
     public boolean canInsertIntoOutputSlot(ItemStack stack) {
         ItemStack outputStack = itemHandler.getStackInSlot(OUTPUT_SLOT);
-        return outputStack.isEmpty() ||
-                (outputStack.getItem() == stack.getItem() &&
-                        outputStack.getCount() + stack.getCount() <= outputStack.getMaxStackSize());
+        return outputStack.isEmpty();
     }
     public void updateOutputSlot() {
         if (itemHandler.getStackInSlot(STRING_SLOT) == ItemStack.EMPTY){
@@ -170,11 +169,6 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, SurgeryTableBlockEntity entity) {
-        if (entity.tickCooldown > 0) {
-            entity.tickCooldown--;
-        } else {
-            entity.updateOutputSlot();
-            entity.tickCooldown = 5;
-        }
+        entity.updateOutputSlot();
     }
 }
