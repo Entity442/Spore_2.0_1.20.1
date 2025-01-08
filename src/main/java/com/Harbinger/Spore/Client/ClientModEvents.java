@@ -10,6 +10,7 @@ import com.Harbinger.Spore.Particles.SporeParticle;
 import com.Harbinger.Spore.Screens.ContainerScreen;
 import com.Harbinger.Spore.Screens.SurgeryScreen;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsBaseItem;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
 import com.Harbinger.Spore.Spore;
 import com.Harbinger.Spore.sEvents.SItemProperties;
 import net.minecraft.client.Minecraft;
@@ -243,13 +244,13 @@ public class ClientModEvents {
     @SubscribeEvent
     public static void registerItemColorHandlers(RegisterColorHandlersEvent.Item event) {
         for (Item item : Sitems.TINTABLE_ITEMS){
-            if (item instanceof SporeToolsBaseItem baseItem){
+            if (item instanceof SporeWeaponData data){
                 event.register((itemStack, tintIndex) -> {
                     if (tintIndex == 0) {
-                        return baseItem.getVariant(itemStack).getColor();
+                        return data.getVariant(itemStack).getColor();
                     }
                     return -1;
-                },baseItem);
+                },item);
 
             }
         }

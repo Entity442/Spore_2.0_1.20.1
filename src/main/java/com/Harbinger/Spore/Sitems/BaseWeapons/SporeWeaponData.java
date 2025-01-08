@@ -4,6 +4,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -50,6 +51,25 @@ public interface SporeWeaponData {
     default void setAdditionalDurability(int value,ItemStack stack){
         CompoundTag tag = stack.getOrCreateTagElement(BASE_TAG);
         tag.putInt(MELEE_DURABILITY,value);
+    }
+    default void hurtTool(ItemStack stack, LivingEntity entity,int value){
+        int lostDurability = this.calculateDurabilityLostForMutations(value,stack);
+        if (getAdditionalDurability(stack) > 0){
+            hurtExtraDurability(stack,lostDurability,entity);
+        }else{
+            stack.hurtAndBreak(lostDurability, entity, (p_43296_) -> {
+                p_43296_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
+            });
+        }
+    }
+    default int calculateDurabilityLostForMutations(int value ,ItemStack stack){
+        if (getVariant(stack) == SporeToolsMutations.TOXIC){
+            return value * 2;
+        }
+        if (getVariant(stack) == SporeToolsMutations.ROTTEN){
+            return value * 2;
+        }
+        return value;
     }
 
     default void hurtExtraDurability(ItemStack stack,int value,@Nullable LivingEntity living){
@@ -100,6 +120,29 @@ public interface SporeWeaponData {
             }else {
                 entity.addEffect(new MobEffectInstance(MobEffects.SATURATION,60,0));
             }
+        }
+    }
+
+    default double modifyDamage(ItemStack stack,double value){
+        return getVariant(stack) == SporeToolsMutations.VAMPIRIC ? (calculateTrueDamage(stack,value) * -0.2) : 0;
+    }
+    default double modifyRange(ItemStack stack){
+        return 0;
+    }
+    default double modifyRecharge(ItemStack stack){
+        return getVariant(stack) == SporeToolsMutations.CALCIFIED ? -0.5 : 0;
+    }
+
+    default int getMaxTrueAdditionalDurability(ItemStack stack){
+        return (int)(stack.getMaxDamage() * (getMaxAdditionalDurability(stack) * 0.01));
+    }
+
+    default void healTool(ItemStack stack,int value){
+        if (stack.getDamageValue() < stack.getMaxDamage()){
+            stack.setDamageValue(stack.getDamageValue()-value);
+        }
+        if (getMaxTrueAdditionalDurability(stack) > getAdditionalDurability(stack)){
+            setAdditionalDurability(getAdditionalDurability(stack)+value,stack);
         }
     }
 }

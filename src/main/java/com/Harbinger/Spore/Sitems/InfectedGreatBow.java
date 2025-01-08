@@ -5,13 +5,18 @@ import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Senchantments;
 import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.Fluids.BileLiquid;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsMutations;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -20,22 +25,26 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
-import net.minecraft.world.item.ArrowItem;
-import net.minecraft.world.item.BowItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.ForgeMod;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
-public class InfectedGreatBow extends BowItem{
+public class InfectedGreatBow extends BowItem implements SporeWeaponData {
+    private final UUID BONUS_DAMAGE_MODIFIER_UUID = UUID.fromString("035e66d6-5a74-402f-b64c-e61432ec39ba");
+    private final UUID BONUS_REACH_MODIFIER_UUID = UUID.fromString("d8c35ba5-f440-4335-92b2-3c8b1b703706");
+    private final UUID BONUS_RECHARGE_MODIFIER_UUID = UUID.fromString("6dee499d-60f9-4f91-9ae9-fa62f285cc24");
     public InfectedGreatBow(Properties properties) {
         super(properties);
         Sitems.BIOLOGICAL_ITEMS.add(this);
+        Sitems.TINTABLE_ITEMS.add(this);
     }
     @Override
     public boolean isValidRepairItem(ItemStack itemstack, ItemStack repairitem) {
@@ -43,13 +52,13 @@ public class InfectedGreatBow extends BowItem{
     }
 
     @Override
-    public void releaseUsing(ItemStack p_40667_, Level p_40668_, LivingEntity p_40669_, int p_40670_) {
-        if (p_40669_ instanceof Player player) {
-            boolean flag = player.getAbilities().instabuild || EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY_ARROWS, p_40667_) > 0;
-            ItemStack itemstack = player.getProjectile(p_40667_);
+    public void releaseUsing(ItemStack stack, Level level, LivingEntity living, int p_40670_) {
+        if (living instanceof Player player && !tooHurt(stack)) {
+            boolean flag = player.getAbilities().instabuild || EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY_ARROWS, stack) > 0;
+            ItemStack itemstack = player.getProjectile(stack);
 
-            int i = this.getUseDuration(p_40667_) - p_40670_;
-            i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(p_40667_, p_40668_, player, i, !itemstack.isEmpty() || flag);
+            int i = this.getUseDuration(stack) - p_40670_;
+            i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, level, player, i, !itemstack.isEmpty() || flag);
             if (i < 0) return;
 
             if (!itemstack.isEmpty() || flag) {
@@ -59,69 +68,60 @@ public class InfectedGreatBow extends BowItem{
 
                 float f = getPowerForTime(i);
                 if (!((double)f < 0.1D)) {
-                    boolean flag1 = player.getAbilities().instabuild || (itemstack.getItem() instanceof ArrowItem && ((ArrowItem)itemstack.getItem()).isInfinite(itemstack, p_40667_, player));
-                    if (!p_40668_.isClientSide) {
+                    boolean flag1 = player.getAbilities().instabuild || (itemstack.getItem() instanceof ArrowItem && ((ArrowItem)itemstack.getItem()).isInfinite(itemstack, stack, player));
+                    if (!level.isClientSide) {
                         ArrowItem arrowitem = (ArrowItem)(itemstack.getItem() instanceof ArrowItem ? itemstack.getItem() : Items.ARROW);
-                        AbstractArrow abstractarrow = arrowitem.createArrow(p_40668_, itemstack, player);
+                        AbstractArrow abstractarrow = arrowitem.createArrow(level, itemstack, player);
                         abstractarrow = customArrow(abstractarrow);
                         abstractarrow.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, f * 4.5F, 1.0F);
 
                         if (f == 1.0F) {
                             abstractarrow.setCritArrow(true);
                         }
-                        abstractarrow.setBaseDamage(abstractarrow.getBaseDamage() * SConfig.SERVER.bow_arrow_damage_multiplier.get());
+                        abstractarrow.setBaseDamage(calculateTrueDamage(stack,abstractarrow.getBaseDamage()) * SConfig.SERVER.bow_arrow_damage_multiplier.get());
 
-                        int j = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS, p_40667_);
+                        int j = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS, stack);
                         if (j > 0) {
                             abstractarrow.setBaseDamage(abstractarrow.getBaseDamage() + (double)j * 0.5D + 0.5D);
                         }
 
-                        int k = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.PUNCH_ARROWS, p_40667_);
+                        int k = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.PUNCH_ARROWS, stack);
                         if (k > 0) {
                             abstractarrow.setKnockback(k);
                         }
 
-                        if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FLAMING_ARROWS, p_40667_) > 0) {
+                        if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FLAMING_ARROWS, stack) > 0) {
                             abstractarrow.setSecondsOnFire(100);
                         }
 
-                        p_40667_.hurtAndBreak(1, player, (p_40665_) -> {
-                            p_40665_.broadcastBreakEvent(player.getUsedItemHand());
-                        });
+                        this.hurtTool(stack,player,1);
                         if (flag1 || player.getAbilities().instabuild && (itemstack.is(Items.SPECTRAL_ARROW) || itemstack.is(Items.TIPPED_ARROW))) {
                             abstractarrow.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                         }
                         if (abstractarrow instanceof Arrow arrow){
-                            abstractEffects(p_40667_,arrow);
+                            abstractEffects(stack,arrow);
                         }
-                        p_40668_.addFreshEntity(abstractarrow);
+                        level.addFreshEntity(abstractarrow);
                     }
-
-                    p_40668_.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (p_40668_.getRandom().nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+                    level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + f * 0.5F);
                     if (!flag1 && !player.getAbilities().instabuild) {
                         itemstack.shrink(1);
                         if (itemstack.isEmpty()) {
                             player.getInventory().removeItem(itemstack);
                         }
                     }
-
                     player.awardStat(Stats.ITEM_USED.get(this));
                 }
             }
         }
     }
     @Override
-    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot) {
-        if (slot == EquipmentSlot.MAINHAND) {
-            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-            builder.putAll(super.getDefaultAttributeModifiers(slot));
-            builder.put(Attributes.ATTACK_DAMAGE,
-                    new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Ranged item modifier", (double) SConfig.SERVER.bow_melee_damage.get() - 1, AttributeModifier.Operation.ADDITION));
-            builder.put(Attributes.ATTACK_SPEED,
-                    new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Ranged item modifier", -2.4, AttributeModifier.Operation.ADDITION));
-            return builder.build();
-        }
-        return super.getDefaultAttributeModifiers(slot);
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+        builder.put(Attributes.ATTACK_DAMAGE,new AttributeModifier(BONUS_DAMAGE_MODIFIER_UUID,"Tool modifier",calculateTrueDamage(stack,SConfig.SERVER.bow_melee_damage.get())+modifyDamage(stack,SConfig.SERVER.bow_melee_damage.get()), AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BONUS_RECHARGE_MODIFIER_UUID, "Tool modifier", -2.4+modifyRecharge(stack), AttributeModifier.Operation.ADDITION));
+        builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(BONUS_REACH_MODIFIER_UUID, "Tool modifier",1+modifyRange(stack), AttributeModifier.Operation.ADDITION));
+        return slot == EquipmentSlot.MAINHAND && tooHurt(stack) ? builder.build() : ImmutableMultimap.of();
     }
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
@@ -134,7 +134,36 @@ public class InfectedGreatBow extends BowItem{
         }
         if (stack.getEnchantmentLevel(Senchantments.GASTRIC_SPEWAGE.get())>0){
             for (MobEffectInstance instance : BileLiquid.bileEffects())
-            arrow.addEffect(instance);
+                arrow.addEffect(instance);
         }
+        if (getVariant(stack) == SporeToolsMutations.ROTTEN){
+            arrow.addEffect(new MobEffectInstance(MobEffects.WITHER,100,0));
+        }
+        if (getVariant(stack) == SporeToolsMutations.TOXIC){
+            arrow.addEffect(new MobEffectInstance(MobEffects.POISON,100,1));
+        }
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level p_41422_, List<Component> components, TooltipFlag p_41424_) {
+        super.appendHoverText(stack, p_41422_, components, p_41424_);
+        if (Screen.hasShiftDown()){
+            components.add(Component.literal(Component.translatable("spore.item.damage_increase").getString() + getAdditionalDamage(stack) + "%"));
+            components.add(Component.literal(Component.translatable("spore.item.durability_increase").getString()+ getMaxAdditionalDurability(stack) + "%"));
+            components.add(Component.literal(Component.translatable("spore.item.additional_durability").getString()+ getAdditionalDurability(stack)));
+            components.add(Component.literal(Component.translatable("spore.item.enchant").getString()+ getEnchantmentValue(stack)));
+            if (getVariant(stack) != SporeToolsMutations.DEFAULT){
+                components.add(Component.literal(Component.translatable("spore.item.mutation").getString()+Component.translatable(getVariant(stack).getName()).getString()));
+            }
+        }
+    }
+
+    @Override
+    public boolean hurtEnemy(ItemStack stack, LivingEntity living, LivingEntity entity) {
+        if (tooHurt(stack)){
+            hurtTool(stack,entity,1);
+        }
+        doEntityHurtAfterEffects(stack,living,entity);
+        return super.hurtEnemy(stack, living, entity);
     }
 }
