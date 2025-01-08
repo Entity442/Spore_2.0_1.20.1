@@ -1,0 +1,14 @@
+{
+  "type": "spore:surgery",
+  "ingredients": [
+    {"slot": 2,
+      "item": "spore:mutated_fiber" },
+    {"slot": 3,
+      "item": "minecraft:bone" },
+    {"slot": 6,
+      "item": "spore:mutated_heart" },
+    {"slot": 9,
+      "item": "spore:claw" }
+  ],
+  "output": { "item": "spore:knife" }
+}
