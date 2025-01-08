@@ -14,7 +14,7 @@
     {"slot": 9,
       "item": "spore:mutated_fiber" },
     {"slot": 12,
-      "item": "spore:fleshy_bone" }
+      "item": "spore:claw" }
   ],
   "output": { "item": "spore:saber" }
 }

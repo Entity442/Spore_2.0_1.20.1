@@ -1,24 +1,24 @@
 {
   "type": "spore:surgery",
   "ingredients": [
-    {"slot": 1,
-      "item": "spore:claw" },
-    {"slot": 4,
-      "item": "spore:claw" },
     {"slot": 3,
       "item": "spore:fleshy_bone" },
     {"slot": 5,
       "item": "spore:mutated_fiber" },
     {"slot": 6,
       "item": "spore:fleshy_bone" },
-    {"slot": 8,
-      "item": "spore:claw" },
     {"slot": 9,
       "item": "spore:living_core" },
     {"slot": 10,
       "item": "spore:mutated_fiber" },
+    {"slot": 11,
+      "item": "spore:claw" },
     {"slot": 12,
-      "item": "spore:mutated_fiber" }
+      "item": "spore:mutated_fiber" },
+    {"slot": 13,
+      "item": "spore:claw" },
+    {"slot": 14,
+      "item": "spore:claw" }
   ],
   "output": { "item": "spore:scythe" }
 }
