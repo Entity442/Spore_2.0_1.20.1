@@ -44,6 +44,7 @@
   "block.spore.frozen_reinforced_door": "Замороженная усиленная дверь",
   "block.spore.zoaholic": "Зоаголик",
   "block.spore.incubator": "Инкубатор",
+  "block.spore.surgery_table": "Хирургический стол",
   "block.spore.outpost_watcher": "Наблюдатель за заставой",
   "block.spore.biomass_bulb": "Лампа на биомассе",
   "block.spore.frozen_remains": "Замороженные останки",
@@ -121,12 +122,26 @@
   "item.spore.circuit_board": "Печатная плата",
   "item.spore.combat_pickaxe": "Боевая кирка",
   "item.spore.scanner": "Сканер",
-
+  "item.spore.hardening_agent": "Отвердитель",
+  "item.spore.sharpening_agent": "Очищающий агент",
+  "item.spore.integrating_agent": "Интегрирующий агент",
 
   "item.spore.symbiotic_reagent": "Симбиотический реагент",
   "item.spore.cryogenic_reagent": "Криогенный реагент",
   "item.spore.gastric_reagent": "Желудочный реагент",
   "item.spore.corrosive_reagent": "Коррозионный реагент",
+
+  "spore.item.mutation.vampiric" : "Вампирический",
+  "spore.item.mutation.calcified" : "Кальцинированный",
+  "spore.item.mutation.bezerk" : "Безерк",
+  "spore.item.mutation.toxic" : "Токсичный",
+  "spore.item.mutation.rotten" : "Сгнивший",
+
+  "spore.item.damage_increase" : "Увеличение урона ",
+  "spore.item.durability_increase" : "Увеличение долговечности ",
+  "spore.item.additional_durability" : "Дополнительная прочность ",
+  "spore.item.enchant" : "Чародейство ",
+  "spore.item.mutation" : "Мутация ",
 
   "item.spore.saber": "Заражённая сабля",
   "item.spore.infected_bow": "Заражённый лук",

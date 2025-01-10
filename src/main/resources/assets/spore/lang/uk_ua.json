@@ -45,6 +45,7 @@
   "block.spore.frozen_reinforced_door": "Промерзлі посилені двері",
   "block.spore.zoaholic": "Зооголік",
   "block.spore.incubator": "Інкубатор",
+  "block.spore.surgery_table": "Хірургічний стіл",
   "block.spore.outpost_watcher": "Спостерігач за форпостом",
   "block.spore.biomass_bulb": "Цибулина біомаси",
   "block.spore.frozen_remains": "Заморожені останки",
@@ -123,12 +124,27 @@
   "item.spore.circuit_board": "Друкована плата",
   "item.spore.combat_pickaxe": "Бойова кирка",
   "item.spore.scanner": "Сканер",
+  "item.spore.hardening_agent": "Затверджувач",
+  "item.spore.sharpening_agent": "Рафінуючий агент",
+  "item.spore.integrating_agent": "Інтегруючий агент",
+
 
   "item.spore.symbiotic_reagent": "Сімбіотичний реагент",
   "item.spore.cryogenic_reagent": "Кріогенний реагент",
   "item.spore.gastric_reagent": "Шлунковий реагент",
   "item.spore.corrosive_reagent": "Корозійний реагент",
 
+  "spore.item.mutation.vampiric" : "Вампірський",
+  "spore.item.mutation.calcified" : "Кальциновані",
+  "spore.item.mutation.bezerk" : "Безерк",
+  "spore.item.mutation.toxic" : "Токсичний",
+  "spore.item.mutation.rotten" : "Гнилий",
+
+  "spore.item.damage_increase" : "Збільшення шкоди ",
+  "spore.item.durability_increase" : "Збільшення довговічності ",
+  "spore.item.additional_durability" : "Додаткова довговічність ",
+  "spore.item.enchant" : "Чарівність ",
+  "spore.item.mutation" : "Мутація ",
 
   "item.spore.saber": "Інфікована шабля",
   "item.spore.infected_bow": "Інфікований лук",
