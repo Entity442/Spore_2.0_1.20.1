@@ -125,6 +125,9 @@
   "item.spore.circuit_board": "Circuit Board",
   "item.spore.combat_pickaxe": "Combat Pickaxe",
   "item.spore.scanner": "Scanner",
+  "item.spore.hardening_agent": "Hardening Agent",
+  "item.spore.sharpening_agent": "Refining Agent",
+  "item.spore.integrating_agent": "Integrating Agent",
 
 
   "item.spore.symbiotic_reagent": "Symbiotic Reagent",

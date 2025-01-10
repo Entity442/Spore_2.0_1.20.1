@@ -1,3 +1,6 @@
 {
-  "parent": "spore:item/summon_ev"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "spore:item/hardening_agent"
+  }
 }
