@@ -25,6 +25,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.CrossbowAttackMob;
 import net.minecraft.world.entity.player.Player;
@@ -237,6 +238,7 @@ public class InfectedCrossbow extends CrossbowItem implements SporeWeaponData {
             }
             if (projectile instanceof Arrow arrow){
                 abstractEffects(stack,arrow);
+                arrow.setBaseDamage(getAdditionalDamageCrossbow(entity.getItemInHand(hand),arrow.getBaseDamage()));
             }
             level.addFreshEntity(projectile);
             level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.CROSSBOW_SHOOT, SoundSource.PLAYERS, 1.0F, p_40900_);
@@ -431,6 +433,12 @@ public class InfectedCrossbow extends CrossbowItem implements SporeWeaponData {
             for (MobEffectInstance instance : BileLiquid.bileEffects())
                 arrow.addEffect(instance);
         }
+        if (getMutation(stack) == SporeToolsMutations.TOXIC){
+            arrow.addEffect(new MobEffectInstance(MobEffects.WITHER,100,0));
+        }
+        if (getMutation(stack) == SporeToolsMutations.ROTTEN){
+            arrow.addEffect(new MobEffectInstance(MobEffects.POISON,100,1));
+        }
     }
 
     @Override
@@ -440,6 +448,20 @@ public class InfectedCrossbow extends CrossbowItem implements SporeWeaponData {
         }
         doEntityHurtAfterEffects(stack,living,entity);
         return super.hurtEnemy(stack, living, entity);
+    }
+
+    private static SporeToolsMutations getMutation(ItemStack stack){
+        CompoundTag tag = stack.getOrCreateTagElement(BASE_TAG);
+        return SporeToolsMutations.byId(tag.getInt(MUTATION) & 255);
+    }
+
+    private static double getAdditionalDamageCrossbow(ItemStack itemStack,double damage){
+        CompoundTag tag = itemStack.getOrCreateTagElement(BASE_TAG);
+        double value = tag.getDouble(MELEE_TAG) * 0.01;
+        if (value > 0){
+            return damage + (damage * value);
+        }
+        return damage;
     }
 }
 
