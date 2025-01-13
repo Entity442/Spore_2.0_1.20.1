@@ -345,6 +345,8 @@
   "spore.scanner.line.12" : "Seconds until growth ",
   "spore.scanner.line.13" : "No harvestable parts ",
   "spore.scanner.line.14" : "Harvestable parts ",
+  "spore.scanner.line.15" : "There is nothing there... ",
+
 
   "spore.scanner.organ.default" : "Needs further scanning",
   "spore.scanner.organ.claw_fragment" : "The jagged remnants of an infected creature's natural weaponry. These splintered claws are infused with minerals scavenged from the host's body, giving them an unnatural resilience",
