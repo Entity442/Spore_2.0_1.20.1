@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Sentities.BaseEntities.*;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
 import com.Harbinger.Spore.Sentities.Organoids.Mound;
+import com.Harbinger.Spore.Sentities.Utility.Illusion;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -25,6 +26,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ScannerItem extends BaseItem2 {
@@ -49,15 +51,21 @@ public class ScannerItem extends BaseItem2 {
         }
         return InteractionResultHolder.success(tool);
     }
+    @Nullable
     public LivingEntity getScannedEntity(Player player,Level level){
-        AABB hitbox1 = getScannerHitBox(player,4f);
+        AABB hitbox1 = getScannerHitBox(player,10f);
         List<Entity> list = level.getEntities(player,hitbox1, entity -> {return entity instanceof LivingEntity;});
-        for (Entity entity : list){
-            if (entity instanceof LivingEntity livingEntity){
-                return livingEntity;
+        Iterator<Entity> var5 = list.iterator();
+        double value = Double.MAX_VALUE;
+        LivingEntity entity = null;
+        while(var5.hasNext()) {
+            LivingEntity $$3 = (LivingEntity)var5.next();
+            if (player.distanceToSqr($$3) < value) {
+                entity = $$3;
+                value = player.distanceToSqr($$3);
             }
         }
-        return null;
+        return entity;
     }
 
     @Nullable
@@ -68,6 +76,10 @@ public class ScannerItem extends BaseItem2 {
 
     public void showInfo(ItemStack stack, LivingEntity entity, Player player){
         if (stack.getItem() instanceof ScannerItem){
+            if (entity instanceof Illusion){
+                player.displayClientMessage(Component.translatable("spore.scanner.line.15"), false);
+                return;
+            }
             entity.addEffect(new MobEffectInstance(MobEffects.GLOWING,40));
             String name = entity.getCustomName() != null ? entity.getCustomName().getString() : Component.translatable("spore.scanner.line.1").getString();
             player.displayClientMessage(Component.literal("------------------"), false);
