@@ -9,6 +9,7 @@ import com.Harbinger.Spore.Particles.BloodParticle;
 import com.Harbinger.Spore.Particles.SporeParticle;
 import com.Harbinger.Spore.Screens.ContainerScreen;
 import com.Harbinger.Spore.Screens.SurgeryScreen;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeArmorData;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsBaseItem;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
 import com.Harbinger.Spore.Spore;
@@ -245,6 +246,15 @@ public class ClientModEvents {
     public static void registerItemColorHandlers(RegisterColorHandlersEvent.Item event) {
         for (Item item : Sitems.TINTABLE_ITEMS){
             if (item instanceof SporeWeaponData data){
+                event.register((itemStack, tintIndex) -> {
+                    if (tintIndex == 0) {
+                        return data.getVariant(itemStack).getColor();
+                    }
+                    return -1;
+                },item);
+
+            }
+            if (item instanceof SporeArmorData data){
                 event.register((itemStack, tintIndex) -> {
                     if (tintIndex == 0) {
                         return data.getVariant(itemStack).getColor();
