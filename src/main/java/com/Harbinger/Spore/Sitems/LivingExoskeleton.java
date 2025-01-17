@@ -19,7 +19,8 @@ import java.util.Map;
 
 public class LivingExoskeleton extends SporeBaseArmor {
     public LivingExoskeleton(Type slot) {
-        super(slot,new int[]{30,30,30,30},new int[]{
+        super(slot, new int[]{
+                SConfig.SERVER.boots_durability2.get(), SConfig.SERVER.pants_durability2.get(), SConfig.SERVER.chestplate_durability2.get(), SConfig.SERVER.helmet_durability2.get()},new int[]{
                 SConfig.SERVER.boots_protection2.get(), SConfig.SERVER.pants_protection2.get(), SConfig.SERVER.chestplate_protection2.get(), SConfig.SERVER.helmet_protection2.get()
         }, SConfig.SERVER.armor_toughness2.get(),SConfig.SERVER.knockback_resistance2.get(), SoundEvents.ARMOR_EQUIP_LEATHER,"Flesh");
     }

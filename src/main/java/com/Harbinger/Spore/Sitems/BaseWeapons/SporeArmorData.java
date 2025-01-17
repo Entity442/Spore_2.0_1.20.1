@@ -1,12 +1,16 @@
 package com.Harbinger.Spore.Sitems.BaseWeapons;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 public interface SporeArmorData {
     String BASE_TAG = "agent";
     String PROTECTION_TAG = "mutant_protection";
     String TOUGHNESS_TAG = "mutant_toughness";
+    String MAX_DURABILITY = "mutant_max_durability";
+    String EXTRA_DURABILITY = "mutant_extra_durability";
     String ENCHANTING = "mutant_enchanting";
     String MUTATION = "mutation";
 
@@ -67,4 +71,25 @@ public interface SporeArmorData {
         CompoundTag tag = stack.getOrCreateTagElement(BASE_TAG);
         tag.putInt(MUTATION,variant.getId() & 255);
     }
+
+    default int getMaxAdditionalDurability(ItemStack stack){
+        CompoundTag tag = stack.getOrCreateTagElement(BASE_TAG);
+        return tag.getInt(MAX_DURABILITY);
+    }
+    default void setMaxAdditionalDurability(int value,ItemStack stack){
+        CompoundTag tag = stack.getOrCreateTagElement(BASE_TAG);
+        tag.putInt(MAX_DURABILITY,value);
+    }
+    default int getAdditionalDurability(ItemStack stack){
+        CompoundTag tag = stack.getOrCreateTagElement(BASE_TAG);
+        return tag.getInt(EXTRA_DURABILITY);
+    }
+    default void setAdditionalDurability(int value,ItemStack stack){
+        CompoundTag tag = stack.getOrCreateTagElement(BASE_TAG);
+        tag.putInt(EXTRA_DURABILITY,value);
+    }
+    default void hurtExtraDurability(ItemStack stack,int value,@Nullable LivingEntity living){
+        setAdditionalDurability(getAdditionalDurability(stack)-value,stack);
+    }
+
 }

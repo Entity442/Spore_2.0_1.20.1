@@ -20,6 +20,7 @@ import com.Harbinger.Spore.Sentities.Utility.GastGeber;
 import com.Harbinger.Spore.Sentities.Utility.Illusion;
 import com.Harbinger.Spore.Sentities.Utility.InfestedConstruct;
 import com.Harbinger.Spore.Sentities.Utility.Specter;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeBaseArmor;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsBaseItem;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.commands.Commands;
@@ -622,6 +623,17 @@ public class HandlerEvents {
                 boolean jumpLevel = duration < 12000;
                 livingEntity.addEffect(new MobEffectInstance(Seffects.MADNESS.get(),jumpLevel ? duration: duration-12000,jumpLevel ? level : level+1));
             }
+        }
+        //////problem
+        if (event.getEntity() instanceof Player player) {
+            float totalDamageModification = 0.0F;
+
+            for (ItemStack stack : player.getArmorSlots()) {
+                if (stack.getItem() instanceof SporeBaseArmor armor) {
+                    totalDamageModification += armor.calculateAdditionalDamage(event.getSource(), stack, event.getAmount());
+                }
+            }
+            event.setAmount(event.getAmount() + totalDamageModification);
         }
     }
 

@@ -97,7 +97,7 @@ public abstract class SporeBaseArmor extends ArmorItem implements SporeArmorData
             builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(uuid, "Armor knockback resistance", (this.knockback + modifyKnockbackResistance(stack,knockback)) * 0.1f, AttributeModifier.Operation.ADDITION));
         }
         if (this.getVariant(stack) == SporeArmorMutations.DROWNED){
-            builder.put(ForgeMod.SWIM_SPEED.get(), new AttributeModifier(uuid, "Armor Speed modifier", 0.2, AttributeModifier.Operation.ADDITION));
+            builder.put(ForgeMod.SWIM_SPEED.get(), new AttributeModifier(uuid, "Armor Speed modifier", 0.25, AttributeModifier.Operation.ADDITION));
         }
         if (this.getVariant(stack) == SporeArmorMutations.REINFORCED || this.getVariant(stack) == SporeArmorMutations.SKELETAL){
             builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid, "Armor Speed modifier", this.getVariant(stack) == SporeArmorMutations.REINFORCED ? -0.01 : 0.01, AttributeModifier.Operation.ADDITION));
@@ -108,10 +108,22 @@ public abstract class SporeBaseArmor extends ArmorItem implements SporeArmorData
     @Override
     public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<T> onBroken) {
         if (tooHurt(stack)){
-            return super.damageItem(stack, amount, entity, onBroken);
+            if (getAdditionalDurability(stack) > 0){
+                hurtExtraDurability(stack,amount,entity);
+                return 0;
+            }else{
+                return super.damageItem(stack, calculateDurabilityLost(stack,amount), entity, onBroken);
+            }
         }else{
             return 0;
         }
+    }
+
+    public int calculateDurabilityLost(ItemStack stack,int value){
+        if (getVariant(stack) == SporeArmorMutations.CHARRED){
+            return value * 2;
+        }
+        return value;
     }
 
     @Override
@@ -138,9 +150,14 @@ public abstract class SporeBaseArmor extends ArmorItem implements SporeArmorData
     public double modifyKnockbackResistance(ItemStack stack,double value){
         return 0;
     }
-    public float calculateAdditionalProtection(DamageSource source,ItemStack stack,float value){
+    public float calculateAdditionalDamage(DamageSource source,ItemStack stack,float value){
         if (this.getVariant(stack) == SporeArmorMutations.CHARRED && source.is(DamageTypeTags.IS_FIRE)){
-            return value * 0.2f;
+            System.out.println("calculates fire reduction");
+            return -value * 0.25f;
+        }
+        if (this.getVariant(stack) == SporeArmorMutations.DROWNED && source.is(DamageTypeTags.IS_FIRE)){
+            System.out.println("calculates fire damage");
+            return value * 0.25f;
         }
         return 0;
     }
@@ -156,8 +173,6 @@ public abstract class SporeBaseArmor extends ArmorItem implements SporeArmorData
         super.onCraftedBy(stack, level, player);
         SporeArmorMutations mutations = SporeArmorMutations.byId(player.getRandom().nextInt(SporeArmorMutations.values().length));
         setVariant(mutations,stack);
-        setAdditionalProtection(player.getRandom().nextInt(200),stack);
-        setAdditionalToughness(player.getRandom().nextInt(200),stack);
     }
 
     @Override
