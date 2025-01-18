@@ -179,9 +179,17 @@ public abstract class SporeBaseArmor extends ArmorItem implements SporeArmorData
     public void appendHoverText(ItemStack stack, @Nullable Level p_41422_, List<Component> components, TooltipFlag p_41424_) {
         super.appendHoverText(stack, p_41422_, components, p_41424_);
         if (Screen.hasShiftDown()){
-            components.add(Component.literal(Component.translatable("spore.item.armor_increase").getString() + getAdditionalProtection(stack) + "%"));
-            components.add(Component.literal(Component.translatable("spore.item.toughness_increase").getString()+ getAdditionalToughness(stack) + "%"));
-            components.add(Component.literal(Component.translatable("spore.item.enchant").getString()+ getEnchantmentValue(stack)));
+            if (getAdditionalProtection(stack) > 0){
+                components.add(Component.literal(Component.translatable("spore.item.armor_increase").getString() + getAdditionalProtection(stack) + "%"));
+            }if (getAdditionalToughness(stack) > 0){
+                components.add(Component.literal(Component.translatable("spore.item.toughness_increase").getString()+ getAdditionalToughness(stack) + "%"));
+            }if (getMaxAdditionalDurability(stack) > 0){
+                components.add(Component.literal(Component.translatable("spore.item.durability_increase").getString()+ getMaxAdditionalDurability(stack) + "%"));
+            }if (getAdditionalDurability(stack) > 0){
+                components.add(Component.literal(Component.translatable("spore.item.additional_durability").getString()+ getAdditionalDurability(stack)));
+            }if (getEnchantmentValue(stack) > 0){
+                components.add(Component.literal(Component.translatable("spore.item.enchant").getString()+ getEnchantmentValue(stack)));
+            }
             if (getVariant(stack) != SporeArmorMutations.DEFAULT){
                 components.add(Component.literal(Component.translatable("spore.item.mutation").getString()+Component.translatable(getVariant(stack).getName()).getString()));
             }

@@ -144,6 +144,8 @@
   "spore.item.damage_increase" : "Damage Increase ",
   "spore.item.durability_increase" : "Durability Increase ",
   "spore.item.additional_durability" : "Additional Durability ",
+  "spore.item.armor_increase" : "Additional Armor ",
+  "spore.item.toughness_increase" : "Additional Toughness ",
   "spore.item.enchant" : "Enchantability ",
   "spore.item.mutation" : "Mutation ",
 
