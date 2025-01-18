@@ -140,6 +140,10 @@
   "spore.item.mutation.bezerk" : "Bezerk",
   "spore.item.mutation.toxic" : "Toxic",
   "spore.item.mutation.rotten" : "Rotten",
+  "spore.item.mutation.reinforced" : "Reinforced",
+  "spore.item.mutation.skeletal" : "Skeletal",
+  "spore.item.mutation.drowned" : "Drowned",
+  "spore.item.mutation.charred" : "Charred",
 
   "spore.item.damage_increase" : "Damage Increase ",
   "spore.item.durability_increase" : "Durability Increase ",

@@ -142,7 +142,7 @@ public abstract class SporeBaseArmor extends ArmorItem implements SporeArmorData
         return 0;
     }
     public double modifyToughness(ItemStack stack,double value){
-        if (this.getVariant(stack) == SporeArmorMutations.REINFORCED){
+        if (this.getVariant(stack) == SporeArmorMutations.SKELETAL){
             return 1;
         }
         return 0;
