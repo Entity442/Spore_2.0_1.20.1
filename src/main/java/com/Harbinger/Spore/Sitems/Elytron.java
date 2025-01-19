@@ -2,70 +2,20 @@ package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sitems;
-import net.minecraft.resources.ResourceLocation;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeBaseArmor;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.Objects;
 
-public class Elytron extends ArmorItem {
-
-
-    public Elytron(Type type, Properties properties) {
-        super(new ArmorMaterial() {
-            @Override
-            public int getDurabilityForType(Type slot1) {
-                return new int[]{0, 0, SConfig.SERVER.ely_durability.get(),0}
-                        [slot1.getSlot().getIndex()];
-            }
-
-            @Override
-            public int getDefenseForType(Type slot1) {
-                return new int[]{0, 0, SConfig.SERVER.ely_protection.get(), 0}
-                        [slot1.getSlot().getIndex()];
-            }
-
-            @Override
-            public int getEnchantmentValue() {
-                return 18;
-            }
-
-            @Override
-            public SoundEvent getEquipSound() {
-                return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(""));
-            }
-
-            @Override
-            public Ingredient getRepairIngredient() {
-                return Ingredient.of(Sitems.BIOMASS.get());
-            }
-
-            @Override
-            public String getName() {
-                return "Elytron";
-            }
-
-            @Override
-            public float getToughness() {
-                return SConfig.SERVER.ely_toughness.get();
-            }
-
-            @Override
-            public float getKnockbackResistance() {
-                return SConfig.SERVER.ely_knockback_resistance.get() /10F;
-            }
-        } , type,properties);
-        Sitems.BIOLOGICAL_ITEMS.add(this);
+public class Elytron extends SporeBaseArmor {
+    public Elytron(Type type) {
+        super(type, new int[]{0, 0, SConfig.SERVER.ely_durability.get(),0},new int[]{0, 0, SConfig.SERVER.ely_protection.get(), 0}, SConfig.SERVER.ely_toughness.get(), SConfig.SERVER.ely_knockback_resistance.get() /10F, SoundEvents.ARMOR_EQUIP_LEATHER, "Elytron");
     }
 
 
@@ -74,9 +24,8 @@ public class Elytron extends ArmorItem {
         public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
             return "spore:textures/armor/empty.png";
         }
-
         public InfectedElytron() {
-            super(Type.CHESTPLATE, new Properties());
+            super(Type.CHESTPLATE);
         }
 
         @Override
@@ -120,10 +69,5 @@ public class Elytron extends ArmorItem {
             return SoundEvents.ARMOR_EQUIP_ELYTRA;
         }
 
-    }
-
-    @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-        return super.canApplyAtEnchantingTable(stack, enchantment);
     }
 }
