@@ -119,7 +119,7 @@ public class SporeToolsBaseItem extends BaseItem implements IForgeItem ,SporeWea
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level p_41422_, List<Component> components, TooltipFlag p_41424_) {
         super.appendHoverText(stack, p_41422_, components, p_41424_);
-        if (tooHurt(stack)){
+        if (!tooHurt(stack)){
             components.add(Component.translatable("spore.item.hurt").withStyle(ChatFormatting.RED));
         }
         if (Screen.hasShiftDown()){

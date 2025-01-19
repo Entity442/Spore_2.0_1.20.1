@@ -381,6 +381,9 @@ public class InfectedCrossbow extends CrossbowItem implements SporeWeaponData {
             }
 
         }
+        if (!tooHurt(stack)){
+            components.add(Component.translatable("spore.item.hurt").withStyle(ChatFormatting.RED));
+        }
         if (Screen.hasShiftDown()){
             if (getAdditionalDamage(stack) > 0){
                 components.add(Component.literal(Component.translatable("spore.item.damage_increase").getString() + getAdditionalDamage(stack) + "%"));
