@@ -22,9 +22,9 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
-import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
@@ -216,9 +216,13 @@ public class Wendigo extends Hyper {
     }
     private void dropItem(LivingEntity livingEntity,ItemStack stack,EquipmentSlot slot){
         if (Math.random() < 0.02f && shouldDropItemsPerSlot(slot)){
-            ItemEntity entity = new ItemEntity(this.level(),this.getX(),this.getY(),this.getZ(),stack);
-            level().addFreshEntity(entity);
-            livingEntity.setItemSlot(slot,ItemStack.EMPTY);
+            if (livingEntity instanceof Player player){
+             player.addItem(stack);
+            }else {
+                ItemEntity entity = new ItemEntity(this.level(),this.getX(),this.getY(),this.getZ(),stack);
+                level().addFreshEntity(entity);
+                livingEntity.setItemSlot(slot,ItemStack.EMPTY);
+            }
         }
     }
 

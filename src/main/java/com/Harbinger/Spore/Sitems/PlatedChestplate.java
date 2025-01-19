@@ -1,17 +1,17 @@
 package com.Harbinger.Spore.Sitems;
 
-import com.Harbinger.Spore.Core.ScreativeTab;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 public class PlatedChestplate extends PlatedExoskeleton {
     public PlatedChestplate() {
-        super(Type.CHESTPLATE, new Properties());
+        super(Type.CHESTPLATE);
     }
     @Override
-    public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-        return "spore:textures/armor/plated_layer_1.png";
+    public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
+        return GET_LOCATION_1.get(getVariant(stack));
     }
 
 }
