@@ -139,6 +139,12 @@
   "spore.item.mutation.bezerk" : "Безерк",
   "spore.item.mutation.toxic" : "Токсичний",
   "spore.item.mutation.rotten" : "Гнилий",
+  "spore.item.mutation.reinforced" : "Посилений",
+  "spore.item.mutation.skeletal" : "Скелетний",
+  "spore.item.mutation.drowned" : "Потонув",
+  "spore.item.mutation.charred" : "Обвуглені",
+
+  "spore.item.hurt" : "Занадто боляче, щоб бути корисним",
 
   "spore.item.damage_increase" : "Збільшення шкоди ",
   "spore.item.durability_increase" : "Збільшення довговічності ",

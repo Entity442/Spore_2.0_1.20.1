@@ -6,7 +6,7 @@ import java.util.Comparator;
 public enum SporeArmorMutations {
     DEFAULT(0,-1,"default"),
     REINFORCED(1,-10079488,"reinforced"),
-    SKELETAL(2,-52,"skeletal"),
+    SKELETAL(2,-154,"skeletal"),
     DROWNED(3,-16711732,"drowned"),
     CHARRED(4, -13421773,"charred");
 

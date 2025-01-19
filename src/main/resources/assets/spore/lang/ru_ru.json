@@ -136,6 +136,12 @@
   "spore.item.mutation.bezerk" : "Безерк",
   "spore.item.mutation.toxic" : "Токсичный",
   "spore.item.mutation.rotten" : "Сгнивший",
+  "spore.item.mutation.reinforced" : "Усиленный",
+  "spore.item.mutation.skeletal" : "Скелетный",
+  "spore.item.mutation.drowned" : "Утонул",
+  "spore.item.mutation.charred" : "Обугленный",
+
+  "spore.item.hurt" : "Слишком больно, чтобы быть полезным.",
 
   "spore.item.damage_increase" : "Увеличение урона ",
   "spore.item.durability_increase" : "Увеличение долговечности ",

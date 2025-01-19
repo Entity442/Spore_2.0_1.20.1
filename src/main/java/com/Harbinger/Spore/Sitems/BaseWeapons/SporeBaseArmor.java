@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Core.Sitems;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -152,11 +153,9 @@ public abstract class SporeBaseArmor extends ArmorItem implements SporeArmorData
     }
     public float calculateAdditionalDamage(DamageSource source,ItemStack stack,float value){
         if (this.getVariant(stack) == SporeArmorMutations.CHARRED && source.is(DamageTypeTags.IS_FIRE)){
-            System.out.println("calculates fire reduction");
             return -value * 0.25f;
         }
         if (this.getVariant(stack) == SporeArmorMutations.DROWNED && source.is(DamageTypeTags.IS_FIRE)){
-            System.out.println("calculates fire damage");
             return value * 0.25f;
         }
         return 0;
@@ -167,17 +166,12 @@ public abstract class SporeBaseArmor extends ArmorItem implements SporeArmorData
         return super.isDamaged(stack) || tooHurt(stack);
     }
 
-
-    @Override
-    public void onCraftedBy(ItemStack stack, Level level, Player player) {
-        super.onCraftedBy(stack, level, player);
-        SporeArmorMutations mutations = SporeArmorMutations.byId(player.getRandom().nextInt(SporeArmorMutations.values().length));
-        setVariant(mutations,stack);
-    }
-
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level p_41422_, List<Component> components, TooltipFlag p_41424_) {
         super.appendHoverText(stack, p_41422_, components, p_41424_);
+        if (tooHurt(stack)){
+            components.add(Component.translatable("spore.item.hurt").withStyle(ChatFormatting.RED));
+        }
         if (Screen.hasShiftDown()){
             if (getAdditionalProtection(stack) > 0){
                 components.add(Component.literal(Component.translatable("spore.item.armor_increase").getString() + getAdditionalProtection(stack) + "%"));

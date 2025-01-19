@@ -138,6 +138,12 @@
   "spore.item.mutation.bezerk" : "貝澤克",
   "spore.item.mutation.toxic" : "有毒的",
   "spore.item.mutation.rotten" : "爛",
+  "spore.item.mutation.reinforced" : "強化",
+  "spore.item.mutation.skeletal" : "骨骼",
+  "spore.item.mutation.drowned" : "溺亡",
+  "spore.item.mutation.charred" : "燒焦",
+
+  "spore.item.hurt" : "傷勢太重，毫無用處",
 
   "spore.item.damage_increase" : "傷害增加",
   "spore.item.durability_increase" : "耐久度增加",

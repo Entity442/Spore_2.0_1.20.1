@@ -333,6 +333,8 @@ public class SConfig {
 
         public final ForgeConfigSpec.ConfigValue<Integer> agent_durability;
         public final ForgeConfigSpec.ConfigValue<Integer> agent_damage;
+        public final ForgeConfigSpec.ConfigValue<Integer> agent_protection;
+        public final ForgeConfigSpec.ConfigValue<Integer> agent_toughness;
         public final ForgeConfigSpec.ConfigValue<Integer> agent_enchantability;
 
         public final ForgeConfigSpec.ConfigValue<Integer> spear_durability;
@@ -1102,6 +1104,8 @@ public class SConfig {
             builder.push("Weapon Agents data");
             this.agent_durability = builder.comment("Default durability increase 60%").defineInRange("the value resulted will be between half of the max value and the maximum",60,2, Integer.MAX_VALUE);
             this.agent_damage = builder.comment("Default damage increase 40%").defineInRange("the value resulted will be between half of the max value and the maximum", 40, 2, Integer.MAX_VALUE);
+            this.agent_protection = builder.comment("Default damage increase 30%").defineInRange("the value resulted will be between half of the max value and the maximum", 30, 2, Integer.MAX_VALUE);
+            this.agent_toughness = builder.comment("Default damage increase 3").defineInRange("the value resulted will be between half of the max value and the maximum", 3, 0, Integer.MAX_VALUE);
             this.agent_enchantability = builder.comment("Default 6").defineInRange("the value resulted will be between the minimum and maximum value", 6, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Spear");

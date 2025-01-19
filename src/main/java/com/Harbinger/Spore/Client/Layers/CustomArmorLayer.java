@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Client.Layers;
 
 import com.Harbinger.Spore.Client.ArmorModelList;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeArmorData;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.EntityModel;
@@ -43,8 +44,17 @@ public class CustomArmorLayer<E extends LivingEntity, M extends HumanoidModel<E>
     private void renderArmorParts(PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, E pLivingEntity, EntityModel<LivingEntity> pModel, float pRed, float pGreen, float pBlue, ResourceLocation armorResource
             , float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch, EquipmentSlot slot){
         ItemStack itemstack = pLivingEntity.getItemBySlot(slot);
+        float red = pRed;
+        float green = pGreen;
+        float blue = pBlue;
+        if (itemstack.getItem() instanceof SporeArmorData data){
+            int value = data.getVariant(itemstack).getColor();
+            red = (float) (value >> 16 & 255) / 255.0F;
+            green = (float) (value >> 8 & 255) / 255.0F;
+            blue = (float) (value & 255) / 255.0F;
+        }
         VertexConsumer vertexconsumer = ItemRenderer.getFoilBufferDirect(pBuffer, pModel.renderType(armorResource), false, itemstack.hasFoil());
         pModel.setupAnim(pLivingEntity,pLimbSwing,pLimbSwingAmount,pAgeInTicks,pNetHeadYaw,pHeadPitch);
-        pModel.renderToBuffer(pPoseStack, vertexconsumer, pPackedLight, OverlayTexture.NO_OVERLAY, pRed, pGreen, pBlue, 1.0F);
+        pModel.renderToBuffer(pPoseStack, vertexconsumer, pPackedLight, OverlayTexture.NO_OVERLAY, red, green, blue, 1.0F);
     }
 }

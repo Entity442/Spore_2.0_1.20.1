@@ -145,6 +145,8 @@
   "spore.item.mutation.drowned" : "Drowned",
   "spore.item.mutation.charred" : "Charred",
 
+  "spore.item.hurt" : "Too Hurt to be of any use",
+
   "spore.item.damage_increase" : "Damage Increase ",
   "spore.item.durability_increase" : "Durability Increase ",
   "spore.item.additional_durability" : "Additional Durability ",

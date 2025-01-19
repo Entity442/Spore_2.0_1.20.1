@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Core;
 import com.Harbinger.Spore.Sitems.*;
 import com.Harbinger.Spore.Sitems.Agents.ConnectingAgent;
 import com.Harbinger.Spore.Sitems.Agents.HardeningAgent;
+import com.Harbinger.Spore.Sitems.Agents.MutationSyringe;
 import com.Harbinger.Spore.Sitems.Agents.SharpeningAgent;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -379,6 +380,8 @@ public class Sitems {
             SharpeningAgent::new);
     public  static final RegistryObject<Item> INTEGRATING_AGENT = ITEMS.register("integrating_agent",
             ConnectingAgent::new);
+    public  static final RegistryObject<Item> MUTATION_SYRINGE = ITEMS.register("mutation_syringe",
+            MutationSyringe::new);
 
 
 
