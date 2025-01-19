@@ -2,7 +2,6 @@ package com.Harbinger.Spore.Client;
 
 import com.Harbinger.Spore.Client.Models.CoreModel;
 import com.Harbinger.Spore.Client.Models.ElytrumModel;
-import com.Harbinger.Spore.Client.Models.WingedChestplate;
 import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.client.model.EntityModel;
@@ -23,7 +22,7 @@ public class ArmorModelList {
         map.add(new Triple<>(new ElytrumModel<>(),Sitems.R_ELYTRON.get(),new ResourceLocation(Spore.MODID,"textures/armor/elytron.png")));
         map.add(new Triple<>(new CoreModel<>(),Sitems.LIVING_CHEST.get(),new ResourceLocation(Spore.MODID,"textures/armor/infected_wing.png")));
         map.add(new Triple<>(new CoreModel<>(),Sitems.INF_CHEST.get(),new ResourceLocation(Spore.MODID,"textures/armor/infected_wing.png")));
-        map.add(new Triple<>(new WingedChestplate<>(),Sitems.INF_UP_CHESTPLATE.get(),new ResourceLocation(Spore.MODID,"textures/armor/infected_wing.png")));
+        map.add(new Triple<>(new ElytrumModel<>(),Sitems.INF_UP_CHESTPLATE.get(),new ResourceLocation(Spore.MODID,"textures/armor/elytron.png")));
         return map;
     }
 }

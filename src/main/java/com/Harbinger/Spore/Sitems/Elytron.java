@@ -32,8 +32,8 @@ public class Elytron extends SporeBaseArmor {
         public boolean isValidRepairItem(ItemStack itemstack, ItemStack repairitem) {
             return Objects.equals(Sitems.BIOMASS.get(), repairitem.getItem());
         }
-        public static boolean isFlyEnabled(ItemStack p_41141_) {
-            return p_41141_.getDamageValue() < p_41141_.getMaxDamage() - 1;
+        public static boolean isFlyEnabled(ItemStack stack) {
+            return stack.getDamageValue() < stack.getMaxDamage() - 10;
         }
 
 
