@@ -71,7 +71,14 @@ public interface SporeArmorData {
         CompoundTag tag = stack.getOrCreateTagElement(BASE_TAG);
         tag.putInt(MUTATION,variant.getId() & 255);
     }
-
+    default void healTool(ItemStack stack,int value){
+        if (stack.getDamageValue() < stack.getMaxDamage()){
+            stack.setDamageValue(stack.getDamageValue()-value);
+        }
+        if (getMaxAdditionalDurability(stack) > getAdditionalDurability(stack)){
+            setAdditionalDurability(getAdditionalDurability(stack)+value,stack);
+        }
+    }
     default int getMaxAdditionalDurability(ItemStack stack){
         CompoundTag tag = stack.getOrCreateTagElement(BASE_TAG);
         return tag.getInt(MAX_DURABILITY);

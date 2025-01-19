@@ -20,8 +20,10 @@ import com.Harbinger.Spore.Sentities.Utility.GastGeber;
 import com.Harbinger.Spore.Sentities.Utility.Illusion;
 import com.Harbinger.Spore.Sentities.Utility.InfestedConstruct;
 import com.Harbinger.Spore.Sentities.Utility.Specter;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeArmorData;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeBaseArmor;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsBaseItem;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
@@ -469,6 +471,8 @@ public class HandlerEvents {
                         ItemStack itemStack = player.getInventory().getItem(i);
                         if (EnchantmentHelper.getTagEnchantmentLevel(Senchantments.SYMBIOTIC_RECONSTITUTION.get(),itemStack) != 0 && itemStack.isDamaged()){
                             if (itemStack.getItem() instanceof SporeToolsBaseItem base){
+                                base.healTool(itemStack,2);
+                            }else if (itemStack.getItem() instanceof SporeArmorData base){
                                 base.healTool(itemStack,2);
                             }else{
                                 int l = itemStack.getDamageValue()-2;
