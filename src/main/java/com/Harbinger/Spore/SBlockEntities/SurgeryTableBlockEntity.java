@@ -6,9 +6,7 @@ import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Recipes.SurgeryRecipe;
 import com.Harbinger.Spore.Screens.SurgeryMenu;
 import com.Harbinger.Spore.Sitems.Agents.MutationAgents;
-import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsBaseItem;
-import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsMutations;
-import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
+import com.Harbinger.Spore.Sitems.BaseWeapons.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -44,7 +42,6 @@ import java.util.Optional;
 public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider {
     public final ItemStackHandler itemHandler = new ItemStackHandler(21);
     public final TagKey<Item> stringLikeItem = ItemTags.create(new ResourceLocation("spore:stitches"));
-    private int tickCooldown = 0;
     public static final int STRING_SLOT = 16;
     public static final int AGENT_SLOT_1 = 17;
     public static final int AGENT_SLOT_2 = 18;
@@ -137,13 +134,16 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
                 itemStack.shrink(1);
             }
         }
-        if (stack.getItem() instanceof SporeWeaponData item){
+        if (stack.getItem() instanceof SporeWeaponData || stack.getItem() instanceof SporeArmorData){
             for (MutationAgents mutagen : mutagens){
                 mutagen.mutateWeapon(stack);
                 mutation = mutation + mutagen.getMutationChance();
             }
-            if (Math.random() < (mutation * 0.01)){
+            if (Math.random() < (mutation * 0.01) && stack.getItem() instanceof SporeWeaponData item){
                 item.setVariant(SporeToolsMutations.byId(player.getRandom().nextInt(SporeToolsMutations.values().length)),stack);
+            }
+            if (Math.random() < (mutation * 0.01) && stack.getItem() instanceof SporeArmorData item){
+                item.setVariant(SporeArmorMutations.byId(player.getRandom().nextInt(SporeArmorMutations.values().length)),stack);
             }
             stack.setDamageValue(player.getRandom().nextInt(stack.getMaxDamage()));
         }
