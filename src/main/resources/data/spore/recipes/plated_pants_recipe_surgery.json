@@ -1,0 +1,26 @@
+{
+  "type": "spore:surgery",
+  "ingredients": [
+    {"slot": 0,
+      "item": "spore:armor_fragment" },
+    {"slot": 1,
+      "item": "spore:armor_plate" },
+    {"slot": 2,
+      "item": "spore:armor_plate" },
+    {"slot": 3,
+      "item": "spore:armor_plate" },
+    {"slot": 4,
+      "item": "spore:spine_fragment" },
+    {"slot": 8,
+      "item": "spore:spine_fragment" },
+    {"slot": 12,
+      "item": "spore:armor_fragment" },
+    {"slot": 13,
+      "item": "spore:armor_plate" },
+    {"slot": 14,
+      "item": "spore:armor_plate" },
+    {"slot": 15,
+      "item": "spore:armor_plate" }
+  ],
+  "output": { "item": "spore:plated_pants" }
+}
