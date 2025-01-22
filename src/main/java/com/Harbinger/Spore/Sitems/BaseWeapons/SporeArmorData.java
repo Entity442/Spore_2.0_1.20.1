@@ -75,9 +75,12 @@ public interface SporeArmorData {
         if (stack.getDamageValue() < stack.getMaxDamage()){
             stack.setDamageValue(stack.getDamageValue()-value);
         }
-        if (getMaxAdditionalDurability(stack) > getAdditionalDurability(stack)){
+        if (getMaxTrueAdditionalDurability(stack) > getAdditionalDurability(stack)){
             setAdditionalDurability(getAdditionalDurability(stack)+value,stack);
         }
+    }
+    default int getMaxTrueAdditionalDurability(ItemStack stack){
+        return (int)(stack.getMaxDamage() * (getMaxAdditionalDurability(stack) * 0.01));
     }
     default int getMaxAdditionalDurability(ItemStack stack){
         CompoundTag tag = stack.getOrCreateTagElement(BASE_TAG);

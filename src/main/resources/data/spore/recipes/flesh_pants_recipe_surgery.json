@@ -1,0 +1,30 @@
+{
+  "type": "spore:surgery",
+  "ingredients": [
+    {"slot": 0,
+      "item": "spore:tendons" },
+    {"slot": 1,
+      "item": "spore:plated_muscle" },
+    {"slot": 2,
+      "item": "spore:plated_muscle" },
+    {"slot": 3,
+      "item": "spore:plated_muscle" },
+    {"slot": 4,
+      "item": "spore:plated_muscle" },
+    {"slot": 5,
+      "item": "spore:nerves" },
+    {"slot": 8,
+      "item": "spore:plated_muscle" },
+    {"slot": 9,
+      "item": "spore:nerves" },
+    {"slot": 12,
+      "item": "spore:tendons" },
+    {"slot": 13,
+      "item": "spore:plated_muscle" },
+    {"slot": 14,
+      "item": "spore:plated_muscle" },
+    {"slot": 15,
+      "item": "spore:plated_muscle" }
+  ],
+  "output": { "item": "spore:living_pants" }
+}
