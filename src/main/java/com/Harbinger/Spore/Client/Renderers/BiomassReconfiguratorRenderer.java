@@ -34,8 +34,8 @@ public class BiomassReconfiguratorRenderer<Type extends BiomassReformator> exten
     }
 
     @Override
-    public ResourceLocation getTextureLocation(Type entity) {
-            return entity.getBiomass() > (SConfig.SERVER.reconstructor_biomass.get()/2) ? TEXTURE_LARGE : TEXTURE;
+    public ResourceLocation getTextureLocation(Type reformator) {
+            return (reformator.getBiomass() > (SConfig.SERVER.reconstructor_biomass.get()/4) && reformator.getBiomass() < (SConfig.SERVER.reconstructor_biomass.get()/2)) ? TEXTURE_LARGE : TEXTURE;
     }
 
 }
