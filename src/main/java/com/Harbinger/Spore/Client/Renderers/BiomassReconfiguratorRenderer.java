@@ -1,7 +1,7 @@
 package com.Harbinger.Spore.Client.Renderers;
 
 
-import com.Harbinger.Spore.Client.Models.BiomassReconstructorModel;
+import com.Harbinger.Spore.Client.Models.WombModel;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Sentities.Organoids.BiomassReformator;
 import com.Harbinger.Spore.Spore;
@@ -12,11 +12,13 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class BiomassReconfiguratorRenderer<Type extends BiomassReformator> extends OrganoidMobRenderer<Type , BiomassReconstructorModel<Type>> {
+public class BiomassReconfiguratorRenderer<Type extends BiomassReformator> extends OrganoidMobRenderer<Type , WombModel<Type>> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/womb.png");
+    private static final ResourceLocation TEXTURE_LARGE = new ResourceLocation(Spore.MODID,
+            "textures/entity/womb_large.png");
     public BiomassReconfiguratorRenderer(EntityRendererProvider.Context context) {
-        super(context, new BiomassReconstructorModel<>(context.bakeLayer(BiomassReconstructorModel.LAYER_LOCATION)), 0.5f);
+        super(context, new WombModel<>(context.bakeLayer(WombModel.LAYER_LOCATION)), 0.5f);
     }
 
 
@@ -33,7 +35,7 @@ public class BiomassReconfiguratorRenderer<Type extends BiomassReformator> exten
 
     @Override
     public ResourceLocation getTextureLocation(Type entity) {
-            return TEXTURE;
+            return entity.getBiomass() > (SConfig.SERVER.reconstructor_biomass.get()/2) ? TEXTURE_LARGE : TEXTURE;
     }
 
 }

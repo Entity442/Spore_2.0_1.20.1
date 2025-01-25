@@ -53,6 +53,11 @@ public class SblockEntities {
             BLOCK_ENTITIES.register("surgery_table_entity", () ->
                     BlockEntityType.Builder.of(SurgeryTableBlockEntity::new,
                             Sblocks.SURGERY_TABLE.get()).build(null));
+    public static final RegistryObject<BlockEntityType<CentrifugeBlockEntity>> CENTRIFUGE_ENTITY =
+            BLOCK_ENTITIES.register("centrifuge_entity", () ->
+                    BlockEntityType.Builder.of(CentrifugeBlockEntity::new,
+                            Sblocks.CENTRIFUGE.get()).build(null));
+
 
 
     public static void register(IEventBus eventBus) {

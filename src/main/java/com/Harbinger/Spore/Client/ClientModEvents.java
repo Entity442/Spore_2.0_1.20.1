@@ -7,6 +7,7 @@ import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Particles.AcidParticle;
 import com.Harbinger.Spore.Particles.BloodParticle;
 import com.Harbinger.Spore.Particles.SporeParticle;
+import com.Harbinger.Spore.Screens.CentrifugeScreen;
 import com.Harbinger.Spore.Screens.ContainerScreen;
 import com.Harbinger.Spore.Screens.SurgeryScreen;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeArmorData;
@@ -70,7 +71,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(BraionmilBabe.LAYER_LOCATION, BraionmilBabe::createBodyLayer);
         event.registerLayerDefinition(InfectedHazmatCoat.LAYER_LOCATION, InfectedHazmatCoat::createBodyLayer);
         event.registerLayerDefinition(VolatileModel.LAYER_LOCATION, VolatileModel::createBodyLayer);
-        event.registerLayerDefinition(BiomassReconstructorModel.LAYER_LOCATION, BiomassReconstructorModel::createBodyLayer);
+        event.registerLayerDefinition(WombModel.LAYER_LOCATION, WombModel::createBodyLayer);
         event.registerLayerDefinition(VigilModel.LAYER_LOCATION, VigilModel::createBodyLayer);
         event.registerLayerDefinition(GasMaskModel.LAYER_LOCATION, GasMaskModel::createBodyLayer);
         event.registerLayerDefinition(BileRound.LAYER_LOCATION, BileRound::createBodyLayer);
@@ -213,6 +214,7 @@ public class ClientModEvents {
         event.enqueueWork(() -> {
             MenuScreens.register(SMenu.CONTAINER.get(), ContainerScreen::new);
             MenuScreens.register(SMenu.SURGERY_MENU.get(), SurgeryScreen::new);
+            MenuScreens.register(SMenu.CENTRIFUGE_MENU.get(), CentrifugeScreen::new);
         });
 
     }

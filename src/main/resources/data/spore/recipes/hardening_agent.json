@@ -1,0 +1,12 @@
+{
+  "type": "spore:centrifuge",
+  "ingredients": [
+    {"slot": 1,
+      "amount": 8,
+      "item0": "minecraft:bone"},
+    {"slot": 2,
+      "amount": 8,
+      "item1": "spore:fleshy_claw"}
+  ],
+  "output": { "item": "spore:hardening_agent" }
+}
