@@ -11,13 +11,96 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
-public class hevokerModel<T extends Hevoker> extends EntityModel<T> {
+public class HevokerModel<T extends Hevoker> extends EntityModel<T> implements TentacledModel{
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "hevokermodel"), "main");
 	private final ModelPart hevoker;
-	public hevokerModel(ModelPart root) {
+	private final ModelPart LeftLeg;
+	private final ModelPart LeftForLeg;
+	private final ModelPart RightLeg;
+	private final ModelPart RightForLeg;
+	private final ModelPart LegTumor;
+	private final ModelPart LegTumor2;
+	private final ModelPart LegClaw1;
+	private final ModelPart LegClaw12;
+	private final ModelPart Head;
+	private final ModelPart Jaw;
+	private final ModelPart RightArm;
+	private final ModelPart LeftArm;
+	private final ModelPart RightArmSeg1;
+	private final ModelPart RightArmSeg2;
+	private final ModelPart LeftArmSeg1;
+	private final ModelPart ChestTumor1;
+	private final ModelPart ChestTumor2;
+	private final ModelPart RightArmSeg1Claw1;
+	private final ModelPart RightArmSeg1Claw2;
+	private final ModelPart RightArmSeg1Claw3;
+	private final ModelPart RightArmSeg1Claw4;
+    private final ModelPart RightArmSeg2Claw1;
+    private final ModelPart RightArmSeg2Claw2;
+	private final ModelPart RightArmSeg3Claw1;
+	private final ModelPart RightArmSeg3Claw2;
+	private final ModelPart RightArmSeg3Claw3;
+	private final ModelPart RightArmSeg3Claw4;
+	private final ModelPart RightArmSeg3Claw5;
+	private final ModelPart RightArmSeg3Claw6;
+	private final ModelPart LeftArmClaw;
+	private final ModelPart LeftArmClaw1;
+	private final ModelPart LeftArmClaw2;
+	private final ModelPart LeftArmClaw3;
+	private final ModelPart LeftArmClaw4;
+	private final ModelPart LeftArmClaw5;
+	private final ModelPart BackClaws1;
+	private final ModelPart BackClaws2;
+	private final ModelPart BackClaws3;
+	private final ModelPart BackClaws11;
+	private final ModelPart BackClaws21;
+	private final ModelPart BackClaws31;
+	public HevokerModel(ModelPart root) {
 		this.hevoker = root.getChild("hevoker");
+		this.LeftLeg = hevoker.getChild("Legs").getChild("LeftLeg");
+		this.LeftForLeg = LeftLeg.getChild("LeftLeg2");
+		this.RightLeg = hevoker.getChild("Legs").getChild("RightLeg");
+		this.RightForLeg = RightLeg.getChild("RightLeg2");
+		this.LegTumor = RightLeg.getChild("RightLegTumors");
+		this.LegTumor2 = LeftForLeg.getChild("LeftLegTumors");
+		this.LegClaw1 = LeftLeg.getChild("LeftLegClaw4");
+		this.LegClaw12 = LegClaw1.getChild("LLClawJoint5");
+		this.Head = hevoker.getChild("LowerTorso").getChild("UpperTorso").getChild("Head");
+		this.Jaw = Head.getChild("Jaw");
+		this.RightArm = hevoker.getChild("LowerTorso").getChild("UpperTorso").getChild("Arms").getChild("RightArm");
+		this.LeftArm = hevoker.getChild("LowerTorso").getChild("UpperTorso").getChild("Arms").getChild("LeftArm");
+		this.RightArmSeg1 = RightArm.getChild("RightArm2");
+		this.RightArmSeg2 = RightArmSeg1.getChild("RightArm3");
+		this.LeftArmSeg1 = LeftArm.getChild("LeftArm2");
+		this.ChestTumor1 = hevoker.getChild("LowerTorso").getChild("UpperTorso").getChild("TorsoTumors").getChild("RightTumros");
+		this.ChestTumor2 = hevoker.getChild("LowerTorso").getChild("UpperTorso").getChild("TorsoTumors").getChild("LeftTumors");
+		this.RightArmSeg1Claw1 = RightArm.getChild("RMClaw1");
+		this.RightArmSeg1Claw2 = RightArmSeg1Claw1.getChild("RMJoint1");
+		this.RightArmSeg1Claw3 = RightArmSeg1Claw1.getChild("RAClaw3");
+		this.RightArmSeg1Claw4 = RightArmSeg1Claw1.getChild("RAClaw4");
+        this.RightArmSeg2Claw1 = RightArmSeg1.getChild("RAClaw2");
+        this.RightArmSeg2Claw2 = RightArmSeg1.getChild("RAClaw2");
+		this.RightArmSeg3Claw1 = RightArmSeg2.getChild("RightArmSplit1");
+		this.RightArmSeg3Claw2 = RightArmSeg3Claw1.getChild("RASplit1Claw");
+		this.RightArmSeg3Claw3 = RightArmSeg3Claw1.getChild("RASplit1Claw2");
+		this.RightArmSeg3Claw4 = RightArmSeg2.getChild("RightArmSplit2");
+		this.RightArmSeg3Claw5 = RightArmSeg3Claw4.getChild("RightArmSplit2Seg1").getChild("RASplit2Claw1");
+		this.RightArmSeg3Claw6 = RightArmSeg3Claw4.getChild("RightArmSplit2Seg1").getChild("RASplit2Claw2");
+		this.LeftArmClaw = LeftArm.getChild("LAClaw1");
+		this.LeftArmClaw1 = LeftArmSeg1.getChild("LAClaw2");
+		this.LeftArmClaw2 = LeftArmSeg1.getChild("LeftArmSplit1");
+		this.LeftArmClaw3 = LeftArmSeg1.getChild("LeftArmSplit2");
+		this.LeftArmClaw4 = LeftArmClaw2.getChild("LASplit1Claw");
+		this.LeftArmClaw5 = LeftArmClaw3.getChild("LASplit2Claw");
+		this.BackClaws1 = hevoker.getChild("LowerTorso").getChild("UpperTorso").getChild("BackClaws").getChild("BackClaw1");
+		this.BackClaws2 = hevoker.getChild("LowerTorso").getChild("UpperTorso").getChild("BackClaws").getChild("BackClaw2");
+		this.BackClaws3 = hevoker.getChild("LowerTorso").getChild("UpperTorso").getChild("BackClaws").getChild("BackClaw3");
+		this.BackClaws11 = BackClaws1.getChild("BCJoint1");
+		this.BackClaws21 = BackClaws2.getChild("BCJoint2");
+		this.BackClaws31 = BackClaws3.getChild("BCJoint3");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -298,12 +381,73 @@ public class hevokerModel<T extends Hevoker> extends EntityModel<T> {
 
 		return LayerDefinition.create(meshdefinition, 256, 256);
 	}
+	private void animateLegTumor(ModelPart part, float value){
+		part.xScale = 1 + value;
+		part.zScale = 1 + value;
+	}
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+		animateTentacleX(this.LeftLeg,Mth.cos(limbSwing * 0.4F) * 0.8F * limbSwingAmount);
+		animateTentacleX(this.RightLeg,Mth.cos(limbSwing * 0.4F) * -0.8F * limbSwingAmount);
+		animateTentacleX(this.LeftForLeg,this.LeftLeg.xRot < 0 ? -this.LeftLeg.xRot : 0);
+     	animateTentacleX(this.RightForLeg,this.RightLeg.xRot < 0 ? -this.RightLeg.xRot : 0);
+		this.animateLegTumor(LegTumor,Mth.sin(ageInTicks/8)/8);
+		this.animateLegTumor(LegTumor2,Mth.cos(ageInTicks/8)/9);
+		this.animateTentacleX(LegClaw1,Mth.cos(ageInTicks/6)/6);
+		this.animateTentacleX(LegClaw12,Mth.cos(ageInTicks/6)/6);
+		this.animateTentacleX(Head,headPitch / (90F / (float) Math.PI));
+		this.animateTentacleY(Head,netHeadYaw / (180F / (float) Math.PI));
+		this.animateTentacleX(Jaw,Mth.cos(ageInTicks/6)/8);
+		this.animateTumor(ChestTumor1,Mth.sin(ageInTicks/6)/10);
+		this.animateTumor(ChestTumor2,Mth.cos(ageInTicks/6)/10);
+		this.animateTentacleX(RightArmSeg1Claw1,Mth.cos(ageInTicks/7)/6);
+		this.animateTentacleX(RightArmSeg1Claw2,Mth.cos(ageInTicks/8)/7);
+		this.animateTentacleX(RightArmSeg1Claw3,Mth.cos(ageInTicks/7)/8);
+		this.animateTentacleX(RightArmSeg1Claw4,Mth.cos(ageInTicks/6)/7);
+        this.animateTentacleX(RightArmSeg2Claw1,Mth.sin(ageInTicks/6)/4);
+        this.animateTentacleY(RightArmSeg2Claw2,Mth.sin(ageInTicks/6)/5);
+		this.animateTentacleZ(RightArmSeg3Claw1,Mth.cos(ageInTicks/8)/6);
+		this.animateTentacleZ(RightArmSeg3Claw2,Mth.cos(ageInTicks/6)/6);
+		this.animateTentacleZ(RightArmSeg3Claw3,-Mth.cos(ageInTicks/6)/6);
+		this.animateTentacleX(RightArmSeg3Claw4,-Mth.cos(ageInTicks/6)/5);
+		this.animateTentacleX(RightArmSeg3Claw5,Mth.sin(ageInTicks/6)/5);
+		this.animateTentacleX(RightArmSeg3Claw6,-Mth.sin(ageInTicks/6)/5);
+		this.animateTentacleX(LeftArmClaw,Mth.sin(ageInTicks/5)/7);
+		this.animateTentacleX(LeftArmClaw1,Mth.cos(ageInTicks/5)/6);
+		this.animateTentacleX(LeftArmClaw2,Mth.sin(ageInTicks/5)/6);
+		this.animateTentacleX(LeftArmClaw3,Mth.cos(ageInTicks/5)/6);
+		this.animateTentacleX(LeftArmClaw4,Mth.sin(ageInTicks/5)/6);
+		this.animateTentacleX(LeftArmClaw5,Mth.cos(ageInTicks/5)/5);
+		this.animateTentacleX(BackClaws1,Mth.cos(ageInTicks/5)/4);
+		this.animateTentacleX(BackClaws11,Mth.cos(ageInTicks/5)/4);
+		this.animateTentacleX(BackClaws2,-Mth.cos(ageInTicks/5)/6);
+		this.animateTentacleX(BackClaws21,-Mth.cos(ageInTicks/5)/6);
+		this.animateTentacleX(BackClaws3,Mth.sin(ageInTicks/5)/5);
+		this.animateTentacleX(BackClaws31,Mth.sin(ageInTicks/5)/5);
+		if (entity.getAttackAnimationTick() <= 0){
+			float rightArmSwing = Mth.cos(ageInTicks/6)/7;
+			float leftArmSwing = Mth.sin(ageInTicks/6)/7;
+			this.animateTentacleX(RightArm,rightArmSwing);
+            this.animateTentacleX(RightArmSeg1,rightArmSwing);
+            this.animateTentacleX(RightArmSeg2,rightArmSwing);
+			this.animateTentacleX(LeftArm,leftArmSwing);
+            this.animateTentacleX(LeftArmSeg1,leftArmSwing);
+		}
 	}
-
+	@Override
+	public void prepareMobModel(T entity, float value1, float value2, float value3) {
+		super.prepareMobModel(entity, value1, value2, value3);
+		int attackAnimationTick = entity.getAttackAnimationTick();
+		if (attackAnimationTick > 0) {
+			float swing = -2.0F + 1.5F * Mth.triangleWave((float)attackAnimationTick - value3, 10.0F);
+			this.animateTentacleX(LeftArm,swing * 0.6f);
+			this.animateTentacleX(LeftArmSeg1,swing);
+			this.animateTentacleX(RightArm,swing * 0.4f);
+			this.animateTentacleX(RightArmSeg1,swing * 0.8f);
+			this.animateTentacleX(RightArmSeg2,swing);
+		}
+	}
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		hevoker.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
