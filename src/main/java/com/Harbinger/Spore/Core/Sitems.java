@@ -405,7 +405,6 @@ public class Sitems {
     public static final RegistryObject<Item> ZOAHOLIC = Exceptions(Sblocks.ZOAHOLIC);
     public static final RegistryObject<Item> INCUBATOR = Exceptions(Sblocks.INCUBATOR);
     public static final RegistryObject<Item> SURGERY_TABLE = Exceptions(Sblocks.SURGERY_TABLE);
-    public static final RegistryObject<Item> CENTRIFUGE = Exceptions(Sblocks.CENTRIFUGE);
     public static final RegistryObject<Item> LAB_BLOCK = Techblock(Sblocks.LAB_BLOCK);
     public static final RegistryObject<Item> LAB_BLOCK1 = Techblock(Sblocks.LAB_BLOCK1);
     public static final RegistryObject<Item> LAB_BLOCK2 = Techblock(Sblocks.LAB_BLOCK2);

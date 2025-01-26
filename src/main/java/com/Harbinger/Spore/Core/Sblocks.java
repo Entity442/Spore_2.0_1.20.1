@@ -43,7 +43,6 @@ public class Sblocks {
     public static final RegistryObject<Block> ZOAHOLIC = BLOCKS.register("zoaholic", ZoaholicBlock::new);
     public static final RegistryObject<Block> INCUBATOR = BLOCKS.register("incubator", IncubatorBlock::new);
     public static final RegistryObject<Block> SURGERY_TABLE = BLOCKS.register("surgery_table", SurgeryTableBlock::new);
-    public static final RegistryObject<Block> CENTRIFUGE = BLOCKS.register("centrifuge", CentrifugeBlock::new);
 
     public static final RegistryObject<Block> REINFORCED_DOOR = BLOCKS.register("reinforced_door",() -> new DoorBlock(BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(20f, 1200.0F).noOcclusion().sound(SoundType.METAL).noParticlesOnBreak(), BlockSetType.IRON));
     public static final RegistryObject<Block> RUSTED_REINFORCED_DOOR = BLOCKS.register("rusted_reinforced_door",() -> new DoorBlock(BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(10f, 600.0F).noOcclusion().sound(SoundType.METAL).noParticlesOnBreak(), BlockSetType.IRON));

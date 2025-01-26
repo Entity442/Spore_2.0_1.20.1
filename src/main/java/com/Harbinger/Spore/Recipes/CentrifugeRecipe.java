@@ -87,16 +87,11 @@ public class CentrifugeRecipe implements Recipe<SimpleContainer> {
             ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(jsonObject, "output"));
             JsonArray ingredients = GsonHelper.getAsJsonArray(jsonObject, "ingredients");
             NonNullList<Ingredient> inputs = NonNullList.withSize(4, Ingredient.EMPTY);
-
             for (int i = 0; i < ingredients.size(); i++) {
                 JsonObject ingredientJson = ingredients.get(i).getAsJsonObject();
                 int slot = GsonHelper.getAsInt(ingredientJson, "slot", i);
-                int amount = GsonHelper.getAsInt(ingredientJson, "amount", 1);
-                ItemStack part = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(jsonObject, "item"+i));
-                part.setCount(amount);
-                Ingredient ingredient = Ingredient.of(part);
                 if (slot >= 0 && slot < inputs.size()) {
-                    inputs.set(slot, ingredient);
+                    inputs.set(slot, Ingredient.fromJson(ingredientJson));
                 }
             }
             return new CentrifugeRecipe(inputs,resourceLocation, output);
