@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TDV",
+    "RCR",
+    "RRR"
+  ],
+  "key": {
+    "R": {
+      "item": "spore:compound_plate"
+    },
+    "C": {
+      "item": "minecraft:crafting_table"
+    },
+    "T": {
+      "item": "minecraft:iron_sword"
+    },
+    "V": {
+      "item": "minecraft:iron_axe"
+    },
+    "D": {
+      "item": "minecraft:bottle"
+    }
+  },
+  "result": {
+    "item": "spore:surgery_table"
+  }
+}
