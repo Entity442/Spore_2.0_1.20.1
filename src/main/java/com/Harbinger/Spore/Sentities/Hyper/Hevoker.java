@@ -17,6 +17,8 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
@@ -49,11 +51,11 @@ public class Hevoker extends Hyper {
     }
 
     @Override
-    public boolean isNoAi() {
-        if(isFakeDead()){
-            return true;
+    public void tick() {
+        super.tick();
+        if (isFakeDead()){
+            this.makeStuckInBlock(Blocks.AIR.defaultBlockState(), new Vec3(0, 1, 0));
         }
-        return super.isNoAi();
     }
 
     @Override
