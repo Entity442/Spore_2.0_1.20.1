@@ -1,6 +1,5 @@
 package com.Harbinger.Spore.Compat;
 
-import com.Harbinger.Spore.Recipes.CentrifugeRecipe;
 import com.Harbinger.Spore.Recipes.SurgeryRecipe;
 import com.Harbinger.Spore.Screens.SurgeryScreen;
 import com.Harbinger.Spore.Spore;

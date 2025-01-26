@@ -1,6 +1,5 @@
 package com.Harbinger.Spore.Core;
 
-import com.Harbinger.Spore.Recipes.CentrifugeRecipe;
 import com.Harbinger.Spore.Recipes.SurgeryRecipe;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -15,9 +14,6 @@ public class Srecipes {
 
     public static final RegistryObject<RecipeSerializer<SurgeryRecipe>> SURGERY_SERIALIZER =
             SERIALIZERS.register("surgery", () -> SurgeryRecipe.SurgeryRecipeSerializer.INSTANCE);
-
-    public static final RegistryObject<RecipeSerializer<CentrifugeRecipe>> CENTRIFUGE =
-            SERIALIZERS.register("centrifuge", () -> CentrifugeRecipe.CentrifugeRecipeSerializer.INSTANCE);
 
     public static void register(IEventBus eventBus) {
         SERIALIZERS.register(eventBus);
