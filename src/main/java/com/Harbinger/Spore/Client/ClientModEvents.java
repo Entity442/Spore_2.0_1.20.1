@@ -9,6 +9,7 @@ import com.Harbinger.Spore.Particles.BloodParticle;
 import com.Harbinger.Spore.Particles.SporeParticle;
 import com.Harbinger.Spore.Screens.ContainerScreen;
 import com.Harbinger.Spore.Screens.SurgeryScreen;
+import com.Harbinger.Spore.Sentities.Hyper.Hevoker;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeArmorData;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
 import com.Harbinger.Spore.Spore;
@@ -120,6 +121,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(NuckelaveArmorModel.LAYER_LOCATION, NuckelaveArmorModel::createBodyLayer);
         event.registerLayerDefinition(ScamperVillagerModel.LAYER_LOCATION, ScamperVillagerModel::createBodyLayer);
         event.registerLayerDefinition(DrownedScamperModel.LAYER_LOCATION, DrownedScamperModel::createBodyLayer);
+        event.registerLayerDefinition(hevokerModel.LAYER_LOCATION, hevokerModel::createBodyLayer);
     }
 
 
@@ -183,6 +185,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.BLOATER.get(), BloaterRenderer::new);
         event.registerEntityRenderer(Sentities.SCAVENGER.get(), ScavengerRenderer::new);
         event.registerEntityRenderer(Sentities.NUCLEA.get(), NucleaRenderer::new);
+        event.registerEntityRenderer(Sentities.HEVOKER.get(), HevokerRenderer::new);
 
         event.registerEntityRenderer(Sentities.ACID_BALL.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(Sentities.SPIT.get(), BulletRender::new);

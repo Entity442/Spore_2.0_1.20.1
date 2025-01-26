@@ -13,10 +13,7 @@ import com.Harbinger.Spore.Sentities.Experiments.Plagued;
 import com.Harbinger.Spore.Sentities.FallenMultipart.HowitzerArm;
 import com.Harbinger.Spore.Sentities.FallenMultipart.Licker;
 import com.Harbinger.Spore.Sentities.FallenMultipart.SiegerTail;
-import com.Harbinger.Spore.Sentities.Hyper.Brot;
-import com.Harbinger.Spore.Sentities.Hyper.Inquisitor;
-import com.Harbinger.Spore.Sentities.Hyper.Ogre;
-import com.Harbinger.Spore.Sentities.Hyper.Wendigo;
+import com.Harbinger.Spore.Sentities.Hyper.*;
 import com.Harbinger.Spore.Sentities.Organoids.*;
 import com.Harbinger.Spore.Sentities.Utility.*;
 import com.Harbinger.Spore.Spore;
@@ -88,6 +85,7 @@ public class Attributes {
         event.put(Sentities.BLOATER.get(),Bloater.createAttributes().build());
         event.put(Sentities.SCAVENGER.get(),Scavenger.createAttributes().build());
         event.put(Sentities.NUCLEA.get(),Nuclealave.createAttributes().build());
+        event.put(Sentities.HEVOKER.get(), Hevoker.createAttributes().build());
     }
 }
 
