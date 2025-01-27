@@ -90,17 +90,20 @@ public class Hevoker extends Hyper {
         super.addAdditionalSaveData(tag);
         tag.putBoolean("fake_death",isFakeDead());
         tag.putBoolean("arm",isFakeDead());
+        tag.putInt("regrow",getTimeRegrow());
     }
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         this.setFakeDead(tag.getBoolean("fake_death"));
         this.setFakeDead(tag.getBoolean("arm"));
+        this.setTimeRegrow(tag.getInt("regrow"));
     }
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(DEAD, false);
         this.entityData.define(HAS_ARM, true);
+        this.entityData.define(TIME_REGROW, 0);
     }
 
     public boolean isFakeDead(){return entityData.get(DEAD);}
@@ -167,7 +170,10 @@ public class Hevoker extends Hyper {
     }
     private boolean switchy() {
         LivingEntity living = this.getTarget();
-        if (living != null && canSee(living) && !isFakeDead()){
+        if (isFakeDead()){
+            return false;
+        }
+        if (living != null && canSee(living)){
             double ze = this.distanceToSqr(living);
             return (ze > 200.0D) && (ze < 600.0D) && entityData.get(HAS_ARM);
         }
@@ -180,13 +186,19 @@ public class Hevoker extends Hyper {
         this.goalSelector.addGoal(3, new AOEMeleeAttackGoal(this ,1.2,true, 1.2 ,3, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}){
             @Override
             public boolean canUse() {
-                return super.canUse() && !isFakeDead();
+                if (isFakeDead()){
+                    return false;
+                }
+                return super.canUse();
             }
         });
         this.goalSelector.addGoal(6, new RandomStrollGoal(this, 0.8){
             @Override
             public boolean canUse() {
-                return super.canUse() && !isFakeDead();
+                if (isFakeDead()){
+                    return false;
+                }
+                return super.canUse();
             }
         });
         this.goalSelector.addGoal(2, new PullGoal(this, 32, 8){
@@ -198,7 +210,10 @@ public class Hevoker extends Hyper {
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this){
             @Override
             public boolean canUse() {
-                return super.canUse() && !isFakeDead();
+                if (isFakeDead()){
+                    return false;
+                }
+                return super.canUse();
             }
         });
     }

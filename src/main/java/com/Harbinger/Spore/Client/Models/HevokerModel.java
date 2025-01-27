@@ -434,6 +434,9 @@ public class HevokerModel<T extends Hevoker> extends EntityModel<T> implements T
             this.animateTentacleX(RightArmSeg2,rightArmSwing);
 			this.animateTentacleX(LeftArm,leftArmSwing);
             this.animateTentacleX(LeftArmSeg1,leftArmSwing);
+			if (entity.attackAnim > 0) {
+				this.animateTentacleX(RightArm,-140);
+			}
 		}
 	}
 	@Override
