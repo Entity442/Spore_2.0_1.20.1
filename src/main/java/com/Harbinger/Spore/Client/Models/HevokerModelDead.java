@@ -16,8 +16,10 @@ public class HevokerModelDead<T extends Hevoker> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "hevokermodeldead"), "main");
 	private final ModelPart hevoker;
+	private final ModelPart RightArm;
 	public HevokerModelDead(ModelPart root) {
 		this.hevoker = root.getChild("hevoker");
+		this.RightArm = hevoker.getChild("LowerTorso").getChild("UpperTorso").getChild("Arms").getChild("RightArm");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -285,7 +287,7 @@ public class HevokerModelDead<T extends Hevoker> extends EntityModel<T> {
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+		this.RightArm.visible = entity.hasArm();
 	}
 
 	@Override

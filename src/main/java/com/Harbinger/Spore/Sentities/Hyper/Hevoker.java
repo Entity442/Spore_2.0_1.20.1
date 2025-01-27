@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sentities.Hyper;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
+import com.Harbinger.Spore.Sentities.AI.PullGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Hyper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
@@ -25,15 +26,19 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeHooks;
 
 import java.util.List;
 
 public class Hevoker extends Hyper {
-    private static final EntityDataAccessor<Boolean> DEAD = SynchedEntityData.defineId(Hyper.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> DEAD = SynchedEntityData.defineId(Hevoker.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> HAS_ARM = SynchedEntityData.defineId(Hevoker.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> TIME_REGROW = SynchedEntityData.defineId(Hevoker.class, EntityDataSerializers.INT);
     private final HevokerPart[] subEntities;
     private final HevokerPart totem;
     private final HevokerPart arm1;
@@ -84,25 +89,35 @@ public class Hevoker extends Hyper {
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putBoolean("fake_death",isFakeDead());
+        tag.putBoolean("arm",isFakeDead());
     }
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         this.setFakeDead(tag.getBoolean("fake_death"));
+        this.setFakeDead(tag.getBoolean("arm"));
     }
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(DEAD, false);
+        this.entityData.define(HAS_ARM, true);
     }
 
-    public boolean isFakeDead(){
-        return entityData.get(DEAD);
-    }
+    public boolean isFakeDead(){return entityData.get(DEAD);}
     public void setFakeDead(boolean value){
         this.entityData.set(DEAD,value);
     }
-
-
+    public boolean hasArm(){return entityData.get(HAS_ARM);}
+    public void setArm(boolean value){
+        this.entityData.set(HAS_ARM,value);
+    }
+    public void setTimeRegrow(int value){
+        this.entityData.set(TIME_REGROW,value);
+    }
+    public void tickTimeRegrow(){
+        this.entityData.set(TIME_REGROW,this.entityData.get(TIME_REGROW)+1);
+    }
+    public int getTimeRegrow(){return this.entityData.get(TIME_REGROW);}
     @Override
     public void tick() {
         super.tick();
@@ -114,6 +129,13 @@ public class Hevoker extends Hyper {
         }
         if (this.isFakeDead()){
             this.makeStuckInBlock(Blocks.AIR.defaultBlockState(), new Vec3(0, 1, 0));
+        }
+        if (!this.hasArm() && this.tickCount % 20 == 0){
+            tickTimeRegrow();
+            if (getTimeRegrow() >= 300){
+                setArm(true);
+                setTimeRegrow(0);
+            }
         }
     }
     public void reviveBody(){
@@ -143,6 +165,14 @@ public class Hevoker extends Hyper {
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1);
 
     }
+    private boolean switchy() {
+        LivingEntity living = this.getTarget();
+        if (living != null && canSee(living) && !isFakeDead()){
+            double ze = this.distanceToSqr(living);
+            return (ze > 200.0D) && (ze < 600.0D) && entityData.get(HAS_ARM);
+        }
+        return false;
+    }
 
     @Override
     protected void addRegularGoals() {
@@ -157,6 +187,12 @@ public class Hevoker extends Hyper {
             @Override
             public boolean canUse() {
                 return super.canUse() && !isFakeDead();
+            }
+        });
+        this.goalSelector.addGoal(2, new PullGoal(this, 32, 8){
+            @Override
+            public boolean canUse() {
+                return switchy();
             }
         });
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this){
@@ -207,7 +243,19 @@ public class Hevoker extends Hyper {
         }
         return super.isAttackable();
     }
-
+    public boolean canSee(Entity entity) {
+        if (entity.level() != this.level()) {
+            return false;
+        } else {
+            Vec3 vec3 = new Vec3(this.getX(), this.getEyeY(), this.getZ());
+            Vec3 vec31 = new Vec3(entity.getX(), entity.getEyeY(), entity.getZ());
+            if (vec31.distanceTo(vec3) > 128.0) {
+                return false;
+            } else {
+                return this.level().clip(new ClipContext(vec3, vec31, ClipContext.Block.COLLIDER, net.minecraft.world.level.ClipContext.Fluid.NONE, this)).getType() == HitResult.Type.MISS;
+            }
+        }
+    }
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if (this.isInPowderSnow || source.is(DamageTypes.FREEZE)){
@@ -241,6 +289,11 @@ public class Hevoker extends Hyper {
     }
 
     public boolean hurt(HevokerPart hevokerArm, DamageSource source, float amount) {
+        if (hevokerArm == arm1 || hevokerArm == arm2 || hevokerArm == arm3 || hevokerArm == arm4){
+            if (Math.random() < 0.2){
+                setArm(false);
+            }
+        }
         if (isFakeDead() && hevokerArm == totem){
             return this.hurt(this.damageSources().freeze(),Float.MAX_VALUE);
         }

@@ -388,6 +388,7 @@ public class HevokerModel<T extends Hevoker> extends EntityModel<T> implements T
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		this.RightArm.visible = entity.hasArm();
 		animateTentacleX(this.LeftLeg,Mth.cos(limbSwing * 0.4F) * 0.8F * limbSwingAmount);
 		animateTentacleX(this.RightLeg,Mth.cos(limbSwing * 0.4F) * -0.8F * limbSwingAmount);
 		animateTentacleX(this.LeftForLeg,this.LeftLeg.xRot < 0 ? -this.LeftLeg.xRot : 0);
