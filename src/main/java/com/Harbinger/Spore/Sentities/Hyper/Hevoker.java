@@ -3,40 +3,83 @@ package com.Harbinger.Spore.Sentities.Hyper;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Hyper;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingUseTotemEvent;
+import net.minecraftforge.common.ForgeHooks;
 
 import java.util.List;
 
 public class Hevoker extends Hyper {
     private static final EntityDataAccessor<Boolean> DEAD = SynchedEntityData.defineId(Hyper.class, EntityDataSerializers.BOOLEAN);
+    private final HevokerPart[] subEntities;
+    private final HevokerPart totem;
+    private final HevokerPart arm1;
+    private final HevokerPart arm2;
+    private final HevokerPart arm3;
+    private final HevokerPart arm4;
     private int reviveTimer = 0;
-    private int particle = 0;
     private int attackAnimationTick;
     public Hevoker(EntityType<? extends Monster> type, Level level) {
         super(type, level);
+        this.totem = new HevokerPart(this,"totem",0.5f,0.5f);
+        this.arm1 = new HevokerPart(this,"right_arm1",0.5f,0.5f);
+        this.arm2 = new HevokerPart(this,"right_arm2",0.5f,0.5f);
+        this.arm3 = new HevokerPart(this,"right_arm3",0.5f,0.5f);
+        this.arm4 = new HevokerPart(this,"right_arm4",0.5f,0.5f);
+        this.subEntities = new HevokerPart[]{totem,arm1,arm2,arm3,arm4};
+        this.setId(ENTITY_COUNTER.getAndAdd(this.subEntities.length + 1) + 1);
     }
+    @Override
+    public void setId(int p_20235_) {
+        super.setId(p_20235_);
+        for (int i = 0; i < this.subEntities.length; i++)
+            this.subEntities[i].setId(p_20235_ + i + 1);
+    }
+    @Override
+    public boolean isMultipartEntity() {
+        return true;
+    }
+    public HevokerPart[] getSubEntities() {
+        return this.subEntities;
+    }
+    @Override
+    public net.minecraftforge.entity.PartEntity<?>[] getParts() {
+        return this.subEntities;
+    }
+
+    public void recreateFromPacket(ClientboundAddEntityPacket p_218825_) {
+        super.recreateFromPacket(p_218825_);
+        if (true) return;
+        HevokerPart[] calamityMultiparts = this.getSubEntities();
+
+        for(int i = 0; i < calamityMultiparts.length; ++i) {
+            calamityMultiparts[i].setId(i + p_218825_.getId());
+        }
+    }
+
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
@@ -77,11 +120,12 @@ public class Hevoker extends Hyper {
         float hp = (float) ((SConfig.SERVER.inquisitor_hp.get() * SConfig.SERVER.global_health.get())/4f);
         this.setHealth(hp);
         ItemStack stack = new ItemStack(Items.TOTEM_OF_UNDYING);
-        LivingUseTotemEvent totemEvent = new LivingUseTotemEvent(this , this.getLastDamageSource(),stack, InteractionHand.MAIN_HAND);
-        MinecraftForge.EVENT_BUS.post(totemEvent);
+        ForgeHooks.onLivingUseTotem(this, getLastDamageSource(), stack, InteractionHand.MAIN_HAND);
         setFakeDead(false);
         this.playSound(SoundEvents.TOTEM_USE);
-        particle = 30;
+        this.addEffect(new MobEffectInstance(MobEffects.REGENERATION,800,1));
+        this.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE,800,0));
+        this.addEffect(new MobEffectInstance(MobEffects.ABSORPTION,100,1));
     }
 
     @Override
@@ -141,16 +185,7 @@ public class Hevoker extends Hyper {
     @Override
     public void aiStep() {
         super.aiStep();
-        if (particle > 0){
-            for (int i = 0; i < 360; i++) {
-                if (i % 20 == 0) {
-                    level().addParticle(ParticleTypes.TOTEM_OF_UNDYING,
-                            this.getX() , this.getY() + 1.5 + this.random.nextFloat(), this.getZ() ,
-                            Math.cos(i) * 0.15d, Math.sin(i) * Math.cos(i) * 0.15d, Math.sin(i) * 0.15d);
-                }
-            }
-            particle--;
-        }
+        moveHitBoxesAround();
         if (this.attackAnimationTick > 0) {
             --this.attackAnimationTick;
         }
@@ -185,7 +220,7 @@ public class Hevoker extends Hyper {
             setFakeDead(true);
             this.setHealth(1f);
             reviveTimer = 200;
-            return false;
+            return true;
         }
         return super.hurt(source, amount);
     }
@@ -203,5 +238,50 @@ public class Hevoker extends Hyper {
             return super.getDimensions(pose).scale(2.2F,0.25F);
         }
         return super.getDimensions(pose);
+    }
+
+    public boolean hurt(HevokerPart hevokerArm, DamageSource source, float amount) {
+        if (isFakeDead() && hevokerArm == totem){
+            return this.hurt(this.damageSources().freeze(),Float.MAX_VALUE);
+        }
+        return this.hurt(source,amount);
+    }
+    protected void tickPart(HevokerPart part, Vec3 vec3i) {
+        Vec3 vec3 = (vec3i).yRot(-this.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
+        part.setPos(this.getX() + vec3.x, this.getY() + vec3.y, this.getZ() + vec3.z);
+    }
+    public void moveHitBoxesAround(){
+        Vec3[] avec3 = new Vec3[this.subEntities.length];
+        for(int j = 0; j < this.subEntities.length; ++j) {
+            avec3[j] = new Vec3(this.subEntities[j].getX(), this.subEntities[j].getY(), this.subEntities[j].getZ());
+        }
+        tickPart(this.arm1,isFakeDead() ? new Vec3(0.0,0,-0.5) :new Vec3(0.3,0.5D,-0.8));
+        tickPart(this.arm2,isFakeDead() ? new Vec3(0.5,0,-1) :new Vec3(0.3,1D,-0.8));
+        tickPart(this.arm3,isFakeDead() ? new Vec3(0.6,0,-1.5) :new Vec3(0.3,1.5D,-0.8));
+        tickPart(this.arm4,isFakeDead() ? new Vec3(0.6,0,-2) :new Vec3(0.3,2D,-0.8));
+        tickPart(this.totem,isFakeDead() ? new Vec3(-0.2,0.5D,0) :new Vec3(0.5,1.8D,0));
+
+        for(int l = 0; l < this.subEntities.length; ++l) {
+            this.subEntities[l].xo = avec3[l].x;
+            this.subEntities[l].yo = avec3[l].y;
+            this.subEntities[l].zo = avec3[l].z;
+            this.subEntities[l].xOld = avec3[l].x;
+            this.subEntities[l].yOld = avec3[l].y;
+            this.subEntities[l].zOld = avec3[l].z;
+        }
+    }
+
+    public InteractionResult interact(HevokerPart hevokerPart, Player player, InteractionHand hand) {
+        if (this.isFakeDead() && hevokerPart == totem){
+            this.hurt(this.damageSources().freeze(),Float.MAX_VALUE);
+            createTotem();
+            return InteractionResult.SUCCESS;
+        }
+        return super.mobInteract(player, hand);
+    }
+    public void createTotem(){
+        ItemStack stack = new ItemStack(Items.TOTEM_OF_UNDYING);
+        ItemEntity entity = new ItemEntity(level(),this.getX(),this.getY(),this.getZ(),stack);
+        level().addFreshEntity(entity);
     }
 }
