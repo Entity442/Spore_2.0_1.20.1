@@ -352,7 +352,7 @@ public class Hevoker extends Hyper {
     }
 
     public InteractionResult interact(HevokerPart hevokerPart, Player player, InteractionHand hand) {
-        if (this.isFakeDead() && hevokerPart == totem){
+        if (this.isFakeDead() && hevokerPart == totem && reviveTimer > 20){
             this.hurt(this.damageSources().freeze(),Float.MAX_VALUE);
             createTotem();
             return InteractionResult.SUCCESS;
