@@ -128,7 +128,7 @@
   "item.spore.hardening_agent": "Hardening Agent",
   "item.spore.sharpening_agent": "Refining Agent",
   "item.spore.integrating_agent": "Integrating Agent",
-
+  "item.spore.mutation_syringe": "Mutating Syringe",
 
   "item.spore.symbiotic_reagent": "Symbiotic Reagent",
   "item.spore.cryogenic_reagent": "Cryogenic Reagent",
@@ -245,7 +245,7 @@
   "item.spore.bloater_spawnegg": "Bloater",
   "item.spore.scavenger_spawnegg": "Scavenger",
   "item.spore.nuclea_spawnegg": "Nuckelave",
-
+  "item.spore.hevoker_spawnegg": "Hexenmeister",
 
 
 
@@ -312,6 +312,7 @@
   "entity.spore.bloater": "Bloater",
   "entity.spore.scavenger": "Scavenger",
   "entity.spore.nuclea": "Nuckelave",
+  "entity.spore.hevoker": "Hexenmeister",
 
 
   "spore.entity.variant.kidnapper" : "Kidnapper Mutation",

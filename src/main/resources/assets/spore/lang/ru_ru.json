@@ -125,6 +125,7 @@
   "item.spore.hardening_agent": "Отвердитель",
   "item.spore.sharpening_agent": "Очищающий агент",
   "item.spore.integrating_agent": "Интегрирующий агент",
+  "item.spore.mutation_syringe": "Мутирующий шприц",
 
   "item.spore.symbiotic_reagent": "Симбиотический реагент",
   "item.spore.cryogenic_reagent": "Криогенный реагент",
@@ -237,7 +238,7 @@
   "item.spore.bloater_spawnegg": "Вздутие живота",
   "item.spore.scavenger_spawnegg": "Мусорщик",
   "item.spore.nuclea_spawnegg": "Наклави",
-
+  "item.spore.hevoker_spawnegg": "Гексенмейстер",
 
   "item.spore.scent_spawnegg": "Споры",
   "item.spore.scent_overcharged_spawnegg": "Перенасыщенные споры",
@@ -303,7 +304,7 @@
   "entity.spore.bloater": "Вздутие живота",
   "entity.spore.scavenger": "Мусорщик",
   "entity.spore.nuclea": "Наклави",
-
+  "entity.spore.hevoker": "Гексенмейстер",
 
   "spore.entity.variant.kidnapper" : "Мутация похитителя",
   "spore.entity.variant.kamikaze": "Мутация Камикадзе",

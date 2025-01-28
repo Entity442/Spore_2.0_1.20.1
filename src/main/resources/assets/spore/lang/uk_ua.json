@@ -127,7 +127,7 @@
   "item.spore.hardening_agent": "Затверджувач",
   "item.spore.sharpening_agent": "Рафінуючий агент",
   "item.spore.integrating_agent": "Інтегруючий агент",
-
+  "item.spore.mutation_syringe": "Мутуючий шприц",
 
   "item.spore.symbiotic_reagent": "Сімбіотичний реагент",
   "item.spore.cryogenic_reagent": "Кріогенний реагент",
@@ -240,7 +240,7 @@
   "item.spore.bloater_spawnegg": "Надувник",
   "item.spore.scavenger_spawnegg": "Сміттяр",
   "item.spore.nuclea_spawnegg": "Nuckelavee",
-
+  "item.spore.hevoker_spawnegg": "Мутуючий шприц",
 
   "item.spore.scent_spawnegg": "Спори",
   "item.spore.scent_overcharged_spawnegg": "Перенасичені спори",
@@ -304,7 +304,7 @@
   "entity.spore.bloater": "Надувник",
   "entity.spore.scavenger": "Сміттяр",
   "entity.spore.nuclea": "Nuckelavee",
-
+  "entity.spore.hevoker": "Мутуючий шприц",
 
   "spore.entity.variant.kidnapper" : "Мутація викрадача",
   "spore.entity.variant.kamikaze": "Камікадзе Мутація",

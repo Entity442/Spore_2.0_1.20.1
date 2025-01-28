@@ -127,6 +127,7 @@
   "item.spore.hardening_agent": "硬化劑",
   "item.spore.sharpening_agent": "精煉劑",
   "item.spore.integrating_agent": "整合代理",
+  "item.spore.mutation_syringe": "變異注射器",
 
   "item.spore.symbiotic_reagent": "共生试剂",
   "item.spore.cryogenic_reagent": "低温试剂",
@@ -240,7 +241,7 @@
   "item.spore.bloater_spawnegg": "腹脹",
   "item.spore.scavenger_spawnegg": "清道夫",
   "item.spore.nuclea_spawnegg": "納克拉維",
-
+  "item.spore.hevoker_spawnegg": "女巫師",
 
   "item.spore.scent_spawnegg": "毒气",
   "item.spore.scent_overcharged_spawnegg": "过载毒气",
@@ -305,7 +306,7 @@
   "entity.spore.bloater": "腹脹",
   "entity.spore.scavenger": "清道夫",
   "entity.spore.nuclea": "納克拉維",
-
+  "entity.spore.hevoker_spawnegg": "女巫師",
 
   "spore.entity.variant.kidnapper" : "綁匪變異",
   "spore.entity.variant.kamikaze": "神風特攻隊突變",
