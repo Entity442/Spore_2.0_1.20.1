@@ -6,6 +6,8 @@ import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.PullGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
+import com.Harbinger.Spore.Sentities.EvolvingInfected;
+import com.Harbinger.Spore.Sentities.Hyper.Hevoker;
 import com.Harbinger.Spore.Sentities.Utility.InfEvoClaw;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -20,6 +22,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -36,10 +39,11 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-public class InfectedEvoker extends EvolvedInfected implements InventoryCarrier {
+public class InfectedEvoker extends EvolvedInfected implements InventoryCarrier, EvolvingInfected {
     private static final EntityDataAccessor<Boolean> HAS_ARM = SynchedEntityData.defineId(InfectedEvoker.class, EntityDataSerializers.BOOLEAN);
     public InfectedEvoker(EntityType<? extends Monster> type, Level level) {
         super(type, level);
@@ -74,6 +78,7 @@ public class InfectedEvoker extends EvolvedInfected implements InventoryCarrier 
             assert attackDamage != null;
             attackDamage.setBaseValue((SConfig.SERVER.inf_evo_damage.get()/2) * SConfig.SERVER.global_damage.get());
         }
+        this.tickHyperEvolution(this);
     }
     public boolean hasArm(){
         return entityData.get(HAS_ARM);
@@ -203,4 +208,21 @@ public class InfectedEvoker extends EvolvedInfected implements InventoryCarrier 
         }
     }
 
+    @Override
+    public void HyperEvolve(LivingEntity living) {
+        Hevoker brot = new Hevoker(Sentities.HEVOKER.get(),this.level());
+        Collection<MobEffectInstance> collection = this.getActiveEffects();
+        for(MobEffectInstance mobeffectinstance : collection) {
+            brot.addEffect(new MobEffectInstance(mobeffectinstance));
+        }
+        brot.setKills(this.getKills());
+        brot.setEvoPoints(this.getEvoPoints()-SConfig.SERVER.min_kills_hyper.get());
+        brot.setCustomName(this.getCustomName());
+        brot.setPos(this.getX(),this.getY(),this.getZ());
+        if (this.level() instanceof ServerLevel serverLevel)
+            brot.finalizeSpawn(serverLevel,serverLevel.getCurrentDifficultyAt(this.getOnPos()), MobSpawnType.CONVERSION,null,null);
+        this.level().addFreshEntity(brot);
+        this.discard();
+        EvolvingInfected.super.HyperEvolve(living);
+    }
 }
