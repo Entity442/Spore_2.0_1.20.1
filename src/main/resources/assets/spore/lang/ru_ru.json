@@ -48,15 +48,12 @@
   "block.spore.outpost_watcher": "Наблюдатель за заставой",
   "block.spore.biomass_bulb": "Лампа на биомассе",
   "block.spore.frozen_remains": "Замороженные останки",
-
-
   "block.spore.lab_block1": "Лабораторный блок",
   "block.spore.lab_block2": "Лабораторный блок",
   "block.spore.lab_block3": "Лабораторный блок",
   "block.spore.lab_slab1": "Лабораторная плита",
   "block.spore.lab_slab2": "Лабораторная плита",
   "block.spore.lab_slab3": "Лабораторная плита",
-
   "block.spore.infested_dirt": "Заражённая земля",
   "block.spore.infested_stone": "Заражённый камень",
   "block.spore.infested_netherrack": "Заражённый незерак",
@@ -77,9 +74,6 @@
   "block.spore.freeze_burned_biomass": "Замороженная сожжённая биомасса",
   "block.spore.bile": "Желчь",
   "block.spore.crusted_bile": "Корка желчи",
-
-
-
   "item.spore.claw": "Коготь",
   "item.spore.claw_fragment": "Фрагмент когтя",
   "item.spore.armor_fragment": "Фрагмент брони",
@@ -126,12 +120,10 @@
   "item.spore.sharpening_agent": "Очищающий агент",
   "item.spore.integrating_agent": "Интегрирующий агент",
   "item.spore.mutation_syringe": "Мутирующий шприц",
-
   "item.spore.symbiotic_reagent": "Симбиотический реагент",
   "item.spore.cryogenic_reagent": "Криогенный реагент",
   "item.spore.gastric_reagent": "Желудочный реагент",
   "item.spore.corrosive_reagent": "Коррозионный реагент",
-
   "spore.item.mutation.vampiric" : "Вампирический",
   "spore.item.mutation.calcified" : "Кальцинированный",
   "spore.item.mutation.bezerk" : "Безерк",
@@ -141,15 +133,12 @@
   "spore.item.mutation.skeletal" : "Скелетный",
   "spore.item.mutation.drowned" : "Утонул",
   "spore.item.mutation.charred" : "Обугленный",
-
   "spore.item.hurt" : "Слишком больно, чтобы быть полезным.",
-
   "spore.item.damage_increase" : "Увеличение урона ",
   "spore.item.durability_increase" : "Увеличение долговечности ",
   "spore.item.additional_durability" : "Дополнительная прочность ",
   "spore.item.enchant" : "Чародейство ",
   "spore.item.mutation" : "Мутация ",
-
   "item.spore.saber": "Заражённая сабля",
   "item.spore.infected_bow": "Заражённый лук",
   "item.spore.greatsword": "Заражённый большой меч",
@@ -165,28 +154,23 @@
   "item.spore.knife": "Заражённый нож",
   "item.spore.rapier": "Заражённая рапира",
   "item.spore.bucket_of_bile": "Ведро желчи",
-
   "item.spore.amethyst_dust": "Аметистовая пыль",
   "item.spore.compound": "Составная смесь",
   "item.spore.compound_plate": "Пластина из составной смеси",
   "item.spore.corrupted_record": "Повреждённая пластинка",
-
   "item.spore.inf_helmet": "Ожишвий шлем",
   "item.spore.inf_chest": "Оживший нагрудник",
   "item.spore.inf_up_chest": "Оживший нагрудник MK2",
   "item.spore.inf_pants": "Ожившие поножи",
   "item.spore.inf_boots": "Ожившие ботинки",
-
   "item.spore.plated_helmet": "Накладной шлем",
   "item.spore.plated_chest": "Накладной нагрудник",
   "item.spore.plated_pants": "Накладные поножи",
   "item.spore.plated_boots": "Накладные ботинки",
-
   "item.spore.living_helmet": "Шлем из плоти",
   "item.spore.living_chest": "Нагрудник из плоти",
   "item.spore.living_pants": "Поножи из плоти",
   "item.spore.living_boots": "Ботинки из плоти",
-
   "item.spore.knight_spawnegg": "Рыцая",
   "item.spore.infected_human_spawnegg": "Заражённого человека",
   "item.spore.inf_husk_spawnegg": "Заражённого кадавра",
@@ -239,11 +223,9 @@
   "item.spore.scavenger_spawnegg": "Мусорщик",
   "item.spore.nuclea_spawnegg": "Наклави",
   "item.spore.hevoker_spawnegg": "Гексенмейстер",
-
   "item.spore.scent_spawnegg": "Споры",
   "item.spore.scent_overcharged_spawnegg": "Перенасыщенные споры",
   "item.spore.claw_spawnegg": "Коготь",
-
   "entity.spore.knight": "Рыцарь",
   "entity.spore.griefer": "Грифер",
   "entity.spore.inf_human": "Заражённый человек",
@@ -305,7 +287,6 @@
   "entity.spore.scavenger": "Мусорщик",
   "entity.spore.nuclea": "Наклави",
   "entity.spore.hevoker": "Гексенмейстер",
-
   "spore.entity.variant.kidnapper" : "Мутация похитителя",
   "spore.entity.variant.kamikaze": "Мутация Камикадзе",
   "spore.entity.variant.noxious": "Вредная мутация",
@@ -321,8 +302,6 @@
   "spore.entity.variant.war_torn" : "Мутация, вызванная войной",
   "spore.entity.variant.overclocked" : "Разогнанная мутация",
   "spore.entity.variant.hazard" : "Опасная мутация",
-
-
   "spore.scanner.danger.calamity" : "БЕГАТЬ",
   "spore.scanner.danger.hyper" : "Очень высокий",
   "spore.scanner.danger.evolved" : "Средний-Высокий",
@@ -331,7 +310,6 @@
   "spore.scanner.danger.organoid" : "Переменная",
   "spore.scanner.danger.utility" : "Неизвестный",
   "spore.scanner.line.scamper": "Время до того, как мафия будет побеждена",
-
   "spore.scanner.line.1" : "Неизвестный",
   "spore.scanner.line.2" : "Предмет ",
   "spore.scanner.line.3" : "Подвиды ",
@@ -347,8 +325,6 @@
   "spore.scanner.line.13" : "Нет частей, которые можно собирать ",
   "spore.scanner.line.14" : "Части, пригодные для сбора урожая ",
   "spore.scanner.line.15" : "Там ничего нет...",
-
-
   "spore.scanner.organ.default" : "Требуется дальнейшее сканирование",
   "spore.scanner.organ.claw_fragment" : "Зазубренные остатки естественного оружия зараженного существа. Эти расщепленные когти пропитаны минералами, извлеченными из тела хозяина, что придает им неестественную устойчивость",
   "spore.scanner.organ.armor_fragment" : "Фрагменты кожи, затвердевшие под слоями кератина и пронизанные инвазивными грибковыми наростами, обладают уникальным сочетанием гибкости и прочности.",
@@ -359,28 +335,22 @@
   "spore.scanner.organ.alveolic_sack" : "Большой орган, похожий на легкое, заполненный миллионами искривленных альвеол. Эти искривленные легкие, похоже, служат альтернативной цели: теперь они могут рассеивать вредные токсины из хозяина в воздух.",
   "spore.scanner.organ.altered_spleen" : "Ненормально увеличенный орган инфицированного существа, набухший от насыщенной кислородом крови, модифицированный инфекцией для максимального повышения выживаемости путем мгновенного наполнения организма адреналином.",
   "spore.scanner.organ.corrosive_sack" : "Какая-то железа выделяет очень кислое вещество, которое дурно пахнет. Возможно, это переработанная желудочная железа из пищеварительной системы, однако она слишком изуродована, чтобы правильно определить ее первоначальную форму.",
-
-
   "enchantment.spore.symbiotic_reconstitution.desc": "Укрепляет симбиотическую связь между вами и вашим снаряжением, залечивая его раны во время симбиоза.",
   "enchantment.spore.cryogenic_aspect.desc": "Охлаждает жертву до глубины души, замедляя скорость ее передвижения и нанося замораживающий урон.",
   "enchantment.spore.gastric_spewage.desc": "Плоть обладает свойствами желчи, и ее жертва ощущает эффект от опрыскивания ею.",
   "enchantment.spore.corrosive_potency.desc": "Плоть обладает свойствами коррозии, и ее жертвы почувствуют ее тающее прикосновение.",
   "enchantment.spore.unwavering_nature.desc": "Плоть отказывается забывать свое происхождение, заражая как своих жертв, так и хозяина.",
   "enchantment.spore.mutagenic_reactant.desc": "Нестабильность гриба направлена на помощь своим родственникам, а не хозяину.",
-
-
   "entity.spore.thrown_tumor": "Опухоль",
   "entity.spore.thrown_spear": "Заражённое копьё",
   "entity.spore.acid_ball": "Кислотный шарик",
   "entity.spore.acid": "Кислота",
-
   "enchantment.spore.symbiotic_reconstitution": "Симбиотическая реконструкция",
   "enchantment.spore.cryogenic_aspect": "Криогенный аспект",
   "enchantment.spore.gastric_spewage": "Желудочные выделения",
   "enchantment.spore.corrosive_potency": "Коррозионная сила",
   "enchantment.spore.unwavering_nature": "Непоколебимая природа",
   "enchantment.spore.mutagenic_reactant": "Мутагенный реагент",
-
   "effect.spore.mycelium_ef": "Мицелиевая инфекция",
   "effect.spore.stunt": "Ошеломление",
   "effect.spore.starvation": "Голод",
@@ -389,31 +359,24 @@
   "effect.spore.symbiosis": "Симбиоз",
   "effect.spore.uneasy": "Тревога",
   "effect.spore.madness": "Безумие",
-
-
   "item.minecraft.splash_potion.effect.mycelium_potion": "Взрывное зелье мицелиевой инфекции",
   "item.minecraft.potion.effect.mycelium_potion": "Зелье мицелиевой инфекции",
   "item.minecraft.lingering_potion.effect.mycelium_potion": "Оседающее зелье мицелиевой инфекции",
   "item.minecraft.tipped_arrow.effect.mycelium_potion": "Стрела с мицелием",
-
   "item.minecraft.splash_potion.effect.marker_potion": "Взрывное зелье маркера",
   "item.minecraft.potion.effect.marker_potion": "Зелье маркера",
   "item.minecraft.lingering_potion.effect.marker_potion": "Оседающее зелье маркера",
   "item.minecraft.tipped_arrow.effect.marker_potion": "Стрела с маркером",
-
   "item.minecraft.splash_potion.effect.corrosion_potion": "Взрывное зелье коррозии",
   "item.minecraft.potion.effect.corrosion_potion": "Зелье коррозии",
   "item.minecraft.lingering_potion.effect.corrosion_potion": "Оседающее зелье коррозии",
   "item.minecraft.tipped_arrow.effect.corrosion_potion": "Коррозийная стрела",
-
   "item.minecraft.splash_potion.effect.corrosion_potion_strong": "Взрывное зелье сильной коррозии",
   "item.minecraft.potion.effect.corrosion_potion_strong": "Зелье сильной коррозии",
   "item.minecraft.lingering_potion.effect.corrosion_potion_strong": "Оседающее зелье сильной коррозии",
   "item.minecraft.tipped_arrow.effect.corrosion_potion_strong": "Стрела сильной коррозии",
-
   "itemGroup.spore": "Spore",
   "itemGroup.spore_t": "Spore Technologies",
-
   "spore.name.infected": "Зараженный",
   "spore.name.evolved": "Развитый",
   "spore.name.hyper": "Гиперразвитый",
@@ -421,18 +384,14 @@
   "spore.name.calamity": "Бедствие",
   "spore.name.experiment": "Эксперимент",
   "spore.name.unknown": "Неизвестный",
-
   "spore.name.reagent_type1": "Любой тип",
   "spore.name.reagent_type2": "Тип оружия",
   "spore.name.reagent_type3": "Тип брони",
-
   "item.reagent.line1": "Носит свойства ",
   "item.reagent.line2": "это также может вызывать побочные эффекты",
-
   "item.armor.shift": "Зажав SHIFT, можно взобраться по стене.",
   "item.armor.normal": "Зажми SHIFT для информации.",
   "item.rapier.corrosive": "Наносит коррозийные ранения",
-
   "sounds.spore.damage": "Инфицированного бьют",
   "sounds.spore.growl": "Инфицированный рычит",
   "sounds.spore.sieger_ambient": "Сиджер рычит",
@@ -459,8 +418,6 @@
   "sounds.spore.landing": "Приземление",
   "sounds.spore.howitzer_ambient": "Рычание Ховитзера",
   "sounds.spore.falling_bomb": "Падающая плоть",
-
-
   "item.line.shift": "Питательный суп, приготовленный из животной материи.",
   "item.line.normal": "Зажми SHIFT для информации.",
   "zoaholic.line_1": "Отсутствие необходимых органов",
@@ -470,19 +427,15 @@
   "zoaholic.line_5": "Аномалия нашла тебя...",
   "inf_pickaxe_no_ores": "Руды не найдены",
   "inf_pickaxe_found_ores": "Найдены следы",
-
   "hivemind_summon_message": "Выдержи...",
   "calamity_summon_message": "Приготовься...",
   "calamity_coming_message": "Оно идёт...",
   "vigil.message": "Вы чувствуете, что за вами наблюдают...",
   "uneasy.message": "Кажется, ты не можешь заснуть...",
-
   "death.attack.mycelium.overtake.player": "%1$s поддался инфекции",
   "death.attack.mycelium.overtake": "%1$s поддался инфекции",
   "death.attack.corrosion.player": "%1$s расплавился",
   "death.attack.corrosion": "%1$s расплавился",
-
-
   "death.attack.infected_witch_damage": "%1$s сыграл как Skyrill",
   "death.attack.griefer_damage": "%1$s подумал, что %2$s хотел объятий",
   "death.attack.knight_damage": "%1$s был выпотрошен %2$s",
@@ -490,17 +443,12 @@
   "death.attack.leaper_damage": "%1$s был растоптан %2$s",
   "death.attack.slasher_damage": "%2$s был счастлив разорвать конечности %1$s",
   "death.attack.mental_damage": "%1$s случился сердечный приступ",
-
-
   "death.attack.infected_damage1": "%1$s был съеден заживо %2$s",
   "death.attack.infected_damage2": "%1$s был добит грибком от %2$s",
   "death.attack.infected_damage3": "%1$s забыл, что у %2$s было био-оружие",
-
   "death.attack.calamity_damage1": "%1$s был съеден %2$s",
   "death.attack.calamity_damage2": "%1$s был раздавлен %2$s",
   "death.attack.calamity_damage3": "%1$s был четвертован %2$s",
-
-
   "item.spore.corrupted_record.desc": "Лаборатория Генезис, запись 1",
   "container.biohazard": "ЯХБО",
   "block.spore.container": "ЯХБО",
