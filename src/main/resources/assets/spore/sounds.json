@@ -40,6 +40,12 @@
     "spore:specter_ambient"
   ]
 },
+  "hevoker_ambient" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:hevoker_ambient"
+    ]
+  },
   "surgery" :{
     "subtitle": "sounds.spore.surgery",
     "sounds": [

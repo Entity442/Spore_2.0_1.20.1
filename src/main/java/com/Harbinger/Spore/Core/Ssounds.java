@@ -124,6 +124,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> SURGERY = soundRegistry("surgery");
 
+    public static final RegistryObject<SoundEvent> HEVOKER_AMBIENT = soundRegistry("hevoker_ambient");
+
     private Ssounds() {
     }
 }

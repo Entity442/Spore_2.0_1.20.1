@@ -1102,11 +1102,11 @@ public class SConfig {
                     Lists.newArrayList("spore:gas_mask") , o -> o instanceof String);
             builder.pop();
             builder.push("Weapon Agents data");
-            this.agent_durability = builder.comment("Default durability increase 60%").defineInRange("the value resulted will be between half of the max value and the maximum",60,2, Integer.MAX_VALUE);
-            this.agent_damage = builder.comment("Default damage increase 40%").defineInRange("the value resulted will be between half of the max value and the maximum", 40, 2, Integer.MAX_VALUE);
-            this.agent_protection = builder.comment("Default damage increase 30%").defineInRange("the value resulted will be between half of the max value and the maximum", 30, 2, Integer.MAX_VALUE);
-            this.agent_toughness = builder.comment("Default damage increase 3").defineInRange("the value resulted will be between half of the max value and the maximum", 3, 0, Integer.MAX_VALUE);
-            this.agent_enchantability = builder.comment("Default 6").defineInRange("the value resulted will be between the minimum and maximum value", 6, 1, Integer.MAX_VALUE);
+            this.agent_durability = builder.comment("Durability increase 60%").defineInRange("Durability increase 60%",60,2, Integer.MAX_VALUE);
+            this.agent_damage = builder.comment("Damage increase 40%").defineInRange("Damage increase 40%", 40, 2, Integer.MAX_VALUE);
+            this.agent_protection = builder.comment("Protection increase 30%").defineInRange("Protection increase 30%", 30, 2, Integer.MAX_VALUE);
+            this.agent_toughness = builder.comment("Toughness increase 3").defineInRange("Toughness increase 3", 3, 0, Integer.MAX_VALUE);
+            this.agent_enchantability = builder.comment("Enchantability increase 6").defineInRange("Enchantability increase 6", 6, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Spear");
             this.spear_durability = builder.comment("Default 500").define("Durability",500);
