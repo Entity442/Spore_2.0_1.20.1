@@ -144,7 +144,7 @@ public class Hevoker extends Hyper {
         }
     }
     public void reviveBody(){
-        float hp = (float) ((SConfig.SERVER.inquisitor_hp.get() * SConfig.SERVER.global_health.get())/4f);
+        float hp = (float) ((SConfig.SERVER.hevoker_hp.get() * SConfig.SERVER.global_health.get())/4f);
         this.setHealth(hp);
         ItemStack stack = new ItemStack(Items.TOTEM_OF_UNDYING);
         ForgeHooks.onLivingUseTotem(this, getLastDamageSource(), stack, InteractionHand.MAIN_HAND);
@@ -157,18 +157,17 @@ public class Hevoker extends Hyper {
 
     @Override
     public List<? extends String> getDropList() {
-        return SConfig.DATAGEN.inquisitor_loot.get();
+        return SConfig.DATAGEN.hevoker_loot.get();
     }
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, SConfig.SERVER.inquisitor_hp.get() * SConfig.SERVER.global_health.get())
-                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.inquisitor_damage.get() * SConfig.SERVER.global_damage.get())
-                .add(Attributes.ARMOR, SConfig.SERVER.inquisitor_armor.get() * SConfig.SERVER.global_armor.get())
+                .add(Attributes.MAX_HEALTH, SConfig.SERVER.hevoker_hp.get() * SConfig.SERVER.global_health.get())
+                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.hevoker_damage.get() * SConfig.SERVER.global_damage.get())
+                .add(Attributes.ARMOR, SConfig.SERVER.hevoker_armor.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.MOVEMENT_SPEED, 0.3)
-                .add(Attributes.FOLLOW_RANGE, 32)
+                .add(Attributes.FOLLOW_RANGE, 48)
                 .add(Attributes.ATTACK_KNOCKBACK, 1)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1);
-
     }
     private boolean switchy() {
         LivingEntity living = this.getTarget();
