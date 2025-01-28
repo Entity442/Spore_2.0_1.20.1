@@ -1055,10 +1055,10 @@ public class SConfig {
             this.player_armor = builder.comment("Default 2").defineInRange("Infected Player Armor", 2, 1, Double.MAX_VALUE);
             builder.pop();
 
-            builder.push("Hexienmeister");
-            this.hevoker_hp = builder.comment("Default 80").defineInRange("Infected Hexienmeister Max health", 80, 1, Double.MAX_VALUE);
-            this.hevoker_damage = builder.comment("Default 15").defineInRange("Infected Hexienmeister Damage", 15, 1, Double.MAX_VALUE);
-            this.hevoker_armor = builder.comment("Default 10").defineInRange("Infected Hexienmeister Armor", 10, 1, Double.MAX_VALUE);
+            builder.push("Hexenmeister");
+            this.hevoker_hp = builder.comment("Default 80").defineInRange("Infected Hexenmeister Max health", 80, 1, Double.MAX_VALUE);
+            this.hevoker_damage = builder.comment("Default 15").defineInRange("Infected Hexenmeister Damage", 15, 1, Double.MAX_VALUE);
+            this.hevoker_armor = builder.comment("Default 10").defineInRange("Infected Hexenmeister Armor", 10, 1, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("Tendril");
@@ -1468,7 +1468,7 @@ public class SConfig {
             this.ogre_loot = builder.defineList("Inquisitor",
                     Lists.newArrayList("spore:mutated_fiber|70|12|34","spore:armor_fragment|80|12|22","spore:mutated_heart|50|1|1","spore:claw_fragment|80|5|15") , o -> o instanceof String);
 
-            this.hevoker_loot = builder.defineList("Hexienmeister",
+            this.hevoker_loot = builder.defineList("Hexenmeister",
                     Lists.newArrayList("spore:mutated_fiber|70|12|34","spore:armor_fragment|80|12|22","spore:mutated_heart|50|1|1","spore:claw_fragment|80|5|15") , o -> o instanceof String);
 
             this.brot_loot = builder.defineList("Brotkatze",

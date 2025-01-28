@@ -31,6 +31,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeHooks;
@@ -192,6 +193,13 @@ public class Hevoker extends Hyper {
                 }
                 return super.canUse();
             }
+
+            @Override
+            protected void checkAndPerformAttack(LivingEntity entity, double p_25558_) {
+                if (!isFakeDead()){
+                    super.checkAndPerformAttack(entity, p_25558_);
+                }
+            }
         });
         this.goalSelector.addGoal(6, new RandomStrollGoal(this, 0.8){
             @Override
@@ -286,6 +294,9 @@ public class Hevoker extends Hyper {
             reviveTimer = 200;
             return true;
         }
+        if (Math.random() < 0.2){
+            performTelekineticThrow();
+        }
         return super.hurt(source, amount);
     }
     @Override
@@ -354,6 +365,7 @@ public class Hevoker extends Hyper {
         level().addFreshEntity(entity);
     }
 
+
     protected SoundEvent getAmbientSound() {
         return Ssounds.HEVOKER_AMBIENT.get();
     }
@@ -368,5 +380,16 @@ public class Hevoker extends Hyper {
 
     protected SoundEvent getStepSound() {
         return SoundEvents.ZOMBIE_STEP;
+    }
+
+    public void performTelekineticThrow(){
+        AABB aabb = this.getBoundingBox().inflate(8);
+        List<Entity> entities = level().getEntities(this,aabb,entity -> {return entity instanceof LivingEntity living && this.TARGET_SELECTOR.test(living);});
+        if (entities.size() > 1){
+            for (Entity entity : entities){
+                entity.setDeltaMovement(entity.getDeltaMovement().add(0,1,0));
+            }
+            this.swing(InteractionHand.MAIN_HAND);
+        }
     }
 }
