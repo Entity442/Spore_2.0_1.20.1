@@ -166,6 +166,10 @@ public class Sentities {
             () -> EntityType.Builder.of(Hevoker::new, INFECTED).sized(1f, 3f)
                     .build(new ResourceLocation(Spore.MODID, "hevoker").toString()));
 
+    public static final RegistryObject<EntityType<HyperClaw>> HEVOKER_ARM = SPORE_ENTITIES.register("hevoker_arm",
+            () -> EntityType.Builder.of(HyperClaw::new, INFECTED).sized(1.2f, 1.8f)
+                    .build(new ResourceLocation(Spore.MODID, "hevoker_arm").toString()));
+
     public static final RegistryObject<EntityType<Brot>> BROTKATZE = SPORE_ENTITIES.register("brot",
             () -> EntityType.Builder.of(Brot::new, INFECTED).sized(1.8f, 1.8f)
                     .build(new ResourceLocation(Spore.MODID, "brot").toString()));

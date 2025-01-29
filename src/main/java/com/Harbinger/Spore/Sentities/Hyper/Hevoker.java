@@ -1,10 +1,12 @@
 package com.Harbinger.Spore.Sentities.Hyper;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.PullGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Hyper;
+import com.Harbinger.Spore.Sentities.Utility.HyperClaw;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -92,14 +94,14 @@ public class Hevoker extends Hyper {
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putBoolean("fake_death",isFakeDead());
-        tag.putBoolean("arm",isFakeDead());
+        tag.putBoolean("arm",hasArm());
         tag.putInt("regrow",getTimeRegrow());
     }
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         this.setFakeDead(tag.getBoolean("fake_death"));
-        this.setFakeDead(tag.getBoolean("arm"));
+        this.setArm(tag.getBoolean("arm"));
         this.setTimeRegrow(tag.getInt("regrow"));
     }
     protected void defineSynchedData() {
@@ -114,9 +116,7 @@ public class Hevoker extends Hyper {
         this.entityData.set(DEAD,value);
     }
     public boolean hasArm(){return entityData.get(HAS_ARM);}
-    public void setArm(boolean value){
-        this.entityData.set(HAS_ARM,value);
-    }
+    public void setArm(boolean value){this.entityData.set(HAS_ARM,value);}
     public void setTimeRegrow(int value){
         this.entityData.set(TIME_REGROW,value);
     }
@@ -316,8 +316,9 @@ public class Hevoker extends Hyper {
     }
 
     public boolean hurt(HevokerPart hevokerArm, DamageSource source, float amount) {
-        if (hevokerArm == arm1 || hevokerArm == arm2 || hevokerArm == arm3 || hevokerArm == arm4){
-            if (Math.random() < 0.2){
+        if (Math.random() < 0.2 && hasArm() && !level().isClientSide){
+            if (hevokerArm == arm1 || hevokerArm == arm2 || hevokerArm == arm3 || hevokerArm == arm4){
+                SummonClaw();
                 setArm(false);
             }
         }
@@ -329,6 +330,14 @@ public class Hevoker extends Hyper {
     protected void tickPart(HevokerPart part, Vec3 vec3i) {
         Vec3 vec3 = (vec3i).yRot(-this.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
         part.setPos(this.getX() + vec3.x, this.getY() + vec3.y, this.getZ() + vec3.z);
+    }
+
+    public void SummonClaw(){
+        Vec3 vec3 = (new Vec3(0.3,0.5D,-0.8)).yRot(-this.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
+        HyperClaw claw = new HyperClaw(Sentities.HEVOKER_ARM.get(),level());
+        claw.moveTo(this.getX() + vec3.x, this.getY() + vec3.y,this.getZ()+ vec3.z);
+        level().addFreshEntity(claw);
+        this.playSound(Ssounds.LIMB_SLASH.get());
     }
     public void moveHitBoxesAround(){
         Vec3[] avec3 = new Vec3[this.subEntities.length];

@@ -86,6 +86,7 @@ public class Attributes {
         event.put(Sentities.SCAVENGER.get(),Scavenger.createAttributes().build());
         event.put(Sentities.NUCLEA.get(),Nuclealave.createAttributes().build());
         event.put(Sentities.HEVOKER.get(), Hevoker.createAttributes().build());
+        event.put(Sentities.HEVOKER_ARM.get(), HyperClaw.createAttributes().build());
     }
 }
 
