@@ -52,6 +52,8 @@ public class Hevoker extends Hyper {
     private final HevokerPart arm4;
     private int reviveTimer = 0;
     private int attackAnimationTick;
+    private boolean value = true;
+
     public Hevoker(EntityType<? extends Monster> type, Level level) {
         super(type, level);
         this.totem = new HevokerPart(this,"totem",0.5f,0.5f);
@@ -361,9 +363,10 @@ public class Hevoker extends Hyper {
     }
 
     public InteractionResult interact(HevokerPart hevokerPart, Player player, InteractionHand hand) {
-        if (this.isFakeDead() && hevokerPart == totem && reviveTimer > 20){
+        if (this.isFakeDead() && hevokerPart == totem && reviveTimer > 20 && value){
             this.hurt(this.damageSources().freeze(),Float.MAX_VALUE);
             createTotem();
+            value = false;
             return InteractionResult.SUCCESS;
         }
         return super.mobInteract(player, hand);
