@@ -3,6 +3,9 @@ package com.Harbinger.Spore.Compat;
 import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.Recipes.SurgeryRecipe;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeArmorData;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsBaseItem;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
 import com.Harbinger.Spore.Spore;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -82,11 +85,13 @@ public class SurgeryCraftingCategory implements IRecipeCategory<SurgeryRecipe> {
         builder.addSlot(RecipeIngredientRole.INPUT, 61, 62).addIngredients(recipe.getIngredients().get(15));
         builder.addSlot(RecipeIngredientRole.INPUT, 61, 62).addIngredients(recipe.getIngredients().get(15));
         builder.addSlot(RecipeIngredientRole.CATALYST, 97, 8).addIngredients(stiches);
-        builder.addSlot(RecipeIngredientRole.CATALYST, 115, 8).addIngredients(Math.random() < 0.5f ? Ingredient.EMPTY : Ingredient.of(Sitems.HARDENING_AGENT.get()));
-        builder.addSlot(RecipeIngredientRole.CATALYST, 133, 8).addIngredients(Math.random() < 0.5f ? Ingredient.EMPTY : Ingredient.of(Sitems.SHARPENING_AGENT.get()));
-        builder.addSlot(RecipeIngredientRole.CATALYST, 151, 8).addIngredients(Math.random() < 0.5f ? Ingredient.EMPTY : Ingredient.of(Sitems.INTEGRATING_AGENT.get()));
-
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 124, 53).addItemStack(recipe.getResultItem(null));
+        ItemStack stack = recipe.getResultItem(null);
+        if (stack.getItem() instanceof SporeWeaponData || stack.getItem() instanceof SporeArmorData){
+            builder.addSlot(RecipeIngredientRole.CATALYST, 115, 8).addIngredients(Math.random() < 0.5f ? Ingredient.EMPTY : Ingredient.of(Sitems.HARDENING_AGENT.get()));
+            builder.addSlot(RecipeIngredientRole.CATALYST, 133, 8).addIngredients(Math.random() < 0.5f ? Ingredient.EMPTY : Ingredient.of(Sitems.SHARPENING_AGENT.get()));
+            builder.addSlot(RecipeIngredientRole.CATALYST, 151, 8).addIngredients(Math.random() < 0.5f ? Ingredient.EMPTY : Ingredient.of(Sitems.INTEGRATING_AGENT.get()));
+        }
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 124, 53).addItemStack(stack);
     }
 
 }
