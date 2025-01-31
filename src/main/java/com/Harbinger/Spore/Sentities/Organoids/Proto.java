@@ -81,10 +81,10 @@ public class Proto extends Organoid implements CasingGenerator {
     @Override
     protected void registerGoals() {
         this.addTargettingGoals();
-        this.goalSelector.addGoal(3,new ProtoScentDefense(this));
+        this.goalSelector.addGoal(2,new ProtoScentDefense(this));
         this.goalSelector.addGoal(3,new ProtoDefense(this));
         this.goalSelector.addGoal(2,new ProtoTargeting(this));
-        this.goalSelector.addGoal(2,new AOEMeleeAttackGoal(this,0,false,2.5,8,livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
+        this.goalSelector.addGoal(4,new AOEMeleeAttackGoal(this,0,false,2.5,8,livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
         this.goalSelector.addGoal(4,new RandomLookAroundGoal(this));
         super.registerGoals();
     }
