@@ -3,7 +3,7 @@
   "cookingtime": 100,
   "experience": 1.0,
   "ingredient": {
-    "item": "spore:heart_kebab"
+    "item": "spore:wing_membrane"
   },
-  "result": "spore:roasted_heart_kebab"
+  "result": "spore:fried_wing_membrane"
 }

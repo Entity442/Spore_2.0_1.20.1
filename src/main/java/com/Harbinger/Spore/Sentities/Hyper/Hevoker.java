@@ -284,7 +284,7 @@ public class Hevoker extends Hyper {
     }
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (this.isInPowderSnow || source.is(DamageTypes.FREEZE)){
+        if (this.isInPowderSnow || source.is(DamageTypes.FREEZE) || amount > 100){
             return super.hurt(source, amount);
         }
         if (isFakeDead()){
@@ -325,7 +325,7 @@ public class Hevoker extends Hyper {
             }
         }
         if (isFakeDead() && hevokerArm == totem){
-            return this.hurt(this.damageSources().freeze(),Float.MAX_VALUE);
+            return this.hurt(source,Float.MAX_VALUE);
         }
         return this.hurt(source,amount);
     }
@@ -364,7 +364,7 @@ public class Hevoker extends Hyper {
 
     public InteractionResult interact(HevokerPart hevokerPart, Player player, InteractionHand hand) {
         if (this.isFakeDead() && hevokerPart == totem && reviveTimer > 20 && value){
-            this.hurt(this.damageSources().freeze(),Float.MAX_VALUE);
+            this.hurt(this.damageSources().playerAttack(player),Float.MAX_VALUE);
             createTotem();
             value = false;
             return InteractionResult.SUCCESS;
