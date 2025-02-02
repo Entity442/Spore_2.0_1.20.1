@@ -150,7 +150,10 @@ public class Hevoker extends Hyper {
         float hp = (float) ((SConfig.SERVER.hevoker_hp.get() * SConfig.SERVER.global_health.get())/4f);
         this.setHealth(hp);
         ItemStack stack = new ItemStack(Items.TOTEM_OF_UNDYING);
-        ForgeHooks.onLivingUseTotem(this, getLastDamageSource(), stack, InteractionHand.MAIN_HAND);
+        DamageSource source = getLastDamageSource();
+        if (source != null){
+            ForgeHooks.onLivingUseTotem(this,source, stack, InteractionHand.MAIN_HAND);
+        }
         setFakeDead(false);
         this.playSound(SoundEvents.TOTEM_USE);
         this.addEffect(new MobEffectInstance(MobEffects.REGENERATION,800,1));
@@ -379,7 +382,7 @@ public class Hevoker extends Hyper {
 
 
     protected SoundEvent getAmbientSound() {
-        return Ssounds.HEVOKER_AMBIENT.get();
+        return isFakeDead() ? null : Ssounds.HEVOKER_AMBIENT.get();
     }
 
     protected SoundEvent getHurtSound(DamageSource p_34327_) {
