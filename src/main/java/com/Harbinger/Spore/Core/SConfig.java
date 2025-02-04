@@ -872,7 +872,7 @@ public class SConfig {
             this.reconstructor_hp = builder.comment("Default 30").defineInRange("Sets the base health of the Womb", 30, 1, Double.MAX_VALUE);
             this.reconstructor_armor = builder.comment("Default 6").defineInRange("Sets the base armor of the Womb", 6, 1, Double.MAX_VALUE);
             this.recontructor_clock = builder.comment("Default 30").defineInRange("Sets the time before the Womb gains one biomass", 30, 1, Integer.MAX_VALUE);
-            this.reconstructor_assimilation = builder.comment("Default 10").defineInRange("How much biomass does it get from consuming infected", 10, 1, Integer.MAX_VALUE);
+            this.reconstructor_assimilation = builder.comment("Default 5").defineInRange("How much biomass does it get from consuming infected", 5, 1, Integer.MAX_VALUE);
             this.reconstructor_biomass = builder.comment("Default 100").defineInRange("Sets the required biomass before it summons a calamity", 100, 1, Integer.MAX_VALUE);
             this.reconstructor_terrain = builder.defineList("Mobs that are summoned for ground support",
                     Lists.newArrayList("spore:sieger","spore:howitzer" ) , o -> o instanceof String);
