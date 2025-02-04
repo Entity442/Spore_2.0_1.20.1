@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "spore:roasted_tumor"
+    },
+    {
+      "item": "spore:fiber_stew"
+    },
+    {
+      "item": "spore:sausage"
+    },
+    {
+      "item": "spore:fried_wing_membrane"
+    },
+    {
+      "item": "minecraft:bread"
+    },
+    {
+      "item": "minecraft:mushroom_stew"
+    }
+  ],
+  "result": {
+    "item": "spore:fungal_burger"
+  }
+}

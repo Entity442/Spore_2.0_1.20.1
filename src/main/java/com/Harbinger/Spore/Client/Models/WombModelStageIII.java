@@ -880,7 +880,7 @@ public class WombModelStageIII<T extends BiomassReformator> extends EntityModel<
 		this.animateTentacleX(WatcherNeck21,Mth.cos(ageInTicks/5)/6);
 		this.animateTentacleX(WatcherNeck22,Mth.cos(ageInTicks/5)/6);
 		this.animateTentacleX(WatcherNeck23,Mth.cos(ageInTicks/5)/5);
-		this.animateTentacleZ(Eye,Mth.sin(ageInTicks/8));
+		this.animateTentacleZ(Eye,Mth.sin(ageInTicks/8)/3);
 		this.animateBrain(Brain1,Mth.cos(ageInTicks/6)/6);
 		this.animateBrain(Brain2,-Mth.sin(ageInTicks/7)/6);
 		this.animateBrain(Brain3,Mth.cos(ageInTicks/6)/7);
