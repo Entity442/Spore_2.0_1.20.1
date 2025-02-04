@@ -3,9 +3,7 @@ package com.Harbinger.Spore.Sentities.Organoids;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sparticles;
 import com.Harbinger.Spore.Core.Ssounds;
-import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
-import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
-import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
+import com.Harbinger.Spore.Sentities.BaseEntities.*;
 import com.Harbinger.Spore.Sentities.Variants.BusserVariants;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -160,7 +158,7 @@ public class BiomassReformator extends Organoid {
             List<Entity> entities = this.level().getEntities(this, hitbox, EntitySelector.NO_CREATIVE_OR_SPECTATOR);
             for (Entity en : entities) {
                 if (en instanceof Infected infected) {
-                    this.setBiomass(this.getBiomass() + SConfig.SERVER.reconstructor_assimilation.get() + infected.getKills());
+                    this.setBiomass(this.getBiomass() + calculateAssimilation(infected) + infected.getKills());
                     infected.discard();
                     if (this.level() instanceof ServerLevel serverLevel) {
                         double x0 = this.getX() - (random.nextFloat() - 0.1) * 0.1D;
@@ -174,6 +172,17 @@ public class BiomassReformator extends Organoid {
                 }
             }
         }
+    }
+
+    public int calculateAssimilation(Entity entity){
+        int value = SConfig.SERVER.reconstructor_assimilation.get();
+        if (entity instanceof Hyper){
+            return value * 4;
+        }
+        if (entity instanceof EvolvedInfected){
+            return value * 2;
+        }
+        return value;
     }
 
 
