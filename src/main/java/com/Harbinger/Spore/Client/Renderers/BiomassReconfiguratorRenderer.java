@@ -2,40 +2,52 @@ package com.Harbinger.Spore.Client.Renderers;
 
 
 import com.Harbinger.Spore.Client.Models.WombModel;
+import com.Harbinger.Spore.Client.Models.WombModelStageII;
+import com.Harbinger.Spore.Client.Models.WombModelStageIII;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Sentities.Organoids.BiomassReformator;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class BiomassReconfiguratorRenderer<Type extends BiomassReformator> extends OrganoidMobRenderer<Type , WombModel<Type>> {
+public class BiomassReconfiguratorRenderer extends OrganoidMobRenderer<BiomassReformator , EntityModel<BiomassReformator>> {
+    private final EntityModel<BiomassReformator> smallModel;
+    private final EntityModel<BiomassReformator> mediumModel;
+    private final EntityModel<BiomassReformator> largeModel;
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/womb.png");
     private static final ResourceLocation TEXTURE_LARGE = new ResourceLocation(Spore.MODID,
             "textures/entity/womb_large.png");
     public BiomassReconfiguratorRenderer(EntityRendererProvider.Context context) {
         super(context, new WombModel<>(context.bakeLayer(WombModel.LAYER_LOCATION)), 0.5f);
+        smallModel = this.getModel();
+        mediumModel = new WombModelStageII<>(context.bakeLayer(WombModelStageII.LAYER_LOCATION));
+        largeModel = new WombModelStageIII<>(context.bakeLayer(WombModelStageIII.LAYER_LOCATION));
     }
 
-
     @Override
-    protected void scale(BiomassReformator reformator, PoseStack poseStack, float p_115316_) {
-        int age = 1;
-        if (reformator.getBiomass() > (SConfig.SERVER.reconstructor_biomass.get()/4) && reformator.getBiomass() < (SConfig.SERVER.reconstructor_biomass.get()/2)){
-            age = 2;
-        }else if (reformator.getBiomass() > (SConfig.SERVER.reconstructor_biomass.get()/2)){
-            age = 3;
+    public ResourceLocation getTextureLocation(BiomassReformator reformator) {
+        if (reformator.getBiomass() > (SConfig.SERVER.reconstructor_biomass.get()/4)){
+            return TEXTURE_LARGE;
         }
-        poseStack.scale((float) age,(float)age,(float)age);
+        return TEXTURE;
     }
 
     @Override
-    public ResourceLocation getTextureLocation(Type reformator) {
-            return reformator.getBiomass() > (SConfig.SERVER.reconstructor_biomass.get()/2) ? TEXTURE_LARGE : TEXTURE;
+    public void render(BiomassReformator type, float value1, float value2, PoseStack stack, MultiBufferSource bufferSource, int value3) {
+        if (type.getBiomass() > (SConfig.SERVER.reconstructor_biomass.get()/4) && type.getBiomass() < (SConfig.SERVER.reconstructor_biomass.get()/2)){
+            model = mediumModel;
+        }else if (type.getBiomass() > (SConfig.SERVER.reconstructor_biomass.get()/2)){
+            model = largeModel;
+        }else{
+            model = smallModel;
+        }
+        super.render(type, value1, value2, stack, bufferSource, value3);
     }
-
 }
