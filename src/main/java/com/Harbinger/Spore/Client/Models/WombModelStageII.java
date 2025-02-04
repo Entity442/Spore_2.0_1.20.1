@@ -12,14 +12,91 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 
-public class WombModelStageII<T extends BiomassReformator> extends EntityModel<T> {
+public class WombModelStageII<T extends BiomassReformator> extends EntityModel<T> implements TentacledModel{
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "wombmodelstageii"), "main");
 	private final ModelPart Womb;
+	private final ModelPart BaseTumor1;
+	private final ModelPart BaseTumor2;
+	private final ModelPart BaseTumor3;
+	private final ModelPart BaseTumor4;
+	private final ModelPart WatcherNeck1;
+	private final ModelPart WatcherNeck2;
+	private final ModelPart WatcherNeck3;
+	private final ModelPart WatcherTumor;
+	private final ModelPart ChiefTumor;
+	private final ModelPart ChiefSegment1;
+	private final ModelPart ChiefSegment2;
+	private final ModelPart ChiefSegment3;
+	private final ModelPart ChiefSegment4;
+	private final ModelPart Brain1;
+	private final ModelPart Brain2;
+	private final ModelPart Brain3;
+	private final ModelPart Brain4;
+	private final ModelPart Brain5;
+	private final ModelPart Brain6;
+	private final ModelPart Brain7;
+	private final ModelPart Brain8;
+	private final ModelPart Brain9;
+	private final ModelPart Brain10;
+	private final ModelPart Tendril1;
+	private final ModelPart Tendril11;
+	private final ModelPart Tendril111;
+	private final ModelPart Tendril2;
+	private final ModelPart Tendril21;
+	private final ModelPart Tendril211;
+	private final ModelPart Tendril3;
+	private final ModelPart Tendril31;
+	private final ModelPart Tendril311;
+	private final ModelPart ProtoCalamity;
+	private final ModelPart Maw;
+	private final ModelPart RightJaw;
+	private final ModelPart LeftJaw;
+	private final ModelPart MiddleJaw;
+
 
 	public WombModelStageII(ModelPart root) {
 		this.Womb = root.getChild("Womb");
+		this.BaseTumor1 = Womb.getChild("TumorBase").getChild("group1");
+		this.BaseTumor2 = Womb.getChild("TumorBase").getChild("group2");
+		this.BaseTumor3 = Womb.getChild("TumorBase").getChild("group3");
+		this.BaseTumor4 = Womb.getChild("TumorBase").getChild("group4");
+		this.WatcherNeck1 = Womb.getChild("WatchingTendril1");
+		this.WatcherNeck2 = WatcherNeck1.getChild("Seg1WatchingTendril2");
+		this.WatcherNeck3 = WatcherNeck2.getChild("BodyW21").getChild("HeadW2");
+		this.WatcherTumor = WatcherNeck2.getChild("BodyW21").getChild("TumorsW3");
+		this.ChiefTumor = Womb.getChild("Chef").getChild("BiomassBase");
+		this.ChiefSegment1 = Womb.getChild("Chef").getChild("Body1");
+		this.ChiefSegment2 = ChiefSegment1.getChild("Body2");
+		this.ChiefSegment3 = ChiefSegment2.getChild("Body3");
+		this.ChiefSegment4 = ChiefSegment3.getChild("Body4");
+		this.Brain1 = WatcherNeck1.getChild("BodyW2").getChild("Brain3");
+		this.Brain2 = ChiefSegment2.getChild("Body2Head").getChild("OBrain5");
+		this.Brain3 = ChiefSegment2.getChild("Body2Head").getChild("OBrain6");
+		this.Brain4 = ChiefSegment2.getChild("Body2Head").getChild("OBrain7");
+		this.Brain5 = ChiefSegment4.getChild("OBrain4");
+		this.Brain6 = ChiefSegment4.getChild("MassOfBrains").getChild("MBrain1");
+		this.Brain7 = ChiefSegment4.getChild("MassOfBrains").getChild("MBrain2");
+		this.Brain8 = ChiefSegment4.getChild("MassOfBrains").getChild("MBrain3");
+		this.Brain9 = ChiefSegment4.getChild("MassOfBrains").getChild("MBrain4");
+		this.Brain10 = ChiefSegment4.getChild("MassOfBrains").getChild("MBrain5");
+		this.Tendril1 = Womb.getChild("Tendril");
+		this.Tendril11 = Tendril1.getChild("Seg2Tendril");
+		this.Tendril111 = Tendril11.getChild("Seg3Tendril");
+		this.Tendril2 = Womb.getChild("Tendril2");
+		this.Tendril21 = Tendril2.getChild("Seg2Tendril2");
+		this.Tendril211 = Tendril21.getChild("Seg3Tendril2");
+		this.Tendril3 = Womb.getChild("Tendril3");
+		this.Tendril31 = Tendril3.getChild("Seg2Tendril3").getChild("Seg3Tendril3");
+		this.Tendril311 = Tendril31.getChild("Seg4Tendril3");
+		this.ProtoCalamity = Womb.getChild("IncompleteCalamity");
+		this.Maw = Womb.getChild("Maw");
+		this.RightJaw = Maw.getChild("BackMaw");
+		this.LeftJaw = Maw.getChild("RightMaw");
+		this.MiddleJaw = Maw.getChild("LeftMaw");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -458,10 +535,59 @@ public class WombModelStageII<T extends BiomassReformator> extends EntityModel<T
 
 		return LayerDefinition.create(meshdefinition, 512, 512);
 	}
+	private void animateBrain(ModelPart part,float value){
+		part.xScale = 1 + value;
+		part.yScale = 1 + value;
+		part.zScale = 1 + value;
+	}
+	private void animateProtoCalamity(ModelPart part,float value){
+		RandomSource source = RandomSource.create();
+		part.xScale = 1 + Mth.sin(value/6)/6;
+		part.yScale = 1 + Mth.cos(value/6)/6;
+		part.zScale = 1 + Mth.sin(value/6)/6;
+		part.x = part.getInitialPose().x + (source.nextFloat() - source.nextFloat());
+		part.z = part.getInitialPose().z + (source.nextFloat() - source.nextFloat());
+	}
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+		this.animateTumor(BaseTumor1, Mth.sin(ageInTicks/7)/9);
+		this.animateTumor(BaseTumor2, Mth.cos(ageInTicks/7)/8);
+		this.animateTumor(BaseTumor3, -Mth.sin(ageInTicks/8)/8);
+		this.animateTumor(BaseTumor4, -Mth.cos(ageInTicks/7)/9);
+		this.animateTentacleX(WatcherNeck1,Mth.cos(ageInTicks/10)/4);
+		this.animateTentacleZ(WatcherNeck2,Mth.cos(ageInTicks/8)/6);
+		this.animateTentacleX(WatcherNeck3,Mth.cos(ageInTicks/6)/4);
+		this.animateTumor(WatcherTumor,Mth.sin(ageInTicks/6)/6);
+		this.animateTumor(ChiefTumor,Mth.cos(ageInTicks/6)/6);
+		this.animateTentacleZ(ChiefSegment1,Mth.cos(ageInTicks/8)/6);
+		this.animateTentacleZ(ChiefSegment2,Mth.cos(ageInTicks/8)/6);
+		this.animateTentacleY(ChiefSegment3,Mth.sin(ageInTicks/7)/6);
+		this.animateTentacleY(ChiefSegment4,Mth.cos(ageInTicks/6)/6);
+		this.animateBrain(Brain1,Mth.cos(ageInTicks/6)/6);
+		this.animateBrain(Brain2,-Mth.sin(ageInTicks/7)/6);
+		this.animateBrain(Brain3,Mth.cos(ageInTicks/6)/7);
+		this.animateBrain(Brain4,-Mth.sin(ageInTicks/6)/6);
+		this.animateBrain(Brain5,Mth.cos(ageInTicks/7)/6);
+		this.animateBrain(Brain6,Mth.sin(ageInTicks/6)/6);
+		this.animateBrain(Brain7,-Mth.cos(ageInTicks/6)/7);
+		this.animateBrain(Brain8,Mth.sin(ageInTicks/6)/6);
+		this.animateBrain(Brain9,-Mth.cos(ageInTicks/7)/6);
+		this.animateBrain(Brain10,Mth.sin(ageInTicks/6)/6);
+		this.animateTentacleX(Tendril1,Mth.sin(ageInTicks/6)/4);
+		this.animateTentacleX(Tendril11,Mth.sin(ageInTicks/6)/4);
+		this.animateTentacleX(Tendril111,Mth.sin(ageInTicks/6)/5);
+		this.animateTentacleX(Tendril2,Mth.sin(ageInTicks/6)/4);
+		this.animateTentacleX(Tendril21,Mth.sin(ageInTicks/5)/5);
+		this.animateTentacleZ(Tendril211,Mth.sin(ageInTicks/6)/4);
+		this.animateTentacleY(Tendril3,Mth.cos(ageInTicks/6)/4);
+		this.animateTentacleX(Tendril31,Mth.cos(ageInTicks/5)/4);
+		this.animateTentacleZ(Tendril311,Mth.cos(ageInTicks/6)/4);
+		this.animateProtoCalamity(ProtoCalamity,ageInTicks);
+		this.animateTentacleY(Maw,Mth.cos(ageInTicks/7)/7);
+		this.animateTentacleX(RightJaw,Mth.cos(ageInTicks/7)/7);
+		this.animateTentacleX(LeftJaw,-Mth.cos(ageInTicks/7)/7);
+		this.animateTentacleZ(MiddleJaw,Mth.cos(ageInTicks/7)/7);
 	}
 
 	@Override

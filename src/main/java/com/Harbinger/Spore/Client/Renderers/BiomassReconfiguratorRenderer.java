@@ -43,7 +43,7 @@ public class BiomassReconfiguratorRenderer extends OrganoidMobRenderer<BiomassRe
     public void render(BiomassReformator type, float value1, float value2, PoseStack stack, MultiBufferSource bufferSource, int value3) {
         if (type.getBiomass() > (SConfig.SERVER.reconstructor_biomass.get()/4) && type.getBiomass() < (SConfig.SERVER.reconstructor_biomass.get()/2)){
             model = mediumModel;
-        }else if (type.getBiomass() > (SConfig.SERVER.reconstructor_biomass.get()/2)){
+        }else if (type.getBiomass() >= (SConfig.SERVER.reconstructor_biomass.get()/2)){
             model = largeModel;
         }else{
             model = smallModel;
