@@ -570,6 +570,8 @@ public class Proto extends Organoid implements CasingGenerator {
                 return true;
             }else if ((livingEntity instanceof Player || SConfig.SERVER.proto_sapient_target.get().contains(livingEntity.getEncodeId())) && !livingEntity.hasEffect(Seffects.SYMBIOSIS.get())){
                 return true;
+            }else if (livingEntity.getMaxHealth() > 30){
+                return true;
             }
             return super.hasLineOfSight(entity);
         }
