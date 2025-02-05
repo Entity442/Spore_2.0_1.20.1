@@ -9,6 +9,7 @@ import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Busser;
+import com.Harbinger.Spore.Sentities.VariantKeeper;
 import com.Harbinger.Spore.Sentities.Variants.BraureiVariants;
 import com.Harbinger.Spore.Sentities.Variants.BusserVariants;
 import net.minecraft.Util;
@@ -49,7 +50,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Brauerei extends Organoid implements RangedAttackMob {
+public class Brauerei extends Organoid implements RangedAttackMob, VariantKeeper {
     private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(Busser.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> TIMER = SynchedEntityData.defineId(Brauerei.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(Brauerei.class, EntityDataSerializers.INT);
@@ -277,10 +278,17 @@ public class Brauerei extends Organoid implements RangedAttackMob {
         return BraureiVariants.byId(this.getTypeVariant() & 255);
     }
 
-    private int getTypeVariant() {
+    public int getTypeVariant() {
         return this.entityData.get(DATA_ID_TYPE_VARIANT);
     }
-
+    @Override
+    public void setVariant(int i) {
+        if (i > BraureiVariants.values().length || i < 0){
+            this.entityData.set(DATA_ID_TYPE_VARIANT, 0);
+        }else {
+            this.entityData.set(DATA_ID_TYPE_VARIANT, i);
+        }
+    }
     private void setVariant(BraureiVariants variant) {
         this.entityData.set(DATA_ID_TYPE_VARIANT, variant.getId() & 255);
     }

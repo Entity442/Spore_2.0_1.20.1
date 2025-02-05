@@ -8,6 +8,7 @@ import com.Harbinger.Spore.Sentities.Projectile.AcidBall;
 import com.Harbinger.Spore.Sentities.Projectile.BileProjectile;
 import com.Harbinger.Spore.Sentities.Projectile.ThrownTumor;
 import com.Harbinger.Spore.Sentities.Projectile.Vomit;
+import com.Harbinger.Spore.Sentities.VariantKeeper;
 import com.Harbinger.Spore.Sentities.Variants.SpitterVariants;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -34,7 +35,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class Spitter extends EvolvedInfected implements RangedAttackMob {
+public class Spitter extends EvolvedInfected implements RangedAttackMob, VariantKeeper {
     private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(Spitter.class, EntityDataSerializers.INT);
     public Spitter(EntityType<? extends Monster> type, Level level) {
         super(type, level);
@@ -182,10 +183,17 @@ public class Spitter extends EvolvedInfected implements RangedAttackMob {
         return SpitterVariants.byId(this.getTypeVariant() & 255);
     }
 
-    private int getTypeVariant() {
+    public int getTypeVariant() {
         return this.entityData.get(DATA_ID_TYPE_VARIANT);
     }
-
+    @Override
+    public void setVariant(int i) {
+        if (i > SpitterVariants.values().length || i < 0){
+            this.entityData.set(DATA_ID_TYPE_VARIANT, 0);
+        }else {
+            this.entityData.set(DATA_ID_TYPE_VARIANT, i);
+        }
+    }
     private void setVariant(SpitterVariants variant) {
         this.entityData.set(DATA_ID_TYPE_VARIANT, variant.getId() & 255);
     }
