@@ -1,0 +1,9 @@
+{
+  "type": "spore:injection",
+  "entity": "spore:griefer",
+  "entity_type": 1,
+  "output": {
+    "item": "minecraft:gold_ingot",
+    "count": 1
+  }
+}

@@ -1,10 +1,7 @@
 package com.Harbinger.Spore.Core;
 
 import com.Harbinger.Spore.Sitems.*;
-import com.Harbinger.Spore.Sitems.Agents.ConnectingAgent;
-import com.Harbinger.Spore.Sitems.Agents.HardeningAgent;
-import com.Harbinger.Spore.Sitems.Agents.MutationSyringe;
-import com.Harbinger.Spore.Sitems.Agents.SharpeningAgent;
+import com.Harbinger.Spore.Sitems.Agents.*;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -395,7 +392,8 @@ public class Sitems {
             ConnectingAgent::new);
     public  static final RegistryObject<Item> MUTATION_SYRINGE = ITEMS.register("mutation_syringe",
             MutationSyringe::new);
-
+    public  static final RegistryObject<Item> SYRINGE = ITEMS.register("syringe",
+            Syringe::new);
 
 
 

@@ -1,6 +1,8 @@
 package com.Harbinger.Spore.Compat;
 
+import com.Harbinger.Spore.Recipes.InjectionRecipe;
 import com.Harbinger.Spore.Recipes.SurgeryRecipe;
+import com.Harbinger.Spore.Screens.InjectionScreen;
 import com.Harbinger.Spore.Screens.SurgeryScreen;
 import com.Harbinger.Spore.Spore;
 import mezz.jei.api.IModPlugin;
@@ -24,6 +26,7 @@ public ResourceLocation getPluginUid() {
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
         registration.addRecipeCategories(new SurgeryCraftingCategory(registration.getJeiHelpers().getGuiHelper()));
+        registration.addRecipeCategories(new InjectionCraftingCategory(registration.getJeiHelpers().getGuiHelper()));
 }
 
     @Override
@@ -32,7 +35,9 @@ public ResourceLocation getPluginUid() {
         if (level != null){
             RecipeManager recipeManager = Minecraft.getInstance().level.getRecipeManager();
             List<SurgeryRecipe> surgeryRecipes = recipeManager.getAllRecipesFor(SurgeryRecipe.SurgeryRecipeType.INSTANCE);
+            List<InjectionRecipe> injectionRecipes = recipeManager.getAllRecipesFor(InjectionRecipe.InjectionRecipeType.INSTANCE);
             registration.addRecipes(SurgeryCraftingCategory.SURGERY_TYPE, surgeryRecipes);
+            registration.addRecipes(InjectionCraftingCategory.INJECTION_TYPE, injectionRecipes);
         }
     }
 
@@ -40,5 +45,7 @@ public ResourceLocation getPluginUid() {
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
         registration.addRecipeClickArea(SurgeryScreen.class, 88, 62, 20, 30,
                 SurgeryCraftingCategory.SURGERY_TYPE);
+        registration.addRecipeClickArea(InjectionScreen.class, 88, 62, 20, 30,
+                InjectionCraftingCategory.INJECTION_TYPE);
     }
 }
