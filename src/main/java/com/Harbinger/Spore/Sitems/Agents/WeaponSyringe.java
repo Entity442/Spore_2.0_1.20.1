@@ -35,6 +35,7 @@ public class WeaponSyringe extends AbstractSyringe{
             case TOXIC ->{living.addEffect(new MobEffectInstance(MobEffects.POISON,300,0));}
             case ROTTEN ->{living.addEffect(new MobEffectInstance(MobEffects.WITHER,300,0));}
         }
+        stack.shrink(1);
         addMycelium(living);
     }
 
