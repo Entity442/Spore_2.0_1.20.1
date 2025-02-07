@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "spore:item/syringe_contents",
+    "layer1": "spore:item/empty_syringe"
+  }
+}

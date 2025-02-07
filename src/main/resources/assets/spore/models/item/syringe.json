@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "spore:item/syringe"
+    "layer0": "spore:item/empty_syringe"
   }
 }

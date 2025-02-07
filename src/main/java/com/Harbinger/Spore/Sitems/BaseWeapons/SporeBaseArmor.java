@@ -161,11 +161,6 @@ public abstract class SporeBaseArmor extends ArmorItem implements SporeArmorData
     }
 
     @Override
-    public boolean isDamaged(ItemStack stack) {
-        return super.isDamaged(stack) || tooHurt(stack);
-    }
-
-    @Override
     public void appendHoverText(ItemStack stack, @Nullable Level p_41422_, List<Component> components, TooltipFlag p_41424_) {
         super.appendHoverText(stack, p_41422_, components, p_41424_);
         if (!tooHurt(stack)){

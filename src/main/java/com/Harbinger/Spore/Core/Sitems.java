@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Core;
 
 import com.Harbinger.Spore.Sitems.*;
 import com.Harbinger.Spore.Sitems.Agents.*;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsMutations;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -394,6 +395,8 @@ public class Sitems {
             MutationSyringe::new);
     public  static final RegistryObject<Item> SYRINGE = ITEMS.register("syringe",
             Syringe::new);
+    public  static final RegistryObject<Item> TOXIC_SYRINGE = ITEMS.register("toxic_syringe",
+            () -> new WeaponSyringe(SporeToolsMutations.TOXIC));
 
 
 

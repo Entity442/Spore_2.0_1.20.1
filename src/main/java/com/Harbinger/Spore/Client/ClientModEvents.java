@@ -10,6 +10,7 @@ import com.Harbinger.Spore.Particles.SporeParticle;
 import com.Harbinger.Spore.Screens.ContainerScreen;
 import com.Harbinger.Spore.Screens.InjectionScreen;
 import com.Harbinger.Spore.Screens.SurgeryScreen;
+import com.Harbinger.Spore.Sitems.Agents.AbstractSyringe;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeArmorData;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
 import com.Harbinger.Spore.Spore;
@@ -273,6 +274,14 @@ public class ClientModEvents {
                     return -1;
                 },item);
 
+            }
+            if (item instanceof AbstractSyringe data){
+                event.register((itemStack, tintIndex) -> {
+                    if (tintIndex == 0) {
+                        return data.getColor();
+                    }
+                    return -1;
+                },item);
             }
         }
     }
