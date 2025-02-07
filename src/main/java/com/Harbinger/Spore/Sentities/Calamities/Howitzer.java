@@ -365,7 +365,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
     }
     private FleshBomb.BombType compareEntity(LivingEntity living){
         AABB aabb = living.getBoundingBox().inflate(4);
-        List<Entity> extra_targets = level().getEntities(living,aabb,entity -> {return entity instanceof LivingEntity livingEntity && TARGET_SELECTOR.test(living);});
+        List<Entity> extra_targets = level().getEntities(living,aabb,entity -> {return entity instanceof LivingEntity livingEntity && TARGET_SELECTOR.test(livingEntity);});
         List<BlockPos> burnable_material = new ArrayList<>();
         for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
             if (level().getBlockState(blockpos).isFlammable(level(),blockpos, Direction.UP)){
