@@ -1,0 +1,9 @@
+{
+  "type": "spore:injection",
+  "entity": "spore:braiomil",
+  "entity_type": 0,
+  "output": {
+    "item": "spore:rotten_syringe",
+    "count": 1
+  }
+}

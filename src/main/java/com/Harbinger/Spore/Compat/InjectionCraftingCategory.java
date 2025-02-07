@@ -78,9 +78,9 @@ public class InjectionCraftingCategory implements IRecipeCategory<InjectionRecip
             if (entity instanceof LivingEntity living){
                 if (living instanceof VariantKeeper keeper){
                     keeper.setVariant(recipe.getEntityType());
-                    renderEntityInInventoryFollowsAngle(guiGraphics,34,80,20,0f,0f,living);
+                    renderEntityInInventoryFollowsAngle(guiGraphics,34,70,20,0f,0f,living);
                 }else{
-                    renderEntityInInventoryFollowsAngle(guiGraphics,34,80,20,0f,0f,living);
+                    renderEntityInInventoryFollowsAngle(guiGraphics,34,70,20,0f,0f,living);
                 }
             }
         }

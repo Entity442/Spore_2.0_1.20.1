@@ -1,0 +1,9 @@
+{
+  "type": "spore:injection",
+  "entity": "spore:hevoker",
+  "entity_type": 0,
+  "output": {
+    "item": "spore:vampiric_syringe",
+    "count": 1
+  }
+}

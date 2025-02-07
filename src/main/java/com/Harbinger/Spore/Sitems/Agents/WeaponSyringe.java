@@ -3,6 +3,9 @@ package com.Harbinger.Spore.Sitems.Agents;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsMutations;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
@@ -21,6 +24,18 @@ public class WeaponSyringe extends AbstractSyringe{
     @Override
     public int getColor() {
         return mutations.getColor();
+    }
+
+    @Override
+    void useSyringe(ItemStack stack, LivingEntity living) {
+        switch (mutations){
+            case VAMPIRIC -> {living.heal(4); living.addEffect(new MobEffectInstance(MobEffects.REGENERATION,400 ,1));}
+            case CALCIFIED -> {living.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE,600 ,0));}
+            case BEZERK -> {living.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,400,0));living.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST,200,0));}
+            case TOXIC ->{living.addEffect(new MobEffectInstance(MobEffects.POISON,300,0));}
+            case ROTTEN ->{living.addEffect(new MobEffectInstance(MobEffects.WITHER,300,0));}
+        }
+        addMycelium(living);
     }
 
     @Override

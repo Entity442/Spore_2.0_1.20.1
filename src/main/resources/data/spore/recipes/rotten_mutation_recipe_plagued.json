@@ -1,0 +1,9 @@
+{
+  "type": "spore:injection",
+  "entity": "spore:plagued",
+  "entity_type": 0,
+  "output": {
+    "item": "spore:rotten_syringe",
+    "count": 1
+  }
+}

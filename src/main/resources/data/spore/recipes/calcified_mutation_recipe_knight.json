@@ -1,0 +1,9 @@
+{
+  "type": "spore:injection",
+  "entity": "spore:knight",
+  "entity_type": 0,
+  "output": {
+    "item": "spore:calcified_syringe",
+    "count": 1
+  }
+}

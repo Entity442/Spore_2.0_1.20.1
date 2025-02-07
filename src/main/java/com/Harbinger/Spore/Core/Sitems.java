@@ -395,8 +395,16 @@ public class Sitems {
             MutationSyringe::new);
     public  static final RegistryObject<Item> SYRINGE = ITEMS.register("syringe",
             Syringe::new);
+    public  static final RegistryObject<Item> VAMPIRIC_SYRINGE = ITEMS.register("vampiric_syringe",
+            () -> new WeaponSyringe(SporeToolsMutations.VAMPIRIC));
+    public  static final RegistryObject<Item> CALCIFIED_SYRINGE = ITEMS.register("calcified_syringe",
+            () -> new WeaponSyringe(SporeToolsMutations.CALCIFIED));
+    public  static final RegistryObject<Item> BEZERK_SYRINGE = ITEMS.register("bezerk_syringe",
+            () -> new WeaponSyringe(SporeToolsMutations.BEZERK));
     public  static final RegistryObject<Item> TOXIC_SYRINGE = ITEMS.register("toxic_syringe",
             () -> new WeaponSyringe(SporeToolsMutations.TOXIC));
+    public  static final RegistryObject<Item> ROTTEN_SYRINGE = ITEMS.register("rotten_syringe",
+            () -> new WeaponSyringe(SporeToolsMutations.ROTTEN));
 
 
 
