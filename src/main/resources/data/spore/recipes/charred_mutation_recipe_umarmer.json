@@ -1,0 +1,9 @@
+{
+  "type": "spore:injection",
+  "entity": "spore:umarmed",
+  "entity_type": 1,
+  "output": {
+    "item": "spore:charred_syringe",
+    "count": 1
+  }
+}

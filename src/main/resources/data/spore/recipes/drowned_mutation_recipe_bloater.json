@@ -1,0 +1,9 @@
+{
+  "type": "spore:injection",
+  "entity": "spore:bloater",
+  "entity_type": 0,
+  "output": {
+    "item": "spore:drowned_syringe",
+    "count": 1
+  }
+}

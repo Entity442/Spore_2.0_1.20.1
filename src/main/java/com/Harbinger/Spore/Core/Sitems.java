@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Core;
 
 import com.Harbinger.Spore.Sitems.*;
 import com.Harbinger.Spore.Sitems.Agents.*;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeArmorMutations;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsMutations;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -405,6 +406,14 @@ public class Sitems {
             () -> new WeaponSyringe(SporeToolsMutations.TOXIC));
     public  static final RegistryObject<Item> ROTTEN_SYRINGE = ITEMS.register("rotten_syringe",
             () -> new WeaponSyringe(SporeToolsMutations.ROTTEN));
+    public  static final RegistryObject<Item> REINFORCED_SYRINGE = ITEMS.register("reinforced_syringe",
+            () -> new ArmorSyringe(SporeArmorMutations.REINFORCED));
+    public  static final RegistryObject<Item> SKELETAL_SYRINGE = ITEMS.register("skeletal_syringe",
+            () -> new ArmorSyringe(SporeArmorMutations.SKELETAL));
+    public  static final RegistryObject<Item> DROWNED_SYRINGE = ITEMS.register("drowned_syringe",
+            () -> new ArmorSyringe(SporeArmorMutations.DROWNED));
+    public  static final RegistryObject<Item> CHARRED_SYRINGE = ITEMS.register("charred_syringe",
+            () -> new ArmorSyringe(SporeArmorMutations.CHARRED));
 
 
 
