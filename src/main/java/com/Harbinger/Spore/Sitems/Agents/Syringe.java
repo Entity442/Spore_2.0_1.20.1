@@ -40,6 +40,7 @@ public class Syringe extends BaseItem2 {
             if (match.isPresent()){
                 ItemStack stack = match.get().getResultItem(null);
                 if (stack != ItemStack.EMPTY){
+                    living.hurt(level.damageSources().playerAttack(player),1f);
                     player.addItem(stack.copy());
                     itemStack.shrink(1);
                     return InteractionResult.SUCCESS;
