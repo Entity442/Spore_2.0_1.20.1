@@ -9,9 +9,9 @@
     }
   },
   "pattern": [
-    "E  ",
-    " FE",
-    "E  "
+    "  E",
+    "EF ",
+    " E "
   ],
   "result": {
     "count": 4,
