@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "E": {
+      "item": "minecraft:iron_nugget"
+    },
+    "F": {
+      "item": "minecraft:glass_bottle"
+    }
+  },
+  "pattern": [
+    "E  ",
+    " FE",
+    "E  "
+  ],
+  "result": {
+    "count": 4,
+    "item": "spore:syringe"
+  }
+}
