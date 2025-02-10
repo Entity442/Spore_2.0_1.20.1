@@ -107,7 +107,7 @@ public class InjectionRecipe implements Recipe<EntityContainer> {
 
         @Override
         public void toNetwork(FriendlyByteBuf friendlyByteBuf, InjectionRecipe injectionRecipe) {
-            friendlyByteBuf.writeUtf(injectionRecipe.entityId,64);
+            friendlyByteBuf.writeUtf(injectionRecipe.entityId);
             friendlyByteBuf.writeInt(injectionRecipe.getEntityType());
             friendlyByteBuf.writeItemStack(injectionRecipe.getResultItem(null),false);
         }
