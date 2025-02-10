@@ -60,7 +60,7 @@ public class InjectionRecipe implements Recipe<EntityContainer> {
 
     @Override
     public ItemStack getResultItem(RegistryAccess registryAccess) {
-        return result.copy();
+        return result == null ? ItemStack.EMPTY : result.copy();
     }
 
     @Override
@@ -109,7 +109,7 @@ public class InjectionRecipe implements Recipe<EntityContainer> {
         public void toNetwork(FriendlyByteBuf friendlyByteBuf, InjectionRecipe injectionRecipe) {
             friendlyByteBuf.writeUtf(injectionRecipe.getEntityId());
             friendlyByteBuf.writeInt(injectionRecipe.getEntityType());
-            friendlyByteBuf.writeItem(injectionRecipe.getResultItem(null) != null ? injectionRecipe.getResultItem(null) : ItemStack.EMPTY);
+            friendlyByteBuf.writeItemStack(injectionRecipe.getResultItem(null),false);
         }
     }
 }
