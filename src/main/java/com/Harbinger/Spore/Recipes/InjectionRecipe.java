@@ -98,16 +98,16 @@ public class InjectionRecipe implements Recipe<EntityContainer> {
         }
 
         @Override
-        public @Nullable InjectionRecipe fromNetwork(ResourceLocation resourceLocation, FriendlyByteBuf friendlyByteBuf) {
-            String entityId = friendlyByteBuf.readUtf();
-            ItemStack result = friendlyByteBuf.readItem();
-            int type = friendlyByteBuf.readInt();
-            return new InjectionRecipe(resourceLocation, entityId,type, result);
+        public @Nullable InjectionRecipe fromNetwork(ResourceLocation resourceLocation, FriendlyByteBuf buf) {
+            String entityId = buf.readUtf();
+            int type = buf.readInt();
+            ItemStack result = buf.readItem();
+            return new InjectionRecipe(resourceLocation, entityId, type, result);
         }
 
         @Override
         public void toNetwork(FriendlyByteBuf friendlyByteBuf, InjectionRecipe injectionRecipe) {
-            friendlyByteBuf.writeUtf(injectionRecipe.getEntityId());
+            friendlyByteBuf.writeUtf(injectionRecipe.entityId,64);
             friendlyByteBuf.writeInt(injectionRecipe.getEntityType());
             friendlyByteBuf.writeItemStack(injectionRecipe.getResultItem(null),false);
         }
