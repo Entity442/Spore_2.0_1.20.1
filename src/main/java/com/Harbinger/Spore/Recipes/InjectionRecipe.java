@@ -38,10 +38,14 @@ public class InjectionRecipe implements Recipe<EntityContainer> {
         if (level.isClientSide){
             return false;
         }
-        if (entityContainer.entity() instanceof VariantKeeper keeper){
-            return keeper.getTypeVariant() == this.getEntityType() && entityContainer.entity().getType().equals(EntityType.byString(entityId).orElse(null));
+        EntityType<?> entityType = entityContainer.entity().getType();
+        EntityType<?> expectedType = EntityType.byString(entityId).orElse(null);
+        if (expectedType == null) return false;
+
+        if (entityContainer.entity() instanceof VariantKeeper keeper) {
+            return keeper.getTypeVariant() == this.getEntityType() && entityType.equals(expectedType);
         }
-        return entityContainer.entity().getType().equals(EntityType.byString(entityId).orElse(null));
+        return entityType.equals(expectedType);
     }
 
     @Override
@@ -56,7 +60,7 @@ public class InjectionRecipe implements Recipe<EntityContainer> {
 
     @Override
     public ItemStack getResultItem(RegistryAccess registryAccess) {
-        return result;
+        return result.copy();
     }
 
     @Override
@@ -105,7 +109,7 @@ public class InjectionRecipe implements Recipe<EntityContainer> {
         public void toNetwork(FriendlyByteBuf friendlyByteBuf, InjectionRecipe injectionRecipe) {
             friendlyByteBuf.writeUtf(injectionRecipe.getEntityId());
             friendlyByteBuf.writeInt(injectionRecipe.getEntityType());
-            friendlyByteBuf.writeItem(injectionRecipe.getResultItem(null));
+            friendlyByteBuf.writeItem(injectionRecipe.getResultItem(null) != null ? injectionRecipe.getResultItem(null) : ItemStack.EMPTY);
         }
     }
 }
