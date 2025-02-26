@@ -395,7 +395,7 @@ public class InfestedConstruct extends UtilityEntity implements RangedAttackMob,
     }
 
     public void callUponInfected(){
-        AABB aabb = this.getBoundingBox().inflate(16);
+        AABB aabb = this.getBoundingBox().inflate(8);
         List<Entity> infected = level().getEntities(this,aabb,entity -> {return entity instanceof Infected && !(entity instanceof Hyper);});
         for (Entity entity : infected){
             if (entity instanceof Infected infected1 && infected1.getLinked()){

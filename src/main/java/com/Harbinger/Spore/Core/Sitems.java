@@ -373,7 +373,7 @@ public class Sitems {
     public  static final RegistryObject<Item> GAS_MASK = ITEMS.register("gas_mask",
             GasMaskItem::new);
     public  static final RegistryObject<Item> SCANNER = ITEMS.register("scanner",
-            () -> new ScannerItem( new Item.Properties()));
+            () -> new ScannerItem( new Item.Properties().stacksTo(1)));
     public  static final RegistryObject<Item> BIOMASS = ITEMS.register("biomass",
             Biomass::new);
     public  static final RegistryObject<Item> CIRCUIT_BOARD = ITEMS.register("circuit_board",

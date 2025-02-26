@@ -164,12 +164,16 @@ public class SurgeryMenu extends AbstractContainerMenu {
         if (playerIn instanceof ServerPlayer serverPlayer) {
             if (!serverPlayer.isAlive() || serverPlayer.hasDisconnected()) {
                 for (int j = 0; j < blockEntity.itemHandler.getSlots(); ++j) {
-                    playerIn.drop(blockEntity.itemHandler.extractItem(j, blockEntity.itemHandler.getStackInSlot(j).getCount(), false), false);
+                    if (j != 20){
+                        playerIn.drop(blockEntity.itemHandler.extractItem(j, blockEntity.itemHandler.getStackInSlot(j).getCount(), false), false);
+                    }
                 }
             } else {
                 for (int i = 0; i < blockEntity.itemHandler.getSlots(); ++i) {
-                    playerIn.getInventory().placeItemBackInInventory(blockEntity.itemHandler.extractItem(i, blockEntity.itemHandler.getStackInSlot(i).getCount(), false));
-                }
+                    if (i != 20){
+                        playerIn.getInventory().placeItemBackInInventory(blockEntity.itemHandler.extractItem(i, blockEntity.itemHandler.getStackInSlot(i).getCount(), false));
+                    }
+                 }
             }
         }
     }

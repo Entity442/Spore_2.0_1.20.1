@@ -69,7 +69,6 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
     @Override
     protected void addRegularGoals() {
         super.addRegularGoals();
-        this.goalSelector.addGoal(7,new RandomStrollGoal(this ,1.0));
         this.goalSelector.addGoal(4, new CustomMeleeAttackGoal(this, 1.5, false) {
             @Override
             public boolean canUse() {
