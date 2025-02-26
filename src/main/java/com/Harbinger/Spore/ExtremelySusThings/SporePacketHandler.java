@@ -1,5 +1,8 @@
 package com.Harbinger.Spore.ExtremelySusThings;
 
+import com.Harbinger.Spore.ExtremelySusThings.Package.AdvancementGivingPackage;
+import com.Harbinger.Spore.ExtremelySusThings.Package.RequestAdvancementPacket;
+import com.Harbinger.Spore.ExtremelySusThings.Package.SyncAdvancementPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkRegistry;
@@ -28,6 +31,11 @@ public class SporePacketHandler {
                 .encoder(SyncAdvancementPacket::encode)
                 .decoder(SyncAdvancementPacket::new)
                 .consumerMainThread(SyncAdvancementPacket::handle)
+                .add();
+        INSTANCE.messageBuilder(AdvancementGivingPackage.class, packetId++)
+                .encoder(AdvancementGivingPackage::encode)
+                .decoder(AdvancementGivingPackage::new)
+                .consumerMainThread(AdvancementGivingPackage::handle)
                 .add();
     }
 

@@ -1,6 +1,9 @@
 package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.ExtremelySusThings.Package.AdvancementGivingPackage;
+import com.Harbinger.Spore.ExtremelySusThings.Package.RequestAdvancementPacket;
+import com.Harbinger.Spore.ExtremelySusThings.SporePacketHandler;
 import com.Harbinger.Spore.Sentities.BaseEntities.*;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
 import com.Harbinger.Spore.Sentities.Organoids.Mound;
@@ -192,27 +195,10 @@ public class ScannerItem extends BaseItem2 {
     public boolean overrideStackedOnOther(@NotNull ItemStack stack, Slot slot, @NotNull ClickAction clickAction, @NotNull Player player) {
         ItemStack itemStack = slot.getItem();
         if (itemStack.getItem() instanceof OrganItem organItem && clickAction == ClickAction.SECONDARY && player instanceof ServerPlayer serverPlayer) {
-            MinecraftServer server = serverPlayer.getServer();
-            if (server == null) {
-                return false;
-            }
-            Advancement advancement = server.getAdvancements().getAdvancement(new ResourceLocation(organItem.getAdvancementIds()));
-            return this.giveAdvancement(serverPlayer, advancement);
-        }
-        return false;
-    }
-
-    public boolean giveAdvancement(ServerPlayer player, Advancement advancement) {
-        if (advancement == null) {
-            return false;
-        }
-        AdvancementProgress progress = player.getAdvancements().getOrStartProgress(advancement);
-        if (!progress.isDone()) {
-            for (String criterion : progress.getRemainingCriteria()) {
-                player.getAdvancements().award(advancement, criterion);
-            }
+            SporePacketHandler.sendToServer(new AdvancementGivingPackage(organItem.getAdvancementIds()));
             return true;
         }
         return false;
     }
+
 }

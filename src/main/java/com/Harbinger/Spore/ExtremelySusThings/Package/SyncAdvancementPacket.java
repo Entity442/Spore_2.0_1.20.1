@@ -1,5 +1,6 @@
-package com.Harbinger.Spore.ExtremelySusThings;
+package com.Harbinger.Spore.ExtremelySusThings.Package;
 
+import com.Harbinger.Spore.ExtremelySusThings.ClientAdvancementTracker;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 

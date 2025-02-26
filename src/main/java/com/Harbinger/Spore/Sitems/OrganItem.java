@@ -1,7 +1,7 @@
 package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.ExtremelySusThings.ClientAdvancementTracker;
-import com.Harbinger.Spore.ExtremelySusThings.RequestAdvancementPacket;
+import com.Harbinger.Spore.ExtremelySusThings.Package.RequestAdvancementPacket;
 import com.Harbinger.Spore.ExtremelySusThings.SporePacketHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;

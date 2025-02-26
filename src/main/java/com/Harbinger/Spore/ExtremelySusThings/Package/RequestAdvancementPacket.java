@@ -1,5 +1,6 @@
-package com.Harbinger.Spore.ExtremelySusThings;
+package com.Harbinger.Spore.ExtremelySusThings.Package;
 
+import com.Harbinger.Spore.ExtremelySusThings.SporePacketHandler;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
