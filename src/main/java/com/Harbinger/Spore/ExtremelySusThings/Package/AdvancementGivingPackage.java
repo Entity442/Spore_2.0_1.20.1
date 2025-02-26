@@ -6,7 +6,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -27,6 +26,7 @@ public class AdvancementGivingPackage {
 
     public void encode(FriendlyByteBuf buffer) {
         buffer.writeUtf(advancement);
+        buffer.writeInt(id); // Fix: Ensure ID is also written
     }
 
     public static void handle(AdvancementGivingPackage message, Supplier<NetworkEvent.Context> context) {
@@ -34,17 +34,20 @@ public class AdvancementGivingPackage {
             NetworkEvent.Context ctx = context.get();
             ServerPlayer player = ctx.getSender();
             if (player == null) return;
-            Entity playerPresser = player.level().getEntity(message.id);
+
             MinecraftServer server = player.server;
             Advancement advancement = server.getAdvancements().getAdvancement(new ResourceLocation(message.advancement));
-            if (advancement == null){
+
+            if (advancement == null) {
+                System.out.println("Advancement not found: " + message.advancement); // Debugging
                 return;
             }
+
             AdvancementProgress progress = player.getAdvancements().getOrStartProgress(advancement);
-            if (!progress.isDone() && playerPresser instanceof ServerPlayer serverPlayer) {
-                for (String criterion : progress.getRemainingCriteria()) {
-                    serverPlayer.getAdvancements().award(advancement, criterion);
-                }
+            System.out.println("Granting advancement: " + message.advancement);
+            for (String criterion : progress.getRemainingCriteria()) {
+                System.out.println("Granting criterion: " + criterion);
+                player.getAdvancements().award(advancement, criterion);
             }
         });
         context.get().setPacketHandled(true);
