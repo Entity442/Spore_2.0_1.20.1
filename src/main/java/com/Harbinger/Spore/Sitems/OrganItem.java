@@ -4,14 +4,9 @@ import com.Harbinger.Spore.ExtremelySusThings.ClientAdvancementTracker;
 import com.Harbinger.Spore.ExtremelySusThings.RequestAdvancementPacket;
 import com.Harbinger.Spore.ExtremelySusThings.SporePacketHandler;
 import net.minecraft.ChatFormatting;
-import net.minecraft.advancements.Advancement;
-import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -30,39 +25,8 @@ public class OrganItem extends BaseItem {
         this.advancementIds = advancementId;
     }
 
-    private boolean hasAdvancement(Player player, MinecraftServer server) {
-        Advancement advancement = getStoredAdvancement(server);
-        if (advancement == null){
-            return false;
-        }
-        if (player instanceof ServerPlayer serverPlayer && serverPlayer.level() instanceof ServerLevel) {
-            return serverPlayer.getAdvancements().getOrStartProgress(advancement).isDone();
-        }
-        return false;
-    }
-
-    public void giveAdvancement(ServerPlayer player) {
-        MinecraftServer server = player.getServer();
-        if (server == null) {
-            return;
-        }
-
-        Advancement advancement = getStoredAdvancement(server);
-        if (advancement == null) {
-            return;
-        }
-
-        AdvancementProgress progress = player.getAdvancements().getOrStartProgress(advancement);
-        if (!progress.isDone()) {
-            for (String criterion : progress.getRemainingCriteria()) {
-                player.getAdvancements().award(advancement, criterion);
-            }
-        }
-    }
-
-    @Nullable
-    private Advancement getStoredAdvancement(MinecraftServer server) {
-        return server.getAdvancements().getAdvancement(new ResourceLocation(advancementIds));
+    public String getAdvancementIds() {
+        return advancementIds;
     }
 
     @Override
@@ -82,7 +46,7 @@ public class OrganItem extends BaseItem {
         if (ClientAdvancementTracker.hasAdvancement(advancementIds)) {
             list.add(Component.translatable(info).withStyle(ChatFormatting.GOLD));
         } else {
-            list.add(Component.translatable("spore.scanner.organ.default").withStyle(ChatFormatting.GRAY));
+            list.add(Component.translatable("spore.scanner.organ.default").withStyle(ChatFormatting.RED));
         }
         SporePacketHandler.sendToServer(new RequestAdvancementPacket(advancementIds));
     }

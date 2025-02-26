@@ -21,7 +21,7 @@ public class HowitzerEmissiveLayer <T extends Howitzer,M extends HowitzerModel<T
     @Override
     public void render(PoseStack matrixStack, MultiBufferSource buffer, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         if (!entity.isInvisible()){
-            float alpha = 0.5F + 0.5F * Mth.sin(ageInTicks * 0.1F);
+            float alpha = 0.5F + 0.5F * Mth.sin(ageInTicks * 0.01F);
             VertexConsumer vertexConsumer = buffer.getBuffer(SporeRenderTypes.glowingTranslucent(TEXTURE));
             getParentModel().renderToBuffer(matrixStack, vertexConsumer, packedLight, 15728640, 1.0F, 1.0F, 1.0F, alpha);
         }
