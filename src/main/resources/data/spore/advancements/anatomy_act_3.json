@@ -2,13 +2,13 @@
   "parent": "spore:scanning_world",
   "display": {
     "icon": {
-      "item": "spore:claw_fragment"
+      "item": "spore:mutated_heart"
     },
     "title": {
-      "translate": "advancement.spore.anatomy_act_1.title"
+      "translate": "advancement.spore.anatomy_act_3.title"
     },
     "description": {
-      "translate": "advancement.spore.anatomy_act_1.description"
+      "translate": "advancement.spore.anatomy_act_3.description"
     },
     "frame": "goal",
     "show_toast": true,

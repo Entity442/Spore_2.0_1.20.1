@@ -2,13 +2,13 @@
   "parent": "spore:scanning_world",
   "display": {
     "icon": {
-      "item": "spore:claw_fragment"
+      "item": "spore:corrosive_sack"
     },
     "title": {
-      "translate": "advancement.spore.anatomy_act_1.title"
+      "translate": "advancement.spore.anatomy_act_9.title"
     },
     "description": {
-      "translate": "advancement.spore.anatomy_act_1.description"
+      "translate": "advancement.spore.anatomy_act_9.description"
     },
     "frame": "goal",
     "show_toast": true,
