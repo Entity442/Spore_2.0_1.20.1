@@ -1,14 +1,22 @@
 {
   "display": {
-    "background": "minecraft:textures/block/iron_block.png",
+    "background": "spore:textures/block/laboratory_block3.png",
     "icon": {
       "item": "spore:mutated_heart"
     },
-    "title": "Spore",
-    "description": ""
+    "title": {
+      "translate": "advancement.spore.spore.title"
+    },
+    "description": {
+      "translate": "advancement.spore.spore.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
   },
   "criteria": {
-    "requirement": {
+    "pick_up_item": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
@@ -21,48 +29,48 @@
   },
   "rewards": {
     "recipes": [
-      "spore:amethyst_dust",
-      "spore:biomass",
-      "spore:sausage",
-      "spore:armads",
-      "spore:claw",
-      "spore:compound",
-      "spore:compound_plate",
-      "spore:container",
-      "spore:fleshy_claw",
-      "spore:hardened_bind",
-      "spore:lab_block",
-      "spore:lab_block_slab",
-      "spore:lab_slab",
-      "spore:lab_stair",
-      "spore:nerves",
-      "spore:spine",
-      "spore:tumor",
-      "spore:iron_ladder_recipe",
-      "spore:gas_mask",
-      "spore:vent_plate",
-      "spore:vent_door",
-      "spore:cdu",
-      "spore:rusted_vent_plate",
-      "spore:frozen_reinforced_door",
-      "spore:reinforced_door",
-      "spore:cooked_heart_kebab",
-      "spore:fiber_stew",
-      "spore:heart_kebab",
-      "spore:roaster_tumor",
-      "spore:brain_noodles",
-      "spore:milky_sacks",
-      "spore:vigil_soup",
-      "spore:rusted_reinforced_door",
-      "spore:symbiotic_reagent",
-      "spore:circuit_board",
-      "spore:ice_canister",
-      "spore:zoaholic",
-      "spore:incubator",
+    "spore:amethyst_dust",
+    "spore:biomass",
+    "spore:sausage",
+    "spore:armads",
+    "spore:claw",
+    "spore:compound",
+    "spore:compound_plate",
+    "spore:container",
+    "spore:fleshy_claw",
+    "spore:hardened_bind",
+    "spore:lab_block",
+    "spore:lab_block_slab",
+    "spore:lab_slab",
+    "spore:lab_stair",
+    "spore:nerves",
+    "spore:spine",
+    "spore:tumor",
+    "spore:iron_ladder_recipe",
+    "spore:gas_mask",
+    "spore:vent_plate",
+    "spore:vent_door",
+    "spore:cdu",
+    "spore:rusted_vent_plate",
+    "spore:frozen_reinforced_door",
+    "spore:reinforced_door",
+    "spore:cooked_heart_kebab",
+    "spore:fiber_stew",
+    "spore:heart_kebab",
+    "spore:roaster_tumor",
+    "spore:brain_noodles",
+    "spore:milky_sacks",
+    "spore:vigil_soup",
+    "spore:rusted_reinforced_door",
+    "spore:symbiotic_reagent",
+    "spore:circuit_board",
+    "spore:ice_canister",
+    "spore:zoaholic",
+    "spore:incubator",
 
-      "spore:corrosive_reagent",
-      "spore:cryogenic_reagent",
-      "spore:gastric_reagent"
+    "spore:corrosive_reagent",
+    "spore:cryogenic_reagent",
+    "spore:gastric_reagent"
     ]
   }
 }

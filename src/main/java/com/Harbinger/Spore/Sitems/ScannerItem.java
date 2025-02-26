@@ -7,6 +7,7 @@ import com.Harbinger.Spore.Sentities.Organoids.Mound;
 import com.Harbinger.Spore.Sentities.Utility.Illusion;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -180,8 +181,8 @@ public class ScannerItem extends BaseItem2 {
     @Override
     public boolean overrideStackedOnOther(ItemStack stack, Slot slot, ClickAction clickAction, Player player) {
         ItemStack itemStack = slot.getItem();
-        if (itemStack.getItem() instanceof OrganItem organItem && !organItem.isScanned(itemStack) && clickAction == ClickAction.SECONDARY){
-            organItem.setScanned(itemStack);
+        if (itemStack.getItem() instanceof OrganItem organItem && clickAction == ClickAction.SECONDARY && player instanceof ServerPlayer serverPlayer){
+            organItem.giveAdvancement(serverPlayer);
             return true;
         }
         return false;

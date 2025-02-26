@@ -2,6 +2,7 @@ package com.Harbinger.Spore;
 
 import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.ExtremelySusThings.BiomeModification;
+import com.Harbinger.Spore.ExtremelySusThings.SporePacketHandler;
 import com.Harbinger.Spore.ExtremelySusThings.StructureModification;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BasicInfected.*;
@@ -59,7 +60,7 @@ public class Spore
         SMenu.register(modEventBus);
         Spaintings.register(modEventBus);
         SblockEntities.register(modEventBus);
-
+        SporePacketHandler.registerPackets();
         final DeferredRegister<Codec<? extends BiomeModifier>> biomeModifiers =
                 DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, Spore.MODID);
         biomeModifiers.register(modEventBus);
