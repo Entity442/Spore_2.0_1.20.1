@@ -105,7 +105,7 @@ public class InfectedWanderingTrader extends Infected implements EvolvingInfecte
 
     @Override
     public void Evolve(Infected livingEntity, List<? extends String> value, ScamperVariants variants) {
-        if (this.getLinked() && random.nextFloat() < 0.3F){
+        if (this.getLinked()){
             Specter specter = new Specter(Sentities.SPECTER.get(),level());
             specter.setBiomass(this.getKills() + this.getEvoPoints());
             specter.setCustomName(this.getCustomName());
