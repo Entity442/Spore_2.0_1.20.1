@@ -194,8 +194,8 @@ public class ScannerItem extends BaseItem2 {
     @Override
     public boolean overrideStackedOnOther(@NotNull ItemStack stack, Slot slot, @NotNull ClickAction clickAction, @NotNull Player player) {
         ItemStack itemStack = slot.getItem();
-        if (itemStack.getItem() instanceof OrganItem organItem && clickAction == ClickAction.SECONDARY && player instanceof ServerPlayer serverPlayer) {
-            SporePacketHandler.sendToServer(new AdvancementGivingPackage(organItem.getAdvancementIds()));
+        if (itemStack.getItem() instanceof OrganItem organItem && clickAction == ClickAction.SECONDARY) {
+            SporePacketHandler.sendToServer(new AdvancementGivingPackage(organItem.getAdvancementIds(),player.getId()));
             return true;
         }
         return false;
