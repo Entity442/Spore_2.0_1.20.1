@@ -1,0 +1,33 @@
+{
+  "parent": "spore:lost_technology",
+  "display": {
+    "icon": {
+      "item": "spore:zoaholic"
+    },
+    "title": {
+      "translate": "advancement.spore.zoaholic.title"
+    },
+    "description": {
+      "translate": "advancement.spore.zoaholic.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "pick_up_advanced_item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "spore:zoaholic"
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "experience": 50
+  }
+}

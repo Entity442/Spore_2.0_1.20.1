@@ -1,0 +1,39 @@
+{
+  "parent": "spore:lost_technology",
+  "display": {
+    "icon": {
+      "item": "spore:surgery_table"
+    },
+    "title": {
+      "translate": "advancement.spore.surgery_table.title"
+    },
+    "description": {
+      "translate": "advancement.spore.surgery_table.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "pick_up_advanced_item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "spore:surgery_table"
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "experience": 200,
+    "items": [
+      {
+        "item": "spore:knife",
+        "count": 1
+      }
+    ]
+  }
+}

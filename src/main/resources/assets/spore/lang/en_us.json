@@ -506,5 +506,13 @@
   "advancement.spore.anatomy_act_8.title" : "Altered Spleen",
   "advancement.spore.anatomy_act_8.description" : "Scan the Altered Spleen fragments and learn their secrets",
   "advancement.spore.anatomy_act_9.title" : "Corrosive Sack",
-  "advancement.spore.anatomy_act_9.description" : "Scan the Corrosive Sack and learn their secrets"
+  "advancement.spore.anatomy_act_9.description" : "Scan the Corrosive Sack and learn their secrets",
+  "advancement.spore.surgery_table.title" : "Anesthesia not required",
+  "advancement.spore.surgery_table.description" : "Find or craft the Surgery table",
+  "advancement.spore.compound_plate.title" : "Who said you needed starch",
+  "advancement.spore.compound_plate.description" : "Find or craft compound plates",
+  "advancement.spore.cdu.title" : "Local ice age",
+  "advancement.spore.cdu.description" : "Find or craft a CDU",
+  "advancement.spore.zoaholic.title" : "Discount radar",
+  "advancement.spore.zoaholic.description" : "Find or craft a Zoaholic"
 }

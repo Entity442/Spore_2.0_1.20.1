@@ -1,0 +1,39 @@
+{
+  "parent": "spore:lost_technology",
+  "display": {
+    "icon": {
+      "item": "spore:cdu"
+    },
+    "title": {
+      "translate": "advancement.spore.cdu.title"
+    },
+    "description": {
+      "translate": "advancement.spore.cdu.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "pick_up_advanced_item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "spore:cdu"
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "experience": 50,
+    "items": [
+      {
+        "item": "spore:ice_canister",
+        "count": 1
+      }
+    ]
+  }
+}
