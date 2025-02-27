@@ -16,7 +16,7 @@
     "hidden": false
   },
   "criteria": {
-    "pick_up_advanced_item": {
+    "pick_up_compound_plate": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
@@ -27,6 +27,9 @@
       }
     }
   },
+  "requirements": [
+    ["pick_up_compound_plate"]
+  ],
   "rewards": {
     "experience": 50
   }
