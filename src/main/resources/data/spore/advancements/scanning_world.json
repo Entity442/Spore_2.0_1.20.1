@@ -1,36 +1,26 @@
 {
-  "parent": "spore:spore",
   "display": {
     "icon": {
       "item": "spore:scanner"
     },
-    "title": {
-      "translate": "advancement.spore.scanner.title"
-    },
-    "description": {
-      "translate": "advancement.spore.scanner.description"
-    },
-    "frame": "goal",
-    "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
+    "title":{"translate": "advancement.spore.scanner.title"},
+    "description":{"translate": "advancement.spore.scanner.description"}
   },
+
+  "parent": "spore:spore",
   "criteria": {
     "pick_up_scanner": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "spore:scanner"
+            "items": [
+              "spore:scanner"
+            ]
           }
         ]
       }
     }
   },
-  "requirements": [
-    ["pick_up_scanner"]
-  ],
-  "rewards": {
-    "experience": 50
-  }
+  "requirements": []
 }

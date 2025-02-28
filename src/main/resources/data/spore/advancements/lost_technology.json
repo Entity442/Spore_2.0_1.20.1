@@ -1,36 +1,26 @@
 {
-  "parent": "spore:spore",
   "display": {
     "icon": {
       "item": "spore:compound_plate"
     },
-    "title": {
-      "translate": "advancement.spore.compound_plate.title"
-    },
-    "description": {
-      "translate": "advancement.spore.compound_plate.description"
-    },
-    "frame": "goal",
-    "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
+    "title":{"translate": "advancement.spore.compound_plate.title"},
+    "description":{"translate": "advancement.spore.compound_plate.description"}
   },
+
+  "parent": "spore:spore",
   "criteria": {
     "pick_up_compound_plate": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "spore:compound_plate"
+            "items": [
+              "spore:compound_plate"
+            ]
           }
         ]
       }
     }
   },
-  "requirements": [
-    ["pick_up_compound_plate"]
-  ],
-  "rewards": {
-    "experience": 50
-  }
+  "requirements": []
 }
