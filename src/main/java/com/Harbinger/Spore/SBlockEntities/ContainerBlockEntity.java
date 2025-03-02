@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class ContainerBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer {
     private static final int[] slotsTop = new int[]{0};
-    private NonNullList<ItemStack> stacks = NonNullList.withSize(10, ItemStack.EMPTY);
+    private NonNullList<ItemStack> stacks = NonNullList.withSize(32, ItemStack.EMPTY);
     public ContainerBlockEntity(BlockPos pos, BlockState state) {
         super(SblockEntities.CONTAINER.get(),pos , state);
     }
