@@ -155,6 +155,7 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
     }
     public void updateOutputSlot() {
         if (itemHandler.getStackInSlot(STRING_SLOT) == ItemStack.EMPTY){
+            this.itemHandler.setStackInSlot(SurgeryTableBlockEntity.OUTPUT_SLOT, ItemStack.EMPTY);
             return;
         }
         Optional<SurgeryRecipe> match = this.getCurrentRecipe();

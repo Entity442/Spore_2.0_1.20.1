@@ -398,7 +398,7 @@ public class InfestedConstruct extends UtilityEntity implements RangedAttackMob,
         AABB aabb = this.getBoundingBox().inflate(8);
         List<Entity> infected = level().getEntities(this,aabb,entity -> {return entity instanceof Infected && !(entity instanceof Hyper);});
         for (Entity entity : infected){
-            if (entity instanceof Infected infected1 && infected1.getLinked()){
+            if (entity instanceof Infected infected1){
                 infected1.setSearchPos(this.getOnPos());
                 if (infected1.distanceToSqr(this) < 30){
                     setActive(true);
