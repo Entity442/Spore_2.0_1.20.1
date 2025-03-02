@@ -27,7 +27,7 @@ public class ContainerBlockEntity extends BaseContainerBlockEntity implements Wo
     public ContainerBlockEntity(BlockPos pos, BlockState state) {
         super(SblockEntities.CONTAINER.get(),pos , state);
     }
-
+    public NonNullList<ItemStack> Stacks = stacks;
 
     @Override
     public Component getDisplayName() {

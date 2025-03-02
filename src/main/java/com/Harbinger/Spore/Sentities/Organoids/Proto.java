@@ -8,6 +8,7 @@ import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
 import com.Harbinger.Spore.Sentities.CasingGenerator;
+import com.Harbinger.Spore.Sentities.FoliageSpread;
 import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -46,7 +47,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class Proto extends Organoid implements CasingGenerator {
+public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
     private static final EntityDataAccessor<Integer> HOSTS = SynchedEntityData.defineId(Proto.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Optional<UUID>> TARGET = SynchedEntityData.defineId(Proto.class, EntityDataSerializers.OPTIONAL_UUID);
     public static final EntityDataAccessor<BlockPos> NODE = SynchedEntityData.defineId(Proto.class, EntityDataSerializers.BLOCK_POS);
@@ -101,6 +102,9 @@ public class Proto extends Organoid implements CasingGenerator {
     @Override
     public void tick() {
         super.tick();
+        if (this.tickCount % 6000 == 0 && SConfig.SERVER.mound_foliage.get() && this.entityData.get(NODE) != BlockPos.ZERO){
+            SpreadInfection(level(),SConfig.SERVER.mound_range_age4.get() * 2,this.entityData.get(NODE));
+        }
         if (this.tickCount % 200 == 0 && SConfig.SERVER.proto_casing.get()){
             if (this.distanceToSqr(this.entityData.get(NODE).getX(),this.entityData.get(NODE).getY(),this.entityData.get(NODE).getZ()) > 100){
                 if (Math.random() < 0.01){
@@ -170,7 +174,7 @@ public class Proto extends Organoid implements CasingGenerator {
         List<Entity> entities = this.level().getEntities(this, aabb);
         for (Entity entity : entities){
             if (entity instanceof LivingEntity living && (SConfig.SERVER.proto_sapient_target.get().contains(living.getEncodeId()) || living instanceof Player)){
-                living.addEffect(new MobEffectInstance(Seffects.MADNESS.get(),6000,0));
+                living.addEffect(new MobEffectInstance(Seffects.MADNESS.get(),6000,0,false,false));
             }
         }
     }
