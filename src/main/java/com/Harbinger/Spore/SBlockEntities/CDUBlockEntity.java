@@ -89,7 +89,7 @@ public class CDUBlockEntity extends BlockEntity{
                 if (Math.random() < 0.2)
                     level.removeBlock(blockpos,false);
             }
-            if (Math.random() < 0.1){
+            if (Math.random() < 0.2){
                 for (String str : SConfig.DATAGEN.block_cleaning.get()){
                     String[] string = str.split("\\|" );
                     Block blockCon1 = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(string[0]));
@@ -135,7 +135,7 @@ public class CDUBlockEntity extends BlockEntity{
     public static <E extends BlockEntity> void serverTick(Level level, BlockPos blockPos, BlockState blockState, CDUBlockEntity e) {
         if (e.getFuel() > 0 && !level.isClientSide){
             e.fuel--;
-            if (e.getFuel() % 60 == 0){
+            if (e.getFuel() % 100 == 0){
                 e.cleanInfection(blockPos);
             }
          }
