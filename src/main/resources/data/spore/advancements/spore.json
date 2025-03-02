@@ -1,22 +1,14 @@
 {
   "display": {
-    "background": "spore:textures/block/laboratory_block3.png",
     "icon": {
-      "item": "spore:mutated_heart"
+      "item": "spore:proto_spawnegg"
     },
-    "title": {
-      "translate": "advancement.spore.spore.title"
-    },
-    "description": {
-      "translate": "advancement.spore.spore.description"
-    },
-    "frame": "task",
-    "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
+    "title":{"translate": "advancement.spore.spore.title"},
+    "description":{"translate": "advancement.spore.spore.description"},
+    "background": "spore:textures/block/laboratory_block3.png"
   },
   "criteria": {
-    "pick_up_item": {
+    "pick_up_scanner": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [

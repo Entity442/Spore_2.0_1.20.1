@@ -5,7 +5,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
-
 public class SyncAdvancementPacket {
     private final String advancementId;
     private final boolean hasAdvancement;
@@ -27,8 +26,9 @@ public class SyncAdvancementPacket {
 
     public static void handle(SyncAdvancementPacket message, Supplier<NetworkEvent.Context> context) {
         context.get().enqueueWork(() -> {
-            // Update the client-side cache
-            ClientAdvancementTracker.setAdvancement(message.advancementId, message.hasAdvancement);
+            if (context.get().getDirection().getReceptionSide().isClient()) { // Ensure client-side
+                ClientAdvancementTracker.setAdvancement(message.advancementId, message.hasAdvancement);
+            }
         });
         context.get().setPacketHandled(true);
     }

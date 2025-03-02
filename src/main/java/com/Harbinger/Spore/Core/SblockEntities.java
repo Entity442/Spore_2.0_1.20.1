@@ -14,7 +14,7 @@ public class SblockEntities {
 
 
     public static final RegistryObject<BlockEntityType<ContainerBlockEntity>> CONTAINER =
-            BLOCK_ENTITIES.register("container", () ->
+            BLOCK_ENTITIES.register("bcu_container", () ->
                     BlockEntityType.Builder.of(ContainerBlockEntity::new,
                             Sblocks.CONTAINER.get()).build(null));
     public static final RegistryObject<BlockEntityType<BiomassLumpEntity>> BIOMASS_LUMP =

@@ -9,7 +9,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
-
 public class AdvancementGivingPackage {
     private final String advancement;
     private final int id;
@@ -31,22 +30,19 @@ public class AdvancementGivingPackage {
 
     public static void handle(AdvancementGivingPackage message, Supplier<NetworkEvent.Context> context) {
         context.get().enqueueWork(() -> {
-            NetworkEvent.Context ctx = context.get();
-            ServerPlayer player = ctx.getSender();
+            ServerPlayer player = context.get().getSender();
             if (player == null) return;
 
             MinecraftServer server = player.server;
             Advancement advancement = server.getAdvancements().getAdvancement(new ResourceLocation(message.advancement));
 
             if (advancement == null) {
-                System.out.println("Advancement not found: " + message.advancement); // Debugging
+                System.err.println("[Spore] Advancement not found: " + message.advancement); // Log error
                 return;
             }
 
             AdvancementProgress progress = player.getAdvancements().getOrStartProgress(advancement);
-            System.out.println("Granting advancement: " + message.advancement);
             for (String criterion : progress.getRemainingCriteria()) {
-                System.out.println("Granting criterion: " + criterion);
                 player.getAdvancements().award(advancement, criterion);
             }
         });
