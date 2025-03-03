@@ -41,8 +41,8 @@ public class OrganItem extends BaseItem {
                     list.add(Component.translatable(info).withStyle(ChatFormatting.GOLD));
                 } else {
                     list.add(Component.translatable("spore.scanner.organ.default").withStyle(ChatFormatting.RED));
-                    SporePacketHandler.sendToServer(new RequestAdvancementPacket(advancementIds,player.getId()));
                 }
+                SporePacketHandler.sendToServer(new RequestAdvancementPacket(advancementIds,player.getId()));
             }
         }else{
             list.add(Component.translatable("spore.scanner.organ.default").withStyle(ChatFormatting.RED));
