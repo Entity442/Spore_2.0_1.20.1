@@ -7,6 +7,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -34,15 +35,14 @@ public class OrganItem extends BaseItem {
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> list, TooltipFlag tooltipFlag) {
         super.appendHoverText(stack, level, list, tooltipFlag);
         if (level != null && level.isClientSide) {
-            Player player = Minecraft.getInstance().player;
-            if (player == null) {
-                return;
-            }
-            if (ClientAdvancementTracker.hasAdvancement(advancementIds)) {
-                list.add(Component.translatable(info).withStyle(ChatFormatting.GOLD));
-            } else {
-                list.add(Component.translatable("spore.scanner.organ.default").withStyle(ChatFormatting.RED));
-                SporePacketHandler.sendToServer(new RequestAdvancementPacket(advancementIds));
+            Entity entity = Minecraft.getInstance().getCameraEntity();
+            if (entity instanceof Player player) {
+                if (ClientAdvancementTracker.hasAdvancement(advancementIds)) {
+                    list.add(Component.translatable(info).withStyle(ChatFormatting.GOLD));
+                } else {
+                    list.add(Component.translatable("spore.scanner.organ.default").withStyle(ChatFormatting.RED));
+                    SporePacketHandler.sendToServer(new RequestAdvancementPacket(advancementIds,player.getId()));
+                }
             }
         }else{
             list.add(Component.translatable("spore.scanner.organ.default").withStyle(ChatFormatting.RED));
