@@ -12,19 +12,20 @@ public class SporeRenderTypes extends RenderType {
 
     public static RenderType glowingTranslucent(ResourceLocation texture) {
         return RenderType.create(
-                "glowing_translucent", // Custom name
-                DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, // Vertex format with lightmap
-                VertexFormat.Mode.QUADS, // Render mode (quads)
-                256, // Buffer size
-                true, // Affects transparency
-                true, // Needs sorting
+                "glowing_translucent",
+                DefaultVertexFormat.NEW_ENTITY,
+                VertexFormat.Mode.QUADS,
+                512, // Increased buffer size
+                true,
+                false, // Try disabling sorting
                 RenderType.CompositeState.builder()
-                        .setShaderState(RenderType.RENDERTYPE_EYES_SHADER) // Use emissive translucent shader
-                        .setTextureState(new RenderType.TextureStateShard(texture, false, false)) // Custom texture
-                        .setTransparencyState(RenderType.TRANSLUCENT_TRANSPARENCY) // Enable translucency
-                        .setCullState(RenderType.NO_CULL) // Disable face culling (renders both sides)
+                        .setShaderState(RenderType.RENDERTYPE_EYES_SHADER) // Better translucent glow shader
+                        .setTextureState(new RenderType.TextureStateShard(texture, true, false)) // Enable mipmapping
+                        .setTransparencyState(RenderType.TRANSLUCENT_TRANSPARENCY) // Makes glow effects stand out
+                        .setCullState(RenderType.NO_CULL) // Renders both sides
                         .setOverlayState(RenderType.NO_OVERLAY)
-                        .createCompositeState(true) // Composite state for the render type
+                        .setLightmapState(RenderType.LIGHTMAP)
+                        .createCompositeState(true)
         );
     }
 }
