@@ -33,22 +33,19 @@ public class OrganItem extends BaseItem {
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> list, TooltipFlag tooltipFlag) {
         super.appendHoverText(stack, level, list, tooltipFlag);
-        if (level == null || !level.isClientSide) {
-            return;
-        }
-        Player player = Minecraft.getInstance().player;
-        if (player == null) {
-            return;
-        }
-        MinecraftServer server = Minecraft.getInstance().getSingleplayerServer();
-        if (server == null) {
-            return;
-        }
-        if (ClientAdvancementTracker.hasAdvancement(advancementIds)) {
-            list.add(Component.translatable(info).withStyle(ChatFormatting.GOLD));
-        } else {
+        if (level != null && level.isClientSide) {
+            Player player = Minecraft.getInstance().player;
+            if (player == null) {
+                return;
+            }
+            if (ClientAdvancementTracker.hasAdvancement(advancementIds)) {
+                list.add(Component.translatable(info).withStyle(ChatFormatting.GOLD));
+            } else {
+                list.add(Component.translatable("spore.scanner.organ.default").withStyle(ChatFormatting.RED));
+                SporePacketHandler.sendToServer(new RequestAdvancementPacket(advancementIds));
+            }
+        }else{
             list.add(Component.translatable("spore.scanner.organ.default").withStyle(ChatFormatting.RED));
         }
-        SporePacketHandler.sendToServer(new RequestAdvancementPacket(advancementIds));
     }
 }
