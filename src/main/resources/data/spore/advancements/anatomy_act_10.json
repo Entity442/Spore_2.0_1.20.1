@@ -1,0 +1,26 @@
+{
+  "parent": "spore:scanning_world",
+  "display": {
+    "icon": {
+      "item": "spore:organoid_membrane"
+    },
+    "title": {
+      "translate": "advancement.spore.anatomy_act_10.title"
+    },
+    "description": {
+      "translate": "advancement.spore.anatomy_act_10.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "pick_up_advanced_item": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "rewards": {
+    "experience": 50
+  }
+}

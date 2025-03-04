@@ -2,12 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "   ",
-    " RR",
+    " DR",
     " RR"
   ],
   "key": {
     "R": {
       "item": "spore:mutated_fiber"
+    },
+    "D": {
+      "item": "spore:organoid_membrane"
     }
   },
   "result": {
