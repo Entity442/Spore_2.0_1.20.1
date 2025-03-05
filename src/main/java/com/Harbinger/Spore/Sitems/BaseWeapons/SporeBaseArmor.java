@@ -16,6 +16,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
@@ -119,7 +120,8 @@ public abstract class SporeBaseArmor extends ArmorItem implements SporeArmorData
         }
     }
 
-    public int calculateDurabilityLost(ItemStack stack,int value){
+
+    public int calculateDurabilityLost(ItemStack stack, int value){
         if (getVariant(stack) == SporeArmorMutations.CHARRED){
             return value * 2;
         }

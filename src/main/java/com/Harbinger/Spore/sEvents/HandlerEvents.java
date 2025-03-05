@@ -20,10 +20,7 @@ import com.Harbinger.Spore.Sentities.Utility.GastGeber;
 import com.Harbinger.Spore.Sentities.Utility.Illusion;
 import com.Harbinger.Spore.Sentities.Utility.InfestedConstruct;
 import com.Harbinger.Spore.Sentities.Utility.Specter;
-import com.Harbinger.Spore.Sitems.BaseWeapons.SporeArmorData;
-import com.Harbinger.Spore.Sitems.BaseWeapons.SporeBaseArmor;
-import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsBaseItem;
-import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
+import com.Harbinger.Spore.Sitems.BaseWeapons.*;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
@@ -638,6 +635,17 @@ public class HandlerEvents {
                 }
             }
             event.setAmount(event.getAmount() + totalDamageModification);
+        }
+        if (event.getSource().getEntity() instanceof ServerPlayer serverPlayer){
+            int i = 0;
+            for (ItemStack stack : serverPlayer.getInventory().armor){
+                if (stack.getItem() instanceof SporeBaseArmor baseArmor && baseArmor.getVariant(stack) == SporeArmorMutations.CHARRED){
+                    i=i+2;
+                }
+            }
+            if (i > 0){
+                event.getEntity().setSecondsOnFire(i);
+            }
         }
     }
 
