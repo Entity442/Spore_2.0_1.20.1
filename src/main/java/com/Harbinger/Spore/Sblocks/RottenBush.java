@@ -35,7 +35,7 @@ public class RottenBush extends GenericFoliageBlock{
     @Override
     public void randomTick(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource randomSource) {
         super.randomTick(state, serverLevel, pos, randomSource);
-        if (state.getValue(AGE) < MAX_AGE){
+        if (state.getValue(AGE) < MAX_AGE && Math.random() < 0.3){
             serverLevel.setBlock(pos, getStateForAge(state.getValue(AGE)+1), 2);
         }
     }
