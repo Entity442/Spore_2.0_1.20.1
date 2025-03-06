@@ -93,7 +93,7 @@ public class Sblocks {
     public static final RegistryObject<Block> ROTTEN_SLAB = BLOCKS.register("rotten_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.WOOD).ignitedByLava()));
     public static final RegistryObject<Block> ROTTEN_SCRAPS = BLOCKS.register("rotten_scraps", WoodenScraps::new);
     public static final RegistryObject<Block> ROTTEN_BRANCH = BLOCKS.register("rotten_branch", Branch::new);
-    public static final RegistryObject<Block> ROTTEN_BUSH = BLOCKS.register("rotten_bush", () -> new GenericFoliageBlock( BlockBehaviour.Properties.of().sound(SoundType.CROP).strength(0f, 0f).noCollission().noOcclusion().sound(SoundType.CROP)){
+    public static final RegistryObject<Block> ROTTEN_BUSH = BLOCKS.register("rotten_bush", () -> new RottenBush(){
         @Override
         public boolean isFlammable(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
             return true;

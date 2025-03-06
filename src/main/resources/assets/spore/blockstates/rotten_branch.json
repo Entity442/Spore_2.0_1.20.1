@@ -1,19 +1,36 @@
 {
   "variants": {
-    "facing=east": {
-      "model": "spore:block/rotten_branch",
-      "y": 270
-    },
-    "facing=north": {
-      "model": "spore:block/rotten_branch",
-      "y": 180
-    },
-    "facing=south": {
-      "model": "spore:block/rotten_branch"
-    },
-    "facing=west": {
-      "model": "spore:block/rotten_branch",
-      "y": 90
-    }
+    "facing=east": [
+      { "model": "spore:block/rotten_branch", "y": 270 },
+      { "model": "spore:block/rotten_branch1", "y": 270 },
+      { "model": "spore:block/rotten_branch2", "y": 270 },
+      { "model": "spore:block/rotten_branch3", "y": 270 },
+      { "model": "spore:block/rotten_branch4", "y": 270 },
+      { "model": "spore:block/rotten_branch5", "y": 270 }
+    ],
+    "facing=north": [
+      { "model": "spore:block/rotten_branch", "y": 180 },
+      { "model": "spore:block/rotten_branch1", "y": 180 },
+      { "model": "spore:block/rotten_branch2", "y": 180 },
+      { "model": "spore:block/rotten_branch3", "y": 180 },
+      { "model": "spore:block/rotten_branch4", "y": 180 },
+      { "model": "spore:block/rotten_branch5", "y": 180 }
+    ],
+    "facing=south": [
+      { "model": "spore:block/rotten_branch" },
+      { "model": "spore:block/rotten_branch1" },
+      { "model": "spore:block/rotten_branch2" },
+      { "model": "spore:block/rotten_branch3" },
+      { "model": "spore:block/rotten_branch4" },
+      { "model": "spore:block/rotten_branch5" }
+    ],
+    "facing=west": [
+      { "model": "spore:block/rotten_branch", "y": 90},
+      { "model": "spore:block/rotten_branch5", "y": 90 },
+      { "model": "spore:block/rotten_branch5", "y": 90 },
+      { "model": "spore:block/rotten_branch5", "y": 90 },
+      { "model": "spore:block/rotten_branch5", "y": 90 },
+      { "model": "spore:block/rotten_branch5", "y": 90 }
+    ]
   }
 }

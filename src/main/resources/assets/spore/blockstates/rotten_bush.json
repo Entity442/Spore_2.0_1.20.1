@@ -1,9 +1,22 @@
 {
   "variants": {
-    "": [
-      {
-        "model": "spore:block/rotten_bush"
-      }
-    ]
+    "age=0": {
+      "model": "spore:block/rotten_bush"
+    },
+    "age=1": {
+      "model": "spore:block/rotten_bush1"
+    },
+    "age=2": {
+      "model": "spore:block/rotten_bush2"
+    },
+    "age=3": {
+      "model": "spore:block/rotten_bush3"
+    },
+    "age=4": {
+      "model": "spore:block/rotten_bush4"
+    },
+    "age=5": {
+      "model": "spore:block/rotten_bush5"
+    }
   }
 }

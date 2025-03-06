@@ -3,6 +3,24 @@
     "": [
       {
         "model": "spore:block/growth_mycelium"
+      },
+      {
+        "model": "spore:block/growth_mycelium1"
+      },
+      {
+        "model": "spore:block/growth_mycelium2"
+      },
+      {
+        "model": "spore:block/growth_mycelium3"
+      },
+      {
+        "model": "spore:block/growth_mycelium4"
+      },
+      {
+        "model": "spore:block/growth_mycelium5"
+      },
+      {
+        "model": "spore:block/growth_mycelium6"
       }
     ]
   }

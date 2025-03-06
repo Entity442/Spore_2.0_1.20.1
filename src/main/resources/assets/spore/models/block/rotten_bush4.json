@@ -1,0 +1,6 @@
+{
+  "parent": "spore:block/foliage",
+  "textures": {
+    "cross": "spore:block/rotten_bush4"
+  }
+}

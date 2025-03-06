@@ -1,0 +1,7 @@
+{
+	"parent": "spore:block/rotten_branch",
+	"textures": {
+		"0": "spore:block/rotten_branch5",
+		"particle": "spore:block/rotten_branch"
+	}
+}
