@@ -42,8 +42,9 @@ public class InfectedMace extends SporeToolsBaseItem {
         super(SConfig.SERVER.mace_damage.get(), 2f, 3, SConfig.SERVER.mace_durability.get(), 1);
     }
 
-    public boolean hurtEnemy(ItemStack stack, LivingEntity entity, LivingEntity livingEntity) {
-       entity.knockback(2.2F, Mth.sin(livingEntity.getYRot() * ((float) Math.PI / 180F)), (-Mth.cos(livingEntity.getYRot() * ((float) Math.PI / 180F))));
+    @Override
+    public boolean hurtEnemy(ItemStack stack, LivingEntity livingEntity, LivingEntity entity) {
+        entity.knockback(2.2F, Mth.sin(livingEntity.getYRot() * ((float) Math.PI / 180F)), (-Mth.cos(livingEntity.getYRot() * ((float) Math.PI / 180F))));
         AABB bounding = entity.getBoundingBox().inflate(2);
         List<Entity> targets = entity.level().getEntities(entity , bounding);
         for (Entity en : targets) {
@@ -54,6 +55,6 @@ public class InfectedMace extends SporeToolsBaseItem {
                 if (k > 0){ en.setSecondsOnFire(10 * k);}
             }
         }
-        return true;
+        return super.hurtEnemy(stack, livingEntity, entity);
     }
 }
