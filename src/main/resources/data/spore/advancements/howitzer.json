@@ -1,0 +1,37 @@
+{
+  "display": {
+    "icon": {
+      "item": "spore:howitzer_spawnegg"
+    },
+    "title":{"translate": "advancement.spore.howitzer.title"},
+    "description":{"translate": "advancement.spore.howitzer.description"}
+  },
+
+  "parent": "spore:reconstructor",
+  "criteria": {
+    "hurt_infected": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "entity": {
+          "type": "spore:howitzer"
+        }
+      }
+    },
+    "hurt_by_infected": {
+      "trigger": "minecraft:entity_hurt_player",
+      "conditions": {
+        "damage": {
+          "source_entity": {
+            "type": "spore:howitzer"
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "hurt_infected",
+      "hurt_by_infected"
+    ]
+  ]
+}

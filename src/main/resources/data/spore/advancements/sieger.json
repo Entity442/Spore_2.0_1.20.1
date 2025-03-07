@@ -1,0 +1,37 @@
+{
+  "display": {
+    "icon": {
+      "item": "spore:sieger_spawnegg"
+    },
+    "title":{"translate": "advancement.spore.sieger.title"},
+    "description":{"translate": "advancement.spore.sieger.description"}
+  },
+
+  "parent": "spore:reconstructor",
+  "criteria": {
+    "hurt_infected": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "entity": {
+          "type": "spore:sieger"
+        }
+      }
+    },
+    "hurt_by_infected": {
+      "trigger": "minecraft:entity_hurt_player",
+      "conditions": {
+        "damage": {
+          "source_entity": {
+            "type": "spore:sieger"
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "hurt_infected",
+      "hurt_by_infected"
+    ]
+  ]
+}
