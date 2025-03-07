@@ -1,0 +1,37 @@
+{
+  "display": {
+    "icon": {
+      "item": "spore:umarmed_spawnegg"
+    },
+    "title":{"translate": "advancement.spore.umarmed.title"},
+    "description":{"translate": "advancement.spore.umarmed.description"}
+  },
+
+  "parent": "spore:proto",
+  "criteria": {
+    "hurt_infected": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "entity": {
+          "type": "spore:umarmed"
+        }
+      }
+    },
+    "hurt_by_infected": {
+      "trigger": "minecraft:entity_hurt_player",
+      "conditions": {
+        "damage": {
+          "source_entity": {
+            "type": "spore:umarmed"
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "hurt_infected",
+      "hurt_by_infected"
+    ]
+  ]
+}
