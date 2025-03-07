@@ -1445,7 +1445,7 @@ public class SConfig {
 
 
             this.proto_loot = builder.defineList("Proto Hivemind",
-                    Lists.newArrayList("spore:mutated_fiber|100|10|20","spore:armor_fragment|80|4|14","spore:mutated_heart|80|1|6","spore:cerebrum|100|2|11","spore:spine_fragment|80|2|8") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mutated_fiber|100|10|20","spore:armor_fragment|80|4|14","spore:organoid_membrane|80|4|8","spore:mutated_heart|80|1|6","spore:cerebrum|100|2|11","spore:spine_fragment|80|2|8") , o -> o instanceof String);
 
 
             this.verwa_loot = builder.defineList("Verwa",
