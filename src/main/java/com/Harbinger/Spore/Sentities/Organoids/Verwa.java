@@ -26,6 +26,8 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Verwa extends Organoid {
     public static final EntityDataAccessor<String> STORED_MOB = SynchedEntityData.defineId(Verwa.class, EntityDataSerializers.STRING);
@@ -76,6 +78,19 @@ public class Verwa extends Organoid {
         }
     }
 
+    @Override
+    public List<String> getDropList() {
+        List<? extends String> baseLoot = SConfig.DATAGEN.verwa_loot.get();
+        List<? extends String> storedLoot = new ArrayList<>();
+
+        if (getStoredEntity() instanceof Infected infected && !infected.getDropList().isEmpty()) {
+            storedLoot = infected.getDropList();
+        }
+        List<String> combinedLoot = new ArrayList<>();
+        combinedLoot.addAll(baseLoot);
+        combinedLoot.addAll(storedLoot);
+        return combinedLoot;
+    }
     public void SummonStoredEntity(){
         Entity entity = this.getStoredEntity();
         if (entity instanceof LivingEntity living){

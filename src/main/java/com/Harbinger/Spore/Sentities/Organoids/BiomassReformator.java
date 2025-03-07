@@ -54,6 +54,11 @@ public class BiomassReformator extends Organoid {
     private int eatingTicks = 0;
 
 
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.womb_loot.get();
+    }
+
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(COUNTER, 0);

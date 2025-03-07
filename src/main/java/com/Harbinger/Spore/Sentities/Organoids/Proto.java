@@ -57,9 +57,6 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
     public Proto(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         setPersistenceRequired();
-        if (!level.isClientSide){
-            registerGoals();
-        }
     }
     @Nullable
     public boolean signal;
