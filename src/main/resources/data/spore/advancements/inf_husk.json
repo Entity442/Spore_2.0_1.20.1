@@ -1,0 +1,37 @@
+{
+  "display": {
+    "icon": {
+      "item": "spore:inf_husk_spawnegg"
+    },
+    "title":{"translate": "advancement.spore.inf_husk.title"},
+    "description":{"translate": "advancement.spore.inf_husk.description"}
+  },
+
+  "parent": "spore:inf_mobs",
+  "criteria": {
+    "hurt_infected": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "entity": {
+          "type": "spore:inf_husk"
+        }
+      }
+    },
+    "hurt_by_infected": {
+      "trigger": "minecraft:entity_hurt_player",
+      "conditions": {
+        "damage": {
+          "source_entity": {
+            "type": "spore:inf_husk"
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "hurt_infected",
+      "hurt_by_infected"
+    ]
+  ]
+}

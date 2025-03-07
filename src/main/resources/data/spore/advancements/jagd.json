@@ -1,0 +1,37 @@
+{
+  "display": {
+    "icon": {
+      "item": "spore:jagd_spawnegg"
+    },
+    "title":{"translate": "advancement.spore.jagd.title"},
+    "description":{"translate": "advancement.spore.jagd.description"}
+  },
+
+  "parent": "spore:inf_husk",
+  "criteria": {
+    "hurt_infected": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "entity": {
+          "type": "spore:jagd"
+        }
+      }
+    },
+    "hurt_by_infected": {
+      "trigger": "minecraft:entity_hurt_player",
+      "conditions": {
+        "damage": {
+          "source_entity": {
+            "type": "spore:jagd"
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "hurt_infected",
+      "hurt_by_infected"
+    ]
+  ]
+}

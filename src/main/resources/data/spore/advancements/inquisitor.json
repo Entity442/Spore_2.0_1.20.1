@@ -1,0 +1,37 @@
+{
+  "display": {
+    "icon": {
+      "item": "spore:inquisitor_spawnegg"
+    },
+    "title":{"translate": "advancement.spore.inquisitor.title"},
+    "description":{"translate": "advancement.spore.inquisitor.description"}
+  },
+
+  "parent": "spore:knight",
+  "criteria": {
+    "hurt_infected": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "entity": {
+          "type": "spore:inquisitor"
+        }
+      }
+    },
+    "hurt_by_infected": {
+      "trigger": "minecraft:entity_hurt_player",
+      "conditions": {
+        "damage": {
+          "source_entity": {
+            "type": "spore:inquisitor"
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "hurt_infected",
+      "hurt_by_infected"
+    ]
+  ]
+}

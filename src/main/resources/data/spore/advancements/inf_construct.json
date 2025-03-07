@@ -1,0 +1,37 @@
+{
+  "display": {
+    "icon": {
+      "item": "spore:construct_spawnegg"
+    },
+    "title":{"translate": "advancement.spore.inf_contruct.title"},
+    "description":{"translate": "advancement.spore.inf_contruct.description"}
+  },
+
+  "parent": "spore:inf_mobs",
+  "criteria": {
+    "hurt_infected": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "entity": {
+          "type": "spore:inf_contruct"
+        }
+      }
+    },
+    "hurt_by_infected": {
+      "trigger": "minecraft:entity_hurt_player",
+      "conditions": {
+        "damage": {
+          "source_entity": {
+            "type": "spore:inf_contruct"
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "hurt_infected",
+      "hurt_by_infected"
+    ]
+  ]
+}

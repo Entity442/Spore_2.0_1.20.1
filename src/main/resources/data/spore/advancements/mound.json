@@ -1,0 +1,37 @@
+{
+  "display": {
+    "icon": {
+      "item": "spore:mound_spawnegg"
+    },
+    "title":{"translate": "advancement.spore.mound.title"},
+    "description":{"translate": "advancement.spore.mound.description"}
+  },
+
+  "parent": "spore:scamper",
+  "criteria": {
+    "hurt_infected": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "entity": {
+          "type": "spore:mound"
+        }
+      }
+    },
+    "hurt_by_infected": {
+      "trigger": "minecraft:entity_hurt_player",
+      "conditions": {
+        "damage": {
+          "source_entity": {
+            "type": "spore:mound"
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "hurt_infected",
+      "hurt_by_infected"
+    ]
+  ]
+}

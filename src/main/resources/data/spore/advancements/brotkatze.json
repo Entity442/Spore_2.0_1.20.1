@@ -1,0 +1,37 @@
+{
+  "display": {
+    "icon": {
+      "item": "spore:brotkatze_spawnegg"
+    },
+    "title":{"translate": "advancement.spore.brotkatze.title"},
+    "description":{"translate": "advancement.spore.brotkatze.description"}
+  },
+
+  "parent": "spore:braiomil",
+  "criteria": {
+    "hurt_infected": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "entity": {
+          "type": "spore:brot"
+        }
+      }
+    },
+    "hurt_by_infected": {
+      "trigger": "minecraft:entity_hurt_player",
+      "conditions": {
+        "damage": {
+          "source_entity": {
+            "type": "spore:brot"
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "hurt_infected",
+      "hurt_by_infected"
+    ]
+  ]
+}
