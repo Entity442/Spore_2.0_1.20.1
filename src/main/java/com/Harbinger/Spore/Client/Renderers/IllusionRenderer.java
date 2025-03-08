@@ -1,6 +1,5 @@
 package com.Harbinger.Spore.Client.Renderers;
 
-import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Sentities.Utility.Illusion;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -47,7 +46,7 @@ public class IllusionRenderer extends EntityRenderer<Illusion> {
         if (illusion.getSeeAble()){
             renderIllusions(illusion,value2,stack,source,light);
         }else{
-            if (Minecraft.getInstance().cameraEntity instanceof Player player && player.hasEffect(Seffects.MADNESS.get())){
+            if (Minecraft.getInstance().cameraEntity instanceof Player player && player.getId() == illusion.getTargetId()){
                 renderIllusions(illusion,value2,stack,source,light);
             }
         }
