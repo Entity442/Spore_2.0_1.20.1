@@ -132,6 +132,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(HevokerModel.LAYER_LOCATION, HevokerModel::createBodyLayer);
         event.registerLayerDefinition(HevokerModelDead.LAYER_LOCATION, HevokerModelDead::createBodyLayer);
         event.registerLayerDefinition(DetasheHyperClaw.LAYER_LOCATION, DetasheHyperClaw::createBodyLayer);
+        event.registerLayerDefinition(hVindicatorModel.LAYER_LOCATION, hVindicatorModel::createBodyLayer);
     }
 
 
@@ -196,6 +197,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.SCAVENGER.get(), ScavengerRenderer::new);
         event.registerEntityRenderer(Sentities.NUCLEA.get(), NucleaRenderer::new);
         event.registerEntityRenderer(Sentities.HEVOKER.get(), HevokerRenderer::new);
+        event.registerEntityRenderer(Sentities.HVINDICATOR.get(), HyperVindicatorRenderer::new);
 
         event.registerEntityRenderer(Sentities.ACID_BALL.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(Sentities.SPIT.get(), BulletRender::new);

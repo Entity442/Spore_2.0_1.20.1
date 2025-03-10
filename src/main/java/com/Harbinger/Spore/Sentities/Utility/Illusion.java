@@ -111,8 +111,8 @@ public class Illusion extends UtilityEntity implements ArmorPersentageBypass, En
     }
 
     @Override
-    public boolean hurt(DamageSource p_21016_, float p_21017_) {
-        if (Math.random() < 0.3){
+    public boolean hurt(DamageSource source, float p_21017_) {
+        if (source.getEntity() != null){
             this.discard();
         }
         return false;

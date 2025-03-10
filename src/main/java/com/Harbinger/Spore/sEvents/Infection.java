@@ -7,6 +7,7 @@ import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Hyper;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BasicInfected.InfectedPlayer;
+import com.Harbinger.Spore.Sentities.Hyper.Hvindicator;
 import com.Harbinger.Spore.Sentities.Organoids.Proto;
 import com.Harbinger.Spore.Sentities.Utility.GastGeber;
 import com.Harbinger.Spore.Sentities.Utility.InfestedConstruct;
@@ -132,6 +133,7 @@ public class Infection {
                     golem.discard();
                 }
             }}
+        giveRewards(event.getSource().getEntity(),event.getEntity());
         }
     }
 
@@ -145,5 +147,14 @@ public class Infection {
         Proto proto = entities.get(source.nextInt(entities.size()));
         proto.setSignal(true);
         proto.setPlace(new BlockPos((int)entity.getX(),(int)entity.getY(),(int)entity.getZ()));
+    }
+
+    public static void giveRewards(Entity entity,LivingEntity victim){
+        if (entity == null || victim == null){
+            return;
+        }
+        if (entity instanceof Hvindicator hvindicator){
+            hvindicator.awardSkull(victim);
+        }
     }
 }
