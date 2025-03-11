@@ -52,9 +52,9 @@ public class HyperVindicatorRenderer<Type extends Hvindicator> extends BaseInfec
                 ItemStack stack = new ItemStack(Items.IRON_AXE);
                 poseStack.pushPose();
                 moveItemAround(getParentModel(),poseStack);
-                poseStack.translate( 0,0.5,-0.15);
+                poseStack.translate( -0.15,0.3,-0.5);
                 poseStack.scale(1.4f,1.4f,1.4f);
-                poseStack.mulPose(Axis.XP.rotationDegrees(-25.0F));
+                poseStack.mulPose(Axis.XP.rotationDegrees(-10.0F));
                 itemInHandRenderer.renderItem(t,stack, ItemDisplayContext.THIRD_PERSON_RIGHT_HAND,true,poseStack,multiBufferSource,i);
                 poseStack.popPose();
             }

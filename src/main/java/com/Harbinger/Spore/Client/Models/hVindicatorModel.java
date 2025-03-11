@@ -397,6 +397,9 @@ public class hVindicatorModel<T extends Hvindicator> extends HierarchicalModel<T
 			animateTentacleX(LeftArmSegment,Mth.sin(ageInTicks/7)/6);
 		}
 		this.animate(entity.block_attack, BLOCK_ATTACK,ageInTicks,1.0F);
+		if (entity.hasAxe()){
+			this.animate(entity.block_attack, BLOCK_RIGHT,ageInTicks,1.0F);
+		}
 	}
 	@Override
 	public void prepareMobModel(T entity, float value1, float value2, float value3) {
@@ -431,6 +434,15 @@ public class hVindicatorModel<T extends Hvindicator> extends HierarchicalModel<T
 					new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
 					new Keyframe(0.125F, KeyframeAnimations.degreeVec(-63.1152F, 2.7315F, 51.1379F), AnimationChannel.Interpolations.CATMULLROM),
 					new Keyframe(0.25F, KeyframeAnimations.degreeVec(-63.1152F, 2.7315F, 51.1379F), AnimationChannel.Interpolations.CATMULLROM),
+					new Keyframe(0.5F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM)
+			))
+			.build();
+
+	public static final AnimationDefinition BLOCK_RIGHT = AnimationDefinition.Builder.withLength(0.5F)
+			.addAnimation("RightArm", new AnimationChannel(AnimationChannel.Targets.ROTATION,
+					new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
+					new Keyframe(0.125F, KeyframeAnimations.degreeVec(-41.614F, -15.6841F, 12.5528F), AnimationChannel.Interpolations.CATMULLROM),
+					new Keyframe(0.25F, KeyframeAnimations.degreeVec(-41.614F, -15.6841F, 12.5528F), AnimationChannel.Interpolations.CATMULLROM),
 					new Keyframe(0.5F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM)
 			))
 			.build();
