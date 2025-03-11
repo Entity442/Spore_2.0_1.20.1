@@ -7,11 +7,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -25,6 +23,9 @@ public class Hvindicator extends Hyper {
     private static final EntityDataAccessor<Boolean> RIGHT_SKULL = SynchedEntityData.defineId(Hvindicator.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> LEFT_SKULL = SynchedEntityData.defineId(Hvindicator.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> TIME_AXE = SynchedEntityData.defineId(Hvindicator.class, EntityDataSerializers.INT);
+    private int attackAnimationTick;
+    private int blockTime = 0;
+    public AnimationState block_attack = new AnimationState();
     public Hvindicator(EntityType<? extends Monster> type, Level level) {
         super(type, level);
     }
@@ -71,11 +72,41 @@ public class Hvindicator extends Hyper {
             entityData.set(TIME_AXE,entityData.get(TIME_AXE)+1);
         }
     }
+    public void handleEntityEvent(byte value) {
+        if (value == 4) {
+            this.attackAnimationTick = 10;
+        } else if (value == 5) {
+            this.block_attack.start(this.tickCount);
+            blockTime = 10;
+        } else {
+            super.handleEntityEvent(value);
+        }
+    }
+    @Override
+    public boolean doHurtTarget(Entity entity) {
+        this.attackAnimationTick = 10;
+        this.level().broadcastEntityEvent(this, (byte)4);
+        if (entity instanceof Player player){
+            player.disableShield(true);
+            this.block_attack.start(this.tickCount);
+        }
+        return super.doHurtTarget(entity);
+    }
 
     @Override
     public void tick() {
         super.tick();
         tickAxe();
+        this.setupAnimationStates();
+    }
+
+    private void setupAnimationStates() {
+        if (this.blockTime > 0){
+            if (blockTime == 1){
+                this.block_attack.stop();
+            }
+            --blockTime;
+        }
     }
 
     @Override
@@ -97,6 +128,18 @@ public class Hvindicator extends Hyper {
         float reduction = 1.0f;
         reduction = hasLeftSkull() ? reduction - 0.1f : reduction;
         reduction = hasRightSkull() ? reduction - 0.1f : reduction;
+        if (source.is(DamageTypeTags.IS_PROJECTILE) && Math.random() < 0.75f) {
+            if (!this.level().isClientSide()) {
+                this.level().broadcastEntityEvent(this, (byte) 5);
+            }
+            return false;
+        }
+        if (source.getEntity() != null && Math.random() < 0.3f) {
+            if (!this.level().isClientSide()) {
+                this.level().broadcastEntityEvent(this, (byte) 5);
+            }
+            return false;
+        }
         return super.hurt(source, amount * reduction);
     }
     public void awardSkull(LivingEntity entity){
@@ -105,6 +148,17 @@ public class Hvindicator extends Hyper {
         }
         if ((entity instanceof Zombie || entity instanceof Player) && !hasRightSkull()){
             this.entityData.set(RIGHT_SKULL, true);
+        }
+    }
+
+    public int getAttackAnimationTick() {
+        return attackAnimationTick;
+    }
+    @Override
+    public void aiStep() {
+        super.aiStep();
+        if (this.attackAnimationTick > 0) {
+            --this.attackAnimationTick;
         }
     }
 }

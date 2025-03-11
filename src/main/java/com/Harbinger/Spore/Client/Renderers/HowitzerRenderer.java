@@ -14,6 +14,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class HowitzerRenderer<Type extends Howitzer> extends CalamityRenderer<Type , HowitzerModel<Type>> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/howitzer.png");
+    private static final ResourceLocation RADIATION = new ResourceLocation(Spore.MODID,
+            "textures/entity/nuclear_howitzer.png");
     private static final ResourceLocation EYE_TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/eyes/howitzer_eyes.png");
 
@@ -25,7 +27,7 @@ public class HowitzerRenderer<Type extends Howitzer> extends CalamityRenderer<Ty
 
     @Override
     public ResourceLocation getTextureLocation(Type entity) {
-        return TEXTURE;
+        return entity.isRadioactive() ? RADIATION : TEXTURE;
     }
 
     @Override

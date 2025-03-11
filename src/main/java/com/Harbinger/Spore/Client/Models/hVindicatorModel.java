@@ -3,11 +3,16 @@ package com.Harbinger.Spore.Client.Models;// Made with Blockbench 4.12.3
 // Paste this class into your mod and generate all required imports
 
 
+import com.Harbinger.Spore.Client.Animations.UmarmerExtraAnimations;
 import com.Harbinger.Spore.Sentities.Hyper.Hvindicator;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.animation.AnimationChannel;
+import net.minecraft.client.animation.AnimationDefinition;
+import net.minecraft.client.animation.Keyframe;
+import net.minecraft.client.animation.KeyframeAnimations;
+import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -15,7 +20,7 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
-public class hVindicatorModel<T extends Hvindicator> extends EntityModel<T> implements TentacledModel{
+public class hVindicatorModel<T extends Hvindicator> extends HierarchicalModel<T> implements TentacledModel{
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "hvindicatormodel"), "main");
 	private final ModelPart hindicator;
@@ -376,6 +381,7 @@ public class hVindicatorModel<T extends Hvindicator> extends EntityModel<T> impl
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		this.root().getAllParts().forEach(ModelPart::resetPose);
 		animateTentacleX(LeftLeg,Mth.cos(limbSwing * 0.6F) * 0.6F * limbSwingAmount);
 		animateTentacleX(RightLeg,Mth.cos(limbSwing * 0.6F) * 0.6F * -limbSwingAmount);
 		animateTentacleX(LeftForLeg,this.LeftLeg.xRot < 0 ? -this.LeftLeg.xRot : 0);
@@ -385,11 +391,47 @@ public class hVindicatorModel<T extends Hvindicator> extends EntityModel<T> impl
 		this.RightSkull.visible = entity.hasRightSkull();
 		this.LeftSkull.visible = entity.hasLeftSkull();
 		animateTentacleX(RightArm,Mth.cos(ageInTicks/7)/4);
-		animateTentacleX(LeftArm,Mth.sin(ageInTicks/7)/4);
+		animateTentacleX(Jaw,Mth.sin(ageInTicks/6)/6);
+		if (entity.getAttackAnimationTick() <= 0){
+			animateTentacleX(LeftArm,Mth.sin(ageInTicks/7)/4);
+			animateTentacleX(LeftArmSegment,Mth.sin(ageInTicks/7)/6);
+		}
+		this.animate(entity.block_attack, BLOCK_ATTACK,ageInTicks,1.0F);
 	}
-
+	@Override
+	public void prepareMobModel(T entity, float value1, float value2, float value3) {
+		super.prepareMobModel(entity, value1, value2, value3);
+		int attackAnimationTick = entity.getAttackAnimationTick();
+		if (attackAnimationTick > 0) {
+			float swing = -2.0F + 1.5F * Mth.triangleWave((float)attackAnimationTick - value3, 20.0F);
+			this.animateTentacleX(LeftArm,swing * 0.5f);
+			this.animateTentacleX(LeftArmSegment,swing * 0.3f);
+		}
+	}
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		hindicator.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
+
+	@Override
+	public ModelPart root() {
+		return hindicator;
+	}
+
+	public ModelPart getHand(){return RightArm;}
+
+	public static final AnimationDefinition BLOCK_ATTACK = AnimationDefinition.Builder.withLength(0.5F)
+			.addAnimation("LeftArm", new AnimationChannel(AnimationChannel.Targets.ROTATION,
+					new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
+					new Keyframe(0.125F, KeyframeAnimations.degreeVec(-46.2935F, 9.4145F, -31.1646F), AnimationChannel.Interpolations.CATMULLROM),
+					new Keyframe(0.25F, KeyframeAnimations.degreeVec(-46.2935F, 9.4145F, -31.1646F), AnimationChannel.Interpolations.CATMULLROM),
+					new Keyframe(0.5F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM)
+			))
+			.addAnimation("LeftArmSeg2", new AnimationChannel(AnimationChannel.Targets.ROTATION,
+					new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
+					new Keyframe(0.125F, KeyframeAnimations.degreeVec(-63.1152F, 2.7315F, 51.1379F), AnimationChannel.Interpolations.CATMULLROM),
+					new Keyframe(0.25F, KeyframeAnimations.degreeVec(-63.1152F, 2.7315F, 51.1379F), AnimationChannel.Interpolations.CATMULLROM),
+					new Keyframe(0.5F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM)
+			))
+			.build();
 }
