@@ -393,31 +393,31 @@ public class hVindicatorModel<T extends Hvindicator> extends HierarchicalModel<T
 		animateTentacleX(Jaw,Mth.sin(ageInTicks/6)/6);
 		if (entity.getRangedAttackAnimationTick() <= 0){
 			animateTentacleX(RightArm,Mth.cos(ageInTicks/7)/4);
+		}else {
+			int rangedAttackAnimationTick = entity.getRangedAttackAnimationTick();
+			if (rangedAttackAnimationTick > 0) {
+				float swing = -2.0F + 1.5F * Mth.triangleWave((float)rangedAttackAnimationTick, 20.0F);
+				this.animateTentacleX(RightArm,swing * 0.5f);
+			}
 		}
 		if (entity.getAttackAnimationTick() <= 0){
 			animateTentacleX(LeftArm,Mth.sin(ageInTicks/7)/4);
 			animateTentacleX(LeftArmSegment,Mth.sin(ageInTicks/7)/6);
+			this.animate(entity.block_attack, BLOCK_ATTACK,ageInTicks,1.0F);
+		}else{
+			int attackAnimationTick = entity.getAttackAnimationTick();
+			if (attackAnimationTick > 0) {
+				float swing = -2.0F + 1.5F * Mth.triangleWave((float)attackAnimationTick, 20.0F);
+				this.animateTentacleX(LeftArm,swing * 0.5f);
+				this.animateTentacleX(LeftArmSegment,swing * 0.3f);
+			}
 		}
-		this.animate(entity.block_attack, BLOCK_ATTACK,ageInTicks,1.0F);
 		if (entity.hasAxe()){
 			this.animate(entity.block_attack, BLOCK_RIGHT,ageInTicks,1.0F);
 		}
 	}
-	@Override
-	public void prepareMobModel(T entity, float value1, float value2, float value3) {
-		super.prepareMobModel(entity, value1, value2, value3);
-		int attackAnimationTick = entity.getAttackAnimationTick();
-		if (attackAnimationTick > 0) {
-			float swing = -2.0F + 1.5F * Mth.triangleWave((float)attackAnimationTick - value3, 20.0F);
-			this.animateTentacleX(LeftArm,swing * 0.5f);
-			this.animateTentacleX(LeftArmSegment,swing * 0.3f);
-		}
-		int rangedAttackAnimationTick = entity.getRangedAttackAnimationTick();
-		if (rangedAttackAnimationTick > 0) {
-			float swing = -2.0F + 1.5F * Mth.triangleWave((float)rangedAttackAnimationTick - value3, 20.0F);
-			this.animateTentacleX(RightArm,swing * 0.5f);
-		}
-	}
+
+
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		hindicator.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);

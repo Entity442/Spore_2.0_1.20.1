@@ -104,6 +104,15 @@ public class Hvindicator extends Hyper implements RangedAttackMob {
         super.tick();
         tickAxe();
         this.setupAnimationStates();
+        if (tickCount % 60 == 0 && hasAxe()){
+            LivingEntity target = this.getTarget();
+            if (target != null && this.hasLineOfSight(target)){
+                rangedAnimationTick = 10;
+                this.level().broadcastEntityEvent(this, (byte) 6);
+                performRangedAttack(target,0);
+                this.entityData.set(TIME_AXE,0);
+            }
+        }
     }
 
     private void setupAnimationStates() {
@@ -119,16 +128,6 @@ public class Hvindicator extends Hyper implements RangedAttackMob {
     protected void addRegularGoals() {
         super.addRegularGoals();
         this.goalSelector.addGoal(3, new AOEMeleeAttackGoal(this ,1.2,true, 1.2 ,3, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
-        this.goalSelector.addGoal(4,new RangedAttackGoal(this,1,20,32){
-            @Override
-            public boolean canUse() {
-                if (!hasAxe()){
-                 return false;
-                }else{
-                    return super.canUse();
-                }
-            }
-        });
         this.goalSelector.addGoal(6, new RandomStrollGoal(this, 0.8));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
     }
@@ -187,8 +186,6 @@ public class Hvindicator extends Hyper implements RangedAttackMob {
 
     @Override
     public void performRangedAttack(LivingEntity livingEntity, float v) {
-        rangedAnimationTick = 10;
-        this.level().broadcastEntityEvent(this, (byte) 6);
         Arrow arrow = new Arrow(EntityType.ARROW,this.level());
         double d0 = livingEntity.getX() - arrow.getX();
         double d1 = livingEntity.getY(0.3333333333333333D) - arrow.getY();
