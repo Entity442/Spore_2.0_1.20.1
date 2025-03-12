@@ -7,6 +7,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -14,16 +15,19 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.RangedAttackGoal;
 import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.level.Level;
 
-public class Hvindicator extends Hyper {
+public class Hvindicator extends Hyper implements RangedAttackMob {
     private static final EntityDataAccessor<Boolean> RIGHT_SKULL = SynchedEntityData.defineId(Hvindicator.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> LEFT_SKULL = SynchedEntityData.defineId(Hvindicator.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> TIME_AXE = SynchedEntityData.defineId(Hvindicator.class, EntityDataSerializers.INT);
     private int attackAnimationTick;
+    private int rangedAnimationTick;
     private int blockTime = 0;
     public AnimationState block_attack = new AnimationState();
     public Hvindicator(EntityType<? extends Monster> type, Level level) {
@@ -78,7 +82,9 @@ public class Hvindicator extends Hyper {
         } else if (value == 5) {
             this.block_attack.start(this.tickCount);
             blockTime = 10;
-        } else {
+        }else if (value == 6) {
+            rangedAnimationTick = 10;
+        }else {
             super.handleEntityEvent(value);
         }
     }
@@ -113,6 +119,16 @@ public class Hvindicator extends Hyper {
     protected void addRegularGoals() {
         super.addRegularGoals();
         this.goalSelector.addGoal(3, new AOEMeleeAttackGoal(this ,1.2,true, 1.2 ,3, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
+        this.goalSelector.addGoal(4,new RangedAttackGoal(this,1,20,32){
+            @Override
+            public boolean canUse() {
+                if (!hasAxe()){
+                 return false;
+                }else{
+                    return super.canUse();
+                }
+            }
+        });
         this.goalSelector.addGoal(6, new RandomStrollGoal(this, 0.8));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
     }
@@ -130,6 +146,7 @@ public class Hvindicator extends Hyper {
         reduction = hasRightSkull() ? reduction - 0.1f : reduction;
         if (source.is(DamageTypeTags.IS_PROJECTILE) && Math.random() < 0.75f) {
             if (!this.level().isClientSide()) {
+                this.playSound(SoundEvents.SHIELD_BLOCK);
                 this.level().broadcastEntityEvent(this, (byte) 5);
             }
             return false;
@@ -154,11 +171,30 @@ public class Hvindicator extends Hyper {
     public int getAttackAnimationTick() {
         return attackAnimationTick;
     }
+    public int getRangedAttackAnimationTick() {
+        return rangedAnimationTick;
+    }
     @Override
     public void aiStep() {
         super.aiStep();
         if (this.attackAnimationTick > 0) {
             --this.attackAnimationTick;
         }
+        if (this.rangedAnimationTick > 0) {
+            --this.rangedAnimationTick;
+        }
+    }
+
+    @Override
+    public void performRangedAttack(LivingEntity livingEntity, float v) {
+        rangedAnimationTick = 10;
+        this.level().broadcastEntityEvent(this, (byte) 6);
+        Arrow arrow = new Arrow(EntityType.ARROW,this.level());
+        double d0 = livingEntity.getX() - arrow.getX();
+        double d1 = livingEntity.getY(0.3333333333333333D) - arrow.getY();
+        double d2 = livingEntity.getZ() - arrow.getZ();
+        double d3 = Math.sqrt(d0 * d0 + d2 * d2);
+        arrow.shoot(d0, d1 + d3 * (double)0.2F, d2, 1.6F, (float)(14 - this.level().getDifficulty().getId() * 4));
+        level().addFreshEntity(arrow);
     }
 }

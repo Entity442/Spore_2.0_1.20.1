@@ -390,8 +390,10 @@ public class hVindicatorModel<T extends Hvindicator> extends HierarchicalModel<T
 		animateTentacleY(Head,headPitch /  ( 90F / (float) Math.PI));
 		this.RightSkull.visible = entity.hasRightSkull();
 		this.LeftSkull.visible = entity.hasLeftSkull();
-		animateTentacleX(RightArm,Mth.cos(ageInTicks/7)/4);
 		animateTentacleX(Jaw,Mth.sin(ageInTicks/6)/6);
+		if (entity.getRangedAttackAnimationTick() <= 0){
+			animateTentacleX(RightArm,Mth.cos(ageInTicks/7)/4);
+		}
 		if (entity.getAttackAnimationTick() <= 0){
 			animateTentacleX(LeftArm,Mth.sin(ageInTicks/7)/4);
 			animateTentacleX(LeftArmSegment,Mth.sin(ageInTicks/7)/6);
@@ -409,6 +411,11 @@ public class hVindicatorModel<T extends Hvindicator> extends HierarchicalModel<T
 			float swing = -2.0F + 1.5F * Mth.triangleWave((float)attackAnimationTick - value3, 20.0F);
 			this.animateTentacleX(LeftArm,swing * 0.5f);
 			this.animateTentacleX(LeftArmSegment,swing * 0.3f);
+		}
+		int rangedAttackAnimationTick = entity.getRangedAttackAnimationTick();
+		if (rangedAttackAnimationTick > 0) {
+			float swing = -2.0F + 1.5F * Mth.triangleWave((float)rangedAttackAnimationTick - value3, 20.0F);
+			this.animateTentacleX(RightArm,swing * 0.5f);
 		}
 	}
 	@Override
