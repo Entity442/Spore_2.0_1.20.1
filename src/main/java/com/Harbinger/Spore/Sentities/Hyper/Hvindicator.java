@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Sentities.Hyper;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Hyper;
+import com.Harbinger.Spore.Sentities.Projectile.ThrownItemProjectile;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -19,7 +20,10 @@ import net.minecraft.world.entity.ai.goal.RangedAttackGoal;
 import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 
 public class Hvindicator extends Hyper implements RangedAttackMob {
@@ -186,12 +190,14 @@ public class Hvindicator extends Hyper implements RangedAttackMob {
 
     @Override
     public void performRangedAttack(LivingEntity livingEntity, float v) {
-        Arrow arrow = new Arrow(EntityType.ARROW,this.level());
-        double d0 = livingEntity.getX() - arrow.getX();
-        double d1 = livingEntity.getY(0.3333333333333333D) - arrow.getY();
-        double d2 = livingEntity.getZ() - arrow.getZ();
+        ThrownItemProjectile thrownItemProjectile = new ThrownItemProjectile(level(),this,7f,new ItemStack(Items.IRON_AXE));
+        thrownItemProjectile.setLivingEntityPredicate(this.TARGET_SELECTOR);
+        double d0 = livingEntity.getX() - this.getX();
+        double d1 = livingEntity.getY(0.3333333333333333) - thrownItemProjectile.getY();
+        double d2 = livingEntity.getZ() - this.getZ();
         double d3 = Math.sqrt(d0 * d0 + d2 * d2);
-        arrow.shoot(d0, d1 + d3 * (double)0.2F, d2, 1.6F, (float)(14 - this.level().getDifficulty().getId() * 4));
-        level().addFreshEntity(arrow);
+        thrownItemProjectile.shoot(d0, d1 + d3 * 0.20000000298023224, d2, 2.6F, 6f);
+        this.playSound(SoundEvents.PLAYER_ATTACK_CRIT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+        this.level().addFreshEntity(thrownItemProjectile);
     }
 }

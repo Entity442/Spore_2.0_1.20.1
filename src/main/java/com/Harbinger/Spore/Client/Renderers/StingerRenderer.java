@@ -1,9 +1,7 @@
 package com.Harbinger.Spore.Client.Renderers;
 
-import com.Harbinger.Spore.Client.Models.InfectedSpearModel;
 import com.Harbinger.Spore.Client.Models.StingerModel;
 import com.Harbinger.Spore.Sentities.Projectile.StingerProjectile;
-import com.Harbinger.Spore.Sentities.Projectile.ThrownSpear;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
