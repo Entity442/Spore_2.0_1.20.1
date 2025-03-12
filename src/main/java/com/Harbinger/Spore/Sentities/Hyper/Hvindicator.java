@@ -10,6 +10,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -21,6 +22,7 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
@@ -95,11 +97,14 @@ public class Hvindicator extends Hyper implements RangedAttackMob {
     public boolean doHurtTarget(Entity entity) {
         this.attackAnimationTick = 10;
         this.level().broadcastEntityEvent(this, (byte)4);
-        if (entity instanceof Player player){
+        if (entity instanceof Player player && (doesPlayerHaveShieldInHand(player,InteractionHand.MAIN_HAND) || doesPlayerHaveShieldInHand(player,InteractionHand.OFF_HAND))){
             player.disableShield(true);
-            this.block_attack.start(this.tickCount);
         }
         return super.doHurtTarget(entity);
+    }
+    public boolean doesPlayerHaveShieldInHand(Player player, InteractionHand hand){
+        ItemStack stack = player.getItemInHand(hand);
+        return stack.getItem() instanceof ShieldItem;
     }
 
     @Override
