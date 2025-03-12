@@ -109,7 +109,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         }
         if (this.tickCount % 200 == 0 && SConfig.SERVER.proto_casing.get()){
             if (this.distanceToSqr(this.entityData.get(NODE).getX(),this.entityData.get(NODE).getY(),this.entityData.get(NODE).getZ()) > 100){
-                if (Math.random() < 0.01){
+                if (Math.random() < 0.1){
                     this.entityData.set(NODE,this.getOnPos());
                 }
             }else{
@@ -504,7 +504,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         int b = random.nextInt(-12,12);
         int c = random.nextInt(4);
         if (level() instanceof ServerLevel serverLevel){
-            List<String> hypers = new ArrayList<>(){{add("spore:inquisitor");add("spore:wendigo");add("spore:brot");add("spore:ogre");add("spore:hevoker");}};
+            List<String> hypers = new ArrayList<>(){{add("spore:inquisitor");add("spore:wendigo");add("spore:hvindicator");add("spore:brot");add("spore:ogre");add("spore:hevoker");}};
             int i = hypers.size();
             Verwa verwa = new Verwa(Sentities.VERVA.get(),serverLevel);
             verwa.setStoredMob(hypers.get(random.nextInt(i)));
