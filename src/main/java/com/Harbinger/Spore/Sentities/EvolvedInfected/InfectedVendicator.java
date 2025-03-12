@@ -1,18 +1,24 @@
 package com.Harbinger.Spore.Sentities.EvolvedInfected;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.ArmedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
+import com.Harbinger.Spore.Sentities.EvolvingInfected;
+import com.Harbinger.Spore.Sentities.Hyper.Hevoker;
+import com.Harbinger.Spore.Sentities.Hyper.Hvindicator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -29,9 +35,10 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.List;
 
-public class InfectedVendicator extends EvolvedInfected implements ArmedInfected {
+public class InfectedVendicator extends EvolvedInfected implements ArmedInfected , EvolvingInfected {
     public InfectedVendicator(EntityType<? extends Monster> type, Level level) {
         super(type, level);
     }
@@ -94,6 +101,11 @@ public class InfectedVendicator extends EvolvedInfected implements ArmedInfected
             this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_AXE));
     }
 
+    @Override
+    public void tick() {
+        super.tick();
+        this.tickHyperEvolution(this);
+    }
 
     protected SoundEvent getAmbientSound() {
         return Ssounds.INF_GROWL.get();
@@ -113,5 +125,23 @@ public class InfectedVendicator extends EvolvedInfected implements ArmedInfected
 
     protected void playStepSound(BlockPos p_34316_, BlockState p_34317_) {
         this.playSound(this.getStepSound(), 0.15F, 1.0F);
+    }
+
+    @Override
+    public void HyperEvolve(LivingEntity living) {
+        Hvindicator hindicator = new Hvindicator(Sentities.HVINDICATOR.get(),this.level());
+        Collection<MobEffectInstance> collection = this.getActiveEffects();
+        for(MobEffectInstance mobeffectinstance : collection) {
+            hindicator.addEffect(new MobEffectInstance(mobeffectinstance));
+        }
+        hindicator.setKills(this.getKills());
+        hindicator.setEvoPoints(this.getEvoPoints()-SConfig.SERVER.min_kills_hyper.get());
+        hindicator.setCustomName(this.getCustomName());
+        hindicator.setPos(this.getX(),this.getY(),this.getZ());
+        if (this.level() instanceof ServerLevel serverLevel)
+            hindicator.finalizeSpawn(serverLevel,serverLevel.getCurrentDifficultyAt(this.getOnPos()), MobSpawnType.CONVERSION,null,null);
+        this.level().addFreshEntity(hindicator);
+        this.discard();
+        EvolvingInfected.super.HyperEvolve(living);
     }
 }

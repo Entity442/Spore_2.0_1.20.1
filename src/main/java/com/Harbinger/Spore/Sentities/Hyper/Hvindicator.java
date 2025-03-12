@@ -16,15 +16,14 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.RangedAttackGoal;
 import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+
+import java.util.List;
 
 public class Hvindicator extends Hyper implements RangedAttackMob {
     private static final EntityDataAccessor<Boolean> RIGHT_SKULL = SynchedEntityData.defineId(Hvindicator.class, EntityDataSerializers.BOOLEAN);
@@ -40,10 +39,10 @@ public class Hvindicator extends Hyper implements RangedAttackMob {
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, SConfig.SERVER.inquisitor_hp.get() * SConfig.SERVER.global_health.get())
-                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.inquisitor_damage.get() * SConfig.SERVER.global_damage.get())
-                .add(Attributes.ARMOR, SConfig.SERVER.inquisitor_armor.get() * SConfig.SERVER.global_armor.get())
-                .add(Attributes.MOVEMENT_SPEED, 0.3)
+                .add(Attributes.MAX_HEALTH, SConfig.SERVER.hindicator_hp.get() * SConfig.SERVER.global_health.get())
+                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.hindicator_damage.get() * SConfig.SERVER.global_damage.get())
+                .add(Attributes.ARMOR, SConfig.SERVER.hindicator_armor.get() * SConfig.SERVER.global_armor.get())
+                .add(Attributes.MOVEMENT_SPEED, 0.35)
                 .add(Attributes.FOLLOW_RANGE, 32)
                 .add(Attributes.ATTACK_KNOCKBACK, 1)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1);
@@ -117,6 +116,11 @@ public class Hvindicator extends Hyper implements RangedAttackMob {
                 this.entityData.set(TIME_AXE,0);
             }
         }
+    }
+
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.hindicator_loot.get();
     }
 
     private void setupAnimationStates() {
