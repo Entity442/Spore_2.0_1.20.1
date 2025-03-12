@@ -27,7 +27,7 @@ public class ThrownItemProjectile extends AbstractArrow {
     public ThrownItemProjectile(Level level, LivingEntity living, float damage,ItemStack stack){
         super(Sentities.THROWN_TOOL.get(), level);
         this.setOwner(living);
-        this.moveTo(living.getX(),living.getY()+2.2f,living.getZ());
+        this.moveTo(living.getX(),living.getY()+1.2f,living.getZ());
         this.setDamage(damage);
         this.stack = stack;
     }

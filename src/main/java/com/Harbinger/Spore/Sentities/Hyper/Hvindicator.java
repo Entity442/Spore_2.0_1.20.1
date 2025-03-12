@@ -196,7 +196,7 @@ public class Hvindicator extends Hyper implements RangedAttackMob {
         double d1 = livingEntity.getY(0.3333333333333333) - thrownItemProjectile.getY();
         double d2 = livingEntity.getZ() - this.getZ();
         double d3 = Math.sqrt(d0 * d0 + d2 * d2);
-        thrownItemProjectile.shoot(d0, d1 + d3 * 0.20000000298023224, d2, 2.6F, 6f);
+        thrownItemProjectile.shoot(d0, d1 + d3 * 0.20000000298023224, d2, 2F, 2f);
         this.playSound(SoundEvents.PLAYER_ATTACK_CRIT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
         this.level().addFreshEntity(thrownItemProjectile);
     }

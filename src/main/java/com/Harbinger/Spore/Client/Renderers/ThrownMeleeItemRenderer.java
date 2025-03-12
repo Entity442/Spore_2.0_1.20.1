@@ -27,8 +27,9 @@ public class ThrownMeleeItemRenderer<T extends ThrownItemProjectile>extends Enti
     public void render(T entity, float value1, float value2, PoseStack stack, MultiBufferSource source, int lightValue) {
         if (!(this.entityRenderDispatcher.camera.getEntity().distanceToSqr(entity) < 12.25)){
             stack.pushPose();
-            stack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(value2, entity.yRotO, entity.getYRot()) - 90.0F));
+            stack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(value2, entity.yRotO, entity.getYRot()) - 270.0F));
             stack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(value2, entity.xRotO, entity.getXRot()) + 90.0F));
+            stack.scale(1.2f,1.2f,1.2f);
             this.itemRenderer.renderStatic(entity.getItem(), ItemDisplayContext.GROUND, lightValue, OverlayTexture.NO_OVERLAY, stack, source, entity.level(), entity.getId());
             stack.popPose();
         }
