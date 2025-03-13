@@ -199,7 +199,7 @@ public class Hvindicator extends Hyper implements RangedAttackMob {
 
     @Override
     public void performRangedAttack(LivingEntity livingEntity, float v) {
-        ThrownItemProjectile thrownItemProjectile = new ThrownItemProjectile(level(),this,7f,new ItemStack(Items.IRON_AXE));
+        ThrownItemProjectile thrownItemProjectile = new ThrownItemProjectile(level(),this, (float) (SConfig.SERVER.hindicator_ranged_damage.get() * 1f),new ItemStack(Items.IRON_AXE));
         thrownItemProjectile.setLivingEntityPredicate(this.TARGET_SELECTOR);
         double d0 = livingEntity.getX() - this.getX();
         double d1 = livingEntity.getY(0.3333333333333333) - thrownItemProjectile.getY();

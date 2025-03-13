@@ -94,6 +94,7 @@ public class SConfig {
 
         public final ForgeConfigSpec.ConfigValue<Double> hindicator_hp;
         public final ForgeConfigSpec.ConfigValue<Double> hindicator_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> hindicator_ranged_damage;
         public final ForgeConfigSpec.ConfigValue<Double> hindicator_armor;
 
         public final ForgeConfigSpec.ConfigValue<Double> ogre_hp;
@@ -665,7 +666,8 @@ public class SConfig {
 
             builder.push("Hindicator");
             this.hindicator_hp = builder.comment("Default 80").defineInRange("Sets Hindicator Max health", 80, 1, Double.MAX_VALUE);
-            this.hindicator_damage = builder.comment("Default 25").defineInRange("Sets Hindicator Damage", 25, 1, Double.MAX_VALUE);
+            this.hindicator_damage = builder.comment("Default 18").defineInRange("Sets Hindicator Damage", 18, 1, Double.MAX_VALUE);
+            this.hindicator_ranged_damage = builder.comment("Default 9").defineInRange("Sets Hindicator Ranged Damage", 9, 1, Double.MAX_VALUE);
             this.hindicator_armor = builder.comment("Default 8").defineInRange("Sets Hindicator Armor", 7, 1, Double.MAX_VALUE);
             builder.pop();
 
