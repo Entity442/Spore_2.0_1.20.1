@@ -239,8 +239,8 @@
   "item.spore.bloater_spawnegg": "Gallegiante",
   "item.spore.scavenger_spawnegg": "Cercarottami",
   "item.spore.nuclea_spawnegg": "Centauro di Nuckelave",
-
-
+  "item.spore.hevoker_spawnegg": "Maestro delle Streghe",
+  "item.spore.hvindicator_spawnegg": "Lanciatore d'asciaAxtwerfer",
 
 
   "item.spore.scent_spawnegg": "Feromone",
@@ -306,7 +306,9 @@
   "entity.spore.bloater": "Gallegiante",
   "entity.spore.scavenger": "Cercarottami",
   "entity.spore.nuclea": "Centauro di Nuckelave",
-
+  "entity.spore.hevoker": "Maestro delle Streghe",
+  "entity.spore.hvindicator": "Lanciatore d'asciaAxtwerfer",
+  "entity.spore.hevoker_arm": "Artiglio di Hexenmeister",
 
   "spore.entity.variant.kidnapper" : "Mutazione Rapitore",
   "spore.entity.variant.kamikaze": "Mutazione Kamikaze",
