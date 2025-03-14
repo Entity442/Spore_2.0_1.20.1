@@ -1,0 +1,37 @@
+{
+  "display": {
+    "icon": {
+      "item": "spore:hvindicator_spawnegg"
+    },
+    "title":{"translate": "advancement.spore.hindicator.title"},
+    "description":{"translate": "advancement.spore.hindicator.description"}
+  },
+
+  "parent": "spore:inf_vindicator",
+  "criteria": {
+    "hurt_infected": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "entity": {
+          "type": "spore:hvindicator"
+        }
+      }
+    },
+    "hurt_by_infected": {
+      "trigger": "minecraft:entity_hurt_player",
+      "conditions": {
+        "damage": {
+          "source_entity": {
+            "type": "spore:hvindicator"
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "hurt_infected",
+      "hurt_by_infected"
+    ]
+  ]
+}
