@@ -46,6 +46,12 @@
       "spore:hevoker_ambient"
     ]
   },
+  "hindicator_ambient" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:hindicator_ambient"
+    ]
+  },
   "forgotten_patient" :{
     "subtitle": "sounds.spore.forgotten_patient",
     "sounds": [

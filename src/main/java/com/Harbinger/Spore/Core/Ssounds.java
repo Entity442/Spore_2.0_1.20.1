@@ -128,6 +128,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> HEVOKER_AMBIENT = soundRegistry("hevoker_ambient");
 
+    public static final RegistryObject<SoundEvent> HINDICATOR_AMBIENT = soundRegistry("hindicator_ambient");
+
     private Ssounds() {
     }
 }
