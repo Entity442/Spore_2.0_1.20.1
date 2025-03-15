@@ -230,6 +230,9 @@ public class Sentities {
             () -> EntityType.Builder.of(Hvindicator::new, INFECTED).sized(1.1f, 3.5f)
                     .build(new ResourceLocation(Spore.MODID, "hvindicator").toString()));
 
+    public static final RegistryObject<EntityType<NukeEntity>> NUKE = SPORE_ENTITIES.register("nuke",
+            () -> EntityType.Builder.of(NukeEntity::new, MobCategory.MISC).sized(1.1f, 3f)
+                    .build(new ResourceLocation(Spore.MODID, "nuke").toString()));
 
     public static final RegistryObject<EntityType<AcidBall>> ACID_BALL = register("acid_ball",
             EntityType.Builder.<AcidBall>of(AcidBall::new, MobCategory.MISC).setCustomClientFactory((spawnEntity, level) -> new AcidBall(level))

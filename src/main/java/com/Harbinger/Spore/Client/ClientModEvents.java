@@ -2,6 +2,9 @@ package com.Harbinger.Spore.Client;
 
 import com.Harbinger.Spore.Client.Layers.CustomArmorLayer;
 import com.Harbinger.Spore.Client.Models.*;
+import com.Harbinger.Spore.Client.Models.NukeParts.BombFunnelModel;
+import com.Harbinger.Spore.Client.Models.NukeParts.FireDiskModel;
+import com.Harbinger.Spore.Client.Models.NukeParts.MushroomExplosionTop;
 import com.Harbinger.Spore.Client.Renderers.*;
 import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Particles.AcidParticle;
@@ -133,6 +136,10 @@ public class ClientModEvents {
         event.registerLayerDefinition(HevokerModelDead.LAYER_LOCATION, HevokerModelDead::createBodyLayer);
         event.registerLayerDefinition(DetasheHyperClaw.LAYER_LOCATION, DetasheHyperClaw::createBodyLayer);
         event.registerLayerDefinition(hVindicatorModel.LAYER_LOCATION, hVindicatorModel::createBodyLayer);
+
+        event.registerLayerDefinition(BombFunnelModel.LAYER_LOCATION, BombFunnelModel::createBodyLayer);
+        event.registerLayerDefinition(MushroomExplosionTop.LAYER_LOCATION, MushroomExplosionTop::createBodyLayer);
+        event.registerLayerDefinition(FireDiskModel.LAYER_LOCATION, FireDiskModel::createBodyLayer);
     }
 
 
@@ -214,6 +221,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.DELUSIONARE.get(), DelusionareRenderer::new);
         event.registerEntityRenderer(Sentities.ARENA_TENDRIL.get(), RaidTendrilRenderer::new);
         event.registerEntityRenderer(Sentities.HEVOKER_ARM.get(), HyperClawRenderer::new);
+        event.registerEntityRenderer(Sentities.NUKE.get(), NuclearBombRenderer::new);
 
         event.registerBlockEntityRenderer(SblockEntities.OVERGROWN_SPAWNER.get(), new OvergrownSpawnerRenderer());
         event.registerBlockEntityRenderer(SblockEntities.BRAIN_REMNANTS.get(), new BrainRemnantsRenderer());
