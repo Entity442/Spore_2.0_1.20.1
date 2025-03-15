@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Client.Layers;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
@@ -27,5 +28,19 @@ public class SporeRenderTypes extends RenderType {
                         .setLightmapState(RenderType.LIGHTMAP)
                         .createCompositeState(true)
         );
+    }
+    public static RenderType energySwirlStatic(ResourceLocation texture, float val1, float val2) {
+        return create("energy_swirl_static", DefaultVertexFormat.NEW_ENTITY,
+                VertexFormat.Mode.QUADS, 256, false, true,
+                RenderType.CompositeState.builder()
+                        .setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER) // Uses built-in swirl shader
+                        .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
+                        .setTexturingState(new RenderStateShard.OffsetTexturingStateShard(val1, val2))
+                        .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                        .setCullState(NO_CULL)
+                        .setOverlayState(RenderType.NO_OVERLAY)
+                        .setLightmapState(LIGHTMAP)
+                        .setWriteMaskState(COLOR_WRITE)
+                        .createCompositeState(false));
     }
 }
