@@ -669,7 +669,7 @@ public class SConfig {
             builder.pop();
 
             builder.push("Nuke");
-            this.nuke_range = builder.comment("Default 4").defineInRange("The Damage range of the Nuke at max", 4, 1, Double.MAX_VALUE);
+            this.nuke_range = builder.comment("Default 6").defineInRange("The Damage range of the Nuke at max", 6, 1, Double.MAX_VALUE);
             this.nuke_damage = builder.comment("Default 10").defineInRange("The Damage of the Nuke", 10, 1, Double.MAX_VALUE);
             this.nuke_time = builder.comment("Default 300").defineInRange("The lifespan of a Nuke", 300, 1, Integer.MAX_VALUE);
             builder.pop();

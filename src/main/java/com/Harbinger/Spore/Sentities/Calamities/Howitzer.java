@@ -344,7 +344,9 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
         }
         if (this.tickCount % 20 == 0){
             createBomb();
-            spreadRadiation();
+            if (isRadioactive()){
+                spreadRadiation();
+            }
         }
         if (this.tickCount % 200 == 0){
             searchBlocks();
