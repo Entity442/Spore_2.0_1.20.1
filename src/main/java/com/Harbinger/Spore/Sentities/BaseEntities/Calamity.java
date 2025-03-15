@@ -57,7 +57,7 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
     public static final EntityDataAccessor<Integer> KILLS = SynchedEntityData.defineId(Calamity.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<BlockPos> SEARCH_AREA = SynchedEntityData.defineId(Calamity.class, EntityDataSerializers.BLOCK_POS);
     public static final EntityDataAccessor<Boolean> ROOTED = SynchedEntityData.defineId(Calamity.class, EntityDataSerializers.BOOLEAN);
-    private int breakCounter;
+    protected int breakCounter;
     private int stun = 0;
 
     public Calamity(EntityType<? extends PathfinderMob> type, Level level) {

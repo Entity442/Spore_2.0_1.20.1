@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities.Calamities;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
@@ -16,39 +17,53 @@ import com.Harbinger.Spore.Sentities.Projectile.FleshBomb;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.monster.RangedAttackMob;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
+
+import static com.Harbinger.Spore.ExtremelySusThings.Utilities.biomass;
 
 public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob {
     public static final EntityDataAccessor<Float> RIGHT_ARM = SynchedEntityData.defineId(Howitzer.class, EntityDataSerializers.FLOAT);
     public static final EntityDataAccessor<Float> LEFT_ARM = SynchedEntityData.defineId(Howitzer.class, EntityDataSerializers.FLOAT);
+    public static final EntityDataAccessor<Integer> ORES = SynchedEntityData.defineId(Howitzer.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Integer> NUKE = SynchedEntityData.defineId(Howitzer.class, EntityDataSerializers.INT);
     private final CalamityMultipart[] subEntities;
     public final CalamityMultipart rightArm;
     public final CalamityMultipart leftArm;
     public final CalamityMultipart mouth;
     public int getLeapTime = 0;
+    @Nullable
+    private BlockPos Targetpos;
     public Howitzer(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         this.rightArm = new CalamityMultipart(this, "rightarm", 2F, 4F);
@@ -120,6 +135,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
             }
         });
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.2));
+        this.goalSelector.addGoal(5, new SearchAroundGoal(this));
         this.goalSelector.addGoal(6,new CalamityInfectedCommand(this));
         this.goalSelector.addGoal(7,new SummonScentInCombat(this));
         this.goalSelector.addGoal(8,new SporeBurstSupport(this));
@@ -233,18 +249,24 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
         super.defineSynchedData();
         this.entityData.define(RIGHT_ARM, this.getMaxArmHp());
         this.entityData.define(LEFT_ARM, this.getMaxArmHp());
+        this.entityData.define(ORES, 0);
+        this.entityData.define(NUKE, 0);
     }
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putFloat("right_arm", entityData.get(RIGHT_ARM));
         tag.putFloat("left_arm",entityData.get(LEFT_ARM));
+        tag.putInt("ores",entityData.get(ORES));
+        tag.putInt("nuke",entityData.get(NUKE));
     }
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         entityData.set(RIGHT_ARM, tag.getFloat("right_arm"));
         entityData.set(LEFT_ARM,tag.getFloat("left_arm"));
+        entityData.set(ORES,tag.getInt("ores"));
+        entityData.set(NUKE,tag.getInt("nuke"));
     }
     public float getRightArmHp(){
         return entityData.get(RIGHT_ARM);
@@ -267,7 +289,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
         if (canEntitySeeTheSky(entity) && canEntitySeeTheSky(this) || entity.distanceToSqr(this) < 200){
             return true;
         }else
-        return super.hasLineOfSight(entity) || calculateHouseThiccness(entity);
+            return super.hasLineOfSight(entity) || calculateHouseThiccness(entity);
     }
 
     private boolean canEntitySeeTheSky(Entity entity){
@@ -315,6 +337,12 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
                 this.setLeftArmHp(getLeftArmHp()+1);
             }
         }
+        if (this.tickCount % 20 == 0){
+            createBomb();
+        }
+        if (this.tickCount % 200 == 0){
+            searchBlocks();
+        }
     }
     @Override
     public List<? extends String> getDropList() {
@@ -353,7 +381,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
                         }}}}}
         for (Entity entity : entities){
             if (entity instanceof LivingEntity living)
-            for (int i = 0;i<2;i++){
+                for (int i = 0;i<2;i++){
                 this.doHurtTarget(living);
                 living.hurtTime = 0;
                 living.invulnerableTime = 0;
@@ -384,7 +412,13 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
     }
 
     public boolean isRadioactive(){
-        return true;
+        return this.entityData.get(ORES) >= 35;
+    }
+
+    @Override
+    public void ActivateAdaptation() {
+        super.ActivateAdaptation();
+        this.entityData.set(ORES,35);
     }
 
     @Override
@@ -417,5 +451,117 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
 
     protected SoundEvent getStepSound() {
         return SoundEvents.RAVAGER_STEP;
+    }
+
+    @Override
+    protected void grief(AABB aabb) {
+        boolean flag = false;
+        for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+            BlockState blockstate = this.level().getBlockState(blockpos);
+            if (biomass().contains(blockstate)){
+                flag = this.level().setBlock(blockpos, Sblocks.MEMBRANE_BLOCK.get().defaultBlockState(), 3) || flag;
+                breakCounter = 0;
+            }else{
+                if (blockstate.getDestroySpeed(level(), blockpos) < getDestroySpeed() && blockstate.getDestroySpeed(level(), blockpos) >= 0 && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
+                    if (blockstate.is(TagKey.create(Registries.BLOCK,new ResourceLocation("forge:ores")))){
+                        this.entityData.set(ORES,this.entityData.get(ORES)+1);
+                    }
+                    flag = this.level().destroyBlock(blockpos, false, this) || flag;
+                    breakCounter = 0;
+                }
+            }
+        }
+    }
+
+    public static class SearchAroundGoal extends Goal {
+        private final Howitzer howitzer;
+        public int tryTicks;
+
+        public SearchAroundGoal(Howitzer specter){
+            this.howitzer = specter;
+            this.setFlags(EnumSet.of(Flag.MOVE));
+        }
+
+        @Override
+        public boolean canUse() {
+            return howitzer.getTargetPos() != null && howitzer.getTarget() == null;
+        }
+
+        protected void moveToBlock(BlockPos pos){
+            if (pos != null)
+                howitzer.navigation.moveTo(pos.getX()+0.5D,pos.getY()+1D,pos.getZ()+0.5D,1);
+        }
+        @Override
+        public void start() {
+            this.moveToBlock(howitzer.getTargetPos());
+            this.tryTicks = 0;
+            super.start();
+        }
+
+
+        @Override
+        public boolean canContinueToUse() {
+            return howitzer.getTarget() == null;
+        }
+
+        public boolean shouldRecalculatePath() {
+            return this.tryTicks % 40 == 0;
+        }
+
+
+        @Override
+        public boolean requiresUpdateEveryTick() {
+            return true;
+        }
+
+        @Override
+        public void tick() {
+            super.tick();
+            ++this.tryTicks;
+            BlockPos pos = howitzer.getTargetPos();
+            if (pos != null && shouldRecalculatePath()){
+                moveToBlock(pos);
+            }
+            if (pos != null && pos.closerToCenterThan(this.howitzer.position(),7f)){
+                howitzer.level().destroyBlock(pos,false,howitzer);
+                howitzer.entityData.set(ORES,howitzer.entityData.get(ORES)+1);
+                howitzer.setTargetPos((BlockPos) null);
+                howitzer.searchBlocks();
+            }
+        }
+    }
+    public boolean hasLineOfSightBlocks(BlockPos pos) {
+        BlockHitResult raytraceresult = this.level().clip(new ClipContext(this.getEyePosition(1.0F), new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
+        BlockPos position = raytraceresult.getBlockPos();
+        return pos.equals(position) || this.level().isEmptyBlock(pos) || this.level().getBlockEntity(pos) == this.level().getBlockEntity(position);
+    }
+    public void searchBlocks(){
+        AABB aabb = this.getBoundingBox().inflate(32,4,32);
+        for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+            BlockState block = level().getBlockState(blockpos);
+            if (block.is(TagKey.create(Registries.BLOCK,new ResourceLocation("forge:ores")))){
+                if (hasLineOfSightBlocks(blockpos) && this.random.nextFloat() < 0.5f){
+                    setTargetPos(blockpos);
+                    break;
+                }
+            }
+        }
+    }
+
+    @Nullable
+    private BlockPos getTargetPos() {
+        return Targetpos;
+    }
+    public void setTargetPos(@Nullable BlockPos pos) {
+        this.Targetpos = pos;
+    }
+    public boolean hasNuke(){
+        return entityData.get(NUKE) > 60;
+    }
+
+    protected void createBomb(){
+        if (isRadioactive() && !hasNuke()){
+            entityData.set(NUKE,entityData.get(NUKE)+1);
+        }
     }
 }
