@@ -174,11 +174,11 @@ public class FleshBomb extends AbstractArrow {
                 summonAcid(this.getX(),this.getY()-(getExplosion()-2),this.getZ(),getExplosion());
             }if(getBombType() == 4){
                 NukeEntity nukeEntity = new NukeEntity(Sentities.NUKE.get(), level());
-                nukeEntity.setInitRange(1f);
-                nukeEntity.setRange(4);
+                nukeEntity.setInitRange(1);
+                nukeEntity.setRange((float) (SConfig.SERVER.nuke_range.get()*1f));
                 nukeEntity.setInitDuration(0);
-                nukeEntity.setDuration(300);
-                nukeEntity.setDamage(10);
+                nukeEntity.setDuration(SConfig.SERVER.nuke_time.get());
+                nukeEntity.setDamage((float) (SConfig.SERVER.nuke_damage.get()*1f));
                 nukeEntity.livingEntityPredicate = livingEntityPredicate;
                 nukeEntity.setOwner(this.getOwner() instanceof LivingEntity ? null : (LivingEntity) this.getOwner());
                 nukeEntity.setPos(result.getBlockPos().getX(),result.getBlockPos().getY()-getExplosion()+1,result.getBlockPos().getZ());

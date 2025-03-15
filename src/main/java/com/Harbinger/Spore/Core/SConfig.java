@@ -324,6 +324,10 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> player_damage;
         public final ForgeConfigSpec.ConfigValue<Double> player_armor;
 
+        public final ForgeConfigSpec.ConfigValue<Double> nuke_range;
+        public final ForgeConfigSpec.ConfigValue<Double> nuke_damage;
+        public final ForgeConfigSpec.ConfigValue<Integer> nuke_time;
+
         public final ForgeConfigSpec.ConfigValue<Double> hevoker_hp;
         public final ForgeConfigSpec.ConfigValue<Double> hevoker_damage;
         public final ForgeConfigSpec.ConfigValue<Double> hevoker_armor;
@@ -662,6 +666,12 @@ public class SConfig {
             this.inquisitor_hp = builder.comment("Default 60").defineInRange("Sets Inquisitor Max health", 60, 1, Double.MAX_VALUE);
             this.inquisitor_damage = builder.comment("Default 20").defineInRange("Sets Inquisitor Damage", 20, 1, Double.MAX_VALUE);
             this.inquisitor_armor = builder.comment("Default 7").defineInRange("Sets Inquisitor Armor", 7, 1, Double.MAX_VALUE);
+            builder.pop();
+
+            builder.push("Nuke");
+            this.nuke_range = builder.comment("Default 4").defineInRange("The Damage range of the Nuke at max", 4, 1, Double.MAX_VALUE);
+            this.nuke_damage = builder.comment("Default 10").defineInRange("The Damage of the Nuke", 10, 1, Double.MAX_VALUE);
+            this.nuke_time = builder.comment("Default 300").defineInRange("The lifespan of a Nuke", 300, 1, Integer.MAX_VALUE);
             builder.pop();
 
             builder.push("Axtwerfer");

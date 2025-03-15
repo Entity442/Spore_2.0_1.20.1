@@ -30,6 +30,9 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -44,6 +47,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -339,6 +344,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
         }
         if (this.tickCount % 20 == 0){
             createBomb();
+            spreadRadiation();
         }
         if (this.tickCount % 200 == 0){
             searchBlocks();
@@ -566,6 +572,32 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
     protected void createBomb(){
         if (isRadioactive() && !hasNuke()){
             entityData.set(NUKE,entityData.get(NUKE)+1);
+        }
+    }
+
+    @Override
+    public String getMutation() {
+        if (isRadioactive()){
+            return "spore.entity.variant.radioactive";
+        }
+        return super.getMutation();
+    }
+    public void spreadRadiation(){
+        List<Entity> entities = level().getEntities(this,this.getBoundingBox().inflate(12));
+        for (Entity entity : entities){
+            if (entity instanceof LivingEntity living && TARGET_SELECTOR.test(living)){
+                addEffect(living);
+            }
+        }
+    }
+
+    public void addEffect(LivingEntity living){
+        if (ModList.get().isLoaded("alexscaves")){
+            MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation("alexscaves:irradiated"));
+            if (effect != null)
+                living.addEffect(new MobEffectInstance(effect,400,0));
+        }else{
+            living.addEffect(new MobEffectInstance(MobEffects.WEAKNESS,400,0));
         }
     }
 }

@@ -145,10 +145,10 @@ public class HandlerEvents {
                     int z = (int) arguments.getSource().getPosition().z();
                     NukeEntity nukeEntity = new NukeEntity(Sentities.NUKE.get(), world);
                     nukeEntity.setInitRange(1f);
-                    nukeEntity.setRange(4);
+                    nukeEntity.setRange((float) (SConfig.SERVER.nuke_range.get()*1f));
                     nukeEntity.setInitDuration(0);
-                    nukeEntity.setDuration(300);
-                    nukeEntity.setDamage(10);
+                    nukeEntity.setDuration(SConfig.SERVER.nuke_time.get());
+                    nukeEntity.setDamage((float) (SConfig.SERVER.nuke_damage.get()*1f));
                     nukeEntity.setPos(x,y,z);
                     world.addFreshEntity(nukeEntity);
                     return 1;

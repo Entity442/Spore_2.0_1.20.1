@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Sentities.Utility;
 
+import com.Harbinger.Spore.Damage.SdamageTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -7,7 +8,9 @@ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -15,6 +18,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -126,13 +131,21 @@ public class NukeEntity extends Entity {
             if (entity instanceof LivingEntity living && livingEntityPredicate.test(living)){
                 DamageSource source = owner == null ? damageSources().inFire() : damageSources().mobAttack(owner);
                 living.setSecondsOnFire(10);
-                living.addEffect(new MobEffectInstance(MobEffects.WEAKNESS,1200,1));
+                addEffect(living);
                 living.hurt(source,this.getDamage());
                 living.hurtTime = 10;
                 living.invulnerableTime = 10;
             }
         }
     }
-
+    public void addEffect(LivingEntity living){
+        if (ModList.get().isLoaded("alexscaves")){
+            MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation("alexscaves:irradiated"));
+            if (effect != null)
+                living.addEffect(new MobEffectInstance(effect,1200,1));
+        }else{
+            living.addEffect(new MobEffectInstance(MobEffects.WEAKNESS,1200,1));
+        }
+    }
 
 }
