@@ -180,7 +180,6 @@ public class FleshBomb extends AbstractArrow {
                 nukeEntity.setDuration(SConfig.SERVER.nuke_time.get());
                 nukeEntity.setDamage((float) (SConfig.SERVER.nuke_damage.get()*1f));
                 nukeEntity.livingEntityPredicate = livingEntityPredicate;
-                nukeEntity.setOwner(this.getOwner() instanceof LivingEntity ? null : (LivingEntity) this.getOwner());
                 nukeEntity.setPos(result.getBlockPos().getX(),result.getBlockPos().getY()-getExplosion()+1,result.getBlockPos().getZ());
                 level().addFreshEntity(nukeEntity);
             }

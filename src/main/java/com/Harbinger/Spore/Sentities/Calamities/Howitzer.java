@@ -381,7 +381,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
                             BlockState state = level.getBlockState(blockpos);
                             boolean airBelow = level.getBlockState(blockpos.below()).isAir();
                             if (level instanceof ServerLevel serverLevel){
-                                if (airBelow && state.getDestroySpeed(level,pos) >= 0){
+                                if (airBelow && state.getDestroySpeed(level,pos) >= 0 && Math.random() < 0.3){
                                     FallingBlockEntity.fall(serverLevel,blockpos,state);
                                     serverLevel.removeBlock(blockpos,false);
                                 }

@@ -1,6 +1,5 @@
 package com.Harbinger.Spore.Sentities.Utility;
 
-import com.Harbinger.Spore.Damage.SdamageTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -9,7 +8,6 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -31,7 +29,6 @@ public class NukeEntity extends Entity {
     private static final EntityDataAccessor<Integer> DURATION = SynchedEntityData.defineId(NukeEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(NukeEntity.class, EntityDataSerializers.FLOAT);
     public Predicate<LivingEntity> livingEntityPredicate = (entity) -> {return true;};
-    private LivingEntity owner;
 
     public NukeEntity(EntityType<?> type, Level level) {
         super(type, level);
@@ -40,10 +37,6 @@ public class NukeEntity extends Entity {
         setInitDuration(0);
         setDuration(600);
         setDamage(10f);
-    }
-
-    public void setOwner(LivingEntity owner) {
-        this.owner = owner;
     }
 
     public void setInitRange(float value){
@@ -129,10 +122,9 @@ public class NukeEntity extends Entity {
         List<Entity> entities = level().getEntities(this,aabb,entity -> {return entity instanceof LivingEntity;});
         for (Entity entity :entities){
             if (entity instanceof LivingEntity living && livingEntityPredicate.test(living)){
-                DamageSource source = owner == null ? damageSources().inFire() : damageSources().mobAttack(owner);
                 living.setSecondsOnFire(10);
                 addEffect(living);
-                living.hurt(source,this.getDamage());
+                living.hurt(damageSources().inFire(),this.getDamage());
                 living.hurtTime = 10;
                 living.invulnerableTime = 10;
             }
