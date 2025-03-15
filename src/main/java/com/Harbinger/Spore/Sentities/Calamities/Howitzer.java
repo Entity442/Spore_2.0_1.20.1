@@ -398,6 +398,10 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
                 burnable_material.add(blockpos);
             }
         }
+        if (this.isRadioactive() && this.hasNuke() && (living.getMaxHealth() >= 100 || living.getArmorValue() >= 20)){
+            this.entityData.set(NUKE,0);
+            return FleshBomb.BombType.NUCLEAR;
+        }
         if (burnable_material.size() > 8){
             return Math.random() < 0.3f ? FleshBomb.BombType.BILE : FleshBomb.BombType.FLAME;
         }

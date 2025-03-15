@@ -25,7 +25,7 @@ public class NukeEntity extends Entity {
     private static final EntityDataAccessor<Integer> INIT_DURATION = SynchedEntityData.defineId(NukeEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> DURATION = SynchedEntityData.defineId(NukeEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(NukeEntity.class, EntityDataSerializers.FLOAT);
-    private final Predicate<LivingEntity> livingEntityPredicate = (entity) -> {return true;};
+    public Predicate<LivingEntity> livingEntityPredicate = (entity) -> {return true;};
     private LivingEntity owner;
 
     public NukeEntity(EntityType<?> type, Level level) {
