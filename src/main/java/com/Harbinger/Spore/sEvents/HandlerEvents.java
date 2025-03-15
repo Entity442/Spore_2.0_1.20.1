@@ -16,10 +16,7 @@ import com.Harbinger.Spore.Sentities.Calamities.Hinderburg;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
 import com.Harbinger.Spore.Sentities.Organoids.*;
-import com.Harbinger.Spore.Sentities.Utility.GastGeber;
-import com.Harbinger.Spore.Sentities.Utility.Illusion;
-import com.Harbinger.Spore.Sentities.Utility.InfestedConstruct;
-import com.Harbinger.Spore.Sentities.Utility.Specter;
+import com.Harbinger.Spore.Sentities.Utility.*;
 import com.Harbinger.Spore.Sitems.BaseWeapons.*;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.commands.Commands;
@@ -140,6 +137,22 @@ public class HandlerEvents {
              }
             return 1;
         }).requires(s -> s.hasPermission(1)));
+        event.getDispatcher().register(Commands.literal(Spore.MODID+":nuke_the_land")
+                .executes(arguments -> {
+                    ServerLevel world = arguments.getSource().getLevel();
+                    int x = (int) arguments.getSource().getPosition().x();
+                    int y = (int) arguments.getSource().getPosition().y();
+                    int z = (int) arguments.getSource().getPosition().z();
+                    NukeEntity nukeEntity = new NukeEntity(Sentities.NUKE.get(), world);
+                    nukeEntity.setInitRange(1f);
+                    nukeEntity.setRange(4);
+                    nukeEntity.setInitDuration(0);
+                    nukeEntity.setDuration(300);
+                    nukeEntity.setDamage(10);
+                    nukeEntity.setPos(x,y,z);
+                    world.addFreshEntity(nukeEntity);
+                    return 1;
+                }).requires(s -> s.hasPermission(1)));
         event.getDispatcher().register(Commands.literal(Spore.MODID+":feed")
                 .executes(arguments -> {
                     ServerLevel world = arguments.getSource().getLevel();
