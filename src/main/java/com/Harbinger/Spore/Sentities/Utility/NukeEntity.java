@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities.Utility;
 
 import com.Harbinger.Spore.Core.Ssounds;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -11,6 +12,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -18,6 +20,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -107,6 +111,7 @@ public class NukeEntity extends Entity {
             }
             if (getInitDuration() == 1){
                 playNukeSound();
+                damageAround(level(),getInitRange()+4,this.getOnPos());
             }
         }
         super.tick();
@@ -154,5 +159,25 @@ public class NukeEntity extends Entity {
             }
         }
     }
+    private void damageAround(Level level, double range, BlockPos pos) {
+        for (int i = 0; i <= 2 * range; ++i) {
+            for (int j = 0; j <= 2 * range; ++j) {
+                for (int k = 0; k <= 2 * range; ++k) {
+                    double distance = Mth.sqrt((float) ((i - range) * (i - range) + (j - range) * (j - range) + (k - range) * (k - range)));
+                    if (distance < range + 0.5) {
+                        BlockPos blockpos = pos.offset(i - (int) range, j - (int) range, k - (int) range);
+                        BlockState blockstate = level.getBlockState(blockpos);
 
+                        if (blockstate.is(Blocks.WATER)) {
+                            level.setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
+                        } else {
+                            if (Math.random() < 0.1 && blockstate.isSolidRender(level, blockpos) && level.getBlockState(blockpos.above()).isAir()) {
+                                level.setBlock(blockpos.above(), Blocks.FIRE.defaultBlockState(), 3);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
