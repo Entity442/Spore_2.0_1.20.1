@@ -104,9 +104,9 @@ public class NukeEntity extends Entity {
             }
             if (tickCount % 10 == 0){
                 hurtEntities();
-                if (getInitDuration() < 20){
-                    playNukeSound();
-                }
+            }
+            if (getInitDuration() == 1){
+                playNukeSound();
             }
         }
         super.tick();
