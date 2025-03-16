@@ -17,6 +17,12 @@
       "spore:saw_sound"
     ]
   },
+  "nuke" :{
+    "subtitle": "sounds.spore.nuke",
+    "sounds": [
+      "spore:nuke"
+    ]
+  },
 "inf_damage" :{
   "subtitle": "sounds.spore.damage",
   "sounds": [

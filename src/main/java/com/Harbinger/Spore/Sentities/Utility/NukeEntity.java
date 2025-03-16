@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Sentities.Utility;
 
+import com.Harbinger.Spore.Core.Ssounds;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -8,6 +9,8 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -101,6 +104,9 @@ public class NukeEntity extends Entity {
             }
             if (tickCount % 10 == 0){
                 hurtEntities();
+                if (getInitDuration() < 20){
+                    playNukeSound();
+                }
             }
         }
         super.tick();
@@ -137,6 +143,15 @@ public class NukeEntity extends Entity {
                 living.addEffect(new MobEffectInstance(effect,1200,1));
         }else{
             living.addEffect(new MobEffectInstance(MobEffects.WEAKNESS,1200,1));
+        }
+    }
+    public void playNukeSound(){
+        AABB aabb = this.getBoundingBox().inflate(32);
+        List<Entity> players = level().getEntities(this,aabb,entity -> {return  entity instanceof ServerPlayer;});
+        for (Entity entity : players){
+            if (entity instanceof ServerPlayer serverPlayer){
+                serverPlayer.playNotifySound(Ssounds.NUKE.get(), SoundSource.AMBIENT,1f,1f);
+            }
         }
     }
 
