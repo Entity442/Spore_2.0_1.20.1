@@ -309,6 +309,7 @@
   "spore.entity.variant.noxious": "Вредная мутация",
   "spore.entity.variant.toxic" : "Токсичная мутация",
   "spore.entity.variant.radioactive": "Радиоактивная мутация",
+  "spore.entity.variant.irradiated": "Слоновая нога",
   "spore.entity.variant.bile" : "Мутация желчи",
   "spore.entity.variant.napalm" : "Мутация напалма",
   "spore.entity.variant.piercer": "Мутация Пирсера",

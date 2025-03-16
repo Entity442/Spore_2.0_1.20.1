@@ -580,7 +580,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
     @Override
     public String getMutation() {
         if (isRadioactive()){
-            return "spore.entity.variant.radioactive";
+            return "spore.entity.variant.irradiated";
         }
         return super.getMutation();
     }

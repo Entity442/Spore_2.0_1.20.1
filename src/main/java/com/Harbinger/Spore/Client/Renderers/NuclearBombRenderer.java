@@ -36,7 +36,7 @@ public class NuclearBombRenderer<T extends NukeEntity> extends EntityRenderer<T>
     }
     public void renderTop(T bomb,PoseStack stack, MultiBufferSource bufferSource) {
         stack.pushPose();
-        stack.scale(0.95f,1,0.95f);
+        stack.scale(0.95f,1.05f,0.95f);
         VertexConsumer vertexconsumer = bufferSource.getBuffer(RenderType.eyes(TOP_TEXTURE));
         this.mushroomExplosionTop.renderToBuffer(stack, vertexconsumer, 15728640, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
         stack.popPose();
@@ -61,7 +61,7 @@ public class NuclearBombRenderer<T extends NukeEntity> extends EntityRenderer<T>
         stack.pushPose();
         float uOffset = (ticks * 0.01f) % 1.0F;
         float vOffset = (ticks * 0.01f * 2) % 1.0F;
-        RenderType renderType = SporeRenderTypes.energySwirlStatic(FUNNEL_TEXTURE, uOffset, vOffset);
+        RenderType renderType = SporeRenderTypes.energySwirlStatic(FUNNEL_TEXTURE, -uOffset, -vOffset);
         VertexConsumer vertexconsumer = bufferSource.getBuffer(renderType);
         this.mushroomExplosionTop.renderToBuffer(stack, vertexconsumer, 15728640, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
         stack.popPose();
