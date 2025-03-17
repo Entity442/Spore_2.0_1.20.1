@@ -239,6 +239,7 @@ public class ClientModEvents {
             MenuScreens.register(SMenu.INJECTION_MENU.get(), InjectionScreen::new);
             MenuScreens.register(SMenu.INCUBATOR_MENU.get(), IncubatorScreen::new);
             MenuScreens.register(SMenu.ZOAHOLIC_MENU.get(), ZoaholicScreen::new);
+            MenuScreens.register(SMenu.SURGERY_RECIPE_MENU.get(), SurgeryRecipeScreen::new);
         });
 
     }
