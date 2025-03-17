@@ -83,7 +83,6 @@ public class SurgeryCraftingCategory implements IRecipeCategory<SurgeryRecipe> {
         builder.addSlot(RecipeIngredientRole.INPUT, 61, 26).addIngredients(recipe.getIngredients().get(13));
         builder.addSlot(RecipeIngredientRole.INPUT, 61, 44).addIngredients(recipe.getIngredients().get(14));
         builder.addSlot(RecipeIngredientRole.INPUT, 61, 62).addIngredients(recipe.getIngredients().get(15));
-        builder.addSlot(RecipeIngredientRole.INPUT, 61, 62).addIngredients(recipe.getIngredients().get(15));
         builder.addSlot(RecipeIngredientRole.CATALYST, 97, 8).addIngredients(stiches);
         ItemStack stack = recipe.getResultItem(null);
         if (stack.getItem() instanceof SporeWeaponData || stack.getItem() instanceof SporeArmorData){
