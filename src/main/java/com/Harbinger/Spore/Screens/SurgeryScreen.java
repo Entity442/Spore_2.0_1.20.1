@@ -31,7 +31,7 @@ public class SurgeryScreen extends AbstractContainerScreen<SurgeryMenu> {
         int buttonX = this.width / 2 - 50;
         int buttonY = this.height / 2 - 20;
         this.invisibleButton = addRenderableWidget(new InvisibleButton(
-                buttonX + 50, buttonY, 30, 30, Component.literal(""),
+                buttonX + 50, buttonY, 20, 20, Component.literal(""),
                 button -> {
                     if (Minecraft.getInstance().cameraEntity instanceof Player player) {
                         SurgeryRecipeMenu menu1 = new SurgeryRecipeMenu(1, player.getInventory());

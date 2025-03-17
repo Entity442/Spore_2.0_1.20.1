@@ -43,9 +43,9 @@ public ResourceLocation getPluginUid() {
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
-        registration.addRecipeClickArea(SurgeryScreen.class, 88, 62, 20, 30,
+        registration.addRecipeClickArea(SurgeryScreen.class, 88, 62, 20, 20,
                 SurgeryCraftingCategory.SURGERY_TYPE);
-        registration.addRecipeClickArea(InjectionScreen.class, 88, 62, 20, 30,
+        registration.addRecipeClickArea(InjectionScreen.class, 88, 62, 20, 20,
                 InjectionCraftingCategory.INJECTION_TYPE);
     }
 }
