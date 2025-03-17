@@ -11,6 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.fml.ModList;
 
 public class SurgeryScreen extends AbstractContainerScreen<SurgeryMenu> {
     private InvisibleButton invisibleButton;
@@ -30,15 +31,17 @@ public class SurgeryScreen extends AbstractContainerScreen<SurgeryMenu> {
         this.titleLabelY = 10000;
         int buttonX = this.width / 2 - 50;
         int buttonY = this.height / 2 - 20;
-        this.invisibleButton = addRenderableWidget(new InvisibleButton(
-                buttonX + 50, buttonY, 20, 20, Component.literal(""),
-                button -> {
-                    if (Minecraft.getInstance().cameraEntity instanceof Player player) {
-                        SurgeryRecipeMenu menu1 = new SurgeryRecipeMenu(1, player.getInventory());
-                        Minecraft.getInstance().setScreen(new SurgeryRecipeScreen(menu1, player.getInventory(),
-                                Component.translatable("block.spore.surgery_table")));}
+        if (!ModList.get().isLoaded("jei")){
+            this.invisibleButton = addRenderableWidget(new InvisibleButton(
+                    buttonX + 50, buttonY, 20, 20, Component.literal(""),
+                    button -> {
+                        if (Minecraft.getInstance().cameraEntity instanceof Player player) {
+                            SurgeryRecipeMenu menu1 = new SurgeryRecipeMenu(1, player.getInventory());
+                            Minecraft.getInstance().setScreen(new SurgeryRecipeScreen(menu1, player.getInventory(),
+                                    Component.translatable("block.spore.surgery_table")));}
 
-                },(btn) -> Component.literal("Go To Recipes")));
+                    },(btn) -> Component.literal("Go To Recipes")));
+        }
     }
 
     @Override
