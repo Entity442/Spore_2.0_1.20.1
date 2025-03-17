@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.SBlockEntities;
 
 import com.Harbinger.Spore.Core.SblockEntities;
+import com.Harbinger.Spore.Screens.IncubatorMenu;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeArmorData;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsBaseItem;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
@@ -9,12 +10,16 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -22,7 +27,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import org.jetbrains.annotations.Nullable;
 
-public class IncubatorBlockEntity extends BlockEntity implements AnimatedEntity, WorldlyContainer {
+public class IncubatorBlockEntity extends BlockEntity implements AnimatedEntity, WorldlyContainer, MenuProvider {
     private static final int[] slotsTop = new int[]{0};
     private static final int[] slotsBottom = new int[]{0};
     private NonNullList<ItemStack> stacks = NonNullList.withSize(1, ItemStack.EMPTY);
@@ -212,5 +217,15 @@ public class IncubatorBlockEntity extends BlockEntity implements AnimatedEntity,
             this.stacks = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
             ContainerHelper.loadAllItems(packet.getTag(), this.stacks);
         }
+    }
+
+    @Override
+    public Component getDisplayName() {
+        return Component.translatable("block.spore.incubator");
+    }
+
+    @Override
+    public @Nullable AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
+        return new IncubatorMenu(i,inventory);
     }
 }

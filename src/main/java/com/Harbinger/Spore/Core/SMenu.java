@@ -1,8 +1,6 @@
 package com.Harbinger.Spore.Core;
 
-import com.Harbinger.Spore.Screens.ContainerMenu;
-import com.Harbinger.Spore.Screens.InjectionMenu;
-import com.Harbinger.Spore.Screens.SurgeryMenu;
+import com.Harbinger.Spore.Screens.*;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.common.extensions.IForgeMenuType;
@@ -20,5 +18,7 @@ public class SMenu {
     public static final RegistryObject<MenuType<ContainerMenu>> CONTAINER = MENU.register("container", () -> IForgeMenuType.create(ContainerMenu::new));
     public static final RegistryObject<MenuType<SurgeryMenu>> SURGERY_MENU = MENU.register("surgery_menu", () -> IForgeMenuType.create(SurgeryMenu::new));
     public static final RegistryObject<MenuType<InjectionMenu>> INJECTION_MENU = MENU.register("injection_menu", () -> IForgeMenuType.create(InjectionMenu::new));
+    public static final RegistryObject<MenuType<IncubatorMenu>> INCUBATOR_MENU = MENU.register("incubator_menu", () -> IForgeMenuType.create(IncubatorMenu::new));
+    public static final RegistryObject<MenuType<ZoaholicMenu>> ZOAHOLIC_MENU = MENU.register("incubator_menu", () -> IForgeMenuType.create(ZoaholicMenu::new));
 
 }

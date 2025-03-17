@@ -3,11 +3,13 @@ package com.Harbinger.Spore.Sblocks;
 import com.Harbinger.Spore.Core.SblockEntities;
 import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.SBlockEntities.IncubatorBlockEntity;
+import com.Harbinger.Spore.SBlockEntities.SurgeryTableBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -31,6 +33,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -108,6 +111,9 @@ public class IncubatorBlock extends BaseEntityBlock {
             }else{
                 popResource(level, pos, blockEntity.getItem(0).copy());
                 blockEntity.setItem(0, ItemStack.EMPTY);
+            }
+            if (player.isShiftKeyDown() && player instanceof ServerPlayer serverPlayer && !level.isClientSide){
+                NetworkHooks.openScreen(serverPlayer, blockEntity, pos);
             }
             return InteractionResult.SUCCESS;
         }

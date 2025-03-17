@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -32,6 +33,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -92,6 +94,9 @@ public class ZoaholicBlock extends BaseEntityBlock {
                 } else{
                     player.displayClientMessage(Component.translatable("zoaholic.line_1"),true);
                 }
+            }
+            if (player.isShiftKeyDown() && player instanceof ServerPlayer serverPlayer && !level.isClientSide){
+                NetworkHooks.openScreen(serverPlayer, zoaholicBlock, pos);
             }
             return InteractionResult.SUCCESS;
         }

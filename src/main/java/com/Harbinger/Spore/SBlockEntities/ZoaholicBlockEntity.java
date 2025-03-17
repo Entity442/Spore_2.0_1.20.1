@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.SblockEntities;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.Screens.ZoaholicMenu;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.Organoids.Proto;
 import net.minecraft.core.BlockPos;
@@ -13,10 +14,13 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -29,7 +33,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ZoaholicBlockEntity extends BlockEntity implements AnimatedEntity{
+public class ZoaholicBlockEntity extends BlockEntity implements AnimatedEntity, MenuProvider {
     private int ticks;
     private boolean hasBrain = false;
     private boolean hasHeart = false;
@@ -203,5 +207,15 @@ public class ZoaholicBlockEntity extends BlockEntity implements AnimatedEntity{
                 entity.addEffect(new MobEffectInstance(Seffects.MADNESS.get(),2400,0));
             }
         }
+    }
+
+    @Override
+    public Component getDisplayName() {
+        return Component.translatable("block.spore.zoaholic");
+    }
+
+    @Override
+    public @Nullable AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
+        return new ZoaholicMenu(i,inventory);
     }
 }

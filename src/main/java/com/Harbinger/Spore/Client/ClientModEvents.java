@@ -10,9 +10,7 @@ import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Particles.AcidParticle;
 import com.Harbinger.Spore.Particles.BloodParticle;
 import com.Harbinger.Spore.Particles.SporeParticle;
-import com.Harbinger.Spore.Screens.ContainerScreen;
-import com.Harbinger.Spore.Screens.InjectionScreen;
-import com.Harbinger.Spore.Screens.SurgeryScreen;
+import com.Harbinger.Spore.Screens.*;
 import com.Harbinger.Spore.Sentities.Utility.NukeEntity;
 import com.Harbinger.Spore.Sitems.Agents.AbstractSyringe;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeArmorData;
@@ -239,6 +237,8 @@ public class ClientModEvents {
             MenuScreens.register(SMenu.CONTAINER.get(), ContainerScreen::new);
             MenuScreens.register(SMenu.SURGERY_MENU.get(), SurgeryScreen::new);
             MenuScreens.register(SMenu.INJECTION_MENU.get(), InjectionScreen::new);
+            MenuScreens.register(SMenu.INCUBATOR_MENU.get(), IncubatorScreen::new);
+            MenuScreens.register(SMenu.ZOAHOLIC_MENU.get(), ZoaholicScreen::new);
         });
 
     }
