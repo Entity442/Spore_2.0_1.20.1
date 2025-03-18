@@ -173,7 +173,8 @@ public class NukeEntity extends Entity {
                             level.setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
                         } else {
                             if (Math.random() < 0.1 && blockstate.isSolidRender(level, blockpos) && level.getBlockState(blockpos.above()).isAir()) {
-                                level.setBlock(blockpos.above(), Sblocks.ACID.get().defaultBlockState(), 3);
+                                BlockState state = Math.random() < 0.5 ? Blocks.FIRE.defaultBlockState() : Sblocks.ACID.get().defaultBlockState();
+                                level.setBlock(blockpos.above(), state, 3);
                             }
                         }
                     }
