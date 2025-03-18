@@ -64,6 +64,12 @@
       "spore:forgotten_patient"
     ]
   },
+  "forsaken_future" :{
+    "subtitle": "sounds.spore.forgotten_patient",
+    "sounds": [
+      "spore:forgotten_patient"
+    ]
+  },
   "surgery" :{
     "subtitle": "sounds.spore.surgery",
     "sounds": [

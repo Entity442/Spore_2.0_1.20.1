@@ -372,6 +372,8 @@ public class Sitems {
             CorruptedRecord::new);
     public  static final RegistryObject<Item> FORGOTTEN_RECORD = ITEMS.register("forgotten_record",
             ForgottenRecord::new);
+    public  static final RegistryObject<Item> FORSAKEN_RECORD = ITEMS.register("forsaken_record",
+            ForsakenRecord::new);
     public  static final RegistryObject<Item> BUCKET_OF_BILE = ITEMS.register("bucket_of_bile",
             () -> new SporeBucket(Sfluids.Bile_FLUID_SOURCE,new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
     public  static final RegistryObject<Item> GAS_MASK = ITEMS.register("gas_mask",
