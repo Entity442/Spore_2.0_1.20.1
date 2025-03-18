@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -32,6 +33,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -89,6 +91,10 @@ public class CDUBlock extends BaseEntityBlock {
                     blockEntity.setFuel(blockEntity.maxFuel);
                     item.shrink(1);
                 }
+                return InteractionResult.SUCCESS;
+            }
+            if (player.isShiftKeyDown() && player instanceof ServerPlayer serverPlayer && !level.isClientSide){
+                NetworkHooks.openScreen(serverPlayer, blockEntity, pos);
                 return InteractionResult.SUCCESS;
             }
             player.displayClientMessage(Component.literal("Current fuel " + blockEntity.getFuel() + "/" + blockEntity.maxFuel),true);

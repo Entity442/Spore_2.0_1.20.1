@@ -21,5 +21,6 @@ public class SMenu {
     public static final RegistryObject<MenuType<IncubatorMenu>> INCUBATOR_MENU = MENU.register("incubator_menu", () -> IForgeMenuType.create(IncubatorMenu::new));
     public static final RegistryObject<MenuType<ZoaholicMenu>> ZOAHOLIC_MENU = MENU.register("zoaholic_menu", () -> IForgeMenuType.create(ZoaholicMenu::new));
     public static final RegistryObject<MenuType<SurgeryRecipeMenu>> SURGERY_RECIPE_MENU = MENU.register("surgery_recipe_menu", () -> IForgeMenuType.create(SurgeryRecipeMenu::new));
+    public static final RegistryObject<MenuType<CDUMenu>> CDU_MENU = MENU.register("cdu_menu", () -> IForgeMenuType.create(CDUMenu::new));
 
 }

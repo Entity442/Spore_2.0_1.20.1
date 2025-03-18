@@ -7,7 +7,6 @@ import com.Harbinger.Spore.Sitems.BaseWeapons.SporeArmorData;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.systems.RenderSystem;
-import mezz.jei.api.recipe.RecipeIngredientRole;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -23,7 +22,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SurgeryRecipeScreen extends AbstractContainerScreen<SurgeryRecipeMenu> {
+public class SurgeryRecipeScreen extends AbstractContainerScreen<SurgeryRecipeMenu> implements TutorialMenuMethods{
     private static final ResourceLocation TEXTURE =
             new ResourceLocation(Spore.MODID, "textures/gui/surgery_table_recipe_gui.png");
     private final List<Item> tagItems;
@@ -85,41 +84,38 @@ public class SurgeryRecipeScreen extends AbstractContainerScreen<SurgeryRecipeMe
         renderTooltip(guiGraphics, mouseX, mouseY);
         SurgeryRecipe recipe = recipes.get(currentItemIndex);
         if (recipe == null){return;}
-        renderFakeItem(guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(0)), 7, 8);
-        renderFakeItem(guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(1)), 7, 26);
-        renderFakeItem(guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(2)),7, 44);
-        renderFakeItem(guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(3)),7, 62);
-        renderFakeItem(guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(4)), 25, 8);
-        renderFakeItem(guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(5)), 25, 26);
-        renderFakeItem(guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(6)), 25, 44);
-        renderFakeItem(guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(7)), 25, 62);
-        renderFakeItem(guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(8)), 43, 8);
-        renderFakeItem(guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(9)), 43, 26);
-        renderFakeItem(guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(10)), 43, 44);
-        renderFakeItem(guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(11)), 43, 62);
-        renderFakeItem(guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(12)), 61, 8);
-        renderFakeItem(guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(13)), 61, 26);
-        renderFakeItem(guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(14)), 61, 44);
-        renderFakeItem(guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(15)), 61, 62);
+        renderFakeItem(font,guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(0)), 7, 8);
+        renderFakeItem(font,guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(1)), 7, 26);
+        renderFakeItem(font,guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(2)),7, 44);
+        renderFakeItem(font,guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(3)),7, 62);
+        renderFakeItem(font,guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(4)), 25, 8);
+        renderFakeItem(font,guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(5)), 25, 26);
+        renderFakeItem(font,guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(6)), 25, 44);
+        renderFakeItem(font,guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(7)), 25, 62);
+        renderFakeItem(font,guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(8)), 43, 8);
+        renderFakeItem(font,guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(9)), 43, 26);
+        renderFakeItem(font,guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(10)), 43, 44);
+        renderFakeItem(font,guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(11)), 43, 62);
+        renderFakeItem(font,guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(12)), 61, 8);
+        renderFakeItem(font,guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(13)), 61, 26);
+        renderFakeItem(font,guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(14)), 61, 44);
+        renderFakeItem(font,guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(15)), 61, 62);
 
-        renderFakeItem(guiGraphics,new ItemStack(tagItems.get(currentTagIndex)),  97, 8);
+        renderFakeItem(font,guiGraphics,new ItemStack(tagItems.get(currentTagIndex)),  97, 8);
         ItemStack stack = recipe.getResultItem(null);
         if (stack.getItem() instanceof SporeWeaponData || stack.getItem() instanceof SporeArmorData){
-            renderFakeItem(guiGraphics,currentTagIndex % 2 == 0 ? ItemStack.EMPTY : new ItemStack(Sitems.HARDENING_AGENT.get()), 115, 8);
-            renderFakeItem(guiGraphics,currentTagIndex % 2 == 0 ? ItemStack.EMPTY : new ItemStack(Sitems.SHARPENING_AGENT.get()), 133, 8);
-            renderFakeItem(guiGraphics,currentTagIndex % 2 == 0 ? ItemStack.EMPTY : new ItemStack(Sitems.INTEGRATING_AGENT.get()), 151, 8);
+            renderFakeItem(font,guiGraphics,currentTagIndex % 2 == 0 ? ItemStack.EMPTY : new ItemStack(Sitems.HARDENING_AGENT.get()), 115, 8);
+            renderFakeItem(font,guiGraphics,currentTagIndex % 2 == 0 ? ItemStack.EMPTY : new ItemStack(Sitems.SHARPENING_AGENT.get()), 133, 8);
+            renderFakeItem(font,guiGraphics,currentTagIndex % 2 == 0 ? ItemStack.EMPTY : new ItemStack(Sitems.INTEGRATING_AGENT.get()), 151, 8);
         }
-        renderFakeItem(guiGraphics,stack, 124, 53);
+        renderFakeItem(font,guiGraphics,stack, 124, 53);
     }
 
     private ItemStack getItemStackFromIngredient(Ingredient ingredient){
         ItemStack[] itemStacks = ingredient.getItems();
         return itemStacks.length > 0 ? itemStacks[0] : ItemStack.EMPTY;
     }
-    private void renderFakeItem(GuiGraphics guiGraphics, ItemStack stack, int x, int y) {
-        guiGraphics.renderItem(stack,leftPos + x,topPos + y);
-        guiGraphics.renderItemDecorations(this.font, stack,leftPos + x,topPos + y);
-    }
+
     @Override
     protected void containerTick() {
         super.containerTick();

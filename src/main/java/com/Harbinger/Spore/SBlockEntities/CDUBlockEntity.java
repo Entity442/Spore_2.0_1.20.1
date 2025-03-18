@@ -3,19 +3,25 @@ package com.Harbinger.Spore.SBlockEntities;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.SblockEntities;
 import com.Harbinger.Spore.Core.Sblocks;
+import com.Harbinger.Spore.Screens.CDUMenu;
 import com.Harbinger.Spore.Sentities.Utility.InfectionTendril;
 import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -27,11 +33,12 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CDUBlockEntity extends BlockEntity{
+public class CDUBlockEntity extends BlockEntity implements MenuProvider {
     public final int maxFuel = SConfig.DATAGEN.cryo_time.get();
     public int fuel;
     public CDUBlockEntity(BlockPos pos, BlockState state) {
@@ -139,5 +146,15 @@ public class CDUBlockEntity extends BlockEntity{
                 e.cleanInfection(blockPos);
             }
          }
+    }
+
+    @Override
+    public Component getDisplayName() {
+        return Component.translatable("block.spore.cdu");
+    }
+
+    @Override
+    public @Nullable AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
+        return new CDUMenu(i,inventory);
     }
 }

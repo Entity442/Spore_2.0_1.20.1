@@ -15,7 +15,7 @@ import net.minecraft.world.item.Items;
 
 import java.util.List;
 
-public class ZoaholicScreen extends AbstractContainerScreen<ZoaholicMenu> {
+public class ZoaholicScreen extends AbstractContainerScreen<ZoaholicMenu> implements TutorialMenuMethods{
     private static final ResourceLocation TEXTURE =
             new ResourceLocation(Spore.MODID, "textures/gui/zoaholic_gui.png");
     public ZoaholicScreen(ZoaholicMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
@@ -45,16 +45,12 @@ public class ZoaholicScreen extends AbstractContainerScreen<ZoaholicMenu> {
         renderBackground(guiGraphics);
         super.render(guiGraphics, mouseX, mouseY, delta);
         renderTooltip(guiGraphics, mouseX, mouseY);
-        renderFakeItem(guiGraphics, new ItemStack(Sitems.BIOMASS.get()), leftPos + 34, topPos + 17);
-        renderFakeItem(guiGraphics, new ItemStack(Sitems.ZOAHOLIC.get()), leftPos + 79, topPos + 17);
-        renderFakeItem(guiGraphics, new ItemStack(Items.PAPER), leftPos + 124, topPos + 17);
-        renderFakeItem(guiGraphics, new ItemStack(Sitems.CEREBRUM.get()), leftPos + 34, topPos + 62);
-        renderFakeItem(guiGraphics, new ItemStack(Sitems.INNARDS.get()), leftPos + 61, topPos + 62);
-        renderFakeItem(guiGraphics, new ItemStack(Sitems.INNARDS.get()), leftPos + 97, topPos + 62);
-        renderFakeItem(guiGraphics, new ItemStack(Sitems.MUTATED_HEART.get()), leftPos + 124, topPos + 62);
-    }
-    private void renderFakeItem(GuiGraphics guiGraphics, ItemStack stack, int x, int y) {
-        guiGraphics.renderItem(stack, x, y);
-        guiGraphics.renderItemDecorations(this.font, stack, x, y);
+        renderFakeItem(font,guiGraphics, new ItemStack(Sitems.BIOMASS.get()), leftPos + 34, topPos + 17);
+        renderFakeItem(font,guiGraphics, new ItemStack(Sitems.ZOAHOLIC.get()), leftPos + 79, topPos + 17);
+        renderFakeItem(font,guiGraphics, new ItemStack(Items.PAPER), leftPos + 124, topPos + 17);
+        renderFakeItem(font,guiGraphics, new ItemStack(Sitems.CEREBRUM.get()), leftPos + 34, topPos + 62);
+        renderFakeItem(font,guiGraphics, new ItemStack(Sitems.INNARDS.get()), leftPos + 61, topPos + 62);
+        renderFakeItem(font,guiGraphics, new ItemStack(Sitems.INNARDS.get()), leftPos + 97, topPos + 62);
+        renderFakeItem(font,guiGraphics, new ItemStack(Sitems.MUTATED_HEART.get()), leftPos + 124, topPos + 62);
     }
 }
