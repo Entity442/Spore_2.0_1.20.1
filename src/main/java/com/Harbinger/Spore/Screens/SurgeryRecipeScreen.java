@@ -66,6 +66,9 @@ public class SurgeryRecipeScreen extends AbstractContainerScreen<SurgeryRecipeMe
     private void changeRecipe(int direction) {
         if (!recipes.isEmpty()) {
             currentItemIndex = (currentItemIndex + direction) % recipes.size();
+            if (currentItemIndex < 0) {
+                currentItemIndex += recipes.size();
+            }
         }
     }
     @Override

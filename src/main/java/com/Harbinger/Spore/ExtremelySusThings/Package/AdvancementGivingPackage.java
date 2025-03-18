@@ -42,6 +42,9 @@ public class AdvancementGivingPackage {
             }
 
             AdvancementProgress progress = player.getAdvancements().getOrStartProgress(advancement);
+            if (progress.isDone()){
+                return;
+            }
             for (String criterion : progress.getRemainingCriteria()) {
                 player.getAdvancements().award(advancement, criterion);
             }
