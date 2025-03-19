@@ -15,8 +15,10 @@ import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.FallenMultipart.HowitzerArm;
 import com.Harbinger.Spore.Sentities.Projectile.FleshBomb;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
+import com.Harbinger.Spore.Sentities.Utility.NukeEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
@@ -62,6 +64,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
     public static final EntityDataAccessor<Float> LEFT_ARM = SynchedEntityData.defineId(Howitzer.class, EntityDataSerializers.FLOAT);
     public static final EntityDataAccessor<Integer> ORES = SynchedEntityData.defineId(Howitzer.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Integer> NUKE = SynchedEntityData.defineId(Howitzer.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Integer> SELF_DETONATION = SynchedEntityData.defineId(Howitzer.class, EntityDataSerializers.INT);
     private final CalamityMultipart[] subEntities;
     public final CalamityMultipart rightArm;
     public final CalamityMultipart leftArm;
@@ -176,6 +179,25 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
         }
         super.aiStep();
     }
+    public void tickDetonation(){
+        if (entityData.get(SELF_DETONATION) >= 30){
+            NukeEntity nukeEntity = new NukeEntity(Sentities.NUKE.get(), level());
+            nukeEntity.setInitRange(3f);
+            nukeEntity.setRange((float) (SConfig.SERVER.nuke_range.get()*1.5f));
+            nukeEntity.setInitDuration(0);
+            nukeEntity.setDuration(SConfig.SERVER.nuke_time.get());
+            nukeEntity.setDamage((float) (SConfig.SERVER.nuke_damage.get()*1f));
+            nukeEntity.livingEntityPredicate = this.TARGET_SELECTOR;
+            nukeEntity.setPos(this.getX(),this.getY(),this.getZ());
+            level().addFreshEntity(nukeEntity);
+            discard();
+        }else {
+            entityData.set(SELF_DETONATION,entityData.get(SELF_DETONATION)+1);
+        }
+    }
+    public int getSelfDetonation(){
+        return entityData.get(SELF_DETONATION);
+    }
     public boolean hasBothArms(){
         return this.getRightArmHp()>0 && this.getLeftArmHp()>0;
     }
@@ -193,6 +215,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
     public CalamityMultipart[] getSubEntities() {
         return this.subEntities;
     }
+
 
     @Override
     public boolean isMultipartEntity() {
@@ -232,6 +255,9 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if (source.getEntity() != null && this.random.nextFloat() <0.2f){setTarget(null);}
+        if (getHealth() <= 50f && isRadioactive() && getSelfDetonation() <= 0){
+            tickDetonation();
+        }
         return super.hurt(source, amount);
     }
 
@@ -256,6 +282,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
         this.entityData.define(LEFT_ARM, this.getMaxArmHp());
         this.entityData.define(ORES, 0);
         this.entityData.define(NUKE, 0);
+        this.entityData.define(SELF_DETONATION, 0);
     }
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
@@ -350,6 +377,21 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
         }
         if (this.tickCount % 200 == 0){
             searchBlocks();
+        }
+        if (isRadioactive() && getSelfDetonation() > 0){
+            if (!level().isClientSide && tickCount % 20 == 0){
+                tickDetonation();
+            }
+            for (int i = 0; i < 360; i++) {
+                if (i % 40 == 0) {
+                    this.level().addParticle(ParticleTypes.LARGE_SMOKE,
+                            this.getX() , this.getY()+2, this.getZ() ,
+                            Math.cos(i) * 0.25d, 0.25d, Math.sin(i) * 0.25d);
+                    this.level().addParticle(ParticleTypes.LARGE_SMOKE,
+                            this.getX() , this.getY()+2, this.getZ() ,
+                            Math.sin(i) * 0.25d,  -0.25d, Math.cos(i) * 0.25d);
+                }
+            }
         }
     }
     @Override
