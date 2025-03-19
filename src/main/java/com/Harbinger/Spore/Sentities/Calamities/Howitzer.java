@@ -362,6 +362,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
         Vec3 vec3 = (new Vec3(0.0D, 0.0D, offset)).yRot(-this.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
         HowitzerArm arm = new HowitzerArm(Sentities.HOWIT_ARM.get(),this.level());
         arm.setRight(isRight);
+        arm.setNuclear(this.isRadioactive());
         arm.moveTo(this.getX() + vec3.x, this.getY() + 1.6,this.getZ()+ vec3.z);
         level().addFreshEntity(arm);
         this.playSound(Ssounds.LIMB_SLASH.get());

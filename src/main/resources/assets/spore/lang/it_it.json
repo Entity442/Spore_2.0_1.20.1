@@ -115,6 +115,7 @@
   "item.spore.vigil_eye": "L'Occhio della Veglia",
   "item.spore.organoid_membrane": "Membrana organoide",
   "item.spore.forgotten_record": "Registro dimenticato",
+  "item.spore.forsaken_record": "Disco Abbandonato",
   "item.spore.sausage": "Salsiccia carnosa",
   "item.spore.fiber_stew": "Zuppa di Fibre",
   "item.spore.heart_kebab": "Kebab di Cuore",
@@ -464,6 +465,7 @@
   "sounds.spore.vigil_ambient": "Veglia respira",
   "sounds.spore.record": "Log del Laboratorio sta venendo letto",
   "sounds.spore.forgotten_patient": "Riproduzione del file del paziente",
+  "sounds.spore.forsaken_future": "Futuro abbandonato",
   "sounds.spore.spore_area_ambient": "Silenzio Sospetto",
   "sounds.spore.braurei_ambient": " Who let Birreria Cook?!! ",
   "sounds.spore.inquisitor_ambient": "Inquisitore Grrrr",
@@ -522,6 +524,7 @@
 
   "item.spore.corrupted_record.desc": "Genesis Labs rec-1",
   "item.spore.forgotten_record.desc": "Genesis Labs rec-36",
+  "item.spore.forsaken_record.desc": "Genesis Labs rec-43",
   "container.biohazard": "BCU",
   "block.spore.container": "BCU",
   "block.spore.lab_block": " Blocco del Laboratorio",

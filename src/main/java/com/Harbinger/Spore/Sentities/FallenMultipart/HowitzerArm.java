@@ -17,6 +17,7 @@ import java.util.List;
 
 public class HowitzerArm extends FallenMultipartEntity {
     public static final EntityDataAccessor<Boolean> RIGHT = SynchedEntityData.defineId(HowitzerArm.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Boolean> NUCLEAR = SynchedEntityData.defineId(HowitzerArm.class, EntityDataSerializers.BOOLEAN);
     public HowitzerArm(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
     }
@@ -34,21 +35,30 @@ public class HowitzerArm extends FallenMultipartEntity {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(RIGHT, true);
+        this.entityData.define(NUCLEAR, false);
     }
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putBoolean("right", entityData.get(RIGHT));
+        tag.putBoolean("nuclear", entityData.get(NUCLEAR));
     }
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         entityData.set(RIGHT, tag.getBoolean("right"));
+        entityData.set(NUCLEAR, tag.getBoolean("nuclear"));
     }
     public boolean getRight(){
         return entityData.get(RIGHT);
     }
     public void setRight(boolean i){
         entityData.set(RIGHT,i);
+    }
+    public boolean getNuclear(){
+        return entityData.get(NUCLEAR);
+    }
+    public void setNuclear(boolean i){
+        entityData.set(NUCLEAR,i);
     }
 }

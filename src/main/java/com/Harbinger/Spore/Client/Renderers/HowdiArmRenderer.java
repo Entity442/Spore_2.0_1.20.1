@@ -19,7 +19,8 @@ public class HowdiArmRenderer<Type extends HowitzerArm> extends MobRenderer<Type
     private final EntityModel<Type> leftArm;
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/howitzer.png");
-
+    private static final ResourceLocation RADIATION = new ResourceLocation(Spore.MODID,
+            "textures/entity/nuclear_howitzer.png");
 
 
     public HowdiArmRenderer(EntityRendererProvider.Context context) {
@@ -39,7 +40,7 @@ public class HowdiArmRenderer<Type extends HowitzerArm> extends MobRenderer<Type
 
     @Override
     public ResourceLocation getTextureLocation(Type entity) {
-        return TEXTURE;
+        return entity.getNuclear() ? RADIATION : TEXTURE;
     }
 
 }
