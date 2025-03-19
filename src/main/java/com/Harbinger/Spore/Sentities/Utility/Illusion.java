@@ -176,4 +176,9 @@ public class Illusion extends UtilityEntity implements ArmorPersentageBypass, En
     public float amountOfDamage(float value) {
         return this.getSeeAble() ? 0 : (float) (SConfig.SERVER.halucinations_damage.get() * 1f);
     }
+
+    @Override
+    public boolean addEffect(MobEffectInstance p_147208_, @Nullable Entity p_147209_) {
+        return false;
+    }
 }

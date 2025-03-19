@@ -94,7 +94,7 @@ public class Jagdhund extends EvolvedInfected {
         this.goalSelector.addGoal(3, new CustomMeleeAttackGoal(this, 1.5, false) {
             @Override
             protected void checkAndPerformAttack(LivingEntity entity, double at) {
-                if (!isUnderground()){
+                if (!isUnderground() || isEmerging()){
                     super.checkAndPerformAttack(entity, at);
                 }
             }
@@ -125,7 +125,6 @@ public class Jagdhund extends EvolvedInfected {
             }
         }
         if (isEmerging() || isBurrowing()){
-            this.makeStuckInBlock(Blocks.AIR.defaultBlockState(),new Vec3(0,1,0));
             SummonParticles(getOnPos());
         }
         if (this.navigation.isInProgress() && isUnderground()){
