@@ -1,12 +1,12 @@
 package com.Harbinger.Spore.Sentities.Organoids;
 
 import com.Harbinger.Spore.Core.*;
+import com.Harbinger.Spore.Sentities.AI.NeuralProcessing.NeuralNetwork;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
+import com.Harbinger.Spore.Sentities.NetworkHivemind;
 import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
-import com.Harbinger.Spore.Sentities.Variants.UmarmerVariants;
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -29,18 +29,16 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class Vigil extends Organoid implements TraceableEntity{
+public class Vigil extends Organoid implements TraceableEntity, NetworkHivemind {
     private static final EntityDataAccessor<Integer> TRIGGER = SynchedEntityData.defineId(Vigil.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> WAVE_SIZE = SynchedEntityData.defineId(Vigil.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> TIMER = SynchedEntityData.defineId(Vigil.class, EntityDataSerializers.INT);
@@ -60,6 +58,7 @@ public class Vigil extends Organoid implements TraceableEntity{
     public boolean removeWhenFarAway(double distanceToClosestPlayer) {
         return false;
     }
+
 
     @Override
     protected void defineSynchedData() {
@@ -228,6 +227,14 @@ public class Vigil extends Organoid implements TraceableEntity{
     @Override
     public Entity getOwner() {
         return this.proto;
+    }
+
+    @Override
+    public NeuralNetwork getNetworkHivemind() {
+        if (this.getOwner() instanceof Proto proto){
+            return proto.getNetwork();
+        }
+        return null;
     }
 
     private static class WatchTargetGoat extends Goal{

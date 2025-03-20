@@ -4,14 +4,17 @@ import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
 import com.Harbinger.Spore.ExtremelySusThings.Package.AdvancementGivingPackage;
 import com.Harbinger.Spore.ExtremelySusThings.SporePacketHandler;
-import com.Harbinger.Spore.SBlockEntities.BrainRemnantBlockEntity;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
+import com.Harbinger.Spore.Sentities.AI.NeuralProcessing.NeuralNetwork;
+import com.Harbinger.Spore.Sentities.AI.NeuralProcessing.ProtoAIs.ProtoDefense;
+import com.Harbinger.Spore.Sentities.AI.NeuralProcessing.ProtoAIs.ProtoScentDefense;
+import com.Harbinger.Spore.Sentities.AI.NeuralProcessing.ProtoAIs.ProtoTargeting;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
 import com.Harbinger.Spore.Sentities.CasingGenerator;
 import com.Harbinger.Spore.Sentities.FoliageSpread;
-import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
+import com.Harbinger.Spore.Sentities.NetworkHivemind;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -19,7 +22,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -33,29 +35,27 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
+public class Proto extends Organoid implements CasingGenerator, FoliageSpread , NetworkHivemind {
     private static final EntityDataAccessor<Integer> HOSTS = SynchedEntityData.defineId(Proto.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Optional<UUID>> TARGET = SynchedEntityData.defineId(Proto.class, EntityDataSerializers.OPTIONAL_UUID);
     public static final EntityDataAccessor<BlockPos> NODE = SynchedEntityData.defineId(Proto.class, EntityDataSerializers.BLOCK_POS);
     private int summonDefense = 0;
+    private final NeuralNetwork network;
     public Proto(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
+        this.network = new NeuralNetwork(6,2 );
         setPersistenceRequired();
     }
     @Nullable
@@ -69,8 +69,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
     public boolean removeWhenFarAway(double distanceToClosestPlayer) {
         return false;
     }
-
-
+    public NeuralNetwork getNetwork(){return network;}
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
@@ -192,95 +191,6 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
     }
 
 
-    static class ProtoScentDefense extends Goal{
-        public Proto proto;
-        public ProtoScentDefense(Proto proto1){
-            this.proto = proto1;
-        }
-
-        @Override
-        public boolean canUse() {
-            Entity target = this.proto.getTarget();
-            return this.proto.tickCount % 40 == 0  && target != null && checkForScent() ;
-        }
-
-        private boolean checkForScent() {
-            AABB hitbox = this.proto.getBoundingBox().inflate(3);
-            List<ScentEntity> entities = this.proto.level().getEntitiesOfClass(ScentEntity.class, hitbox);
-            return entities.size() < 1;
-        }
-
-        @Override
-        public void start() {
-            SummonScent();
-            super.start();
-        }
-
-        private void SummonScent() {
-            ScentEntity scent = new ScentEntity(Sentities.SCENT.get(), this.proto.level());
-            scent.setOvercharged(true);
-            scent.moveTo(this.proto.getX(),this.proto.getY(),this.proto.getZ());
-            this.proto.level().addFreshEntity(scent);
-        }
-    }
-
-     class ProtoDefense extends Goal{
-        public Proto proto;
-        public ProtoDefense(Proto proto1){
-            this.proto = proto1;
-        }
-
-        @Override
-        public boolean canUse() {
-            return this.proto.getTarget() != null &&  this.proto.tickCount % 200 == 0;
-        }
-        @Override
-        public void start() {
-            LivingEntity target = this.proto.getTarget();
-            if (target != null && checkForOrganoids(target)){
-                for (int i = 0; i<proto.random.nextInt(3,6);i++){
-                    SummonDefense(target);
-                }
-            }
-            super.start();
-        }
-
-
-    }
-
-
-    protected boolean checkForOrganoids(Entity entity){
-        AABB aabb = entity.getBoundingBox().inflate(12);
-        List<Entity> entities = level().getEntities(this,aabb,entity1 -> { return entity1 instanceof Organoid;});
-        return entities.size() <= 4;
-    }
-    private void SummonDefense(Entity target) {
-        List<? extends String> summons = SConfig.SERVER.proto_summonable_troops.get();
-        int x = random.nextInt(-10,10);
-        int z = random.nextInt(-10,10);
-        if (target != null && this.level() instanceof ServerLevelAccessor world){
-            RandomSource rand = RandomSource.create();
-            int randomIndex = rand.nextInt(summons.size());
-            ResourceLocation randomElement1 = new ResourceLocation(summons.get(randomIndex));
-            EntityType<?> randomElement = ForgeRegistries.ENTITY_TYPES.getValue(randomElement1);
-            Mob waveentity = (Mob) randomElement.create(this.level());
-            if (waveentity != null){
-                waveentity.randomTeleport(target.getX() + x,target.getY(),target.getZ() + z,false);
-                if (waveentity instanceof Mound mound){
-                    mound.setMaxAge(1);
-                    mound.setLinked(true);
-                }
-                if (waveentity instanceof Vigil vigil){
-                    vigil.setProto(this);
-                }
-                if (checkTheGround(waveentity.getOnPos(),waveentity.level())){
-                    waveentity.finalizeSpawn(world, this.level().getCurrentDifficultyAt(new BlockPos((int) this.getX(),(int)  this.getY(),(int)  this.getZ())), MobSpawnType.NATURAL, null, null);
-                    this.level().addFreshEntity(waveentity);
-                }
-            }
-        }
-    }
-
     @Override
     public void aiStep() {
         super.aiStep();
@@ -293,51 +203,8 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         }
     }
 
-    static class ProtoTargeting extends Goal{
-        public Proto proto;
-        public ProtoTargeting(Proto p){
-            this.proto = p;
-        }
-
-        @Override
-        public boolean canUse() {
-            return proto.getTarget() != null  && this.proto.getRandom().nextInt(0,5) == 3;
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            return proto.getTarget() != null;
-        }
-
-        @Override
-        public void start() {
-            super.start();
-            Targeting(proto);
-        }
-
-        public void Targeting(Entity entity){
-            AABB boundingBox = entity.getBoundingBox().inflate(SConfig.SERVER.proto_range.get());
-            List<Entity> entities = entity.level().getEntities(entity, boundingBox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
-
-            for (Entity entity1 : entities) {
-                if(entity1 instanceof Infected infected) {
-                    if (infected.getTarget() == null && this.proto.getTarget() != null && this.proto.getTarget().isAlive() && !this.proto.getTarget().isInvulnerable()){
-                        infected.setTarget(proto.getTarget());
-                    }
-                }
-            }
-        }
-    }
     protected int calculateFallDamage(float p_149389_, float p_149390_) {
         return super.calculateFallDamage(p_149389_, p_149390_) - 60;
-    }
-    @Nullable
-    public void addTargets(@Nullable UUID uuid) {
-        this.entityData.set(TARGET, Optional.ofNullable(uuid));
-    }
-    @Nullable
-    public UUID readTargets() {
-        return this.entityData.get(TARGET).orElse((UUID)null);
     }
 
     @Override
@@ -347,10 +214,19 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         tag.putInt("nodeX",entityData.get(NODE).getX());
         tag.putInt("nodeY",entityData.get(NODE).getY());
         tag.putInt("nodeZ",entityData.get(NODE).getZ());
-
-        if (this.readTargets() != null) {
-            tag.putUUID("victim", this.readTargets());
+        for (int i = 0; i < network.getINPUTS(); i++) {
+            for (int j = 0; j < network.getPROCESSING(); j++) {
+                tag.putDouble("wih_" + i + "_" + j, network.getWeightsInputHidden()[i][j]);
+            }
         }
+        for (int i = 0; i < network.getPROCESSING(); i++) {
+            tag.putDouble("who_" + i, network.getWeightsHiddenOutput()[i]);
+        }
+        CompoundTag damageTag = new CompoundTag();
+        for (Map.Entry<String, Double> entry : network.getDamageEffectivenessMap().entrySet()) {
+            damageTag.putDouble("damage_" + entry.getKey(), entry.getValue());
+        }
+        tag.put("DamageData", damageTag);
     }
 
     @Override
@@ -361,8 +237,23 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         int y = tag.getInt("nodeY");
         int z = tag.getInt("nodeZ");
         this.entityData.set(NODE,new BlockPos(x,y,z));
-        if (tag.hasUUID("victim")){
-            this.addTargets(tag.getUUID("victim"));
+        for (int i = 0; i < network.getINPUTS(); i++) {
+            for (int j = 0; j < network.getPROCESSING(); j++) {
+                network.setWeightInputHidden(i,j,tag.getDouble("wih_" + i + "_" + j));
+            }
+        }
+        for (int i = 0; i < network.getPROCESSING(); i++) {
+            network.setWeightsProcessingOutput(i,tag.getDouble("who_" + i));
+        }
+        if (tag.contains("DamageData", 10)) { // 10 = CompoundTag
+            CompoundTag damageTag = tag.getCompound("DamageData");
+            for (String key : damageTag.getAllKeys()) {
+                if (key.startsWith("damage_")) {
+                    String damageType = key.substring(7); // Remove "damage_" prefix
+                    double damageValue = damageTag.getDouble(key);
+                    network.registerDamageEffectiveness(damageType, damageValue);
+                }
+            }
         }
     }
 
@@ -371,7 +262,6 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         super.defineSynchedData();
         this.entityData.define(HOSTS,0);
         this.entityData.define(NODE,this.getOnPos());
-        this.entityData.define(TARGET, Optional.empty());
     }
     public int getHosts(){
         return entityData.get(HOSTS);
@@ -436,13 +326,6 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
                     }
                     if (Math.random() < 0.15) {
                         level().setBlock(blockpos, Sblocks.BRAIN_REMNANTS.get().defaultBlockState(), 2);
-                        BlockEntity blockEntity = level().getBlockEntity(blockpos);
-                        if (blockEntity instanceof BrainRemnantBlockEntity block){
-                            if (source.getDirectEntity() instanceof LivingEntity living){
-                                block.setUUID(living.getUUID());
-                            }
-                            block.setSource(source);
-                        }
                     }
                 }
 
@@ -514,16 +397,6 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         }
     }
 
-    private boolean checkTheGround(BlockPos pos,Level level){
-        for (int i = 0;i < 3;i++){
-            BlockState state = level.getBlockState(pos.below(i));
-            if (state.getDestroySpeed(level,pos.below(i)) > 4 || state.isAir()){
-                return false;
-            }
-        }
-        return true;
-    }
-
     private boolean checkForLiquids(BlockPos blockPos){
         AABB aabb = AABB.ofSize(new Vec3(blockPos.getX(), blockPos.getY(), blockPos.getZ()), 14, 14, 14);
         List<BlockPos> liquids = new ArrayList<>();
@@ -587,5 +460,10 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
             return super.hasLineOfSight(entity);
         }
         return super.hasLineOfSight(entity);
+    }
+
+    @Override
+    public NeuralNetwork getNetworkHivemind() {
+        return this.network;
     }
 }
