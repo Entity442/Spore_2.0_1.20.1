@@ -5,7 +5,6 @@ import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
 import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
-import com.Harbinger.Spore.SBlockEntities.BrainRemnantBlockEntity;
 import com.Harbinger.Spore.SBlockEntities.CDUBlockEntity;
 import com.Harbinger.Spore.SBlockEntities.LivingStructureBlocks;
 import com.Harbinger.Spore.Sentities.ArmorPersentageBypass;
@@ -15,7 +14,6 @@ import com.Harbinger.Spore.Sentities.Calamities.Gazenbrecher;
 import com.Harbinger.Spore.Sentities.Calamities.Hinderburg;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
-import com.Harbinger.Spore.Sentities.NetworkHivemind;
 import com.Harbinger.Spore.Sentities.Organoids.*;
 import com.Harbinger.Spore.Sentities.Utility.*;
 import com.Harbinger.Spore.Sitems.BaseWeapons.*;
@@ -24,6 +22,7 @@ import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -32,7 +31,6 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
@@ -64,7 +62,6 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.stringtemplate.v4.ST;
 
 import java.util.*;
 
@@ -294,6 +291,9 @@ public class HandlerEvents {
                                     player.displayClientMessage(Component.literal("Current Target " + proto.getTarget()),false);
                                     player.displayClientMessage(Component.literal("Buffs " + proto.getActiveEffects()),false);
                                     player.displayClientMessage(Component.literal("Mobs under control " + proto.getHosts()),false);
+                                    for (int i = 0;i<proto.getWeights().length;i++){
+                                        player.displayClientMessage(Component.literal("Neuron_"+i+" " + proto.getWeightsValue(i)),false);
+                                    }
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
                             }
                             else if(entity1 instanceof BiomassReformator reformator) {
@@ -660,17 +660,28 @@ public class HandlerEvents {
                 event.getEntity().setSecondsOnFire(i);
             }
         }
-        if (event.getEntity() != null && Utilities.TARGET_SELECTOR.Test(event.getEntity())){
-            LivingEntity livingEntity = event.getEntity();
-            AABB aabb = livingEntity.getBoundingBox().inflate(16,4,16);
-            String source = event.getSource().getMsgId();
-            float damageAmount = event.getAmount();
-            List<Entity> networkHiveminds = livingEntity.level().getEntities(livingEntity,aabb,entity -> {return entity instanceof NetworkHivemind;});
-            for (Entity entity : networkHiveminds) {
-                if (entity instanceof NetworkHivemind networkHivemind && networkHivemind.getNetworkHivemind() != null) {
-                    networkHivemind.getNetworkHivemind().registerDamageEffectiveness(source,damageAmount);
-                    System.out.println("Sent damage data to " + entity.getName().getString() +
-                            ". Damage type: " + source + ", Amount: " + damageAmount);
+        if (event.getSource().getEntity() instanceof Mob attacker){
+            CompoundTag data = attacker.getPersistentData();
+            if (data.contains("hivemind")) {
+                int summonerUUID = data.getInt("hivemind");
+                Level level = attacker.level();
+                Entity summoner = level.getEntity(summonerUUID);
+
+                if (summoner instanceof Proto smartMob) {
+                    int decision = data.getInt("decision");
+                    smartMob.praisedForDecision(decision);
+                }
+            }
+        }
+        if (event.getEntity() instanceof Mob creature){
+            CompoundTag data = creature.getPersistentData();
+            if (data.contains("hivemind")) {
+                int summonerUUID = data.getInt("hivemind");
+                Level level = creature.level();
+                Entity summoner = level.getEntity(summonerUUID);
+                if (summoner instanceof Proto smartMob) {
+                    int decision = data.getInt("decision");
+                    smartMob.punishForDecision(decision);
                 }
             }
         }

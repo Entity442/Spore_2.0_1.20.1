@@ -9,10 +9,12 @@ import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BasicInfected.InfectedPlayer;
 import com.Harbinger.Spore.Sentities.Hyper.Hvindicator;
 import com.Harbinger.Spore.Sentities.Organoids.Proto;
+import com.Harbinger.Spore.Sentities.Signal;
 import com.Harbinger.Spore.Sentities.Utility.GastGeber;
 import com.Harbinger.Spore.Sentities.Utility.InfestedConstruct;
 import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -134,6 +136,7 @@ public class Infection {
                 }
             }}
         giveRewards(event.getSource().getEntity(),event.getEntity());
+        awardHivemind(event.getSource().getEntity(),event.getEntity());
         }
     }
 
@@ -145,8 +148,7 @@ public class Infection {
         }
         RandomSource source = RandomSource.create();
         Proto proto = entities.get(source.nextInt(entities.size()));
-        proto.setSignal(true);
-        proto.setPlace(new BlockPos((int)entity.getX(),(int)entity.getY(),(int)entity.getZ()));
+        proto.setSignal(new Signal(true,new BlockPos((int)entity.getX(),(int)entity.getY(),(int)entity.getZ())));
     }
 
     public static void giveRewards(Entity entity,LivingEntity victim){
@@ -155,6 +157,23 @@ public class Infection {
         }
         if (entity instanceof Hvindicator hvindicator){
             hvindicator.awardSkull(victim);
+        }
+    }
+    public static void awardHivemind(Entity entity,LivingEntity victim){
+        if (entity == null || victim == null){
+            return;
+        }
+        if (entity instanceof Mob creature){
+            CompoundTag data = creature.getPersistentData();
+            if (data.contains("hivemind")) {
+                int summonerUUID = data.getInt("hivemind");
+                Level level = creature.level();
+                Entity summoner = level.getEntity(summonerUUID);
+                if (summoner instanceof Proto smartMob) {
+                    int decision = data.getInt("decision");
+                    smartMob.adjustWeightsForDecision(decision,0.1);
+                }
+            }
         }
     }
 }

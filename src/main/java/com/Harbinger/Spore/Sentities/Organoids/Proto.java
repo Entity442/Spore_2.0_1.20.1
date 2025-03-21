@@ -5,8 +5,6 @@ import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
 import com.Harbinger.Spore.ExtremelySusThings.Package.AdvancementGivingPackage;
 import com.Harbinger.Spore.ExtremelySusThings.SporePacketHandler;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
-import com.Harbinger.Spore.Sentities.AI.NeuralProcessing.NeuralNetwork;
-import com.Harbinger.Spore.Sentities.AI.NeuralProcessing.ProtoAIs.ProtoDefense;
 import com.Harbinger.Spore.Sentities.AI.NeuralProcessing.ProtoAIs.ProtoScentDefense;
 import com.Harbinger.Spore.Sentities.AI.NeuralProcessing.ProtoAIs.ProtoTargeting;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
@@ -14,10 +12,13 @@ import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
 import com.Harbinger.Spore.Sentities.CasingGenerator;
 import com.Harbinger.Spore.Sentities.FoliageSpread;
-import com.Harbinger.Spore.Sentities.NetworkHivemind;
+import com.Harbinger.Spore.Sentities.Signal;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.DoubleTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -40,7 +41,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -48,19 +48,24 @@ import net.minecraft.world.phys.Vec3;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class Proto extends Organoid implements CasingGenerator, FoliageSpread , NetworkHivemind {
+public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
     private static final EntityDataAccessor<Integer> HOSTS = SynchedEntityData.defineId(Proto.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<BlockPos> NODE = SynchedEntityData.defineId(Proto.class, EntityDataSerializers.BLOCK_POS);
+    private final List<String> hypers = new ArrayList<>(){{add("spore:inquisitor");add("spore:wendigo");add("spore:hvindicator");add("spore:brot");add("spore:ogre");add("spore:hevoker");}};
     private int summonDefense = 0;
-    private final NeuralNetwork network;
+    private static final int INPUT_SIZE = 4;
+    private static final int OUTPUT_SIZE = 4;
+    private double[] weights;
     public Proto(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
-        this.network = new NeuralNetwork(6,2 );
         setPersistenceRequired();
+        this.weights = new double[INPUT_SIZE * OUTPUT_SIZE];
+        for (int i = 0; i < weights.length; i++) {
+            weights[i] = this.getRandom().nextDouble();
+        }
     }
     @Nullable
-    public boolean signal;
-    public BlockPos position;
+    public Signal signal;
     @Override
     public List<? extends String> getDropList() {
         return SConfig.DATAGEN.proto_loot.get();
@@ -69,8 +74,12 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread , 
     public boolean removeWhenFarAway(double distanceToClosestPlayer) {
         return false;
     }
-    public NeuralNetwork getNetwork(){return network;}
-
+    public double[] getWeights(){
+        return weights;
+    }
+    public double getWeightsValue(int i){
+        return weights[i];
+    }
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, SConfig.SERVER.proto_hp.get() * SConfig.SERVER.global_health.get())
@@ -78,15 +87,13 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread , 
                 .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.proto_damage.get() * SConfig.SERVER.global_damage.get())
                 .add(Attributes.FOLLOW_RANGE, 128)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 2);
-
     }
 
     @Override
     protected void registerGoals() {
         this.addTargettingGoals();
         this.goalSelector.addGoal(2,new ProtoScentDefense(this));
-        this.goalSelector.addGoal(3,new ProtoDefense(this));
-        this.goalSelector.addGoal(2,new ProtoTargeting(this));
+        this.goalSelector.addGoal(3,new ProtoTargeting(this));
         this.goalSelector.addGoal(4,new AOEMeleeAttackGoal(this,0,false,2.5,8,livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
         this.goalSelector.addGoal(4,new RandomLookAroundGoal(this));
         super.registerGoals();
@@ -96,6 +103,60 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread , 
         return Objects.equals(this.getCustomName(), Component.literal("Nunny"));
     }
 
+    private void generateCasing(){
+        if (this.distanceToSqr(this.entityData.get(NODE).getX(),this.entityData.get(NODE).getY(),this.entityData.get(NODE).getZ()) > 100){
+            if (Math.random() < 0.1){
+                this.entityData.set(NODE,this.getOnPos());
+            }
+        }else{
+            this.generateChasing(entityData.get(NODE),this,32,2);
+            this.generateChasing(entityData.get(NODE),this,16);
+        }
+    }
+
+    private void scanForHosts(){
+        List<Entity> entities = this.level().getEntities(this, seachbox() , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
+        entityData.set(HOSTS,0);
+        for (Entity en : entities) {
+            if (en instanceof Infected infected){
+                if (!infected.getLinked()){
+                    infected.setLinked(true);
+                }
+                setHosts(getHosts() + 1);
+            }
+            if (en instanceof Mound mound){
+                if (!mound.getLinked()){
+                    mound.setLinked(true);
+                }
+                setHosts(getHosts()+1);
+            }
+            if (SConfig.SERVER.proto_raid.get()){
+                if (Math.random() < (SConfig.SERVER.proto_raid_chance.get()/100f) && (en instanceof Player || SConfig.SERVER.proto_sapient_target.get().contains(en.getEncodeId()))){
+                    int x = random.nextInt(-30,30);
+                    int z = random.nextInt(-30,30);
+                    Vigil vigil = new Vigil(Sentities.VIGIL.get(),this.level());
+                    vigil.randomTeleport(en.getX() + x,en.getY(),en.getZ() + z,false);
+                    vigil.setProto(this);
+                    vigil.tickEmerging();
+                    level().addFreshEntity(vigil);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void griefBlocks(){
+        if (this.getLastDamageSource() == this.damageSources().inWall() && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)){
+            AABB aabb = this.getBoundingBox().inflate(0.2,0,0.2);
+            boolean flag = false;
+            for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+                BlockState blockstate = this.level().getBlockState(blockpos);
+                if (blockstate.getDestroySpeed(level() ,blockpos) < 10 && blockstate.getDestroySpeed(level() ,blockpos) > 0) {
+                    flag =  this.level().destroyBlock(blockpos, true, this) || flag;
+                }
+            }
+        }
+    }
 
     public AABB seachbox(){
         return this.getBoundingBox().inflate(SConfig.SERVER.proto_range.get());
@@ -107,60 +168,18 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread , 
             SpreadInfection(level(),SConfig.SERVER.mound_range_age4.get() * 2,this.entityData.get(NODE));
         }
         if (this.tickCount % 200 == 0 && SConfig.SERVER.proto_casing.get()){
-            if (this.distanceToSqr(this.entityData.get(NODE).getX(),this.entityData.get(NODE).getY(),this.entityData.get(NODE).getZ()) > 100){
-                if (Math.random() < 0.1){
-                    this.entityData.set(NODE,this.getOnPos());
-                }
-            }else{
-                this.generateChasing(entityData.get(NODE),this,32,2);
-                this.generateChasing(entityData.get(NODE),this,16);
-            }
+            generateCasing();
         }
         if (this.tickCount % 1200 == 0){
-            List<Entity> entities = this.level().getEntities(this, seachbox() , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
-            entityData.set(HOSTS,0);
-            for (Entity en : entities) {
-                if (en instanceof Infected infected){
-                    if (!infected.getLinked()){
-                        infected.setLinked(true);
-                    }
-                    setHosts(getHosts() + 1);
-                }
-                if (en instanceof Mound mound){
-                    if (!mound.getLinked()){
-                        mound.setLinked(true);
-                    }
-                    setHosts(getHosts()+1);
-                }
-                if (SConfig.SERVER.proto_raid.get()){
-                    if (Math.random() < (SConfig.SERVER.proto_raid_chance.get()/100f) && (en instanceof Player || SConfig.SERVER.proto_sapient_target.get().contains(en.getEncodeId()))){
-                        int x = random.nextInt(-30,30);
-                        int z = random.nextInt(-30,30);
-                        Vigil vigil = new Vigil(Sentities.VIGIL.get(),this.level());
-                        vigil.randomTeleport(en.getX() + x,en.getY(),en.getZ() + z,false);
-                        vigil.setProto(this);
-                        vigil.tickEmerging();
-                        level().addFreshEntity(vigil);
-                        break;
-                    }
-                }
-            }
+            scanForHosts();
+            moraleBoost();
         }
         if (this.tickCount % 40 == 0){
-            if (this.getLastDamageSource() == this.damageSources().inWall() && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)){
-                AABB aabb = this.getBoundingBox().inflate(0.2,0,0.2);
-                boolean flag = false;
-                for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
-                    BlockState blockstate = this.level().getBlockState(blockpos);
-                    if (blockstate.getDestroySpeed(level() ,blockpos) < 10 && blockstate.getDestroySpeed(level() ,blockpos) > 0) {
-                        flag =  this.level().destroyBlock(blockpos, true, this) || flag;
-                    }
-                }
-            }
+            griefBlocks();
         }
 
-        if (getSignal() && getPlace() != null && checkForCalamities(this.getPlace())){
-            this.SummonConstructor(this.level(),this,this.getPlace());
+        if (getSignal()  != null && getSignal().active() && checkForCalamities(getSignal().pos())){
+            this.SummonConstructor(this.level(),this,getSignal().pos());
         }
         if (this.tickCount % 3000 == 0 && SConfig.SERVER.proto_madness.get()){
             this.giveMadness(this);
@@ -168,7 +187,52 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread , 
         if (this.summonDefense > 0){
             --summonDefense;
         }
+        LivingEntity target = this.getTarget();
+        if (this.tickCount % 200 == 0 && target != null){
+            BlockPos pos = target.getOnPos();
+            summonMob(this.decide(this.inputs(target)),pos);
+        }
     }
+
+    public double[] inputs(LivingEntity entity){
+        double distance = entity.distanceToSqr(this) < 200 ? 1.0 : 0.0;
+        double isOnGround = entity.onGround() ? 1.0 : 0.0;
+        double hasAllotOfHealth = entity.getMaxHealth() >= 20 ? 1.0 : 0.0;
+        double hasAllotOfArmor = entity.getArmorValue() >= 20 ? 1.0 : 0.0;
+        return new double[]{distance,isOnGround,hasAllotOfHealth,hasAllotOfArmor};
+    }
+    private void summonMob(int decision, BlockPos pos) {
+        Mob summoned = switch (decision) {
+            case 0 -> Sentities.USURPER.get().create(level());
+            case 1 -> Sentities.BRAUREI.get().create(level());
+            case 2 -> Sentities.UMARMED.get().create(level());
+            case 3 -> Sentities.MOUND.get().create(level());
+            default -> Sentities.VERVA.get().create(level());
+        };
+        if (summoned instanceof Organoid organoid) {
+            CompoundTag data = summoned.getPersistentData();
+            data.putInt("hivemind",this.getId());
+            data.putInt("decision",decision);
+            summoned.teleportRelative(pos.getX(), pos.getY()+1, pos.getZ());
+            organoid.tickEmerging();
+            level().addFreshEntity(summoned);
+        }
+    }
+
+    public void moraleBoost(){
+        int e = 0;
+        for (double weight : weights) {
+            if (weight < 0) {
+                e++;
+            }
+        }
+        if (e > weights.length/2){
+            for (int i = 0; i < weights.length; i++) {
+                weights[i] = weights[i] + this.getRandom().nextDouble();
+            }
+        }
+    }
+
 
     protected void giveMadness(Proto proto){
         AABB aabb = proto.getBoundingBox().inflate(128);
@@ -181,13 +245,6 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread , 
                 }
             }
         }
-    }
-
-    public void setSignal(boolean value){
-        this.signal = value;
-    }
-    public boolean getSignal(){
-        return this.signal;
     }
 
 
@@ -214,19 +271,11 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread , 
         tag.putInt("nodeX",entityData.get(NODE).getX());
         tag.putInt("nodeY",entityData.get(NODE).getY());
         tag.putInt("nodeZ",entityData.get(NODE).getZ());
-        for (int i = 0; i < network.getINPUTS(); i++) {
-            for (int j = 0; j < network.getPROCESSING(); j++) {
-                tag.putDouble("wih_" + i + "_" + j, network.getWeightsInputHidden()[i][j]);
-            }
+        ListTag weightsList = new ListTag();
+        for (double weight : weights) {
+            weightsList.add(DoubleTag.valueOf(weight));
         }
-        for (int i = 0; i < network.getPROCESSING(); i++) {
-            tag.putDouble("who_" + i, network.getWeightsHiddenOutput()[i]);
-        }
-        CompoundTag damageTag = new CompoundTag();
-        for (Map.Entry<String, Double> entry : network.getDamageEffectivenessMap().entrySet()) {
-            damageTag.putDouble("damage_" + entry.getKey(), entry.getValue());
-        }
-        tag.put("DamageData", damageTag);
+        tag.put("weights", weightsList);
     }
 
     @Override
@@ -237,23 +286,10 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread , 
         int y = tag.getInt("nodeY");
         int z = tag.getInt("nodeZ");
         this.entityData.set(NODE,new BlockPos(x,y,z));
-        for (int i = 0; i < network.getINPUTS(); i++) {
-            for (int j = 0; j < network.getPROCESSING(); j++) {
-                network.setWeightInputHidden(i,j,tag.getDouble("wih_" + i + "_" + j));
-            }
-        }
-        for (int i = 0; i < network.getPROCESSING(); i++) {
-            network.setWeightsProcessingOutput(i,tag.getDouble("who_" + i));
-        }
-        if (tag.contains("DamageData", 10)) { // 10 = CompoundTag
-            CompoundTag damageTag = tag.getCompound("DamageData");
-            for (String key : damageTag.getAllKeys()) {
-                if (key.startsWith("damage_")) {
-                    String damageType = key.substring(7); // Remove "damage_" prefix
-                    double damageValue = damageTag.getDouble(key);
-                    network.registerDamageEffectiveness(damageType, damageValue);
-                }
-            }
+        ListTag weightsList = tag.getList("weights", Tag.TAG_DOUBLE);
+        this.weights = new double[weightsList.size()];
+        for (int i = 0; i < weightsList.size(); i++) {
+            this.weights[i] = weightsList.getDouble(i);
         }
     }
 
@@ -270,7 +306,6 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread , 
         entityData.set(HOSTS,i);
     }
 
-
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if(amount > SConfig.SERVER.proto_dpsr.get() && SConfig.SERVER.proto_dpsr.get() > 0){
@@ -278,7 +313,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread , 
         }
         if (source.getEntity() != null && Math.random() < 0.2f && summonDefense <= 0){
             for (int i = 0;i<random.nextInt(1,4);i++)
-            SummonHelpers();
+                SummonHelpers();
             summonDefense = 160;
         }
         return super.hurt(source, amount);
@@ -297,6 +332,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread , 
 
     @Override
     public void die(DamageSource source) {
+        super.die(source);
         if (this.level() instanceof ServerLevel serverLevel){
             double x0 = this.getX() - (random.nextFloat() - 0.1) * 1.2D;
             double y0 = this.getY() + (random.nextFloat() - 0.25) * 1.25D * 5;
@@ -307,13 +343,12 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread , 
                 ChunkLoaderHelper.unloadChunksInRadius(serverLevel, pos, serverLevel.getChunk(pos).getPos().x, serverLevel.getChunk(pos).getPos().z, 5);
             }
         }
-        this.gameEvent(GameEvent.ENTITY_DIE, source.getEntity());
-        this.discard();
         AABB aabb = this.getBoundingBox().inflate(2.5);
         for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
             BlockState blockState = level().getBlockState(blockpos);
             BlockState above = level().getBlockState(blockpos.above());
             if (!level().isClientSide() && blockState.isSolidRender(level(), blockpos) && !above.isSolidRender(level(), blockpos)) {
+
                 if (Math.random() < 0.9) {
                     if (Math.random() < 0.7) {
                         level().setBlock(blockpos.above(), Sblocks.MYCELIUM_VEINS.get().defaultBlockState(), 2);
@@ -328,9 +363,9 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread , 
                         level().setBlock(blockpos, Sblocks.BRAIN_REMNANTS.get().defaultBlockState(), 2);
                     }
                 }
-
             }
         }
+        this.discard();
         AABB searchbox = AABB.ofSize(new Vec3(this.getX(), this.getY(), this.getZ()), 300, 200, 300);
         List<Entity> entities = this.level().getEntities(this, searchbox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
         entityData.set(HOSTS,0);
@@ -341,14 +376,15 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread , 
                 }
             }
         }
-        super.die(source);
     }
 
-    public void setPlace(BlockPos pos){
-        this.position = pos;
+    public void setSignal(@Nullable Signal signal) {
+        this.signal = signal;
     }
-    public BlockPos getPlace(){
-        return position;
+
+    @Nullable
+    public Signal getSignal() {
+        return signal;
     }
 
 
@@ -378,7 +414,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread , 
                     player.playNotifySound(Ssounds.CALAMITY_SPAWN.get(), SoundSource.AMBIENT,1f,1f);
                     player.displayClientMessage(Component.translatable("calamity_summon_message"), false);
                 }
-                this.setSignal(false);
+                this.setSignal(null);
             }
         }
     }
@@ -387,8 +423,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread , 
         int b = random.nextInt(-12,12);
         int c = random.nextInt(4);
         if (level() instanceof ServerLevel serverLevel){
-            List<String> hypers = new ArrayList<>(){{add("spore:inquisitor");add("spore:wendigo");add("spore:hvindicator");add("spore:brot");add("spore:ogre");add("spore:hevoker");}};
-            int i = hypers.size();
+             int i = hypers.size();
             Verwa verwa = new Verwa(Sentities.VERVA.get(),serverLevel);
             verwa.setStoredMob(hypers.get(random.nextInt(i)));
             verwa.teleportRelative(this.getX()+a,this.getY()+c,this.getZ()+b);
@@ -413,7 +448,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread , 
         for (Entity en : entities) {
             if (en instanceof Calamity calamity && calamity.getSearchArea() == BlockPos.ZERO && Math.random() < 0.5){
                 calamity.setSearchArea(pos);
-                this.setSignal(false);
+                this.setSignal(null);
                 for(ServerPlayer player : this.level().getServer().getPlayerList().getPlayers()){
                     player.playNotifySound(Ssounds.CALAMITY_INCOMING.get(), SoundSource.AMBIENT,1f,1f);
                     player.displayClientMessage(Component.translatable("calamity_coming_message"), false);
@@ -462,8 +497,36 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread , 
         return super.hasLineOfSight(entity);
     }
 
-    @Override
-    public NeuralNetwork getNetworkHivemind() {
-        return this.network;
+    public int decide(double[] inputs) {
+        double[] outputs = new double[OUTPUT_SIZE];
+        for (int i = 0; i < OUTPUT_SIZE; i++) {
+            for (int j = 0; j < INPUT_SIZE; j++) {
+                outputs[i] += inputs[j] * weights[i * INPUT_SIZE + j];
+            }
+        }
+        return argmax(outputs);
+    }
+    private int argmax(double[] arr) {
+        int maxIndex = 0;
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] > arr[maxIndex]) maxIndex = i;
+        }
+        return maxIndex;
+    }
+
+    public void punishForDecision(int decision) {
+        this.adjustWeightsForDecision(decision, -0.1);
+    }
+    public void praisedForDecision(int decision) {
+        this.adjustWeightsForDecision(decision, 0.05);
+    }
+    public void adjustWeightsForDecision(int decision, double penalty) {
+        int startIndex = decision * INPUT_SIZE;
+        int endIndex = startIndex + INPUT_SIZE;
+
+        for (int i = startIndex; i < endIndex; i++) {
+            weights[i] += penalty;
+            weights[i] = Math.max(-1.0, Math.min(1.0, weights[i]));
+        }
     }
 }

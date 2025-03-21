@@ -1,11 +1,10 @@
 package com.Harbinger.Spore.Sentities.Organoids;
 
 import com.Harbinger.Spore.Core.*;
-import com.Harbinger.Spore.Sentities.AI.NeuralProcessing.NeuralNetwork;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
-import com.Harbinger.Spore.Sentities.NetworkHivemind;
+import com.Harbinger.Spore.Sentities.Signal;
 import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -38,7 +37,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class Vigil extends Organoid implements TraceableEntity, NetworkHivemind {
+public class Vigil extends Organoid implements TraceableEntity {
     private static final EntityDataAccessor<Integer> TRIGGER = SynchedEntityData.defineId(Vigil.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> WAVE_SIZE = SynchedEntityData.defineId(Vigil.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> TIMER = SynchedEntityData.defineId(Vigil.class, EntityDataSerializers.INT);
@@ -194,8 +193,7 @@ public class Vigil extends Organoid implements TraceableEntity, NetworkHivemind 
             List<Entity> entities = this.level().getEntities(this, searchbox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
             for (Entity en : entities) {
                 if (en instanceof Proto proto){
-                    proto.setSignal(true);
-                    proto.setPlace(new BlockPos((int)this.getX(),(int)this.getY(),(int)this.getZ()));
+                    proto.setSignal(new Signal(true,new BlockPos((int)this.getX(),(int)this.getY(),(int)this.getZ())));
                     break;
                 }}
         }
@@ -229,13 +227,6 @@ public class Vigil extends Organoid implements TraceableEntity, NetworkHivemind 
         return this.proto;
     }
 
-    @Override
-    public NeuralNetwork getNetworkHivemind() {
-        if (this.getOwner() instanceof Proto proto){
-            return proto.getNetwork();
-        }
-        return null;
-    }
 
     private static class WatchTargetGoat extends Goal{
         private final Vigil vigil;

@@ -7,6 +7,7 @@ import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Screens.ZoaholicMenu;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.Organoids.Proto;
+import com.Harbinger.Spore.Sentities.Signal;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -192,8 +193,7 @@ public class ZoaholicBlockEntity extends BlockEntity implements AnimatedEntity, 
     }
     private void alertAnomaly(BlockPos pos,LivingEntity livingEntity){
         if (livingEntity instanceof Proto proto){
-            proto.setSignal(true);
-            proto.setPlace(pos);
+            proto.setSignal(new Signal(true,pos));
         }else if (livingEntity instanceof Calamity calamity){
             calamity.setSearchArea(pos);
         }
