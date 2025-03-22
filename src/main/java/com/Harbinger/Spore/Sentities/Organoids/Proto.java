@@ -10,8 +10,10 @@ import com.Harbinger.Spore.Sentities.AI.NeuralProcessing.ProtoAIs.ProtoScentDefe
 import com.Harbinger.Spore.Sentities.AI.NeuralProcessing.ProtoAIs.ProtoTargeting;
 import com.Harbinger.Spore.Sentities.BaseEntities.*;
 import com.Harbinger.Spore.Sentities.CasingGenerator;
+import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
 import com.Harbinger.Spore.Sentities.FoliageSpread;
 import com.Harbinger.Spore.Sentities.Signal;
+import com.Harbinger.Spore.Sentities.Utility.GastGeber;
 import com.Harbinger.Spore.Sentities.VariantKeeper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -155,7 +157,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
                     infected.setLinked(true);
                 }
                 if (infected.getTarget() == null || infected.getY() < 0 || infected.getHealth() < infected.getMaxHealth()/2){
-                    if (harvestBiomassByDespawning(infected)){
+                    if (!level().isClientSide && harvestBiomassByDespawning(infected)){
                         setHosts(getHosts() + 1);
                     }
                 }else {
@@ -183,16 +185,23 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         }
     }
 
-    public boolean harvestBiomassByDespawning(LivingEntity living){
-        if (living instanceof Hyper && Math.random() < 0.1){
+    public boolean harvestBiomassByDespawning(Infected living){
+        if (living instanceof GastGeber || living instanceof Scamper){
+            return true;
+        }
+        if (living.getKills() > 0){
+            addBiomass(living.getKills());
+            living.setKills(0);
+        }
+        if (living instanceof Hyper && Math.random() < 0.0001){
             addBiomass(1);
             living.discard();
             return false;
-        }else if (living instanceof EvolvedInfected && Math.random() < 0.4){
+        }else if (living instanceof EvolvedInfected && Math.random() < 0.01){
             addBiomass(1);
             living.discard();
             return false;
-        }else if (living instanceof Infected && Math.random() < 0.75){
+        }else if (Math.random() < 0.2){
             addBiomass(1);
             living.discard();
             return false;
@@ -259,7 +268,9 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         if (this.tickCount % 200 == 0 && target != null){
             BlockPos pos = target.getOnPos();
             if (checkForOrganoids(target) && getBiomass() > 2) {
-                int e = this.getRandom().nextInt(1,Math.min(getBiomass() % 2,5));
+                int biomassFactor = getBiomass() / 2;
+                int upperBound = Math.min(biomassFactor, 5);
+                int e = this.getRandom().nextInt(1,upperBound+1);
                 for(int o = 0; o<e;o++){
                     summonMob(this.decide(this.inputs(target)),pos);
                 }
