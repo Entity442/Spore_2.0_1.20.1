@@ -163,6 +163,11 @@ public class InfectedHazmat extends Infected implements VariantKeeper {
         }
     }
 
+    @Override
+    public int amountOfMutations() {
+        return HazmatVariant.values().length;
+    }
+
     private void setVariant(HazmatVariant variant) {
         this.entityData.set(DATA_ID_TYPE_VARIANT, variant.getId() & 255);
     }

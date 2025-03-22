@@ -157,6 +157,12 @@ public class Slasher extends EvolvedInfected implements ArmorPersentageBypass, V
             this.entityData.set(DATA_ID_TYPE_VARIANT, i);
         }
     }
+
+    @Override
+    public int amountOfMutations() {
+        return SlasherVariants.values().length;
+    }
+
     private void setVariant(SlasherVariants variant) {
         this.entityData.set(DATA_ID_TYPE_VARIANT, variant.getId() & 255);
     }

@@ -282,6 +282,11 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
         }
     }
 
+    @Override
+    public int amountOfMutations() {
+        return BusserVariants.values().length;
+    }
+
     private void setVariant(BusserVariants variant) {
         this.entityData.set(DATA_ID_TYPE_VARIANT, variant.getId() & 255);
     }

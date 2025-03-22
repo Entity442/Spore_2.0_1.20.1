@@ -6,4 +6,5 @@ public interface VariantKeeper {
     default void increaseVariant(){
         setVariant(getTypeVariant()+1);
     }
+    int amountOfMutations();
 }

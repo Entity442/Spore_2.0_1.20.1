@@ -13,16 +13,15 @@ import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
 import com.Harbinger.Spore.Sentities.CasingGenerator;
 import com.Harbinger.Spore.Sentities.FoliageSpread;
 import com.Harbinger.Spore.Sentities.Signal;
+import com.Harbinger.Spore.Sentities.VariantKeeper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.DoubleTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -44,6 +43,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -56,6 +56,11 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
     private static final int INPUT_SIZE = 4;
     private static final int OUTPUT_SIZE = 4;
     private double[] weights;
+    public List<String> team_1 = new ArrayList<>();
+    public List<String> team_2 = new ArrayList<>();
+    public List<String> team_3 = new ArrayList<>();
+    public List<String> team_4 = new ArrayList<>();
+    private final Random random = new Random();
     public Proto(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         setPersistenceRequired();
@@ -63,7 +68,30 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         for (int i = 0; i < weights.length; i++) {
             weights[i] = this.getRandom().nextDouble();
         }
+        fillDefaultTeams(team_1,SConfig.SERVER.proto_summonable_troops.get());
+        fillDefaultTeams(team_2,SConfig.SERVER.proto_summonable_troops.get());
+        fillDefaultTeams(team_3,SConfig.SERVER.proto_summonable_troops.get());
+        fillDefaultTeams(team_4,SConfig.SERVER.proto_summonable_troops.get());
     }
+    private void fillDefaultTeams(List<String> team ,List<? extends String> CONFIG){
+        if (CONFIG.size() < 4) {
+            throw new IllegalArgumentException("CONFIG must have at least 4 unique entries");
+        }
+        List<String> shuffledConfig = new ArrayList<>(CONFIG);
+        Collections.shuffle(shuffledConfig, random);
+        
+        for (int i = 0; i < 4; i++) {
+            String config = shuffledConfig.get(i);
+            int add = isVariantKeeper(config);
+            team.add(config + "_" + random.nextInt(add));
+        }
+    }
+    private int isVariantKeeper(String s){
+        ResourceLocation location = new ResourceLocation(s);
+        Entity entity = ForgeRegistries.ENTITY_TYPES.getValue(location).create(level());
+        return entity instanceof VariantKeeper keeper ? keeper.amountOfMutations()-1 : -1;
+    }
+
     @Nullable
     public Signal signal;
     @Override
@@ -201,22 +229,54 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         double hasAllotOfArmor = entity.getArmorValue() >= 20 ? 1.0 : 0.0;
         return new double[]{distance,isOnGround,hasAllotOfHealth,hasAllotOfArmor};
     }
-    private void summonMob(int decision, BlockPos pos) {
-        Mob summoned = switch (decision) {
-            case 0 -> Sentities.USURPER.get().create(level());
-            case 1 -> Sentities.BRAUREI.get().create(level());
-            case 2 -> Sentities.UMARMED.get().create(level());
-            case 3 -> Sentities.MOUND.get().create(level());
-            default -> Sentities.VERVA.get().create(level());
-        };
-        if (summoned instanceof Organoid organoid) {
-            CompoundTag data = summoned.getPersistentData();
-            data.putInt("hivemind",this.getId());
-            data.putInt("decision",decision);
-            summoned.teleportRelative(pos.getX(), pos.getY()+1, pos.getZ());
-            organoid.tickEmerging();
-            level().addFreshEntity(summoned);
+    public double[] ownInputs(){
+        double hidden = level().canSeeSky(this.getOnPos()) ? 1.0 : 0.0;
+        double hosts = this.getHosts() > 30 ? 1.0 : 0.0;
+        double isHurt = this.getHealth() < this.getMaxHealth() ? 1.0 : 0.0;
+        double hasBiomass =  1.0;
+        return new double[]{hidden,hosts,isHurt,hasBiomass};
+    }
+    public Entity entityResourceLocation(int decision, List<String> string){
+        if (string.isEmpty()){
+            return null;
         }
+        String[] id = string.get(decision).split("_");
+        ResourceLocation location = new ResourceLocation(id[0]);
+        int variant = Integer.parseInt(id[1]);
+        Entity entity = ForgeRegistries.ENTITY_TYPES.getValue(location).create(level());
+        if (entity instanceof VariantKeeper keeper && variant > 0){
+            keeper.setVariant(variant);
+        }
+        return entity;
+    }
+    public List<String> getDecisionList(int decision){
+        return switch (decision){
+            case 0 -> team_1;
+            case 1 -> team_2;
+            case 2 -> team_3;
+            case 3 -> team_4;
+            default -> null;
+        };
+    }
+            
+    private void summonMob(int decision, BlockPos pos) {
+        int i = this.decide(ownInputs());
+        Entity summoned = entityResourceLocation(i,getDecisionList(decision));
+        if (summoned instanceof Organoid organoid) {
+            organoid.tickEmerging();
+        }
+        if (summoned instanceof Vigil organoid) {
+            organoid.setProto(this);
+        }
+        if (summoned instanceof Mound organoid) {
+            organoid.setMaxAge(1);
+        }
+        CompoundTag data = summoned.getPersistentData();
+        data.putInt("hivemind",this.getId());
+        data.putInt("decision",decision);
+        data.putInt("member",decision);
+        summoned.teleportRelative(pos.getX(), pos.getY()+1, pos.getZ());
+        level().addFreshEntity(summoned);
     }
 
     public void moraleBoost(){
@@ -276,6 +336,14 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
             weightsList.add(DoubleTag.valueOf(weight));
         }
         tag.put("weights", weightsList);
+        List<List<String>> teams = List.of(team_1, team_2, team_3, team_4);
+        for (int i = 0; i < teams.size(); i++) {
+            ListTag teamTag = new ListTag();
+            for (String member : teams.get(i)) {
+                teamTag.add(StringTag.valueOf(member));
+            }
+            tag.put("team_" + (i + 1), teamTag);
+        }
     }
 
     @Override
@@ -290,6 +358,17 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         this.weights = new double[weightsList.size()];
         for (int i = 0; i < weightsList.size(); i++) {
             this.weights[i] = weightsList.getDouble(i);
+        }
+        team_1.clear();
+        team_2.clear();
+        team_3.clear();
+        team_4.clear();
+        List<List<String>> teams = List.of(team_1, team_2, team_3, team_4);
+        for (int i = 0; i < teams.size(); i++) {
+            ListTag teamTag = tag.getList("team_" + (i + 1), Tag.TAG_STRING);
+            for (int j = 0; j < teamTag.size(); j++) {
+                teams.get(i).add(teamTag.getString(j));
+            }
         }
     }
 
@@ -514,10 +593,13 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         return maxIndex;
     }
 
-    public void punishForDecision(int decision) {
+    public void punishForDecision(int decision,int member) {
         this.adjustWeightsForDecision(decision, -0.1);
+        if (Math.random() < 0.3){
+            punishMember(getDecisionList(decision),member);
+        }
     }
-    public void praisedForDecision(int decision) {
+    public void praisedForDecision(int decision,int member) {
         this.adjustWeightsForDecision(decision, 0.05);
     }
     public void adjustWeightsForDecision(int decision, double penalty) {
@@ -528,5 +610,24 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
             weights[i] += penalty;
             weights[i] = Math.max(-1.0, Math.min(1.0, weights[i]));
         }
+    }
+
+    private void punishMember(List<String> team,int member){
+        if (team == null || team.isEmpty() || member < 0 || member >= team.size()) return;
+        String removed = team.remove(member);
+        String newMember = getUniqueReplacement(team, SConfig.SERVER.proto_summonable_troops.get());
+        team.add(newMember == null ? removed : newMember);
+    }
+
+    private String getUniqueReplacement(List<String> team, List<? extends String> CONFIG) {
+        List<String> possibleReplacements = new ArrayList<>(CONFIG);
+        possibleReplacements.removeAll(team);
+        if (possibleReplacements.isEmpty()) {
+            return null;
+        }
+        String value = possibleReplacements.get(random.nextInt(possibleReplacements.size()));
+        int add = isVariantKeeper(value);
+        team.add(value + "_" + random.nextInt(add));
+        return value;
     }
 }

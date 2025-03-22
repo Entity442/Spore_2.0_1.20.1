@@ -294,6 +294,18 @@ public class HandlerEvents {
                                     for (int i = 0;i<proto.getWeights().length;i++){
                                         player.displayClientMessage(Component.literal("Neuron_"+i+" " + proto.getWeightsValue(i)),false);
                                     }
+                                    for (String s : proto.team_1){
+                                    player.displayClientMessage(Component.literal("TEAM_1 "+ s),false);
+                                    }
+                                    for (String s : proto.team_2){
+                                    player.displayClientMessage(Component.literal("TEAM_2 "+ s),false);
+                                    }
+                                    for (String s : proto.team_3){
+                                    player.displayClientMessage(Component.literal("TEAM_3 "+ s),false);
+                                    }
+                                    for (String s : proto.team_4){
+                                    player.displayClientMessage(Component.literal("TEAM_4 "+ s),false);
+                                    }
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
                             }
                             else if(entity1 instanceof BiomassReformator reformator) {
@@ -669,7 +681,8 @@ public class HandlerEvents {
 
                 if (summoner instanceof Proto smartMob) {
                     int decision = data.getInt("decision");
-                    smartMob.praisedForDecision(decision);
+                    int member = data.getInt("member");
+                    smartMob.praisedForDecision(decision,member);
                 }
             }
         }
@@ -681,7 +694,8 @@ public class HandlerEvents {
                 Entity summoner = level.getEntity(summonerUUID);
                 if (summoner instanceof Proto smartMob) {
                     int decision = data.getInt("decision");
-                    smartMob.punishForDecision(decision);
+                    int member = data.getInt("member");
+                    smartMob.punishForDecision(decision,member);
                 }
             }
         }

@@ -640,6 +640,12 @@ public class Umarmer extends Organoid implements VariantKeeper {
             this.entityData.set(DATA_ID_TYPE_VARIANT, i);
         }
     }
+
+    @Override
+    public int amountOfMutations() {
+        return UmarmerVariants.values().length;
+    }
+
     private void setVariant(UmarmerVariants variant) {
         this.entityData.set(DATA_ID_TYPE_VARIANT, variant.getId() & 255);
     }

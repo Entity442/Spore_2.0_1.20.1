@@ -237,6 +237,12 @@ public class Scamper extends EvolvedInfected implements WaterInfected, VariantKe
             this.entityData.set(DATA_ID_TYPE_VARIANT, i);
         }
     }
+
+    @Override
+    public int amountOfMutations() {
+        return ScamperVariants.values().length;
+    }
+
     public void setVariant(ScamperVariants variant) {
         this.entityData.set(DATA_ID_TYPE_VARIANT, variant.getId() & 255);
     }
