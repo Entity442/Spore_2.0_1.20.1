@@ -683,4 +683,10 @@ public class Umarmer extends Organoid implements VariantKeeper {
         }
         return super.getMutation();
     }
+
+
+    @Override
+    public boolean isCloseCombatant() {
+        return true;
+    }
 }

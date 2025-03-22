@@ -150,6 +150,7 @@ public class Organoid extends UtilityEntity implements Enemy {
         return 2;
     }
 
+    public boolean isCloseCombatant(){return false;}
     @Override
     public boolean addEffect(MobEffectInstance instance, @org.jetbrains.annotations.Nullable Entity entity) {
         if (instance.getEffect().getCategory() == MobEffectCategory.HARMFUL && instance.getAmplifier() < 1){

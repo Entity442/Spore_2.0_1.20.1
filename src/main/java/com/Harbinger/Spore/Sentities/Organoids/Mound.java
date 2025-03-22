@@ -349,4 +349,9 @@ public class Mound extends Organoid implements FoliageSpread {
     public int getEmerge_tick() {
         return 40;
     }
+    @Override
+    public boolean isCloseCombatant() {
+        return true;
+    }
+
 }

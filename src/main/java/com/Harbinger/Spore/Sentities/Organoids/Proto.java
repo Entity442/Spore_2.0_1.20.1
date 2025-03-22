@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
 import com.Harbinger.Spore.ExtremelySusThings.Package.AdvancementGivingPackage;
 import com.Harbinger.Spore.ExtremelySusThings.SporePacketHandler;
+import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.NeuralProcessing.ProtoAIs.ProtoScentDefense;
 import com.Harbinger.Spore.Sentities.AI.NeuralProcessing.ProtoAIs.ProtoTargeting;
@@ -83,13 +84,13 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         for (int i = 0; i < 4; i++) {
             String config = shuffledConfig.get(i);
             int add = isVariantKeeper(config);
-            team.add(config + "_" + random.nextInt(add));
+            team.add(config + "_" + add);
         }
     }
     private int isVariantKeeper(String s){
         ResourceLocation location = new ResourceLocation(s);
         Entity entity = ForgeRegistries.ENTITY_TYPES.getValue(location).create(level());
-        return entity instanceof VariantKeeper keeper ? keeper.amountOfMutations()-1 : -1;
+        return entity instanceof VariantKeeper keeper ? this.getRandom().nextInt(keeper.amountOfMutations()-1) : -1;
     }
 
     @Nullable
@@ -261,8 +262,10 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
             
     private void summonMob(int decision, BlockPos pos) {
         int i = this.decide(ownInputs());
+        BlockPos blockPos = pos;
         Entity summoned = entityResourceLocation(i,getDecisionList(decision));
         if (summoned instanceof Organoid organoid) {
+            blockPos = organoid.isCloseCombatant() ? pos : BlockPos.containing(Utilities.generatePositionAway(new Vec3(pos.getX(),pos.getY(),pos.getZ()),random.nextInt(4,12)));
             organoid.tickEmerging();
         }
         if (summoned instanceof Vigil organoid) {
@@ -275,7 +278,8 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         data.putInt("hivemind",this.getId());
         data.putInt("decision",decision);
         data.putInt("member",decision);
-        summoned.teleportRelative(pos.getX(), pos.getY()+1, pos.getZ());
+        summoned.moveTo(blockPos.getX(),blockPos.getY()+1,blockPos.getZ());
+        summoned.teleportTo(blockPos.getX(), blockPos.getY()+1, blockPos.getZ());
         level().addFreshEntity(summoned);
     }
 
@@ -612,11 +616,16 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         }
     }
 
-    private void punishMember(List<String> team,int member){
+    private void punishMember(List<String> team, int member) {
         if (team == null || team.isEmpty() || member < 0 || member >= team.size()) return;
         String removed = team.remove(member);
         String newMember = getUniqueReplacement(team, SConfig.SERVER.proto_summonable_troops.get());
-        team.add(newMember == null ? removed : newMember);
+        if (newMember != null) {
+            int add = isVariantKeeper(newMember);
+            team.add(newMember + "_" + add);
+        } else {
+            team.add(removed);
+        }
     }
 
     private String getUniqueReplacement(List<String> team, List<? extends String> CONFIG) {
@@ -625,9 +634,6 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         if (possibleReplacements.isEmpty()) {
             return null;
         }
-        String value = possibleReplacements.get(random.nextInt(possibleReplacements.size()));
-        int add = isVariantKeeper(value);
-        team.add(value + "_" + random.nextInt(add));
-        return value;
+        return possibleReplacements.get(random.nextInt(possibleReplacements.size()));
     }
 }
