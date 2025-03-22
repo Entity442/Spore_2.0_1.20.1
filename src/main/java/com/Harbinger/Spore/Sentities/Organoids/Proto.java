@@ -8,9 +8,7 @@ import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.NeuralProcessing.ProtoAIs.ProtoScentDefense;
 import com.Harbinger.Spore.Sentities.AI.NeuralProcessing.ProtoAIs.ProtoTargeting;
-import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
-import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
-import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
+import com.Harbinger.Spore.Sentities.BaseEntities.*;
 import com.Harbinger.Spore.Sentities.CasingGenerator;
 import com.Harbinger.Spore.Sentities.FoliageSpread;
 import com.Harbinger.Spore.Sentities.Signal;
@@ -51,6 +49,7 @@ import java.util.*;
 
 public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
     private static final EntityDataAccessor<Integer> HOSTS = SynchedEntityData.defineId(Proto.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> BIOMASS = SynchedEntityData.defineId(Proto.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<BlockPos> NODE = SynchedEntityData.defineId(Proto.class, EntityDataSerializers.BLOCK_POS);
     private final List<String> hypers = new ArrayList<>(){{add("spore:inquisitor");add("spore:wendigo");add("spore:hvindicator");add("spore:brot");add("spore:ogre");add("spore:hevoker");}};
     private int summonDefense = 0;
@@ -138,8 +137,12 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
                 this.entityData.set(NODE,this.getOnPos());
             }
         }else{
-            this.generateChasing(entityData.get(NODE),this,32,2);
-            this.generateChasing(entityData.get(NODE),this,16);
+            if (getBiomass() > 40){
+                this.generateChasing(entityData.get(NODE),this,32,2);
+                this.generateChasing(entityData.get(NODE),this,16);
+                eatBiomass(5);
+            }
+
         }
     }
 
@@ -151,7 +154,13 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
                 if (!infected.getLinked()){
                     infected.setLinked(true);
                 }
-                setHosts(getHosts() + 1);
+                if (infected.getTarget() == null || infected.getY() < 0 || infected.getHealth() < infected.getMaxHealth()/2){
+                    if (harvestBiomassByDespawning(infected)){
+                        setHosts(getHosts() + 1);
+                    }
+                }else {
+                    setHosts(getHosts() + 1);
+                }
             }
             if (en instanceof Mound mound){
                 if (!mound.getLinked()){
@@ -174,6 +183,23 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         }
     }
 
+    public boolean harvestBiomassByDespawning(LivingEntity living){
+        if (living instanceof Hyper && Math.random() < 0.1){
+            addBiomass(1);
+            living.discard();
+            return false;
+        }else if (living instanceof EvolvedInfected && Math.random() < 0.4){
+            addBiomass(1);
+            living.discard();
+            return false;
+        }else if (living instanceof Infected && Math.random() < 0.75){
+            addBiomass(1);
+            living.discard();
+            return false;
+        }
+        return true;
+    }
+
     private void griefBlocks(){
         if (this.getLastDamageSource() == this.damageSources().inWall() && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)){
             AABB aabb = this.getBoundingBox().inflate(0.2,0,0.2);
@@ -185,6 +211,16 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
                 }
             }
         }
+    }
+
+    public void addBiomass(int e){
+        entityData.set(BIOMASS,entityData.get(BIOMASS)+e);
+    }
+    public void eatBiomass(int e){
+        entityData.set(BIOMASS,entityData.get(BIOMASS)-e);
+    }
+    public int getBiomass(){
+        return entityData.get(BIOMASS);
     }
 
     public AABB seachbox(){
@@ -219,7 +255,12 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         LivingEntity target = this.getTarget();
         if (this.tickCount % 200 == 0 && target != null){
             BlockPos pos = target.getOnPos();
-            summonMob(this.decide(this.inputs(target)),pos);
+            if (checkForOrganoids(target) && getBiomass() > 2) {
+                int e = this.getRandom().nextInt(1,Math.min(getBiomass() % 2,5));
+                for(int o = 0; o<e;o++){
+                    summonMob(this.decide(this.inputs(target)),pos);
+                }
+            }
         }
     }
 
@@ -259,13 +300,26 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
             default -> null;
         };
     }
-            
+    protected boolean checkForOrganoids(Entity entity){
+        AABB aabb = entity.getBoundingBox().inflate(12);
+        List<Entity> entities = level().getEntities(this,aabb,entity1 -> { return entity1 instanceof Organoid;});
+        return entities.size() <= 4;
+    }
+    private boolean checkTheGround(BlockPos pos,Level level){
+        for (int i = 0;i < 3;i++){
+            BlockState state = level.getBlockState(pos.below(i));
+            if (state.getDestroySpeed(level,pos.below(i)) > 4 || state.isAir()){
+                return false;
+            }
+        }
+        return true;
+    }
     private void summonMob(int decision, BlockPos pos) {
         int i = this.decide(ownInputs());
         BlockPos blockPos = pos;
         Entity summoned = entityResourceLocation(i,getDecisionList(decision));
         if (summoned instanceof Organoid organoid) {
-            blockPos = organoid.isCloseCombatant() ? pos : BlockPos.containing(Utilities.generatePositionAway(new Vec3(pos.getX(),pos.getY(),pos.getZ()),random.nextInt(4,12)));
+            blockPos = organoid.isCloseCombatant() ? pos : BlockPos.containing(Utilities.generatePositionAway(new Vec3(pos.getX(),pos.getY(),pos.getZ()),random.nextInt(8,16)));
             organoid.tickEmerging();
         }
         if (summoned instanceof Vigil organoid) {
@@ -278,9 +332,15 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         data.putInt("hivemind",this.getId());
         data.putInt("decision",decision);
         data.putInt("member",decision);
-        summoned.moveTo(blockPos.getX(),blockPos.getY()+1,blockPos.getZ());
-        summoned.teleportTo(blockPos.getX(), blockPos.getY()+1, blockPos.getZ());
-        level().addFreshEntity(summoned);
+        if (summoned instanceof Mob mob){
+            mob.randomTeleport(blockPos.getX(), blockPos.getY(), blockPos.getZ(),false);
+        }else {
+            summoned.teleportTo(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        }
+        if (checkTheGround(pos,summoned.level())){
+            eatBiomass(2);
+            level().addFreshEntity(summoned);
+        }
     }
 
     public void moraleBoost(){
@@ -331,6 +391,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
+        tag.putInt("biomass",entityData.get(BIOMASS));
         tag.putInt("hosts",entityData.get(HOSTS));
         tag.putInt("nodeX",entityData.get(NODE).getX());
         tag.putInt("nodeY",entityData.get(NODE).getY());
@@ -353,6 +414,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
+        entityData.set(BIOMASS, tag.getInt("biomass"));
         entityData.set(HOSTS, tag.getInt("hosts"));
         int x = tag.getInt("nodeX");
         int y = tag.getInt("nodeY");
@@ -379,6 +441,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
+        this.entityData.define(BIOMASS,0);
         this.entityData.define(HOSTS,0);
         this.entityData.define(NODE,this.getOnPos());
     }
@@ -599,7 +662,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
 
     public void punishForDecision(int decision,int member) {
         this.adjustWeightsForDecision(decision, -0.1);
-        if (Math.random() < 0.3){
+        if (Math.random() < 0.05){
             punishMember(getDecisionList(decision),member);
         }
     }
