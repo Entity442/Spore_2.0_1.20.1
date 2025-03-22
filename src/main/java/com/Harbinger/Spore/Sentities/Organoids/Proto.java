@@ -192,17 +192,18 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         if (living.getKills() > 0){
             addBiomass(living.getKills());
             living.setKills(0);
+            return true;
         }
         if (living instanceof Hyper && Math.random() < 0.0001){
-            addBiomass(1);
+            addBiomass(30);
             living.discard();
             return false;
         }else if (living instanceof EvolvedInfected && Math.random() < 0.01){
-            addBiomass(1);
+            addBiomass(15);
             living.discard();
             return false;
         }else if (Math.random() < 0.2){
-            addBiomass(1);
+            addBiomass(5);
             living.discard();
             return false;
         }
