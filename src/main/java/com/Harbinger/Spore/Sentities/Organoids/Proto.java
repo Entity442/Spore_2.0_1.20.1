@@ -242,6 +242,9 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         if (this.tickCount % 40 == 0){
             griefBlocks();
         }
+        if (this.tickCount % 200 == 0){
+            addBiomass(1);
+        }
 
         if (getSignal()  != null && getSignal().active() && checkForCalamities(getSignal().pos())){
             this.SummonConstructor(this.level(),this,getSignal().pos());
