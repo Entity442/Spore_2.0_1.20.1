@@ -269,9 +269,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         if (this.tickCount % 200 == 0 && target != null){
             BlockPos pos = target.getOnPos();
             if (checkForOrganoids(target) && getBiomass() > 2) {
-                int biomassFactor = getBiomass() / 2;
-                int upperBound = Math.min(biomassFactor, 5);
-                int e = this.getRandom().nextInt(1,upperBound+1);
+                int e = this.getRandom().nextInt(1,5);
                 for(int o = 0; o<e;o++){
                     summonMob(this.decide(this.inputs(target)),pos);
                 }
@@ -290,7 +288,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         double hidden = level().canSeeSky(this.getOnPos()) ? 1.0 : 0.0;
         double hosts = this.getHosts() > 30 ? 1.0 : 0.0;
         double isHurt = this.getHealth() < this.getMaxHealth() ? 1.0 : 0.0;
-        double hasBiomass =  1.0;
+        double hasBiomass = getBiomass() > 40 ?  1.0 : 0;
         return new double[]{hidden,hosts,isHurt,hasBiomass};
     }
     public Entity entityResourceLocation(int decision, List<String> string){
@@ -342,6 +340,9 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         }
         if (summoned instanceof Mound organoid) {
             organoid.setMaxAge(1);
+        }
+        if (summoned instanceof Verwa organoid && this.level() instanceof ServerLevel serverLevel) {
+            organoid.finalizeSpawn(serverLevel,serverLevel.getCurrentDifficultyAt(pos),MobSpawnType.SPAWNER,null,null);
         }
         CompoundTag data = summoned.getPersistentData();
         data.putInt("hivemind",this.getId());
