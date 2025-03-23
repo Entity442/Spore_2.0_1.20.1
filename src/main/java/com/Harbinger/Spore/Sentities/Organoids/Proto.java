@@ -348,6 +348,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         data.putInt("hivemind",this.getId());
         data.putInt("decision",decision);
         data.putInt("member",decision);
+        summoned.moveTo(blockPos.getX(), blockPos.getY(), blockPos.getZ());
         if (summoned instanceof Mob mob){
             mob.randomTeleport(blockPos.getX(), blockPos.getY(), blockPos.getZ(),false);
         }else {
@@ -660,6 +661,9 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
     }
 
     public int decide(double[] inputs) {
+        if (inputs == null || inputs.length == 0){
+            return 0;
+        }
         double[] outputs = new double[OUTPUT_SIZE];
         for (int i = 0; i < OUTPUT_SIZE; i++) {
             for (int j = 0; j < INPUT_SIZE; j++) {
@@ -669,6 +673,9 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         return argmax(outputs);
     }
     private int argmax(double[] arr) {
+        if (arr == null || arr.length == 0){
+            return 0;
+        }
         int maxIndex = 0;
         for (int i = 1; i < arr.length; i++) {
             if (arr[i] > arr[maxIndex]) maxIndex = i;

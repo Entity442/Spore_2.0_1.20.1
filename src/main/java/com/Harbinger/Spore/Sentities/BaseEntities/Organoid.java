@@ -45,10 +45,12 @@ public class Organoid extends UtilityEntity implements Enemy {
         if (this.onGround()){
             this.makeStuckInBlock(Blocks.AIR.defaultBlockState(), new Vec3(0, 1, 0));
         }
-        if (this.isEmerging()){
-            this.tickEmerging();
-        } else if (this.isBurrowing()){
-            this.tickBurrowing();
+        if (!level().isClientSide){
+            if (this.isEmerging()){
+                this.tickEmerging();
+            } else if (this.isBurrowing()){
+                this.tickBurrowing();
+            }
         }
         if (tickCount % 200 == 0 && !(this instanceof Proto || this instanceof Mound)){
             regulateSpawns();
