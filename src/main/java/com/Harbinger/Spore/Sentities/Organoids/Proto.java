@@ -709,7 +709,12 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
 
     private String getUniqueReplacement(List<String> team, List<? extends String> CONFIG) {
         List<String> possibleReplacements = new ArrayList<>(CONFIG);
-        possibleReplacements.removeAll(team);
+        List<String> mobsInTeam = new ArrayList<>();
+        for (String s : team){
+            String[] string = s.split("_");
+            mobsInTeam.add(string[0]);
+        }
+        possibleReplacements.removeAll(mobsInTeam);
         if (possibleReplacements.isEmpty()) {
             return null;
         }

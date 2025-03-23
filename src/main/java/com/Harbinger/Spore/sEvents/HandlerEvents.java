@@ -291,7 +291,7 @@ public class HandlerEvents {
                                     player.displayClientMessage(Component.literal("Current Target " + proto.getTarget()),false);
                                     player.displayClientMessage(Component.literal("Buffs " + proto.getActiveEffects()),false);
                                     player.displayClientMessage(Component.literal("Mobs under control " + proto.getHosts()),false);
-                                player.displayClientMessage(Component.literal("Biomass " + proto.getBiomass()),false);
+                                    player.displayClientMessage(Component.literal("Biomass " + proto.getBiomass()),false);
                                     for (int i = 0;i<proto.getWeights().length;i++){
                                         player.displayClientMessage(Component.literal("Neuron_"+i+" " + proto.getWeightsValue(i)),false);
                                     }
