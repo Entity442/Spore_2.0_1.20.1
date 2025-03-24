@@ -278,6 +278,9 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
     }
 
     public double[] inputs(LivingEntity entity){
+        if (entity == null){
+            return new double[]{0,0,0,0};
+        }
         double distance = entity.distanceToSqr(this) < 200 ? 1.0 : 0.0;
         double isOnGround = entity.onGround() ? 1.0 : 0.0;
         double hasAllotOfHealth = entity.getMaxHealth() >= 20 ? 1.0 : 0.0;
