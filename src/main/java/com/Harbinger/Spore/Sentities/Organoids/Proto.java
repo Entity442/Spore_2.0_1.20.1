@@ -374,7 +374,6 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         }
     }
 
-
     protected void giveMadness(Proto proto){
         AABB aabb = proto.getBoundingBox().inflate(128);
         List<Entity> entities = this.level().getEntities(this, aabb);
