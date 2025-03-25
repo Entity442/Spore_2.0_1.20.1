@@ -45,13 +45,15 @@ public class Sieger extends Calamity implements RangedAttackMob, TrueCalamity {
     private final CalamityMultipart[] subEntities;
     public final CalamityMultipart lowerbody;
     public final CalamityMultipart head;
-    public CalamityMultipart tail;
+    public final CalamityMultipart tail;
+    public final CalamityMultipart tail2;
     public Sieger(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         this.lowerbody = new CalamityMultipart(this, "lowerbody", 3.0F, 3.0F);
-        this.tail = new CalamityMultipart(this, "tail", 1.0F, 1.0F);
+        this.tail = new CalamityMultipart(this, "tail", 1.5F, 1.5F);
+        this.tail2 = new CalamityMultipart(this, "tail", 1.5F, 1.5F);
         this.head = new CalamityMultipart(this, "head", 1.4F, 1.4F);
-        this.subEntities = new CalamityMultipart[]{ this.lowerbody, this.tail,this.head};
+        this.subEntities = new CalamityMultipart[]{ this.lowerbody, this.tail, this.tail2,this.head};
         this.setMaxUpStep(1.5F);
         this.setId(ENTITY_COUNTER.getAndAdd(this.subEntities.length + 1) + 1);
     }
@@ -96,9 +98,14 @@ public class Sieger extends Calamity implements RangedAttackMob, TrueCalamity {
             avec3[j] = new Vec3(this.subEntities[j].getX(), this.subEntities[j].getY(), this.subEntities[j].getZ());
         }
         if (this.getTailHp() > 0){
-            this.tickPart(this.tail, (double)(f2), 7.0D, (double)(-f15));
+            this.tickPart(this.tail, new Vec3(-1.5D,7.0D,0D));
         }else{
             this.tickPart(this.tail, (double)(f2 * 2.0F), 1.0D, (double)(-f15 * 2.0F));
+        }
+        if (this.getTailHp() > 0){
+            this.tickPart(this.tail2, new Vec3(-3D,4.0D,0D));
+        }else{
+            this.tickPart(this.tail2, (double)(f2 * 2.0F), 1.0D, (double)(-f15 * 2.0F));
         }
         this.tickPart(this.head, (double)(f2 * -2.5F), 1.4D, (double)(-f15 * -2.5F));
         this.tickPart(this.lowerbody, (double)(f2 * 3.0F), 0.0D, (double)(-f15 * 3.0F));

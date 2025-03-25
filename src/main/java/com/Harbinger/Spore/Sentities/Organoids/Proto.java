@@ -6,7 +6,6 @@ import com.Harbinger.Spore.ExtremelySusThings.Package.AdvancementGivingPackage;
 import com.Harbinger.Spore.ExtremelySusThings.SporePacketHandler;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
-import com.Harbinger.Spore.Sentities.AI.NeuralProcessing.ProtoAIs.ProtoScentDefense;
 import com.Harbinger.Spore.Sentities.AI.NeuralProcessing.ProtoAIs.ProtoTargeting;
 import com.Harbinger.Spore.Sentities.BaseEntities.*;
 import com.Harbinger.Spore.Sentities.CasingGenerator;
@@ -14,6 +13,7 @@ import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
 import com.Harbinger.Spore.Sentities.FoliageSpread;
 import com.Harbinger.Spore.Sentities.Signal;
 import com.Harbinger.Spore.Sentities.Utility.GastGeber;
+import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
 import com.Harbinger.Spore.Sentities.VariantKeeper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -122,7 +122,6 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
     @Override
     protected void registerGoals() {
         this.addTargettingGoals();
-        this.goalSelector.addGoal(2,new ProtoScentDefense(this));
         this.goalSelector.addGoal(3,new ProtoTargeting(this));
         this.goalSelector.addGoal(4,new AOEMeleeAttackGoal(this,0,false,2.5,8,livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
         this.goalSelector.addGoal(4,new RandomLookAroundGoal(this));
@@ -222,7 +221,17 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
             }
         }
     }
-
+    private boolean checkForScent() {
+        AABB hitbox = this.getBoundingBox().inflate(3);
+        List<ScentEntity> entities = this.level().getEntitiesOfClass(ScentEntity.class, hitbox);
+        return entities.isEmpty();
+    }
+    private void SummonScent() {
+        ScentEntity scent = new ScentEntity(Sentities.SCENT.get(), this.level());
+        scent.setOvercharged(true);
+        scent.moveTo(this.getX(),this.getY(),this.getZ());
+        this.level().addFreshEntity(scent);
+    }
     public void addBiomass(int e){
         entityData.set(BIOMASS,entityData.get(BIOMASS)+e);
     }
@@ -251,6 +260,10 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         }
         if (this.tickCount % 40 == 0){
             griefBlocks();
+            Entity target = this.getTarget();
+            if (target != null && checkForScent() && !level().isClientSide){
+                SummonScent();
+            }
         }
         if (this.tickCount % 200 == 0){
             addBiomass(1);
@@ -331,6 +344,9 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         return true;
     }
     private void summonMob(int decision, BlockPos pos) {
+        if (pos == BlockPos.ZERO){
+            return;
+        }
         int i = this.decide(ownInputs());
         BlockPos blockPos = pos;
         Entity summoned = entityResourceLocation(i,getDecisionList(decision));
