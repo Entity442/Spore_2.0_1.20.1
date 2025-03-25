@@ -300,13 +300,6 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         double hasAllotOfArmor = entity.getArmorValue() >= 20 ? 1.0 : 0.0;
         return new double[]{distance,isOnGround,hasAllotOfHealth,hasAllotOfArmor};
     }
-    public double[] ownInputs(){
-        double hidden = level().canSeeSky(this.getOnPos()) ? 1.0 : 0.0;
-        double hosts = this.getHosts() > 30 ? 1.0 : 0.0;
-        double isHurt = this.getHealth() < this.getMaxHealth() ? 1.0 : 0.0;
-        double hasBiomass = getBiomass() > 40 ?  1.0 : 0;
-        return new double[]{hidden,hosts,isHurt,hasBiomass};
-    }
     public Entity entityResourceLocation(int decision, List<String> string){
         if (string.isEmpty()){
             return null;
@@ -347,9 +340,10 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         if (pos == BlockPos.ZERO){
             return;
         }
-        int i = this.decide(ownInputs());
+        List<String> team = getDecisionList(decision);
+        int i = this.getRandom().nextInt(team.size());
         BlockPos blockPos = pos;
-        Entity summoned = entityResourceLocation(i,getDecisionList(decision));
+        Entity summoned = entityResourceLocation(i,team);
         if (summoned instanceof Organoid organoid) {
             blockPos = organoid.isCloseCombatant() ? pos : BlockPos.containing(Utilities.generatePositionAway(new Vec3(pos.getX(),pos.getY(),pos.getZ()),random.nextInt(8,16)));
             organoid.tickEmerging();
