@@ -97,6 +97,16 @@ public class Verwa extends Organoid {
     }
     public void SummonStoredEntity(){
         Entity entity = this.getStoredEntity();
+        CompoundTag data = this.getPersistentData();
+        if (data.contains("hivemind")) {
+            int summonerUUID = data.getInt("hivemind");
+            Entity summoner = level().getEntity(summonerUUID);
+            if (summoner instanceof Proto smartMob) {
+                int decision = data.getInt("decision");
+                int member = data.getInt("member");
+                smartMob.praisedForDecision(decision,member);
+            }
+        }
         if (entity instanceof LivingEntity living){
             for (String string : SConfig.SERVER.verwa_effect.get()){
                 MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(string));
