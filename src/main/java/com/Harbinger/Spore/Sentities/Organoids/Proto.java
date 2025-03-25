@@ -367,8 +367,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         data.putInt("hivemind",this.getId());
         data.putInt("decision",decision);
         data.putInt("member",decision);
-        summoned.moveTo(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-        if (summoned instanceof Mob mob){
+        if (summoned instanceof LivingEntity mob){
             mob.randomTeleport(blockPos.getX(), blockPos.getY(), blockPos.getZ(),false);
         }else {
             summoned.teleportTo(blockPos.getX(), blockPos.getY(), blockPos.getZ());
