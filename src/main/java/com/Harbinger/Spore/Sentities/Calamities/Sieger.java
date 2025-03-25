@@ -315,7 +315,7 @@ public class Sieger extends Calamity implements RangedAttackMob, TrueCalamity {
     }
 
     public boolean hurt(CalamityMultipart calamityMultipart, DamageSource source, float value) {
-        if (calamityMultipart == this.tail){
+        if (calamityMultipart == this.tail || calamityMultipart == this.tail2){
             if (this.getTailHp() > 0 && value > this.getTailHp()){
                 this.playSound(Ssounds.LIMB_SLASH.get());
                 SummonDetashedTail();
