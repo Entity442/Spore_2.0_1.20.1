@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 public class SporeSavedData extends SavedData {
     public static final String NAME = Spore.MODID +"_world_data";
     private int amountOfHiveminds;
-    private int minutesBeforeSpawning;
+    private int daysPassed = 0;
 
     public SporeSavedData() {
         super();
@@ -27,12 +27,12 @@ public class SporeSavedData extends SavedData {
     }
     public static void addTime(ServerLevel level){
         SporeSavedData data = level.getDataStorage().computeIfAbsent(SporeSavedData::load,SporeSavedData::new,NAME);
-        data.minutesBeforeSpawning++;
+        data.daysPassed++;
         data.setDirty();
     }
     public static void addDay(ServerLevel level){
         SporeSavedData data = level.getDataStorage().computeIfAbsent(SporeSavedData::load,SporeSavedData::new,NAME);
-        data.minutesBeforeSpawning = data.minutesBeforeSpawning + 1200;
+        data.daysPassed++;
         data.setDirty();
     }
     public static void removeHivemind(ServerLevel level){
@@ -46,8 +46,13 @@ public class SporeSavedData extends SavedData {
         return amountOfHiveminds;
     }
 
-    public int getMinutesBeforeSpawning(){
-        return minutesBeforeSpawning;
+    public int getDaysPassed() {
+        return daysPassed;
+    }
+
+    public void setDaysPassed(int days) {
+        this.daysPassed = days;
+        setDirty();
     }
 
     public static void StartupData(ServerLevel level){
@@ -63,8 +68,8 @@ public class SporeSavedData extends SavedData {
         if (tag.contains("number_hiveminds",99)){
             data.amountOfHiveminds = tag.getInt("number_hiveminds");
         }
-        if (tag.contains("minutes_before_spawn")){
-            data.minutesBeforeSpawning = tag.getInt("minutes_before_spawn");
+        if (tag.contains("DaysPassed")){
+            data.daysPassed = tag.getInt("DaysPassed");
         }
         return data;
     }
@@ -72,7 +77,7 @@ public class SporeSavedData extends SavedData {
     @Override
     public @NotNull CompoundTag save(@NotNull CompoundTag tag) {
         tag.putInt("number_hiveminds",amountOfHiveminds);
-        tag.putInt("minutes_before_spawn",minutesBeforeSpawning);
+        tag.putInt("DaysPassed",daysPassed);
         return tag;
     }
 

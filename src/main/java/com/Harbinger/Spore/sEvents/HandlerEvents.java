@@ -206,11 +206,11 @@ public class HandlerEvents {
                     Entity entity = arguments.getSource().getEntity();
                     if (entity instanceof Player player){
                         SporeSavedData data = SporeSavedData.getDataLocation(world);
-                        int time = data.getMinutesBeforeSpawning();
+                        int time = data.getDaysPassed();
                         int numberofprotos = data.getAmountOfHiveminds();
                         player.displayClientMessage(Component.literal("There are "+numberofprotos + " proto hiveminds in this dimension"),false);
                         if (SConfig.SERVER.spawn.get())
-                            player.displayClientMessage(Component.literal("Time before spawns "+time + "/"+1200*SConfig.SERVER.days.get()),false);
+                            player.displayClientMessage(Component.literal("Time before spawns "+time + "/"+SConfig.SERVER.days.get()),false);
                     }
                     return 1;
                 }).requires(s -> s.hasPermission(1)));
@@ -396,16 +396,6 @@ public class HandlerEvents {
 
     }
 
-    @SubscribeEvent
-    public static void ServerCount(TickEvent.ServerTickEvent event){
-        if (SConfig.SERVER.spawn.get()){
-            ServerLevel level  = event.getServer().overworld();
-            SporeSavedData data = SporeSavedData.getDataLocation(level);
-            if (level.getDayTime() % 20 == 0 && data != null  && data.getMinutesBeforeSpawning()<(1200 * SConfig.SERVER.days.get())){
-                SporeSavedData.addTime(level);
-            }
-        }
-    }
     @SubscribeEvent
     public static void onServerStart(ServerStartedEvent event){
         ServerLevel level  = event.getServer().overworld();

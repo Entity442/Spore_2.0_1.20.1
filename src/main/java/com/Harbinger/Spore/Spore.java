@@ -2,6 +2,7 @@ package com.Harbinger.Spore;
 
 import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.ExtremelySusThings.BiomeModification;
+import com.Harbinger.Spore.ExtremelySusThings.DayTracker;
 import com.Harbinger.Spore.ExtremelySusThings.SporePacketHandler;
 import com.Harbinger.Spore.ExtremelySusThings.StructureModification;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
@@ -69,7 +70,7 @@ public class Spore
         final DeferredRegister<Codec<? extends StructureModifier>> structureModifiers = DeferredRegister.create(ForgeRegistries.Keys.STRUCTURE_MODIFIER_SERIALIZERS, Spore.MODID);
         structureModifiers.register(modEventBus);
         structureModifiers.register("spore_structure_spawns", StructureModification::makeCodec);
-
+        MinecraftForge.EVENT_BUS.register(DayTracker.class);
     }
     public void loadComplete(FMLLoadCompleteEvent event) {
         event.enqueueWork(Sfluids::postInit);
