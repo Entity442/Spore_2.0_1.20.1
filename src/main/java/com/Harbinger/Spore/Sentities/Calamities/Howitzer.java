@@ -33,6 +33,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -259,6 +261,9 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if (source.getEntity() != null && this.random.nextFloat() <0.2f){setTarget(null);}
+        if (source.is(DamageTypes.FREEZE)){
+            entityData.set(NUKE,0);
+        }
         if (getHealth() <= 50f && isRadioactive() && getSelfDetonation() <= 0){
             tickDetonation();
         }
