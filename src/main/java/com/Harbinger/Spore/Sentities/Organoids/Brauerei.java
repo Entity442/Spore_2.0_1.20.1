@@ -188,6 +188,7 @@ public class Brauerei extends Organoid implements RangedAttackMob, VariantKeeper
     }
 
     protected void spreadBuffs(LivingEntity entity, MobEffect effect){
+        awardHivemind();
         AABB aabb = entity.getBoundingBox().inflate(32);
         List<Entity> entities = entity.level().getEntities(entity,aabb,living ->{return living instanceof Infected || living instanceof UtilityEntity;});
         for (Entity testEntity : entities){
@@ -198,6 +199,7 @@ public class Brauerei extends Organoid implements RangedAttackMob, VariantKeeper
         }
     }
     protected void spreadDeBuffs(LivingEntity entity, MobEffect effect){
+        awardHivemind();
         AABB aabb = entity.getBoundingBox().inflate(32);
         List<Entity> entities = entity.level().getEntities(entity,aabb,living ->{return living instanceof LivingEntity livingEntity && TARGET_SELECTOR.test(livingEntity);});
         for (Entity testEntity : entities){

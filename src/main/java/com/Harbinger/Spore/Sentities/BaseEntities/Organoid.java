@@ -125,6 +125,35 @@ public class Organoid extends UtilityEntity implements Enemy {
         }
     }
 
+    public void awardHivemind(){
+        CompoundTag data = this.getPersistentData();
+        if (data.contains("hivemind")) {
+            int summonerUUID = data.getInt("hivemind");
+            Level level = this.level();
+            Entity summoner = level.getEntity(summonerUUID);
+
+            if (summoner instanceof Proto smartMob) {
+                int decision = data.getInt("decision");
+                int member = data.getInt("member");
+                smartMob.praisedForDecision(decision,member);
+            }
+        }
+    }
+    public void punishHivemind(){
+        CompoundTag data = this.getPersistentData();
+        if (data.contains("hivemind")) {
+            int summonerUUID = data.getInt("hivemind");
+            Level level = this.level();
+            Entity summoner = level.getEntity(summonerUUID);
+
+            if (summoner instanceof Proto smartMob) {
+                int decision = data.getInt("decision");
+                int member = data.getInt("member");
+                smartMob.punishForDecision(decision,member);
+            }
+        }
+    }
+
     @Override
     public void aiStep() {
         super.aiStep();

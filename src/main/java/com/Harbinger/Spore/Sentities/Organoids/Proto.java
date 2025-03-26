@@ -730,7 +730,10 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
     }
     private void awardMember(List<String> team, int member){
         if (team == null || team.isEmpty() || member < 0 || member >= team.size()) return;
-        team_5.add(team.get(member));
+        String s = team.get(member);
+        if (!team.contains(s)){
+            team_5.add(team.get(member));
+        }
     }
 
     private String getUniqueReplacement(List<String> team, List<? extends String> CONFIG) {
