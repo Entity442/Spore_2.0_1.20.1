@@ -704,7 +704,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
     }
     public void praisedForDecision(int decision,int member) {
         this.adjustWeightsForDecision(decision, 0.05);
-        if (Math.random() < 0.05){
+        if (Math.random() < 0.2){
             awardMember(getDecisionList(decision),member);
         }
     }
@@ -731,7 +731,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
     private void awardMember(List<String> team, int member){
         if (team == null || team.isEmpty() || member < 0 || member >= team.size()) return;
         String s = team.get(member);
-        if (!team.contains(s)){
+        if (!team_5.contains(s)){
             team_5.add(team.get(member));
         }
     }
