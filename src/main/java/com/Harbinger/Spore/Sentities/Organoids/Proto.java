@@ -62,6 +62,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
     public List<String> team_2 = new ArrayList<>();
     public List<String> team_3 = new ArrayList<>();
     public List<String> team_4 = new ArrayList<>();
+    public List<String> team_5 = new ArrayList<>();
     private final Random random = new Random();
     public Proto(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
@@ -429,7 +430,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
             weightsList.add(DoubleTag.valueOf(weight));
         }
         tag.put("weights", weightsList);
-        List<List<String>> teams = List.of(team_1, team_2, team_3, team_4);
+        List<List<String>> teams = List.of(team_1, team_2, team_3, team_4,team_5);
         for (int i = 0; i < teams.size(); i++) {
             ListTag teamTag = new ListTag();
             for (String member : teams.get(i)) {
@@ -457,7 +458,8 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         team_2.clear();
         team_3.clear();
         team_4.clear();
-        List<List<String>> teams = List.of(team_1, team_2, team_3, team_4);
+        team_5.clear();
+        List<List<String>> teams = List.of(team_1, team_2, team_3, team_4,team_5);
         for (int i = 0; i < teams.size(); i++) {
             ListTag teamTag = tag.getList("team_" + (i + 1), Tag.TAG_STRING);
             for (int j = 0; j < teamTag.size(); j++) {
@@ -702,6 +704,9 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
     }
     public void praisedForDecision(int decision,int member) {
         this.adjustWeightsForDecision(decision, 0.05);
+        if (Math.random() < 0.05){
+            awardMember(getDecisionList(decision),member);
+        }
     }
     public void adjustWeightsForDecision(int decision, double penalty) {
         int startIndex = decision * INPUT_SIZE;
@@ -718,15 +723,29 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         String removed = team.remove(member);
         String newMember = getUniqueReplacement(team, SConfig.SERVER.proto_summonable_troops.get());
         if (newMember != null) {
-            int add = isVariantKeeper(newMember);
-            team.add(newMember + "_" + add);
+            team.add(newMember);
         } else {
             team.add(removed);
         }
     }
+    private void awardMember(List<String> team, int member){
+        if (team == null || team.isEmpty() || member < 0 || member >= team.size()) return;
+        team_5.add(team.get(member));
+    }
 
     private String getUniqueReplacement(List<String> team, List<? extends String> CONFIG) {
-        List<String> possibleReplacements = new ArrayList<>(CONFIG);
+        List<String> possibleReplacements;
+        if (team_5.isEmpty()){
+            possibleReplacements = new ArrayList<>(CONFIG);
+        }else {
+            possibleReplacements = team_5;
+            possibleReplacements.removeAll(team);
+            if (!possibleReplacements.isEmpty()){
+                String s = possibleReplacements.get(random.nextInt(possibleReplacements.size()));
+                team_5.remove(s);
+                return s;
+            }
+        }
         List<String> mobsInTeam = new ArrayList<>();
         for (String s : team){
             String[] string = s.split("_");
@@ -736,6 +755,8 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         if (possibleReplacements.isEmpty()) {
             return null;
         }
-        return possibleReplacements.get(random.nextInt(possibleReplacements.size()));
+        String member = possibleReplacements.get(random.nextInt(possibleReplacements.size()));
+        int add = isVariantKeeper(member);
+        return member + "_" + add;
     }
 }

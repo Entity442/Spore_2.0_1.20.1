@@ -206,22 +206,11 @@ public class HandlerEvents {
                     Entity entity = arguments.getSource().getEntity();
                     if (entity instanceof Player player){
                         SporeSavedData data = SporeSavedData.getDataLocation(world);
-                        int time = data.getDaysPassed();
                         int numberofprotos = data.getAmountOfHiveminds();
                         player.displayClientMessage(Component.literal("There are "+numberofprotos + " proto hiveminds in this dimension"),false);
-                        if (SConfig.SERVER.spawn.get())
-                            player.displayClientMessage(Component.literal("Time before spawns "+time + "/"+SConfig.SERVER.days.get()),false);
                     }
                     return 1;
                 }).requires(s -> s.hasPermission(1)));
-        if (SConfig.SERVER.spawn.get()){
-            event.getDispatcher().register(Commands.literal(Spore.MODID+":add_day")
-                    .executes(arguments -> {
-                        ServerLevel world = arguments.getSource().getLevel();
-                        SporeSavedData.addDay(world);
-                        return 1;
-                    }).requires(s -> s.hasPermission(1)));
-        }
         event.getDispatcher().register(Commands.literal(Spore.MODID+":check_entity")
                 .executes(arguments -> {
                     ServerLevel world = arguments.getSource().getLevel();
@@ -306,6 +295,9 @@ public class HandlerEvents {
                                     }
                                     for (String s : proto.team_4){
                                     player.displayClientMessage(Component.literal("TEAM_4 "+ s),false);
+                                    }
+                                    for (String s : proto.team_5){
+                                    player.displayClientMessage(Component.literal("Beloved mobs "+ s),false);
                                     }
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
                             }

@@ -13,19 +13,14 @@ import com.Harbinger.Spore.Sentities.ArmedInfected;
 import com.Harbinger.Spore.Sentities.EvolvingInfected;
 import com.Harbinger.Spore.Sentities.Projectile.AcidBall;
 import com.Harbinger.Spore.Sentities.Projectile.Vomit;
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
@@ -36,8 +31,6 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.animal.AbstractFish;
-import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AxeItem;
@@ -58,9 +51,7 @@ import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Predicate;
 
 import static com.Harbinger.Spore.ExtremelySusThings.Utilities.biomass;
@@ -381,14 +372,7 @@ public class Infected extends Monster{
 
     public static boolean checkMonsterInfectedRules(EntityType<? extends Infected> p_219014_, ServerLevelAccessor levelAccessor, MobSpawnType type, BlockPos pos, RandomSource source) {
         if (levelAccessor.getDifficulty() != Difficulty.PEACEFUL){
-            if (SConfig.SERVER.spawn.get() && levelAccessor instanceof ServerLevel serverLevel){
-                SporeSavedData data = serverLevel.getDataStorage().computeIfAbsent(SporeSavedData::load, SporeSavedData::new, "days_data");
-                if (data.getDaysPassed() >= SConfig.SERVER.days.get()) {
-                    return furtherSpawnParameters(p_219014_, levelAccessor, type, pos, source);
-                }
-            }else{
-                return furtherSpawnParameters(p_219014_,levelAccessor,type,pos,source);
-            }
+            return furtherSpawnParameters(p_219014_,levelAccessor,type,pos,source);
         }
         return false;
     }
