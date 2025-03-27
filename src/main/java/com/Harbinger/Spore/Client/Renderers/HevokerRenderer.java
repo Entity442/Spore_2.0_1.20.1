@@ -1,11 +1,15 @@
 package com.Harbinger.Spore.Client.Renderers;
 
+import com.Harbinger.Spore.Client.Layers.SporeRenderTypes;
 import com.Harbinger.Spore.Client.Models.HevokerModel;
 import com.Harbinger.Spore.Client.Models.HevokerModelDead;
+import com.Harbinger.Spore.Client.Models.VolatileModel;
 import com.Harbinger.Spore.Client.Special.BaseInfectedRenderer;
+import com.Harbinger.Spore.Sentities.EvolvedInfected.Volatile;
 import com.Harbinger.Spore.Sentities.Hyper.Hevoker;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.ItemInHandRenderer;
@@ -14,6 +18,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -34,6 +39,7 @@ public class HevokerRenderer extends BaseInfectedRenderer<Hevoker, EntityModel<H
         super(context, new HevokerModel<>(context.bakeLayer(HevokerModel.LAYER_LOCATION)), 1f);
         deadHevoker = new HevokerModelDead<>(context.bakeLayer(HevokerModelDead.LAYER_LOCATION));
         addLayer(new TotemLayer<>(this,context.getItemInHandRenderer()));
+        addLayer(new VolatileGlowingLayers<>(this));
     }
 
     @Override
@@ -75,6 +81,23 @@ public class HevokerRenderer extends BaseInfectedRenderer<Hevoker, EntityModel<H
                 poseStack.mulPose(Axis.YP.rotationDegrees(30.0F));
                 itemInHandRenderer.renderItem(t,stack, ItemDisplayContext.FIXED,true,poseStack,multiBufferSource,i);
                 poseStack.popPose();
+            }
+        }
+    }
+
+    static class VolatileGlowingLayers <T extends Hevoker,M extends EntityModel<T>> extends RenderLayer<T, M>{
+        private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
+                "textures/entity/hyper_evoker_glow.png");
+        public VolatileGlowingLayers(RenderLayerParent<T, M> p_117346_) {
+            super(p_117346_);
+        }
+
+        @Override
+        public void render(PoseStack matrixStack, MultiBufferSource buffer, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+            if (!entity.isInvisible() && !entity.isFakeDead()){
+                float alpha = 0.5F + 0.5F * Mth.sin(ageInTicks * 0.1F);
+                VertexConsumer vertexConsumer = buffer.getBuffer(SporeRenderTypes.glowingTranslucent(TEXTURE));
+                getParentModel().renderToBuffer(matrixStack, vertexConsumer, packedLight, 15728640, 1.0F, 1.0F, 1.0F, alpha);
             }
         }
     }
