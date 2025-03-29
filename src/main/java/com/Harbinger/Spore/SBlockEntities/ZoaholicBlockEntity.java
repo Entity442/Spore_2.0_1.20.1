@@ -204,7 +204,7 @@ public class ZoaholicBlockEntity extends BlockEntity implements AnimatedEntity, 
             AABB aabb = AABB.ofSize(new Vec3(blockPos.getX(), blockPos.getY(), blockPos.getZ()), 16, 16, 16);
             List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, aabb,e -> SConfig.SERVER.proto_sapient_target.get().contains(e.getEncodeId()) || e instanceof Player);
             for(LivingEntity entity : entities) {
-                entity.addEffect(new MobEffectInstance(Seffects.MADNESS.get(),2400,0));
+                entity.addEffect(new MobEffectInstance(Seffects.MADNESS.get(),2400,0,false,false));
             }
         }
     }
