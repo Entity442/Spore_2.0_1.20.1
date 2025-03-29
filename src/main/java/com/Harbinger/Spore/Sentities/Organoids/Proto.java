@@ -249,51 +249,54 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
     @Override
     public void tick() {
         super.tick();
-        if (this.tickCount % 6000 == 0 && SConfig.SERVER.mound_foliage.get() && this.entityData.get(NODE) != BlockPos.ZERO){
-            SpreadInfection(level(),SConfig.SERVER.mound_range_age4.get() * 2,this.entityData.get(NODE));
-        }
-        if (this.tickCount % 200 == 0 && SConfig.SERVER.proto_casing.get()){
-            generateCasing();
-        }
-        if (this.tickCount % 1200 == 0){
-            scanForHosts();
-            moraleBoost();
-        }
-        if (this.tickCount % 40 == 0){
-            griefBlocks();
-            Entity target = this.getTarget();
-            if (target != null && checkForScent() && !level().isClientSide){
-                SummonScent();
+        if (!level().isClientSide){
+            if (this.tickCount % 6000 == 0 && SConfig.SERVER.mound_foliage.get() && this.entityData.get(NODE) != BlockPos.ZERO){
+                SpreadInfection(level(),SConfig.SERVER.mound_range_age4.get() * 2,this.entityData.get(NODE));
             }
-        }
-        if (this.tickCount % 200 == 0){
-            addBiomass(1);
-        }
+            if (this.tickCount % 200 == 0 && SConfig.SERVER.proto_casing.get()){
+                generateCasing();
+            }
+            if (this.tickCount % 1200 == 0){
+                scanForHosts();
+                moraleBoost();
+            }
+            if (this.tickCount % 40 == 0){
+                griefBlocks();
+                Entity target = this.getTarget();
+                if (target != null && checkForScent()){
+                    SummonScent();
+                }
+            }
+            if (this.tickCount % 200 == 0){
+                addBiomass(1);
+            }
 
-        if (getSignal()  != null && getSignal().active() && checkForCalamities(getSignal().pos())){
-            this.SummonConstructor(this.level(),this,getSignal().pos());
-        }
-        if (this.tickCount % 3000 == 0 && SConfig.SERVER.proto_madness.get()){
-            this.giveMadness(this);
-        }
-        if (this.summonDefense > 0){
-            --summonDefense;
-        }
-        LivingEntity target = this.getTarget();
-        if (this.tickCount % 200 == 0 && target != null){
-            BlockPos pos = target.getOnPos();
-            if (checkForOrganoids(target) && getBiomass() > 2) {
-                int e = this.getRandom().nextInt(1,5);
-                for(int o = 0; o<e;o++){
-                    summonMob(this.decide(this.inputs(target)),pos);
+            if (getSignal()  != null && getSignal().active() && checkForCalamities(getSignal().pos())){
+                this.SummonConstructor(this.level(),this,getSignal().pos());
+            }
+            if (this.tickCount % 3000 == 0 && SConfig.SERVER.proto_madness.get()){
+                this.giveMadness(this);
+            }
+            if (this.summonDefense > 0){
+                --summonDefense;
+            }
+            LivingEntity target = this.getTarget();
+            if (this.tickCount % 200 == 0 && target != null){
+                BlockPos pos = target.getOnPos();
+                if (checkForOrganoids(target) && getBiomass() > 2 && !level().isClientSide) {
+                    int e = this.getRandom().nextInt(1,5);
+                    for(int o = 0; o<e;o++){
+                        summonMob(this.decide(this.inputs(target)),pos);
+                    }
                 }
             }
         }
+
     }
 
     public double[] inputs(LivingEntity entity){
         if (entity == null){
-            return new double[]{0,0,0,0};
+            return new double[]{1,1,1,1};
         }
         double distance = entity.distanceToSqr(this) < 200 ? 1.0 : 0.0;
         double isOnGround = entity.onGround() ? 1.0 : 0.0;
