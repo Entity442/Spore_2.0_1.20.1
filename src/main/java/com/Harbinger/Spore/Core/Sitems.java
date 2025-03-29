@@ -153,6 +153,9 @@ public class Sitems {
             () -> new BaseItem(new Item.Properties()));
     public static final RegistryObject<Item> COOKED_TORSO = block(Sblocks.COOKED_TORSO);
     public static final RegistryObject<Item> SKULL_SOUP = soup(Sblocks.SKULL_SOUP);
+    public  static final RegistryObject<Item> DECAYED_LIMBS = ITEMS.register("decayed_limbs",
+            () -> new DecayedLimbs(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(1F).effect(()-> new MobEffectInstance(Seffects.MYCELIUM.get(),200,0),0.4f)
+                    .effect(()-> new MobEffectInstance(MobEffects.ABSORPTION,300,1),1f).meat().build())));
     public static final RegistryObject<Item> HEART_PIE = block(Sblocks.HEART_PIE);
 
     public  static final RegistryObject<Item> INFECTED_HUMAN_SPAWNEGG = ITEMS.register("infected_human_spawnegg",

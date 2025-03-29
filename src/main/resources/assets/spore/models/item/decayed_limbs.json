@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "spore:item/decayed_limbs"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "decayed": 1
+      },
+      "model": "spore:item/decayed_limbs_cooked"
+    }
+  ]
+}
