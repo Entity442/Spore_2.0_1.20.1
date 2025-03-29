@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    " R ",
+    " T "
+  ],
+  "key": {
+    "R": {
+      "item": "spore:frozen_decayed_biomass"
+    },
+    "T": {
+      "item": "minecraft:wheat"
+    }
+  },
+  "result": {
+    "item": "spore:meaty_icecream"
+  }
+}

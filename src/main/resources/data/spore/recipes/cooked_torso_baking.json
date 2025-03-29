@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "food",
+  "cookingtime": 600,
+  "experience": 1,
+  "ingredient": {
+    "item": "spore:stuffed_torso"
+  },
+  "result": "spore:cooked_torso"
+}

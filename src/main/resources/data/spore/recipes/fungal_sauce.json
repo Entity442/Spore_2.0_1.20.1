@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:bowl"
+    },
+    {
+      "item": "spore:biomass"
+    },
+    {
+      "item": "spore:bloomfung2"
+    },
+    {
+      "item": "spore:bloomfung2"
+    }
+  ],
+  "result": {
+    "item": "spore:fungal_sauce"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RRR",
+    "DDD",
+    "TCT"
+  ],
+  "key": {
+    "R": {
+      "item": "spore:mutated_heart"
+    },
+    "T": {
+      "item": "minecraft:wheat"
+    },
+    "C": {
+      "item": "minecraft:egg"
+    },
+    "D": {
+      "item": "spore:mutated_fiber"
+    }
+  },
+  "result": {
+    "item": "spore:heart_pie"
+  }
+}

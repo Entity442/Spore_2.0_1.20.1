@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smoking",
+  "category": "food",
+  "cookingtime": 600,
+  "experience": 1.0,
+  "ingredient": {
+    "item": "spore:biomass"
+  },
+  "result": "spore:biomass_bacon"
+}
