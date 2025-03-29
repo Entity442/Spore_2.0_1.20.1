@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "bites=0": { "model": "spore:block/heartpie", "y": 90},
+    "bites=1": { "model": "spore:block/heartpie3","y": 90 },
+    "bites=2": { "model": "spore:block/heartpie2","y": 90 },
+    "bites=3": { "model": "spore:block/heartpie1","y": 90 }
+  }
+}

@@ -86,6 +86,9 @@ public class Sblocks {
     public static final RegistryObject<Block> OVERGROWN_SPAWNER = BLOCKS.register("overgrown_spawner", OvergrownSpawner::new);
     public static final RegistryObject<Block> BRAIN_REMNANTS = BLOCKS.register("brain_remnants", BrainRemnants::new);
     public static final RegistryObject<Block> OUTPOST_WATCHER = BLOCKS.register("outpost_watcher", OutpostWatcher::new);
+    public static final RegistryObject<Block> SKULL_SOUP = BLOCKS.register("skull_soup", SkullSoupBlock::new);
+    public static final RegistryObject<Block> HEART_PIE = BLOCKS.register("heart_pie", HeartPie::new);
+    public static final RegistryObject<Block> COOKED_TORSO = BLOCKS.register("cooked_torso", CookedTorsoBlock::new);
 
     public static final RegistryObject<Block> ROTTEN_LOG = BLOCKS.register("rotten_log", () -> new FlamableRotatingBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LOG).sound(SoundType.WOOD)));
     public static final RegistryObject<Block> ROTTEN_PLANKS = BLOCKS.register("rotten_planks", () -> new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.WOOD).ignitedByLava()));

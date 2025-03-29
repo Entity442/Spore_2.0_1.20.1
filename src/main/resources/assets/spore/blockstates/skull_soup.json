@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "spore:block/skull_soup", "y": 180 },
+    "facing=south": { "model": "spore:block/skull_soup" },
+    "facing=west": { "model": "spore:block/skull_soup", "y": 90 },
+    "facing=east": { "model": "spore:block/skull_soup", "y": 270 }
+  }
+}
