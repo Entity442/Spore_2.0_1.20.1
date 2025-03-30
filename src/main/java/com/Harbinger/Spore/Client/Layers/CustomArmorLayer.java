@@ -53,8 +53,17 @@ public class CustomArmorLayer<E extends LivingEntity, M extends HumanoidModel<E>
             green = (float) (value >> 8 & 255) / 255.0F;
             blue = (float) (value & 255) / 255.0F;
         }
-        VertexConsumer vertexconsumer = ItemRenderer.getFoilBufferDirect(pBuffer, pModel.renderType(armorResource), false, itemstack.hasFoil());
-        pModel.setupAnim(pLivingEntity,pLimbSwing,pLimbSwingAmount,pAgeInTicks,pNetHeadYaw,pHeadPitch);
-        pModel.renderToBuffer(pPoseStack, vertexconsumer, pPackedLight, OverlayTexture.NO_OVERLAY, red, green, blue, 1.0F);
+        if (pModel instanceof BodySynModel synModel){
+            synModel.animateBody(pPoseStack,this.getParentModel().head,pBuffer,pPackedLight);
+            synModel.animateBody(pPoseStack,this.getParentModel().body,pBuffer,pPackedLight);
+            synModel.animateBody(pPoseStack,this.getParentModel().rightArm,pBuffer,pPackedLight);
+            synModel.animateBody(pPoseStack,this.getParentModel().leftArm,pBuffer,pPackedLight);
+            synModel.animateBody(pPoseStack,this.getParentModel().rightLeg,pBuffer,pPackedLight);
+            synModel.animateBody(pPoseStack,this.getParentModel().leftLeg,pBuffer,pPackedLight);
+        }else {
+            VertexConsumer vertexconsumer = ItemRenderer.getFoilBufferDirect(pBuffer, pModel.renderType(armorResource), false, itemstack.hasFoil());
+            pModel.setupAnim(pLivingEntity,pLimbSwing,pLimbSwingAmount,pAgeInTicks,pNetHeadYaw,pHeadPitch);
+            pModel.renderToBuffer(pPoseStack, vertexconsumer, pPackedLight, OverlayTexture.NO_OVERLAY, red, green, blue, 1.0F);
+        }
     }
 }

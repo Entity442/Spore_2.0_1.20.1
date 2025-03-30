@@ -139,6 +139,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(BombFunnelModel.LAYER_LOCATION, BombFunnelModel::createBodyLayer);
         event.registerLayerDefinition(MushroomExplosionTop.LAYER_LOCATION, MushroomExplosionTop::createBodyLayer);
         event.registerLayerDefinition(FireDiskModel.LAYER_LOCATION, FireDiskModel::createBodyLayer);
+        event.registerLayerDefinition(Testing.LAYER_LOCATION, Testing::createBodyLayer);
     }
 
 
