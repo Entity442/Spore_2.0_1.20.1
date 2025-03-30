@@ -5,6 +5,7 @@ import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.ServerAdvancementManager;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
 
@@ -31,20 +32,28 @@ public class AdvancementGivingPackage {
     public static void handle(AdvancementGivingPackage message, Supplier<NetworkEvent.Context> context) {
         context.get().enqueueWork(() -> {
             ServerPlayer player = context.get().getSender();
-            if (player == null) return;
+            if (player == null || !player.isAlive()) {
+                System.err.println("[Spore] Invalid player when handling advancement package.");
+                return;
+            }
 
             MinecraftServer server = player.server;
-            Advancement advancement = server.getAdvancements().getAdvancement(new ResourceLocation(message.advancement));
+            if (server == null || server.getAdvancements() == null) {
+                System.err.println("[Spore] Server advancements are null!");
+                return;
+            }
 
+            Advancement advancement = server.getAdvancements().getAdvancement(new ResourceLocation(message.advancement));
             if (advancement == null) {
-                System.err.println("[Spore] Advancement not found: " + message.advancement); // Log error
+                System.err.println("[Spore] Advancement not found: " + message.advancement);
                 return;
             }
 
             AdvancementProgress progress = player.getAdvancements().getOrStartProgress(advancement);
-            if (progress.isDone()){
+            if (progress.isDone()) {
                 return;
             }
+
             for (String criterion : progress.getRemainingCriteria()) {
                 player.getAdvancements().award(advancement, criterion);
             }
