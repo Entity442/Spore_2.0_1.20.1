@@ -396,9 +396,6 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         for (Entity entity : entities){
             if (entity instanceof LivingEntity living && (SConfig.SERVER.proto_sapient_target.get().contains(living.getEncodeId()) || living instanceof Player)){
                 living.addEffect(new MobEffectInstance(Seffects.MADNESS.get(),6000,0,false,false));
-                if (living instanceof ServerPlayer serverPlayer){
-                    SporePacketHandler.sendToServer(new AdvancementGivingPackage("spore:proto",serverPlayer.getId()));
-                }
             }
         }
     }
