@@ -5,10 +5,10 @@
 
   "elements": [
     {
-      "weight": 1,
+      "weight": 2,
       "element": {
 
-        "location": "spore:hospital",
+        "location": "spore:massgrave1",
 
         "processors": "minecraft:empty",
 
@@ -21,7 +21,20 @@
       "weight": 2,
       "element": {
 
-        "location": "spore:asylum",
+        "location": "spore:massgrave3",
+
+        "processors": "minecraft:empty",
+
+        "projection": "rigid",
+
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 3,
+      "element": {
+
+        "location": "spore:massgrave4",
 
         "processors": "minecraft:empty",
 

@@ -2,6 +2,7 @@
   "values": [
     "spore:lab",
     "spore:mines",
-    "spore:hospital"
+    "spore:hospital",
+    "spore:military_camp"
   ]
 }
