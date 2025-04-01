@@ -102,4 +102,9 @@ public class InfectedHuman extends Infected implements EvolvingInfected {
     protected void playStepSound(BlockPos p_34316_, BlockState p_34317_) {
         this.playSound(this.getStepSound(), 0.15F, 1.0F);
     }
+
+    @Override
+    public String origin() {
+        return "minecraft:zombie";
+    }
 }

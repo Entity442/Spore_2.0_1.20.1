@@ -144,4 +144,9 @@ public class InfectedVendicator extends EvolvedInfected implements ArmedInfected
         this.discard();
         EvolvingInfected.super.HyperEvolve(living);
     }
+
+    @Override
+    public String origin() {
+        return "minecraft:vindicator";
+    }
 }

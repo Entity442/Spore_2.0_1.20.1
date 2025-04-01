@@ -120,6 +120,9 @@ public class Infection {
                         infected1.setCustomName(livingEntity.getCustomName());
                         infected1.setPos(livingEntity.position());
                         if (infected1 instanceof Mob mob){mob.finalizeSpawn(serverLevel,serverLevel.getCurrentDifficultyAt(livingEntity.getOnPos()),MobSpawnType.CONVERSION,null,null);}
+                        if (infected1 instanceof Infected assimilated){
+                            assimilated.setOrigin(livingEntity.getEncodeId());
+                        }
                         serverLevel.addFreshEntity(infected1);
                         livingEntity.discard();
                     }

@@ -125,6 +125,9 @@ public class InfectedDrowned extends Infected implements WaterInfected , Evolvin
                 .add(Attributes.ATTACK_KNOCKBACK, 0.3);
 
     }
-
+    @Override
+    public String origin() {
+        return "minecraft:drowned";
+    }
 
 }

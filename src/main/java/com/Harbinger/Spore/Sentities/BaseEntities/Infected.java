@@ -63,6 +63,7 @@ public class Infected extends Monster{
     public static final EntityDataAccessor<Integer> EVOLUTION = SynchedEntityData.defineId(Infected.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Boolean> LINKED = SynchedEntityData.defineId(Infected.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> PERSISTENT = SynchedEntityData.defineId(Infected.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<String> ORIGIN = SynchedEntityData.defineId(Infected.class, EntityDataSerializers.STRING);
     @Nullable
     BlockPos searchPos;
     @Nullable
@@ -328,6 +329,7 @@ public class Infected extends Monster{
         tag.putInt("evolution",entityData.get(EVOLUTION));
         tag.putBoolean("linked",entityData.get(LINKED));
         tag.putBoolean("persistent",entityData.get(PERSISTENT));
+        tag.putString("origin",entityData.get(ORIGIN));
     }
 
 
@@ -340,6 +342,7 @@ public class Infected extends Monster{
         entityData.set(EVOLUTION_POINTS,tag.getInt("evo_points"));
         entityData.set(LINKED, tag.getBoolean("linked"));
         entityData.set(PERSISTENT, tag.getBoolean("persistent"));
+        entityData.set(ORIGIN, tag.getString("origin"));
     }
     protected void defineSynchedData() {
         super.defineSynchedData();
@@ -349,8 +352,16 @@ public class Infected extends Monster{
         this.entityData.define(LINKED,false);
         this.entityData.define(PERSISTENT,false);
         this.entityData.define(EVOLUTION,0);
+        this.entityData.define(ORIGIN,origin());
     }
 
+    public String origin(){return "";}
+    public void setOrigin(String string){
+        entityData.set(ORIGIN,string);
+    }
+    public String getOrigin(){
+        return entityData.get(ORIGIN);
+    }
 
 
     @Override

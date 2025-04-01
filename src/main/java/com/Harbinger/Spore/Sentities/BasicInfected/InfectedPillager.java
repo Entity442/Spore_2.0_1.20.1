@@ -190,4 +190,9 @@ public class InfectedPillager extends Infected implements CrossbowAttackMob , In
         super.baseTick();
         tickEvolution(this,SConfig.SERVER.pil_ev.get(), ScamperVariants.VILLAGER);
     }
+
+    @Override
+    public String origin() {
+        return "minecraft:pillager";
+    }
 }

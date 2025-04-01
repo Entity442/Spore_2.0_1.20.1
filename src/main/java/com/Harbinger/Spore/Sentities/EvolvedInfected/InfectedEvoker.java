@@ -225,4 +225,9 @@ public class InfectedEvoker extends EvolvedInfected implements InventoryCarrier,
         this.discard();
         EvolvingInfected.super.HyperEvolve(living);
     }
+
+    @Override
+    public String origin() {
+        return "minecraft:evoker";
+    }
 }

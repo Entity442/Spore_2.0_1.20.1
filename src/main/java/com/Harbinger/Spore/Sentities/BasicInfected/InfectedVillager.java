@@ -108,4 +108,8 @@ public class InfectedVillager extends Infected implements EvolvingInfected {
         this.playSound(this.getStepSound(), 0.15F, 1.0F);
     }
 
+    @Override
+    public String origin() {
+        return "minecraft:villager";
+    }
 }

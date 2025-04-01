@@ -122,4 +122,9 @@ public class InfectedWanderingTrader extends Infected implements EvolvingInfecte
             EvolvingInfected.super.Evolve(livingEntity, value, variants);
         }
     }
+
+    @Override
+    public String origin() {
+        return "minecraft:wandering_trader";
+    }
 }
