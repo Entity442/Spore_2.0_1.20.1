@@ -6,10 +6,6 @@ import com.Harbinger.Spore.Client.Special.BaseInfectedRenderer;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Sentities.BasicInfected.InfectedPlayer;
 import com.Harbinger.Spore.Spore;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import com.mojang.authlib.minecraft.MinecraftSessionService;
-import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidArmorModel;
@@ -21,23 +17,16 @@ import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.players.GameProfileCache;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.UUID;
 
 @OnlyIn(Dist.CLIENT)
 public class InfectedPlayerRenderer extends BaseInfectedRenderer<InfectedPlayer , HumanoidModel<InfectedPlayer>> {
-    private UUID uuid;
     RandomSource source = RandomSource.create();
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/inf_player.png");
@@ -63,19 +52,7 @@ public class InfectedPlayerRenderer extends BaseInfectedRenderer<InfectedPlayer 
     @Override
     public ResourceLocation getTextureLocation(InfectedPlayer infectedPlayer) {
         if (isTheViewerMad(infectedPlayer)){
-            if (uuid != null){
-                return getPlayerSkin(uuid);
-            }else {
-                if (infectedPlayer.level() instanceof ServerLevel serverLevel){
-                    List<ServerPlayer> players = serverLevel.players();
-                    if (players.isEmpty()){
-                        return DEFAULT_SKIN;
-                    }else {
-                        uuid = players.get(source.nextInt(players.size())).getUUID();
-                    }
-                }
-                return DEFAULT_SKIN;
-            }
+            return DEFAULT_SKIN;
         }
         if (Objects.equals(infectedPlayer.getCustomName(), Component.literal("Technoblade"))) {
             return TECHNO;
@@ -100,26 +77,5 @@ public class InfectedPlayerRenderer extends BaseInfectedRenderer<InfectedPlayer 
     public void render(InfectedPlayer type, float value1, float value2, PoseStack stack, MultiBufferSource bufferSource, int light) {
         this.model = isTheViewerMad(type) ? madnessModel : mainModel;
         super.render(type, value1, value2, stack, bufferSource, light);
-    }
-
-    private ResourceLocation getPlayerSkin(UUID playerUUID) {
-        Minecraft mc = Minecraft.getInstance();
-        GameProfileCache profileCache = Objects.requireNonNull(mc.getSingleplayerServer()).getProfileCache();
-        if (profileCache == null){
-            return DEFAULT_SKIN;
-        }
-        GameProfile profile = profileCache.get(playerUUID).orElse(null);
-
-        if (profile != null) {
-            MinecraftSessionService sessionService = new YggdrasilAuthenticationService(mc.getProxy(), UUID.randomUUID().toString()).createMinecraftSessionService();
-            Map<MinecraftProfileTexture.Type, MinecraftProfileTexture> textures = sessionService.getTextures(profile, true);
-
-            if (textures.containsKey(MinecraftProfileTexture.Type.SKIN)) {
-                String skinUrl = textures.get(MinecraftProfileTexture.Type.SKIN).getUrl();
-                return new ResourceLocation(skinUrl);
-            }
-        }
-
-        return DEFAULT_SKIN;
     }
 }
