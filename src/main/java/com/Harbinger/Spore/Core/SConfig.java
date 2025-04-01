@@ -1521,10 +1521,11 @@ public class SConfig {
             this.name = builder.defineList("Infected Player possible names",
                     Lists.newArrayList(
                             "The_Harbinger69", "ABucketOfFriedChicken", "LoneGuy", "cheesepuff", "Sire_AwfulThe1st", "Azami",
-                            "Deyvid", "Dany_Why", "Technoblade", "Ike", "Hypnotizd", "That_Insane_Guy", "JhonOK22", "hacie", "WhisperFire26",
-                            "Pajera", "Gistique", "Demonid", "Bowser", "Mad_Dog", "Ripley", "Nunny", "Greg", "Joker_de_Coeur", "Slasher ",
-                            "xXFuryXx", "Nova69", "Belladonna","Entity","Keymind","Whisper","Helldwin",
-                            "Mademoiselle2016", "Dr_Pilot_MOO", "Nex") , o -> o instanceof String);
+                            "Deyvid", "Dany_Why", "Technoblade", "Ike", "Hypnotizd", "That_Insane_Guy", "JhonOK22", "Tabcaps", "WhisperFire26",
+                            "ButtonHatBoy", "Gistique", "BigXplosion", "Atomiclbomb", "Mad_Dog", "Ripley", "Nunny", "gregTheTyrant", "Joker_de_Coeur", "Slasher ",
+                            "xXFuryXx", "Nova69", "Belladonna","Entity","Keymind","Whisper","Helldwin", "ExeedingSky74", "Flash62724 ", "Hank_o", "JWT114",
+                            "DawnsSlayers", "Dr_Pilot_MOO", "NexouuZ", "Mr_Door12323", "PedroHenrry", "TVGuy", "ThatGardener", "TheCaramelGuy", "TokenOni420",
+                            "lightigivhi") , o -> o instanceof String);
             builder.comment("Items|chance of giving");
             this.player_h = builder.defineList("Head Slot",
                     Lists.newArrayList("minecraft:leather_helmet|50","minecraft:iron_helmet|20","minecraft:chainmail_helmet|20") , o -> o instanceof String);
