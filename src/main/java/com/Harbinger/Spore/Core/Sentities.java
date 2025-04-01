@@ -210,6 +210,10 @@ public class Sentities {
             () -> EntityType.Builder.of(Brauerei::new, ORGANOID).sized(3f, 3f)
                     .build(new ResourceLocation(Spore.MODID, "braurei").toString()));
 
+    public static final RegistryObject<EntityType<Tentacle>> TENTACLE = SPORE_ENTITIES.register("tentacle",
+            () -> EntityType.Builder.of(Tentacle::new, ORGANOID).sized(1f, 1f)
+                    .build(new ResourceLocation(Spore.MODID, "tentacle").toString()));
+
     public static final RegistryObject<EntityType<Illusion>> ILLUSION = SPORE_ENTITIES.register("illusion",
             () -> EntityType.Builder.of(Illusion::new, MobCategory.MISC).sized(1f, 2f)
                     .build(new ResourceLocation(Spore.MODID, "illusion").toString()));
