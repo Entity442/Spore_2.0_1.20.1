@@ -45,7 +45,7 @@ public class InfectedPlayerRenderer extends BaseInfectedRenderer<InfectedPlayer 
             "textures/entity/techno_skin.png");
     private static final ResourceLocation EYES_TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/eyes/inf_player.png");
-    private static final ResourceLocation DEFAULT_SKIN = new ResourceLocation("minecraft:textures/entity/steve.png");
+    private static final ResourceLocation DEFAULT_SKIN = new ResourceLocation("minecraft:textures/entity/player/wide/steve.png");
     private final HumanoidModel<InfectedPlayer> mainModel = this.getModel();
     private final HumanoidModel<InfectedPlayer> madnessModel;
 
