@@ -25,6 +25,8 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.Objects;
+
 public abstract class BaseInfectedRenderer<T extends Mob, M extends EntityModel<T>> extends MobRenderer<T, M> {
     private final EntityRenderDispatcher entityRenderer;
     public BaseInfectedRenderer(EntityRendererProvider.Context context, M model, float shadow) {
@@ -48,6 +50,10 @@ public abstract class BaseInfectedRenderer<T extends Mob, M extends EntityModel<
 
     @Override
     public void render(T type, float value1, float value2, PoseStack stack, MultiBufferSource bufferSource, int light) {
+        if (type instanceof Infected infected && Objects.equals(infected.getOrigin(), "")){
+            super.render(type, value1, value2, stack, bufferSource, light);
+            return;
+        }
         if (type instanceof Infected infected && Minecraft.getInstance().cameraEntity instanceof Player player){
             MobEffectInstance instance = player.getEffect(Seffects.MADNESS.get());
             Entity entityForm = getForm(infected);
