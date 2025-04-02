@@ -156,6 +156,18 @@ public class HandlerEvents {
                     world.addFreshEntity(nukeEntity);
                     return 1;
                 }).requires(s -> s.hasPermission(1)));
+        event.getDispatcher().register(Commands.literal(Spore.MODID+":erase_the_fungus")
+                .executes(arguments -> {
+                    ServerLevel serverLevel = arguments.getSource().getLevel();
+                    for (Entity entity : serverLevel.getAllEntities()){
+                        if (entity instanceof LivingEntity living){
+                            if (living instanceof Infected || living instanceof UtilityEntity){
+                                living.discard();
+                            }
+                        }
+                    }
+                    return 1;
+                }).requires(s -> s.hasPermission(1)));
         event.getDispatcher().register(Commands.literal(Spore.MODID+":feed")
                 .executes(arguments -> {
                     ServerLevel world = arguments.getSource().getLevel();
