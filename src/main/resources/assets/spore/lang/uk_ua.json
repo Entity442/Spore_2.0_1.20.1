@@ -641,5 +641,11 @@
   "advancement.spore.hindenburg.title" : "Хтось, збийте цей МОАБ!",
   "advancement.spore.hindenburg.description" : "Будьте розбомблені Гінденбургом",
   "advancement.spore.howitzer.title" : "Знайомтеся, Підривник",
-  "advancement.spore.howitzer.description" : "Будьте роздавлені Гаубицею"
+  "advancement.spore.howitzer.description" : "Будьте роздавлені Гаубицею",
+  "advancement.spore.lacerator.title" : "Pochita ?",
+  "advancement.spore.lacerator.description" : "Зустріньте Розривача",
+  "advancement.spore.plagued.title" : "Час відправити його на перевиховання",
+  "advancement.spore.plagued.description" : "Дай себе атакувати Зараженому",
+  "advancement.spore.lore_1.title" : "Уламки минулого",
+  "advancement.spore.lore_1.description" : "Знайди кілька дисків"
 }

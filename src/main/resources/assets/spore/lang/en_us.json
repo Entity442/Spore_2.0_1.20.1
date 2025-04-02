@@ -645,5 +645,11 @@
   "advancement.spore.hindenburg.title" : "Someone take down that MOAB!",
   "advancement.spore.hindenburg.description" : "Get bombed by the Hindenburg",
   "advancement.spore.howitzer.title" : "Meet the Demoman",
-  "advancement.spore.howitzer.description" : "Get stomped by the Howitzer"
+  "advancement.spore.howitzer.description" : "Get stomped by the Howitzer",
+  "advancement.spore.lacerator.title" : "Pochita ?",
+  "advancement.spore.lacerator.description" : "Meet the Lacerator",
+  "advancement.spore.plagued.title" : "Gotta send him to rehab",
+  "advancement.spore.plagued.description" : "Get jumped by the Plagued",
+  "advancement.spore.lore_1.title" : "Fragments of the past",
+  "advancement.spore.lore_1.description" : "Find some of the disks"
 }

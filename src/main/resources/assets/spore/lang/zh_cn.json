@@ -639,5 +639,11 @@
   "advancement.spore.hindenburg.title" : "谁来击落那个MOAB！",
   "advancement.spore.hindenburg.description" : "被兴登堡轰炸",
   "advancement.spore.howitzer.title" : "遇见爆破手",
-  "advancement.spore.howitzer.description" : "被榴弹炮碾压"
+  "advancement.spore.howitzer.description" : "被榴弹炮碾压",
+  "advancement.spore.lacerator.title" : "Pochita ?",
+  "advancement.spore.lacerator.description" : "认识撕裂者",
+  "advancement.spore.plagued.title" : "得送他去康复中心",
+  "advancement.spore.plagued.description" : "让感染者袭击你",
+  "advancement.spore.lore_1.title" : "过去的碎片",
+  "advancement.spore.lore_1.description" : "找到部分磁盘"
 }

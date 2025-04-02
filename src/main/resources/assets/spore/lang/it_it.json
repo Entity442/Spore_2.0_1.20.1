@@ -661,5 +661,11 @@
   "advancement.spore.hindenburg.title" : "Qualcuno abbatta quel MOAB!",
   "advancement.spore.hindenburg.description" : "Vieni bombardato dall'Hindenburg",
   "advancement.spore.howitzer.title" : "Incontra il Demolitore",
-  "advancement.spore.howitzer.description" : "Vieni schiacciato dall'Howitzer"
+  "advancement.spore.howitzer.description" : "Vieni schiacciato dall'Howitzer",
+  "advancement.spore.lacerator.title" : "Pochita ?",
+  "advancement.spore.lacerator.description" : "Incontra il Laceratore",
+  "advancement.spore.plagued.title" : "Devo mandarlo in riabilitazione",
+  "advancement.spore.plagued.description" : "Fatti assalire dal Plagued",
+  "advancement.spore.lore_1.title" : "Frammenti del passato",
+  "advancement.spore.lore_1.description" : "Trova alcuni dei dischi"
 }
