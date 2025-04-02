@@ -56,11 +56,10 @@ public class StingerProjectile extends AbstractArrow {
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
         if (result.getEntity() instanceof LivingEntity living){
-            if (hurt(level().damageSources().mobProjectile(this,(LivingEntity) this.getOwner()),getDamage())){
-                living.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),200,0));
-                living.addEffect(new MobEffectInstance(MobEffects.POISON,200,2));
-                living.setArrowCount(living.getArrowCount() - 1);
-            }
+            hurt(level().damageSources().mobProjectile(this,(LivingEntity) this.getOwner()),getDamage());
+            living.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),200,0));
+            living.addEffect(new MobEffectInstance(MobEffects.POISON,200,2));
+            living.setArrowCount(living.getArrowCount() - 1);
         }
         this.discard();
     }
