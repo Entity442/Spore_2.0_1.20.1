@@ -98,7 +98,7 @@ public class IncubatorBlock extends BaseEntityBlock {
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
         super.use(state, level, pos, player, hand, result);
         BlockEntity entity = level.getBlockEntity(pos);
-        if (entity instanceof IncubatorBlockEntity blockEntity){
+        if (entity instanceof IncubatorBlockEntity blockEntity && !level.isClientSide){
             ItemStack item = player.getItemInHand(hand);
             if (item.getItem() == Sitems.BIOMASS.get() && blockEntity.getFuel() <= 750){
                 blockEntity.setFuel(blockEntity.getFuel()+250);
@@ -112,7 +112,7 @@ public class IncubatorBlock extends BaseEntityBlock {
                 popResource(level, pos, blockEntity.getItem(0).copy());
                 blockEntity.setItem(0, ItemStack.EMPTY);
             }
-            if (player.isShiftKeyDown() && player instanceof ServerPlayer serverPlayer && !level.isClientSide){
+            if (player.isShiftKeyDown() && player instanceof ServerPlayer serverPlayer){
                 NetworkHooks.openScreen(serverPlayer, blockEntity, pos);
             }
             return InteractionResult.SUCCESS;

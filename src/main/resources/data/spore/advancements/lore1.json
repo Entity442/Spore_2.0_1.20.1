@@ -1,0 +1,42 @@
+{
+  "parent": "spore:spore",
+  "display": {
+    "icon": {
+      "item": "spore:corrupted_record"
+    },
+    "title": {
+      "translate": "advancement.spore.lore_1.title"
+    },
+    "description": {
+      "translate": "advancement.spore.lore_1.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "item_1": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "spore:corrupted_record",
+            "count": 1
+          },
+          {
+            "item": "spore:forgotten_record",
+            "count": 1
+          },
+          {
+            "item": "spore:forsaken_record",
+            "count": 1
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "experience": 50
+  }
+}
