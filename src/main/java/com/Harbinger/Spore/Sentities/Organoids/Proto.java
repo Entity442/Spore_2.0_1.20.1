@@ -370,7 +370,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         }else {
             summoned.teleportTo(blockPos.getX(), blockPos.getY(), blockPos.getZ());
         }
-        if (checkTheGround(pos,summoned.level())){
+        if (checkTheGround(pos,summoned.level()) && summoned.getOnPos() != BlockPos.ZERO){
             eatBiomass(2);
             level().addFreshEntity(summoned);
         }
