@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Sentities.Projectile;
 
+import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
@@ -55,6 +56,7 @@ public class StingerProjectile extends AbstractArrow {
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
         if (result.getEntity() instanceof LivingEntity living){
+            living.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),200,0));
             living.addEffect(new MobEffectInstance(MobEffects.POISON,200,2));
             living.setArrowCount(living.getArrowCount() - 1);
         }

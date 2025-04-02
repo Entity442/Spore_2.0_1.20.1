@@ -761,7 +761,8 @@ public class SConfig {
             this.vigil_max_wave = builder.comment("The max wave of infected a vigil can summon").defineList("Vigil max wave",
                     Lists.newArrayList("spore:inf_vindicator", "spore:busser", "spore:inf_witch", "spore:brute",
                             "spore:knight", "spore:griefer", "spore:thorn", "spore:jagd", "spore:leaper", "spore:inf_evoker", "spore:spitter", "spore:stalker",
-                            "spore:howler", "spore:braiomil", "spore:wendigo","spore:hevoker", "spore:scavenger", "spore:bloater","spore:ogre","spore:slasher", "spore:inquisitor", "spore:brot") , o -> o instanceof String);
+                            "spore:howler", "spore:braiomil", "spore:wendigo","spore:hevoker", "spore:scavenger", "spore:bloater","spore:ogre","spore:slasher", "spore:inquisitor", "spore:brot"
+                            , "spore:volatile", "spore:hvindicator") , o -> o instanceof String);
 
             builder.pop();
 

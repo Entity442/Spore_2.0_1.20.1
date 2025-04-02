@@ -551,6 +551,9 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
                     infected.addEffect(new MobEffectInstance(MobEffects.WITHER,400,1));
                 }
             }
+            if (en instanceof Calamity calamity){
+                calamity.setSearchArea(this.getOnPos());
+            }
         }
     }
 

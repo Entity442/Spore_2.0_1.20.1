@@ -25,11 +25,13 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.OpenDoorGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
@@ -192,6 +194,17 @@ public class Infected extends Monster{
     protected void addRegularGoals(){
         this.goalSelector.addGoal(3,new LocalTargettingGoal(this));
         this.goalSelector.addGoal(4 , new BufferAI(this ));
+        this.goalSelector.addGoal(3, new OpenDoorGoal(this, true) {
+            @Override
+            public boolean canUse() {
+                return super.canUse() && getLinked() && SConfig.SERVER.higher_thinking.get();
+            }
+            @Override
+            public void start() {
+                this.mob.swing(InteractionHand.MAIN_HAND);
+                super.start();
+            }
+        });
         this.goalSelector.addGoal(4, new SearchAreaGoal(this, 1.2));
         this.goalSelector.addGoal(5 , new InfectedPanicGoal(this , 1.5));
         this.goalSelector.addGoal(6,new FloatDiveGoal(this));
