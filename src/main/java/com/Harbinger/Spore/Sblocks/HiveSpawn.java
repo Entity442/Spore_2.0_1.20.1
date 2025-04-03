@@ -1,8 +1,10 @@
 package com.Harbinger.Spore.Sblocks;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.SblockEntities;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.SBlockEntities.BrainRemnantBlockEntity;
 import com.Harbinger.Spore.SBlockEntities.HiveSpawnBlockEntity;
 import com.Harbinger.Spore.SBlockEntities.LivingStructureBlocks;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
@@ -17,11 +19,10 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.SimpleWaterloggedBlock;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -38,7 +39,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class HiveSpawn extends Block implements EntityBlock , SimpleWaterloggedBlock {
+public class HiveSpawn extends BaseEntityBlock implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public HiveSpawn() {
         super(BlockBehaviour.Properties.of().strength(4f,4f).sound(SoundType.SLIME_BLOCK).randomTicks().noOcclusion().noCollission());
@@ -51,6 +52,10 @@ public class HiveSpawn extends Block implements EntityBlock , SimpleWaterloggedB
         return new HiveSpawnBlockEntity(pos , state);
     }
 
+    @Override
+    public RenderShape getRenderShape(BlockState state) {
+        return RenderShape.INVISIBLE;
+    }
     @Override
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState blockState, boolean value) {
         super.onPlace(state, level, pos, blockState, value);
@@ -126,5 +131,15 @@ public class HiveSpawn extends Block implements EntityBlock , SimpleWaterloggedB
 
     public FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+    }
+
+    @javax.annotation.Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState p_153274_, BlockEntityType<T> type) {
+        return createBrainTicker(level, type, SblockEntities.HIVE_SPAWN.get());
+    }
+
+    @javax.annotation.Nullable
+    protected static <T extends BlockEntity> BlockEntityTicker<T> createBrainTicker(Level level, BlockEntityType<T> type, BlockEntityType<? extends HiveSpawnBlockEntity> p_151990_) {
+        return level.isClientSide ? createTickerHelper(type, p_151990_, HiveSpawnBlockEntity::clientTick) : null;
     }
 }
