@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "spore:corrupted_record",
+    "spore:forgotten_record",
+    "spore:forsaken_record"
+  ]
+}

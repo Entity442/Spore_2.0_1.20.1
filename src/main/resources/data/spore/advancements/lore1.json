@@ -16,21 +16,12 @@
     "hidden": false
   },
   "criteria": {
-    "item_1": {
+    "pick_up_compound_plate": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "spore:corrupted_record",
-            "count": 1
-          },
-          {
-            "item": "spore:forgotten_record",
-            "count": 1
-          },
-          {
-            "item": "spore:forsaken_record",
-            "count": 1
+            "tag": "spore:disks"
           }
         ]
       }
