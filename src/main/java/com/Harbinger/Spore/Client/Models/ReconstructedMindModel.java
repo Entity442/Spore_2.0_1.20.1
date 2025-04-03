@@ -13,8 +13,9 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
-public class ReconstructedMindModel<T extends HiveSpawnBlockEntity> extends BlockEntityModel<T> {
+public class ReconstructedMindModel<T extends HiveSpawnBlockEntity> extends BlockEntityModel<T> implements TentacledModel{
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "reconstructedmindmodel"), "main");
 	private final ModelPart ReconstructedMind;
@@ -139,6 +140,13 @@ public class ReconstructedMindModel<T extends HiveSpawnBlockEntity> extends Bloc
 
 	@Override
 	public void setupAnim(T entity, float ageInTicks) {
-
+		animateTumor(Brain1, Mth.sin(ageInTicks/6)/8);
+		animateTumor(Brain2, Mth.cos(ageInTicks/7)/6);
+		animateTumor(Brain3, -Mth.sin(ageInTicks/7)/7);
+		animateTentacleX(GrowingArm,Mth.sin(ageInTicks/6)/7);
+		animateTentacleX(GrowingArm2,Mth.cos(ageInTicks/7)/6);
+		animateTentacleY(Eye,Mth.cos(ageInTicks/7)/8);
+		animateTentacleZ(Pupil,Mth.cos(ageInTicks/7)/10);
+		animateTentacleY(Jaw,Mth.sin(ageInTicks/5)/6);
 	}
 }
