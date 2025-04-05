@@ -98,24 +98,29 @@ public class IncubatorBlock extends BaseEntityBlock {
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
         super.use(state, level, pos, player, hand, result);
         BlockEntity entity = level.getBlockEntity(pos);
-        if (entity instanceof IncubatorBlockEntity blockEntity && !level.isClientSide){
+        if (entity instanceof IncubatorBlockEntity blockEntity){
             ItemStack item = player.getItemInHand(hand);
-            if (item.getItem() == Sitems.BIOMASS.get() && blockEntity.getFuel() <= 750){
-                blockEntity.setFuel(blockEntity.getFuel()+250);
+            if (item.getItem() == Sitems.BIOMASS.get() && blockEntity.getFuel() <= 750) {
+                blockEntity.setFuel(blockEntity.getFuel() + 250);
                 item.shrink(1);
                 return InteractionResult.SUCCESS;
             }
-            if(blockEntity.getItem(0).isEmpty() && item.is(ItemTags.create(new ResourceLocation("spore:weapons")))){
-                blockEntity.setItem(0, item);
-                player.setItemInHand(hand,ItemStack.EMPTY);
-            }else{
+
+            if (player.isShiftKeyDown() && player instanceof ServerPlayer serverPlayer) {
+                NetworkHooks.openScreen(serverPlayer, blockEntity, pos);
+                return InteractionResult.SUCCESS;
+            }
+            if (blockEntity.getItem(0).isEmpty()) {
+                if (item.is(ItemTags.create(new ResourceLocation("spore:weapons")))) {
+                    blockEntity.setItem(0, item.copy());
+                    item.shrink(1);
+                    return InteractionResult.SUCCESS;
+                }
+            } else {
                 popResource(level, pos, blockEntity.getItem(0).copy());
                 blockEntity.setItem(0, ItemStack.EMPTY);
+                return InteractionResult.SUCCESS;
             }
-            if (player.isShiftKeyDown() && player instanceof ServerPlayer serverPlayer){
-                NetworkHooks.openScreen(serverPlayer, blockEntity, pos);
-            }
-            return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;
     }
