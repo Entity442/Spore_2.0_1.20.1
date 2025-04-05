@@ -341,7 +341,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         return true;
     }
     private void summonMob(int decision, BlockPos pos) {
-        if (pos == BlockPos.ZERO){
+        if (pos.equals(BlockPos.ZERO)) {
             return;
         }
         List<String> team = getDecisionList(decision);
@@ -370,7 +370,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         }else {
             summoned.teleportTo(blockPos.getX(), blockPos.getY(), blockPos.getZ());
         }
-        if (checkTheGround(pos,summoned.level()) && summoned.getOnPos() != BlockPos.ZERO){
+        if (checkTheGround(pos,summoned.level()) && summoned.getOnPos().distToCenterSqr(0,0,0) > 10){
             eatBiomass(2);
             level().addFreshEntity(summoned);
         }
