@@ -28,8 +28,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
-import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
-import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -43,15 +41,11 @@ public class Scamper extends EvolvedInfected implements WaterInfected, VariantKe
     public static final EntityDataAccessor<Integer> AGE = SynchedEntityData.defineId(Scamper.class, EntityDataSerializers.INT);
     public int deployClock = 0;
     public boolean deploying;
-    private final HybridPathNavigation waterNavigation;
-    private final GroundPathNavigation villagerNavigation;
 
     public Scamper(EntityType<? extends Monster> type, Level level) {
         super(type, level);
         setPersistenceRequired();
-        this.waterNavigation = new HybridPathNavigation(this,this.level());
-        this.villagerNavigation  = new GroundPathNavigation(this,level);
-        this.villagerNavigation.setCanOpenDoors(true);
+        this.navigation = new HybridPathNavigation(this,this.level());
     }
 
     @Override
@@ -109,18 +103,11 @@ public class Scamper extends EvolvedInfected implements WaterInfected, VariantKe
             this.move(MoverType.SELF, this.getDeltaMovement());
             this.setDeltaMovement(this.getDeltaMovement().scale(0.85D));
         } else {
+            if (this.isInFluidType() && getVariant() != ScamperVariants.DROWNED){
+                this.setDeltaMovement(this.getDeltaMovement().add(0,0.01D,0));
+            }
             super.travel(vec3);
         }
-    }
-
-    @Override
-    public PathNavigation getNavigation() {
-        if (getVariant() == ScamperVariants.DROWNED){
-           return waterNavigation;
-        }else if (getVariant() == ScamperVariants.VILLAGER){
-            return villagerNavigation;
-        }
-        return super.getNavigation();
     }
 
     @Override

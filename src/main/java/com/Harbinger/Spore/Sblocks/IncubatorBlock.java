@@ -117,7 +117,9 @@ public class IncubatorBlock extends BaseEntityBlock {
                     return InteractionResult.SUCCESS;
                 }
             } else {
-                popResource(level, pos, blockEntity.getItem(0).copy());
+                if (!level.isClientSide){
+                    popResource(level, pos, blockEntity.getItem(0).copy());
+                }
                 blockEntity.setItem(0, ItemStack.EMPTY);
                 return InteractionResult.SUCCESS;
             }
