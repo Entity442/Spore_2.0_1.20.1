@@ -13,7 +13,7 @@ import net.minecraftforge.entity.PartEntity;
 public class CalamityMultipart extends PartEntity<Calamity> {
     public final Calamity parentMob;
     public final String name;
-    private final EntityDimensions size;
+    protected final EntityDimensions size;
     public CalamityMultipart(Calamity parent, String name, float s , float s2) {
         super(parent);
         this.size = EntityDimensions.scalable(s, s2);

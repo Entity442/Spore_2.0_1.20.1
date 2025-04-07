@@ -3,10 +3,7 @@ package com.Harbinger.Spore.sEvents;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Sentities.*;
 import com.Harbinger.Spore.Sentities.BasicInfected.*;
-import com.Harbinger.Spore.Sentities.Calamities.Gazenbrecher;
-import com.Harbinger.Spore.Sentities.Calamities.Hinderburg;
-import com.Harbinger.Spore.Sentities.Calamities.Howitzer;
-import com.Harbinger.Spore.Sentities.Calamities.Sieger;
+import com.Harbinger.Spore.Sentities.Calamities.*;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.*;
 import com.Harbinger.Spore.Sentities.Experiments.Lacerator;
 import com.Harbinger.Spore.Sentities.Experiments.Plagued;
@@ -89,6 +86,7 @@ public class Attributes {
         event.put(Sentities.HEVOKER_ARM.get(), HyperClaw.createAttributes().build());
         event.put(Sentities.HVINDICATOR.get(), Hvindicator.createAttributes().build());
         event.put(Sentities.TENTACLE.get(), Tentacle.createAttributes().build());
+        event.put(Sentities.HOHLFRESSER.get(), Hohlfresser.createAttributes().build());
     }
 }
 
