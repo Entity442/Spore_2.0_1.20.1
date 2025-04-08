@@ -33,6 +33,9 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     public final HohlMultipart seg4;
     public final HohlMultipart seg5;
     private int segmentTime = 0;
+    private float prevYRotBuffered = 0f;
+    private float bufferedYRot = 0f;
+    private static final float ROTATION_SMOOTHING = 0.15f;
     public Hohlfresser(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         this.seg1 = new HohlMultipart(this, "seg1", 2F, 2F,new Vec3(-1.5D,0D,0D),2.1f);
@@ -112,19 +115,25 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     @Override
     public void aiStep() {
         super.aiStep();
-        segmentTime +=1;
+        prevYRotBuffered = bufferedYRot;
+        bufferedYRot += (this.getYRot() - bufferedYRot) * ROTATION_SMOOTHING;
+        segmentTime++;
     }
-
+    public float getBufferedYRot() {
+        return bufferedYRot;
+    }
     @Override
     public void tick() {
         super.tick();
         applyIK();
     }
 
+
     public void applyIK() {
         List<HohlMultipart> parts = getSubEntities();
         for (int i = 0; i < parts.size(); i++) {
-            parts.get(i).tickMovement(segmentTime,i);
+            HohlMultipart prev = (i > 0) ? parts.get(i - 1) : null;
+            parts.get(i).tickMovement(segmentTime, i, prev);
         }
     }
 
