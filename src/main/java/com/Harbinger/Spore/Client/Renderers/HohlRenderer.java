@@ -1,6 +1,8 @@
 package com.Harbinger.Spore.Client.Renderers;
 
 import com.Harbinger.Spore.Client.Models.CubeModel;
+import com.Harbinger.Spore.Client.Models.WormSegmentModel;
+import com.Harbinger.Spore.Client.Models.WormTailModel;
 import com.Harbinger.Spore.Client.Special.CalamityRenderer;
 import com.Harbinger.Spore.Sentities.BaseEntities.HohlMultipart;
 import com.Harbinger.Spore.Sentities.Calamities.Hohlfresser;
@@ -8,6 +10,7 @@ import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -21,15 +24,21 @@ import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
 @OnlyIn(Dist.CLIENT)
-public class HohlRenderer<Type extends Hohlfresser> extends CalamityRenderer<Type , CubeModel<Type>>{
+public class HohlRenderer<Type extends Hohlfresser> extends CalamityRenderer<Type , EntityModel<Type>>{
+    private final WormSegmentModel<Type> segments;
+    private final WormTailModel<Type> tail;
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/blank.png");
+    private static final ResourceLocation INNARDS = new ResourceLocation(Spore.MODID,
+            "textures/entity/worm_innards.png");
     private static final ResourceLocation EYES_TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/eyes/sieger.png");
 
 
     public HohlRenderer(EntityRendererProvider.Context context) {
         super(context, new CubeModel<>(context.bakeLayer(CubeModel.LAYER_LOCATION)), 4f);
+        segments = new WormSegmentModel<>(context.bakeLayer(WormSegmentModel.LAYER_LOCATION));
+        tail = new WormTailModel<>(context.bakeLayer(WormTailModel.LAYER_LOCATION));
     }
 
     @Override
@@ -50,7 +59,7 @@ public class HohlRenderer<Type extends Hohlfresser> extends CalamityRenderer<Typ
         HohlMultipart previous = null;
         for (int e = 0; e<type.getSubEntities().size();e++){
             HohlMultipart segment = type.getSubEntities().get(e);
-            renderSegment(type, segment,previous, stack, bufferSource, light, i,value2);
+            renderSegment(type, segment,previous, stack, bufferSource, light, i,value2,e == type.getSubEntities().size()-1);
             previous = segment;
         }
         if (!type.getSubEntities().isEmpty()){
@@ -65,16 +74,17 @@ public class HohlRenderer<Type extends Hohlfresser> extends CalamityRenderer<Typ
     }
 
     private void renderSegment(Type parent ,HohlMultipart entity,HohlMultipart previous, PoseStack stack, MultiBufferSource bufferSource,
-                               int packedLight,float y,float age) {
+                               int packedLight,float y,float age,boolean isLast) {
+        EntityModel<Type> proper_model = isLast ? tail : segments;
         VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityCutout(TEXTURE));
-        Vec3 vec3 = parent.position().subtract(entity.position()).scale(-1).scale(0.6);
+        Vec3 vec3 = parent.position().subtract(entity.position()).scale(-1.5);
         stack.pushPose();
         stack.scale(entity.getInflation(),entity.getInflation(),entity.getInflation());
         stack.translate(vec3.x,vec3.y,vec3.z);
         stack.mulPose(Axis.YP.rotationDegrees(180.0F - y));
         stack.mulPose(Axis.ZP.rotationDegrees(180.0F));
         stack.translate(0,-1.5,0);
-        this.getModel().renderToBuffer(stack,consumer,packedLight, OverlayTexture.NO_OVERLAY,1,1,1,1);
+        proper_model.renderToBuffer(stack,consumer,packedLight, OverlayTexture.NO_OVERLAY,1,1,1,1);
         stack.popPose();
         if (previous != null) {
             renderConnection(parent,previous, entity, stack, bufferSource,age);
@@ -82,7 +92,7 @@ public class HohlRenderer<Type extends Hohlfresser> extends CalamityRenderer<Typ
     }
 
     public ResourceLocation GET_TEXTURE(Entity entity) {
-        return TEXTURE;
+        return INNARDS;
     }
     private void renderConnection(Type parent ,HohlMultipart from, HohlMultipart to, PoseStack stack,
                                   MultiBufferSource buffer, float partialTick) {
@@ -108,10 +118,10 @@ public class HohlRenderer<Type extends Hohlfresser> extends CalamityRenderer<Typ
             stack.mulPose(Axis.XP.rotation(pitch));
 
             // Get dimensions from both segments
-            float startWidth = (from.getBbWidth() * from.getInflation())*0.3f;
-            float startHeight = (from.getBbHeight() * from.getInflation())*0.3f;
-            float endWidth = (to.getBbWidth() * to.getInflation())*0.3f;
-            float endHeight = (to.getBbHeight() * to.getInflation())*0.3f;
+            float startWidth = (from.getBbWidth() * from.getInflation())*0.5f;
+            float startHeight = (from.getBbHeight() * from.getInflation())*0.5f;
+            float endWidth = (to.getBbWidth() * to.getInflation())*0.5f;
+            float endHeight = (to.getBbHeight() * to.getInflation())*0.5f;
 
             VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityTranslucent(GET_TEXTURE(parent)));
             PoseStack.Pose pose = stack.last();

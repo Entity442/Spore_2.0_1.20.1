@@ -33,16 +33,15 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     public final HohlMultipart seg4;
     public final HohlMultipart seg5;
     private int segmentTime = 0;
-    private float prevYRotBuffered = 0f;
     private float bufferedYRot = 0f;
     private static final float ROTATION_SMOOTHING = 0.15f;
     public Hohlfresser(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
-        this.seg1 = new HohlMultipart(this, "seg1", 2F, 2F,new Vec3(-1.5D,0D,0D),2.1f);
-        this.seg2 = new HohlMultipart(this, "seg2", 2F, 2F,new Vec3(-4.75D,0D,0D),2f);
-        this.seg3 = new HohlMultipart(this, "seg3", 2F, 2F,new Vec3(-8D,0D,0D),1.8f);
-        this.seg4 = new HohlMultipart(this, "seg4", 2F, 2F,new Vec3(-11.25D,0D,0D),1.7f);
-        this.seg5 = new HohlMultipart(this, "seg5", 2F, 2F,new Vec3(-14.5D,0D,0D),1.6f);
+        this.seg1 = new HohlMultipart(this, "seg1", 2F, 2F,new Vec3(-1.5D,0D,0D),1.1f);
+        this.seg2 = new HohlMultipart(this, "seg2", 2F, 2F,new Vec3(-4.75D,0D,0D),1f);
+        this.seg3 = new HohlMultipart(this, "seg3", 1.9F, 1.9F,new Vec3(-8D,0D,0D),0.8f);
+        this.seg4 = new HohlMultipart(this, "seg4", 1.8F, 1.8F,new Vec3(-11.25D,0D,0D),0.7f);
+        this.seg5 = new HohlMultipart(this, "seg5", 1F, 1F,new Vec3(-14.5D,0D,0D),0.6f);
         this.subEntities.add(seg1);
         this.subEntities.add(seg2);
         this.subEntities.add(seg3);
@@ -115,7 +114,6 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     @Override
     public void aiStep() {
         super.aiStep();
-        prevYRotBuffered = bufferedYRot;
         bufferedYRot += (this.getYRot() - bufferedYRot) * ROTATION_SMOOTHING;
         segmentTime++;
     }
