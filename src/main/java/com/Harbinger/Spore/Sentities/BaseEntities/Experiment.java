@@ -19,7 +19,9 @@ import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 public class Experiment extends Infected{
@@ -79,7 +81,13 @@ public class Experiment extends Infected{
             setDormant(false);
         }
     }
-
+    @Override
+    public void tick() {
+        super.tick();
+        if (this.onGround() && isDormant()){
+            this.makeStuckInBlock(Blocks.AIR.defaultBlockState(), new Vec3(0, 1, 0));
+        }
+    }
 
     @Override
     public boolean blockBreakingParameter(BlockState blockstate, BlockPos blockpos) {

@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Client.Renderers;
 
 import com.Harbinger.Spore.Client.Layers.PlaguedSiringeLayer;
 import com.Harbinger.Spore.Client.Models.PlaguedModel;
+import com.Harbinger.Spore.Client.Special.BaseExperimentRenderer;
 import com.Harbinger.Spore.Client.Special.BaseInfectedRenderer;
 import com.Harbinger.Spore.Sentities.Experiments.Plagued;
 import com.Harbinger.Spore.Spore;
@@ -11,7 +12,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class PlaguedRenderer<Type extends Plagued> extends BaseInfectedRenderer<Type , PlaguedModel<Type>> {
+public class PlaguedRenderer<Type extends Plagued> extends BaseExperimentRenderer<Type , PlaguedModel<Type>> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/plagued.png");
     private static final ResourceLocation EYES_TEXTURE = new ResourceLocation(Spore.MODID,

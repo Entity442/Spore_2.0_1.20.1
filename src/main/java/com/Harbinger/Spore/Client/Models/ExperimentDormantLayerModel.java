@@ -18,7 +18,8 @@ public class ExperimentDormantLayerModel<T extends Experiment> extends EntityMod
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "experimentdormantlayer"), "main");
 	private final ModelPart body;
 
-	public ExperimentDormantLayerModel(ModelPart root) {
+	public ExperimentDormantLayerModel() {
+		ModelPart root = createBodyLayer().bakeRoot();
 		this.body = root.getChild("body");
 	}
 
