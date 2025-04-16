@@ -1,6 +1,6 @@
 package com.Harbinger.Spore.Client.Renderers;
 
-import com.Harbinger.Spore.Client.Models.CubeModel;
+import com.Harbinger.Spore.Client.Models.WormHeadModel;
 import com.Harbinger.Spore.Client.Models.WormSegmentModel;
 import com.Harbinger.Spore.Client.Models.WormTailModel;
 import com.Harbinger.Spore.Client.Special.CalamityRenderer;
@@ -36,7 +36,7 @@ public class HohlRenderer<Type extends Hohlfresser> extends CalamityRenderer<Typ
 
 
     public HohlRenderer(EntityRendererProvider.Context context) {
-        super(context, new CubeModel<>(context.bakeLayer(CubeModel.LAYER_LOCATION)), 4f);
+        super(context, new WormHeadModel<>(context.bakeLayer(WormHeadModel.LAYER_LOCATION)), 4f);
         segments = new WormSegmentModel<>(context.bakeLayer(WormSegmentModel.LAYER_LOCATION));
         tail = new WormTailModel<>(context.bakeLayer(WormTailModel.LAYER_LOCATION));
     }
@@ -67,15 +67,11 @@ public class HohlRenderer<Type extends Hohlfresser> extends CalamityRenderer<Typ
         }
     }
 
-    @Override
-    protected void scale(Type p_115314_, PoseStack stack, float p_115316_) {
-        stack.scale(2,2,2);
-        super.scale(p_115314_, stack, p_115316_);
-    }
-
     private void renderSegment(Type parent ,HohlMultipart entity,HohlMultipart previous, PoseStack stack, MultiBufferSource bufferSource,
                                int packedLight,float y,float age,boolean isLast) {
         EntityModel<Type> proper_model = isLast ? tail : segments;
+        float limbSwing = parent.walkAnimation.position();
+        float limbSwingAmount = parent.walkAnimation.speed();
         VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityCutout(TEXTURE));
         Vec3 vec3 = parent.position().subtract(entity.position()).scale(-1.5);
         stack.pushPose();
@@ -84,6 +80,7 @@ public class HohlRenderer<Type extends Hohlfresser> extends CalamityRenderer<Typ
         stack.mulPose(Axis.YP.rotationDegrees(180.0F - y));
         stack.mulPose(Axis.ZP.rotationDegrees(180.0F));
         stack.translate(0,-1.5,0);
+        proper_model.setupAnim(parent, limbSwing, limbSwingAmount, age, parent.getYRot(), parent.getXRot());
         proper_model.renderToBuffer(stack,consumer,packedLight, OverlayTexture.NO_OVERLAY,1,1,1,1);
         stack.popPose();
         if (previous != null) {
@@ -96,16 +93,13 @@ public class HohlRenderer<Type extends Hohlfresser> extends CalamityRenderer<Typ
     }
     private void renderConnection(Type parent ,HohlMultipart from, HohlMultipart to, PoseStack stack,
                                   MultiBufferSource buffer, float partialTick) {
-        // Get interpolated positions
         Vec3 start = from.getPosition(partialTick);
         Vec3 end = to.getPosition(partialTick);
 
-        // Calculate direction between segments
         Vec3 direction = end.subtract(start);
         float length = (float)direction.length();
         direction = direction.normalize();
 
-        // Calculate rotation angles
         float yaw = (float)Math.atan2(direction.x, direction.z);
         float pitch = (float)-Math.asin(direction.y);
 
@@ -113,11 +107,9 @@ public class HohlRenderer<Type extends Hohlfresser> extends CalamityRenderer<Typ
         {
             Vec3 vec3 = parent.position().subtract(from.position()).scale(-1);
             stack.translate(vec3.x, vec3.y+1, vec3.z);
-            // Rotate to face the direction between segments
             stack.mulPose(Axis.YP.rotation(yaw));
             stack.mulPose(Axis.XP.rotation(pitch));
 
-            // Get dimensions from both segments
             float startWidth = (from.getBbWidth() * from.getInflation())*0.5f;
             float startHeight = (from.getBbHeight() * from.getInflation())*0.5f;
             float endWidth = (to.getBbWidth() * to.getInflation())*0.5f;
@@ -126,7 +118,6 @@ public class HohlRenderer<Type extends Hohlfresser> extends CalamityRenderer<Typ
             VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityTranslucent(GET_TEXTURE(parent)));
             PoseStack.Pose pose = stack.last();
             Matrix4f matrix = pose.pose();
-            // Draw tapered connection between segments
             drawTaperedConnection(vertexConsumer, matrix, pose.normal(),
                     startWidth, startHeight,  // Start dimensions
                     endWidth, endHeight,      // End dimensions
@@ -162,8 +153,8 @@ public class HohlRenderer<Type extends Hohlfresser> extends CalamityRenderer<Typ
             // Get dimensions from both segments
             float startWidth = (parent.getBbWidth())*0.6f;
             float startHeight = (parent.getBbHeight())*0.6f;
-            float endWidth = (to.getBbWidth() * to.getInflation())*0.3f;
-            float endHeight = (to.getBbHeight() * to.getInflation())*0.3f;
+            float endWidth = (to.getBbWidth() * to.getInflation())*0.6f;
+            float endHeight = (to.getBbHeight() * to.getInflation())*0.6f;
 
             VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityTranslucent(GET_TEXTURE(parent)));
             PoseStack.Pose pose = stack.last();

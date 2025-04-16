@@ -226,7 +226,6 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
     public void registerGoals() {
         this.goalSelector.addGoal(1, new GoToLocation(this, 1.1));
         this.addTargettingGoals();
-        this.goalSelector.addGoal(6, new FloatDiveGoal(this));
         this.goalSelector.addGoal(7,new CalamityVigilCall(this));
     }
     public double getDamageCap(){

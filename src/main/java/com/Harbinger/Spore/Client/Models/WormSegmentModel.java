@@ -13,8 +13,9 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
-public class WormSegmentModel<T extends Hohlfresser> extends EntityModel<T> {
+public class WormSegmentModel<T extends Hohlfresser> extends EntityModel<T> implements TentacledModel{
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "wormsegmentmodel"), "main");
 	private final ModelPart body;
@@ -50,7 +51,9 @@ public class WormSegmentModel<T extends Hohlfresser> extends EntityModel<T> {
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+		float moveValue  = Mth.cos(limbSwing * 0.3F) * 0.8F * limbSwingAmount;
+		this.animateTentacleY(leg1,moveValue);
+		this.animateTentacleY(leg2,-leg1.yRot);
 	}
 
 	@Override
