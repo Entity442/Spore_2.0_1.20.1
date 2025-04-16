@@ -11,7 +11,5 @@ public abstract class BaseExperimentRenderer<T extends Experiment,M extends Enti
         super(context, model, shadow);
         addLayer(new ExperimentDormantLayer<>(this));
     }
-
     public abstract ResourceLocation eyeLayerTexture();
-
 }

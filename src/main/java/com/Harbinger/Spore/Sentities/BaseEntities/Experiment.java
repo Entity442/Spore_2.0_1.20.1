@@ -26,11 +26,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class Experiment extends Infected{
     public static final EntityDataAccessor<Boolean> DORMANT = SynchedEntityData.defineId(Experiment.class, EntityDataSerializers.BOOLEAN);
-    public static final EntityDataAccessor<Integer> ROOTS = SynchedEntityData.defineId(Experiment.class, EntityDataSerializers.INT);
     public Experiment(EntityType<? extends Monster> type, Level level) {
         super(type, level);
     }
-
     @Override
     public boolean canStarve() {
         return false;
@@ -38,10 +36,8 @@ public class Experiment extends Infected{
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        tag.putInt("roots",entityData.get(ROOTS));
         tag.putBoolean("dormant",entityData.get(DORMANT));
     }
-
 
     public boolean isDormant(){
         return entityData.get(DORMANT);
@@ -52,12 +48,10 @@ public class Experiment extends Infected{
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        entityData.set(ROOTS, tag.getInt("roots"));
         entityData.set(DORMANT, tag.getBoolean("dormant"));
     }
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(ROOTS, this.random.nextInt(3,8));
         this.entityData.define(DORMANT,false);
     }
     @Override

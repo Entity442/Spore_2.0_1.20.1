@@ -24,8 +24,8 @@ public class ExperimentDormantLayer<T extends Experiment,M extends EntityModel<T
     @Override
     public void render(PoseStack stack, MultiBufferSource bufferSource, int p_117351_, T type, float p_117353_, float p_117354_, float p_117355_, float p_117356_, float p_117357_, float p_117358_) {
         if (type.isDormant()){
+            this.model.setupAnim(type,0,0,0,0,0);
             coloredCutoutModelCopyLayerRender(this.getParentModel(), this.model, HAT_LOCATION, stack, bufferSource, p_117351_, type, p_117353_, p_117354_, p_117355_, p_117356_, p_117357_, p_117358_, 1, 1, 1);
-
         }
     }
 }

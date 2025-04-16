@@ -38,10 +38,17 @@ public class ExperimentDormantLayerModel<T extends Experiment> extends EntityMod
 
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
+	private void resize(ModelPart part,T entity){
+		float height = entity.getBbHeight() > 2.5f ? entity.getBbHeight() : 1;
+		float waist = entity.getBbWidth() > 1f ? entity.getBbWidth() : 1;
+		part.yScale = height;
+		part.xScale = waist;
+		part.zScale = waist;
+	}
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+		resize(body,entity);
 	}
 
 	@Override
