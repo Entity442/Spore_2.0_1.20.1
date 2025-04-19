@@ -90,7 +90,6 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
     public boolean doHurtTarget(Entity entity) {
         if (super.doHurtTarget(entity)) {
             if (entity instanceof LivingEntity livingEntity) {
-                Utilities.doCustomModifiersAfterEffects(this,livingEntity);
                 livingEntity.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(), 600, 1), this);
             }
             return true;

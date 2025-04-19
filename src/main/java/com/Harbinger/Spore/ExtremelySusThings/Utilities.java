@@ -153,6 +153,14 @@ public class Utilities {
     }
 
     public static void doCustomModifiersAfterEffects(LivingEntity attacker,LivingEntity victim){
+        AttributeInstance corrosion = attacker.getAttribute(SAttributes.CORROSIVES.get());
+        if(corrosion != null){
+            double level = corrosion.getValue();
+            if (level < 1){
+                return;
+            }
+            victim.addEffect(new MobEffectInstance(Seffects.CORROSION.get(),300,(int) level-1),attacker);
+        }
         AttributeInstance toxic = attacker.getAttribute(SAttributes.TOXICITY.get());
         if(toxic != null){
             double level = toxic.getValue();
@@ -169,14 +177,7 @@ public class Utilities {
             }
             victim.addEffect(new MobEffectInstance(Seffects.MARKER.get(),600,(int) level-1),attacker);
         }
-        AttributeInstance corrosion = attacker.getAttribute(SAttributes.LOCALIZATION.get());
-        if(corrosion != null){
-            double level = corrosion.getValue();
-            if (level < 1){
-                return;
-            }
-            victim.addEffect(new MobEffectInstance(Seffects.CORROSION.get(),300,(int) level-1),attacker);
-        }
+
         AttributeInstance grind = attacker.getAttribute(SAttributes.GRINDING.get());
         if(grind != null){
             double level = grind.getValue();
@@ -184,13 +185,6 @@ public class Utilities {
                 return;
             }
             victim.getArmorSlots().forEach(itemStack -> {itemStack.setDamageValue((int) (itemStack.getDamageValue()+(10*level)));});
-            if (victim instanceof Player player && (doesPlayerHaveShieldInHand(player, InteractionHand.MAIN_HAND) || doesPlayerHaveShieldInHand(player,InteractionHand.OFF_HAND))){
-                player.disableShield(true);
-            }
         }
-    }
-    public static boolean doesPlayerHaveShieldInHand(LivingEntity player, InteractionHand hand){
-        ItemStack stack = player.getItemInHand(hand);
-        return stack.getItem() instanceof ShieldItem;
     }
 }

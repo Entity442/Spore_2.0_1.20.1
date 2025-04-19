@@ -699,6 +699,9 @@ public class HandlerEvents {
                 }
             }
         }
+        if(event.getEntity() != null && living instanceof LivingEntity livingEntity){
+            Utilities.doCustomModifiersAfterEffects(livingEntity,event.getEntity());
+        }
     }
 
     @SubscribeEvent
