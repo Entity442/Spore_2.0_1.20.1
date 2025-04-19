@@ -1,0 +1,8 @@
+{
+  "type": "spore:assimilation",
+  "entities": [
+    { "entity": "spore:braiomil", "entity_type": 0 },
+    { "entity": "spore:brot", "entity_type": 0 }
+  ],
+  "attribute": "spore:localization"
+}

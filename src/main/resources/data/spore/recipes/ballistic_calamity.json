@@ -1,0 +1,11 @@
+{
+  "type": "spore:assimilation",
+  "entities": [
+    { "entity": "spore:spitter", "entity_type": 1 },
+    { "entity": "spore:busser", "entity_type": 2 },
+    { "entity": "spore:griefer", "entity_type": 0 },
+    { "entity": "spore:griefer", "entity_type": 4 }
+
+  ],
+  "attribute": "spore:ballistic"
+}

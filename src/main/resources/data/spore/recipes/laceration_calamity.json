@@ -1,0 +1,9 @@
+{
+  "type": "spore:assimilation",
+  "entities": [
+    { "entity": "spore:slasher", "entity_type": 1 },
+    { "entity": "spore:lacerator", "entity_type": 0 },
+    { "entity": "spore:knight", "entity_type": 0 }
+  ],
+  "attribute": "spore:laceration"
+}

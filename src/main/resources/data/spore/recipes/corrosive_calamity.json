@@ -1,0 +1,7 @@
+{
+  "type": "spore:assimilation",
+  "entities": [
+    { "entity": "spore:spitter", "entity_type": 0 }
+  ],
+  "attribute": "spore:corrosives"
+}

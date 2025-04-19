@@ -1,0 +1,9 @@
+{
+  "type": "spore:assimilation",
+  "entities": [
+    { "entity": "spore:inf_vindicator", "entity_type": 0 },
+    { "entity": "spore:hvindicator", "entity_type": 0 },
+    { "entity": "spore:wendigo", "entity_type": 0 }
+  ],
+  "attribute": "spore:grinding"
+}
