@@ -21,7 +21,7 @@ public class Srecipes {
             SERIALIZERS.register("injection", () -> InjectionRecipe.InjectionRecipeSerializer.INSTANCE);
 
     public static final RegistryObject<RecipeSerializer<WombRecipe>> WOMB_SERIALIZER =
-            SERIALIZERS.register("womb_recipe", () -> WombRecipe.WombRecipeSerializer.INSTANCE);
+            SERIALIZERS.register("assimilation", () -> WombRecipe.WombRecipeSerializer.INSTANCE);
 
     public static void register(IEventBus eventBus) {
         SERIALIZERS.register(eventBus);

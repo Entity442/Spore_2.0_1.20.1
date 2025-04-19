@@ -32,7 +32,9 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -696,6 +698,9 @@ public class HandlerEvents {
                     smartMob.punishForDecision(decision,member);
                 }
             }
+        }
+        if (event.getEntity() != null && living instanceof LivingEntity livingEntity){
+            Utilities.doCustomModifiersAfterEffects(livingEntity,event.getEntity());
         }
     }
 

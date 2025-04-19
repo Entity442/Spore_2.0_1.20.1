@@ -1,9 +1,11 @@
 package com.Harbinger.Spore.Sentities.AI.CalamitiesAI;
 
+import com.Harbinger.Spore.Core.SAttributes;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 
@@ -57,7 +59,15 @@ public class ScatterShotRangedGoal extends Goal {
         return true;
     }
 
-
+    public int getExtraShots(){
+        AttributeInstance instance = mob.getAttribute(SAttributes.BALLISTIC.get());
+        if (instance != null){
+            double level = instance.getValue();
+            if (level < 1){return 0;}
+            return (int) (3 * level);
+        }
+        return 0;
+    }
 
     public void tick() {
         double d0 = this.mob.distanceToSqr(this.target.getX(), this.target.getY(), this.target.getZ());
@@ -80,7 +90,7 @@ public class ScatterShotRangedGoal extends Goal {
                 return;
             }
             RandomSource randomSource = RandomSource.create();
-            int shot = randomSource.nextInt(this.minShots,this.maxShots);
+            int shot = randomSource.nextInt(this.minShots,this.maxShots) + getExtraShots();
 
             float f = (float)Math.sqrt(d0) / this.attackRadius;
             float f1 = Mth.clamp(f, 0.1F, 1.0F);

@@ -1,4 +1,11 @@
 {
+  "attribute.name.spore.toxicity": "Toxicity",
+  "attribute.name.spore.rejuvenation": "Rejuvenation",
+  "attribute.name.spore.localization": "Localization",
+  "attribute.name.spore.laceration": "Laceration",
+  "attribute.name.spore.corrosives": "Corrosives",
+  "attribute.name.spore.ballistic": "Ballistic",
+  "attribute.name.spore.grinding": "Grinding",
   "block.spore.growths_big": "Mycelium",
   "block.spore.growths_small": "Mycelium",
   "block.spore.blomfung": "Bloomed Mycelium",

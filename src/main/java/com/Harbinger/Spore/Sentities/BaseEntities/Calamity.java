@@ -330,9 +330,21 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
         }
         if (this.getHealth() < this.getMaxHealth() && !this.hasEffect(MobEffects.REGENERATION) && this.getKills() > 0){
             int level = this.getHealth() < this.getMaxHealth()/2 ? 1 : 0;
-            this.addEffect(new MobEffectInstance(MobEffects.REGENERATION,600,level));
+            this.addEffect(new MobEffectInstance(MobEffects.REGENERATION,600,level + calculateHealing()));
             this.setKills(this.getKills()-1);
         }
+    }
+
+    private int calculateHealing(){
+        AttributeInstance toxic = this.getAttribute(SAttributes.REJUVENATION.get());
+        if(toxic != null){
+            double level = toxic.getValue();
+            if (level < 1){
+                return 0;
+            }
+            return (int) level;
+        }
+        return 0;
     }
 
     public int getDestroySpeed(){
@@ -341,8 +353,16 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
 
     @Override
     public float amountOfDamage(float value) {
+        float extra = 0;
+        AttributeInstance penetration = this.getAttribute(SAttributes.LACERATION.get());
+        if (penetration != null){
+            double e = penetration.getValue();
+            if (e >= 1){
+                extra = (float) (e * 0.1f);
+            }
+        }
         AttributeInstance attack = this.getAttribute(Attributes.ATTACK_DAMAGE);
-        return attack == null ? value : (float) (attack.getValue() * 0.2f);
+        return attack == null ? value : (float) (attack.getValue() * (0.2f + extra));
     }
 
     public static class GoToLocation extends Goal {
@@ -418,8 +438,7 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
             double z0 = this.getZ() + (random.nextFloat() - 0.1) * 1.2D;
             serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x0, y0, z0, 4, 0, 0, 0, 1);
         }
-        this.gameEvent(GameEvent.ENTITY_DIE, source.getEntity());
-        this.discard();
+        super.die(source);
         AABB aabb = this.getBoundingBox().inflate(2.5);
         for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
             BlockState blockState = level().getBlockState(blockpos);
@@ -441,7 +460,7 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
                 }
             }
         }
-        super.die(source);
+        this.discard();
     }
     private void SummonMound(Entity entity){
         Mound mound = new Mound(Sentities.MOUND.get(),entity.level());

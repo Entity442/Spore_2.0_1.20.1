@@ -87,14 +87,14 @@ public class WombRecipe implements Recipe<EntityContainer> {
 
     public static class WombRecipeType implements RecipeType<WombRecipe> {
         public static final WombRecipe.WombRecipeType INSTANCE = new WombRecipe.WombRecipeType();
-        public static final String ID = "womb_crafting";
+        public static final String ID = "assimilation";
 
         private WombRecipeType() {}
     }
 
     public static class WombRecipeSerializer implements RecipeSerializer<WombRecipe> {
         public static final WombRecipe.WombRecipeSerializer INSTANCE = new WombRecipe.WombRecipeSerializer();
-        public static final ResourceLocation ID = new ResourceLocation(Spore.MODID, "womb_crafting");
+        public static final ResourceLocation ID = new ResourceLocation(Spore.MODID, "assimilation");
 
         @Override
         public WombRecipe fromJson(ResourceLocation resourceLocation, JsonObject jsonObject) {
