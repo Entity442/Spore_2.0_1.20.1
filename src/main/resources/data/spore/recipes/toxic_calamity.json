@@ -1,0 +1,7 @@
+{
+  "entities": [
+    { "entity": "spore:busser", "entity_type": 3 },
+    { "entity": "spore:griefer", "entity_type": 1 }
+  ],
+  "attribute": "spore:toxicity"
+}
