@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
 import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
+import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.CalamityVigilCall;
 import com.Harbinger.Spore.Sentities.AI.CalamityPathNavigation;
 import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
@@ -89,6 +90,7 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
     public boolean doHurtTarget(Entity entity) {
         if (super.doHurtTarget(entity)) {
             if (entity instanceof LivingEntity livingEntity) {
+                Utilities.doCustomModifiersAfterEffects(this,livingEntity);
                 livingEntity.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(), 600, 1), this);
             }
             return true;
@@ -491,16 +493,5 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
             return false;
         }
         return super.addEffect(instance, entity);
-    }
-
-    public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes()
-                .add(SAttributes.TOXICITY.get(), 0.0D)
-                .add(SAttributes.REJUVENATION.get(), 0.0D)
-                .add(SAttributes.LOCALIZATION.get(), 0.0D)
-                .add(SAttributes.LACERATION.get(), 0.0D)
-                .add(SAttributes.CORROSIVES.get(), 0.0D)
-                .add(SAttributes.BALLISTIC.get(), 0.0D)
-                .add(SAttributes.GRINDING.get(), 0.0D);
     }
 }

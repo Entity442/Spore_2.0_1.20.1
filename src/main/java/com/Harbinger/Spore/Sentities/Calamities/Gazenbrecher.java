@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Sentities.Calamities;
 
+import com.Harbinger.Spore.Core.SAttributes;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
@@ -156,7 +157,14 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
                 .add(Attributes.ARMOR, SConfig.SERVER.gazen_armor.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.FOLLOW_RANGE, 64)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1)
-                .add(Attributes.ATTACK_KNOCKBACK, 2);
+                .add(Attributes.ATTACK_KNOCKBACK, 2)
+                .add(SAttributes.TOXICITY.get(), 0.0D)
+                .add(SAttributes.REJUVENATION.get(), 0.0D)
+                .add(SAttributes.LOCALIZATION.get(), 0.0D)
+                .add(SAttributes.LACERATION.get(), 0.0D)
+                .add(SAttributes.CORROSIVES.get(), 0.0D)
+                .add(SAttributes.BALLISTIC.get(), 0.0D)
+                .add(SAttributes.GRINDING.get(), 0.0D);
 
     }
 

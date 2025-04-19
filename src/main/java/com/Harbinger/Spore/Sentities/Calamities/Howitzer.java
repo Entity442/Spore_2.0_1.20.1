@@ -1,9 +1,6 @@
 package com.Harbinger.Spore.Sentities.Calamities;
 
-import com.Harbinger.Spore.Core.SConfig;
-import com.Harbinger.Spore.Core.Sblocks;
-import com.Harbinger.Spore.Core.Sentities;
-import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.CalamityInfectedCommand;
@@ -105,7 +102,14 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
                 .add(Attributes.ARMOR, SConfig.SERVER.howit_armor.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.FOLLOW_RANGE, 128)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1)
-                .add(Attributes.ATTACK_KNOCKBACK, 2);
+                .add(Attributes.ATTACK_KNOCKBACK, 2)
+                .add(SAttributes.TOXICITY.get(), 0.0D)
+                .add(SAttributes.REJUVENATION.get(), 0.0D)
+                .add(SAttributes.LOCALIZATION.get(), 0.0D)
+                .add(SAttributes.LACERATION.get(), 0.0D)
+                .add(SAttributes.CORROSIVES.get(), 0.0D)
+                .add(SAttributes.BALLISTIC.get(), 0.0D)
+                .add(SAttributes.GRINDING.get(), 0.0D);
 
     }
 

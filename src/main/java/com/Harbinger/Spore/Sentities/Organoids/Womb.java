@@ -179,9 +179,7 @@ public class Womb extends Organoid {
     }
 
     public void addMutation(WombRecipe recipe){
-        if (!attributeIDs.contains(recipe.getAttribute())) {
-            this.attributeIDs.add(recipe.getAttribute());
-        }
+        this.attributeIDs.add(recipe.getAttribute());
     }
     private void AssimilateNearbyInfected(){
         if (!this.level().isClientSide) {
