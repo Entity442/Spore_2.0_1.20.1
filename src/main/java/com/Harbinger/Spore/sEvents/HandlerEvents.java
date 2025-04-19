@@ -28,7 +28,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -45,7 +44,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
@@ -63,7 +61,6 @@ import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.*;
@@ -316,13 +313,16 @@ public class HandlerEvents {
                                     }
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
                             }
-                            else if(entity1 instanceof BiomassReformator reformator) {
+                            else if(entity1 instanceof Womb reformator) {
                                     player.displayClientMessage(Component.literal("Entity "+ reformator.getEncodeId() + " " + reformator.getCustomName()),false);
                                     player.displayClientMessage(Component.literal("Current Health " + reformator.getHealth()),false);
                                     player.displayClientMessage(Component.literal("Stored Location " + reformator.getLocation()),false);
                                     player.displayClientMessage(Component.literal("Buffs " + reformator.getActiveEffects()),false);
                                     player.displayClientMessage(Component.literal("Biomass " + reformator.getBiomass()),false);
                                     player.displayClientMessage(Component.literal("State " + reformator.getVariant().getValue()),false);
+                                    for (String s : reformator.getAttributeIDs()){
+                                        player.displayClientMessage(Component.translatable(s),false);
+                                    }
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
                             }else if(entity1 instanceof Vigil vigil) {
                                     player.displayClientMessage(Component.literal("Entity "+ vigil.getEncodeId() + " " + vigil.getCustomName()),false);

@@ -2,8 +2,6 @@ package com.Harbinger.Spore.Sentities.Organoids;
 
 import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
-import com.Harbinger.Spore.ExtremelySusThings.Package.AdvancementGivingPackage;
-import com.Harbinger.Spore.ExtremelySusThings.SporePacketHandler;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.NeuralProcessing.ProtoAIs.ProtoTargeting;
@@ -576,15 +574,15 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         BlockPos blockPosTop = blockPos.above();
         if (level instanceof  ServerLevel serverLevel && serverLevel.isEmptyBlock(blockPos) && (serverLevel.isEmptyBlock(blockPosTop) || serverLevel.getBlockState(blockPosTop).liquid())){
             if (pos != null){
-                BiomassReformator.TERRAIN terrain = BiomassReformator.TERRAIN.GROUND_LEVEL;
+                Womb.TERRAIN terrain = Womb.TERRAIN.GROUND_LEVEL;
                 if (pos.getY() > 120){
-                    terrain = BiomassReformator.TERRAIN.AIR_LEVEL;
+                    terrain = Womb.TERRAIN.AIR_LEVEL;
                 }else if (pos.getY()<63){
-                 terrain = BiomassReformator.TERRAIN.UNDERGROUND;
+                 terrain = Womb.TERRAIN.UNDERGROUND;
                 }else if (checkForLiquids(pos)){
-                    terrain = BiomassReformator.TERRAIN.WATER_LEVEL;
+                    terrain = Womb.TERRAIN.WATER_LEVEL;
                 }
-                BiomassReformator creature = new BiomassReformator(Sentities.RECONSTRUCTOR.get(),level,terrain,pos);
+                Womb creature = new Womb(Sentities.RECONSTRUCTOR.get(),level,terrain,pos);
                 creature.tickEmerging();
                 creature.teleportRelative(entity.getX()+a,entity.getY()+c,entity.getZ()+b);
                 level.addFreshEntity(creature);

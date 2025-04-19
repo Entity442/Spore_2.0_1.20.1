@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Core;
 
 import com.Harbinger.Spore.Recipes.InjectionRecipe;
 import com.Harbinger.Spore.Recipes.SurgeryRecipe;
+import com.Harbinger.Spore.Recipes.WombRecipe;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -18,6 +19,9 @@ public class Srecipes {
 
     public static final RegistryObject<RecipeSerializer<InjectionRecipe>> INJECTION_SERIALIZER =
             SERIALIZERS.register("injection", () -> InjectionRecipe.InjectionRecipeSerializer.INSTANCE);
+
+    public static final RegistryObject<RecipeSerializer<WombRecipe>> WOMB_SERIALIZER =
+            SERIALIZERS.register("womb_recipe", () -> WombRecipe.WombRecipeSerializer.INSTANCE);
 
     public static void register(IEventBus eventBus) {
         SERIALIZERS.register(eventBus);

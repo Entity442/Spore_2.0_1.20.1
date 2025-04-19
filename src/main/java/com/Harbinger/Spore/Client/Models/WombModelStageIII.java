@@ -2,7 +2,7 @@ package com.Harbinger.Spore.Client.Models;// Made with Blockbench 4.12.2
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
-import com.Harbinger.Spore.Sentities.Organoids.BiomassReformator;
+import com.Harbinger.Spore.Sentities.Organoids.Womb;
 import com.Harbinger.Spore.Spore;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -16,7 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 
-public class WombModelStageIII<T extends BiomassReformator> extends EntityModel<T> implements TentacledModel{
+public class WombModelStageIII<T extends Womb> extends EntityModel<T> implements TentacledModel{
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "wombmodelstageiii"), "main");
 	private final ModelPart Womb;

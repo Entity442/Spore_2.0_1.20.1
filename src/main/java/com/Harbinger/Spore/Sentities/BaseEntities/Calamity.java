@@ -31,6 +31,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.monster.Enemy;
@@ -471,5 +472,16 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
             return false;
         }
         return super.addEffect(instance, entity);
+    }
+
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes()
+                .add(SAttributes.TOXICITY.get(), 0.0D)
+                .add(SAttributes.REJUVENATION.get(), 0.0D)
+                .add(SAttributes.LOCALIZATION.get(), 0.0D)
+                .add(SAttributes.LACERATION.get(), 0.0D)
+                .add(SAttributes.CORROSIVES.get(), 0.0D)
+                .add(SAttributes.BALLISTIC.get(), 0.0D)
+                .add(SAttributes.GRINDING.get(), 0.0D);
     }
 }

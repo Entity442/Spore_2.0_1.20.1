@@ -287,8 +287,8 @@ public class Sentities {
             () -> EntityType.Builder.of(Mound::new, ORGANOID).sized(0.3f, 0.3f)
                     .build(new ResourceLocation(Spore.MODID, "mound").toString()));
 
-    public static final RegistryObject<EntityType<BiomassReformator>> RECONSTRUCTOR = SPORE_ENTITIES.register("reconstructor",
-            () -> EntityType.Builder.of((EntityType.EntityFactory<BiomassReformator>) BiomassReformator::new, ORGANOID).sized(1f, 1f)
+    public static final RegistryObject<EntityType<Womb>> RECONSTRUCTOR = SPORE_ENTITIES.register("reconstructor",
+            () -> EntityType.Builder.of((EntityType.EntityFactory<Womb>) Womb::new, ORGANOID).sized(1f, 1f)
                     .build(new ResourceLocation(Spore.MODID, "reconstructor").toString()));
 
     public static final RegistryObject<EntityType<Verwa>> VERVA = SPORE_ENTITIES.register("verva",

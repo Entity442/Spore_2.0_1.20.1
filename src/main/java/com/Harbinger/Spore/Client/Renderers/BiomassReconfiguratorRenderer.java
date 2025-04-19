@@ -5,7 +5,7 @@ import com.Harbinger.Spore.Client.Models.WombModel;
 import com.Harbinger.Spore.Client.Models.WombModelStageII;
 import com.Harbinger.Spore.Client.Models.WombModelStageIII;
 import com.Harbinger.Spore.Core.SConfig;
-import com.Harbinger.Spore.Sentities.Organoids.BiomassReformator;
+import com.Harbinger.Spore.Sentities.Organoids.Womb;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.EntityModel;
@@ -16,10 +16,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class BiomassReconfiguratorRenderer extends OrganoidMobRenderer<BiomassReformator , EntityModel<BiomassReformator>> {
-    private final EntityModel<BiomassReformator> smallModel;
-    private final EntityModel<BiomassReformator> mediumModel;
-    private final EntityModel<BiomassReformator> largeModel;
+public class BiomassReconfiguratorRenderer extends OrganoidMobRenderer<Womb, EntityModel<Womb>> {
+    private final EntityModel<Womb> smallModel;
+    private final EntityModel<Womb> mediumModel;
+    private final EntityModel<Womb> largeModel;
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/womb.png");
     private static final ResourceLocation TEXTURE_LARGE = new ResourceLocation(Spore.MODID,
@@ -32,7 +32,7 @@ public class BiomassReconfiguratorRenderer extends OrganoidMobRenderer<BiomassRe
     }
 
     @Override
-    public ResourceLocation getTextureLocation(BiomassReformator reformator) {
+    public ResourceLocation getTextureLocation(Womb reformator) {
         if (reformator.getBiomass() > (SConfig.SERVER.reconstructor_biomass.get()/4)){
             return TEXTURE_LARGE;
         }
@@ -40,7 +40,7 @@ public class BiomassReconfiguratorRenderer extends OrganoidMobRenderer<BiomassRe
     }
 
     @Override
-    public void render(BiomassReformator type, float value1, float value2, PoseStack stack, MultiBufferSource bufferSource, int value3) {
+    public void render(Womb type, float value1, float value2, PoseStack stack, MultiBufferSource bufferSource, int value3) {
         if (type.getBiomass() > (SConfig.SERVER.reconstructor_biomass.get()/4) && type.getBiomass() < (SConfig.SERVER.reconstructor_biomass.get()/2)){
             model = mediumModel;
         }else if (type.getBiomass() >= (SConfig.SERVER.reconstructor_biomass.get()/2)){
