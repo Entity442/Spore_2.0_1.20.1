@@ -152,39 +152,33 @@ public class Utilities {
                 .orElse(List.of());  // Return an empty list if no items are found
     }
 
-    public static void doCustomModifiersAfterEffects(LivingEntity attacker,LivingEntity victim){
+    public static void doCustomModifiersAfterEffects(LivingEntity attacker, LivingEntity victim) {
+        if (attacker == null || victim == null) return;
+
         AttributeInstance corrosion = attacker.getAttribute(SAttributes.CORROSIVES.get());
-        if(corrosion != null){
-            double level = corrosion.getValue();
-            if (level < 1){
-                return;
-            }
-            victim.addEffect(new MobEffectInstance(Seffects.CORROSION.get(),300,(int) level-1),attacker);
+        if (corrosion != null && corrosion.getValue() >= 1) {
+            int level = (int) corrosion.getValue() - 1;
+            victim.addEffect(new MobEffectInstance(Seffects.CORROSION.get(), 300, level), attacker);
         }
+
         AttributeInstance toxic = attacker.getAttribute(SAttributes.TOXICITY.get());
-        if(toxic != null){
-            double level = toxic.getValue();
-            if (level < 1){
-                return;
-            }
-            victim.addEffect(new MobEffectInstance(MobEffects.POISON,400,(int) level-1),attacker);
+        if (toxic != null && toxic.getValue() >= 1) {
+            int level = (int) toxic.getValue() - 1;
+            victim.addEffect(new MobEffectInstance(MobEffects.POISON, 400, level), attacker);
         }
+
         AttributeInstance local = attacker.getAttribute(SAttributes.LOCALIZATION.get());
-        if(local != null){
-            double level = local.getValue();
-            if (level < 1){
-                return;
-            }
-            victim.addEffect(new MobEffectInstance(Seffects.MARKER.get(),600,(int) level-1),attacker);
+        if (local != null && local.getValue() >= 1) {
+            int level = (int) local.getValue() - 1;
+            victim.addEffect(new MobEffectInstance(Seffects.MARKER.get(), 600, level), attacker);
         }
 
         AttributeInstance grind = attacker.getAttribute(SAttributes.GRINDING.get());
-        if(grind != null){
+        if (grind != null && grind.getValue() >= 1) {
             double level = grind.getValue();
-            if (level < 1){
-                return;
-            }
-            victim.getArmorSlots().forEach(itemStack -> {itemStack.setDamageValue((int) (itemStack.getDamageValue()+(10*level)));});
+            victim.getArmorSlots().forEach(itemStack -> {
+                itemStack.setDamageValue(itemStack.getDamageValue() + (int) (10 * level));
+            });
         }
     }
 }
