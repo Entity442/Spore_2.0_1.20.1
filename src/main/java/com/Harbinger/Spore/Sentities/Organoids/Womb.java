@@ -5,6 +5,7 @@ import com.Harbinger.Spore.Core.Sparticles;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Recipes.EntityContainer;
 import com.Harbinger.Spore.Recipes.WombRecipe;
+import com.Harbinger.Spore.Screens.AssimilationMenu;
 import com.Harbinger.Spore.Sentities.BaseEntities.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -17,20 +18,29 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.*;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class Womb extends Organoid {
+public class Womb extends Organoid implements MenuProvider {
     private static final EntityDataAccessor<Integer> COUNTER = SynchedEntityData.defineId(Womb.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> BIOMASS = SynchedEntityData.defineId(Womb.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> STATE = SynchedEntityData.defineId(Womb.class, EntityDataSerializers.INT);
@@ -352,6 +362,20 @@ public class Womb extends Organoid {
 
     public TERRAIN getVariant() {
         return TERRAIN.byId(this.entityData.get(STATE) & 255);
+    }
+
+    @Override
+    public @Nullable AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
+        return new AssimilationMenu(i,inventory);
+    }
+
+    @Override
+    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+        if (player instanceof ServerPlayer serverPlayer  && serverPlayer.getAbilities().instabuild && !level().isClientSide){
+            NetworkHooks.openScreen(serverPlayer, this, this.blockPosition());
+            return InteractionResult.SUCCESS;
+        }
+        return super.mobInteract(player, hand);
     }
 
     public enum TERRAIN{
