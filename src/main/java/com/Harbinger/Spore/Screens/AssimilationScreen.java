@@ -3,27 +3,21 @@ package com.Harbinger.Spore.Screens;
 import com.Harbinger.Spore.Recipes.WombRecipe;
 import com.Harbinger.Spore.Sentities.VariantKeeper;
 import com.Harbinger.Spore.Spore;
-import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,6 +102,29 @@ public class AssimilationScreen extends AbstractContainerScreen<AssimilationMenu
                 }
             }
         }
+        renderIcon(guiGraphics,recipe.getIcon());
+        renderName(guiGraphics,recipe.getAttribute());
+    }
+    private void renderIcon(GuiGraphics guiGraphics,ResourceLocation iconLocation){
+        RenderSystem.setShaderTexture(0, iconLocation);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.enableBlend();
+        int iconX = this.leftPos + 100;
+        int iconY = this.topPos + 35;
+        int iconWidth = 32;
+        int iconHeight = 32;
+        guiGraphics.blit(iconLocation, iconX, iconY, 0, 0, iconWidth, iconHeight, iconWidth, iconHeight);
+        RenderSystem.disableBlend();
+    }
+    private void renderName(GuiGraphics guiGraphics,String attributeName){
+        String[] strings = attributeName.split(":");
+        Component name = Component.translatable("attribute.name.spore."+strings[1]);
+        int iconX = this.leftPos + 100;
+        int iconY = this.topPos + 25;
+        int iconWidth = 32;
+        int textX = iconX + (iconWidth / 2) - (font.width(name) / 2);
+        int textY = iconY - 10;
+        guiGraphics.drawString(this.font, name, textX, textY, 0xFFFFFF, true);
     }
 
     private void renderEntityInInventoryFollowsAngle(GuiGraphics guiGraphics, int x, int y, int scale, float angleXComponent, float angleYComponent, LivingEntity entity) {
@@ -131,27 +148,7 @@ public class AssimilationScreen extends AbstractContainerScreen<AssimilationMenu
         entity.yHeadRotO = f5;
         entity.yHeadRot = f6;
     }
-    public  void renderEntityInInventory(GuiGraphics guiGraphics, int x, int y, int scale, Quaternionf angleXComponent, @Nullable Quaternionf angleYComponent, LivingEntity entity) {
-        guiGraphics.pose().pushPose();
-        guiGraphics.pose().translate((double)x, (double)y, 50.0);
-        guiGraphics.pose().mulPoseMatrix((new Matrix4f()).scaling((float)scale, (float)scale, (float)(-scale)));
-        guiGraphics.pose().mulPose(angleXComponent);
-        Lighting.setupForEntityInInventory();
-        EntityRenderDispatcher entityrenderdispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
-        if (angleYComponent != null) {
-            angleYComponent.conjugate();
-            entityrenderdispatcher.overrideCameraOrientation(angleYComponent);
-        }
 
-        entityrenderdispatcher.setRenderShadow(false);
-        RenderSystem.runAsFancy(() -> {
-            entityrenderdispatcher.render(entity, 0.0, 0.0, 0.0, 0.0F, 1.0F, guiGraphics.pose(), guiGraphics.bufferSource(), 15728880);
-        });
-        guiGraphics.flush();
-        entityrenderdispatcher.setRenderShadow(true);
-        guiGraphics.pose().popPose();
-        Lighting.setupFor3DItems();
-    }
     @Override
     protected void containerTick() {
         super.containerTick();

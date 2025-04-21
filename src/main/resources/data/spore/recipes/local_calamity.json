@@ -4,5 +4,6 @@
     { "entity": "spore:braiomil", "entity_type": 0 },
     { "entity": "spore:brot", "entity_type": 0 }
   ],
+  "icon": "spore:textures/mob_effect/marker.png",
   "attribute": "spore:localization"
 }

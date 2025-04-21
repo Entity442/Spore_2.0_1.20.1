@@ -4,5 +4,6 @@
     { "entity": "spore:spitter", "entity_type": 0 },
     { "entity": "spore:spitter", "entity_type": 2 }
   ],
+  "icon": "spore:textures/mob_effect/corrosion.png",
   "attribute": "spore:corrosives"
 }

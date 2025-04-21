@@ -5,7 +5,7 @@
     { "entity": "spore:busser", "entity_type": 2 },
     { "entity": "spore:griefer", "entity_type": 0 },
     { "entity": "spore:griefer", "entity_type": 4 }
-
   ],
+  "icon": "spore:textures/gui/icons/ballistic.png",
   "attribute": "spore:ballistic"
 }

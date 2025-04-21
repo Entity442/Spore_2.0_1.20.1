@@ -5,5 +5,6 @@
     { "entity": "spore:hevoker", "entity_type": 0 },
     { "entity": "spore:inf_witch", "entity_type": 0 }
   ],
+  "icon": "minecraft:textures/mob_effect/regeneration.png",
   "attribute": "spore:rejuvenation"
 }

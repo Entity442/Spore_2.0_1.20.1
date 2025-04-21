@@ -4,5 +4,6 @@
     { "entity": "spore:busser", "entity_type": 3 },
     { "entity": "spore:griefer", "entity_type": 1 }
   ],
+  "icon": "minecraft:textures/mob_effect/poison.png",
   "attribute": "spore:toxicity"
 }

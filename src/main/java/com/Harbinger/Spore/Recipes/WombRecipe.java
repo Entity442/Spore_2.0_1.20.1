@@ -24,11 +24,13 @@ public class WombRecipe implements Recipe<EntityContainer> {
     private final ResourceLocation id;
     private final List<Pair> entityPairs;
     private final String attribute;
+    private final ResourceLocation icon;
 
-    public WombRecipe(ResourceLocation id, List<Pair> entityPairs, String attribute) {
+    public WombRecipe(ResourceLocation id, List<Pair> entityPairs, String attribute, ResourceLocation icon) {
         this.id = id;
         this.entityPairs = entityPairs;
         this.attribute = attribute;
+        this.icon = icon;
     }
 
     public List<Pair> getEntityPairs() {
@@ -37,6 +39,9 @@ public class WombRecipe implements Recipe<EntityContainer> {
 
     public String getAttribute() {
         return attribute;
+    }
+    public ResourceLocation getIcon() {
+        return icon;
     }
 
     @Override
@@ -118,7 +123,8 @@ public class WombRecipe implements Recipe<EntityContainer> {
                 entityPairs.add(new Pair(entityId, type));
             }
             String attribute = GsonHelper.getAsString(jsonObject, "attribute");
-            return new WombRecipe(resourceLocation, entityPairs, attribute);
+            ResourceLocation icon = new ResourceLocation(GsonHelper.getAsString(jsonObject, "icon"));
+            return new WombRecipe(resourceLocation, entityPairs, attribute,icon);
         }
 
         @Override
@@ -131,7 +137,8 @@ public class WombRecipe implements Recipe<EntityContainer> {
                 entityPairs.add(new Pair(entityId, type));
             }
             String attribute = buf.readUtf();
-            return new WombRecipe(resourceLocation, entityPairs, attribute);
+            ResourceLocation icon = buf.readResourceLocation();
+            return new WombRecipe(resourceLocation, entityPairs, attribute,icon);
         }
 
         @Override
@@ -142,6 +149,7 @@ public class WombRecipe implements Recipe<EntityContainer> {
                 buf.writeInt(pair.type());
             }
             buf.writeUtf(recipe.attribute);
+            buf.writeResourceLocation(recipe.icon);
         }
     }
 }
