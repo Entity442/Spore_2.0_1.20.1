@@ -110,7 +110,7 @@ public class AssimilationScreen extends AbstractContainerScreen<AssimilationMenu
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.enableBlend();
         int iconX = this.leftPos + 100;
-        int iconY = this.topPos + 35;
+        int iconY = this.topPos + 30;
         int iconWidth = 32;
         int iconHeight = 32;
         guiGraphics.blit(iconLocation, iconX, iconY, 0, 0, iconWidth, iconHeight, iconWidth, iconHeight);
