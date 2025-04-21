@@ -35,10 +35,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -180,5 +177,34 @@ public class Utilities {
                 itemStack.setDamageValue(itemStack.getDamageValue() + (int) (10 * level));
             });
         }
+    }
+
+    public static int mixColors(Map<Integer, Float> colorsAndWeights) {
+        float totalWeight = 0f;
+        float r = 0f;
+        float g = 0f;
+        float b = 0f;
+
+        for (Map.Entry<Integer, Float> entry : colorsAndWeights.entrySet()) {
+            int color = entry.getKey();
+            float weight = entry.getValue();
+
+            r += ((color >> 16) & 0xFF) * weight;
+            g += ((color >> 8) & 0xFF) * weight;
+            b += (color & 0xFF) * weight;
+
+            totalWeight += weight;
+        }
+
+        if (totalWeight == 0) {
+            return 0xFFFFFF; // default to white if no colors
+        }
+
+        r /= totalWeight;
+        g /= totalWeight;
+        b /= totalWeight;
+
+        int finalColor = ((int) r << 16) | ((int) g << 8) | (int) b;
+        return finalColor;
     }
 }

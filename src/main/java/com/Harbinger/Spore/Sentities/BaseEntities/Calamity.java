@@ -49,14 +49,13 @@ import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
+import java.util.*;
 
 import static com.Harbinger.Spore.ExtremelySusThings.Utilities.biomass;
 
 public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageBypass {
     public static final EntityDataAccessor<Integer> KILLS = SynchedEntityData.defineId(Calamity.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Integer> MUTATION = SynchedEntityData.defineId(Calamity.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<BlockPos> SEARCH_AREA = SynchedEntityData.defineId(Calamity.class, EntityDataSerializers.BLOCK_POS);
     public static final EntityDataAccessor<Boolean> ROOTED = SynchedEntityData.defineId(Calamity.class, EntityDataSerializers.BOOLEAN);
     protected int breakCounter;
@@ -154,12 +153,44 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt("kills", entityData.get(KILLS));
+        tag.putInt("mutation", entityData.get(MUTATION));
         tag.putBoolean("rooted", entityData.get(ROOTED));
         tag.putInt("AreaX", this.getSearchArea().getX());
         tag.putInt("AreaY", this.getSearchArea().getY());
         tag.putInt("AreaZ", this.getSearchArea().getZ());
     }
 
+    public void setMutationColor(){
+        int value =colorMap().isEmpty() ? 0 : Utilities.mixColors(colorMap());
+        this.entityData.set(MUTATION,value);
+    }
+    public int getMutationColor(){
+        return entityData.get(MUTATION);
+    }
+    Map<Integer, Float> colorMap(){
+        Map<Integer, Float> values = new HashMap<>();
+        float toxic = getAtLevel(this.getAttribute(SAttributes.TOXICITY.get()));
+        float rejuvenation = getAtLevel(this.getAttribute(SAttributes.REJUVENATION.get()));
+        float local = getAtLevel(this.getAttribute(SAttributes.LOCALIZATION.get()));
+        float laceration = getAtLevel(this.getAttribute(SAttributes.LACERATION.get()));
+        float corrosive = getAtLevel(this.getAttribute(SAttributes.CORROSIVES.get()));
+        float ballistic = getAtLevel(this.getAttribute(SAttributes.BALLISTIC.get()));
+        float grinding = getAtLevel(this.getAttribute(SAttributes.GRINDING.get()));
+        if (toxic > 0){values.put(-16751104,toxic);}
+        if (rejuvenation > 0){values.put(-10092442,rejuvenation);}
+        if (local > 0){values.put(-6711040,local);}
+        if (laceration > 0){values.put(-65536,laceration);}
+        if (corrosive > 0){values.put(-13369549,corrosive);}
+        if (ballistic > 0){values.put(-10066330,ballistic);}
+        if (grinding > 0){values.put(-16764058,grinding);}
+        return values;
+    }
+    public float getAtLevel(AttributeInstance instance){
+        if (instance != null){
+            return (float) instance.getValue();
+        }
+        return 0;
+    }
 
     @Override
     public boolean isPushable() {
@@ -196,6 +227,7 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         entityData.set(KILLS, tag.getInt("kills"));
+        entityData.set(MUTATION, tag.getInt("mutation"));
         entityData.set(ROOTED, tag.getBoolean("rooted"));
         int i = tag.getInt("AreaX");
         int j = tag.getInt("AreaY");
@@ -207,6 +239,7 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
         super.defineSynchedData();
         this.entityData.define(ROOTED, false);
         this.entityData.define(KILLS, 0);
+        this.entityData.define(MUTATION, 0);
         this.entityData.define(SEARCH_AREA, BlockPos.ZERO);
     }
     public boolean canCalcify(Entity entity){
@@ -475,6 +508,7 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance p_21435_, MobSpawnType p_21436_, @Nullable SpawnGroupData p_21437_, @Nullable CompoundTag p_21438_) {
         this.setDefaultAdaptation(serverLevelAccessor);
+        this.setMutationColor();
         return super.finalizeSpawn(serverLevelAccessor, p_21435_, p_21436_, p_21437_, p_21438_);
     }
 

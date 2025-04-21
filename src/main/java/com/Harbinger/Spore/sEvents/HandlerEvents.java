@@ -267,6 +267,7 @@ public class HandlerEvents {
                                     player.displayClientMessage(Component.literal("Position to be Searched " + calamity.getSearchArea()),false);
                                     player.displayClientMessage(Component.literal("Buffs " + calamity.getActiveEffects()),false);
                                     player.displayClientMessage(Component.literal("Target ? " + calamity.getTarget()),false);
+                                    player.displayClientMessage(Component.literal("Mutation Color ? " + calamity.getMutationColor()),false);
                                     if (calamity instanceof Sieger sieger){
                                         player.displayClientMessage(Component.literal("Tail health "+ sieger.getTailHp()+"/"+sieger.getMaxTailHp()),false);
                                     }

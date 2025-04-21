@@ -19,7 +19,8 @@ public class SiegerRenderer<Type extends Sieger> extends CalamityRenderer<Type ,
             "textures/entity/war_sieger.png");
     private static final ResourceLocation EYES_TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/eyes/sieger.png");
-
+    private static final ResourceLocation VEINS = new ResourceLocation(Spore.MODID,
+            "textures/entity/calamity_veins/sieger.png");
 
     public SiegerRenderer(EntityRendererProvider.Context context) {
         super(context, new SiegerModel<>(context.bakeLayer(SiegerModel.LAYER_LOCATION)), 4f);
