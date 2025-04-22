@@ -1,4 +1,11 @@
 {
+  "attribute.name.spore.toxicity": "Toxicidad",
+  "attribute.name.spore.rejuvenation": "Rejuvenecimiento",
+  "attribute.name.spore.localization": "Localización",
+  "attribute.name.spore.laceration": "Laceración",
+  "attribute.name.spore.corrosives": "Corrosivos",
+  "attribute.name.spore.ballistic": "Balístico",
+  "attribute.name.spore.grinding": "Molienda",
   "block.spore.growths_big": "Micelio",
   "block.spore.growths_small": "Micelio",
   "block.spore.blomfung": "Micelio florecido",

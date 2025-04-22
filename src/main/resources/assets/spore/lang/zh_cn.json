@@ -1,4 +1,11 @@
 {
+  "attribute.name.spore.toxicity": "毒性",
+  "attribute.name.spore.rejuvenation": "复原力",
+  "attribute.name.spore.localization": "局部化",
+  "attribute.name.spore.laceration": "撕裂伤",
+  "attribute.name.spore.corrosives": "腐蚀性",
+  "attribute.name.spore.ballistic": "弹道伤",
+  "attribute.name.spore.grinding": "研磨伤",
   "block.spore.growths_big": "大型菌丝",
   "block.spore.growths_small": "小型菌丝",
   "block.spore.blomfung": "盛放菌丝团",

@@ -1,4 +1,11 @@
 {
+  "attribute.name.spore.toxicity": "Токсичность",
+  "attribute.name.spore.rejuvenation": "Омоложение",
+  "attribute.name.spore.localization": "Локализация",
+  "attribute.name.spore.laceration": "Разрыв",
+  "attribute.name.spore.corrosives": "Коррозионные вещества",
+  "attribute.name.spore.ballistic": "Баллистический",
+  "attribute.name.spore.grinding": "Шлифование",
   "block.spore.growths_big": "Мицелий",
   "block.spore.growths_small": "Мицелий",
   "block.spore.blomfung": "Расцвётший мицелий",
