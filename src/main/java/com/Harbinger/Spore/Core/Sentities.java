@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Core;
 import com.Harbinger.Spore.Sentities.BasicInfected.*;
 import com.Harbinger.Spore.Sentities.Calamities.*;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.*;
+import com.Harbinger.Spore.Sentities.Experiments.Biobloob;
 import com.Harbinger.Spore.Sentities.Experiments.Lacerator;
 import com.Harbinger.Spore.Sentities.Experiments.Plagued;
 import com.Harbinger.Spore.Sentities.FallenMultipart.HowitzerArm;
@@ -125,6 +126,10 @@ public class Sentities {
     public static final RegistryObject<EntityType<Lacerator>> LACERATOR = SPORE_ENTITIES.register("lacerator",
             () -> EntityType.Builder.of(Lacerator::new, INFECTED).sized(0.6f, 1.9f)
                     .build(new ResourceLocation(Spore.MODID, "lacerator").toString()));
+
+    public static final RegistryObject<EntityType<Biobloob>> BIOBLOOB = SPORE_ENTITIES.register("biobloob",
+            () -> EntityType.Builder.of(Biobloob::new, INFECTED).sized(2.6f, 1.9f)
+                    .build(new ResourceLocation(Spore.MODID, "biobloob").toString()));
 
     public static final RegistryObject<EntityType<InfectedHazmat>> INF_HAZMAT = SPORE_ENTITIES.register("inf_hazmat",
             () -> EntityType.Builder.of(InfectedHazmat::new, INFECTED).sized(0.6f, 1.9f)
