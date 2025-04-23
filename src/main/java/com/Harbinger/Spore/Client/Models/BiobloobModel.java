@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Client.Models;// Made with Blockbench 4.12.4
 // Paste this class into your mod and generate all required imports
 
 
+import com.Harbinger.Spore.Client.Models.TentacledModel;
 import com.Harbinger.Spore.Sentities.Experiments.Biobloob;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -15,7 +16,7 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.util.Mth;
 
-public class BiobloobModel<T extends Biobloob> extends EntityModel<T> implements TentacledModel{
+public class BiobloobModel<T extends Biobloob> extends EntityModel<T> implements TentacledModel {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "biobloobmodel"), "main");
 	private final ModelPart bioblobgoonsludge;
@@ -95,7 +96,6 @@ public class BiobloobModel<T extends Biobloob> extends EntityModel<T> implements
 		this.LowerLeg3 = bioblobgoonsludge.getChild("Body").getChild("Legs").getChild("LowerLegs").getChild("LowerLeg3");
 		this.LowerLeg4 = bioblobgoonsludge.getChild("Body").getChild("Legs").getChild("LowerLegs").getChild("LowerLeg4");
 	}
-
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
@@ -166,7 +166,7 @@ public class BiobloobModel<T extends Biobloob> extends EntityModel<T> implements
 
 		PartDefinition BileGrowth_r1 = BileGrowth.addOrReplaceChild("BileGrowth_r1", CubeListBuilder.create().texOffs(133, 72).addBox(-1.0F, -2.0F, -1.0F, 6.0F, 5.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.2793F, 0.0F, 0.0F));
 
-		PartDefinition AcidHead = Heads.addOrReplaceChild("AcidHead", CubeListBuilder.create(), PartPose.offset(2.6F, -17.7F, -7.1F));
+		PartDefinition AcidHead = Heads.addOrReplaceChild("AcidHead", CubeListBuilder.create(), PartPose.offsetAndRotation(2.6F, -17.7F, -7.1F, 0.0F, 0.0F, 0.48F));
 
 		PartDefinition Head_r1 = AcidHead.addOrReplaceChild("Head_r1", CubeListBuilder.create().texOffs(0, 97).addBox(-4.0F, -32.0F, -4.0F, 8.0F, 6.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.0F, 26.2F, -3.9F, -0.0244F, -0.6104F, 0.0426F));
 
@@ -260,7 +260,7 @@ public class BiobloobModel<T extends Biobloob> extends EntityModel<T> implements
 
 		PartDefinition BackTendrils = Body.addOrReplaceChild("BackTendrils", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		PartDefinition BackTendril = BackTendrils.addOrReplaceChild("BackTendril", CubeListBuilder.create().texOffs(191, 20).addBox(-1.0F, -9.0F, -1.0F, 2.0F, 9.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.3837F, -17.9057F, 9.9892F, -0.0257F, 0.5567F, 0.3306F));
+		PartDefinition BackTendril = BackTendrils.addOrReplaceChild("BackTendril", CubeListBuilder.create().texOffs(191, 20).addBox(-1.0F, -9.0F, -1.0F, 2.0F, 9.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.3837F, -17.9057F, 9.9892F, -0.0257F, 0.5567F, 0.3743F));
 
 		PartDefinition Seg2Tendril1 = BackTendril.addOrReplaceChild("Seg2Tendril1", CubeListBuilder.create().texOffs(204, 20).addBox(-1.0F, -9.0F, -1.0F, 2.0F, 10.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(0.0137F, -8.9634F, -0.0145F, 0.0F, 0.0F, 0.8727F));
 
@@ -394,7 +394,7 @@ public class BiobloobModel<T extends Biobloob> extends EntityModel<T> implements
 
 		PartDefinition FleshLeg_r4 = LowerLeg2.addOrReplaceChild("FleshLeg_r4", CubeListBuilder.create().texOffs(53, 173).addBox(-1.0F, -4.0F, -1.0F, 2.0F, 5.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.1F, 7.4F, -0.4F, 0.0F, 0.0F, 0.2182F));
 
-		PartDefinition LowerLeg3 = LowerLegs.addOrReplaceChild("LowerLeg3", CubeListBuilder.create(), PartPose.offsetAndRotation(-3.4F, -7.4F, 19.4F, -0.0187F, 0.2611F, -0.0723F));
+		PartDefinition LowerLeg3 = LowerLegs.addOrReplaceChild("LowerLeg3", CubeListBuilder.create(), PartPose.offsetAndRotation(-3.4F, -7.4F, 19.4F, -0.0187F, 0.2611F, -0.1159F));
 
 		PartDefinition FleshLeg_r5 = LowerLeg3.addOrReplaceChild("FleshLeg_r5", CubeListBuilder.create().texOffs(169, 81).addBox(-1.0F, -2.0F, -2.0F, 3.0F, 6.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.3665F));
 
@@ -414,13 +414,13 @@ public class BiobloobModel<T extends Biobloob> extends EntityModel<T> implements
 
 		PartDefinition FleshLeg_r11 = LargeFrontLeg.addOrReplaceChild("FleshLeg_r11", CubeListBuilder.create().texOffs(78, 106).addBox(-1.0F, -5.0F, -1.0F, 11.0F, 5.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.7F, 1.6F, -1.9F, 0.0692F, 0.2527F, 0.2706F));
 
-		PartDefinition LargeMiddleLeg = Legs.addOrReplaceChild("LargeMiddleLeg", CubeListBuilder.create(), PartPose.offset(17.8F, 0.0F, 15.7F));
+		PartDefinition LargeMiddleLeg = Legs.addOrReplaceChild("LargeMiddleLeg", CubeListBuilder.create(), PartPose.offset(5.8F, -14.0F, 6.7F));
 
-		PartDefinition FleshLeg_r12 = LargeMiddleLeg.addOrReplaceChild("FleshLeg_r12", CubeListBuilder.create().texOffs(162, 131).addBox(-1.0F, -8.0F, -1.0F, 3.0F, 8.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.2819F, -0.0678F, -0.6825F));
+		PartDefinition FleshLeg_r12 = LargeMiddleLeg.addOrReplaceChild("FleshLeg_r12", CubeListBuilder.create().texOffs(162, 131).addBox(-1.0F, -8.0F, -1.0F, 3.0F, 8.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(12.0F, 14.0F, 9.0F, 0.2819F, -0.0678F, -0.6825F));
 
-		PartDefinition FleshLeg_r13 = LargeMiddleLeg.addOrReplaceChild("FleshLeg_r13", CubeListBuilder.create().texOffs(147, 0).addBox(-1.0F, -13.0F, -1.0F, 4.0F, 13.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.1F, -3.8F, -3.1F, 0.1499F, -0.7561F, -0.2167F));
+		PartDefinition FleshLeg_r13 = LargeMiddleLeg.addOrReplaceChild("FleshLeg_r13", CubeListBuilder.create().texOffs(147, 0).addBox(-1.0F, -13.0F, -1.0F, 4.0F, 13.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(7.9F, 10.2F, 5.9F, 0.1499F, -0.7561F, -0.2167F));
 
-		PartDefinition FleshLeg_r14 = LargeMiddleLeg.addOrReplaceChild("FleshLeg_r14", CubeListBuilder.create().texOffs(100, 77).addBox(-1.0F, -5.0F, -1.0F, 11.0F, 5.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-12.2F, -12.8F, -10.6F, -0.1216F, -0.6536F, 0.1983F));
+		PartDefinition FleshLeg_r14 = LargeMiddleLeg.addOrReplaceChild("FleshLeg_r14", CubeListBuilder.create().texOffs(100, 77).addBox(-1.0F, -5.0F, -1.0F, 11.0F, 5.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.2F, 1.2F, -1.6F, -0.1216F, -0.6536F, 0.1983F));
 
 		PartDefinition SmallHindLeg4 = Legs.addOrReplaceChild("SmallHindLeg4", CubeListBuilder.create().texOffs(26, 173).addBox(5.0F, 2.0F, -1.0F, 2.0F, 7.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-0.9F, -9.0F, 17.9F));
 
@@ -443,6 +443,7 @@ public class BiobloobModel<T extends Biobloob> extends EntityModel<T> implements
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		float movementValue = Mth.cos(limbSwing * 0.6F) * 0.6F * limbSwingAmount;
 		this.animateTentacleX(Head1,headPitch /  ( 90F / (float) Math.PI));
 		this.animateTentacleX(Head2,headPitch /  ( 90F / (float) Math.PI));
 		this.animateTentacleZ(Head2,netHeadYaw / (180F / (float) Math.PI));
@@ -468,6 +469,20 @@ public class BiobloobModel<T extends Biobloob> extends EntityModel<T> implements
 		this.animateTentacleZ(Tentacle4,-Mth.cos(ageInTicks/6)/7);
 		this.animateTentacleZ(Tentacle41,-Mth.cos(ageInTicks/5)/7);
 		this.animateTentacleZ(Tentacle42,-Mth.cos(ageInTicks/4)/7);
+		this.animateTentacleZ(BruteArm,movementValue);
+		this.animateTentacleZ(BruteForArm,-BruteArm.zRot);
+		this.animateTentacleX(BruteForArm,-movementValue*0.75f);
+		this.animateTentacleZ(BigLeg1,-movementValue);
+		this.animateTentacleZ(BigLeg2,movementValue);
+		float val = movementValue*1.5f;
+		this.animateTentacleZ(SmallBackLeg1,val);
+		this.animateTentacleZ(SmallBackLeg2,-val);
+		this.animateTentacleZ(SmallBackLeg3,val);
+		this.animateTentacleZ(SmallBackLeg4,-val);
+		this.animateTentacleX(LowerLeg1,Mth.sin(ageInTicks/6)/5);
+		this.animateTentacleX(LowerLeg2,-Mth.cos(ageInTicks/6)/7);
+		this.animateTentacleX(LowerLeg3,-Mth.sin(ageInTicks/8)/7);
+		this.animateTentacleX(LowerLeg4,Mth.cos(ageInTicks/6)/6);
 	}
 
 	@Override
