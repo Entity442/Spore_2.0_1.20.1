@@ -1,13 +1,10 @@
 package com.Harbinger.Spore.Sentities.BaseEntities;
 
 import com.Harbinger.Spore.Core.SConfig;
-import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.AI.HurtTargetGoal;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -16,8 +13,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.animal.AbstractFish;
-import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
@@ -26,6 +22,7 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 import java.util.Objects;
@@ -108,7 +105,27 @@ public class UtilityEntity extends PathfinderMob {
             }
         });
     }
+    @Override
+    protected void dropCustomDeathLoot(DamageSource source, int val, boolean bool) {
+        super.dropCustomDeathLoot(source, val, bool);
+        if (!getDropList().isEmpty()){
+            for (String str : getDropList()){
+                String[] string = str.split("\\|" );
+                ItemStack itemStack = new ItemStack(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(new ResourceLocation(string[0]))));
+                int m = 1;
+                if (Integer.parseUnsignedInt(string[2]) == Integer.parseUnsignedInt(string[3])){
+                    m = Integer.parseUnsignedInt(string[3]);
 
+                } else {if (Integer.parseUnsignedInt(string[2]) >= 1 && Integer.parseUnsignedInt(string[2]) >= 1){
+                    m = random.nextInt(Integer.parseUnsignedInt(string[2]), Integer.parseUnsignedInt(string[3]));}}
+                int value = Integer.parseUnsignedInt(string[1])+(val*10);
+                if (Math.random() < (value / 100F)) {
+                    itemStack.setCount(m+val);
+                    ItemEntity item = new ItemEntity(level(), this.getX() , this.getY(),this.getZ(),itemStack);
+                    item.setPickUpDelay(10);
+                    level().addFreshEntity(item);}}
+        }
+    }
 
     protected boolean Cold(){
         BlockPos pos = new BlockPos(this.getBlockX(),this.getBlockY(),this.getBlockZ());

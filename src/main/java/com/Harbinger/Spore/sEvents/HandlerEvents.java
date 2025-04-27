@@ -30,21 +30,16 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Snowball;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -63,7 +58,6 @@ import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.*;
 
@@ -413,38 +407,6 @@ public class HandlerEvents {
         if (data != null){
             SporeSavedData.StartupData(level);
             SporeSavedData.resetHive(level);
-        }
-    }
-    @SubscribeEvent
-    public static void onEntityDeath(LivingDeathEvent event) {
-        if (event != null && event.getEntity() != null && event.getEntity().level().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
-            RandomSource random = RandomSource.create();
-            List<? extends String> lootList;
-            if (event.getEntity() instanceof Infected infected){
-                lootList = infected.getDropList();
-            }else if (event.getEntity() instanceof UtilityEntity entity){
-                lootList = entity.getDropList();
-            }
-            else{
-                lootList = null;
-            }
-            if (lootList != null){
-                for (String str : lootList){
-                    String[] string = str.split("\\|" );
-                    ItemStack itemStack = new ItemStack(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(new ResourceLocation(string[0]))));
-                    int m = 1;
-                    if (Integer.parseUnsignedInt(string[2]) == Integer.parseUnsignedInt(string[3])){
-                        m = Integer.parseUnsignedInt(string[3]);
-
-                    } else {if (Integer.parseUnsignedInt(string[2]) >= 1 && Integer.parseUnsignedInt(string[2]) >= 1){
-                        m = random.nextInt(Integer.parseUnsignedInt(string[2]), Integer.parseUnsignedInt(string[3]));}}
-
-                    if (Math.random() < (Integer.parseUnsignedInt(string[1]) / 100F)) {
-                        itemStack.setCount(m);
-                        ItemEntity item = new ItemEntity(event.getEntity().level(), event.getEntity().getX() , event.getEntity().getY(),event.getEntity().getZ(),itemStack);
-                        item.setPickUpDelay(10);
-                        event.getEntity().level().addFreshEntity(item);}}
-            }
         }
     }
 

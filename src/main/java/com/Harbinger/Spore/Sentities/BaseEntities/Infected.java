@@ -20,6 +20,7 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -33,6 +34,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.OpenDoorGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AxeItem;
@@ -51,9 +53,11 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.network.NetworkHooks;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import static com.Harbinger.Spore.ExtremelySusThings.Utilities.biomass;
@@ -508,6 +512,27 @@ public class Infected extends Monster{
             return true;
         }
         return super.hasLineOfSight(entity);
+    }
+    @Override
+    protected void dropCustomDeathLoot(DamageSource source, int val, boolean bool) {
+        super.dropCustomDeathLoot(source, val, bool);
+        if (!getDropList().isEmpty()){
+            for (String str : getDropList()){
+                String[] string = str.split("\\|" );
+                ItemStack itemStack = new ItemStack(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(new ResourceLocation(string[0]))));
+                int m = 1;
+                if (Integer.parseUnsignedInt(string[2]) == Integer.parseUnsignedInt(string[3])){
+                    m = Integer.parseUnsignedInt(string[3]);
+
+                } else {if (Integer.parseUnsignedInt(string[2]) >= 1 && Integer.parseUnsignedInt(string[2]) >= 1){
+                    m = random.nextInt(Integer.parseUnsignedInt(string[2]), Integer.parseUnsignedInt(string[3]));}}
+                int value = Integer.parseUnsignedInt(string[1])+(val*10);
+                if (Math.random() < (value / 100F)) {
+                    itemStack.setCount(m+val);
+                    ItemEntity item = new ItemEntity(level(), this.getX() , this.getY(),this.getZ(),itemStack);
+                    item.setPickUpDelay(10);
+                    level().addFreshEntity(item);}}
+        }
     }
 
     public String getMutation(){
