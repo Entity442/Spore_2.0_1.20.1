@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Core.*;
+import com.Harbinger.Spore.Sitems.BaseWeapons.DamagePiercingModifier;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeSwordBase;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -12,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class InfectedRapier extends SporeSwordBase {
+public class InfectedRapier extends SporeSwordBase implements DamagePiercingModifier {
     public InfectedRapier() {
         super(SConfig.SERVER.rapier_damage.get(), 2.5, 2, SConfig.SERVER.rapier_durability.get());
     }
@@ -28,5 +29,10 @@ public class InfectedRapier extends SporeSwordBase {
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
         components.add(Component.translatable("item.rapier.corrosive").withStyle(ChatFormatting.GREEN));
         super.appendHoverText(itemStack, level, components, flag);
+    }
+
+    @Override
+    public float getMinimalDamage(float damage) {
+        return SConfig.SERVER.rapier_damage.get() * 0.3f;
     }
 }

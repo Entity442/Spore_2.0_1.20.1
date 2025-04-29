@@ -470,7 +470,18 @@ public class HandlerEvents {
         }
 
     }
-
+    @SubscribeEvent
+    public static void drops(LootingLevelEvent event){
+        if (event.getDamageSource() == null){
+            return;
+        }
+        Entity entity = event.getDamageSource().getDirectEntity();
+        if (entity instanceof LivingEntity living){
+            if (living.getMainHandItem().getItem() instanceof LootModifierWeapon lootModifierWeapon){
+                event.setLootingLevel(lootModifierWeapon.getLootingLevel());
+            }
+        }
+    }
     @SubscribeEvent
     public static void FishingAnInfectedDrowned(ItemFishedEvent event){
         if (event != null){
@@ -597,6 +608,15 @@ public class HandlerEvents {
         if (living instanceof ArmorPersentageBypass bypass){
             float original_damage = event.getAmount();
             float recalculatedDamage = bypass.amountOfDamage(original_damage);
+            if (recalculatedDamage <= 0 || original_damage > recalculatedDamage){
+                return;
+            }else{
+                event.setAmount(recalculatedDamage);
+            }
+        }
+        if (living instanceof LivingEntity livingEntity && livingEntity.getMainHandItem().getItem() instanceof DamagePiercingModifier piercingModifier){
+            float original_damage = event.getAmount();
+            float recalculatedDamage = piercingModifier.getMinimalDamage(original_damage);
             if (recalculatedDamage <= 0 || original_damage > recalculatedDamage){
                 return;
             }else{
