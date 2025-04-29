@@ -3,18 +3,20 @@ package com.Harbinger.Spore.Client.Models;// Made with Blockbench 4.12.4
 // Paste this class into your mod and generate all required imports
 
 
-import com.Harbinger.Spore.Client.Models.TentacledModel;
 import com.Harbinger.Spore.Sentities.Experiments.Biobloob;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.util.Mth;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BiobloobModel<T extends Biobloob> extends EntityModel<T> implements TentacledModel {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -56,7 +58,10 @@ public class BiobloobModel<T extends Biobloob> extends EntityModel<T> implements
 	private final ModelPart LowerLeg2;
 	private final ModelPart LowerLeg3;
 	private final ModelPart LowerLeg4;
-
+	private final List<ModelPart> tentacle1 = new ArrayList<>();
+	private final List<ModelPart> tentacle2 = new ArrayList<>();
+	private final List<ModelPart> tentacle3 = new ArrayList<>();
+	private final List<ModelPart> tentacle4 = new ArrayList<>();
 	public BiobloobModel(ModelPart root) {
 		this.bioblobgoonsludge = root.getChild("bioblobgoonsludge");
 		this.Tumor1 = bioblobgoonsludge.getChild("Body").getChild("BodyMass").getChild("BodyTumors").getChild("Tumors4");
@@ -79,6 +84,18 @@ public class BiobloobModel<T extends Biobloob> extends EntityModel<T> implements
 		this.Tentacle22 = Tentacle21.getChild("Seg3Tendril2");
 		this.Tentacle32 = Tentacle31.getChild("Seg3Tendril3");
 		this.Tentacle42 = Tentacle41.getChild("Seg3Tendril4");
+		this.tentacle1.add(Tentacle1);
+		this.tentacle2.add(Tentacle2);
+		this.tentacle3.add(Tentacle3);
+		this.tentacle4.add(Tentacle4);
+		this.tentacle1.add(Tentacle11);
+		this.tentacle2.add(Tentacle21);
+		this.tentacle3.add(Tentacle31);
+		this.tentacle4.add(Tentacle41);
+		this.tentacle1.add(Tentacle12);
+		this.tentacle2.add(Tentacle22);
+		this.tentacle3.add(Tentacle32);
+		this.tentacle4.add(Tentacle42);
 		this.BruteArm = bioblobgoonsludge.getChild("Body").getChild("BruteArm");
 		this.BruteForArm = BruteArm.getChild("BruteArmStart").getChild("BruteArmMiddle");
 		this.Tumor5 = BruteArm.getChild("BruteArmStart").getChild("BruteArmTumorsStart");
@@ -96,6 +113,7 @@ public class BiobloobModel<T extends Biobloob> extends EntityModel<T> implements
 		this.LowerLeg3 = bioblobgoonsludge.getChild("Body").getChild("Legs").getChild("LowerLegs").getChild("LowerLeg3");
 		this.LowerLeg4 = bioblobgoonsludge.getChild("Body").getChild("Legs").getChild("LowerLegs").getChild("LowerLeg4");
 	}
+
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
@@ -238,25 +256,15 @@ public class BiobloobModel<T extends Biobloob> extends EntityModel<T> implements
 
 		PartDefinition Petal_r20 = Flower5.addOrReplaceChild("Petal_r20", CubeListBuilder.create().texOffs(133, 56).addBox(-3.0F, 0.0F, -3.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.3708F, 2.2825F, -1.7017F, -0.0338F, 0.1603F, 0.1693F));
 
-		PartDefinition Flower8 = Flowers.addOrReplaceChild("Flower8", CubeListBuilder.create(), PartPose.offsetAndRotation(-21.2F, -22.9F, -5.8F, -1.7928F, 0.351F, -2.5051F));
-
-		PartDefinition Petal_r21 = Flower8.addOrReplaceChild("Petal_r21", CubeListBuilder.create().texOffs(54, 149).addBox(-5.0F, 0.0F, -5.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.8F, -3.6F, -2.5F, -0.0618F, 0.2828F, 0.3069F));
-
-		PartDefinition Petal_r22 = Flower8.addOrReplaceChild("Petal_r22", CubeListBuilder.create().texOffs(58, 141).addBox(-4.0F, 0.0F, -3.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.6468F, -4.4494F, -0.3017F, 0.4316F, -0.0662F, 0.1426F));
-
-		PartDefinition Petal_r23 = Flower8.addOrReplaceChild("Petal_r23", CubeListBuilder.create().texOffs(139, 123).addBox(-4.0F, 0.0F, -3.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.3468F, -3.1494F, -4.3017F, 0.1745F, 0.0F, -0.4363F));
-
-		PartDefinition Petal_r24 = Flower8.addOrReplaceChild("Petal_r24", CubeListBuilder.create().texOffs(29, 139).addBox(-3.0F, 0.0F, -3.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.3708F, -2.8175F, -6.0017F, -0.0338F, 0.1603F, 0.1693F));
-
 		PartDefinition Flower9 = Flowers.addOrReplaceChild("Flower9", CubeListBuilder.create(), PartPose.offsetAndRotation(-12.7F, -12.2F, 5.4F, 0.0F, -0.2793F, -1.6406F));
 
-		PartDefinition Petal_r25 = Flower9.addOrReplaceChild("Petal_r25", CubeListBuilder.create().texOffs(145, 149).addBox(-5.0F, 0.0F, -5.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.0618F, 0.2828F, 0.3069F));
+		PartDefinition Petal_r21 = Flower9.addOrReplaceChild("Petal_r21", CubeListBuilder.create().texOffs(145, 149).addBox(-5.0F, 0.0F, -5.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.0618F, 0.2828F, 0.3069F));
 
-		PartDefinition Petal_r26 = Flower9.addOrReplaceChild("Petal_r26", CubeListBuilder.create().texOffs(0, 144).addBox(-4.0F, 0.0F, -3.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.7468F, -0.0494F, 2.1983F, 0.3838F, -0.2129F, 0.4821F));
+		PartDefinition Petal_r22 = Flower9.addOrReplaceChild("Petal_r22", CubeListBuilder.create().texOffs(0, 144).addBox(-4.0F, 0.0F, -3.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.7468F, -0.0494F, 2.1983F, 0.3838F, -0.2129F, 0.4821F));
 
-		PartDefinition Petal_r27 = Flower9.addOrReplaceChild("Petal_r27", CubeListBuilder.create().texOffs(81, 117).addBox(-4.0F, 0.0F, -3.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.1468F, 0.4506F, -1.8017F, 0.1745F, 0.0F, -0.4363F));
+		PartDefinition Petal_r23 = Flower9.addOrReplaceChild("Petal_r23", CubeListBuilder.create().texOffs(81, 117).addBox(-4.0F, 0.0F, -3.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.1468F, 0.4506F, -1.8017F, 0.1745F, 0.0F, -0.4363F));
 
-		PartDefinition Petal_r28 = Flower9.addOrReplaceChild("Petal_r28", CubeListBuilder.create().texOffs(116, 143).addBox(-3.0F, 0.0F, -3.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5708F, 0.7825F, -3.5017F, -0.0338F, 0.1603F, 0.1693F));
+		PartDefinition Petal_r24 = Flower9.addOrReplaceChild("Petal_r24", CubeListBuilder.create().texOffs(116, 143).addBox(-3.0F, 0.0F, -3.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5708F, 0.7825F, -3.5017F, -0.0338F, 0.1603F, 0.1693F));
 
 		PartDefinition BackTendrils = Body.addOrReplaceChild("BackTendrils", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
@@ -360,23 +368,33 @@ public class BiobloobModel<T extends Biobloob> extends EntityModel<T> implements
 
 		PartDefinition Flower6 = BruteArmMiddle.addOrReplaceChild("Flower6", CubeListBuilder.create(), PartPose.offsetAndRotation(-3.4F, 10.8F, -0.4F, 1.0535F, 0.8585F, 0.0119F));
 
-		PartDefinition Petal_r29 = Flower6.addOrReplaceChild("Petal_r29", CubeListBuilder.create().texOffs(73, 40).addBox(-5.0F, 0.0F, -5.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.8F, -3.6F, -2.5F, -0.0618F, 0.2828F, 0.3069F));
+		PartDefinition Petal_r25 = Flower6.addOrReplaceChild("Petal_r25", CubeListBuilder.create().texOffs(73, 40).addBox(-5.0F, 0.0F, -5.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.8F, -3.6F, -2.5F, -0.0618F, 0.2828F, 0.3069F));
 
-		PartDefinition Petal_r30 = Flower6.addOrReplaceChild("Petal_r30", CubeListBuilder.create().texOffs(0, 136).addBox(-4.0F, 0.0F, -3.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.6468F, -4.4494F, -0.3017F, 0.4316F, -0.0662F, 0.1426F));
+		PartDefinition Petal_r26 = Flower6.addOrReplaceChild("Petal_r26", CubeListBuilder.create().texOffs(0, 136).addBox(-4.0F, 0.0F, -3.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.6468F, -4.4494F, -0.3017F, 0.4316F, -0.0662F, 0.1426F));
 
-		PartDefinition Petal_r31 = Flower6.addOrReplaceChild("Petal_r31", CubeListBuilder.create().texOffs(116, 135).addBox(-4.0F, 0.0F, -3.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.3468F, -3.1494F, -4.3017F, 0.1745F, 0.0F, -0.4363F));
+		PartDefinition Petal_r27 = Flower6.addOrReplaceChild("Petal_r27", CubeListBuilder.create().texOffs(116, 135).addBox(-4.0F, 0.0F, -3.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.3468F, -3.1494F, -4.3017F, 0.1745F, 0.0F, -0.4363F));
 
-		PartDefinition Petal_r32 = Flower6.addOrReplaceChild("Petal_r32", CubeListBuilder.create().texOffs(87, 135).addBox(-3.0F, 0.0F, -3.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.3708F, -2.8175F, -6.0017F, -0.0338F, 0.1603F, 0.1693F));
+		PartDefinition Petal_r28 = Flower6.addOrReplaceChild("Petal_r28", CubeListBuilder.create().texOffs(87, 135).addBox(-3.0F, 0.0F, -3.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.3708F, -2.8175F, -6.0017F, -0.0338F, 0.1603F, 0.1693F));
 
 		PartDefinition Flower7 = BruteArmStart.addOrReplaceChild("Flower7", CubeListBuilder.create(), PartPose.offsetAndRotation(-5.1F, -4.3F, 0.5F, 0.9259F, -0.4034F, 0.0383F));
 
-		PartDefinition Petal_r33 = Flower7.addOrReplaceChild("Petal_r33", CubeListBuilder.create().texOffs(147, 32).addBox(-5.0F, 0.0F, -5.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.8F, -3.6F, -2.5F, -0.0618F, 0.2828F, 0.3069F));
+		PartDefinition Petal_r29 = Flower7.addOrReplaceChild("Petal_r29", CubeListBuilder.create().texOffs(147, 32).addBox(-5.0F, 0.0F, -5.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.8F, -3.6F, -2.5F, -0.0618F, 0.2828F, 0.3069F));
 
-		PartDefinition Petal_r34 = Flower7.addOrReplaceChild("Petal_r34", CubeListBuilder.create().texOffs(138, 115).addBox(-4.0F, 0.0F, -3.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.6468F, -4.4493F, -0.3017F, 0.4316F, -0.0662F, 0.1426F));
+		PartDefinition Petal_r30 = Flower7.addOrReplaceChild("Petal_r30", CubeListBuilder.create().texOffs(138, 115).addBox(-4.0F, 0.0F, -3.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.6468F, -4.4493F, -0.3017F, 0.4316F, -0.0662F, 0.1426F));
 
-		PartDefinition Petal_r35 = Flower7.addOrReplaceChild("Petal_r35", CubeListBuilder.create().texOffs(138, 107).addBox(-4.0F, 0.0F, -3.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.3468F, -3.1494F, -4.3017F, 0.1745F, 0.0F, -0.4363F));
+		PartDefinition Petal_r31 = Flower7.addOrReplaceChild("Petal_r31", CubeListBuilder.create().texOffs(138, 107).addBox(-4.0F, 0.0F, -3.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.3468F, -3.1494F, -4.3017F, 0.1745F, 0.0F, -0.4363F));
 
-		PartDefinition Petal_r36 = Flower7.addOrReplaceChild("Petal_r36", CubeListBuilder.create().texOffs(138, 99).addBox(-3.0F, 0.0F, -3.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.3708F, -2.8175F, -6.0017F, -0.0338F, 0.1603F, 0.1693F));
+		PartDefinition Petal_r32 = Flower7.addOrReplaceChild("Petal_r32", CubeListBuilder.create().texOffs(138, 99).addBox(-3.0F, 0.0F, -3.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.3708F, -2.8175F, -6.0017F, -0.0338F, 0.1603F, 0.1693F));
+
+		PartDefinition Flower8 = BruteArm.addOrReplaceChild("Flower8", CubeListBuilder.create(), PartPose.offsetAndRotation(-9.2F, -3.9F, -4.8F, -1.7928F, 0.351F, -2.5051F));
+
+		PartDefinition Petal_r33 = Flower8.addOrReplaceChild("Petal_r33", CubeListBuilder.create().texOffs(54, 149).addBox(-5.0F, 0.0F, -5.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.8F, -3.6F, -2.5F, -0.0618F, 0.2828F, 0.3069F));
+
+		PartDefinition Petal_r34 = Flower8.addOrReplaceChild("Petal_r34", CubeListBuilder.create().texOffs(58, 141).addBox(-4.0F, 0.0F, -3.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.6468F, -4.4494F, -0.3017F, 0.4316F, -0.0662F, 0.1426F));
+
+		PartDefinition Petal_r35 = Flower8.addOrReplaceChild("Petal_r35", CubeListBuilder.create().texOffs(139, 123).addBox(-4.0F, 0.0F, -3.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.3468F, -3.1494F, -4.3017F, 0.1745F, 0.0F, -0.4363F));
+
+		PartDefinition Petal_r36 = Flower8.addOrReplaceChild("Petal_r36", CubeListBuilder.create().texOffs(29, 139).addBox(-3.0F, 0.0F, -3.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.3708F, -2.8175F, -6.0017F, -0.0338F, 0.1603F, 0.1693F));
 
 		PartDefinition Legs = Body.addOrReplaceChild("Legs", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
@@ -484,7 +502,6 @@ public class BiobloobModel<T extends Biobloob> extends EntityModel<T> implements
 		this.animateTentacleX(LowerLeg3,-Mth.sin(ageInTicks/8)/7);
 		this.animateTentacleX(LowerLeg4,Mth.cos(ageInTicks/6)/6);
 	}
-
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		bioblobgoonsludge.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);

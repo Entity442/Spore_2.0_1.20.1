@@ -124,9 +124,9 @@ public class Spitter extends EvolvedInfected implements RangedAttackMob, Variant
             }else {
                 double ze = this.distanceToSqr(livingEntity);
                 if (ze < 32.0D) {
-                    Vomit.shoot(this, livingEntity);
+                    Vomit.shoot(this, livingEntity,(float) (SConfig.SERVER.spit_damage_c.get() * SConfig.SERVER.global_damage.get()));
                 } else {
-                    AcidBall.shoot(this, livingEntity);
+                    AcidBall.shoot(this, livingEntity,(float) (SConfig.SERVER.spit_damage_l.get() * SConfig.SERVER.global_damage.get()));
                     this.playSound(SoundEvents.SLIME_JUMP, 1, 0.5f);
                 }
             }

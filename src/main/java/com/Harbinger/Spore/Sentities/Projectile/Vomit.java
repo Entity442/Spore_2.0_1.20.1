@@ -58,13 +58,13 @@ public class Vomit extends AbstractArrow implements ItemSupplier {
         return entityarrow;
     }
 
-    public static Vomit shoot(LivingEntity entity, LivingEntity target) {
+    public static Vomit shoot(LivingEntity entity, LivingEntity target,float damage) {
         Vomit entityarrow = new Vomit(Sentities.ACID.get(), entity, entity.level());
         double dx = target.getX() - entity.getX();
         double dy = target.getY() + target.getEyeHeight() - 2;
         double dz = target.getZ() - entity.getZ();
         entityarrow.shoot(dx, dy - entityarrow.getY() + Math.hypot(dx, dz) * 0.1F, dz, 1f * 2, 12.0F);
-        entityarrow.setBaseDamage(SConfig.SERVER.spit_damage_c.get() * SConfig.SERVER.global_damage.get());
+        entityarrow.setBaseDamage(damage);
         entityarrow.setKnockback(0);
         entity.level().addFreshEntity(entityarrow);
 
