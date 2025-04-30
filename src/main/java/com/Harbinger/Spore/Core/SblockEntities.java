@@ -53,6 +53,10 @@ public class SblockEntities {
             BLOCK_ENTITIES.register("surgery_table_entity", () ->
                     BlockEntityType.Builder.of(SurgeryTableBlockEntity::new,
                             Sblocks.SURGERY_TABLE.get()).build(null));
+    public static final RegistryObject<BlockEntityType<CabinetBlockEntity>> CABINET_ENTITY =
+            BLOCK_ENTITIES.register("cabinet_entity", () ->
+                    BlockEntityType.Builder.of(CabinetBlockEntity::new,
+                            Sblocks.CABINET.get()).build(null));
 
 
 

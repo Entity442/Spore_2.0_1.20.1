@@ -422,6 +422,8 @@ public class Sitems {
             () -> new BaseItem2( new Item.Properties()));
     public  static final RegistryObject<Item> ICE_CANISTER = ITEMS.register("ice_canister",
             () -> new BaseItem2( new Item.Properties()));
+    public  static final RegistryObject<Item> DOCUMENTS = ITEMS.register("documents",
+            () -> new BaseItem2(new Item.Properties()));
     public  static final RegistryObject<Item> AMETHYST_DUST = ITEMS.register("amethyst_dust",
             () -> new BaseItem2( new Item.Properties()));
     public  static final RegistryObject<Item> COMPOUND = ITEMS.register("compound",
@@ -480,6 +482,7 @@ public class Sitems {
     public static final RegistryObject<Item> ZOAHOLIC = Exceptions(Sblocks.ZOAHOLIC);
     public static final RegistryObject<Item> INCUBATOR = Exceptions(Sblocks.INCUBATOR);
     public static final RegistryObject<Item> SURGERY_TABLE = Exceptions(Sblocks.SURGERY_TABLE);
+    public static final RegistryObject<Item> CABINET = Techblock(Sblocks.CABINET);
     public static final RegistryObject<Item> LAB_BLOCK = Techblock(Sblocks.LAB_BLOCK);
     public static final RegistryObject<Item> LAB_BLOCK1 = Techblock(Sblocks.LAB_BLOCK1);
     public static final RegistryObject<Item> LAB_BLOCK2 = Techblock(Sblocks.LAB_BLOCK2);
