@@ -66,18 +66,25 @@ public class CabinetBlockEntity extends RandomizableContainerBlockEntity {
         return this.stacks.size();
     }
 
+    @Override
     protected void saveAdditional(CompoundTag compound) {
         super.saveAdditional(compound);
-        ContainerHelper.saveAllItems(compound, this.stacks);
+        if (!this.trySaveLootTable(compound)) {
+            ContainerHelper.saveAllItems(compound, this.stacks);
+        }
     }
 
+    @Override
     public void load(CompoundTag compound) {
         super.load(compound);
         this.stacks = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(compound, this.stacks);
+        if (!this.tryLoadLootTable(compound)) {
+            ContainerHelper.loadAllItems(compound, this.stacks);
+        }
     }
     @Override
     protected NonNullList<ItemStack> getItems() {
+        this.unpackLootTable(null);
         return stacks;
     }
 
