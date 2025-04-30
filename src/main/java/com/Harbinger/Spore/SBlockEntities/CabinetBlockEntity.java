@@ -16,19 +16,17 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.ContainerHelper;
-import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BarrelBlock;
-import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
 
-public class CabinetBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer {
+public class CabinetBlockEntity extends RandomizableContainerBlockEntity {
     private NonNullList<ItemStack> stacks = NonNullList.withSize(18, ItemStack.EMPTY);
     private final ContainerOpenersCounter openersCounter;
     public CabinetBlockEntity(BlockPos pos, BlockState state) {
@@ -68,15 +66,6 @@ public class CabinetBlockEntity extends BaseContainerBlockEntity implements Worl
         return this.stacks.size();
     }
 
-    @Override
-    public boolean isEmpty() {
-        return false;
-    }
-
-    @Override
-    public ItemStack getItem(int index) {
-        return this.stacks.get(index);
-    }
 
     @Override
     public ItemStack removeItem(int index, int count) {
@@ -100,24 +89,6 @@ public class CabinetBlockEntity extends BaseContainerBlockEntity implements Worl
         }
     }
 
-    @Override
-    public ItemStack removeItemNoUpdate(int index) {
-        return null;
-    }
-
-    @Override
-    public void setItem(int index, ItemStack stack) {
-        this.stacks.set(index, stack);
-        if (!stack.isEmpty() && stack.getCount() > this.getMaxStackSize()) {
-            stack.setCount(this.getMaxStackSize());
-        }
-        this.saveAdditional(this.getUpdateTag());
-    }
-
-    @Override
-    public boolean stillValid(Player player) {
-        return true;
-    }
 
     protected void saveAdditional(CompoundTag compound) {
         super.saveAdditional(compound);
@@ -129,25 +100,14 @@ public class CabinetBlockEntity extends BaseContainerBlockEntity implements Worl
         this.stacks = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
         ContainerHelper.loadAllItems(compound, this.stacks);
     }
-
     @Override
-    public int[] getSlotsForFace(Direction direction) {
-        return new int[direction.get2DDataValue()];
+    protected NonNullList<ItemStack> getItems() {
+        return stacks;
     }
 
     @Override
-    public boolean canPlaceItemThroughFace(int index, ItemStack stack, @Nullable Direction direction) {
-        return true;
-    }
-
-    @Override
-    public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {
-        return false;
-    }
-
-    @Override
-    public void clearContent() {
-        this.stacks.clear();
+    protected void setItems(NonNullList<ItemStack> nonNullList) {
+        stacks = nonNullList;
     }
 
     @Override
