@@ -66,30 +66,6 @@ public class CabinetBlockEntity extends RandomizableContainerBlockEntity {
         return this.stacks.size();
     }
 
-
-    @Override
-    public ItemStack removeItem(int index, int count) {
-        if (!this.stacks.get(index).isEmpty()) {
-            ItemStack itemstack;
-
-            if (this.stacks.get(index).getCount() <= count) {
-                itemstack = this.stacks.get(index);
-                this.stacks.set(index, ItemStack.EMPTY);
-            } else {
-                itemstack = this.stacks.get(index).split(count);
-
-                if (this.stacks.get(index).isEmpty()) {
-                    this.stacks.set(index, ItemStack.EMPTY);
-                }
-
-            }
-            return itemstack;
-        } else {
-            return ItemStack.EMPTY;
-        }
-    }
-
-
     protected void saveAdditional(CompoundTag compound) {
         super.saveAdditional(compound);
         ContainerHelper.saveAllItems(compound, this.stacks);
