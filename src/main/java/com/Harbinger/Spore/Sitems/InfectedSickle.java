@@ -20,7 +20,7 @@ public class InfectedSickle extends SporeSwordBase {
 
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity living, LivingEntity entity) {
-        entity.knockback(1.2F, -Mth.sin(living.getYRot() * ((float) Math.PI / 180F)), Mth.cos(living.getYRot() * ((float) Math.PI / 180F)));
+        entity.knockback(1.2F, -Mth.sin(living.getYRot() * ((float) Math.PI / 180F)), -Mth.cos(living.getYRot() * ((float) Math.PI / 180F)));
         return super.hurtEnemy(stack, living, entity);
     }
 
