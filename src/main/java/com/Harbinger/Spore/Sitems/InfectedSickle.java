@@ -28,4 +28,9 @@ public class InfectedSickle extends SporeSwordBase {
     public boolean reversedKnockback() {
         return true;
     }
+
+    @Override
+    public boolean doesReversedKnockBack() {
+        return true;
+    }
 }
