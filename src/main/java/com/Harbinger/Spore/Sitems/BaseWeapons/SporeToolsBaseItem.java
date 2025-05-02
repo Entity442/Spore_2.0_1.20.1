@@ -91,16 +91,9 @@ public class SporeToolsBaseItem extends BaseItem implements IForgeItem ,SporeWea
             hurtTool(stack,entity,1);
         }
         doEntityHurtAfterEffects(stack,living,entity);
-        if (doesReversedKnockBack()){
-            living.knockback(1.2F, -Mth.sin(entity.getYRot() * ((float) Math.PI / 180F)), -Mth.cos(entity.getYRot() * ((float) Math.PI / 180F)));
-        }
-        if (doesExtraKnockBack()){
-            living.knockback(2.2F, Mth.sin(entity.getYRot() * ((float) Math.PI / 180F)), (-Mth.cos(entity.getYRot() * ((float) Math.PI / 180F))));
-        }
+
         return super.hurtEnemy(stack, living, entity);
     }
-    public boolean doesExtraKnockBack(){return false;}
-    public boolean doesReversedKnockBack(){return false;}
     @Override
     public boolean mineBlock(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity living) {
         if (!tooHurt(stack)){
