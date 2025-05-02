@@ -23,4 +23,9 @@ public class InfectedSickle extends SporeSwordBase {
         entity.knockback(1.2F, -Mth.sin(living.getYRot() * ((float) Math.PI / 180F)), Mth.cos(living.getYRot() * ((float) Math.PI / 180F)));
         return super.hurtEnemy(stack, living, entity);
     }
+
+    @Override
+    public boolean reversedKnockback() {
+        return true;
+    }
 }
