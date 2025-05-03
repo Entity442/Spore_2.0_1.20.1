@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Client.Models.BiobloobModel;
 import com.Harbinger.Spore.Client.Special.BaseExperimentRenderer;
 import com.Harbinger.Spore.Sentities.Experiments.Biobloob;
 import com.Harbinger.Spore.Spore;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -32,4 +33,11 @@ public class BiobloobRenderer<Type extends Biobloob> extends BaseExperimentRende
         return EYES_TEXTURE;
     }
 
+
+    @Override
+    protected void scale(Type type, PoseStack stack, float value) {
+        float scale = type.getScale();
+        stack.scale(scale,scale,scale);
+        super.scale(type, stack, value);
+    }
 }
