@@ -80,7 +80,6 @@ public class Biobloob extends Experiment implements RangedAttackMob {
         applyScaleEffects();
     }
     private void applyScaleEffects() {
-        this.setBoundingBox(this.getBoundingBox().inflate(getScale()));
         this.refreshDimensions();
         computeAttribute(Attributes.MAX_HEALTH,health * getScale());
         computeAttribute(Attributes.ATTACK_DAMAGE,damage * getScale());
@@ -90,7 +89,13 @@ public class Biobloob extends Experiment implements RangedAttackMob {
             this.setHealth(this.getMaxHealth());
         }
     }
-    private void computeAttribute(Attribute attributes,double value){
+
+    @Override
+    public EntityDimensions getDimensions(Pose pose) {
+        return super.getDimensions(pose).scale(getScale());
+    }
+
+    private void computeAttribute(Attribute attributes, double value){
         AttributeInstance instance = this.getAttribute(attributes);
         if (instance != null){instance.setBaseValue(value);}
     }

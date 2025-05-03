@@ -1126,7 +1126,7 @@ public class SConfig {
                     Lists.newArrayList("spore:inf_human|80|2|5","spore:inf_drowned|10|1|2","spore:inf_pillager|40|1|3","spore:inf_villager|70|1|3","spore:inf_player|20|1|2"
                             ,"spore:inf_wanderer|25|1|2","spore:inf_witch|25|1|2") , o -> o instanceof String);
             this.structure_spawns = builder.defineList("Mobs that spawn in laboratory type structures",
-                    Lists.newArrayList("spore:inf_hazmat|70|2|5","spore:inf_player|20|1|2","spore:plagued|15|1|2","spore:lacerator|20|1|3") , o -> o instanceof String);
+                    Lists.newArrayList("spore:inf_hazmat|70|2|5","spore:inf_player|20|1|2","spore:plagued|15|1|2","spore:lacerator|20|1|3","spore:biobloob|10|1|2") , o -> o instanceof String);
 
             builder.pop();
             builder.push("Explosion");
