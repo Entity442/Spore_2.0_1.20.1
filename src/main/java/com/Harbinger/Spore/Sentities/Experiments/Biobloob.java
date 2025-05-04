@@ -122,7 +122,7 @@ public class Biobloob extends Experiment implements RangedAttackMob {
         this.goalSelector.addGoal(3, new CustomMeleeAttackGoal(this, 1.2, false) {
             @Override
             protected double getAttackReachSqr(LivingEntity livingEntity) {
-                return super.getAttackReachSqr(livingEntity);
+                return super.getAttackReachSqr(livingEntity) -5;
             }
         });
         this.goalSelector.addGoal(4, new RandomStrollGoal(this, 0.8));
@@ -157,9 +157,4 @@ public class Biobloob extends Experiment implements RangedAttackMob {
             }
         }
     }
-    @Override
-    public void aiStep() {
-        super.aiStep();
-    }
-
 }
