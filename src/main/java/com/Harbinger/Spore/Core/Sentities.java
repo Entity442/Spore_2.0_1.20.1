@@ -252,6 +252,10 @@ public class Sentities {
             EntityType.Builder.<ThrownSpear>of(ThrownSpear::new, MobCategory.MISC).setCustomClientFactory(ThrownSpear::new)
                     .setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(0.5f, 0.5f));
 
+    public static final RegistryObject<EntityType<ThrownKnife>> THROWN_KNIFE = register("thrown_knife",
+            EntityType.Builder.<ThrownKnife>of(ThrownKnife::new, MobCategory.MISC).setCustomClientFactory(ThrownKnife::new)
+                    .setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(0.5f, 0.5f));
+
     public static final RegistryObject<EntityType<ThrownTumor>> THROWN_TUMOR = register("thrown_tumor",
             EntityType.Builder.<ThrownTumor>of(ThrownTumor::new, MobCategory.MISC).setCustomClientFactory(ThrownTumor::new)
                     .setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(0.5f, 0.5f));

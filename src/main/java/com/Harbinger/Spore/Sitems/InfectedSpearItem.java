@@ -78,7 +78,7 @@ public class InfectedSpearItem extends SporeSwordBase {
 
 
             }
-        }
+    }
 
     public boolean mineBlock(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity entity) {
         hurtTool(stack,entity,1);
