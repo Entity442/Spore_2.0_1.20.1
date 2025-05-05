@@ -108,6 +108,7 @@ public class UtilityEntity extends PathfinderMob {
     @Override
     protected void dropCustomDeathLoot(DamageSource source, int val, boolean bool) {
         super.dropCustomDeathLoot(source, val, bool);
+        if (getDropList() == null){return;}
         if (!getDropList().isEmpty()){
             for (String str : getDropList()){
                 String[] string = str.split("\\|" );
