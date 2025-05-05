@@ -21,7 +21,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class InfectedSpearItem extends SporeSwordBase {
     public InfectedSpearItem() {
-        super(SConfig.SERVER.spear_damage.get(), 2.3f, 2.4, SConfig.SERVER.spear_durability.get());
+        super(SConfig.SERVER.spear_damage.get(), 2.3f, 3, SConfig.SERVER.spear_durability.get());
     }
 
 
@@ -53,6 +53,7 @@ public class InfectedSpearItem extends SporeSwordBase {
 
                             ThrownSpear thrownSpear = new ThrownSpear(level, player, stack);
                             thrownSpear.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F , 1.0F);
+                            thrownSpear.setBaseDamage(SConfig.SERVER.spear_damage.get());
                             if (player.getAbilities().instabuild) {
                                 thrownSpear.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                             }

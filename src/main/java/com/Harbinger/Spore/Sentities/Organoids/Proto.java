@@ -65,14 +65,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
     public Proto(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         setPersistenceRequired();
-        this.weights = new double[INPUT_SIZE * OUTPUT_SIZE];
-        for (int i = 0; i < weights.length; i++) {
-            weights[i] = this.getRandom().nextDouble();
-        }
-        fillDefaultTeams(team_1,SConfig.SERVER.proto_summonable_troops.get());
-        fillDefaultTeams(team_2,SConfig.SERVER.proto_summonable_troops.get());
-        fillDefaultTeams(team_3,SConfig.SERVER.proto_summonable_troops.get());
-        fillDefaultTeams(team_4,SConfig.SERVER.proto_summonable_troops.get());
+        initializeValues();
     }
     private void fillDefaultTeams(List<String> team ,List<? extends String> CONFIG){
         if (CONFIG.size() < 4) {
@@ -86,6 +79,17 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
             int add = isVariantKeeper(config);
             team.add(config + "_" + add);
         }
+    }
+
+    protected void initializeValues(){
+        this.weights = new double[INPUT_SIZE * OUTPUT_SIZE];
+        for (int i = 0; i < weights.length; i++) {
+            weights[i] = this.getRandom().nextDouble();
+        }
+        fillDefaultTeams(team_1,SConfig.SERVER.proto_summonable_troops.get());
+        fillDefaultTeams(team_2,SConfig.SERVER.proto_summonable_troops.get());
+        fillDefaultTeams(team_3,SConfig.SERVER.proto_summonable_troops.get());
+        fillDefaultTeams(team_4,SConfig.SERVER.proto_summonable_troops.get());
     }
     private int isVariantKeeper(String s){
         ResourceLocation location = new ResourceLocation(s);
@@ -675,6 +679,9 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
     }
 
     public int decide(double[] inputs) {
+        if (weights == null || weights.length == 0){
+            initializeValues();
+        }
         if (inputs == null || inputs.length == 0){
             return 0;
         }
