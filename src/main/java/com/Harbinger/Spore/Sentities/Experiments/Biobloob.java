@@ -21,6 +21,8 @@ import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -80,7 +82,8 @@ public class Biobloob extends Experiment implements RangedAttackMob {
         applyScaleEffects();
     }
     private void applyScaleEffects() {
-        this.refreshDimensions();
+        Vec3 position = this.position();
+        this.setPos(position);
         computeAttribute(Attributes.MAX_HEALTH,health * getScale());
         computeAttribute(Attributes.ATTACK_DAMAGE,damage * getScale());
         computeAttribute(Attributes.ARMOR,armor * getScale());
@@ -89,10 +92,14 @@ public class Biobloob extends Experiment implements RangedAttackMob {
             this.setHealth(this.getMaxHealth());
         }
     }
-
     @Override
-    public EntityDimensions getDimensions(Pose pose) {
-        return super.getDimensions(pose).scale(getScale());
+    public @NotNull EntityDimensions getDimensions(Pose pose) {
+        return super.getDimensions(pose).scale(getScale() == 1 ? 1 : getScale() * 0.8f);
+    }
+    @Override
+    public void onSyncedDataUpdated(EntityDataAccessor<?> accessor) {
+        super.onSyncedDataUpdated(accessor);
+        if (SCALE.equals(accessor)){this.refreshDimensions();}
     }
 
     private void computeAttribute(Attribute attributes, double value){
@@ -122,7 +129,7 @@ public class Biobloob extends Experiment implements RangedAttackMob {
         this.goalSelector.addGoal(3, new CustomMeleeAttackGoal(this, 1.2, false) {
             @Override
             protected double getAttackReachSqr(LivingEntity livingEntity) {
-                return super.getAttackReachSqr(livingEntity) -5;
+                return livingEntity.getBbWidth() + 13 * getScale();
             }
         });
         this.goalSelector.addGoal(4, new RandomStrollGoal(this, 0.8));
