@@ -1,0 +1,6 @@
+{
+  "parent": "spore:item/handheldweapon4",
+  "textures": {
+    "layer0": "spore:item/reaver"
+  }
+}

@@ -390,6 +390,14 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Integer> sickle_durability;
         public final ForgeConfigSpec.ConfigValue<Integer> sickle_damage;
 
+        public final ForgeConfigSpec.ConfigValue<Integer> reaver_durability;
+        public final ForgeConfigSpec.ConfigValue<Integer> reaver_damage;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> reaver_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> reaver_loot1;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> reaver_loot2;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> reaver_loot3;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> reaver_loot4;
+
         public final ForgeConfigSpec.ConfigValue<Integer> crossbow_durability;
         public final ForgeConfigSpec.ConfigValue<Double> crossbow_arrow_damage_multiplier;
 
@@ -1190,6 +1198,20 @@ public class SConfig {
             builder.push("Sickle");
             this.sickle_durability = builder.comment("Default 800").define("Durability",800);
             this.sickle_damage = builder.comment("Default 12").defineInRange("Damage", 12, 1, Integer.MAX_VALUE);
+            builder.pop();
+            builder.push("Reaver");
+            this.reaver_damage = builder.comment("Default 6").define("Damage",6);
+            this.reaver_durability = builder.comment("Default 300").defineInRange("Durability", 300, 1, Integer.MAX_VALUE);
+            this.reaver_loot = builder.defineList("Loot from basic infected",
+                    Lists.newArrayList("spore:claw_fragment|10","spore:mutated_fiber|30","minecraft:string|15") , o -> o instanceof String);
+            this.reaver_loot1 = builder.defineList("Loot from basic evolved infected",
+                    Lists.newArrayList("spore:claw_fragment|40","spore:mutated_fiber|40","spore:armor_fragment|45","spore:tumor|20") , o -> o instanceof String);
+            this.reaver_loot2 = builder.defineList("Loot from basic hyper infected",
+                    Lists.newArrayList("spore:claw_fragment|60","spore:mutated_fiber|50","spore:armor_fragment|15","spore:tumor|35") , o -> o instanceof String);
+            this.reaver_loot3 = builder.defineList("Loot from organoids",
+                    Lists.newArrayList("spore:organoid_membrane|40","spore:mutated_fiber|30","spore:tumor|45") , o -> o instanceof String);
+            this.reaver_loot4 = builder.defineList("Loot from calamities",
+                    Lists.newArrayList("spore:claw_fragments|100","spore:mutated_fiber|100","spore:tumor|100","spore:armor_fragment|100") , o -> o instanceof String);
             builder.pop();
             builder.push("Scythe");
             this.scythe_durability = builder.comment("Default 800").define("Durability",800);
