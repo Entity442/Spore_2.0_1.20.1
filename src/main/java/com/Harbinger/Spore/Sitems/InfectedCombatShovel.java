@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeDiggerTools;
 import com.google.common.collect.*;
 import net.minecraft.core.BlockPos;
@@ -9,6 +10,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
@@ -87,5 +90,11 @@ public class InfectedCombatShovel extends SporeDiggerTools {
     @Override
     public boolean canMultiBreak(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity living) {
         return !living.isCrouching();
+    }
+
+    @Override
+    public boolean hurtEnemy(ItemStack stack, LivingEntity living, LivingEntity entity) {
+        living.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,100,0));
+        return super.hurtEnemy(stack, living, entity);
     }
 }
