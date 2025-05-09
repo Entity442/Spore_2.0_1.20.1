@@ -60,7 +60,7 @@ public class InfestedConstruct extends UtilityEntity implements RangedAttackMob,
     public static final EntityDataAccessor<Float> MACHINE_HEALTH = SynchedEntityData.defineId(InfestedConstruct.class, EntityDataSerializers.FLOAT);
     public static final EntityDataAccessor<Integer> METAL_RESERVE = SynchedEntityData.defineId(InfestedConstruct.class, EntityDataSerializers.INT);
     private static final Double maXmachineHp = SConfig.SERVER.inf_machine_hp.get();
-    private static final List<? extends String> metalAndValues = SConfig.SERVER.cons_blocks.get();
+    public final Map<Item,Integer> metalAndValues;
     @Nullable
     private BlockPos Targetpos;
     private int attackAnimationTick;
@@ -68,6 +68,7 @@ public class InfestedConstruct extends UtilityEntity implements RangedAttackMob,
         super(type, level);
         this.navigation = new WallClimberNavigation(this,this.level());
         this.setMaxUpStep(1.0F);
+        this.metalAndValues = getValues();
     }
 
     @Override
@@ -274,7 +275,7 @@ public class InfestedConstruct extends UtilityEntity implements RangedAttackMob,
 
     public Map<Item,Integer> getValues(){
         Map<Item,Integer> values = new HashMap<>();
-        for (String string : metalAndValues){
+        for (String string : SConfig.SERVER.cons_blocks.get()){
             String[] strings = string.split("\\|");
             int value = Integer.parseInt(strings[1]);
             Item stack = ForgeRegistries.ITEMS.getValue(new ResourceLocation(strings[0]));
@@ -377,7 +378,7 @@ public class InfestedConstruct extends UtilityEntity implements RangedAttackMob,
         AABB aabb = this.getBoundingBox().inflate(32,4,32);
         for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
             BlockState block = level().getBlockState(blockpos);
-            if (getValues().containsKey(block.getBlock().asItem())){
+            if (metalAndValues.containsKey(block.getBlock().asItem())){
                 if (hasLineOfSightBlocks(blockpos) && this.random.nextFloat() < 0.5f){
                     setTargetPos(blockpos);
                     break;
@@ -475,7 +476,7 @@ public class InfestedConstruct extends UtilityEntity implements RangedAttackMob,
         public void assimilateMetal(BlockPos pos,Level level){
             Item item = level.getBlockState(pos).getBlock().asItem();
             try {
-                construct.setMetalReserve(construct.getMetalReserve() + construct.getValues().get(item));
+                construct.setMetalReserve(construct.getMetalReserve() + construct.metalAndValues.get(item));
             }catch (Exception ignored){}
             level.destroyBlock(pos,false,construct);
             construct.playSound(SoundEvents.IRON_GOLEM_REPAIR);

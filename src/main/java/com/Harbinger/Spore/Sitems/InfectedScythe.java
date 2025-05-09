@@ -71,7 +71,7 @@ public class InfectedScythe extends SporeDiggerTools {
 
     @Override
     public @NotNull AABB getSweepHitBox(@NotNull ItemStack stack, @NotNull Player player, @NotNull Entity target) {
-        return player.getBoundingBox().inflate(6);
+        return new AABB(target.getX()-4,target.getY(),target.getZ()-4,target.getX()+4,target.getY()+4,target.getZ()+4);
     }
 
     public static Consumer<UseOnContext> changeIntoState(BlockState p_150859_) {
