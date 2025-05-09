@@ -6,6 +6,7 @@ import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
+import com.Harbinger.Spore.Sentities.AI.HybridPathNavigation;
 import com.Harbinger.Spore.Sentities.BaseEntities.Hyper;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
@@ -29,6 +30,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.RangedAttackGoal;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Enemy;
@@ -58,31 +60,7 @@ public class InfestedConstruct extends UtilityEntity implements RangedAttackMob,
     public static final EntityDataAccessor<Float> MACHINE_HEALTH = SynchedEntityData.defineId(InfestedConstruct.class, EntityDataSerializers.FLOAT);
     public static final EntityDataAccessor<Integer> METAL_RESERVE = SynchedEntityData.defineId(InfestedConstruct.class, EntityDataSerializers.INT);
     private static final Double maXmachineHp = SConfig.SERVER.inf_machine_hp.get();
-    private static final Map<Item, Integer> metalAndValues = new HashMap<>();
-
-    static {
-        List<? extends String> cons_blocks = SConfig.SERVER.cons_blocks.get();
-        Iterator<? extends String> iteration = cons_blocks.iterator();
-        int size = cons_blocks.size();
-        for(int i = 0; i < size; i++) {
-            String string = iteration.next();
-
-            // Split namespace:id|int
-            int charIndex = string.indexOf('|');
-            String[] strings = new String[]{ string.substring(0, charIndex), string.substring(charIndex + 1) };
-
-            // Get Item From Registry
-            Item stack = ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(strings[0]));
-            if (stack == null)
-                continue;
-
-            // String To Number
-            int value = Integer.parseInt(strings[1]);
-            if (value > 0)
-                metalAndValues.put(stack, value);
-        }
-    }
-
+    public final Map<Item,Integer> metalAndValues;
     @Nullable
     private BlockPos Targetpos;
     private int attackAnimationTick;
@@ -90,6 +68,7 @@ public class InfestedConstruct extends UtilityEntity implements RangedAttackMob,
         super(type, level);
         this.navigation = new WallClimberNavigation(this,this.level());
         this.setMaxUpStep(1.0F);
+        this.metalAndValues = getValues();
     }
 
     @Override
@@ -294,6 +273,19 @@ public class InfestedConstruct extends UtilityEntity implements RangedAttackMob,
         return null;
     }
 
+    public Map<Item,Integer> getValues(){
+        Map<Item,Integer> values = new HashMap<>();
+        for (String string : SConfig.SERVER.cons_blocks.get()){
+            String[] strings = string.split("\\|");
+            int value = Integer.parseInt(strings[1]);
+            Item stack = ForgeRegistries.ITEMS.getValue(new ResourceLocation(strings[0]));
+            if (stack != null && value > 0){
+                values.put(stack,value);
+            }
+        }
+        return values;
+    }
+
     @Override
     public void tick() {
         super.tick();
@@ -484,7 +476,7 @@ public class InfestedConstruct extends UtilityEntity implements RangedAttackMob,
         public void assimilateMetal(BlockPos pos,Level level){
             Item item = level.getBlockState(pos).getBlock().asItem();
             try {
-                construct.setMetalReserve(construct.getMetalReserve() + metalAndValues.get(item));
+                construct.setMetalReserve(construct.getMetalReserve() + construct.metalAndValues.get(item));
             }catch (Exception ignored){}
             level.destroyBlock(pos,false,construct);
             construct.playSound(SoundEvents.IRON_GOLEM_REPAIR);
