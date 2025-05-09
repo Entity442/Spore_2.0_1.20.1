@@ -49,7 +49,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static com.Harbinger.Spore.ExtremelySusThings.Utilities.biomass;
 
