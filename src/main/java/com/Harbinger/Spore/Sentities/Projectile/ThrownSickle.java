@@ -77,7 +77,7 @@ public class ThrownSickle extends AbstractArrow {
 
     protected void onHitEntity(EntityHitResult hit) {
         Entity entity = hit.getEntity();
-        float f = SConfig.SERVER.spear_range.get() + (0.5F * EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SHARPNESS , this.spearItem));
+        float f = SConfig.SERVER.sickle_damage.get() + (0.5F * EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SHARPNESS , this.spearItem));
         if (entity instanceof LivingEntity livingentity) {
             f += EnchantmentHelper.getDamageBonus(this.spearItem, livingentity.getMobType());
         }

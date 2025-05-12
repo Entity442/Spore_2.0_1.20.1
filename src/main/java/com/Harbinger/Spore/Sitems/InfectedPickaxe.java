@@ -1,7 +1,7 @@
 package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Core.SConfig;
-import com.Harbinger.Spore.SBlockEntities.CDUBlockEntity;
+import com.Harbinger.Spore.Core.Sparticles;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporePickaxeItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -52,6 +52,7 @@ public class InfectedPickaxe extends SporePickaxeItems {
                 if (storeDouble.value1.equals(state.getBlock()) && !storeDouble.value1.defaultBlockState().isAir()){
                     level.setBlock(pos,storeDouble.value2.defaultBlockState(),2);
                     level.sendBlockUpdated(pos, storeDouble.value1.defaultBlockState(), storeDouble.value2.defaultBlockState(), 2);
+                    level.addParticle(Sparticles.SPORE_PARTICLE.get(),pos.getX(),pos.getY(),pos.getZ(),0,0.2f,0);
                 }
             }
         }
@@ -106,73 +107,5 @@ public class InfectedPickaxe extends SporePickaxeItems {
             }
         }
         player.getCooldowns().addCooldown(this,40);
-    }
-    private List<BlockPos> getLine(BlockPos start, BlockPos end) {
-        List<BlockPos> line = new ArrayList<>();
-
-        int x1 = start.getX(), y1 = start.getY(), z1 = start.getZ();
-        int x2 = end.getX(), y2 = end.getY(), z2 = end.getZ();
-
-        int dx = Math.abs(x2 - x1), dy = Math.abs(y2 - y1), dz = Math.abs(z2 - z1);
-        int xs = Integer.compare(x2, x1), ys = Integer.compare(y2, y1), zs = Integer.compare(z2, z1);
-
-        int px, py, pz;
-        int ax = dx * 2, ay = dy * 2, az = dz * 2;
-
-        if (dx >= dy && dx >= dz) {
-            py = ay - dx;
-            pz = az - dx;
-            while (x1 != x2) {
-                line.add(new BlockPos(x1, y1, z1));
-                x1 += xs;
-                if (py >= 0) {
-                    y1 += ys;
-                    py -= ax;
-                }
-                if (pz >= 0) {
-                    z1 += zs;
-                    pz -= ax;
-                }
-                py += ay;
-                pz += az;
-            }
-        } else if (dy >= dx && dy >= dz) {
-            px = ax - dy;
-            pz = az - dy;
-            while (y1 != y2) {
-                line.add(new BlockPos(x1, y1, z1));
-                y1 += ys;
-                if (px >= 0) {
-                    x1 += xs;
-                    px -= ay;
-                }
-                if (pz >= 0) {
-                    z1 += zs;
-                    pz -= ay;
-                }
-                px += ax;
-                pz += az;
-            }
-        } else {
-            px = ax - dz;
-            py = ay - dz;
-            while (z1 != z2) {
-                line.add(new BlockPos(x1, y1, z1));
-                z1 += zs;
-                if (px >= 0) {
-                    x1 += xs;
-                    px -= az;
-                }
-                if (py >= 0) {
-                    y1 += ys;
-                    py -= az;
-                }
-                px += ax;
-                py += ay;
-            }
-        }
-
-        line.add(end);
-        return line;
     }
 }
