@@ -53,7 +53,6 @@ public class InfectedSpearItem extends SporeSwordBase {
 
                             ThrownSpear thrownSpear = new ThrownSpear(level, player, stack);
                             thrownSpear.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F , 1.0F);
-                            thrownSpear.setBaseDamage(SConfig.SERVER.spear_damage.get());
                             if (player.getAbilities().instabuild) {
                                 thrownSpear.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                             }

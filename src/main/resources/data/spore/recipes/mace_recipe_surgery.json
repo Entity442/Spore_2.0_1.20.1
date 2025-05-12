@@ -1,10 +1,12 @@
 {
   "type": "spore:surgery",
   "ingredients": [
+    {"slot": 1,
+      "item": "spore:spike" },
     {"slot": 3,
       "item": "spore:fleshy_bone" },
     {"slot": 4,
-      "item": "spore:fleshy_claw" },
+      "item": "spore:spike" },
     {"slot": 5,
       "item": "spore:hardened_bind" },
     {"slot": 6,
@@ -15,10 +17,14 @@
       "item": "spore:living_core" },
     {"slot": 10,
       "item": "spore:hardened_bind" },
+    {"slot": 11,
+      "item": "spore:spike" },
+    {"slot": 12,
+      "item": "spore:spike" },
     {"slot": 13,
       "item": "spore:hardened_bind" },
     {"slot": 14,
-      "item": "spore:fleshy_claw" }
+      "item": "spore:spike" }
   ],
   "output": { "item": "spore:mace" }
 }
