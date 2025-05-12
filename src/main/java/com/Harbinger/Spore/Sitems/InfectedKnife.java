@@ -75,7 +75,6 @@ public class InfectedKnife extends SporeSwordBase implements LootModifierWeapon 
                 if (player.getAbilities().instabuild) {
                     thrownSpear.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                 }
-                thrownSpear.setBaseDamage(SConfig.SERVER.knife_damage.get());
                 level.addFreshEntity(thrownSpear);
                 level.playSound(null, thrownSpear, SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
                 if (!player.getAbilities().instabuild) {

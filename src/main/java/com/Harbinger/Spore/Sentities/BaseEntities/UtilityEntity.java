@@ -115,7 +115,8 @@ public class UtilityEntity extends PathfinderMob {
                 ItemStack itemStack = new ItemStack(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(new ResourceLocation(string[0]))));
                 int m = 1;
                 if (Integer.parseUnsignedInt(string[2]) == Integer.parseUnsignedInt(string[3])){
-                    m = Integer.parseUnsignedInt(string[3])+val;
+                    int o = Integer.parseUnsignedInt(string[3]);
+                    m = val > 0 ? random.nextInt(o,o+val) : o;
 
                 } else {if (Integer.parseUnsignedInt(string[2]) >= 1 && Integer.parseUnsignedInt(string[2]) >= 1){
                     int v1 = Integer.parseUnsignedInt(string[2]);
