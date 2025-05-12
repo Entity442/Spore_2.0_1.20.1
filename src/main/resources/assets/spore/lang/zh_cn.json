@@ -56,6 +56,7 @@
   "block.spore.zoaholic": "异常监测仪",
   "block.spore.incubator": "生物质活化器",
   "block.spore.surgery_table": "手术台",
+  "item.spore.reaver": "掠夺者",
   "item.spore.fried_wing_membrane": "炸翅膜",
   "item.spore.fungal_burger": "幸存者汉堡",
   "item.spore.hardening_agent": "硬化剂",
@@ -224,10 +225,6 @@
   "block.spore.infested_laboratory_block3": "感染的实验室砖",
   "block.spore.overgrown_spawner": "散孢刷怪笼",
   "block.spore.freeze_burned_biomass": "冻结烧焦腐生质",
-
-
-
-
   "item.spore.claw": "爪子",
   "item.spore.claw_fragment": "爪子碎片",
   "item.spore.armor_fragment": "盔甲碎片",
