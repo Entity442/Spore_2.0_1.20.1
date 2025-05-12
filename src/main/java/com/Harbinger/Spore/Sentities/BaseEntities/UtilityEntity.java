@@ -118,12 +118,15 @@ public class UtilityEntity extends PathfinderMob {
                     m = Integer.parseUnsignedInt(string[3]);
 
                 } else {if (Integer.parseUnsignedInt(string[2]) >= 1 && Integer.parseUnsignedInt(string[2]) >= 1){
-                    m = random.nextInt(Integer.parseUnsignedInt(string[2]), Integer.parseUnsignedInt(string[3]));}}
-                int value = Integer.parseUnsignedInt(string[1])+(val*10);
-                if (Math.random() < (value / 100F)) {
+                    int v1 = Integer.parseUnsignedInt(string[2]);
+                    int v2 = Integer.parseUnsignedInt(string[3]);
                     float e = m * (0.15f * val);
                     int i = e > val ? (int) e : val;
-                    itemStack.setCount(m+i);
+                    m = random.nextInt(v1, v2+i);
+                }}
+                int value = Integer.parseUnsignedInt(string[1])+(val*10);
+                if (Math.random() < (value / 100F)) {
+                    itemStack.setCount(m);
                     ItemEntity item = new ItemEntity(level(), this.getX() , this.getY(),this.getZ(),itemStack);
                     item.setPickUpDelay(10);
                     level().addFreshEntity(item);}}
