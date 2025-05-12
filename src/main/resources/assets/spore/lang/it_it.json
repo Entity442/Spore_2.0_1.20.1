@@ -56,16 +56,13 @@
   "block.spore.outpost_watcher": "Spia dell'Avamposto",
   "block.spore.biomass_bulb": "Bulbo di Biomassa",
   "block.spore.frozen_remains": "Corpo congelato",
-
-
-
   "block.spore.lab_block1": "Blocco del Laboratorio",
   "block.spore.lab_block2": "Blocco del Laboratorio",
   "block.spore.lab_block3": "Blocco del Laboratorio ",
   "block.spore.lab_slab1": "Scalino del Laboratorio",
   "block.spore.lab_slab2": "Scalino del Laboratorio",
   "block.spore.lab_slab3": "Scalino del Laboratorio",
-
+  "block.spore.cabinet": "Mobiletto",
 
 
   "block.spore.infested_dirt": "Suolo Infestato",
@@ -125,6 +122,7 @@
   "item.spore.frozen_tumor": "Tumore congelato",
   "item.spore.alveolic_sack": "Sacco Alveolico",
   "item.spore.corrosive_sack": "Sacco Corrosivo",
+  "item.spore.spike": "Arpione",
   "item.spore.altered_spleen": "Milza Alterata",
   "item.spore.tendons": "Tendini",
   "item.spore.wing_membrane": "Membrana d'Ala",
@@ -186,6 +184,7 @@
   "item.spore.knife": "Coltello Infettato",
   "item.spore.rapier": "Spada Infettata",
   "item.spore.bucket_of_bile": "Secchio di Bile",
+  "item.spore.documents": "Documenti",
 
   "item.spore.amethyst_dust": "Ametista in polvere",
   "item.spore.gas_mask": "Maschera anti Gas",

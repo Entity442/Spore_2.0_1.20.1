@@ -203,7 +203,7 @@
   "block.spore.lab_slab1": "实验室台阶",
   "block.spore.lab_slab2": "实验室台阶",
   "block.spore.lab_slab3": "实验室台阶",
-
+  "block.spore.cabinet": "内阁",
 
 
   "block.spore.infested_dirt": "感染的泥土",
@@ -250,6 +250,7 @@
   "item.spore.frozen_tumor": "冰冻肿瘤",
   "item.spore.alveolic_sack": "肺泡袋",
   "item.spore.corrosive_sack": "腐蚀袋",
+  "item.spore.spike": "长钉",
   "item.spore.altered_spleen": "变异的脾脏",
   "item.spore.tendons": "肌腱",
   "item.spore.wing_membrane": "翼膜",
@@ -267,7 +268,7 @@
   "item.spore.milky_sack": "乳袋",
   "item.spore.brain_noodles": "脑花面条",
   "item.spore.scanner": "扫描器",
-
+  "item.spore.documents": "文件",
 
   "item.spore.symbiotic_reagent": "共生试剂",
 
