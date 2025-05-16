@@ -90,6 +90,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> DELUSIONER_CASTING = soundRegistry("delusioner_casting");
 
+    public static final RegistryObject<SoundEvent> BIOBLOB = soundRegistry("bioblob");
+
     public static final RegistryObject<SoundEvent> SPIT = soundRegistry("spit");
 
     public static final RegistryObject<SoundEvent> MADNESS = soundRegistry("madness");

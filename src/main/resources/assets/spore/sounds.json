@@ -46,6 +46,12 @@
     "spore:specter_ambient"
   ]
 },
+  "bioblob" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:bioblob"
+    ]
+  },
   "hevoker_ambient" :{
     "subtitle": "sounds.spore.growl",
     "sounds": [

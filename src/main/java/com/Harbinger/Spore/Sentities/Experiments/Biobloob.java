@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities.Experiments;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Experiment;
 import com.Harbinger.Spore.Sentities.Projectile.AcidBall;
@@ -9,6 +10,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -122,7 +124,21 @@ public class Biobloob extends Experiment implements RangedAttackMob {
     public List<? extends String> getDropList() {
         return SConfig.DATAGEN.bioblob_loot.get();
     }
+    protected SoundEvent getAmbientSound() {
+        return Ssounds.BIOBLOB.get();
+    }
 
+    protected SoundEvent getHurtSound(DamageSource p_34327_) {
+        return Ssounds.INF_DAMAGE.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return Ssounds.INF_DAMAGE.get();
+    }
+
+    protected SoundEvent getStepSound() {
+        return SoundEvents.ZOMBIE_STEP;
+    }
     @Override
     protected void addRegularGoals() {
         super.addRegularGoals();

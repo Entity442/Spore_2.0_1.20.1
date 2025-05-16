@@ -92,10 +92,7 @@ public class InfectedKnife extends SporeSwordBase implements LootModifierWeapon 
                 }
 
             }
-
             player.awardStat(Stats.ITEM_USED.get(this));
-
-
         }
     }
 }

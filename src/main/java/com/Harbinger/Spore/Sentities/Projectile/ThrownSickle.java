@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -21,32 +22,30 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PlayMessages;
 
 import javax.annotation.Nullable;
+import java.util.UUID;
 
 public class ThrownSickle extends AbstractArrow {
     private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(ThrownTrident.class, EntityDataSerializers.BOOLEAN);
     private ItemStack spearItem = new ItemStack(Sitems.SICKLE.get());
     private boolean dealtDamage;
-    private LivingEntity shooter;
-
+    private SickelState state = SickelState.FLYING;
+    private Entity hookedEntity = null;
+    private Vec3 hookedBlockPos = null;
 
     public ThrownSickle(Level level, LivingEntity livingEntity, ItemStack stack) {
-        super(Sentities.THROWN_KNIFE.get(), livingEntity, level);
-        this.shooter = livingEntity;
+        super(Sentities.THROWN_SICKEL.get(), livingEntity, level);
+        this.setOwner(livingEntity);
         this.spearItem = stack.copy();
         this.entityData.set(ID_FOIL, stack.hasFoil());
     }
-
-    public ThrownSickle(PlayMessages.SpawnEntity spawnEntity, Level level) {
-        super(Sentities.THROWN_SPEAR.get(),level);
-    }
-
-    public ThrownSickle(EntityType<ThrownSickle> thrownSpearEntityType, Level level) {
-        super(thrownSpearEntityType,level);
+    public ThrownSickle(Level level) {
+        super(Sentities.THROWN_SICKEL.get(), level);
     }
 
     protected void defineSynchedData() {
@@ -55,6 +54,9 @@ public class ThrownSickle extends AbstractArrow {
     }
 
     public void tick() {
+        if (this.state == SickelState.HOOKED_IN_ENTITY && hookedEntity != null && hookedEntity.isAlive()) {
+            this.setPos(hookedEntity.getX(), hookedEntity.getY() + (hookedEntity.getBbHeight() * 0.5), hookedEntity.getZ());
+        }
         if (this.inGroundTime > 4) {
             this.dealtDamage = true;
         }
@@ -71,8 +73,8 @@ public class ThrownSickle extends AbstractArrow {
     }
 
     @Nullable
-    protected EntityHitResult findHitEntity(Vec3 p_37575_, Vec3 p_37576_) {
-        return this.dealtDamage ? null : super.findHitEntity(p_37575_, p_37576_);
+    protected EntityHitResult findHitEntity(Vec3 vec3, Vec3 vec31) {
+        return this.dealtDamage ? null : super.findHitEntity(vec3, vec31);
     }
 
     protected void onHitEntity(EntityHitResult hit) {
@@ -81,7 +83,6 @@ public class ThrownSickle extends AbstractArrow {
         if (entity instanceof LivingEntity livingentity) {
             f += EnchantmentHelper.getDamageBonus(this.spearItem, livingentity.getMobType());
         }
-
         Entity entity1 = this.getOwner();
         DamageSource damagesource = this.damageSources().trident(this, entity1 == null ? this : entity1);
         this.dealtDamage = true;
@@ -90,7 +91,6 @@ public class ThrownSickle extends AbstractArrow {
             if (entity.getType() == EntityType.ENDERMAN) {
                 return;
             }
-
             if (entity instanceof LivingEntity livingEntity) {
                 if (entity1 instanceof LivingEntity) {
                     EnchantmentHelper.doPostHurtEffects(livingEntity, entity1);
@@ -105,15 +105,25 @@ public class ThrownSickle extends AbstractArrow {
                 this.doPostHurtEffects(livingEntity);
             }
         }
-
-        this.setDeltaMovement(this.getDeltaMovement().multiply(-0.01D, -0.1D, -0.01D));
+        this.hookedEntity = entity;
+        this.state = SickelState.HOOKED_IN_ENTITY;
+        this.setNoGravity(true);
+        this.setDeltaMovement(Vec3.ZERO);
         float f1 = 1.0F;
         this.playSound(soundevent, f1, 1.0F);
     }
 
+    @Override
+    protected void onHitBlock(BlockHitResult result) {
+        super.onHitBlock(result);
+        this.hookedBlockPos = result.getLocation();
+        this.state = SickelState.HOOKED_BLOCK;
+        this.setNoGravity(true);
+        this.setDeltaMovement(Vec3.ZERO);
+    }
 
-    protected boolean tryPickup(Player p_150196_) {
-        return super.tryPickup(p_150196_) || this.isNoPhysics() && this.ownedBy(p_150196_) && p_150196_.getInventory().add(this.getPickupItem());
+    protected boolean tryPickup(Player player) {
+        return super.tryPickup(player) || this.isNoPhysics() && this.ownedBy(player) && player.getInventory().add(this.getPickupItem());
     }
 
     protected SoundEvent getDefaultHitGroundSoundEvent() {
@@ -127,21 +137,49 @@ public class ThrownSickle extends AbstractArrow {
 
     }
 
-    public void readAdditionalSaveData(CompoundTag p_37578_) {
-        super.readAdditionalSaveData(p_37578_);
-        if (p_37578_.contains("Trident", 10)) {
-            this.spearItem = ItemStack.of(p_37578_.getCompound("Trident"));
+    public SickelState getHookState() {
+        return this.state;
+    }
+
+    public Entity getHookedEntity() {
+        return this.hookedEntity;
+    }
+
+    public Vec3 getHookedBlockPos() {
+        return this.hookedBlockPos;
+    }
+
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        if (tag.contains("Sickle", 10)) {
+            this.spearItem = ItemStack.of(tag.getCompound("Sickle"));
         }
 
-        this.dealtDamage = p_37578_.getBoolean("DealtDamage");
+        this.dealtDamage = tag.getBoolean("DealtDamage");
+        if (this.getOwner() != null) {
+            tag.putUUID("OwnerUUID", this.getOwner().getUUID());
+        }
     }
 
-    public void addAdditionalSaveData(CompoundTag p_37582_) {
-        super.addAdditionalSaveData(p_37582_);
-        p_37582_.put("Trident", this.spearItem.save(new CompoundTag()));
-        p_37582_.putBoolean("DealtDamage", this.dealtDamage);
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.put("Sickle", this.spearItem.save(new CompoundTag()));
+        tag.putBoolean("DealtDamage", this.dealtDamage);
     }
-
+    @Override
+    public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
+        super.onSyncedDataUpdated(key);
+        Entity entity = this.getOwner();
+        if (entity != null){
+            UUID uuid1 = entity.getUUID();
+            if (!this.level().isClientSide) {
+                Entity entity1 = ((ServerLevel)this.level()).getEntity(uuid1);
+                if (entity1 instanceof LivingEntity livingEntity) {
+                    this.setOwner(livingEntity);
+                }
+            }
+        }
+    }
     public void tickDespawn() {
         if (this.pickup != Pickup.ALLOWED) {
             super.tickDespawn();
@@ -166,6 +204,15 @@ public class ThrownSickle extends AbstractArrow {
         }
         if (stack.getEnchantmentLevel(Senchantments.CRYOGENIC_ASPECT.get())>0){
             livingEntity.setTicksFrozen(livingEntity.getTicksFrozen()+300);
+        }
+    }
+
+
+    public enum SickelState {
+        FLYING,
+        HOOKED_IN_ENTITY,
+        HOOKED_BLOCK;
+        private SickelState() {
         }
     }
 }
