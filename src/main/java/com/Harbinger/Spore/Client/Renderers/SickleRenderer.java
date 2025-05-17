@@ -18,6 +18,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
 @OnlyIn(Dist.CLIENT)
@@ -33,63 +34,101 @@ public class SickleRenderer extends EntityRenderer<ThrownSickle> {
 
     @Override
     public void render(ThrownSickle sickle, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int light) {
+        // Render the sickle model (local transform)
         poseStack.pushPose();
         poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTicks, sickle.yRotO, sickle.getYRot()) - 90.0F));
         poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTicks, sickle.xRotO, sickle.getXRot()) + 90.0F));
+        poseStack.scale(0.8f,0.8f,0.8f);
         VertexConsumer sickleConsumer = ItemRenderer.getFoilBufferDirect(bufferSource, model.renderType(getTextureLocation(sickle)), false, sickle.isFoil());
         model.renderToBuffer(poseStack, sickleConsumer, light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         poseStack.popPose();
 
-        super.render(sickle, entityYaw, partialTicks, poseStack, bufferSource, light);
-        Entity entity = sickle.getOwner();
-        if (entity != null) {
-            Vec3 start = sickle.position();
-            Vec3 end = entity.getEyePosition(partialTicks);
-
-            VertexConsumer line = bufferSource.getBuffer(RenderType.entityCutout(SPINE_TEXTURE));
-            poseStack.pushPose();
-            Matrix4f matrix = poseStack.last().pose();
-            
-            drawQuad(line, matrix, start, end, light);
-            poseStack.popPose();
+        // Tether: from sickle to player
+        Entity owner = sickle.getOwner();
+        if (owner != null) {
+            renderConnection(sickle,owner,poseStack,bufferSource,partialTicks);
         }
+
+        super.render(sickle, entityYaw, partialTicks, poseStack, bufferSource, light);
     }
+
+
 
     @Override
     public ResourceLocation getTextureLocation(ThrownSickle sickle) {
         return SICKLE_TEXTURE;
     }
 
-    private void drawQuad(VertexConsumer vertexConsumer, Matrix4f matrix, Vec3 start, Vec3 end, int light) {
-        float width = 0.05F;
-        float r = 1F, g = 1F, b = 1F, a = 1F;
+    private void renderConnection(ThrownSickle parent , Entity to, PoseStack stack,
+                                      MultiBufferSource buffer, float partialTick) {
+        Vec3 start = parent.getPosition(partialTick).add(parent.getDeltaMovement().normalize().scale(-0.3));
+        Vec3 vec3 = (new Vec3(0, 1.35, 0.6)).yRot(-to.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
+        Vec3 end = to.getPosition(partialTick).add(vec3.x,vec3.y,vec3.z);
 
-        Vec3 dir = end.subtract(start).normalize();
-        Vec3 side = dir.cross(new Vec3(0, 1, 0)).normalize().scale(width); // Perpendicular vector for thickness
 
-        Vec3 p1 = start.add(side);
-        Vec3 p2 = start.subtract(side);
-        Vec3 p3 = end.subtract(side);
-        Vec3 p4 = end.add(side);
+        // Calculate direction between segments
+        Vec3 direction = end.subtract(start);
+        float length = (float) direction.length();
+        length = Math.max(length, 1.5f);
+        direction = direction.normalize();
 
-        vertexConsumer.vertex(matrix, (float) p1.x, (float) p1.y, (float) p1.z)
-                .color(r, g, b, a).uv(0, 1)
-                .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light)
-                .normal(0, 1, 0).endVertex();
+        // Calculate rotation angles
+        float yaw = (float)Math.atan2(direction.x, direction.z);
+        float pitch = (float)-Math.asin(direction.y);
 
-        vertexConsumer.vertex(matrix, (float) p2.x, (float) p2.y, (float) p2.z)
-                .color(r, g, b, a).uv(1, 1)
-                .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light)
-                .normal(0, 1, 0).endVertex();
+        stack.pushPose();
+        {
+            stack.mulPose(Axis.YP.rotation(yaw));
+            stack.mulPose(Axis.XP.rotation(pitch));
 
-        vertexConsumer.vertex(matrix, (float) p3.x, (float) p3.y, (float) p3.z)
-                .color(r, g, b, a).uv(1, 0)
-                .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light)
-                .normal(0, 1, 0).endVertex();
+            float startWidth = 0.5f;
+            float startHeight = 0.5f;
+            float endWidth = 0.5f;
+            float endHeight = 0.5f;
 
-        vertexConsumer.vertex(matrix, (float) p4.x, (float) p4.y, (float) p4.z)
-                .color(r, g, b, a).uv(0, 0)
-                .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light)
-                .normal(0, 1, 0).endVertex();
+            VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityTranslucent(SPINE_TEXTURE));
+            PoseStack.Pose pose = stack.last();
+            Matrix4f matrix = pose.pose();
+            drawTaperedConnection(vertexConsumer, matrix, pose.normal(),
+                    startWidth, startHeight,  // Start dimensions
+                    endWidth, endHeight,      // End dimensions
+                    length,                   // Distance between segments
+                    OverlayTexture.NO_OVERLAY, 15728880,
+                    1, 1, 1, 1);              // RGBA color
+        }
+        stack.popPose();
+    }
+
+    private void drawTaperedConnection(VertexConsumer vertexConsumer, Matrix4f matrix, Matrix3f normal,
+                                       float startWidth, float startHeight,
+                                       float endWidth, float endHeight,
+                                       float length,
+                                       int overlay, int lightmap,
+                                       float red, float green, float blue, float alpha) {
+        // Half dimensions for start and end
+        float hwStart = startWidth / 2f;
+        float hhStart = startHeight / 2f;
+        float hwEnd = endWidth / 2f;
+        float hhEnd = endHeight / 2f;
+        // Left side
+        vertexConsumer.vertex(matrix, -hwStart, -hhStart, 0)
+                .color(red, green, blue, alpha).uv(0, 0)
+                .overlayCoords(overlay).uv2(lightmap)
+                .normal(normal, -1, 0, 0).endVertex();
+        vertexConsumer.vertex(matrix, -hwStart, hhStart, 0)
+                .color(red, green, blue, alpha).uv(1, 0)
+                .overlayCoords(overlay).uv2(lightmap)
+                .normal(normal, -1, 0, 0).endVertex();
+        vertexConsumer.vertex(matrix, -hwEnd, hhEnd, length)
+                .color(red, green, blue, alpha).uv(1, 1)
+                .overlayCoords(overlay).uv2(lightmap)
+                .normal(normal, -1, 0, 0).endVertex();
+        vertexConsumer.vertex(matrix, -hwEnd, -hhEnd, length)
+                .color(red, green, blue, alpha).uv(0, 1)
+                .overlayCoords(overlay).uv2(lightmap)
+                .normal(normal, -1, 0, 0).endVertex();
+    }
+    public Vec3 calculateVectors(Vec3 vec3,Entity spin){
+        return (vec3).yRot(-spin.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
     }
 }
