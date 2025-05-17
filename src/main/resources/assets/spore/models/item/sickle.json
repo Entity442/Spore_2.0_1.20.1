@@ -2,5 +2,13 @@
   "parent": "spore:item/handheldweapon3",
   "textures": {
     "layer0": "spore:item/infected_sickle"
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "thrown": 1
+      },
+      "model": "spore:item/sickle_handle"
+    }
+  ]
 }

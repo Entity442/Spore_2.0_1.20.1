@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Sitems;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Sentities.Projectile.ThrownSickle;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeSwordBase;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -24,6 +25,8 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 
 public class InfectedSickle extends SporeSwordBase {
+    private static final String SICKLE_THROWN = "sickle_thrown";
+    private static final String THROWN = "thrown";
     public InfectedSickle() {
         super(SConfig.SERVER.sickle_damage.get(), 3f, 2, SConfig.SERVER.sickle_durability.get());
     }
@@ -36,6 +39,15 @@ public class InfectedSickle extends SporeSwordBase {
     @Override
     public boolean reversedKnockback() {
         return true;
+    }
+
+    public void setThrownSickle(ItemStack stack,boolean value){
+        CompoundTag tag = stack.getOrCreateTagElement(SICKLE_THROWN);
+        tag.putBoolean(THROWN,value);
+    }
+    public boolean getThrownSickle(ItemStack stack){
+        CompoundTag tag = stack.getOrCreateTagElement(SICKLE_THROWN);
+        return tag.getBoolean(THROWN);
     }
 
     public UseAnim getUseAnimation(ItemStack stack) {
@@ -52,7 +64,7 @@ public class InfectedSickle extends SporeSwordBase {
         if (!level.isClientSide) {
             List<ThrownSickle> projectiles = level.getEntitiesOfClass(ThrownSickle.class, player.getBoundingBox().inflate(32),
                     s -> s.getOwner() == player && !s.isRemoved());
-
+            setThrownSickle(itemstack,false);
             if (!projectiles.isEmpty()) {
                 ThrownSickle sickle = projectiles.get(0);
                 if (sickle.getHookState() == ThrownSickle.SickelState.HOOKED_IN_ENTITY && sickle.getHookedEntity() != null) {
@@ -85,7 +97,7 @@ public class InfectedSickle extends SporeSwordBase {
     }
     @Override
     public void releaseUsing(ItemStack stack, Level level, LivingEntity entity, int T) {
-        if (entity instanceof Player player) {
+        if (entity instanceof Player player && !getThrownSickle(stack)) {
             int i = this.getUseDuration(stack) - T;
             if (i >= 10 && !level.isClientSide) {
                 stack.hurtAndBreak(1, player, (ss) -> {
@@ -96,6 +108,7 @@ public class InfectedSickle extends SporeSwordBase {
                     thrownSpear.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                 }
                 level.addFreshEntity(thrownSpear);
+                this.setThrownSickle(stack,true);
                 level.playSound(null, thrownSpear, SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
                 if (!player.getAbilities().instabuild) {
                     player.getInventory().removeItem(stack);

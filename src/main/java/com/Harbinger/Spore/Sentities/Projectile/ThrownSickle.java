@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sentities.Projectile;
 
 import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Fluids.BileLiquid;
+import com.Harbinger.Spore.Sitems.InfectedSickle;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -60,6 +61,16 @@ public class ThrownSickle extends AbstractArrow {
         if (this.inGroundTime > 4) {
             this.dealtDamage = true;
         }
+        Entity owner = this.getOwner();
+        if (owner == null || this.distanceTo(owner) > 30.0f) {
+            this.discard();
+            if (owner instanceof LivingEntity livingOwner) {
+                ItemStack stack = livingOwner.getMainHandItem();
+                if (stack.getItem() instanceof InfectedSickle sickle){
+                    sickle.setThrownSickle(stack,false);
+                }
+            }
+        }
         super.tick();
     }
 
@@ -107,10 +118,7 @@ public class ThrownSickle extends AbstractArrow {
         }
         this.hookedEntity = entity;
         this.state = SickelState.HOOKED_IN_ENTITY;
-        this.setNoGravity(true);
-        this.setDeltaMovement(Vec3.ZERO);
-        float f1 = 1.0F;
-        this.playSound(soundevent, f1, 1.0F);
+        this.playSound(soundevent, 1.0F, 1.0F);
     }
 
     @Override
@@ -118,8 +126,6 @@ public class ThrownSickle extends AbstractArrow {
         super.onHitBlock(result);
         this.hookedBlockPos = result.getLocation();
         this.state = SickelState.HOOKED_BLOCK;
-        this.setNoGravity(true);
-        this.setDeltaMovement(Vec3.ZERO);
     }
 
     protected boolean tryPickup(Player player) {
