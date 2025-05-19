@@ -362,6 +362,9 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Integer> greatsword_durability;
         public final ForgeConfigSpec.ConfigValue<Integer> greatsword_damage;
 
+        public final ForgeConfigSpec.ConfigValue<Integer> cleaver_durability;
+        public final ForgeConfigSpec.ConfigValue<Integer> cleaver_damage;
+
         public final ForgeConfigSpec.ConfigValue<Integer> armads_durability;
         public final ForgeConfigSpec.ConfigValue<Integer> armads_damage;
 
@@ -1171,6 +1174,10 @@ public class SConfig {
             builder.push("GreatSword");
             this.greatsword_durability = builder.comment("Default 400").define("Durability",400);
             this.greatsword_damage = builder.comment("Default 12").defineInRange("Damage", 12, 1, Integer.MAX_VALUE);
+            builder.pop();
+            builder.push("Cleaver");
+            this.cleaver_durability = builder.comment("Default 400").define("Durability",400);
+            this.cleaver_damage = builder.comment("Default 14").defineInRange("Damage", 14, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Crossbow");
             this.crossbow_durability = builder.comment("Default 350").define("Crossbow Durability",350);

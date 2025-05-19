@@ -1,0 +1,14 @@
+{
+  "parent": "spore:item/handheldweapon1",
+  "textures": {
+    "layer0": "spore:item/cleaver"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "swipe": 1
+      },
+      "model": "spore:item/cleaver_spin"
+    }
+  ]
+}

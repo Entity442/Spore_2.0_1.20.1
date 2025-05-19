@@ -1,0 +1,28 @@
+{
+  "parent": "spore:item/handheldweapon1",
+  "textures": {
+    "layer0": "spore:item/cleaver"
+  },
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [ -60, 180, 45 ],
+      "translation": [-6, 6.0, -18],
+      "scale": [ 2.5, 2.5, 1 ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [ -60, 180, -45 ],
+      "translation": [-6, 6.0, -18],
+      "scale": [ 2.5, 2.5, 1 ]
+    },
+    "firstperson_righthand": {
+      "rotation": [ -60, -180, 45 ],
+      "translation": [ -3.13, 1.2, 3.13 ],
+      "scale": [ 1.5, 1.5, 1 ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [ -60, 180, -45 ],
+      "translation": [ 3.13, 2.2, -3.13 ],
+      "scale": [ 1.5, 1.5, 1 ]
+    }
+  }
+}

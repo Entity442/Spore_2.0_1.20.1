@@ -319,6 +319,8 @@ public class Sitems {
             InfectedSaber::new);
     public  static final RegistryObject<Item> GREATSWORD = ITEMS.register("greatsword",
             InfectedGreatSword::new);
+    public  static final RegistryObject<Item> CLEAVER = ITEMS.register("cleaver",
+            InfectedCleaver::new);
     public  static final RegistryObject<Item> ARMADS = ITEMS.register("armads",
             InfectedArmads::new);
     public  static final RegistryObject<Item> INFECTED_BOW = ITEMS.register("infected_bow",

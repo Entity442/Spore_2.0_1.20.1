@@ -13,6 +13,7 @@ import com.Harbinger.Spore.Sentities.Signal;
 import com.Harbinger.Spore.Sentities.Utility.GastGeber;
 import com.Harbinger.Spore.Sentities.Utility.InfestedConstruct;
 import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
+import com.Harbinger.Spore.Sitems.BaseWeapons.DeathRewardingWeapon;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -23,6 +24,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -48,6 +50,12 @@ public class Infection {
             double z = event.getEntity().getZ();
             Entity entity = event.getEntity();
 
+            if (event.getSource().getEntity() instanceof LivingEntity livingEntity && entity instanceof LivingEntity victim){
+                ItemStack stack = livingEntity.getMainHandItem();
+                if (stack.getItem() instanceof DeathRewardingWeapon weapon){
+                    weapon.computeAfterEffect(victim,livingEntity,livingEntity.getMainHandItem());
+                }
+            }
         if (entity instanceof Infected infected && SConfig.SERVER.scent_spawn.get()) {
             if (world instanceof ServerLevel _level) {
                 if (Math.random() < (SConfig.SERVER.scent_spawn_chance.get() / 100f)) {

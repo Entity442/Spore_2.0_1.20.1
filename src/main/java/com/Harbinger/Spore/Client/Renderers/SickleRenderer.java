@@ -37,7 +37,7 @@ public class SickleRenderer extends EntityRenderer<ThrownSickle> {
     public void render(ThrownSickle sickle, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int light) {
         // Render the sickle model (local transform)
         poseStack.pushPose();
-        poseStack.translate(0,-1.75,-0.2);
+        poseStack.translate(0,-1,0);
         poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTicks, sickle.yRotO, sickle.getYRot())));
         poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTicks, sickle.xRotO, sickle.getXRot())));
         poseStack.scale(1.8f,1.8f,1.8f);
