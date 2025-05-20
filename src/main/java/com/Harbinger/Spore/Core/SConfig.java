@@ -364,6 +364,7 @@ public class SConfig {
 
         public final ForgeConfigSpec.ConfigValue<Integer> cleaver_durability;
         public final ForgeConfigSpec.ConfigValue<Integer> cleaver_damage;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> cleaver_drops;
 
         public final ForgeConfigSpec.ConfigValue<Integer> armads_durability;
         public final ForgeConfigSpec.ConfigValue<Integer> armads_damage;
@@ -1178,6 +1179,9 @@ public class SConfig {
             builder.push("Cleaver");
             this.cleaver_durability = builder.comment("Default 400").define("Durability",400);
             this.cleaver_damage = builder.comment("Default 14").defineInRange("Damage", 14, 1, Integer.MAX_VALUE);
+            this.cleaver_drops = builder.defineList("Decapitation",
+                    Lists.newArrayList("minecraft:skeleton|minecraft:skeleton_skull","minecraft:wither_skeleton|minecraft:wither_skeleton_skull",
+                            "minecraft:zombie|minecraft:zombie_head","minecraft:creeper|minecraft:creeper_head","minecraft:piglin|minecraft:piglin_head") , o -> o instanceof String);
             builder.pop();
             builder.push("Crossbow");
             this.crossbow_durability = builder.comment("Default 350").define("Crossbow Durability",350);

@@ -6,6 +6,7 @@ import com.Harbinger.Spore.Sitems.BaseWeapons.SporeSwordBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -14,19 +15,22 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InfectedCleaver extends SporeSwordBase implements DeathRewardingWeapon {
+    private final List<EnAndItem> heads;
     public InfectedCleaver() {
-        super(SConfig.SERVER.cleaver_damage.get(), 2f, 3.5F, SConfig.SERVER.cleaver_durability.get());
+        super(SConfig.SERVER.cleaver_damage.get(), 2.5f, 2.5F, SConfig.SERVER.cleaver_durability.get());
+        this.heads = getHeads();
     }
     @Override
     public int getUseDuration(ItemStack stack) {
@@ -37,6 +41,19 @@ public class InfectedCleaver extends SporeSwordBase implements DeathRewardingWea
     public boolean canDisableShield(ItemStack stack, ItemStack shield, LivingEntity entity, LivingEntity attacker) {
         return true;
     }
+    private record EnAndItem(String id, Item item){}
+
+    private List<EnAndItem> getHeads(){
+        List<EnAndItem> values = new ArrayList<>();
+        for(String string : SConfig.SERVER.cleaver_drops.get()){
+            String[] str = string.split("\\|");
+            Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(str[1]));
+            if (item != null){
+                values.add(new EnAndItem(str[0],item));
+            }
+        }
+        return values;
+    }
 
     @Override
     public UseAnim getUseAnimation(ItemStack stack) {
@@ -44,8 +61,12 @@ public class InfectedCleaver extends SporeSwordBase implements DeathRewardingWea
     }
     @Override
     public void computeAfterEffect(LivingEntity victim, LivingEntity source, ItemStack weapon) {
-        if (victim instanceof Skeleton){
-            dropLoot(victim.level(),victim.getX(),victim.getZ(),victim.getZ(),new ItemStack(Items.SKELETON_SKULL));
+        if (victim.level().isClientSide){return;}
+        for (EnAndItem item : heads){
+            if (item.id.equals(victim.getEncodeId()) && Math.random() < 0.1){
+                dropLoot(victim.level(),victim.getX(),victim.getY(),victim.getZ(),new ItemStack(item.item));
+                break;
+            }
         }
     }
 
