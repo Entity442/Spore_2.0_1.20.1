@@ -76,7 +76,7 @@ public class ThrownSickle extends AbstractArrow {
 
 
     protected ItemStack getPickupItem() {
-        return this.spearItem.copy();
+        return ItemStack.EMPTY;
     }
 
     public boolean isFoil() {

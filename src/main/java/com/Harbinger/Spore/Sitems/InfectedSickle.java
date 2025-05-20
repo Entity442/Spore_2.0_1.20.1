@@ -3,6 +3,8 @@ package com.Harbinger.Spore.Sitems;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Sentities.Projectile.ThrownSickle;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeSwordBase;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -11,9 +13,11 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -34,6 +38,11 @@ public class InfectedSickle extends SporeSwordBase {
     @Override
     public float getDestroySpeed(ItemStack stack, BlockState state) {
         return state.is(BlockTags.MINEABLE_WITH_HOE) ? 2F:1F;
+    }
+
+    @Override
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
+        return getThrownSickle(stack) ? ImmutableMultimap.of() : super.getAttributeModifiers(slot, stack);
     }
 
     @Override
@@ -104,16 +113,9 @@ public class InfectedSickle extends SporeSwordBase {
                     ss.broadcastBreakEvent(entity.getUsedItemHand());});
                 ThrownSickle thrownSpear = new ThrownSickle(level, player, stack);
                 thrownSpear.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2F , 0.75F);
-                if (player.getAbilities().instabuild) {
-                    thrownSpear.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
-                }
                 level.addFreshEntity(thrownSpear);
                 this.setThrownSickle(stack,true);
                 level.playSound(null, thrownSpear, SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
-                if (!player.getAbilities().instabuild) {
-                    player.getInventory().removeItem(stack);
-                }
-
                 int j = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SHARPNESS, stack);
                 if (j > 0) {
                     thrownSpear.setBaseDamage(thrownSpear.getBaseDamage() + (double)j * 0.5D + 0.5D);
