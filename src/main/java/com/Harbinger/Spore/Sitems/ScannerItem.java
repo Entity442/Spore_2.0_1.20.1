@@ -1,14 +1,15 @@
 package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.ExtremelySusThings.Package.AdvancementGivingPackage;
 import com.Harbinger.Spore.ExtremelySusThings.SporePacketHandler;
 import com.Harbinger.Spore.Sentities.BaseEntities.*;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
-import com.Harbinger.Spore.Sentities.Organoids.Mound;
 import com.Harbinger.Spore.Sentities.Utility.Illusion;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -48,7 +49,10 @@ public class ScannerItem extends BaseItem2 {
         if (!level.isClientSide) {
             LivingEntity victim = getScannedEntity(player, level);
             if (victim != null) {
+                player.playNotifySound(Ssounds.SCANNER_MOB.get(), SoundSource.AMBIENT,1F,1F);
                 showInfo(tool, victim, player);
+            }else {
+                player.playNotifySound(Ssounds.SCANNER_EMPTY.get(), SoundSource.AMBIENT,1F,1F);
             }
             player.getCooldowns().addCooldown(this, 20);
         }
@@ -232,6 +236,7 @@ public class ScannerItem extends BaseItem2 {
     public boolean overrideStackedOnOther(@NotNull ItemStack stack, Slot slot, @NotNull ClickAction clickAction, @NotNull Player player) {
         ItemStack itemStack = slot.getItem();
         if (itemStack.getItem() instanceof OrganItem organItem && clickAction == ClickAction.SECONDARY) {
+            player.playNotifySound(Ssounds.SCANNER_ITEM.get(), SoundSource.AMBIENT,1F,1F);
             SporePacketHandler.sendToServer(new AdvancementGivingPackage(organItem.getAdvancementIds(),player.getId()));
             return true;
         }

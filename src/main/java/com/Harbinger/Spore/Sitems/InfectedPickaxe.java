@@ -2,12 +2,14 @@ package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sparticles;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporePickaxeItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
@@ -64,6 +66,7 @@ public class InfectedPickaxe extends SporePickaxeItems {
         BlockPos pos = context.getClickedPos();
         Level level = context.getLevel();
         if (player instanceof ServerPlayer serverPlayer) {
+            serverPlayer.playNotifySound(Ssounds.INFECTED_PICKAXE.get(), SoundSource.AMBIENT,1F,1F);
             lookForOres(pos,level,serverPlayer);
         }
         return super.useOn(context);

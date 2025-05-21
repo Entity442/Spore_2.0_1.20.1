@@ -1,8 +1,10 @@
 package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeSwordBase;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -24,6 +26,7 @@ public class InfectedSaber extends SporeSwordBase {
     }
 
     public void leap(Player player) {
+        player.playNotifySound(Ssounds.SABER_LEAP.get(), SoundSource.AMBIENT,1F,1F);
         player.hurtMarked = true;
         player.knockback(2.5F, -player.getLookAngle().x, -player.getLookAngle().z);
         player.getCooldowns().addCooldown(this,40);

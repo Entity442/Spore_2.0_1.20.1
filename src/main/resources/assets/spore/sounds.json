@@ -387,6 +387,56 @@
   "sounds": [
     "spore:infected_weapon_hit_block"
   ]
+},"cdu_insert" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:cdu_insert"
+  ]
+},"cleaver_spin" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:cleaver_spin"
+  ]
+},"infected_pickaxe" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:infected_pickaxe"
+  ]
+},"reaver_reave" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:reaver_reave"
+  ]
+},"saber_leap" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:saber_leap"
+  ]
+},"scanner_item" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:scanner_item"
+  ]
+},"scanner_empty" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:scanner_empty"
+  ]
+},"scanner_mob" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:scanner_mob"
+  ]
+},"vigil_eye_use" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:vigil_eye_use"
+  ]
+},"cdu_ambient" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:cdu_ambient"
+  ]
 }
 
 }

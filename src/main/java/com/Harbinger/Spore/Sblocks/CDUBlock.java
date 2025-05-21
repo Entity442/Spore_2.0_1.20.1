@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sblocks;
 
 import com.Harbinger.Spore.Core.SblockEntities;
 import com.Harbinger.Spore.Core.Sitems;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.SBlockEntities.CDUBlockEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -9,6 +10,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -88,6 +90,7 @@ public class CDUBlock extends BaseEntityBlock {
                 if (blockEntity.getFuel() > 0){
                     player.displayClientMessage(Component.literal("Current fuel " + blockEntity.getFuel() + "/" + blockEntity.maxFuel),true);
                 }else{
+                    level.playLocalSound(pos, Ssounds.CDU_INSERT.get(), SoundSource.BLOCKS,1f,1f,true);
                     blockEntity.setFuel(blockEntity.maxFuel);
                     item.shrink(1);
                 }

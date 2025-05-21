@@ -3,6 +3,7 @@ package com.Harbinger.Spore.SBlockEntities;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.SblockEntities;
 import com.Harbinger.Spore.Core.Sblocks;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Screens.CDUMenu;
 import com.Harbinger.Spore.Sentities.Utility.InfectionTendril;
 import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
@@ -12,6 +13,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
@@ -156,6 +158,9 @@ public class CDUBlockEntity extends BlockEntity implements MenuProvider {
             e.fuel--;
             if (e.getFuel() % 100 == 0){
                 e.cleanInfection(blockPos);
+            }
+            if (e.getFuel() % 80 == 0){
+                level.playLocalSound(blockPos, Ssounds.CDU_AMBIENT.get(), SoundSource.BLOCKS,1,1,true);
             }
          }
     }

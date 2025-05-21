@@ -142,6 +142,27 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> INFECTED_WEAPON_HIT_BLOCK = soundRegistry("infected_weapon_hit_block");
 
+    public static final RegistryObject<SoundEvent> CDU_INSERT = soundRegistry("cdu_insert");
+
+    public static final RegistryObject<SoundEvent> CDU_AMBIENT = soundRegistry("cdu_ambient");
+
+    public static final RegistryObject<SoundEvent> CLEAVER_SPIN = soundRegistry("cleaver_spin");
+
+    public static final RegistryObject<SoundEvent> INFECTED_PICKAXE = soundRegistry("infected_pickaxe");
+
+    public static final RegistryObject<SoundEvent> REAVER_REAVE = soundRegistry("reaver_reave");
+
+    public static final RegistryObject<SoundEvent> SABER_LEAP = soundRegistry("saber_leap");
+
+    public static final RegistryObject<SoundEvent> SCANNER_ITEM = soundRegistry("scanner_item");
+
+    public static final RegistryObject<SoundEvent> SCANNER_EMPTY = soundRegistry("scanner_empty");
+
+    public static final RegistryObject<SoundEvent> SCANNER_MOB = soundRegistry("scanner_mob");
+
+    public static final RegistryObject<SoundEvent> VIGIL_EYE_USE = soundRegistry("vigil_eye_use");
+
+
     private Ssounds() {
     }
 }
