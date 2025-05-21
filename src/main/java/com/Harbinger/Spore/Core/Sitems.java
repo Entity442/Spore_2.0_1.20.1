@@ -341,6 +341,8 @@ public class Sitems {
             InfectedMace::new);
     public  static final RegistryObject<Item> SICKLE = ITEMS.register("sickle",
             InfectedSickle::new);
+    public  static final RegistryObject<Item> HALBERD = ITEMS.register("halberd",
+            InfectedHalbert::new);
     public  static final RegistryObject<Item> KNIFE = ITEMS.register("knife",
             InfectedKnife::new);
     public  static final RegistryObject<Item> RAPIER = ITEMS.register("rapier",

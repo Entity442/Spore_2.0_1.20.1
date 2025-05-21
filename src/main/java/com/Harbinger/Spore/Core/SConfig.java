@@ -369,6 +369,9 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Integer> armads_durability;
         public final ForgeConfigSpec.ConfigValue<Integer> armads_damage;
 
+        public final ForgeConfigSpec.ConfigValue<Integer> halberd_durability;
+        public final ForgeConfigSpec.ConfigValue<Integer> halberd_damage;
+
         public final ForgeConfigSpec.ConfigValue<Integer> knife_durability;
         public final ForgeConfigSpec.ConfigValue<Integer> knife_damage;
 
@@ -1192,9 +1195,13 @@ public class SConfig {
             this.bow_arrow_damage_multiplier = builder.comment("Default 1.0").define("Bow Range Damage Modifier",1.0);
             this.bow_melee_damage = builder.comment("Default 5").defineInRange("Damage", 5, 1, Integer.MAX_VALUE);
             builder.pop();
-            builder.push("Armads");
+            builder.push("BattleAxe");
             this.armads_durability = builder.comment("Default 600").define("Durability",600);
             this.armads_damage = builder.comment("Default 15").defineInRange("Damage", 15, 1, Integer.MAX_VALUE);
+            builder.pop();
+            builder.push("Halberd");
+            this.halberd_durability = builder.comment("Default 600").define("Durability",600);
+            this.halberd_damage = builder.comment("Default 11").defineInRange("Damage", 11, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Maul");
             this.maul_durability = builder.comment("Default 1000").define("Durability",1000);

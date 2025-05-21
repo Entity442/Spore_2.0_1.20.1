@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.Projectile.ThrownKnife;
 import com.Harbinger.Spore.Sentities.Projectile.ThrownSpear;
 import com.Harbinger.Spore.Sitems.BaseWeapons.LootModifierWeapon;
@@ -76,7 +77,7 @@ public class InfectedKnife extends SporeSwordBase implements LootModifierWeapon 
                     thrownSpear.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                 }
                 level.addFreshEntity(thrownSpear);
-                level.playSound(null, thrownSpear, SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
+                level.playSound(null, thrownSpear, Ssounds.INFECTED_WEAPON_THROW.get(), SoundSource.PLAYERS, 1.0F, 0.9F);
                 if (!player.getAbilities().instabuild) {
                     player.getInventory().removeItem(stack);
                 }

@@ -372,6 +372,21 @@
   "sounds": [
     "spore:printing"
   ]
+},"infected_weapon_throw" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:infected_weapon_throw"
+  ]
+},"infected_weapon_hit_entity" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:infected_weapon_hit_entity"
+  ]
+},"infected_weapon_hit_block" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:infected_weapon_hit_block"
+  ]
 }
 
 }

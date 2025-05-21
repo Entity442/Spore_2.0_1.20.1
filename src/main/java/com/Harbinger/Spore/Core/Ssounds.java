@@ -136,6 +136,12 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> HINDICATOR_AMBIENT = soundRegistry("hindicator_ambient");
 
+    public static final RegistryObject<SoundEvent> INFECTED_WEAPON_THROW = soundRegistry("infected_weapon_throw");
+
+    public static final RegistryObject<SoundEvent> INFECTED_WEAPON_HIT_ENTITY = soundRegistry("infected_weapon_hit_entity");
+
+    public static final RegistryObject<SoundEvent> INFECTED_WEAPON_HIT_BLOCK = soundRegistry("infected_weapon_hit_block");
+
     private Ssounds() {
     }
 }
