@@ -111,12 +111,13 @@ public class Reaver extends SwordItem implements LootModifierWeapon {
     }
 
     public boolean shaveLoot(ItemStack stack, LivingEntity livingEntity, LivingEntity victim,ComboValues values){
-        livingEntity.playSound(Ssounds.REAVER_REAVE.get());
         Level level = livingEntity.level();
         BlockPos pos = livingEntity.getOnPos();
         if (!level.isClientSide && values != null && Math.random() < (values.value * 0.01)){
         ItemEntity item = new ItemEntity(level,pos.getX(),pos.getY(),pos.getZ(),values.stack);
-        level.addFreshEntity(item);}
+        level.addFreshEntity(item);
+        livingEntity.playSound(Ssounds.REAVER_REAVE.get());
+        }
         return super.hurtEnemy(stack, livingEntity, victim);
     }
 }

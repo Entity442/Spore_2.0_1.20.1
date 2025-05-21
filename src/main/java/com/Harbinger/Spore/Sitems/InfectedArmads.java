@@ -26,7 +26,7 @@ public class InfectedArmads extends SporeAxeItems {
         super.inventoryTick(stack, level, entity, val, value);
         if (entity instanceof LivingEntity livingEntity && livingEntity.tickCount % 60 == 0 && livingEntity.getHealth() <= livingEntity.getMaxHealth()/2){
             if (livingEntity.getMainHandItem().getItem().equals(this)){
-                livingEntity.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED,60,0));
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,60,0));
             }
         }
     }
