@@ -160,7 +160,7 @@ public class CDUBlockEntity extends BlockEntity implements MenuProvider {
                 e.cleanInfection(blockPos);
             }
             if (e.getFuel() % 80 == 0){
-                level.playLocalSound(blockPos, Ssounds.CDU_AMBIENT.get(), SoundSource.BLOCKS,1,1,true);
+                level.playSound(null,blockPos, Ssounds.CDU_AMBIENT.get(), SoundSource.BLOCKS,1,1);
             }
          }
     }
