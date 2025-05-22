@@ -155,10 +155,6 @@ public class ThrownKnife extends AbstractArrow {
         return super.tryPickup(p_150196_) || this.isNoPhysics() && this.ownedBy(p_150196_) && p_150196_.getInventory().add(this.getPickupItem());
     }
 
-    protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundEvents.TRIDENT_HIT_GROUND;
-    }
-
     public void playerTouch(Player p_37580_) {
         if (this.ownedBy(p_37580_) || this.getOwner() == null) {
             super.playerTouch(p_37580_);
