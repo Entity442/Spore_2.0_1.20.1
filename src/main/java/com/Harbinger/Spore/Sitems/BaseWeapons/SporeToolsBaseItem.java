@@ -64,7 +64,7 @@ public class SporeToolsBaseItem extends BaseItem implements IForgeItem ,SporeWea
     }
 
     public float getDestroySpeed(ItemStack stack, BlockState blockState) {
-        return tooHurt(stack) ? this.miningLevel : 0;
+        return tooHurt(stack) ? this.miningLevel : 1.0F;
     }
 
 

@@ -26,7 +26,7 @@ public class InfectedSaber extends SporeSwordBase {
     }
 
     public void leap(Player player) {
-        player.playNotifySound(Ssounds.SABER_LEAP.get(), SoundSource.AMBIENT,1F,1F);
+        player.playNotifySound(Ssounds.SABER_LEAP.get(), SoundSource.AMBIENT,1F,2F);
         player.hurtMarked = true;
         player.knockback(2.5F, -player.getLookAngle().x, -player.getLookAngle().z);
         player.getCooldowns().addCooldown(this,40);

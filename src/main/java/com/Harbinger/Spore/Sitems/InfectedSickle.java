@@ -72,7 +72,7 @@ public class InfectedSickle extends SporeSwordBase {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        ItemStack itemstack = player.getItemInHand(hand);
+        ItemStack itemstack = player.getMainHandItem();
         if (!level.isClientSide) {
             List<ThrownSickle> projectiles = level.getEntitiesOfClass(ThrownSickle.class, player.getBoundingBox().inflate(32),
                     s -> s.getOwner() == player && !s.isRemoved());
@@ -93,7 +93,7 @@ public class InfectedSickle extends SporeSwordBase {
                 }
                 sickle.discard();
             }else {
-                player.startUsingItem(hand);
+                player.getMainHandItem();
                 return InteractionResultHolder.consume(itemstack);
             }
         }

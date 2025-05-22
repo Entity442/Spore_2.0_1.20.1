@@ -84,7 +84,7 @@ public class SickleRenderer extends EntityRenderer<ThrownSickle> {
             float endWidth = 0.5f;
             float endHeight = 0.5f;
 
-            VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityTranslucent(SPINE_TEXTURE));
+            VertexConsumer vertexConsumer = ItemRenderer.getFoilBufferDirect(buffer,RenderType.entityTranslucent(SPINE_TEXTURE),false,parent.isFoil());
             PoseStack.Pose pose = stack.last();
             Matrix4f matrix = pose.pose();
             drawTaperedConnection(vertexConsumer, matrix, pose.normal(),
