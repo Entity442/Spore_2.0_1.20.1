@@ -162,6 +162,14 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> VIGIL_EYE_USE = soundRegistry("vigil_eye_use");
 
+    public static final RegistryObject<SoundEvent> SYRINGE_SUCK = soundRegistry("syringe_suck");
+
+    public static final RegistryObject<SoundEvent> SYRINGE_INJECT = soundRegistry("syringe_inject");
+
+    public static final RegistryObject<SoundEvent> REAGENT = soundRegistry("reagent");
+
+    public static final RegistryObject<SoundEvent> INFECTED_GEAR_BREAK = soundRegistry("infected_gear_break");
+
 
     private Ssounds() {
     }

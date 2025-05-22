@@ -1,10 +1,12 @@
 package com.Harbinger.Spore.Sitems.Agents;
 
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeArmorData;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeArmorMutations;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsMutations;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -44,6 +46,7 @@ public class ArmorSyringe extends AbstractSyringe{
     public boolean overrideStackedOnOther(ItemStack stack, Slot slot, ClickAction clickAction, Player player) {
         ItemStack itemStack = slot.getItem();
         if (itemStack.getItem() instanceof SporeArmorData weaponData && clickAction == ClickAction.SECONDARY){
+            player.playNotifySound(Ssounds.SYRINGE_INJECT.get(), SoundSource.AMBIENT,1F,1F);
             weaponData.setVariant(mutations,itemStack);
             stack.shrink(1);
             return true;

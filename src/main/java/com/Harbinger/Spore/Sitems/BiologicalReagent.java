@@ -1,10 +1,12 @@
 package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Core.Senchantments;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
@@ -69,12 +71,13 @@ public class BiologicalReagent extends BaseItem {
         ItemStack stack = slot.getItem();
         if (testSlotCompat(stack)  && EnchantmentHelper.getTagEnchantmentLevel(this.getAppliedEnchantment(),stack) == 0){
             if (getAppliedEnchantment() != null && clickAction == ClickAction.SECONDARY){
+                player.playNotifySound(Ssounds.REAGENT.get(), SoundSource.AMBIENT,1F,1F);
                 stack.enchant(getAppliedEnchantment(),getAppliedEnchantment().getMaxLevel());
                 itemStack.setCount(itemStack.getCount() -1);
                 if (Math.random() < chance()){
                     Enchantment curse = curses().get(player.getRandom().nextInt(curses().size()));
                     if (stack.getEnchantmentLevel(curse) == 0)
-                    stack.enchant(curse,curse.getMaxLevel());
+                        stack.enchant(curse,curse.getMaxLevel());
                 }
                 return true;
             }

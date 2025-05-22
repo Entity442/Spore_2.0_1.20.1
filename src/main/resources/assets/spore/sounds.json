@@ -437,6 +437,26 @@
   "sounds": [
     "spore:cdu_ambient"
   ]
+},"syringe_suck" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:syringe_suck"
+  ]
+},"syringe_inject" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:syringe_inject"
+  ]
+},"reagent" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:reagent"
+  ]
+},"infected_gear_break" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:infected_gear_break"
+  ]
 }
 
 }

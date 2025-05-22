@@ -1,9 +1,11 @@
 package com.Harbinger.Spore.Sitems.Agents;
 
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Recipes.EntityContainer;
 import com.Harbinger.Spore.Recipes.InjectionRecipe;
 import com.Harbinger.Spore.Sitems.BaseItem2;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -41,6 +43,7 @@ public class Syringe extends BaseItem2 {
             if (match.isPresent()){
                 ItemStack stack = match.get().getResultItem(null);
                 if (stack != ItemStack.EMPTY){
+                    player.playNotifySound(Ssounds.SYRINGE_SUCK.get(), SoundSource.AMBIENT,1F,1F);
                     living.hurt(level.damageSources().playerAttack(player),1f);
                     serverPlayer.addItem(stack.copy());
                     itemStack.shrink(1);
