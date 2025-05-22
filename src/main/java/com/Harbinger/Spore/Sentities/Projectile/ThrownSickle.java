@@ -62,7 +62,7 @@ public class ThrownSickle extends AbstractArrow {
             this.dealtDamage = true;
         }
         Entity owner = this.getOwner();
-        if (owner == null || this.distanceTo(owner) > 30.0f) {
+        if (owner == null || this.distanceTo(owner) > 30.0f || isHoldingItem(owner)) {
             this.discard();
             if (owner instanceof LivingEntity livingOwner) {
                 ItemStack stack = livingOwner.getMainHandItem();
@@ -72,6 +72,12 @@ public class ThrownSickle extends AbstractArrow {
             }
         }
         super.tick();
+    }
+    boolean isHoldingItem(Entity entity){
+        if (entity instanceof LivingEntity livingEntity){
+            return !(livingEntity.getMainHandItem() == spearItem || livingEntity.getOffhandItem() == spearItem);
+        }
+        return false;
     }
 
 
@@ -118,6 +124,7 @@ public class ThrownSickle extends AbstractArrow {
         }
         this.hookedEntity = entity;
         this.state = SickelState.HOOKED_IN_ENTITY;
+        this.setNoGravity(true);
         this.playSound(soundevent, 1.0F, 1.0F);
     }
 
