@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sitems.BaseWeapons;
 
 import com.Harbinger.Spore.Core.Sitems;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
@@ -108,6 +109,10 @@ public abstract class SporeBaseArmor extends ArmorItem implements SporeArmorData
 
     @Override
     public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<T> onBroken) {
+        int durabilityLeft = stack.getMaxDamage() - stack.getDamageValue();
+        if (durabilityLeft-amount <= 11){
+            entity.playSound(Ssounds.INFECTED_GEAR_BREAK.get());
+        }
         if (tooHurt(stack)){
             if (getAdditionalDurability(stack) > 0){
                 hurtExtraDurability(stack,amount,entity);

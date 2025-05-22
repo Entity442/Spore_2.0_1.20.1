@@ -120,7 +120,6 @@ public class ThrownSickle extends AbstractArrow {
         }
         this.hookedEntity = entity;
         this.state = SickelState.HOOKED_IN_ENTITY;
-        this.setNoGravity(true);
         this.playSound(soundevent, 1.0F, 1.0F);
     }
 
