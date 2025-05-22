@@ -156,6 +156,10 @@ public class ThrownSpear extends AbstractArrow {
         return super.tryPickup(p_150196_) || this.isNoPhysics() && this.ownedBy(p_150196_) && p_150196_.getInventory().add(this.getPickupItem());
     }
 
+    protected SoundEvent getDefaultHitGroundSoundEvent() {
+        return Ssounds.INFECTED_WEAPON_HIT_BLOCK.get();
+    }
+
     public void playerTouch(Player p_37580_) {
         if (this.ownedBy(p_37580_) || this.getOwner() == null) {
             super.playerTouch(p_37580_);
@@ -185,11 +189,6 @@ public class ThrownSpear extends AbstractArrow {
             super.tickDespawn();
         }
 
-    }
-    @Override
-    protected void onHitBlock(BlockHitResult result) {
-        super.onHitBlock(result);
-        this.playSound(Ssounds.INFECTED_WEAPON_HIT_BLOCK.get(), 1.0F, 1.0F);
     }
     protected float getWaterInertia() {
         return 0.99F;

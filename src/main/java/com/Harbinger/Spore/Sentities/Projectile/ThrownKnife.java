@@ -185,10 +185,8 @@ public class ThrownKnife extends AbstractArrow {
         }
 
     }
-    @Override
-    protected void onHitBlock(BlockHitResult result) {
-        super.onHitBlock(result);
-        this.playSound(Ssounds.INFECTED_WEAPON_HIT_BLOCK.get(), 1.0F, 1.0F);
+    protected SoundEvent getDefaultHitGroundSoundEvent() {
+        return Ssounds.INFECTED_WEAPON_HIT_BLOCK.get();
     }
     protected float getWaterInertia() {
         return 0.99F;
