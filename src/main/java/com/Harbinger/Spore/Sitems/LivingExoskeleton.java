@@ -3,11 +3,11 @@ package com.Harbinger.Spore.Sitems;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Sitems;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeArmorMutations;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeBaseArmor;
 import com.google.common.collect.Maps;
 import net.minecraft.Util;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -22,7 +22,7 @@ public class LivingExoskeleton extends SporeBaseArmor {
         super(slot, new int[]{
                 SConfig.SERVER.boots_durability2.get(), SConfig.SERVER.pants_durability2.get(), SConfig.SERVER.chestplate_durability2.get(), SConfig.SERVER.helmet_durability2.get()},new int[]{
                 SConfig.SERVER.boots_protection2.get(), SConfig.SERVER.pants_protection2.get(), SConfig.SERVER.chestplate_protection2.get(), SConfig.SERVER.helmet_protection2.get()
-        }, SConfig.SERVER.armor_toughness2.get(),SConfig.SERVER.knockback_resistance2.get(), SoundEvents.ARMOR_EQUIP_LEATHER,"Flesh");
+        }, SConfig.SERVER.armor_toughness2.get(),SConfig.SERVER.knockback_resistance2.get(), Ssounds.INFECTED_GEAR_EQUIP.get(),"Flesh");
     }
 
     public static Map<SporeArmorMutations,String> GET_LOCATION_1 =

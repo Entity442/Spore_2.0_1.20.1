@@ -3,11 +3,11 @@ package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sitems;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeArmorMutations;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeBaseArmor;
 import com.google.common.collect.Maps;
 import net.minecraft.Util;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.Map;
@@ -17,7 +17,7 @@ public class PlatedExoskeleton extends SporeBaseArmor {
         super(type, new int[]{
                 SConfig.SERVER.boots_durability1.get(), SConfig.SERVER.pants_durability1.get(), SConfig.SERVER.chestplate_durability1.get(), SConfig.SERVER.helmet_durability1.get()},new int[]{
                 SConfig.SERVER.boots_protection1.get(), SConfig.SERVER.pants_protection1.get(), SConfig.SERVER.chestplate_protection1.get(), SConfig.SERVER.helmet_protection1.get()
-        }, SConfig.SERVER.armor_toughness1.get(),SConfig.SERVER.knockback_resistance1.get(), SoundEvents.ARMOR_EQUIP_LEATHER,"Plated");
+        }, SConfig.SERVER.armor_toughness1.get(),SConfig.SERVER.knockback_resistance1.get(), Ssounds.INFECTED_GEAR_EQUIP.get(),"Plated");
     }
 
     @Override

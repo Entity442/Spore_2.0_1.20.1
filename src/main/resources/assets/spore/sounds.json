@@ -457,6 +457,11 @@
   "sounds": [
     "spore:infected_gear_break"
   ]
+},"infected_gear_equip" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:infected_gear_equip"
+  ]
 }
 
 }

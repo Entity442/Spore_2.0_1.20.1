@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Sitems;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Sitems;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeArmorMutations;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeBaseArmor;
 import com.google.common.collect.Maps;
@@ -28,7 +29,7 @@ import java.util.Map;
 
 public class UpgradedInfectedExoskeleton extends SporeBaseArmor {
     public UpgradedInfectedExoskeleton(Type type) {
-        super(type, new int[]{0, 0, SConfig.SERVER.chestplate_up_durability.get(),0}, new int[]{0, 0, SConfig.SERVER.chestplate_up_protection.get(), 0}, SConfig.SERVER.armor_toughness.get(), SConfig.SERVER.knockback_resistance.get() /10F, SoundEvents.ARMOR_EQUIP_LEATHER, "Upgraded Living Armor");
+        super(type, new int[]{0, 0, SConfig.SERVER.chestplate_up_durability.get(),0}, new int[]{0, 0, SConfig.SERVER.chestplate_up_protection.get(), 0}, SConfig.SERVER.armor_toughness.get(), SConfig.SERVER.knockback_resistance.get() /10F, Ssounds.INFECTED_GEAR_EQUIP.get(), "Upgraded Living Armor");
     }
 
 
