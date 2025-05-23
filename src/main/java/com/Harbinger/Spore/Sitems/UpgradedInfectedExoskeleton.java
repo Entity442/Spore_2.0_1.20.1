@@ -11,8 +11,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -23,7 +21,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 
@@ -108,11 +105,6 @@ public class UpgradedInfectedExoskeleton extends SporeBaseArmor {
 
         public int getEnchantmentValue() {
             return 2;
-        }
-
-        @Nullable
-        public SoundEvent getEquipSound() {
-            return SoundEvents.ARMOR_EQUIP_ELYTRA;
         }
 
         @Override

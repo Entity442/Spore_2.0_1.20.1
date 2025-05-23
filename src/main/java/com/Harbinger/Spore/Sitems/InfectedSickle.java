@@ -72,11 +72,15 @@ public class InfectedSickle extends SporeSwordBase {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+        if (hand != InteractionHand.MAIN_HAND) {
+            return InteractionResultHolder.pass(player.getItemInHand(hand));
+        }
         ItemStack itemstack = player.getMainHandItem();
         if (!level.isClientSide) {
             List<ThrownSickle> projectiles = level.getEntitiesOfClass(ThrownSickle.class, player.getBoundingBox().inflate(32),
                     s -> s.getOwner() == player && !s.isRemoved());
-            setThrownSickle(itemstack,false);
+            setThrownSickle(itemstack, false);
+
             if (!projectiles.isEmpty()) {
                 ThrownSickle sickle = projectiles.get(0);
                 if (sickle.getHookState() == ThrownSickle.SickelState.HOOKED_IN_ENTITY && sickle.getHookedEntity() != null) {
@@ -92,12 +96,13 @@ public class InfectedSickle extends SporeSwordBase {
                     pullEntityToward(player, sickle.getHookedBlockPos());
                 }
                 sickle.discard();
-            }else {
-                player.getMainHandItem();
-                return InteractionResultHolder.consume(itemstack);
+            } else {
+                player.startUsingItem(hand);
+                return InteractionResultHolder.success(itemstack);
             }
         }
-        return InteractionResultHolder.pass(player.getItemInHand(hand));
+
+        return InteractionResultHolder.pass(itemstack);
     }
 
     private void pullEntityToward(Entity toMove, Vec3 targetPos) {
