@@ -124,6 +124,11 @@ public class ThrownSickle extends AbstractArrow {
     }
 
     @Override
+    protected boolean tryPickup(Player p_150121_) {
+        return false;
+    }
+
+    @Override
     protected void onHitBlock(BlockHitResult result) {
         super.onHitBlock(result);
         this.hookedBlockPos = result.getLocation();
@@ -131,16 +136,6 @@ public class ThrownSickle extends AbstractArrow {
     }
     protected SoundEvent getDefaultHitGroundSoundEvent() {
         return Ssounds.INFECTED_WEAPON_HIT_BLOCK.get();
-    }
-    protected boolean tryPickup(Player player) {
-        return super.tryPickup(player) || this.isNoPhysics() && this.ownedBy(player) && player.getInventory().add(this.getPickupItem());
-    }
-
-    public void playerTouch(Player p_37580_) {
-        if (this.ownedBy(p_37580_) || this.getOwner() == null) {
-            super.playerTouch(p_37580_);
-        }
-
     }
 
     public SickelState getHookState() {
