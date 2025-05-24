@@ -117,7 +117,7 @@ public class InfectedCleaver extends SporeSwordBase implements DeathRewardingWea
             player.stopUsingItem();
         }
         if (charge % 20 == 0){
-            player.playNotifySound(Ssounds.CLEAVER_SPIN.get(), SoundSource.AMBIENT,1F,2F);
+            player.playNotifySound(Ssounds.CLEAVER_SPIN.get(), SoundSource.AMBIENT,1F,1F);
         }
         super.onUseTick(level, entity, stack, count);
     }
