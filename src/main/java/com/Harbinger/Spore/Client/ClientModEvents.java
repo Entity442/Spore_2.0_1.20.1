@@ -226,6 +226,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.BIOBLOOB.get(), BiobloobRenderer::new);
         event.registerEntityRenderer(Sentities.THROWN_KNIFE.get(), KnifeRenderer::new);
         event.registerEntityRenderer(Sentities.THROWN_SICKEL.get(), SickleRenderer::new);
+        event.registerEntityRenderer(Sentities.THROWN_BOOMERANG.get(), ThrownBoomerangRenderer::new);
 
         event.registerBlockEntityRenderer(SblockEntities.OVERGROWN_SPAWNER.get(), new OvergrownSpawnerRenderer());
         event.registerBlockEntityRenderer(SblockEntities.BRAIN_REMNANTS.get(), new BrainRemnantsRenderer());

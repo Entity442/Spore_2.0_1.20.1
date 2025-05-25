@@ -372,6 +372,9 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Integer> halberd_durability;
         public final ForgeConfigSpec.ConfigValue<Integer> halberd_damage;
 
+        public final ForgeConfigSpec.ConfigValue<Integer> boomerang_durability;
+        public final ForgeConfigSpec.ConfigValue<Integer> boomerang_damage;
+
         public final ForgeConfigSpec.ConfigValue<Integer> knife_durability;
         public final ForgeConfigSpec.ConfigValue<Integer> knife_damage;
 
@@ -1164,23 +1167,23 @@ public class SConfig {
             this.agent_enchantability = builder.comment("Enchantability increase 6").defineInRange("Enchantability increase 6", 6, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Spear");
-            this.spear_durability = builder.comment("Default 500").define("Durability",500);
+            this.spear_durability = builder.comment("Default 600").define("Durability",600);
             this.spear_damage = builder.comment("Default 9").defineInRange("Damage", 9, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Saber");
-            this.saber_durability = builder.comment("Default 450").define("Durability",450);
+            this.saber_durability = builder.comment("Default 750").define("Durability",750);
             this.saber_damage = builder.comment("Default 8").defineInRange("Damage", 8, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Knife");
-            this.knife_durability = builder.comment("Default 200").define("Durability",200);
+            this.knife_durability = builder.comment("Default 250").define("Durability",250);
             this.knife_damage = builder.comment("Default 6").defineInRange("Damage", 6, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("GreatSword");
-            this.greatsword_durability = builder.comment("Default 400").define("Durability",400);
+            this.greatsword_durability = builder.comment("Default 750").define("Durability",750);
             this.greatsword_damage = builder.comment("Default 12").defineInRange("Damage", 12, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Cleaver");
-            this.cleaver_durability = builder.comment("Default 400").define("Durability",400);
+            this.cleaver_durability = builder.comment("Default 750").define("Durability",750);
             this.cleaver_damage = builder.comment("Default 14").defineInRange("Damage", 14, 1, Integer.MAX_VALUE);
             this.cleaver_drops = builder.defineList("Decapitation",
                     Lists.newArrayList("minecraft:skeleton|minecraft:skeleton_skull","minecraft:wither_skeleton|minecraft:wither_skeleton_skull",
@@ -1191,28 +1194,32 @@ public class SConfig {
             this.crossbow_arrow_damage_multiplier = builder.comment("Default 1.0").define("Crossbow Range Damage Modifier",1.0);
              builder.pop();
             builder.push("Bow");
-            this.bow_durability = builder.comment("Default 300").define("Bow Durability",300);
+            this.bow_durability = builder.comment("Default 350").define("Bow Durability",350);
             this.bow_arrow_damage_multiplier = builder.comment("Default 1.0").define("Bow Range Damage Modifier",1.0);
             this.bow_melee_damage = builder.comment("Default 5").defineInRange("Damage", 5, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("BattleAxe");
-            this.armads_durability = builder.comment("Default 600").define("Durability",600);
+            this.armads_durability = builder.comment("Default 750").define("Durability",750);
             this.armads_damage = builder.comment("Default 15").defineInRange("Damage", 15, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Halberd");
-            this.halberd_durability = builder.comment("Default 600").define("Durability",600);
+            this.halberd_durability = builder.comment("Default 750").define("Durability",750);
             this.halberd_damage = builder.comment("Default 11").defineInRange("Damage", 11, 1, Integer.MAX_VALUE);
+            builder.pop();
+            builder.push("Chakram");
+            this.boomerang_durability = builder.comment("Default 600").define("Durability",600);
+            this.boomerang_damage = builder.comment("Default 10").defineInRange("Damage", 10, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Maul");
             this.maul_durability = builder.comment("Default 1000").define("Durability",1000);
             this.maul_damage = builder.comment("Default 9").defineInRange("Damage", 9, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Pickaxe");
-            this.inf_pickaxe_durability = builder.comment("Default 500").define("Durability",500);
+            this.inf_pickaxe_durability = builder.comment("Default 1000").define("Durability",1000);
             this.inf_pickaxe_damage = builder.comment("Default 10").defineInRange("Damage", 10, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Sickle");
-            this.sickle_durability = builder.comment("Default 400").define("Durability",400);
+            this.sickle_durability = builder.comment("Default 600").define("Durability",600);
             this.sickle_damage = builder.comment("Default 12").defineInRange("Damage", 12, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Reaver");
@@ -1230,15 +1237,15 @@ public class SConfig {
                     Lists.newArrayList("spore:claw_fragments|100","spore:mutated_fiber|100","spore:tumor|100","spore:armor_fragment|100") , o -> o instanceof String);
             builder.pop();
             builder.push("Scythe");
-            this.scythe_durability = builder.comment("Default 800").define("Durability",800);
+            this.scythe_durability = builder.comment("Default 750").define("Durability",750);
             this.scythe_damage = builder.comment("Default 10").defineInRange("Damage", 10, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Combat Shovel");
-            this.shovel_durability = builder.comment("Default 800").define("Durability",800);
+            this.shovel_durability = builder.comment("Default 1000").define("Durability",1000);
             this.shovel_damage = builder.comment("Default 8").defineInRange("Damage", 8, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Rapier");
-            this.rapier_durability = builder.comment("Default 500").define("Durability",500);
+            this.rapier_durability = builder.comment("Default 750").define("Durability",750);
             this.rapier_damage = builder.comment("Default 10").defineInRange("Damage", 10, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Mace");
@@ -1469,7 +1476,7 @@ public class SConfig {
                     Lists.newArrayList("spore:mutated_fiber|70|1|5","minecraft:bone|70|1|4","spore:armor_fragment|80|4|9","spore:mutated_heart|10|1|1","spore:claw_fragment|80|6|9") , o -> o instanceof String);
 
             this.thorn_loot = builder.defineList("VervaThorn",
-                    Lists.newArrayList("spore:mutated_fiber|70|3|8","minecraft:bone|70|1|4","spore:armor_fragment|80|4|14","spore:mutated_heart|10|1|1","spore:claw_fragment|80|6|14") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mutated_fiber|70|3|8","spore:spike|70|2|8","minecraft:bone|70|1|4","spore:armor_fragment|80|4|14","spore:mutated_heart|10|1|1","spore:claw_fragment|80|6|14") , o -> o instanceof String);
 
             this.scavenger_loot = builder.defineList("Scavenger",
                     Lists.newArrayList("spore:mutated_fiber|80|1|3","minecraft:bone|70|1|4","spore:armor_fragment|50|1|2","spore:claw_fragment|80|1|3","spore:mutated_heart|10|1|1","spore:wing_membrane|60|1|3") , o -> o instanceof String);
