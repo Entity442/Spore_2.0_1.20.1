@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "   ",
-    " DR",
-    " RR"
+    "RRR",
+    "RDR",
+    "RRR"
   ],
   "key": {
     "R": {
@@ -14,7 +14,7 @@
     }
   },
   "result": {
-    "count": 1,
+    "count": 3,
     "item": "spore:plated_muscle"
   }
 }
