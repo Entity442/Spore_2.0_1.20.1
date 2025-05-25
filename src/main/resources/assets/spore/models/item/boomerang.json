@@ -1,0 +1,28 @@
+{
+  "parent": "spore:item/handheldweapon",
+  "textures": {
+    "layer0": "spore:item/boomerang"
+  },
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [ 0, -90, 75 ],
+      "translation": [ 0, 16.0, -2 ],
+      "scale": [ 2, 2, 1 ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [ 0, 90, -75 ],
+      "translation": [ 0, 16.0, -2 ],
+      "scale": [ 2, 2, 1 ]
+    },
+    "firstperson_righthand": {
+      "rotation": [ 0, -90, 70 ],
+      "translation": [ 1.13, 3.2, 1.13 ],
+      "scale": [ 1.5, 1.5, 1 ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [ 0, 90, -70 ],
+      "translation": [ 1.13, 3.2, 1.13 ],
+      "scale": [ 1.5, 1.5, 1 ]
+    }
+  }
+}

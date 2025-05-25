@@ -35,10 +35,10 @@ public class InfectedKnife extends SporeSwordBase implements LootModifierWeapon 
         if (ModList.get().isLoaded("farmersdelight")){
             Enchantment enchantment1 = ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation("farmersdelight:backstabbing"));
             if (enchantment1 != null){
-            return (super.canApplyAtEnchantingTable(stack, enchantment) || ImmutableSet.of(enchantment1).contains(enchantment))
+            return (super.canApplyAtEnchantingTable(stack, enchantment) || ImmutableSet.of(enchantment1).contains(enchantment) || ImmutableSet.of(Enchantments.LOYALTY).contains(enchantment))
                     && !ImmutableSet.of(Enchantments.MOB_LOOTING).contains(enchantment);}
         }
-        return (super.canApplyAtEnchantingTable(stack, enchantment)) && !ImmutableSet.of(Enchantments.MOB_LOOTING).contains(enchantment);
+        return (super.canApplyAtEnchantingTable(stack, enchantment) || ImmutableSet.of(Enchantments.LOYALTY).contains(enchantment)) && !ImmutableSet.of(Enchantments.MOB_LOOTING).contains(enchantment);
     }
 
     @Override
