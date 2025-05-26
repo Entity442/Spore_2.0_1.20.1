@@ -3,8 +3,6 @@
   "ingredients": [
     {"slot": 1,
       "item": "spore:fleshy_claw" },
-    {"slot": 2,
-      "item": "spore:fleshy_claw" },
     {"slot": 3,
       "item": "spore:fleshy_bone" },
     {"slot": 4,
@@ -18,11 +16,15 @@
     {"slot": 9,
       "item": "spore:living_core" },
     {"slot": 10,
-      "item": "spore:claw" },
+      "item": "spore:fleshy_claw" },
+    {"slot": 11,
+      "item": "spore:fleshy_claw" },
     {"slot": 12,
       "item": "spore:hardened_bind" },
     {"slot": 13,
-      "item": "spore:claw" }
+      "item": "spore:fleshy_claw" },
+    {"slot": 14,
+      "item": "spore:fleshy_claw" }
   ],
   "output": { "item": "spore:armads" }
 }
