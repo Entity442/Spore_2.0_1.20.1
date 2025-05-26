@@ -30,6 +30,7 @@ public class ThrownBoomerang extends AbstractArrow {
     private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(ThrownBoomerang.class, EntityDataSerializers.BOOLEAN);
     private ItemStack boomerang = new ItemStack(Sitems.BOOMERANG.get());
     private boolean dealtDamage;
+    private int returnTick;
 
     public ThrownBoomerang(Level level, LivingEntity owner, ItemStack stack) {
         super(Sentities.THROWN_BOOMERANG.get(), owner, level);
@@ -54,7 +55,7 @@ public class ThrownBoomerang extends AbstractArrow {
 
     @Override
     public void tick() {
-        if (this.inGroundTime > 4 && tickCount > 35) {
+        if (this.inGroundTime > 4 || returnTick++ > 35) {
             this.dealtDamage = true;
         }
 
@@ -141,6 +142,11 @@ public class ThrownBoomerang extends AbstractArrow {
     @Override
     protected boolean tryPickup(Player player) {
         return super.tryPickup(player) || (this.isNoPhysics() && this.ownedBy(player) && player.getInventory().add(this.getPickupItem()));
+    }
+
+    @Override
+    public boolean isNoGravity() {
+        return true;
     }
 
     @Override

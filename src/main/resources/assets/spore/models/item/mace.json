@@ -1,5 +1,5 @@
 {
-  "parent": "spore:item/handheldweapon2",
+  "parent": "spore:item/handheldweaponthrow",
   "textures": {
     "layer0": "spore:item/mace"
   }
