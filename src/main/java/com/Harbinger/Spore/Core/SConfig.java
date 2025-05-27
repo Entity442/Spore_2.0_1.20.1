@@ -32,6 +32,12 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Boolean> should_starve;
         public final ForgeConfigSpec.ConfigValue<Boolean> higher_thinking;
 
+        public final ForgeConfigSpec.ConfigValue<Integer> max_infected_cap;
+        public final ForgeConfigSpec.ConfigValue<Integer> max_evolved_cap;
+        public final ForgeConfigSpec.ConfigValue<Integer> max_hyper_cap;
+        public final ForgeConfigSpec.ConfigValue<Integer> max_organoid_cap;
+        public final ForgeConfigSpec.ConfigValue<Integer> max_scent_cap;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> despawn_blacklist;
 
         public final ForgeConfigSpec.ConfigValue<Boolean> faw_target;
         public final ForgeConfigSpec.ConfigValue<Boolean> skulk_target;
@@ -510,7 +516,15 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> gas_masks;
 
         public Server(ForgeConfigSpec.Builder builder) {
-
+            builder.push("Despawning system");
+            this.max_infected_cap = builder.define("Maximum number of regular infected",60);
+            this.max_evolved_cap = builder.define("Maximum number of evolved infected",35);
+            this.max_hyper_cap = builder.define("Maximum number of hyper infected",20);
+            this.max_organoid_cap = builder.define("Maximum number of organoids",40);
+            this.max_scent_cap = builder.define("Maximum number of scents",30);
+            this.despawn_blacklist = builder.defineList("Mobs that will not be despawned by the system",
+                    Lists.newArrayList("spore:proto","spore:gastgaber","spore:specter","spore:inf_construct","spore:scamper") , o -> o instanceof String);
+            builder.pop();
             builder.push("Compatibilities");
             this.faw_target = builder.comment("Default false").define("Should there be a compatibility with FAW?",false);
             this.skulk_target = builder.comment("Default false").define("Should there be a compatibility with Sculk Infection?",false);

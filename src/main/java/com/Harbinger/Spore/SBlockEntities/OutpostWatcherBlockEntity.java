@@ -12,8 +12,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -57,8 +59,13 @@ public class OutpostWatcherBlockEntity extends BlockEntity implements AnimatedEn
 
     public static <E extends BlockEntity> void serverTick(Level level, BlockPos blockPos, BlockState blockState, OutpostWatcherBlockEntity e) {
         e.tick();
-        if (e.getTicks() % 200 == 0){
-            e.checkForPotentialTargets(level,blockPos);
+        if (e.getTicks() % 200 == 0 && level instanceof ServerLevel serverLevel){
+            List<ServerPlayer> players = serverLevel.players();
+            if (players.isEmpty()){
+                return;
+            }else {
+                e.checkForPotentialTargets(level,blockPos);
+            }
         }
     }
 
