@@ -111,10 +111,8 @@ public class HandlerEvents {
 
     private static <T extends LivingEntity> void despawnExcess(ServerLevel level, List<T> entities, int cap) {
         if (entities.size() <= cap) return;
-
         int toRemove = entities.size() - cap;
         int despawns = 0;
-
         List<ServerPlayer> players = level.getPlayers(p -> true);
 
         if (players.isEmpty()) {
