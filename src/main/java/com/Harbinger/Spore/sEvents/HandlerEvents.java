@@ -25,6 +25,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
@@ -63,6 +64,76 @@ import java.util.*;
 
 @Mod.EventBusSubscriber(modid = Spore.MODID)
 public class HandlerEvents {
+    private static int tickCounter = 0;
+    private static final int CHECK_INTERVAL = 1200; // 60 seconds
+
+    @SubscribeEvent
+    public static void onServerTick(TickEvent.ServerTickEvent event) {
+        if (event.phase != TickEvent.Phase.END) return;
+        tickCounter++;
+        if (tickCounter >= CHECK_INTERVAL) {
+            MinecraftServer server = event.getServer();
+            if (server != null) {
+                for (ServerLevel level : server.getAllLevels()) {
+                    cleanUpMobs(level);
+                }
+            }
+            tickCounter = 0;
+        }
+    }
+
+    private static void cleanUpMobs(ServerLevel level) {
+        List<Infected> infected = new ArrayList<>();
+        List<EvolvedInfected> evolved = new ArrayList<>();
+        List<Hyper> hyper = new ArrayList<>();
+        List<Organoid> organoid = new ArrayList<>();
+        List<ScentEntity> scent = new ArrayList<>();
+
+        for (Entity entity : level.getAllEntities()) {
+            if (entity instanceof LivingEntity living &&
+                    !SConfig.SERVER.despawn_blacklist.get().contains(living.getEncodeId()) &&
+                    !living.hasCustomName()) {
+
+                if (living instanceof Organoid o) organoid.add(o);
+                else if (living instanceof EvolvedInfected e) evolved.add(e);
+                else if (living instanceof Hyper h) hyper.add(h);
+                else if (living instanceof ScentEntity s) scent.add(s);
+                else if (living instanceof Infected i) infected.add(i);
+            }
+        }
+
+        despawnExcess(level, infected, SConfig.SERVER.max_infected_cap.get());
+        despawnExcess(level, evolved, SConfig.SERVER.max_evolved_cap.get());
+        despawnExcess(level, hyper, SConfig.SERVER.max_hyper_cap.get());
+        despawnExcess(level, organoid, SConfig.SERVER.max_organoid_cap.get());
+        despawnExcess(level, scent, SConfig.SERVER.max_scent_cap.get());
+    }
+
+    private static <T extends LivingEntity> void despawnExcess(ServerLevel level, List<T> entities, int cap) {
+        if (entities.size() <= cap) return;
+
+        int toRemove = entities.size() - cap;
+        int despawns = 0;
+
+        List<ServerPlayer> players = level.getPlayers(p -> true);
+
+        if (players.isEmpty()) {
+            for (int i = 0; i < toRemove; i++) {
+                T entity = entities.get(i);
+                entity.discard();
+                despawns++;
+            }
+        } else {
+            entities.sort(Comparator.comparingDouble((LivingEntity e) ->
+                    level.getNearestPlayer(e, -1) != null ? e.distanceToSqr(Objects.requireNonNull(level.getNearestPlayer(e, -1))) : Double.MAX_VALUE).reversed());
+            for (int i = 0; i < toRemove; i++) {
+                T entity = entities.get(i);
+                entity.discard();
+                despawns++;
+            }
+        }
+        System.out.println("Despawned " + despawns + " mobs in level: " + level.dimension().location());
+    }
     @SubscribeEvent
     public static void onLivingSpawned(EntityJoinLevelEvent event) {
         if (event != null && event.getEntity() != null) {

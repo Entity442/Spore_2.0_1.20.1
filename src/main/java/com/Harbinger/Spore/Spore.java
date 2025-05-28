@@ -4,7 +4,6 @@ import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.ExtremelySusThings.BiomeModification;
 import com.Harbinger.Spore.ExtremelySusThings.SporePacketHandler;
 import com.Harbinger.Spore.ExtremelySusThings.StructureModification;
-import com.Harbinger.Spore.sEvents.MobCleanupHandler;
 import com.Harbinger.Spore.sEvents.HandlerEvents;
 import com.mojang.serialization.Codec;
 import net.minecraftforge.common.MinecraftForge;
@@ -37,7 +36,6 @@ public class Spore
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, SConfig.SERVER_SPEC ,"sporeconfig.toml");
         SConfig.loadConfig(SConfig.SERVER_SPEC, FMLPaths.CONFIGDIR.get().resolve("sporeconfig.toml").toString());
         MinecraftForge.EVENT_BUS.register(this);
-        MinecraftForge.EVENT_BUS.register(MobCleanupHandler.class);
         modEventBus.addListener(HandlerEvents::SpawnPlacement);
         Sblocks.register(modEventBus);
         Sitems.register(modEventBus);
