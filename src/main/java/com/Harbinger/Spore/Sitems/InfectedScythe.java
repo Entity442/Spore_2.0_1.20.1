@@ -33,7 +33,7 @@ import java.util.function.Predicate;
 public class InfectedScythe extends SporeDiggerTools {
     protected static final Map<Block, Pair<Predicate<UseOnContext>, Consumer<UseOnContext>>> TILLABLES;
     public InfectedScythe() {
-        super(SConfig.SERVER.scythe_damage.get(), 3f, 3F, SConfig.SERVER.scythe_durability.get(), 3, BlockTags.MINEABLE_WITH_HOE);
+        super(SConfig.SERVER.scythe_damage.get(), 2.5f, 3F, SConfig.SERVER.scythe_durability.get(), 3, BlockTags.MINEABLE_WITH_HOE);
     }
 
     public InteractionResult useOn(UseOnContext context) {

@@ -24,7 +24,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class InfectedSpearItem extends SporeSwordBase {
     public InfectedSpearItem() {
-        super(SConfig.SERVER.spear_damage.get(), 2.3f, 3, SConfig.SERVER.spear_durability.get());
+        super(SConfig.SERVER.spear_damage.get(), 2.5f, 3, SConfig.SERVER.spear_durability.get());
     }
 
 

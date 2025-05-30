@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class InfectedMaul extends SporePickaxeItems {
     public InfectedMaul() {
-        super(SConfig.SERVER.maul_damage.get(), 2f, 3F,  SConfig.SERVER.maul_durability.get(), 3);
+        super(SConfig.SERVER.maul_damage.get(), 3f, 3F,  SConfig.SERVER.maul_durability.get(), 3);
     }
 
     @Override

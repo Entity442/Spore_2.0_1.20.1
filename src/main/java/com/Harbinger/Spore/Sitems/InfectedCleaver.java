@@ -31,7 +31,7 @@ import java.util.List;
 public class InfectedCleaver extends SporeSwordBase implements DeathRewardingWeapon {
     private final List<EnAndItem> heads;
     public InfectedCleaver() {
-        super(SConfig.SERVER.cleaver_damage.get(), 2.5f, 2.5F, SConfig.SERVER.cleaver_durability.get());
+        super(SConfig.SERVER.cleaver_damage.get(), 2.5f, 3F, SConfig.SERVER.cleaver_durability.get());
         this.heads = getHeads();
     }
     @Override
@@ -105,10 +105,12 @@ public class InfectedCleaver extends SporeSwordBase implements DeathRewardingWea
                 double z = player.getZ() + radius * Math.sin(angle);
                 ((ServerLevel) entity.level()).sendParticles(ParticleTypes.SWEEP_ATTACK, x, player.getY() + 1, z, 1, 0, 0, 0, 0);
             }
-            AABB area = player.getBoundingBox().inflate(2);
+            AABB area = player.getBoundingBox().inflate(3.5);
             List<LivingEntity> targets = player.level().getEntitiesOfClass(LivingEntity.class, area, e -> e != player && e.isAlive());
             for (LivingEntity target : targets) {
                 target.hurt(player.damageSources().playerAttack(player), SConfig.SERVER.cleaver_damage.get()/2f);
+                target.hurtTime = 10;
+                target.invulnerableTime = 10;
             }
         }
         if (count <= 2){

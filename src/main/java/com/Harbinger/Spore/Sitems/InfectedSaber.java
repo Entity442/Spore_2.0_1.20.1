@@ -13,7 +13,7 @@ import net.minecraft.world.level.Level;
 
 public class InfectedSaber extends SporeSwordBase {
     public InfectedSaber() {
-        super(SConfig.SERVER.saber_damage.get(), 1f, 2f, SConfig.SERVER.saber_durability.get());
+        super(SConfig.SERVER.saber_damage.get(), 1.5f, 2.4f, SConfig.SERVER.saber_durability.get());
     }
 
     @Override

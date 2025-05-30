@@ -28,6 +28,8 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.ToolActions;
 
 import java.util.List;
 
@@ -35,7 +37,7 @@ public class InfectedSickle extends SporeSwordBase {
     private static final String SICKLE_THROWN = "sickle_thrown";
     private static final String THROWN = "thrown";
     public InfectedSickle() {
-        super(SConfig.SERVER.sickle_damage.get(), 3f, 2, SConfig.SERVER.sickle_durability.get());
+        super(SConfig.SERVER.sickle_damage.get(), 2f, 2, SConfig.SERVER.sickle_durability.get());
     }
 
     @Override
@@ -141,5 +143,10 @@ public class InfectedSickle extends SporeSwordBase {
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
         return super.canApplyAtEnchantingTable(stack, enchantment) && !ImmutableSet.of(Enchantments.KNOCKBACK).contains(enchantment);
+    }
+
+    @Override
+    public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
+        return ToolActions.DEFAULT_SHEARS_ACTIONS.contains(toolAction);
     }
 }

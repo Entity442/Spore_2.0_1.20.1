@@ -31,7 +31,7 @@ import java.util.List;
 
 public class InfectedPickaxe extends SporePickaxeItems {
     public InfectedPickaxe() {
-        super(SConfig.SERVER.inf_pickaxe_damage.get(), 2f, 3F, SConfig.SERVER.inf_pickaxe_durability.get(), 7);
+        super(SConfig.SERVER.inf_pickaxe_damage.get(), 2.5f, 3F, SConfig.SERVER.inf_pickaxe_durability.get(), 7);
     }
     record StoreDouble(Block value1, Block value2){}
     private List<StoreDouble> getBlockChange(){

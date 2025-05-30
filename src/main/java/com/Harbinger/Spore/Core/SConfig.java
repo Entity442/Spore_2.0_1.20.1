@@ -367,6 +367,8 @@ public class SConfig {
 
         public final ForgeConfigSpec.ConfigValue<Integer> greatsword_durability;
         public final ForgeConfigSpec.ConfigValue<Integer> greatsword_damage;
+        public final ForgeConfigSpec.ConfigValue<Integer> greatsword_armor;
+        public final ForgeConfigSpec.ConfigValue<Integer> greatsword_toughness;
 
         public final ForgeConfigSpec.ConfigValue<Integer> cleaver_durability;
         public final ForgeConfigSpec.ConfigValue<Integer> cleaver_damage;
@@ -1182,11 +1184,11 @@ public class SConfig {
             builder.pop();
             builder.push("Spear");
             this.spear_durability = builder.comment("Default 600").define("Durability",600);
-            this.spear_damage = builder.comment("Default 9").defineInRange("Damage", 9, 1, Integer.MAX_VALUE);
+            this.spear_damage = builder.comment("Default 11").defineInRange("Damage", 11, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Saber");
             this.saber_durability = builder.comment("Default 750").define("Durability",750);
-            this.saber_damage = builder.comment("Default 8").defineInRange("Damage", 8, 1, Integer.MAX_VALUE);
+            this.saber_damage = builder.comment("Default 10").defineInRange("Damage", 10, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Knife");
             this.knife_durability = builder.comment("Default 250").define("Durability",250);
@@ -1195,6 +1197,8 @@ public class SConfig {
             builder.push("GreatSword");
             this.greatsword_durability = builder.comment("Default 750").define("Durability",750);
             this.greatsword_damage = builder.comment("Default 12").defineInRange("Damage", 12, 1, Integer.MAX_VALUE);
+            this.greatsword_armor = builder.comment("Default 8").defineInRange("Armor", 8, 1, Integer.MAX_VALUE);
+            this.greatsword_toughness = builder.comment("Default 2").defineInRange("Toughness", 2, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Cleaver");
             this.cleaver_durability = builder.comment("Default 750").define("Durability",750);
@@ -1230,11 +1234,11 @@ public class SConfig {
             builder.pop();
             builder.push("Pickaxe");
             this.inf_pickaxe_durability = builder.comment("Default 1000").define("Durability",1000);
-            this.inf_pickaxe_damage = builder.comment("Default 10").defineInRange("Damage", 10, 1, Integer.MAX_VALUE);
+            this.inf_pickaxe_damage = builder.comment("Default 9").defineInRange("Damage", 9, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Sickle");
             this.sickle_durability = builder.comment("Default 600").define("Durability",600);
-            this.sickle_damage = builder.comment("Default 12").defineInRange("Damage", 12, 1, Integer.MAX_VALUE);
+            this.sickle_damage = builder.comment("Default 9").defineInRange("Damage", 9, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Reaver");
             this.reaver_damage = builder.comment("Default 6").define("Damage",6);
@@ -1256,15 +1260,15 @@ public class SConfig {
             builder.pop();
             builder.push("Combat Shovel");
             this.shovel_durability = builder.comment("Default 1000").define("Durability",1000);
-            this.shovel_damage = builder.comment("Default 8").defineInRange("Damage", 8, 1, Integer.MAX_VALUE);
+            this.shovel_damage = builder.comment("Default 9").defineInRange("Damage", 9, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Rapier");
             this.rapier_durability = builder.comment("Default 750").define("Durability",750);
-            this.rapier_damage = builder.comment("Default 10").defineInRange("Damage", 10, 1, Integer.MAX_VALUE);
+            this.rapier_damage = builder.comment("Default 9").defineInRange("Damage", 9, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Mace");
             this.mace_durability = builder.comment("Default 600").define("Durability",600);
-            this.mace_damage = builder.comment("Default 9").defineInRange("Damage", 9, 1, Integer.MAX_VALUE);
+            this.mace_damage = builder.comment("Default 11").defineInRange("Damage", 11, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.pop();
             builder.push("Living Exoskeleton");
