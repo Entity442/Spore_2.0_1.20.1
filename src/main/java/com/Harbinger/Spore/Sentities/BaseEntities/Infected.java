@@ -400,10 +400,6 @@ public class Infected extends Monster{
     }
 
     public static boolean checkMonsterInfectedRules(EntityType<? extends Infected> p_219014_, ServerLevelAccessor levelAccessor, MobSpawnType type, BlockPos pos, RandomSource source) {
-        MinecraftServer server = levelAccessor.getServer();
-        if (server != null){
-            return !server.getPlayerList().getPlayers().isEmpty();
-        }
         if (levelAccessor.getDifficulty() != Difficulty.PEACEFUL){
             return furtherSpawnParameters(p_219014_,levelAccessor,type,pos,source);
         }
@@ -411,8 +407,14 @@ public class Infected extends Monster{
     }
 
     private static boolean furtherSpawnParameters(EntityType<? extends Infected> p_219014_,ServerLevelAccessor levelAccessor, MobSpawnType type, BlockPos pos, RandomSource source){
+        MinecraftServer server = levelAccessor.getServer();
+        if (server != null){
+            if (server.getPlayerList().getPlayers().isEmpty()){
+                return false;
+            }
+        }
         if (SConfig.SERVER.daytime_spawn.get()){
-            return checkAnyLightMonsterSpawnRules(p_219014_, levelAccessor, type, pos, source);
+            return checkAnyLightMonsterSpawnRules(p_219014_, levelAccessor, type, pos, source) && levelAccessor.canSeeSky(pos);
         }else
             return isDarkEnoughToSpawn(levelAccessor, pos, source) && checkMobSpawnRules(p_219014_, levelAccessor, type, pos, source);
     }
