@@ -86,49 +86,51 @@ public class InfectedCleaver extends SporeSwordBase implements DeathRewardingWea
 
     @Override
     public void onUseTick(Level level, LivingEntity entity, ItemStack stack, int count) {
-        if (!(entity instanceof Player player) || entity.level().isClientSide) return;
+        if (!(entity instanceof Player player)) return;
+
         int charge = getUseDuration(stack) - count;
-        Entity entity1 = Minecraft.getInstance().cameraEntity;
-        if (entity1 instanceof LocalPlayer localPlayer){
-            float currentYaw = localPlayer.getYRot();
-            float newYaw = currentYaw + 10F;
-            localPlayer.setYRot(newYaw % 360);
-            localPlayer.setYHeadRot(newYaw % 360);
-            localPlayer.yBodyRot = newYaw % 360;
-            localPlayer.yHeadRot = newYaw % 360;
-        }
-        if (charge % 5 == 0) {
-            double radius = 2.5;
-            for (int i = 0; i < 10; i++) {
-                double angle = 2 * Math.PI * i / 10;
-                double x = player.getX() + radius * Math.cos(angle);
-                double z = player.getZ() + radius * Math.sin(angle);
-                ((ServerLevel) entity.level()).sendParticles(ParticleTypes.SWEEP_ATTACK, x, player.getY() + 1, z, 1, 0, 0, 0, 0);
+
+        if (level.isClientSide) {
+            Entity entity1 = Minecraft.getInstance().cameraEntity;
+            if (entity1 instanceof LocalPlayer localPlayer){
+                float currentYaw = localPlayer.getYRot();
+                float newYaw = currentYaw + 10F;
+                localPlayer.setYRot(newYaw % 360);
+                localPlayer.setYHeadRot(newYaw % 360);
+                localPlayer.yBodyRot = newYaw % 360;
+                localPlayer.yHeadRot = newYaw % 360;
             }
-            AABB area = player.getBoundingBox().inflate(3.5);
-            List<LivingEntity> targets = player.level().getEntitiesOfClass(LivingEntity.class, area, e -> e != player && e.isAlive());
-            for (LivingEntity target : targets) {
-                target.hurt(player.damageSources().playerAttack(player), SConfig.SERVER.cleaver_damage.get()/2f);
-                target.hurtTime = 10;
-                target.invulnerableTime = 10;
+        } else {
+            if (charge % 5 == 0) {
+                double radius = 2.5;
+                for (int i = 0; i < 10; i++) {
+                    double angle = 2 * Math.PI * i / 10;
+                    double x = player.getX() + radius * Math.cos(angle);
+                    double z = player.getZ() + radius * Math.sin(angle);
+                    ((ServerLevel) entity.level()).sendParticles(ParticleTypes.SWEEP_ATTACK, x, player.getY() + 1, z, 1, 0, 0, 0, 0);
+                }
+
+                AABB area = player.getBoundingBox().inflate(3.5);
+                List<LivingEntity> targets = player.level().getEntitiesOfClass(LivingEntity.class, area, e -> e != player && e.isAlive());
+                for (LivingEntity target : targets) {
+                    target.hurt(player.damageSources().playerAttack(player), SConfig.SERVER.cleaver_damage.get()/2f);
+                    target.hurtTime = 10;
+                    target.invulnerableTime = 10;
+                }
             }
         }
+
         if (count <= 2){
-            player.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN,60,0));
-            player.getCooldowns().addCooldown(this,80);
+            player.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 60, 0));
+            player.getCooldowns().addCooldown(this, 80);
             player.stopUsingItem();
         }
+
         if (charge % 20 == 0){
-            player.playNotifySound(Ssounds.CLEAVER_SPIN.get(), SoundSource.AMBIENT,1F,1F);
+            player.playNotifySound(Ssounds.CLEAVER_SPIN.get(), SoundSource.AMBIENT, 1F, 1F);
         }
+
         super.onUseTick(level, entity, stack, count);
     }
 
-    @Override
-    public void releaseUsing(ItemStack stack, Level level, LivingEntity living, int p_41415_) {
-        super.releaseUsing(stack, level, living, p_41415_);
-        if (living instanceof Player player){
-            player.getCooldowns().addCooldown(this,40);
-        }
-    }
 }
