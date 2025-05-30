@@ -254,7 +254,7 @@ public class Sentities {
 
     public static final RegistryObject<EntityType<ThrownBoomerang>> THROWN_BOOMERANG = register("thrown_boomerang",
             EntityType.Builder.<ThrownBoomerang>of(ThrownBoomerang::new, MobCategory.MISC).setCustomClientFactory(ThrownBoomerang::new)
-                    .setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(0.5f, 0.5f));
+                    .setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(1f, 0.5f));
 
     public static final RegistryObject<EntityType<ThrownKnife>> THROWN_KNIFE = register("thrown_knife",
             EntityType.Builder.<ThrownKnife>of(ThrownKnife::new, MobCategory.MISC).setCustomClientFactory(ThrownKnife::new)

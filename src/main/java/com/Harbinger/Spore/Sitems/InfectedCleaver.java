@@ -128,7 +128,7 @@ public class InfectedCleaver extends SporeSwordBase implements DeathRewardingWea
     public void releaseUsing(ItemStack stack, Level level, LivingEntity living, int p_41415_) {
         super.releaseUsing(stack, level, living, p_41415_);
         if (living instanceof Player player){
-            player.getCooldowns().addCooldown(this,20);
+            player.getCooldowns().addCooldown(this,40);
         }
     }
 }
