@@ -114,6 +114,7 @@ public interface SporeWeaponData {
             victim.addEffect(new MobEffectInstance(MobEffects.WITHER,60,1));
         }
         if (getVariant(stack) == SporeToolsMutations.CALCIFIED){
+            victim.hurtMarked = true;
             double knockback = reversedKnockback() ? -Mth.sin(entity.getYRot() * ((float) Math.PI / 180F)) : Mth.sin(entity.getYRot() * ((float) Math.PI / 180F));
             double knockback2 = reversedKnockback() ? Mth.cos(entity.getYRot() * ((float) Math.PI / 180F) * ((float) Math.PI / 180F)) : -Mth.cos(entity.getYRot() * ((float) Math.PI / 180F));
             victim.knockback(1.5F, knockback, knockback2);

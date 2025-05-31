@@ -92,7 +92,7 @@ public class InfectedCleaver extends SporeSwordBase implements DeathRewardingWea
 
         if (level.isClientSide) {
             Entity entity1 = Minecraft.getInstance().cameraEntity;
-            if (entity1 instanceof LocalPlayer localPlayer){
+            if (entity1 instanceof LocalPlayer localPlayer && localPlayer.equals(player)){
                 float currentYaw = localPlayer.getYRot();
                 float newYaw = currentYaw + 10F;
                 localPlayer.setYRot(newYaw % 360);
@@ -110,7 +110,7 @@ public class InfectedCleaver extends SporeSwordBase implements DeathRewardingWea
                     ((ServerLevel) entity.level()).sendParticles(ParticleTypes.SWEEP_ATTACK, x, player.getY() + 1, z, 1, 0, 0, 0, 0);
                 }
 
-                AABB area = player.getBoundingBox().inflate(3.5);
+                AABB area = player.getBoundingBox().inflate(3.5,1,3.5);
                 List<LivingEntity> targets = player.level().getEntitiesOfClass(LivingEntity.class, area, e -> e != player && e.isAlive());
                 for (LivingEntity target : targets) {
                     target.hurt(player.damageSources().playerAttack(player), SConfig.SERVER.cleaver_damage.get()/2f);
