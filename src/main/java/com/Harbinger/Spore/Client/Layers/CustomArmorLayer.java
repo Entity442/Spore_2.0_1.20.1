@@ -21,36 +21,29 @@ import net.minecraft.world.item.ItemStack;
 
 public class CustomArmorLayer<E extends  LivingEntity,M extends HumanoidModel<E>> extends RenderLayer<E, M> {
     private final HumanoidModel<E> origin;
-
     public CustomArmorLayer(RenderLayerParent<E, M> p_117346_) {
         super(p_117346_);
         origin = this.getParentModel();
     }
-
     @Override
     public void render(PoseStack poseStack, MultiBufferSource buffer, int light, E entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float v5) {
         for (ArmorModelList.Quad quad : ArmorModelList.modelItemMap((HumanoidModel<LivingEntity>) origin)) {
             ItemStack stack = entity.getItemBySlot(quad.slot());
             if (stack.isEmpty() || stack.getItem() != quad.item()) continue;
-
             if (stack.getItem() instanceof SporeArmorData data && stack.getItem() instanceof CustomModelArmorData armorData) {
                 VertexConsumer consumer = ItemRenderer.getFoilBufferDirect(buffer, origin.renderType(armorData.getTextureLocation()), false, stack.hasFoil());
-
                 int color = data.getVariant(stack).getColor();
                 float red = (color >> 16 & 255) / 255.0F;
                 float green = (color >> 8 & 255) / 255.0F;
                 float blue = (color & 255) / 255.0F;
-
                 EntityModel<E> model = (EntityModel<E>) quad.model();
                 model.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-
                 applyTransform(poseStack, quad.origin(), quad.x(), quad.y(), quad.z(), quad.expand(), () -> {
                     quad.part().render(poseStack, consumer, light, OverlayTexture.NO_OVERLAY, red, green, blue, 1f);
                 });
             }
         }
     }
-
     private void applyTransform(PoseStack poseStack, ModelPart origin, float x, float y, float z, float scale, Runnable render) {
         poseStack.pushPose();
         origin.translateAndRotate(poseStack);
