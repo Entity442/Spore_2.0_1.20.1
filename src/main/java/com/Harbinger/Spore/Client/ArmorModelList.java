@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Client;
 
+import com.Harbinger.Spore.Client.Models.GasMaskModel;
 import com.Harbinger.Spore.Client.Models.TestBootModel;
 import com.Harbinger.Spore.Core.Sitems;
 import net.minecraft.client.model.EntityModel;
@@ -16,6 +17,7 @@ import java.util.List;
 @OnlyIn(Dist.CLIENT)
 public class ArmorModelList {
     private static final TestBootModel<LivingEntity> boots = new TestBootModel<>();
+    private static final GasMaskModel<LivingEntity> gasMaskModel = new GasMaskModel<>();
     public record Quad(EquipmentSlot slot, Item item,ModelPart origin, EntityModel<? extends LivingEntity> model, ModelPart part,float x,float y,float z,float expand){}
 
     public static List<Quad> modelItemMap(HumanoidModel<LivingEntity> humanoidModel){
@@ -29,6 +31,7 @@ public class ArmorModelList {
         map.add(new Quad(EquipmentSlot.CHEST, Sitems.LIVING_CHEST.get().asItem(),humanoidModel.rightArm,boots,boots.rightArm,0.35f,-0.125f,0,1.1f));
         map.add(new Quad(EquipmentSlot.CHEST, Sitems.LIVING_CHEST.get().asItem(),humanoidModel.leftArm,boots,boots.leftArm,-0.35f,-0.125f,0,1.1f));
         map.add(new Quad(EquipmentSlot.HEAD, Sitems.LIVING_HELMET.get().asItem(),humanoidModel.head,boots,boots.headwear,0f,0f,0,1f));
+        map.add(new Quad(EquipmentSlot.HEAD, Sitems.GAS_MASK.get().asItem(),humanoidModel.head,gasMaskModel,gasMaskModel.GasMask,0f,-0.05f,0,1f));
         return map;
     }
 }

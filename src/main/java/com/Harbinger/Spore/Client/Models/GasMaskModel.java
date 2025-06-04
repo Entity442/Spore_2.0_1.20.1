@@ -19,7 +19,8 @@ public class GasMaskModel<T extends Entity> extends EntityModel<T> {
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "gas_mask_half"), "main");
 	public final ModelPart GasMask;
 
-	public GasMaskModel(ModelPart root) {
+	public GasMaskModel() {
+		ModelPart root = createBodyLayer().bakeRoot();
 		this.GasMask = root.getChild("GasMask");
 	}
 

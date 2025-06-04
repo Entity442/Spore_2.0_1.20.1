@@ -30,12 +30,21 @@ public class CustomArmorLayer<E extends  LivingEntity,M extends HumanoidModel<E>
         for (ArmorModelList.Quad quad : ArmorModelList.modelItemMap((HumanoidModel<LivingEntity>) origin)) {
             ItemStack stack = entity.getItemBySlot(quad.slot());
             if (stack.isEmpty() || stack.getItem() != quad.item()) continue;
-            if (stack.getItem() instanceof SporeArmorData data && stack.getItem() instanceof CustomModelArmorData armorData) {
-                VertexConsumer consumer = ItemRenderer.getFoilBufferDirect(buffer, origin.renderType(armorData.getTextureLocation()), false, stack.hasFoil());
+            float red;
+            float green;
+            float blue;
+            if (stack.getItem() instanceof SporeArmorData data){
                 int color = data.getVariant(stack).getColor();
-                float red = (color >> 16 & 255) / 255.0F;
-                float green = (color >> 8 & 255) / 255.0F;
-                float blue = (color & 255) / 255.0F;
+                red = (color >> 16 & 255) / 255.0F;
+                green = (color >> 8 & 255) / 255.0F;
+                blue = (color & 255) / 255.0F;
+            } else {
+                blue = 1;
+                green = 1;
+                red = 1;
+            }
+            if (stack.getItem() instanceof CustomModelArmorData armorData) {
+                VertexConsumer consumer = ItemRenderer.getFoilBufferDirect(buffer, origin.renderType(armorData.getTextureLocation()), false, stack.hasFoil());
                 EntityModel<E> model = (EntityModel<E>) quad.model();
                 model.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
                 applyTransform(poseStack, quad.origin(), quad.x(), quad.y(), quad.z(), quad.expand(), () -> {
