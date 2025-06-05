@@ -101,8 +101,8 @@ public class ElytrumModel<T extends LivingEntity> extends EntityModel<T> {
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.animatedElytra(entity,leftJoint,rightJoint);
-		this.right_for_wing.zRot = -rightJoint.zRot;
-		this.left_for_wing.zRot = -leftJoint.zRot;
+		this.right_for_wing.zRot = -rightJoint.zRot/2;
+		this.left_for_wing.zRot = -leftJoint.zRot/2;
 	}
 
 	@Override
