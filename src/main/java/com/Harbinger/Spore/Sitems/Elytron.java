@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Sitems;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeBaseArmor;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
@@ -13,16 +14,22 @@ import net.minecraft.world.item.ItemStack;
 import javax.annotation.Nullable;
 import java.util.Objects;
 
-public class Elytron extends SporeBaseArmor {
+public class Elytron extends SporeBaseArmor implements CustomModelArmorData{
+    private final ResourceLocation TEXTURE = new ResourceLocation("spore:textures/armor/elytron.png");
     public Elytron(Type type) {
         super(type, new int[]{0, 0, SConfig.SERVER.ely_durability.get(),0},new int[]{0, 0, SConfig.SERVER.ely_protection.get(), 0}, SConfig.SERVER.ely_toughness.get(), SConfig.SERVER.ely_knockback_resistance.get() /10F, SoundEvents.ARMOR_EQUIP_LEATHER, "Elytron");
+    }
+
+    @Override
+    public ResourceLocation getTextureLocation() {
+        return TEXTURE;
     }
 
 
     public static  class InfectedElytron extends Elytron{
         @Override
         public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-            return "spore:textures/armor/empty.png";
+            return "spore:textures/entity/empty.png";
         }
         public InfectedElytron() {
             super(Type.CHESTPLATE);
