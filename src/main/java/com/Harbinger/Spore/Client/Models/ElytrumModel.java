@@ -47,7 +47,7 @@ public class ElytrumModel<T extends LivingEntity> extends EntityModel<T> {
 
 		PartDefinition left_wing = leftJoint.addOrReplaceChild("left_wing", CubeListBuilder.create().texOffs(28, 0).addBox(-7.25F, -1.0F, -1.0F, 17.0F, 14.0F, 1.0F, new CubeDeformation(-1.0F)), PartPose.offsetAndRotation(6.75F, 2.0F, -0.25F, -3.1416F, 0.0F, -2.7925F));
 
-		PartDefinition left_for_wing = left_wing.addOrReplaceChild("left_for_wing", CubeListBuilder.create().texOffs(18, 44).addBox(-12.25F, -7.0F, -0.01F, 17.0F, 20.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(5.0F, 12.0F, -1.0F));
+		PartDefinition left_for_wing = left_wing.addOrReplaceChild("left_for_wing", CubeListBuilder.create().texOffs(18, 44).addBox(-12.25F, -7.0F, 0.01F, 17.0F, 20.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(5.0F, 12.0F, -1.0F));
 
 		PartDefinition rightJoint = body.addOrReplaceChild("rightJoint", CubeListBuilder.create(), PartPose.offset(5.0F, -3.0F, 3.0F));
 
@@ -101,8 +101,8 @@ public class ElytrumModel<T extends LivingEntity> extends EntityModel<T> {
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.animatedElytra(entity,leftJoint,rightJoint);
-		this.right_for_wing.zRot = -rightJoint.zRot/2;
-		this.left_for_wing.zRot = -leftJoint.zRot/2;
+		this.right_for_wing.zRot = rightJoint.zRot/2;
+		this.left_for_wing.zRot = leftJoint.zRot/2;
 	}
 
 	@Override
