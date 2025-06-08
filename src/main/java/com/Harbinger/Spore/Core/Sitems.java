@@ -468,6 +468,8 @@ public class Sitems {
             () -> new ArmorSyringe(SporeArmorMutations.CHARRED));
     public  static final RegistryObject<Item> REAVER = ITEMS.register("reaver",
             Reaver::new);
+    public  static final RegistryObject<Item> PCI = ITEMS.register("pci",
+            PCI::new);
 
 
 

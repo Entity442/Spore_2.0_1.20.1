@@ -371,4 +371,5 @@ public class Sieger extends Calamity implements RangedAttackMob, TrueCalamity {
         }
         return super.getMutation();
     }
+
 }
