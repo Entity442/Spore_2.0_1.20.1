@@ -17,6 +17,7 @@ import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
 import com.Harbinger.Spore.Sentities.Organoids.*;
 import com.Harbinger.Spore.Sentities.Utility.*;
 import com.Harbinger.Spore.Sitems.BaseWeapons.*;
+import com.Harbinger.Spore.Sitems.PCI;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
@@ -31,6 +32,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
@@ -673,6 +675,19 @@ public class HandlerEvents {
 
     @SubscribeEvent
     public static void DefenseBypass(LivingDamageEvent event) {
+        if (event.getSource().getEntity() instanceof Player player){
+            ItemStack weapon = player.getMainHandItem();
+            if (weapon.getItem() instanceof PCI pci && pci.getCharge(weapon)>0){
+                int charge = pci.getCharge(weapon);
+                LivingEntity target = event.getEntity();
+                float targetHealth = target.getHealth();
+                int freezeDamage = charge >= targetHealth ? (int) targetHealth : charge;
+                target.setTicksFrozen(600);
+                event.setAmount(freezeDamage);
+                pci.setCharge(weapon, charge - freezeDamage);
+                player.getCooldowns().addCooldown(pci, (int) Math.ceil(targetHealth / 5f) * 20);
+            }
+        }
         Entity living = event.getSource().getEntity();
         if (living instanceof ArmorPersentageBypass bypass){
             float original_damage = event.getAmount();
