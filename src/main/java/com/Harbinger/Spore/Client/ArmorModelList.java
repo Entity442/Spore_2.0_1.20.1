@@ -8,6 +8,7 @@ import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
@@ -59,11 +60,35 @@ public class ArmorModelList {
         public ItemStack stack() {
             return livingEntity.getItemBySlot(slot);
         }
-        public RenderType type(ResourceLocation location){
-            return null;
-        }
+        public abstract RenderType type(ResourceLocation location);
     }
-
+    public abstract static class HandDisplay{
+        public final InteractionHand slot;
+        public final Item item;
+        public final EntityModel<? extends LivingEntity> model;
+        public final ModelPart part;
+        public final float x;
+        public final float y;
+        public final float z;
+        public final float expand;
+        public final float Xspin;
+        public final float Yspin;
+        public final float Zspin;
+        protected HandDisplay(InteractionHand slot, Item item, EntityModel<? extends LivingEntity> model, ModelPart part, float x, float y, float z, float expand, float xspin, float yspin, float zspin) {
+            this.slot = slot;
+            this.item = item;
+            this.model = model;
+            this.part = part;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.expand = expand;
+            Xspin = xspin;
+            Yspin = yspin;
+            Zspin = zspin;
+        }
+        public abstract RenderType type(ResourceLocation location);
+    }
     public static List<Quad> modelItemMap(HumanoidModel<LivingEntity> humanoidModel){
         List<Quad> map = new ArrayList<>();
         map.add(new Quad(EquipmentSlot.FEET, Sitems.LIVING_BOOTS.get().asItem(),humanoidModel.leftLeg,boots,boots.leftBoot,-0.15f,-0.8f,0,1.1f));
@@ -97,6 +122,36 @@ public class ArmorModelList {
                 return RenderType.eyes(psi_glow);
             }
         });
+        return map;
+    }
+
+    public static List<HandDisplay> itemDisplay(){
+        List<HandDisplay> map = new ArrayList<>();
+        map.add(new HandDisplay(InteractionHand.MAIN_HAND,Sitems.PCI.get().asItem(),pci,pci.PCIBODY,0.95f, -0.7f, -0.35f,1,-90,90,0){
+            @Override
+            public RenderType type(ResourceLocation location) {
+                return RenderType.entityCutout(location);
+            }
+        });
+        map.add(new HandDisplay(InteractionHand.MAIN_HAND,Sitems.PCI.get().asItem(),pci,pci.PCIBODY,0.95f, -0.7f, -0.35f,1,-90,90,0){
+            @Override
+            public RenderType type(ResourceLocation location) {
+                return RenderType.eyes(psi_glow);
+            }
+        });
+        map.add(new HandDisplay(InteractionHand.OFF_HAND,Sitems.PCI.get().asItem(),pci,pci.PCIBODY,-1f, -0.7f, -0.35f,1,-90,90,0){
+            @Override
+            public RenderType type(ResourceLocation location) {
+                return RenderType.entityCutout(location);
+            }
+        });
+        map.add(new HandDisplay(InteractionHand.OFF_HAND,Sitems.PCI.get().asItem(),pci,pci.PCIBODY,-1f, -0.7f, -0.35f,1,-90,90,0){
+            @Override
+            public RenderType type(ResourceLocation location) {
+                return RenderType.eyes(psi_glow);
+            }
+        });
+
         return map;
     }
 }
