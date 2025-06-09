@@ -2,5 +2,15 @@
   "parent": "spore:item/handheldweapon",
   "textures": {
     "layer0": "spore:item/saber"
+  },
+  "thirdperson_righthand": {
+    "rotation": [ 0, -90, 55 ],
+    "translation": [ 0, 20.0, -2 ],
+    "scale": [ 2, 2, 1 ]
+  },
+  "thirdperson_lefthand": {
+    "rotation": [ 0, 90, -55 ],
+    "translation": [ 0, 20.0, -2 ],
+    "scale": [ 2, 2, 1 ]
   }
 }
