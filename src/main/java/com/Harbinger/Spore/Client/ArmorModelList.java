@@ -130,7 +130,7 @@ public class ArmorModelList {
         map.add(new HandDisplay(InteractionHand.MAIN_HAND,Sitems.PCI.get().asItem(),pci,pci.PCIBODY,0.95f, -0.7f, -0.35f,1,-90,90,0){
             @Override
             public RenderType type(ResourceLocation location) {
-                return RenderType.entityCutout(location);
+                return RenderType.entityCutoutNoCull(location);
             }
         });
         map.add(new HandDisplay(InteractionHand.MAIN_HAND,Sitems.PCI.get().asItem(),pci,pci.PCIBODY,0.95f, -0.7f, -0.35f,1,-90,90,0){
@@ -142,7 +142,7 @@ public class ArmorModelList {
         map.add(new HandDisplay(InteractionHand.OFF_HAND,Sitems.PCI.get().asItem(),pci,pci.PCIBODY,-1f, -0.7f, -0.35f,1,-90,90,0){
             @Override
             public RenderType type(ResourceLocation location) {
-                return RenderType.entityCutout(location);
+                return RenderType.entityCutoutNoCull(location);
             }
         });
         map.add(new HandDisplay(InteractionHand.OFF_HAND,Sitems.PCI.get().asItem(),pci,pci.PCIBODY,-1f, -0.7f, -0.35f,1,-90,90,0){
