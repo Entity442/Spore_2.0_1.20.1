@@ -35,9 +35,9 @@ public class SpecificClientEvents {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
         if (player == null || mc.level == null) return;
-        for (ArmorModelList.HandDisplay handDisplay : ArmorModelList.itemDisplay()){
-            ItemStack stack = player.getItemInHand(handDisplay.slot);
-            if (stack.getItem() instanceof CustomModelArmorData armorData){
+        ItemStack stack = player.getItemInHand(event.getHand());
+        for (ArmorModelList.HandDisplay handDisplay : ArmorModelList.itemDisplay(stack)){
+            if (stack.getItem() instanceof CustomModelArmorData armorData && event.getHand().equals(handDisplay.slot)){
                 renderCustomHand(player,event.getPartialTick(),event.getPackedLight(),event.getMultiBufferSource(),event.getPoseStack(),armorData.getTextureLocation(),handDisplay);
             }
         }

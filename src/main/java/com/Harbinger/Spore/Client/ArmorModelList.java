@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Client;
 import com.Harbinger.Spore.Client.Models.*;
 import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.Sitems.CustomModelArmorData;
+import com.Harbinger.Spore.Sitems.PCI;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -112,20 +113,28 @@ public class ArmorModelList {
                 livingEntity){
             @Override
             public RenderType type(ResourceLocation location) {
-                return RenderType.eyes(psi_glow);
+                ItemStack stack = livingEntity.getMainHandItem();
+                if (stack.getItem() instanceof PCI pci && pci.getCharge(stack) > 0){
+                    return RenderType.eyes(psi_glow);
+                }
+                return null;
             }
         });
         map.add(new Quader(EquipmentSlot.OFFHAND, Sitems.PCI.get().asItem(), humanoidModel.leftArm, pciL, pciL.PCIBODY, 0.15f, -0.35f, 0.05f, 1f, 0, 0, 0,
                 livingEntity){
             @Override
             public RenderType type(ResourceLocation location) {
-                return RenderType.eyes(psi_glow);
+                ItemStack stack = livingEntity.getMainHandItem();
+                if (stack.getItem() instanceof PCI pci && pci.getCharge(stack) > 0){
+                    return RenderType.eyes(psi_glow);
+                }
+                return null;
             }
         });
         return map;
     }
 
-    public static List<HandDisplay> itemDisplay(){
+    public static List<HandDisplay> itemDisplay(ItemStack stack){
         List<HandDisplay> map = new ArrayList<>();
         map.add(new HandDisplay(InteractionHand.MAIN_HAND,Sitems.PCI.get().asItem(),pci,pci.PCIBODY,0.95f, -0.7f, -0.35f,1,-90,90,0){
             @Override
@@ -136,7 +145,10 @@ public class ArmorModelList {
         map.add(new HandDisplay(InteractionHand.MAIN_HAND,Sitems.PCI.get().asItem(),pci,pci.PCIBODY,0.95f, -0.7f, -0.35f,1,-90,90,0){
             @Override
             public RenderType type(ResourceLocation location) {
-                return RenderType.eyes(psi_glow);
+                if (stack.getItem() instanceof PCI pci && pci.getCharge(stack) > 0){
+                    return RenderType.eyes(psi_glow);
+                }
+                return null;
             }
         });
         map.add(new HandDisplay(InteractionHand.OFF_HAND,Sitems.PCI.get().asItem(),pci,pci.PCIBODY,-1f, -0.7f, -0.35f,1,-90,90,0){
@@ -148,7 +160,10 @@ public class ArmorModelList {
         map.add(new HandDisplay(InteractionHand.OFF_HAND,Sitems.PCI.get().asItem(),pci,pci.PCIBODY,-1f, -0.7f, -0.35f,1,-90,90,0){
             @Override
             public RenderType type(ResourceLocation location) {
-                return RenderType.eyes(psi_glow);
+                if (stack.getItem() instanceof PCI pci && pci.getCharge(stack) > 0){
+                    return RenderType.eyes(psi_glow);
+                }
+                return null;
             }
         });
 

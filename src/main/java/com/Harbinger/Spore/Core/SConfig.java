@@ -365,6 +365,10 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Integer> saber_durability;
         public final ForgeConfigSpec.ConfigValue<Integer> saber_damage;
 
+        public final ForgeConfigSpec.ConfigValue<Integer> pci_durability;
+        public final ForgeConfigSpec.ConfigValue<Integer> pci_damage;
+        public final ForgeConfigSpec.ConfigValue<Integer> pci_max_charge;
+
         public final ForgeConfigSpec.ConfigValue<Integer> greatsword_durability;
         public final ForgeConfigSpec.ConfigValue<Integer> greatsword_damage;
         public final ForgeConfigSpec.ConfigValue<Integer> greatsword_armor;
@@ -1253,6 +1257,11 @@ public class SConfig {
                     Lists.newArrayList("spore:organoid_membrane|40","spore:mutated_fiber|30","spore:tumor|45") , o -> o instanceof String);
             this.reaver_loot4 = builder.defineList("Loot from calamities",
                     Lists.newArrayList("spore:claw_fragments|100","spore:mutated_fiber|100","spore:tumor|100","spore:armor_fragment|100") , o -> o instanceof String);
+            builder.pop();
+            builder.push("PSI");
+            this.pci_durability = builder.comment("Default 100").define("Durability",100);
+            this.pci_damage = builder.comment("Default 6").defineInRange("Damage", 6, 1, Integer.MAX_VALUE);
+            this.pci_max_charge = builder.comment("Default 50").define("Max charge",50);
             builder.pop();
             builder.push("Scythe");
             this.scythe_durability = builder.comment("Default 750").define("Durability",750);

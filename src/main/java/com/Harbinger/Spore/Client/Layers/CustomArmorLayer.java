@@ -72,7 +72,8 @@ public class CustomArmorLayer<E extends  LivingEntity,M extends HumanoidModel<E>
             }
             if (stack.getItem() instanceof CustomModelArmorData armorData) {
                 RenderType type = quad.type(armorData.getTextureLocation());
-                VertexConsumer consumer = type == null ? ItemRenderer.getFoilBufferDirect(buffer, origin.renderType(armorData.getTextureLocation()), false, stack.hasFoil()) : buffer.getBuffer(type);
+                if (type == null){return;}
+                VertexConsumer consumer = buffer.getBuffer(type);
                 EntityModel<E> model = (EntityModel<E>) quad.model;
                 model.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
                 applyTransformEx(poseStack, quad.origin, quad.x, quad.y, quad.z, quad.expand, quad.Xspin, quad.Yspin, quad.Zspin,() -> {
