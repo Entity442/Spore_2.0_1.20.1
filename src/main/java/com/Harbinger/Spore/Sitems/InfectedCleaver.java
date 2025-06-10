@@ -121,8 +121,8 @@ public class InfectedCleaver extends SporeSwordBase implements DeathRewardingWea
         }
 
         if (count <= 2){
-            player.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 60, 0));
-            player.getCooldowns().addCooldown(this, 80);
+            player.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 200, 0));
+            player.getCooldowns().addCooldown(this, 200);
             player.stopUsingItem();
         }
 
@@ -133,4 +133,9 @@ public class InfectedCleaver extends SporeSwordBase implements DeathRewardingWea
         super.onUseTick(level, entity, stack, count);
     }
 
+    @Override
+    public void releaseUsing(ItemStack stack, Level level, LivingEntity living, int p_41415_) {
+        super.releaseUsing(stack, level, living, p_41415_);
+        if (living instanceof Player player){player.getCooldowns().addCooldown(this, 60);}
+    }
 }
