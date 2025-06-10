@@ -56,7 +56,7 @@ public class Infection {
             }
         }
 
-        if (entity instanceof Infected infected && SConfig.SERVER.scent_spawn.get()) {
+        if (entity instanceof Infected infected && SConfig.SERVER.scent_spawn.get() && infected.getTicksFrozen() <= 0) {
             if (level instanceof ServerLevel serverLevel && Math.random() < SConfig.SERVER.scent_spawn_chance.get() / 100f) {
                 AABB area = infected.getBoundingBox().inflate(16);
                 List<ScentEntity> scents = level.getEntitiesOfClass(ScentEntity.class, area);

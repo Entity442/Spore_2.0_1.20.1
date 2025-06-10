@@ -684,12 +684,11 @@ public class HandlerEvents {
                 float targetHealth = target.getHealth();
                 int freezeDamage = charge >= targetHealth ? (int) targetHealth : charge;
                 if (event.getEntity().getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES)){
-                    event.setAmount(freezeDamage * 4);
-                    pci.setCharge(weapon, charge - (freezeDamage/4));
+                    event.setAmount(freezeDamage * 2);
                 }else {
                     event.setAmount(freezeDamage);
-                    pci.setCharge(weapon, charge - freezeDamage);
                 }
+                pci.setCharge(weapon, charge - freezeDamage);
                 target.setTicksFrozen(600);
                 player.getCooldowns().addCooldown(pci, (int) Math.ceil(targetHealth / 5f) * 20);
             }
