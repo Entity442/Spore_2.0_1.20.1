@@ -1259,9 +1259,9 @@ public class SConfig {
                     Lists.newArrayList("spore:claw_fragments|100","spore:mutated_fiber|100","spore:tumor|100","spore:armor_fragment|100") , o -> o instanceof String);
             builder.pop();
             builder.push("PSI");
-            this.pci_durability = builder.comment("Default 100").define("Durability",300);
+            this.pci_durability = builder.comment("Default 300").define("Durability",300);
             this.pci_damage = builder.comment("Default 6").defineInRange("Damage", 6, 1, Integer.MAX_VALUE);
-            this.pci_max_charge = builder.comment("Default 50").define("Max charge",25);
+            this.pci_max_charge = builder.comment("Default 25").define("Max charge",25);
             builder.pop();
             builder.push("Scythe");
             this.scythe_durability = builder.comment("Default 750").define("Durability",750);
