@@ -73,7 +73,7 @@ public class PCI extends BaseItem2 implements CustomModelArmorData,Vanishable {
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (getCharge(stack) > 0 && attacker instanceof Player player){
-            player.playNotifySound(Ssounds.SYRINGE_INJECT.get(), SoundSource.AMBIENT,1f,1f);
+            player.playNotifySound(Ssounds.PCI_INJECT.get(), SoundSource.AMBIENT,1f,1f);
         }
         stack.hurtAndBreak(1, attacker, e -> e.broadcastBreakEvent(attacker.getUsedItemHand()));
         return true;
@@ -105,6 +105,6 @@ public class PCI extends BaseItem2 implements CustomModelArmorData,Vanishable {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level p_41422_, List<Component> components, TooltipFlag p_41424_) {
         super.appendHoverText(stack, p_41422_, components, p_41424_);
-        components.add(Component.literal("Cooling fluid "+getCharge(stack)+"/"+SConfig.SERVER.pci_max_charge.get()));
+        components.add(Component.literal("Frozen Charge "+getCharge(stack)+"/"+SConfig.SERVER.pci_max_charge.get()));
     }
 }

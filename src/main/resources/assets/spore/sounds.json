@@ -462,6 +462,11 @@
   "sounds": [
     "spore:infected_gear_equip"
   ]
+},"pci_inject" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:pci_inject"
+  ]
 }
 
 }

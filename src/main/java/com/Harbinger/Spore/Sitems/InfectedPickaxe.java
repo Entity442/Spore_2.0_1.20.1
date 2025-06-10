@@ -68,6 +68,7 @@ public class InfectedPickaxe extends SporePickaxeItems {
         if (player instanceof ServerPlayer serverPlayer) {
             serverPlayer.playNotifySound(Ssounds.INFECTED_PICKAXE.get(), SoundSource.AMBIENT,1F,1F);
             lookForOres(pos,level,serverPlayer);
+            this.hurtTool(context.getItemInHand(),serverPlayer,1);
         }
         return super.useOn(context);
     }

@@ -166,6 +166,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> SYRINGE_INJECT = soundRegistry("syringe_inject");
 
+    public static final RegistryObject<SoundEvent> PCI_INJECT = soundRegistry("pci_inject");
+
     public static final RegistryObject<SoundEvent> REAGENT = soundRegistry("reagent");
 
     public static final RegistryObject<SoundEvent> INFECTED_GEAR_BREAK = soundRegistry("infected_gear_break");

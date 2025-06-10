@@ -20,6 +20,7 @@ public class InfectedSaber extends SporeSwordBase {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         if (player instanceof ServerPlayer serverPlayer) {
             leap(serverPlayer);
+            this.hurtTool(player.getItemInHand(hand),serverPlayer,1);
             return InteractionResultHolder.success(player.getItemInHand(hand));
         }
         return super.use(level, player, hand);

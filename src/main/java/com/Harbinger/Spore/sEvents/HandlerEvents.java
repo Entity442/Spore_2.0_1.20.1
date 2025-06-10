@@ -30,6 +30,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
@@ -682,9 +683,14 @@ public class HandlerEvents {
                 LivingEntity target = event.getEntity();
                 float targetHealth = target.getHealth();
                 int freezeDamage = charge >= targetHealth ? (int) targetHealth : charge;
+                if (event.getEntity().getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES)){
+                    event.setAmount(freezeDamage * 4);
+                    pci.setCharge(weapon, charge - (freezeDamage/4));
+                }else {
+                    event.setAmount(freezeDamage);
+                    pci.setCharge(weapon, charge - freezeDamage);
+                }
                 target.setTicksFrozen(600);
-                event.setAmount(freezeDamage);
-                pci.setCharge(weapon, charge - freezeDamage);
                 player.getCooldowns().addCooldown(pci, (int) Math.ceil(targetHealth / 5f) * 20);
             }
         }
