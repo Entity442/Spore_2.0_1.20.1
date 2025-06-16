@@ -34,7 +34,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class Nuclealave extends EvolvedInfected implements RangedAttackMob , ArmedInfected {
+public class Nuclealave extends EvolvedInfected implements RangedAttackMob , ArmedInfected,HasUsableSlot {
     public Nuclealave(EntityType<? extends Monster> type, Level level) {
         super(type, level);
         this.setMaxUpStep(1.0F);
@@ -197,5 +197,10 @@ public class Nuclealave extends EvolvedInfected implements RangedAttackMob , Arm
 
     protected SoundEvent getStepSound() {
         return SoundEvents.HORSE_STEP;
+    }
+
+    @Override
+    public boolean hasUsableSlot(EquipmentSlot slot) {
+        return true;
     }
 }

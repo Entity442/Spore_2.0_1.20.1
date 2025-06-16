@@ -383,7 +383,7 @@ public class NuckelaveModel<T extends Nuclealave> extends HierarchicalModel<T> i
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		Nuckelavee.getAllParts().forEach(part -> {setDraw(part);});
+		Nuckelavee.getAllParts().forEach(this::setDraw);
 		Nuckelavee.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 

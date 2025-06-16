@@ -230,6 +230,8 @@ public class Sitems {
 
     public  static final RegistryObject<Item> NUCLEA_SPAWNEGG = ITEMS.register("nuclea_spawnegg",
             () -> new SporeSpawnEgg(Sentities.NUCLEA,-265262544,SpawnEggType.EVOLVED));
+    public  static final RegistryObject<Item> PROT_SPAWNEGG = ITEMS.register("prot_spawnegg",
+            () -> new SporeSpawnEgg(Sentities.PROTECTOR,-265262544,SpawnEggType.EVOLVED));
 
     public  static final RegistryObject<Item> SCENT_SPAWNEGG = ITEMS.register("scent_spawnegg",
             () -> new SporeSpawnEgg(Sentities.SCENT,-1,SpawnEggType.UNKNOWN));

@@ -7,6 +7,7 @@ import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.ArmedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
+import com.Harbinger.Spore.Sentities.EvolvedInfected.HasUsableSlot;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
 import com.Harbinger.Spore.Sentities.EvolvingInfected;
 import com.Harbinger.Spore.Sentities.Variants.ScamperVariants;
@@ -225,8 +226,12 @@ public class InfectedPlayer extends Infected implements RangedAttackMob , ArmedI
                         infected.setEvoPoints(livingEntity.getEvoPoints());
                         infected.setSearchPos(livingEntity.getSearchPos());
                         infected.setLinked(livingEntity.getLinked());
-                        for(EquipmentSlot slot : EquipmentSlot.values()){
-                            infected.setItemSlot(slot,this.getItemBySlot(slot));
+                        if (infected instanceof HasUsableSlot hasUsableSlot){
+                            for(EquipmentSlot slot : EquipmentSlot.values()){
+                                if (hasUsableSlot.hasUsableSlot(slot)){
+                                    infected.setItemSlot(slot,this.getItemBySlot(slot));
+                                }
+                            }
                         }
                     }
                     level.addFreshEntity(waveentity);
