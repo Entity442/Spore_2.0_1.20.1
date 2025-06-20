@@ -633,7 +633,7 @@ public class SConfig {
                             "spore:bloater") , o -> o instanceof String);
             this.player_ev = builder.defineList("Infected Adventurer Evolutions",
                     Lists.newArrayList(
-                            "spore:nuclea") , o -> o instanceof String);
+                            "spore:nuclea","spore:protector") , o -> o instanceof String);
 
             this.evolution_age_human = builder.comment("Default 300").define("Evolution Timer in seconds",300);
             this.min_kills = builder.comment("Default 1").define("Minimum amount of kills to start the evolution",1);
