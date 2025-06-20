@@ -52,14 +52,15 @@ public class Protector extends EvolvedInfected implements ArmedInfected,HasUsabl
     public Protector(EntityType<? extends Monster> p_33002_, Level p_33003_) {
         super(p_33002_, p_33003_);
     }
+
     @Override
-    protected void registerGoals() {
+    protected void addRegularGoals() {
+        super.addRegularGoals();
         this.goalSelector.addGoal(3, new ProtectorMeleeGoal(this, (float) (SConfig.SERVER.protector_damage.get() * SConfig.SERVER.global_damage.get())));
         this.goalSelector.addGoal(4, new RandomStrollGoal(this, 0.8));
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
-
-        super.registerGoals();
     }
+
     @Override
     public List<? extends String> getDropList() {
         return SConfig.DATAGEN.inf_knight_loot.get();
@@ -145,8 +146,8 @@ public class Protector extends EvolvedInfected implements ArmedInfected,HasUsabl
             LivingEntity entity = this.getTarget();
             if (entity != null){
                 double distance = this.distanceTo(entity);
-                if (distance > 30 && this.getPearls() >0 && this.hasLineOfSight(entity)){
-                    this.performRangedAttack(entity,0);
+                if (distance > 20 && this.getPearls() > 0 && this.hasLineOfSight(entity)){
+                    this.performRangedAttack(entity, 0);
                 }
             }
         }
@@ -230,16 +231,19 @@ public class Protector extends EvolvedInfected implements ArmedInfected,HasUsabl
 
     @Override
     public void performRangedAttack(LivingEntity livingEntity, float v) {
-        ThrownEnderpearl pearl = new ThrownEnderpearl(this.level(), this);
-        double d0 = livingEntity.getEyeY() - 1.100000023841858;
-        double d1 = livingEntity.getX() - this.getX();
-        double d2 = d0 - pearl.getY();
-        double d3 = livingEntity.getZ() - this.getZ();
-        double d4 = Math.sqrt(d1 * d1 + d3 * d3) * 0.20000000298023224;
-        pearl.shoot(d1, d2 + d4, d3, 1.6F, 12.0F);
-        this.playSound(SoundEvents.ENDER_PEARL_THROW, 1.0F, 0.4F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
-        this.level().addFreshEntity(pearl);
-        setPearls(getPearls()-1);
+        if (!this.level().isClientSide) {
+            ThrownEnderpearl pearl = new ThrownEnderpearl(this.level(), this);
+            double d0 = livingEntity.getEyeY() - this.getEyeY();
+            double d1 = livingEntity.getX() - this.getX();
+            double d2 = d0;
+            double d3 = livingEntity.getZ() - this.getZ();
+            double d4 = Math.sqrt(d1 * d1 + d3 * d3) * 0.2;
+            pearl.setOwner(this);
+            pearl.shoot(d1, d2 + d4, d3, 1.6F, 12.0F);
+            this.playSound(SoundEvents.ENDER_PEARL_THROW, 1.0F, 0.4F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+            this.level().addFreshEntity(pearl);
+            setPearls(getPearls() - 1);
+        }
     }
 
     public static class ProtectorMeleeGoal extends CustomMeleeAttackGoal{
