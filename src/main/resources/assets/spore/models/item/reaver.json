@@ -2,5 +2,17 @@
   "parent": "spore:item/handheldweapon4",
   "textures": {
     "layer0": "spore:item/reaver"
+  },
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [ 0, -90, 55 ],
+      "translation": [ 0, 10.0, 1 ],
+      "scale": [ 2, 1.5, 1 ]
+    },
+    "thirdperson_lefthand": {
+        "rotation": [ 0, 90, -55 ],
+        "translation": [ 0, 10.0, 1 ],
+        "scale": [ 2, 1.5, 1 ]
+    }
   }
 }

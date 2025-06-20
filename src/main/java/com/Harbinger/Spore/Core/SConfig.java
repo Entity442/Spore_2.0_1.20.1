@@ -187,6 +187,10 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> knight_damage;
         public final ForgeConfigSpec.ConfigValue<Double> knight_armor;
 
+        public final ForgeConfigSpec.ConfigValue<Double> protector_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> protector_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> protector_armor;
+
         public final ForgeConfigSpec.ConfigValue<Double> nuckelave_hp;
         public final ForgeConfigSpec.ConfigValue<Double> nuckelave_damage;
         public final ForgeConfigSpec.ConfigValue<Double> nuckelave_armor;
@@ -1066,6 +1070,12 @@ public class SConfig {
             this.nuckelave_hp = builder.comment("Default 55").defineInRange("Sets Nuckelave Max health", 55, 1, Double.MAX_VALUE);
             this.nuckelave_damage = builder.comment("Default 8").defineInRange("Sets Nuckelave Damage", 8, 1, Double.MAX_VALUE);
             this.nuckelave_armor = builder.comment("Default 6").defineInRange("Sets Nuckelave Armor", 6, 1, Double.MAX_VALUE);
+            builder.pop();
+
+            builder.push("Protector");
+            this.protector_hp = builder.comment("Default 50").defineInRange("Sets Protector Max health", 50, 1, Double.MAX_VALUE);
+            this.protector_damage = builder.comment("Default 8").defineInRange("Sets Protector Damage", 8, 1, Double.MAX_VALUE);
+            this.protector_armor = builder.comment("Default 12").defineInRange("Sets Protector Armor", 12, 1, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("Jagdhund");

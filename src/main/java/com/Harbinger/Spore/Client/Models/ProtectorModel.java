@@ -36,7 +36,7 @@ public class ProtectorModel<T extends Protector> extends EntityModel<T> implemen
 	private final ModelPart ShieldFoliage2;
 	private final ModelPart ShieldFoliage;
 	private final ModelPart tumors;
-	private final ModelPart LeftArm;
+	public final ModelPart LeftArm;
 	private final ModelPart Head;
 	private final ModelPart Jaw;
 	public final ModelPart headWear;
@@ -258,7 +258,7 @@ public class ProtectorModel<T extends Protector> extends EntityModel<T> implemen
 		}
 		if (entity.getShielded()){
 			this.ShieldArm.xRot = 0;
-			this.ShieldArm.yRot = 0.6f;
+			this.ShieldArm.yRot = -1.2f;
 		}
 		animateTentacleX(Jaw,Mth.sin(ageInTicks/7)/8);
 		animateTumor(Heart,Mth.cos(ageInTicks/6)/6);

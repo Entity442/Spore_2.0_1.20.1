@@ -3,12 +3,16 @@
   "textures": {
     "layer0": "spore:item/infected_spear"
   },
-  "overrides": [
-    {
-      "predicate": {
-        "throwing": 1
-      },
-      "model": "spore:item/infected_spear_throwing"
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [ 0, -270, 55 ],
+      "translation": [ 0, 8, 4 ],
+      "scale": [ 2.5, 2.5, 1 ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [ 0, 270, -55 ],
+      "translation": [ 0, 8, 4 ],
+      "scale": [ 2.5, 2.5, 1 ]
     }
-  ]
+  }
 }

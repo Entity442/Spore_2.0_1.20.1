@@ -3,11 +3,15 @@ package com.Harbinger.Spore.Client.Renderers;
 import com.Harbinger.Spore.Client.Models.ProtectorModel;
 import com.Harbinger.Spore.Client.Special.BaseInfectedRenderer;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Protector;
+import com.Harbinger.Spore.Sentities.Hyper.Hevoker;
 import com.Harbinger.Spore.Spore;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
@@ -42,6 +46,7 @@ public class ProtectorRenderer<Type extends Protector> extends BaseInfectedRende
     public ProtectorRenderer(EntityRendererProvider.Context context) {
         super(context, new ProtectorModel<>(context.bakeLayer(ProtectorModel.LAYER_LOCATION),false), 0.5f);
         this.addLayer(new ProtectorArmorRenderer<>(this,context.getModelManager()));
+        this.addLayer(new PearlsLayer<>(this,context.getItemInHandRenderer()));
     }
     @Override
     public ResourceLocation getTextureLocation(Type entity) {
@@ -53,7 +58,30 @@ public class ProtectorRenderer<Type extends Protector> extends BaseInfectedRende
         return EYES_TEXTURE;
     }
 
+    private static class PearlsLayer <T extends Protector, M extends ProtectorModel<T>> extends RenderLayer<T, M>{
+        private final ItemInHandRenderer itemInHandRenderer;
+        private final ProtectorModel<T> model;
+        public PearlsLayer(RenderLayerParent<T, M> parent, ItemInHandRenderer itemInHandRenderer) {
+            super(parent);
+            this.itemInHandRenderer = itemInHandRenderer;
+            this.model = this.getParentModel();
+        }
 
+        @Override
+        public void render(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, T t, float v, float v1, float v2, float v3, float v4, float v5) {
+            if (t.getPearls() > 0){
+                ItemStack stack = new ItemStack(Items.ENDER_PEARL);
+                poseStack.pushPose();
+                this.model.LeftArm.translateAndRotate(poseStack);
+                poseStack.translate(0,2,0);
+                poseStack.scale(0.5F, 0.5F, 0.5F);
+                poseStack.mulPose(Axis.XP.rotationDegrees(-90.0F));
+                poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
+                itemInHandRenderer.renderItem(t,stack, ItemDisplayContext.FIXED,true,poseStack,multiBufferSource,i);
+                poseStack.popPose();
+            }
+        }
+    }
     private static class ProtectorArmorRenderer <T extends Protector> extends RenderLayer<T, ProtectorModel<T>> {
         public final List<ModelPart> helmetModels = new ArrayList<>();
         public final List<ModelPart> bootsModels = new ArrayList<>();
