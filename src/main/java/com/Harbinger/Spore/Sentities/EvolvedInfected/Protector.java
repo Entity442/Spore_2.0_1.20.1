@@ -77,7 +77,7 @@ public class Protector extends EvolvedInfected implements ArmedInfected,HasUsabl
                 .add(Attributes.MOVEMENT_SPEED, 0.2)
                 .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.protector_damage.get() * SConfig.SERVER.global_damage.get())
                 .add(Attributes.ARMOR, SConfig.SERVER.protector_armor.get() * SConfig.SERVER.global_armor.get())
-                .add(Attributes.FOLLOW_RANGE, 32)
+                .add(Attributes.FOLLOW_RANGE, 48)
                 .add(Attributes.ATTACK_KNOCKBACK, 1);
 
     }
@@ -140,6 +140,15 @@ public class Protector extends EvolvedInfected implements ArmedInfected,HasUsabl
         }
         if (tickCount % 200 == 0){
             setShielded(false);
+        }
+        if (this.tickCount % 40 == 0){
+            LivingEntity entity = this.getTarget();
+            if (entity != null){
+                double distance = this.distanceTo(entity);
+                if (distance > 30 && this.getPearls() >0 && this.hasLineOfSight(entity)){
+                    this.performRangedAttack(entity,0);
+                }
+            }
         }
     }
 
@@ -248,9 +257,6 @@ public class Protector extends EvolvedInfected implements ArmedInfected,HasUsabl
         protected void checkAndPerformAttack(LivingEntity entity, double at) {
             if (mob instanceof Protector protector){
                 double distance = protector.distanceTo(entity);
-                if (distance > 40 && protector.getPearls() >0 && protector.hasLineOfSight(entity) && protector.tickCount % 40 == 0){
-                    protector.performRangedAttack(entity,0);
-                }
                 protector.setShielded(distance < 15d && protector.ticksUnShielded <= 0);
                 if (protector.getShielded() && entity.getHealth() > meleeDamage){
                     double d0 = this.getAttackReachSqr(entity);
