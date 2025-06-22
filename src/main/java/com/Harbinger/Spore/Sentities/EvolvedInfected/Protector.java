@@ -23,6 +23,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -156,19 +157,24 @@ public class Protector extends EvolvedInfected implements ArmedInfected,HasUsabl
     @Override
     public boolean hurt(DamageSource source, float amount) {
         Entity entity = source.getEntity();
-        if (entity instanceof LivingEntity livingEntity){
+        LivingEntity target = this.getTarget();
+        if (entity instanceof LivingEntity livingEntity && livingEntity.equals(target)) {
             ItemStack stack = livingEntity.getMainHandItem();
-            if (getShielded() && isLookingAtMe(livingEntity)){
-                this.playSound(SoundEvents.SHIELD_BLOCK);
-                return false;
+            if (getShielded()) {
+                if (stack.canDisableShield(stack, this, livingEntity)) {
+                    this.ticksUnShielded = 200;
+                    this.playSound(SoundEvents.SHIELD_BREAK);
+                    setShielded(false);
+                }
             }
-            if (stack.canDisableShield(stack,this,livingEntity)){
-                this.ticksUnShielded = 200;
-                setShielded(false);
-                this.playSound(SoundEvents.SHIELD_BREAK);
+            if (getShielded()) {
+                if (isLookingAtMe(livingEntity)){
+                    this.playSound(SoundEvents.SHIELD_BLOCK);
+                    return false;
+                }else {
+                    this.ticksUnShielded = 100;
+                }
             }
-            this.ticksUnShielded = 100;
-            setShielded(false);
         }
         return super.hurt(source, amount);
     }
@@ -184,12 +190,13 @@ public class Protector extends EvolvedInfected implements ArmedInfected,HasUsabl
         }
     }
     boolean isLookingAtMe(LivingEntity entity) {
-        Vec3 vec3 = entity.getViewVector(1.0F).normalize();
-        Vec3 vec31 = new Vec3(this.getX() - entity.getX(), this.getEyeY() - entity.getEyeY(), this.getZ() - entity.getZ());
-        double d0 = vec31.length();
-        vec31 = vec31.normalize();
-        double d1 = vec3.dot(vec31);
-        return d1 > 1.0D - 0.025D / d0 && entity.hasLineOfSight(this);
+        Vec3 lookVec = entity.getViewVector(1.0F).normalize();
+        Vec3 toThis = new Vec3(this.getX() - entity.getX(), this.getEyeY() - entity.getEyeY(), this.getZ() - entity.getZ()).normalize();
+        double dot = lookVec.dot(toThis);
+
+        double angleThreshold = 0.9;
+
+        return dot > angleThreshold && entity.hasLineOfSight(this);
     }
     @Override
     public boolean hasUsableSlot(EquipmentSlot slot) {
@@ -224,6 +231,7 @@ public class Protector extends EvolvedInfected implements ArmedInfected,HasUsabl
             if (protector.getTarget() != null) continue;
 
             if (attacker != null){
+                protector.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,100,0));
                 protector.setTarget(attacker);
             }
         }

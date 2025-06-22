@@ -73,9 +73,11 @@ public class PCI extends BaseItem2 implements CustomModelArmorData,Vanishable {
 
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (getCharge(stack) > 0 && attacker instanceof Player player){
-            player.playNotifySound(Ssounds.PCI_INJECT.get(), SoundSource.AMBIENT,1f,1f);
+        if (getCharge(stack) > 0){
             if (target instanceof Infected infected && infected.getLinked()){infected.setLinked(false);}
+        }
+        if (attacker instanceof Player player){
+            player.playNotifySound(Ssounds.PCI_INJECT.get(), SoundSource.AMBIENT,1f,1f);
         }
         stack.hurtAndBreak(1, attacker, e -> e.broadcastBreakEvent(attacker.getUsedItemHand()));
         return true;
