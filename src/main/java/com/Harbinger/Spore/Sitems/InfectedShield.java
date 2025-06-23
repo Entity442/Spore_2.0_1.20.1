@@ -28,7 +28,7 @@ import java.util.function.Consumer;
 
 public class InfectedShield extends SporeToolsBaseItem {
     public static final String CHARGE_TAG = "ShieldCharge";
-    public static final int MAX_CHARGE = 5;
+    public static final int MAX_CHARGE = 10;
     public InfectedShield() {
         super(SConfig.SERVER.shield_damage.get(), 0, 1, SConfig.SERVER.shield_durability.get(), 0);
         DispenserBlock.registerBehavior(this, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
