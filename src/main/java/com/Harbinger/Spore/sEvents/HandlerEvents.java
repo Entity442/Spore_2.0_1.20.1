@@ -697,18 +697,23 @@ public class HandlerEvents {
             }
         if (event.getSource().getEntity() instanceof Player player){
             ItemStack weapon = player.getMainHandItem();
-            if (weapon.getItem() instanceof PCI pci && pci.getCharge(weapon)>0 && !player.getCooldowns().isOnCooldown(pci)){
-                int damageMod = 3;
-                int charge = pci.getCharge(weapon);
-                LivingEntity target = event.getEntity();
-                boolean freeze = event.getEntity().getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES);
-                float targetHealth = freeze ? target.getHealth()/damageMod : target.getHealth();
-                int freezeDamage = charge >= targetHealth ? (int) targetHealth : charge;
-                event.setAmount(freeze ?freezeDamage * damageMod : freezeDamage);
-                pci.setCharge(weapon, charge - freezeDamage);
-                target.setTicksFrozen(600);
-                player.getCooldowns().addCooldown(pci, (int) Math.ceil(targetHealth / 5f) * 20);
-            }
+            if (!(weapon.getItem() instanceof PCI pci)) return;
+            float amount = 3f;
+            int charge = pci.getCharge(weapon);
+            if (charge <= 0 || player.getCooldowns().isOnCooldown(pci)) return;
+
+            LivingEntity target = event.getEntity();
+            boolean freeze = target.getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES);
+
+            float targetHealth = freeze ? target.getHealth() / amount : target.getHealth();
+            int freezeDamage = charge >= targetHealth ? (int) targetHealth : charge;
+
+            event.setAmount(freeze ? freezeDamage * amount : freezeDamage); // Make sure it's float
+            pci.setCharge(weapon, charge - freezeDamage);
+
+            target.setTicksFrozen(600);
+            int cooldown = Math.max(20, (int) Math.ceil(targetHealth / 5f) * 20);
+            player.getCooldowns().addCooldown(pci, cooldown);
         }
         Entity living = event.getSource().getEntity();
         if (living instanceof ArmorPersentageBypass bypass){
