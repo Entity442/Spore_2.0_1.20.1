@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Sitems;
 
+import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsBaseItem;
 import net.minecraft.network.chat.Component;
@@ -29,7 +30,7 @@ public class InfectedShield extends SporeToolsBaseItem {
     public static final String CHARGE_TAG = "ShieldCharge";
     public static final int MAX_CHARGE = 5;
     public InfectedShield() {
-        super(5, 0, 1, 300, 0);
+        super(SConfig.SERVER.shield_damage.get(), 0, 1, SConfig.SERVER.shield_durability.get(), 0);
         DispenserBlock.registerBehavior(this, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
     }
 

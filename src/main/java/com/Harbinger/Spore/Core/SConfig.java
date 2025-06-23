@@ -403,6 +403,9 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Integer> scythe_durability;
         public final ForgeConfigSpec.ConfigValue<Integer> scythe_damage;
 
+        public final ForgeConfigSpec.ConfigValue<Integer> shield_durability;
+        public final ForgeConfigSpec.ConfigValue<Integer> shield_damage;
+
         public final ForgeConfigSpec.ConfigValue<Integer> shovel_durability;
         public final ForgeConfigSpec.ConfigValue<Integer> shovel_damage;
 
@@ -1276,6 +1279,10 @@ public class SConfig {
             builder.push("Scythe");
             this.scythe_durability = builder.comment("Default 750").define("Durability",750);
             this.scythe_damage = builder.comment("Default 10").defineInRange("Damage", 10, 1, Integer.MAX_VALUE);
+            builder.pop();
+            builder.push("Shield");
+            this.shield_durability = builder.comment("Default 1000").define("Durability",1000);
+            this.shield_damage = builder.comment("Default 5").defineInRange("Damage", 5, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Combat Shovel");
             this.shovel_durability = builder.comment("Default 1000").define("Durability",1000);
