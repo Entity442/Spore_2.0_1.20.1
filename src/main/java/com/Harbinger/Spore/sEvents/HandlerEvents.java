@@ -697,7 +697,7 @@ public class HandlerEvents {
             }
         if (event.getSource().getEntity() instanceof Player player){
             ItemStack weapon = player.getMainHandItem();
-            if (weapon.getItem() instanceof PCI pci && pci.getCharge(weapon)>0){
+            if (weapon.getItem() instanceof PCI pci && pci.getCharge(weapon)>0 && !player.getCooldowns().isOnCooldown(pci)){
                 int damageMod = 3;
                 int charge = pci.getCharge(weapon);
                 LivingEntity target = event.getEntity();
