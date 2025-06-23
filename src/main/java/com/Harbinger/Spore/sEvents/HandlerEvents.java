@@ -18,6 +18,7 @@ import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
 import com.Harbinger.Spore.Sentities.Organoids.*;
 import com.Harbinger.Spore.Sentities.Utility.*;
 import com.Harbinger.Spore.Sitems.BaseWeapons.*;
+import com.Harbinger.Spore.Sitems.InfectedShield;
 import com.Harbinger.Spore.Sitems.PCI;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.commands.Commands;
@@ -700,17 +701,23 @@ public class HandlerEvents {
                 int damageMod = 2;
                 int charge = pci.getCharge(weapon);
                 LivingEntity target = event.getEntity();
-                float targetHealth = target.getHealth();
+                boolean freeze = event.getEntity().getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES);
+                float targetHealth = freeze ? target.getHealth()/damageMod : target.getHealth();
                 int freezeDamage = charge >= targetHealth ? (int) targetHealth : charge;
-                if (event.getEntity().getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES)){
-                    event.setAmount(freezeDamage * damageMod);
-                    freezeDamage = freezeDamage/damageMod;
-                }else {
-                    event.setAmount(freezeDamage);
-                }
+                event.setAmount(freeze ?freezeDamage * damageMod : freezeDamage);
                 pci.setCharge(weapon, charge <= damageMod ? 0 : charge - freezeDamage);
                 target.setTicksFrozen(600);
                 player.getCooldowns().addCooldown(pci, (int) Math.ceil(targetHealth / 5f) * 20);
+            }
+            if (weapon.getItem() instanceof InfectedShield infectedShield && player.isBlocking()) {
+                CompoundTag tag = weapon.getOrCreateTag();
+                int current = tag.getInt(InfectedShield.CHARGE_TAG);
+                current++;
+                tag.putInt(InfectedShield.CHARGE_TAG, current);
+
+                if (current >= InfectedShield.MAX_CHARGE) {
+                    infectedShield.triggerBash(player, weapon);
+                }
             }
         }
         Entity living = event.getSource().getEntity();
