@@ -64,7 +64,7 @@ public class PCI extends BaseItem2 implements CustomModelArmorData,Vanishable {
 
     @Override
     public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
-        if (entity.level().isClientSide && entity instanceof LocalPlayer player) {
+        if (entity.level().isClientSide && entity instanceof LocalPlayer player && !player.getCooldowns().isOnCooldown(this)) {
             PCIAnimationTracker.trigger(player);
         }
         return super.onEntitySwing(stack, entity);
@@ -72,6 +72,9 @@ public class PCI extends BaseItem2 implements CustomModelArmorData,Vanishable {
 
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        if (attacker instanceof Player player && player.getCooldowns().isOnCooldown(this)){
+            return false;
+        }
         if (getCharge(stack) > 0){
             if (target instanceof Infected infected && infected.getLinked()){infected.setLinked(false);}
         }
