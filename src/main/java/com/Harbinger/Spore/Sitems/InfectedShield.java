@@ -1,6 +1,8 @@
 package com.Harbinger.Spore.Sitems;
 
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsBaseItem;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -10,6 +12,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
@@ -17,8 +20,10 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class InfectedShield extends SporeToolsBaseItem {
     public static final String CHARGE_TAG = "ShieldCharge";
@@ -56,9 +61,37 @@ public class InfectedShield extends SporeToolsBaseItem {
     public EquipmentSlot getEquipmentSlot() {
         return EquipmentSlot.OFFHAND;
     }
+    public void setCharge(ItemStack stack,int value){
+        stack.getOrCreateTag().putInt(CHARGE_TAG, value);
+    }
+    public int getCharge(ItemStack stack){
+        return stack.getOrCreateTag().getInt(CHARGE_TAG);
+    }
 
+    @Override
+    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<T> onBroken) {
+        int current = this.getCharge(stack);
+        this.setCharge(stack,++current);
+        if (current >= InfectedShield.MAX_CHARGE) {
+            this.triggerBash(entity, stack);
+        }
+        int durabilityLeft = stack.getMaxDamage() - stack.getDamageValue();
+        if (durabilityLeft-amount <= 11){
+            entity.playSound(Ssounds.INFECTED_GEAR_BREAK.get());
+        }
+        if (tooHurt(stack)){
+            if (getAdditionalDurability(stack) > 0){
+                hurtExtraDurability(stack,amount,entity);
+                return 0;
+            }else{
+                return super.damageItem(stack, calculateDurabilityLostForMutations(amount,stack), entity, onBroken);
+            }
+        }else{
+            return 0;
+        }
+    }
 
-    public void triggerBash(Player player, ItemStack stack) {
+    public void triggerBash(LivingEntity player, ItemStack stack) {
         if (!(player.level().isClientSide)) {
             double radius = 5.0;
             Vec3 look = player.getLookAngle();
@@ -73,10 +106,15 @@ public class InfectedShield extends SporeToolsBaseItem {
                 target.knockback(1.5F, -direction.x, -direction.z);
             }
 
-            stack.getOrCreateTag().putInt(CHARGE_TAG, 0);
+            setCharge(stack,0);
             player.level().playSound(null, player.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 1.0F, 1.0F);
             this.hurtTool(stack,player,1);
         }
     }
 
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level p_41422_, List<Component> components, TooltipFlag p_41424_) {
+        super.appendHoverText(stack, p_41422_, components, p_41424_);
+        components.add(Component.literal("Charge "+getCharge(stack)+"/"+MAX_CHARGE));
+    }
 }

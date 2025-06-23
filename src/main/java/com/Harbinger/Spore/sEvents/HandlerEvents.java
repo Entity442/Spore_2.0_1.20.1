@@ -705,19 +705,9 @@ public class HandlerEvents {
                 float targetHealth = freeze ? target.getHealth()/damageMod : target.getHealth();
                 int freezeDamage = charge >= targetHealth ? (int) targetHealth : charge;
                 event.setAmount(freeze ?freezeDamage * damageMod : freezeDamage);
-                pci.setCharge(weapon, charge <= damageMod ? 0 : charge - freezeDamage);
+                pci.setCharge(weapon, charge - freezeDamage);
                 target.setTicksFrozen(600);
                 player.getCooldowns().addCooldown(pci, (int) Math.ceil(targetHealth / 5f) * 20);
-            }
-            if (weapon.getItem() instanceof InfectedShield infectedShield && player.isBlocking()) {
-                CompoundTag tag = weapon.getOrCreateTag();
-                int current = tag.getInt(InfectedShield.CHARGE_TAG);
-                current++;
-                tag.putInt(InfectedShield.CHARGE_TAG, current);
-
-                if (current >= InfectedShield.MAX_CHARGE) {
-                    infectedShield.triggerBash(player, weapon);
-                }
             }
         }
         Entity living = event.getSource().getEntity();

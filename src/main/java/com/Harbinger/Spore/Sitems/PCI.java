@@ -64,7 +64,6 @@ public class PCI extends BaseItem2 implements CustomModelArmorData,Vanishable {
 
     @Override
     public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
-        if (entity instanceof Player player){player.getCooldowns().addCooldown(this,20);}
         if (entity.level().isClientSide && entity instanceof LocalPlayer player) {
             PCIAnimationTracker.trigger(player);
         }
