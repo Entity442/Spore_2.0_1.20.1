@@ -8,6 +8,9 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -28,7 +31,7 @@ import java.util.function.Consumer;
 
 public class InfectedShield extends SporeToolsBaseItem {
     public static final String CHARGE_TAG = "ShieldCharge";
-    public static final int MAX_CHARGE = 10;
+    public static final int MAX_CHARGE = 25;
     public InfectedShield() {
         super(SConfig.SERVER.shield_damage.get(), 0, 1, SConfig.SERVER.shield_durability.get(), 0);
         DispenserBlock.registerBehavior(this, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
@@ -105,6 +108,7 @@ public class InfectedShield extends SporeToolsBaseItem {
                 Vec3 direction = target.position().subtract(player.position()).normalize();
                 target.hurtMarked = true;
                 target.knockback(1.5F, -direction.x, -direction.z);
+                target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,200,0));
             }
 
             setCharge(stack,0);
