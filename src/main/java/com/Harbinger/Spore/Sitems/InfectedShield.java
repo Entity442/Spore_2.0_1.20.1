@@ -69,6 +69,7 @@ public class InfectedShield extends SporeToolsBaseItem {
 
             for (LivingEntity target : entities) {
                 Vec3 direction = target.position().subtract(player.position()).normalize();
+                target.hurtMarked = true;
                 target.knockback(1.5F, -direction.x, -direction.z);
             }
 
