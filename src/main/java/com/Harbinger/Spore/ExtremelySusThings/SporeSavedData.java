@@ -1,14 +1,28 @@
 package com.Harbinger.Spore.ExtremelySusThings;
 
+import com.Harbinger.Spore.Sentities.EvolvedInfected.Protector;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SporeSavedData extends SavedData {
     public static final String NAME = Spore.MODID +"_world_data";
     private int amountOfHiveminds;
+    private static final List<Protector> protectorList = new ArrayList<>();
+    public static void addProtector(Protector protector){
+        protectorList.add(protector);
+    }
+    public static void removeProtector(Protector protector){
+        protectorList.remove(protector);
+    }
+    public static List<Protector> protectorList(){
+        return protectorList;
+    }
 
     public SporeSavedData() {
         super();

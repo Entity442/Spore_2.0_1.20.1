@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Damage.SdamageTypes;
+import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.ArmedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
@@ -216,25 +217,11 @@ public class Protector extends EvolvedInfected implements ArmedInfected,HasUsabl
         return super.finalizeSpawn(serverLevelAccessor, instance, p_21436_, p_21437_, p_21438_);
     }
 
-    
-    @SubscribeEvent
-    public static void onInfectedHurt(LivingHurtEvent event) {
-        if (!(event.getEntity() instanceof Infected victim)) return;
-        if (!(victim.level() instanceof ServerLevel level)) return;
 
-        LivingEntity attacker = event.getSource().getEntity() instanceof LivingEntity e ? e : null;
-
-        double radius = 64;
-        for (Protector protector : level.getEntitiesOfClass(Protector.class, victim.getBoundingBox().inflate(radius))) {
-            if (protector == victim || protector.isDeadOrDying()) continue;
-
-            if (protector.getTarget() != null) continue;
-
-            if (attacker != null){
-                protector.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,100,0));
-                protector.setTarget(attacker);
-            }
-        }
+    @Override
+    public void die(DamageSource source) {
+        super.die(source);
+        SporeSavedData.removeProtector(this);
     }
 
     @Override

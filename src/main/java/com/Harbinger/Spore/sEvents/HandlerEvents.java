@@ -13,6 +13,7 @@ import com.Harbinger.Spore.Sentities.BasicInfected.InfectedDrowned;
 import com.Harbinger.Spore.Sentities.Calamities.Gazenbrecher;
 import com.Harbinger.Spore.Sentities.Calamities.Hinderburg;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
+import com.Harbinger.Spore.Sentities.EvolvedInfected.Protector;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
 import com.Harbinger.Spore.Sentities.Organoids.*;
 import com.Harbinger.Spore.Sentities.Utility.*;
@@ -33,8 +34,8 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
@@ -138,6 +139,9 @@ public class HandlerEvents {
     @SubscribeEvent
     public static void onLivingSpawned(EntityJoinLevelEvent event) {
         if (event != null && event.getEntity() != null) {
+            if (event.getEntity() instanceof Protector protector){
+                SporeSavedData.addProtector(protector);
+            }
             if (event.getEntity() instanceof Proto && event.getLevel() instanceof ServerLevel serverLevel){
                 SporeSavedData.addHivemind(serverLevel);
             }
@@ -649,6 +653,9 @@ public class HandlerEvents {
 
     @SubscribeEvent
     public static void DiscardProto(EntityLeaveLevelEvent event){
+        if (event.getEntity() instanceof Protector protector){
+            SporeSavedData.removeProtector(protector);
+        }
         if (event.getEntity() instanceof Proto && event.getLevel() instanceof ServerLevel level){
             SporeSavedData.removeHivemind(level);
         }
@@ -673,9 +680,20 @@ public class HandlerEvents {
             event.setResult(Player.BedSleepingProblem.OTHER_PROBLEM);
         }
     }
-
     @SubscribeEvent
     public static void DefenseBypass(LivingDamageEvent event) {
+            if(event.getEntity() instanceof Infected victim) {
+                LivingEntity attacker = event.getSource().getEntity() instanceof LivingEntity e ? e : null;
+                List<Protector> protectorList = SporeSavedData.protectorList();
+                if (protectorList.isEmpty() || attacker == null){return;}
+                for (Protector protector1 : protectorList){
+                    double d0 = protector1.distanceTo(attacker);
+                    if (protector1.isAlive() && d0 < 64f){
+                        protector1.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,100,0));
+                        protector1.setTarget(attacker);
+                    }
+                }
+            }
         if (event.getSource().getEntity() instanceof Player player){
             ItemStack weapon = player.getMainHandItem();
             if (weapon.getItem() instanceof PCI pci && pci.getCharge(weapon)>0){
