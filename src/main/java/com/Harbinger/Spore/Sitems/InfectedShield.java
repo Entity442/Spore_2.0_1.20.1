@@ -37,7 +37,6 @@ public class InfectedShield extends SporeToolsBaseItem {
     public InfectedShield() {
         super(SConfig.SERVER.shield_damage.get(), 0, 1, SConfig.SERVER.shield_durability.get(), 0);
         DispenserBlock.registerBehavior(this, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
-        Sitems.TINTABLE_ITEMS.add(this);
     }
 
     public UseAnim getUseAnimation(ItemStack p_43105_) {
