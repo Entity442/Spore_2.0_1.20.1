@@ -117,7 +117,7 @@ public class PCI extends BaseItem2 implements CustomModelArmorData,Vanishable {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level p_41422_, List<Component> components, TooltipFlag p_41424_) {
         super.appendHoverText(stack, p_41422_, components, p_41424_);
-        components.add(Component.literal("Portable Cryogenic Injector").withStyle(ChatFormatting.BLUE));
-        components.add(Component.literal("Charge "+getCharge(stack)+"/"+SConfig.SERVER.pci_max_charge.get()));
+        components.add(Component.translatable("pci.line.normal").withStyle(ChatFormatting.BLUE));
+        components.add(Component.literal(getCharge(stack)+"/"+SConfig.SERVER.pci_max_charge.get()).withStyle(ChatFormatting.DARK_BLUE));
     }
 }
