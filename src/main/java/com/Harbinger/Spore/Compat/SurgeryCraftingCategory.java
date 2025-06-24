@@ -4,7 +4,6 @@ import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.Recipes.SurgeryRecipe;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeArmorData;
-import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsBaseItem;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
 import com.Harbinger.Spore.Spore;
 import mezz.jei.api.constants.VanillaTypes;
@@ -19,10 +18,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -32,8 +29,11 @@ public class SurgeryCraftingCategory implements IRecipeCategory<SurgeryRecipe> {
     public static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/gui/surgery_table_gui.png");
     public final TagKey<Item> stringLikeItem = ItemTags.create(new ResourceLocation("spore:stitches"));
-    public Ingredient stiches = Ingredient.of(new ItemStack(ForgeRegistries.ITEMS.tags().getTag(stringLikeItem).getRandomElement(RandomSource.create()).orElse(Items.STRING)));
-
+    public final Ingredient stiches = Ingredient.of(
+            ForgeRegistries.ITEMS.tags().getTag(stringLikeItem).stream()
+                    .map(ItemStack::new)
+                    .toArray(ItemStack[]::new)
+    );
     public static final RecipeType<SurgeryRecipe> SURGERY_TYPE =
             new RecipeType<>(UID, SurgeryRecipe.class);
 
