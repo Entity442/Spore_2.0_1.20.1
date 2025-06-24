@@ -1429,6 +1429,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> verwa_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> delusioner_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> hindicator_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_protector_loot;
 
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> name;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> player_h;
@@ -1530,6 +1531,8 @@ public class SConfig {
 
             this.nucke_loot = builder.defineList("Nuckelave",
                     Lists.newArrayList("spore:mutated_fiber|80|3|12","spore:mutated_heart|25|1|1","spore:armor_fragment|80|3|8","spore:tumor|100|1|3") , o -> o instanceof String);
+            this.inf_protector_loot = builder.defineList("Protector",
+                    Lists.newArrayList("spore:mutated_fiber|80|3|12","spore:mutated_heart|25|1|1","spore:armor_fragment|80|3|8","spore:shield_fragment|100|1|4") , o -> o instanceof String);
 
 
             this.gastgaber_loot = builder.defineList("Gastgaber",
