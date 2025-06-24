@@ -683,54 +683,47 @@ public class HandlerEvents {
     }
     @SubscribeEvent
     public static void DefenseBypass(LivingDamageEvent event) {
-            if(event.getEntity() instanceof Infected victim) {
-                LivingEntity attacker = event.getSource().getEntity() instanceof LivingEntity e ? e : null;
+        Entity living = event.getSource().getEntity();
+        if (living instanceof Player player){
+            ItemStack weapon = player.getMainHandItem();
+            if (weapon.getItem() instanceof PCI pci && pci.getCharge(weapon)>0 && !player.getCooldowns().isOnCooldown(pci)){
+                int damageMod = 3;
+                int charge = pci.getCharge(weapon);
+                LivingEntity target = event.getEntity();
+                boolean freeze = event.getEntity().getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES);
+                float targetHealth = freeze ? target.getHealth()/damageMod : target.getHealth();
+                int freezeDamage = charge >= targetHealth ? (int) targetHealth : charge;
+                event.setAmount(freeze ?freezeDamage * damageMod : freezeDamage);
+                pci.setCharge(weapon, charge - freezeDamage);
+                target.setTicksFrozen(600);
+                player.getCooldowns().addCooldown(pci, (int) Math.ceil(targetHealth / 5f) * 20);
+                pci.playSound(player);
+            }
+        }
+        if(event.getEntity() instanceof Infected victim && !(victim instanceof Protector)) {
+                LivingEntity attacker = living instanceof LivingEntity e ? e : null;
                 List<Protector> protectorList = SporeSavedData.protectorList();
-                if (protectorList.isEmpty() || attacker == null){return;}
-                for (Protector protector1 : protectorList){
-                    double d0 = protector1.distanceTo(attacker);
-                    if (protector1.isAlive() && d0 < 64f){
-                        protector1.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,100,0));
-                        protector1.setTarget(attacker);
+                if (!protectorList.isEmpty() || attacker != null){
+                    for (Protector protector1 : protectorList){
+                        double d0 = protector1.distanceTo(attacker);
+                        if (protector1.isAlive() && d0 < 64f && attacker.isSpectator()){
+                            protector1.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,100,0));
+                            protector1.setTarget(attacker);
+                        }
                     }
                 }
-            }
-        if (event.getSource().getEntity() instanceof Player player){
-            ItemStack weapon = player.getMainHandItem();
-            if (!(weapon.getItem() instanceof PCI pci)) return;
-            float amount = 3f;
-            int charge = pci.getCharge(weapon);
-            if (charge <= 0 || player.getCooldowns().isOnCooldown(pci)) return;
-
-            LivingEntity target = event.getEntity();
-            boolean freeze = target.getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES);
-
-            float targetHealth = freeze ? target.getHealth() / amount : target.getHealth();
-            int freezeDamage = charge >= targetHealth ? (int) targetHealth : charge;
-
-            event.setAmount(freeze ? freezeDamage * amount : freezeDamage); // Make sure it's float
-            pci.setCharge(weapon, charge - freezeDamage);
-
-            target.setTicksFrozen(600);
-            int cooldown = Math.max(20, (int) Math.ceil(targetHealth / 5f) * 20);
-            player.getCooldowns().addCooldown(pci, cooldown);
         }
-        Entity living = event.getSource().getEntity();
         if (living instanceof ArmorPersentageBypass bypass){
             float original_damage = event.getAmount();
             float recalculatedDamage = bypass.amountOfDamage(original_damage);
-            if (recalculatedDamage <= 0 || original_damage > recalculatedDamage){
-                return;
-            }else{
+            if (recalculatedDamage >= 0 || original_damage < recalculatedDamage){
                 event.setAmount(recalculatedDamage);
             }
         }
         if (living instanceof LivingEntity livingEntity && livingEntity.getMainHandItem().getItem() instanceof DamagePiercingModifier piercingModifier){
             float original_damage = event.getAmount();
             float recalculatedDamage = piercingModifier.getMinimalDamage(original_damage);
-            if (recalculatedDamage <= 0 || original_damage > recalculatedDamage){
-                return;
-            }else{
+            if (recalculatedDamage >= 0 || original_damage < recalculatedDamage){
                 event.setAmount(recalculatedDamage);
             }
         }
