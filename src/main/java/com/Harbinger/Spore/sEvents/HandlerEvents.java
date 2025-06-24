@@ -703,10 +703,10 @@ public class HandlerEvents {
         if(event.getEntity() instanceof Infected victim && !(victim instanceof Protector)) {
                 LivingEntity attacker = living instanceof LivingEntity e ? e : null;
                 List<Protector> protectorList = SporeSavedData.protectorList();
-                if (!protectorList.isEmpty() || attacker != null){
+                if (!protectorList.isEmpty() && attacker != null){
                     for (Protector protector1 : protectorList){
                         double d0 = protector1.distanceTo(attacker);
-                        if (protector1.isAlive() && d0 < 64f && attacker.isSpectator()){
+                        if (protector1.isAlive() && d0 < 64f && !attacker.isSpectator()){
                             protector1.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,100,0));
                             protector1.setTarget(attacker);
                         }
@@ -716,14 +716,14 @@ public class HandlerEvents {
         if (living instanceof ArmorPersentageBypass bypass){
             float original_damage = event.getAmount();
             float recalculatedDamage = bypass.amountOfDamage(original_damage);
-            if (recalculatedDamage >= 0 || original_damage < recalculatedDamage){
+            if (recalculatedDamage >= 0 && original_damage < recalculatedDamage){
                 event.setAmount(recalculatedDamage);
             }
         }
         if (living instanceof LivingEntity livingEntity && livingEntity.getMainHandItem().getItem() instanceof DamagePiercingModifier piercingModifier){
             float original_damage = event.getAmount();
             float recalculatedDamage = piercingModifier.getMinimalDamage(original_damage);
-            if (recalculatedDamage >= 0 || original_damage < recalculatedDamage){
+            if (recalculatedDamage >= 0 && original_damage < recalculatedDamage){
                 event.setAmount(recalculatedDamage);
             }
         }

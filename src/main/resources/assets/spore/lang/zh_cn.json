@@ -266,10 +266,10 @@
   "item.spore.brain_noodles": "脑花面条",
   "item.spore.scanner": "扫描器",
   "item.spore.documents": "文件",
-
+  "item.spore.shield_fragment": "盾牌碎片",
+  "item.spore.shield": "感染之盾",
+  "item.spore.pci": "PCI",
   "item.spore.symbiotic_reagent": "共生试剂",
-
-
   "item.spore.saber": "染菌军刀",
   "item.spore.infected_bow": "染菌弓",
   "item.spore.greatsword": "染菌大剑",
@@ -361,6 +361,7 @@
   "item.spore.nuclea_spawnegg": "半兽者刷怪蛋",
   "item.spore.hevoker_spawnegg": "巫术者刷怪蛋",
   "item.spore.hvindicator_spawnegg": "战斧者刷怪蛋",
+  "item.spore.prot_spawnegg": "守护者",
 
   "item.spore.scent_spawnegg": "支援孢气刷怪蛋",
   "item.spore.scent_overcharged_spawnegg": "过激孢气刷怪蛋",
@@ -428,7 +429,7 @@
   "entity.spore.nuclea": "半兽者",
   "entity.spore.hevoker": "巫术者",
   "entity.spore.hvindicator": "战斧者",
-
+  "entity.spore.protector": "守护者",
 
   "entity.spore.thrown_tumor": "投掷的肿瘤",
   "entity.spore.thrown_spear": "投掷的长矛",
@@ -595,7 +596,7 @@
   "spore.scanner.organ.corrosive_sack" : "某种腺体会分泌一种非常酸性的物质，闻起来很臭。 它可能是消化系统中回收的胃腺，但它的残缺程度太严重，无法正确识别其原始形式。",
 
 
-
+  "pci.line.normal": "便携式低温注射器",
   "item.spore.corrupted_record.desc": "创世纪实验室，记录 1",
   "container.biohazard": "生物危害单元",
   "block.spore.container": "生物危害单元",

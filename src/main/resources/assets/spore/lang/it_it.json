@@ -86,6 +86,7 @@
   "block.spore.bile": "Bile",
   "block.spore.crusted_bile": "Bile Incrostata",
   "item.spore.reaver": "Predone",
+  "item.spore.pci": "PCI",
   "block.spore.heart_pie": "Torta di Cuore",
   "block.spore.cooked_torso": "Torso Cotto",
   "block.spore.skull_soup": "Zuppa di Teschi",
@@ -131,6 +132,7 @@
   "item.spore.innards": "Interiora",
   "item.spore.r_wing": "Ala",
   "item.spore.vigil_eye": "L'Occhio della Veglia",
+  "item.spore.shield_fragment": "Frammento di scudo",
   "item.spore.organoid_membrane": "Membrana organoide",
   "item.spore.forgotten_record": "Registro dimenticato",
   "item.spore.forsaken_record": "Disco Abbandonato",
@@ -207,6 +209,8 @@
   "item.spore.living_chest": "Corazza di Carne",
   "item.spore.living_pants": "Pantaloni di Carne",
   "item.spore.living_boots": "Sivali di Carne",
+  "item.spore.shield": "Scudo infetto",
+
 
   "item.spore.knight_spawnegg": "Cavaliere",
   "item.spore.infected_human_spawnegg": "Umano Infettato",
@@ -261,7 +265,7 @@
   "item.spore.nuclea_spawnegg": "Centauro di Nuckelave",
   "item.spore.hevoker_spawnegg": "Maestro delle Streghe",
   "item.spore.hvindicator_spawnegg": "Lanciatore d'asciaAxtwerfer",
-
+  "item.spore.prot_spawnegg": "Protettore",
 
   "item.spore.scent_spawnegg": "Feromone",
   "item.spore.scent_overcharged_spawnegg": "Feromone supercaricato",
@@ -329,7 +333,7 @@
   "entity.spore.hevoker": "Maestro delle Streghe",
   "entity.spore.hvindicator": "Lanciatore d'asciaAxtwerfer",
   "entity.spore.hevoker_arm": "Artiglio di Hexenmeister",
-
+  "entity.spore.protector": "Protettore",
   "spore.entity.variant.kidnapper" : "Mutazione Rapitore",
   "spore.entity.variant.kamikaze": "Mutazione Kamikaze",
   "spore.entity.variant.noxious": "Mutazione Velenata",
@@ -552,7 +556,7 @@
   "container.line.normal": "Premi Shift per piu Informazioni.",
   "container.line.shift": "Il contenitore per pericoli Biologici e la perfetta addizione per mantenere material organici.",
   "cdu.line": "Unita Dispersione Criogenica",
-
+  "pci.line.normal": "Iniettore criogenico portatile",
   "advancement.spore.spore.title": "Spora",
   "advancement.spore.spore.description": "La resistenza è futile",
   "advancement.spore.scanner.title": "Tempo di scansione",
