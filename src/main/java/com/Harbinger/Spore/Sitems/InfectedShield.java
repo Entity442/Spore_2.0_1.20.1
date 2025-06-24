@@ -111,9 +111,18 @@ public class InfectedShield extends SporeToolsBaseItem {
                 target.hurtMarked = true;
                 target.knockback(getVariant(stack) == SporeToolsMutations.CALCIFIED ? 2.5f : 1.5F, -direction.x, -direction.z);
                 target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,200,0));
+                if (getVariant(stack) == SporeToolsMutations.TOXIC){
+                    target.addEffect(new MobEffectInstance(MobEffects.POISON, 200,0));
+                }
+                if (getVariant(stack) == SporeToolsMutations.ROTTEN){
+                    target.addEffect(new MobEffectInstance(MobEffects.POISON, 200,0));
+                }
             }
             if (getVariant(stack) == SporeToolsMutations.VAMPIRIC){
                 player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 400,0));
+            }
+            if (getVariant(stack) == SporeToolsMutations.BEZERK){
+                player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 200,1));
             }
             setCharge(stack,0);
             player.level().playSound(null, player.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 1.0F, 1.0F);
