@@ -102,8 +102,7 @@ public class Vigil extends Organoid implements TraceableEntity, VariantKeeper {
                 this.ReEmerge();
             }else{
                 if (getVariant() == VigilVariants.TROLL && level() instanceof ServerLevel serverLevel){
-                    DamageSource source = getLastDamageSource();
-                    if (source != null && (source.getEntity() instanceof Player || this.getTarget() instanceof Player)){
+                    if (getLastAttacker() instanceof Player || this.getTarget() instanceof Player){
                         this.pickAndPlaceMessage(serverLevel,this.getOnPos().above());
                     }
                 }
