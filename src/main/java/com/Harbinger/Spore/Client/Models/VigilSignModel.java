@@ -18,6 +18,9 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class VigilSignModel<T extends Vigil> extends EntityModel<T> implements TentacledModel{
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "vigilsignmodel"), "main");
@@ -30,8 +33,7 @@ public class VigilSignModel<T extends Vigil> extends EntityModel<T> implements T
 	private final ModelPart Root2;
 	private final ModelPart Body;
 	private final ModelPart Torso;
-	private final ModelPart TorsoDetails;
-	private final ModelPart Limbs;
+    private final ModelPart Limbs;
 	private final ModelPart Arm;
 	private final ModelPart LegLeft;
 	private final ModelPart LegRight;
@@ -41,13 +43,14 @@ public class VigilSignModel<T extends Vigil> extends EntityModel<T> implements T
 	private final ModelPart TTSeg1;
 	private final ModelPart TTSeg2;
 	private final ModelPart TTSeg3;
-    private final ModelPart Connectors;
-	private final ModelPart Eye;
+    private final ModelPart Eye;
 	private final ModelPart pupil;
 	private final ModelPart RighHolder;
 	private final ModelPart Torso2;
 	private final ModelPart arms;
+	private final ModelPart RightArm;
     private final ModelPart FungalStalk2;
+	private final ModelPart FungalStalk3;
 
     public VigilSignModel(ModelPart root) {
 		this.Biomasses = root.getChild("Biomasses");
@@ -59,7 +62,6 @@ public class VigilSignModel<T extends Vigil> extends EntityModel<T> implements T
 		this.Root2 = this.Roots.getChild("Root2");
 		this.Body = root.getChild("Body");
 		this.Torso = this.Body.getChild("Torso");
-		this.TorsoDetails = this.Torso.getChild("TorsoDetails");
 		this.Limbs = root.getChild("Limbs");
 		this.Arm = this.Limbs.getChild("Arm");
 		this.LegLeft = this.Limbs.getChild("LegLeft");
@@ -70,13 +72,14 @@ public class VigilSignModel<T extends Vigil> extends EntityModel<T> implements T
 		this.TTSeg1 = this.HeadPivot.getChild("TTSeg1");
 		this.TTSeg2 = this.TTSeg1.getChild("TTSeg2");
 		this.TTSeg3 = this.TTSeg2.getChild("TTSeg3");
-		this.Connectors = this.TTSeg3.getChild("Connectors");
 		this.Eye = this.TTSeg3.getChild("Eye");
 		this.pupil = this.Eye.getChild("pupil");
 		this.RighHolder = root.getChild("RighHolder");
 		this.Torso2 = this.RighHolder.getChild("Torso2");
 		this.arms = this.Torso2.getChild("arms");
+		this.RightArm = this.arms.getChild("RightArm");
         this.FungalStalk2 = this.Torso2.getChild("FungalStalk2");
+		this.FungalStalk3 = this.Torso2.getChild("FungalStalk3");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -385,6 +388,7 @@ public class VigilSignModel<T extends Vigil> extends EntityModel<T> implements T
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
 
+	public List<ModelPart> getArms(){return new ArrayList<>(){{add(RighHolder);add(Torso2);add(arms);}};}
 	@Override
 	public void setupAnim(T vigil, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.Roots.xScale = 1 - Mth.cos(ageInTicks/10)/10;
@@ -419,8 +423,8 @@ public class VigilSignModel<T extends Vigil> extends EntityModel<T> implements T
 		}
 		this.RighHolder.xRot = Mth.sin(ageInTicks/7)/8;
 		this.arms.xRot = Mth.cos(ageInTicks/6)/6;
-		this.animateTentacleX(FungalStalk1,Mth.cos(ageInTicks/6)/5);
-		this.animateTentacleZ(FungalStalk1,Mth.cos(ageInTicks/6)/4);
+		this.animateTentacleX(FungalStalk3,Mth.cos(ageInTicks/6)/5);
+		this.animateTentacleZ(FungalStalk3,Mth.cos(ageInTicks/6)/4);
 		this.animateTentacleX(FungalStalk2,-Mth.cos(ageInTicks/6)/6);
 		this.animateTentacleZ(FungalStalk2,-Mth.cos(ageInTicks/5)/5);
 	}

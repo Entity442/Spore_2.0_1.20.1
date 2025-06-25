@@ -250,6 +250,8 @@ public class Vigil extends Organoid implements TraceableEntity, VariantKeeper {
         return VigilVariants.values().length;
     }
 
+
+
     private void setVariant(VigilVariants variant) {
         this.entityData.set(DATA_ID_TYPE_VARIANT, variant.getId() & 255);
     }
