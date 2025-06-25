@@ -1,8 +1,9 @@
 package com.Harbinger.Spore.Client.Renderers;
 
-import com.Harbinger.Spore.Client.Models.InfectedSpearModel;
 import com.Harbinger.Spore.Client.Models.SickleModel;
+import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.Projectile.ThrownSickle;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -35,20 +36,28 @@ public class SickleRenderer extends EntityRenderer<ThrownSickle> {
 
     @Override
     public void render(ThrownSickle sickle, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int light) {
-        // Render the sickle model (local transform)
+        float r = 1;
+        float g = 1;
+        float b = 1;
+        if (sickle.getSpearItem().getItem() instanceof SporeWeaponData data){
+            int[] colors = Utilities.computeRGB(data.getVariant(sickle.getSpearItem()).getColor());
+            r = colors[0];
+            g = colors[1];
+            b = colors[2];
+        }
         poseStack.pushPose();
         poseStack.translate(0,-1,0);
         poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTicks, sickle.yRotO, sickle.getYRot())));
         poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTicks, sickle.xRotO, sickle.getXRot())));
         poseStack.scale(1.8f,1.8f,1.8f);
         VertexConsumer sickleConsumer = ItemRenderer.getFoilBufferDirect(bufferSource, model.renderType(getTextureLocation(sickle)), false, sickle.isFoil());
-        model.renderToBuffer(poseStack, sickleConsumer, light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+        model.renderToBuffer(poseStack, sickleConsumer, light, OverlayTexture.NO_OVERLAY, r, g, b, 1.0F);
         poseStack.popPose();
 
         // Tether: from sickle to player
         Entity owner = sickle.getOwner();
         if (owner != null) {
-            renderConnection(sickle,owner,poseStack,bufferSource,partialTicks);
+            renderConnection(sickle,owner,poseStack,bufferSource,partialTicks,r,g,b);
         }
 
         super.render(sickle, entityYaw, partialTicks, poseStack, bufferSource, light);
@@ -62,7 +71,7 @@ public class SickleRenderer extends EntityRenderer<ThrownSickle> {
     }
 
     private void renderConnection(ThrownSickle parent , Entity to, PoseStack stack,
-                                      MultiBufferSource buffer, float partialTick) {
+                                      MultiBufferSource buffer, float partialTick,float r,float g,float b) {
         Vec3 start = parent.getPosition(partialTick).add(parent.getDeltaMovement().normalize().scale(-0.3));
         Vec3 vec3 = (new Vec3(0.2, 1.35, 0.6)).yRot(-to.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
         Vec3 end = to.getPosition(partialTick).add(vec3.x,vec3.y,vec3.z);
@@ -92,7 +101,7 @@ public class SickleRenderer extends EntityRenderer<ThrownSickle> {
                     endWidth, endHeight,      // End dimensions
                     length,                   // Distance between segments
                     OverlayTexture.NO_OVERLAY, 15728880,
-                    1, 1, 1, 1);              // RGBA color
+                    r, g, b, 1);              // RGBA color
         }
         stack.popPose();
     }

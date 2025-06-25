@@ -1,8 +1,10 @@
 package com.Harbinger.Spore.Client.Renderers;
 
 import com.Harbinger.Spore.Client.Models.InfectedSpearModel;
+import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.Projectile.ThrownKnife;
 import com.Harbinger.Spore.Sentities.Projectile.ThrownSpear;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -28,15 +30,24 @@ public class KnifeRenderer extends EntityRenderer<ThrownKnife> {
         this.model = new InfectedSpearModel<>(context.bakeLayer(InfectedSpearModel.LAYER_LOCATION));
     }
 
-    public void render(ThrownKnife p_116111_, float p_116112_, float p_116113_, PoseStack stack, MultiBufferSource p_116115_, int p_116116_) {
+    public void render(ThrownKnife knife, float p_116112_, float p_116113_, PoseStack stack, MultiBufferSource p_116115_, int p_116116_) {
+        float r = 1;
+        float g = 1;
+        float b = 1;
+        if (knife.getSpearItem().getItem() instanceof SporeWeaponData data){
+            int[] colors = Utilities.computeRGB(data.getVariant(knife.getSpearItem()).getColor());
+            r = colors[0];
+            g = colors[1];
+            b = colors[2];
+        }
         stack.pushPose();
-        stack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(p_116113_, p_116111_.yRotO, p_116111_.getYRot()) - 90.0F));
-        stack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(p_116113_, p_116111_.xRotO, p_116111_.getXRot()) + 90.0F));
+        stack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(p_116113_, knife.yRotO, knife.getYRot()) - 90.0F));
+        stack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(p_116113_, knife.xRotO, knife.getXRot()) + 90.0F));
         stack.scale(0.4f,0.4f,0.4f);
-        VertexConsumer vertexconsumer = ItemRenderer.getFoilBufferDirect(p_116115_, this.model.renderType(this.getTextureLocation(p_116111_)), false, p_116111_.isFoil());
-        this.model.renderToBuffer(stack, vertexconsumer, p_116116_, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+        VertexConsumer vertexconsumer = ItemRenderer.getFoilBufferDirect(p_116115_, this.model.renderType(this.getTextureLocation(knife)), false, knife.isFoil());
+        this.model.renderToBuffer(stack, vertexconsumer, p_116116_, OverlayTexture.NO_OVERLAY, r, g, b, 1.0F);
         stack.popPose();
-        super.render(p_116111_, p_116112_, p_116113_, stack, p_116115_, p_116116_);
+        super.render(knife, p_116112_, p_116113_, stack, p_116115_, p_116116_);
     }
 
     public @NotNull ResourceLocation getTextureLocation(ThrownKnife p_116109_) {

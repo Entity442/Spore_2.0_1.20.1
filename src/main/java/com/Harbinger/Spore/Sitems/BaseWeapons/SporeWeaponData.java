@@ -155,4 +155,26 @@ public interface SporeWeaponData {
             setAdditionalDurability(getAdditionalDurability(stack)+value,stack);
         }
     }
+
+    default void abstractMutationBuffs(LivingEntity victim , LivingEntity owner , ItemStack stack,SporeWeaponData data){
+        if (data.getVariant(stack) == SporeToolsMutations.TOXIC){
+            victim.addEffect(new MobEffectInstance(MobEffects.POISON,60,1));
+        }
+        if (data.getVariant(stack) == SporeToolsMutations.ROTTEN){
+            victim.addEffect(new MobEffectInstance(MobEffects.WITHER,60,1));
+        }
+        if (data.getVariant(stack) == SporeToolsMutations.VAMPIRIC && owner.getHealth() < owner.getMaxHealth()){
+            owner.heal(2f);
+        }
+        if (data.getVariant(stack) == SporeToolsMutations.BEZERK && Math.random() < 0.3){
+            if (Math.random() < 0.5){
+                owner.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,60,0));
+            } else if (Math.random() < 0.5) {
+                owner.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST,60,0));
+            }else {
+                owner.addEffect(new MobEffectInstance(MobEffects.SATURATION,60,0));
+            }
+        }
+    }
+
 }

@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sentities.Projectile;
 
 import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Fluids.BileLiquid;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -124,6 +125,9 @@ public class ThrownBoomerang extends AbstractArrow {
                 if (owner instanceof LivingEntity ownerLiving) {
                     EnchantmentHelper.doPostHurtEffects(living, ownerLiving);
                     EnchantmentHelper.doPostDamageEffects(ownerLiving, living);
+                    if (boomerang.getItem() instanceof SporeWeaponData data){
+                        data.abstractMutationBuffs(living,ownerLiving,boomerang,data);
+                    }
                 }
 
                 if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FIRE_ASPECT, boomerang) > 0) {

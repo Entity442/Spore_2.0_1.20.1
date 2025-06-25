@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sentities.Projectile;
 
 import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Fluids.BileLiquid;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -35,7 +36,6 @@ public class ThrownKnife extends AbstractArrow {
     private boolean dealtDamage;
     public int clientSideReturnTridentTickCount;
 
-
     public ThrownKnife(Level p_37569_, LivingEntity p_37570_, ItemStack p_37571_) {
         super(Sentities.THROWN_KNIFE.get(), p_37570_, p_37569_);
         this.spearItem = p_37571_.copy();
@@ -50,7 +50,9 @@ public class ThrownKnife extends AbstractArrow {
     public ThrownKnife(EntityType<ThrownKnife> thrownSpearEntityType, Level level) {
         super(thrownSpearEntityType,level);
     }
-
+    public ItemStack getSpearItem(){
+        return spearItem.copy();
+    }
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(ID_LOYALTY, (byte)0);
@@ -131,9 +133,12 @@ public class ThrownKnife extends AbstractArrow {
             }
 
             if (entity instanceof LivingEntity livingEntity) {
-                if (entity1 instanceof LivingEntity) {
-                    EnchantmentHelper.doPostHurtEffects(livingEntity, entity1);
-                    EnchantmentHelper.doPostDamageEffects((LivingEntity)entity1, livingEntity);
+                if (entity1 instanceof LivingEntity ownerLiving) {
+                    EnchantmentHelper.doPostHurtEffects(livingEntity, ownerLiving);
+                    EnchantmentHelper.doPostDamageEffects(ownerLiving, livingEntity);
+                    if (spearItem.getItem() instanceof SporeWeaponData data){
+                        data.abstractMutationBuffs(livingEntity,ownerLiving,spearItem,data);
+                    }
                 }
                 if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FIRE_ASPECT , this.spearItem) > 0) {
                     int j = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FIRE_ASPECT, this.spearItem);

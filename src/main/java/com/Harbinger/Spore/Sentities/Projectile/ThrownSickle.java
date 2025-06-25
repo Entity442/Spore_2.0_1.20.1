@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sentities.Projectile;
 
 import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Fluids.BileLiquid;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
 import com.Harbinger.Spore.Sitems.InfectedSickle;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -53,7 +54,9 @@ public class ThrownSickle extends AbstractArrow {
         super.defineSynchedData();
         this.entityData.define(ID_FOIL, false);
     }
-
+    public ItemStack getSpearItem(){
+        return spearItem.copy();
+    }
     public void tick() {
         if (this.state == SickelState.HOOKED_IN_ENTITY && hookedEntity != null && hookedEntity.isAlive()) {
             this.setPos(hookedEntity.getX(), hookedEntity.getY() + (hookedEntity.getBbHeight() * 0.5), hookedEntity.getZ());
@@ -105,9 +108,12 @@ public class ThrownSickle extends AbstractArrow {
                 return;
             }
             if (entity instanceof LivingEntity livingEntity) {
-                if (entity1 instanceof LivingEntity) {
-                    EnchantmentHelper.doPostHurtEffects(livingEntity, entity1);
-                    EnchantmentHelper.doPostDamageEffects((LivingEntity)entity1, livingEntity);
+                if (entity1 instanceof LivingEntity ownerLiving) {
+                    EnchantmentHelper.doPostHurtEffects(livingEntity, ownerLiving);
+                    EnchantmentHelper.doPostDamageEffects(ownerLiving, livingEntity);
+                    if (spearItem.getItem() instanceof SporeWeaponData data){
+                        data.abstractMutationBuffs(livingEntity,ownerLiving,spearItem,data);
+                    }
                 }
                 if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FIRE_ASPECT , this.spearItem) > 0) {
                     int j = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FIRE_ASPECT, this.spearItem);

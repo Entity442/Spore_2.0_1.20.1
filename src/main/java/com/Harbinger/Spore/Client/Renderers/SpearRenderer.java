@@ -1,7 +1,9 @@
 package com.Harbinger.Spore.Client.Renderers;
 
 import com.Harbinger.Spore.Client.Models.InfectedSpearModel;
+import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.Projectile.ThrownSpear;
+import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -26,14 +28,23 @@ public class SpearRenderer extends EntityRenderer<ThrownSpear> {
         this.model = new InfectedSpearModel<>(context.bakeLayer(InfectedSpearModel.LAYER_LOCATION));
     }
 
-    public void render(ThrownSpear p_116111_, float p_116112_, float p_116113_, PoseStack p_116114_, MultiBufferSource p_116115_, int p_116116_) {
-        p_116114_.pushPose();
-        p_116114_.mulPose(Axis.YP.rotationDegrees(Mth.lerp(p_116113_, p_116111_.yRotO, p_116111_.getYRot()) - 90.0F));
-        p_116114_.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(p_116113_, p_116111_.xRotO, p_116111_.getXRot()) + 90.0F));
-        VertexConsumer vertexconsumer = ItemRenderer.getFoilBufferDirect(p_116115_, this.model.renderType(this.getTextureLocation(p_116111_)), false, p_116111_.isFoil());
-        this.model.renderToBuffer(p_116114_, vertexconsumer, p_116116_, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-        p_116114_.popPose();
-        super.render(p_116111_, p_116112_, p_116113_, p_116114_, p_116115_, p_116116_);
+    public void render(ThrownSpear spear, float p_116112_, float p_116113_, PoseStack stack, MultiBufferSource p_116115_, int p_116116_) {
+        float r = 1;
+        float g = 1;
+        float b = 1;
+        if (spear.getSpearItem().getItem() instanceof SporeWeaponData data){
+            int[] colors = Utilities.computeRGB(data.getVariant(spear.getSpearItem()).getColor());
+            r = colors[0];
+            g = colors[1];
+            b = colors[2];
+        }
+        stack.pushPose();
+        stack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(p_116113_, spear.yRotO, spear.getYRot()) - 90.0F));
+        stack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(p_116113_, spear.xRotO, spear.getXRot()) + 90.0F));
+        VertexConsumer vertexconsumer = ItemRenderer.getFoilBufferDirect(p_116115_, this.model.renderType(this.getTextureLocation(spear)), false, spear.isFoil());
+        this.model.renderToBuffer(stack, vertexconsumer, p_116116_, OverlayTexture.NO_OVERLAY, r, g, b, 1.0F);
+        stack.popPose();
+        super.render(spear, p_116112_, p_116113_, stack, p_116115_, p_116116_);
     }
 
     public ResourceLocation getTextureLocation(ThrownSpear p_116109_) {
