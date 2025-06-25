@@ -360,6 +360,7 @@
   "spore.entity.variant.war_torn" : "War Torn Mutation",
   "spore.entity.variant.overclocked" : "Overclocked Mutation",
   "spore.entity.variant.hazard" : "Hazardous Mutation",
+  "spore.entity.variant.troll" : "Propagator Mutation",
   "spore.scanner.danger.calamity" : "RUN",
   "spore.scanner.danger.hyper" : "Very High",
   "spore.scanner.danger.evolved" : "Medium-High",
@@ -674,5 +675,17 @@
   "advancement.spore.plagued.title" : "Gotta send him to rehab",
   "advancement.spore.plagued.description" : "Get jumped by the Plagued",
   "advancement.spore.lore_1.title" : "Fragments of the past",
-  "advancement.spore.lore_1.description" : "Find some of the disks"
+  "advancement.spore.lore_1.description" : "Find some of the disks",
+
+  "spore.proto.message.0": "You're gonna need a bigger sword :P",
+  "spore.proto.message.1": "Rage quit already you're done",
+  "spore.proto.message.2": "New World?",
+  "spore.proto.message.3": "This world is not yours to conquer",
+  "spore.proto.message.4": "Go back to vanilla kid",
+  "spore.proto.message.5": "I will never stop farming you",
+  "spore.proto.message.6": "Set the world to peaceful at this point",
+  "spore.proto.message.7": "Players are not usually this bad",
+  "spore.proto.message.8": "You're nothing more then pre",
+  "spore.proto.message.9": "Aren't you tired of dying blockhead?"
+
 }

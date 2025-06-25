@@ -11,6 +11,7 @@ import com.Harbinger.Spore.Sentities.VariantKeeper;
 import com.Harbinger.Spore.Sentities.Variants.VigilVariants;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -35,11 +36,21 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.SignBlockEntity;
+import net.minecraft.world.level.block.entity.SignText;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
+
+import static java.awt.SystemColor.text;
 
 public class Vigil extends Organoid implements TraceableEntity, VariantKeeper {
     private static final EntityDataAccessor<Integer> TRIGGER = SynchedEntityData.defineId(Vigil.class, EntityDataSerializers.INT);
@@ -90,6 +101,12 @@ public class Vigil extends Organoid implements TraceableEntity, VariantKeeper {
             if (this.isStalker() && this.getTarget() != null){
                 this.ReEmerge();
             }else{
+                if (getVariant() == VigilVariants.TROLL && level() instanceof ServerLevel serverLevel){
+                    DamageSource source = getLastDamageSource();
+                    if (source != null && (source.getEntity() instanceof Player || this.getTarget() instanceof Player)){
+                        this.pickAndPlaceMessage(serverLevel,this.getOnPos().above());
+                    }
+                }
                 this.discard();
                 this.TimeToLeave();
             }
@@ -250,7 +267,65 @@ public class Vigil extends Organoid implements TraceableEntity, VariantKeeper {
         return VigilVariants.values().length;
     }
 
+    public void pickAndPlaceMessage(ServerLevel serverLevel, BlockPos pos) {
+        if (pos.equals(BlockPos.ZERO) || !serverLevel.getBlockState(pos).isAir()) {
+            return;
+        }
 
+        String key = "spore.proto.message." + random.nextInt(10);
+        Component translated = Component.translatable(key);
+        String[] words = translated.getString().split(" ");
+
+        List<String> lines = new ArrayList<>();
+        StringBuilder currentLine = new StringBuilder();
+
+        for (String word : words) {
+            if (currentLine.length() + word.length() + 1 <= 15) {
+                if (currentLine.length() > 0) currentLine.append(" ");
+                currentLine.append(word);
+            } else {
+                lines.add(currentLine.toString());
+                currentLine = new StringBuilder(word);
+                if (lines.size() == 4) break;
+            }
+        }
+
+        if (lines.size() < 4 && currentLine.length() > 0) {
+            lines.add(currentLine.toString());
+        }
+
+        // Ensure the array is exactly 4 lines (sign limit)
+        while (lines.size() < 4) {
+            lines.add("");
+        }
+
+        placeSignWithText(serverLevel, pos, lines.toArray(new String[0]));
+    }
+
+    public void placeSignWithText(ServerLevel world, BlockPos pos, String[] lines) {
+        BlockState signState = Blocks.OAK_SIGN.defaultBlockState();
+
+        world.setBlockAndUpdate(pos, signState);
+
+        BlockEntity be = world.getBlockEntity(pos);
+        if (!(be instanceof SignBlockEntity sign)) return;
+
+        SignText newText = sign.getFrontText();
+        int v = Math.min(lines.length, 4);
+        for (int i = 0; i <v; i++) {
+            String centered = centerLine(lines[i], 15);
+            Component line = Component.literal(centered);
+            newText = newText.setMessage(i, line, line);
+        }
+
+        sign.setText(newText,true);
+        sign.setChanged();
+    }
+    private String centerLine(String text, int width) {
+        if (text.length() >= width) return text.substring(0, width);
+        int pad = (width - text.length()) / 2;
+        return " ".repeat(pad) + text;
+    }
 
     private void setVariant(VigilVariants variant) {
         this.entityData.set(DATA_ID_TYPE_VARIANT, variant.getId() & 255);
