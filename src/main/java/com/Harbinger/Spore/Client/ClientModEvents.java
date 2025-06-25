@@ -82,6 +82,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(VolatileModel.LAYER_LOCATION, VolatileModel::createBodyLayer);
         event.registerLayerDefinition(WombModel.LAYER_LOCATION, WombModel::createBodyLayer);
         event.registerLayerDefinition(VigilModel.LAYER_LOCATION, VigilModel::createBodyLayer);
+        event.registerLayerDefinition(VigilSignModel.LAYER_LOCATION, VigilSignModel::createBodyLayer);
         event.registerLayerDefinition(GasMaskModel.LAYER_LOCATION, GasMaskModel::createBodyLayer);
         event.registerLayerDefinition(BileRound.LAYER_LOCATION, BileRound::createBodyLayer);
         event.registerLayerDefinition(ProtoHivemindModel.LAYER_LOCATION, ProtoHivemindModel::createBodyLayer);

@@ -4,8 +4,12 @@ import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
+import com.Harbinger.Spore.Sentities.EvolvedInfected.Busser;
 import com.Harbinger.Spore.Sentities.Signal;
 import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
+import com.Harbinger.Spore.Sentities.VariantKeeper;
+import com.Harbinger.Spore.Sentities.Variants.VigilVariants;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -37,11 +41,11 @@ import net.minecraftforge.registries.ForgeRegistries;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class Vigil extends Organoid implements TraceableEntity {
+public class Vigil extends Organoid implements TraceableEntity, VariantKeeper {
     private static final EntityDataAccessor<Integer> TRIGGER = SynchedEntityData.defineId(Vigil.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> WAVE_SIZE = SynchedEntityData.defineId(Vigil.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> TIMER = SynchedEntityData.defineId(Vigil.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Boolean> STALKER = SynchedEntityData.defineId(Vigil.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(Busser.class, EntityDataSerializers.INT);
     private int summon_counter;
     @Nullable
     private Mob proto;
@@ -65,7 +69,7 @@ public class Vigil extends Organoid implements TraceableEntity {
         this.entityData.define(WAVE_SIZE, 0);
         this.entityData.define(TIMER, 0);
         this.entityData.define(TRIGGER, 0);
-        this.entityData.define(STALKER, false);
+        this.entityData.define(DATA_ID_TYPE_VARIANT, 0);
     }
 
     @Override
@@ -93,6 +97,7 @@ public class Vigil extends Organoid implements TraceableEntity {
         this.entityData.set(BORROW, burrowing + 1);
     }
 
+    public boolean isStalker(){return getVariant() == VigilVariants.STALKER;}
     public int getTrigger(){
         return entityData.get(TRIGGER);
     }
@@ -106,11 +111,6 @@ public class Vigil extends Organoid implements TraceableEntity {
         entityData.set(WAVE_SIZE,i);
     }
     public int getTimer(){return entityData.get(TIMER);}
-    public void setStalker(boolean i){
-        refreshDimensions();
-        entityData.set(STALKER,i);
-    }
-    public boolean isStalker(){return entityData.get(STALKER);}
 
     @Nullable
     public void setProto(Mob entity){
@@ -145,7 +145,7 @@ public class Vigil extends Organoid implements TraceableEntity {
         tag.putInt("trigger",entityData.get(TRIGGER));
         tag.putInt("timer",entityData.get(TIMER));
         tag.putInt("wave_size",entityData.get(WAVE_SIZE));
-        tag.putBoolean("stalker",entityData.get(STALKER));
+        tag.putInt("Variant", this.getTypeVariant());
     }
 
     @Override
@@ -154,7 +154,7 @@ public class Vigil extends Organoid implements TraceableEntity {
         entityData.set(TRIGGER, tag.getInt("trigger"));
         entityData.set(TIMER, tag.getInt("timer"));
         entityData.set(WAVE_SIZE, tag.getInt("wave_size"));
-        entityData.set(STALKER, tag.getBoolean("stalker"));
+        this.entityData.set(DATA_ID_TYPE_VARIANT, tag.getInt("Variant"));
     }
     public void ReEmerge(){
         entityData.set(TIMER,0);
@@ -227,8 +227,32 @@ public class Vigil extends Organoid implements TraceableEntity {
     public Entity getOwner() {
         return this.proto;
     }
+    public VigilVariants getVariant() {
+        return VigilVariants.byId(this.getTypeVariant() & 255);
+    }
 
+    @Override
+    public int getTypeVariant() {
+        return this.entityData.get(DATA_ID_TYPE_VARIANT);
+    }
 
+    @Override
+    public void setVariant(int i) {
+        if (i > VigilVariants.values().length || i < 0){
+            this.entityData.set(DATA_ID_TYPE_VARIANT, 0);
+        }else {
+            this.entityData.set(DATA_ID_TYPE_VARIANT, i);
+        }
+    }
+
+    @Override
+    public int amountOfMutations() {
+        return VigilVariants.values().length;
+    }
+
+    private void setVariant(VigilVariants variant) {
+        this.entityData.set(DATA_ID_TYPE_VARIANT, variant.getId() & 255);
+    }
     private static class WatchTargetGoat extends Goal{
         private final Vigil vigil;
 
@@ -392,21 +416,22 @@ public class Vigil extends Organoid implements TraceableEntity {
 
     @Override
     public EntityDimensions getDimensions(Pose pose) {
-        return this.isStalker() ? super.getDimensions(pose).scale(1.2f)  : super.getDimensions(pose);
+        return isStalker() ? super.getDimensions(pose).scale(1.2f)  : super.getDimensions(pose);
     }
 
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_146746_, DifficultyInstance p_146747_,
                                         MobSpawnType p_146748_, @Nullable SpawnGroupData p_146749_,
                                         @Nullable CompoundTag p_146750_) {
-        setStalker(Math.random() < 0.3f);
+        VigilVariants variant = Util.getRandom(VigilVariants.values(), this.random);
+        setVariant(variant);
         return super.finalizeSpawn(p_146746_, p_146747_, p_146748_, p_146749_, p_146750_);
     }
 
     @Override
     public String getMutation() {
-        if (isStalker()){
-            return "spore.entity.variant.stalker";
+        if (getTypeVariant() != 0){
+            return this.getVariant().getName();
         }
         return super.getMutation();
     }
