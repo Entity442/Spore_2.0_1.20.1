@@ -31,9 +31,9 @@ import net.minecraftforge.network.PlayMessages;
 import javax.annotation.Nullable;
 
 public class ThrownSpear extends AbstractArrow {
-    private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(ThrownTrident.class, EntityDataSerializers.BYTE);
-    private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(ThrownTrident.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(ThrownKnife.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(ThrownSpear.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(ThrownSpear.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(ThrownSpear.class, EntityDataSerializers.INT);
     private ItemStack spearItem = new ItemStack(Sitems.INFECTED_SPEAR.get());
     private boolean dealtDamage;
     public int clientSideReturnTridentTickCount;
