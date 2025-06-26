@@ -1,7 +1,6 @@
 package com.Harbinger.Spore.Client.Layers;
 
 import com.Harbinger.Spore.Client.ArmorModelList;
-import com.Harbinger.Spore.Client.Models.TestBootModel;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeArmorData;
 import com.Harbinger.Spore.Sitems.CustomModelArmorData;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -16,9 +15,7 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public class CustomArmorLayer<E extends  LivingEntity,M extends HumanoidModel<E>> extends RenderLayer<E, M> {

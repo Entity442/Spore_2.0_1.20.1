@@ -613,5 +613,16 @@
   "effect.spore_nightmare.bleeding": "出血",
   "death.attack.bleeding_damage": "%1$s 失血过多",
   "effect.spore_nightmare.incubator": "孵化",
-  "death.attack.bleeding_damage.player": "%1$s 试图逃离 %2$s 时流血死亡"
+  "death.attack.bleeding_damage.player": "%1$s 试图逃离 %2$s 时流血死亡",
+
+  "spore.proto.message.0": "你需要一把更大的剑 :P",
+  "spore.proto.message.1": "愤怒退出吧，你完了",
+  "spore.proto.message.2": "新世界？",
+  "spore.proto.message.3": "这个世界不是你能征服的",
+  "spore.proto.message.4": "回去玩原版吧，小鬼",
+  "spore.proto.message.5": "我永远不会停止虐你",
+  "spore.proto.message.6": "现在把世界设成和平模式吧",
+  "spore.proto.message.7": "玩家通常不会这么菜",
+  "spore.proto.message.8": "你不过是猎物而已",
+  "spore.proto.message.9": "你不累吗，一直在死，方块脑？"
 }

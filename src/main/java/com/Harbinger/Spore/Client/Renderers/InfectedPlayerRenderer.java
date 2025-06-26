@@ -46,7 +46,6 @@ public class InfectedPlayerRenderer extends BaseInfectedRenderer<InfectedPlayer 
                 (context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)),
                 new HumanoidArmorModel(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)), context.getModelManager()));
         this.addLayer(new ItemInHandLayer<>(this, context.getItemInHandRenderer()));
-        this.addLayer(new CustomArmorLayer<>(this));
     }
 
     @Override
