@@ -29,15 +29,10 @@ public class SpearRenderer extends EntityRenderer<ThrownSpear> {
     }
 
     public void render(ThrownSpear spear, float p_116112_, float p_116113_, PoseStack stack, MultiBufferSource p_116115_, int p_116116_) {
-        float r = 1;
-        float g = 1;
-        float b = 1;
-        if (spear.getSpearItem().getItem() instanceof SporeWeaponData data){
-            int[] colors = Utilities.computeRGB(data.getVariant(spear.getSpearItem()).getColor());
-            r = colors[0];
-            g = colors[1];
-            b = colors[2];
-        }
+        int color = spear.getColor();
+        float r = (float) (color >> 16 & 255) / 255.0F;;
+        float g = (float) (color >> 8 & 255) / 255.0F;;
+        float b = (float) (color & 255) / 255.0F;;
         stack.pushPose();
         stack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(p_116113_, spear.yRotO, spear.getYRot()) - 90.0F));
         stack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(p_116113_, spear.xRotO, spear.getXRot()) + 90.0F));

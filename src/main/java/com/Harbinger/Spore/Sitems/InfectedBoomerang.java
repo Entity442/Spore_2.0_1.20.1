@@ -27,7 +27,7 @@ public class InfectedBoomerang extends SporeSwordBase {
         if (player instanceof ServerPlayer && !level.isClientSide) {
             stack.hurtAndBreak(1, player, (ss) -> {
                 ss.broadcastBreakEvent(player.getUsedItemHand());});
-            ThrownBoomerang thrownSpear = new ThrownBoomerang(level, player, stack);
+            ThrownBoomerang thrownSpear = new ThrownBoomerang(level, player, stack,getVariant(stack).getColor());
             thrownSpear.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1F , 0.75F);
             if (player.getAbilities().instabuild) {
                 thrownSpear.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;

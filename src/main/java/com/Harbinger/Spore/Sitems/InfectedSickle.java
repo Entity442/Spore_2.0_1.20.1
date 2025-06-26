@@ -121,7 +121,7 @@ public class InfectedSickle extends SporeSwordBase {
             if (i >= 10 && !level.isClientSide) {
                 stack.hurtAndBreak(1, player, (ss) -> {
                     ss.broadcastBreakEvent(entity.getUsedItemHand());});
-                ThrownSickle thrownSpear = new ThrownSickle(level, player, stack);
+                ThrownSickle thrownSpear = new ThrownSickle(level, player, stack,getVariant(stack).getColor());
                 thrownSpear.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2F , 0.75F);
                 level.addFreshEntity(thrownSpear);
                 this.setThrownSickle(stack,true);

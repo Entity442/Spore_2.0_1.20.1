@@ -29,15 +29,18 @@ import javax.annotation.Nullable;
 
 public class ThrownBoomerang extends AbstractArrow {
     private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(ThrownBoomerang.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(ThrownBoomerang.class, EntityDataSerializers.INT);
     private ItemStack boomerang = new ItemStack(Sitems.BOOMERANG.get());
     private boolean dealtDamage;
     private int returnTick;
 
-    public ThrownBoomerang(Level level, LivingEntity owner, ItemStack stack) {
+    public ThrownBoomerang(Level level, LivingEntity owner, ItemStack stack,int color) {
         super(Sentities.THROWN_BOOMERANG.get(), owner, level);
         this.boomerang = stack.copy();
         this.entityData.set(ID_FOIL, stack.hasFoil());
+        this.entityData.set(COLOR, color);
     }
+    public int getColor(){return entityData.get(COLOR);}
 
     public ItemStack getBoomerang(){return boomerang;}
     public ThrownBoomerang(PlayMessages.SpawnEntity spawnEntity, Level level) {
@@ -52,6 +55,7 @@ public class ThrownBoomerang extends AbstractArrow {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(ID_FOIL, false);
+        this.entityData.define(COLOR, 0);
     }
 
     @Override
@@ -172,6 +176,7 @@ public class ThrownBoomerang extends AbstractArrow {
             this.boomerang = ItemStack.of(tag.getCompound("Boomerang"));
         }
         this.dealtDamage = tag.getBoolean("DealtDamage");
+        this.entityData.set(COLOR, tag.getInt("color"));
     }
 
     @Override
@@ -179,6 +184,7 @@ public class ThrownBoomerang extends AbstractArrow {
         super.addAdditionalSaveData(tag);
         tag.put("Boomerang", this.boomerang.save(new CompoundTag()));
         tag.putBoolean("DealtDamage", this.dealtDamage);
+        tag.putInt("color",entityData.get(COLOR));
     }
 
     @Override

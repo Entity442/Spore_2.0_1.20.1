@@ -33,16 +33,18 @@ import javax.annotation.Nullable;
 public class ThrownSpear extends AbstractArrow {
     private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(ThrownTrident.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(ThrownTrident.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(ThrownKnife.class, EntityDataSerializers.INT);
     private ItemStack spearItem = new ItemStack(Sitems.INFECTED_SPEAR.get());
     private boolean dealtDamage;
     public int clientSideReturnTridentTickCount;
 
 
-    public ThrownSpear(Level p_37569_, LivingEntity p_37570_, ItemStack p_37571_) {
+    public ThrownSpear(Level p_37569_, LivingEntity p_37570_, ItemStack stack,int color) {
         super(Sentities.THROWN_SPEAR.get(), p_37570_, p_37569_);
-        this.spearItem = p_37571_.copy();
-        this.entityData.set(ID_LOYALTY, (byte) EnchantmentHelper.getLoyalty(p_37571_));
-        this.entityData.set(ID_FOIL, p_37571_.hasFoil());
+        this.spearItem = stack.copy();
+        this.entityData.set(ID_LOYALTY, (byte) EnchantmentHelper.getLoyalty(stack));
+        this.entityData.set(ID_FOIL, stack.hasFoil());
+        this.entityData.set(COLOR, color);
     }
 
     public ThrownSpear(PlayMessages.SpawnEntity spawnEntity, Level level) {
@@ -52,13 +54,13 @@ public class ThrownSpear extends AbstractArrow {
     public ThrownSpear(EntityType<ThrownSpear> thrownSpearEntityType, Level level) {
         super(thrownSpearEntityType,level);
     }
-    public ItemStack getSpearItem(){
-        return spearItem.copy();
-    }
+    public int getColor(){return entityData.get(COLOR);}
+
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(ID_LOYALTY, (byte)0);
         this.entityData.define(ID_FOIL, false);
+        this.entityData.define(COLOR, 0);
     }
 
     public void tick() {
@@ -173,20 +175,22 @@ public class ThrownSpear extends AbstractArrow {
 
     }
 
-    public void readAdditionalSaveData(CompoundTag p_37578_) {
-        super.readAdditionalSaveData(p_37578_);
-        if (p_37578_.contains("Trident", 10)) {
-            this.spearItem = ItemStack.of(p_37578_.getCompound("Trident"));
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        if (tag.contains("Trident", 10)) {
+            this.spearItem = ItemStack.of(tag.getCompound("Trident"));
         }
 
-        this.dealtDamage = p_37578_.getBoolean("DealtDamage");
+        this.dealtDamage = tag.getBoolean("DealtDamage");
         this.entityData.set(ID_LOYALTY, (byte)EnchantmentHelper.getLoyalty(this.spearItem));
+        this.entityData.set(COLOR, tag.getInt("color"));
     }
 
-    public void addAdditionalSaveData(CompoundTag p_37582_) {
-        super.addAdditionalSaveData(p_37582_);
-        p_37582_.put("Trident", this.spearItem.save(new CompoundTag()));
-        p_37582_.putBoolean("DealtDamage", this.dealtDamage);
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.put("Trident", this.spearItem.save(new CompoundTag()));
+        tag.putBoolean("DealtDamage", this.dealtDamage);
+        tag.putInt("color",entityData.get(COLOR));
     }
 
     public void tickDespawn() {

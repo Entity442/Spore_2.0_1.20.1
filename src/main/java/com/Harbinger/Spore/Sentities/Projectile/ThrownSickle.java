@@ -33,18 +33,20 @@ import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class ThrownSickle extends AbstractArrow {
-    private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(ThrownTrident.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(ThrownSickle.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(ThrownSickle.class, EntityDataSerializers.INT);
     private ItemStack spearItem = new ItemStack(Sitems.SICKLE.get());
     private boolean dealtDamage;
     private SickelState state = SickelState.FLYING;
     private Entity hookedEntity = null;
     private Vec3 hookedBlockPos = null;
 
-    public ThrownSickle(Level level, LivingEntity livingEntity, ItemStack stack) {
+    public ThrownSickle(Level level, LivingEntity livingEntity, ItemStack stack,int color) {
         super(Sentities.THROWN_SICKEL.get(), livingEntity, level);
         this.setOwner(livingEntity);
         this.spearItem = stack.copy();
         this.entityData.set(ID_FOIL, stack.hasFoil());
+        this.entityData.set(COLOR, color);
     }
     public ThrownSickle(Level level) {
         super(Sentities.THROWN_SICKEL.get(), level);
@@ -53,10 +55,12 @@ public class ThrownSickle extends AbstractArrow {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(ID_FOIL, false);
+        this.entityData.define(COLOR, 0);
     }
     public ItemStack getSpearItem(){
         return spearItem.copy();
     }
+    public int getColor(){return entityData.get(COLOR);}
     public void tick() {
         if (this.state == SickelState.HOOKED_IN_ENTITY && hookedEntity != null && hookedEntity.isAlive()) {
             this.setPos(hookedEntity.getX(), hookedEntity.getY() + (hookedEntity.getBbHeight() * 0.5), hookedEntity.getZ());
@@ -166,12 +170,14 @@ public class ThrownSickle extends AbstractArrow {
         if (this.getOwner() != null) {
             tag.putUUID("OwnerUUID", this.getOwner().getUUID());
         }
+        this.entityData.set(COLOR, tag.getInt("color"));
     }
 
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.put("Sickle", this.spearItem.save(new CompoundTag()));
         tag.putBoolean("DealtDamage", this.dealtDamage);
+        tag.putInt("color",entityData.get(COLOR));
     }
     @Override
     public void onSyncedDataUpdated(EntityDataAccessor<?> key) {

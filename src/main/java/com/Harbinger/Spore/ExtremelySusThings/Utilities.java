@@ -203,11 +203,4 @@ public class Utilities {
         int finalColor = ((int) r << 16) | ((int) g << 8) | (int) b;
         return finalColor;
     }
-
-    public static int[] computeRGB(int color) {
-        int r = (color >> 16) & 255;
-        int g = (color >> 8) & 255;
-        int b = color & 255;
-        return new int[]{r, g, b};
-    }
 }

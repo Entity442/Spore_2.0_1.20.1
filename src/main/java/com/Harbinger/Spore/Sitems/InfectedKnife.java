@@ -71,7 +71,7 @@ public class InfectedKnife extends SporeSwordBase implements LootModifierWeapon 
                 stack.hurtAndBreak(1, player, (ss) -> {
                     ss.broadcastBreakEvent(entity.getUsedItemHand());});
 
-                ThrownKnife thrownSpear = new ThrownKnife(level, player, stack);
+                ThrownKnife thrownSpear = new ThrownKnife(level, player, stack,getVariant(stack).getColor());
                 thrownSpear.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2F , 0.75F);
                 if (player.getAbilities().instabuild) {
                     thrownSpear.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;

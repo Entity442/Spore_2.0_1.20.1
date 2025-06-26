@@ -36,15 +36,10 @@ public class SickleRenderer extends EntityRenderer<ThrownSickle> {
 
     @Override
     public void render(ThrownSickle sickle, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int light) {
-        float r = 1;
-        float g = 1;
-        float b = 1;
-        if (sickle.getSpearItem().getItem() instanceof SporeWeaponData data){
-            int[] colors = Utilities.computeRGB(data.getVariant(sickle.getSpearItem()).getColor());
-            r = colors[0];
-            g = colors[1];
-            b = colors[2];
-        }
+        int color = sickle.getColor();
+        float r = (float) (color >> 16 & 255) / 255.0F;;
+        float g = (float) (color >> 8 & 255) / 255.0F;;
+        float b = (float) (color & 255) / 255.0F;;
         poseStack.pushPose();
         poseStack.translate(0,-1,0);
         poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTicks, sickle.yRotO, sickle.getYRot())));
