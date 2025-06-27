@@ -12,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -25,89 +26,27 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
-import java.util.Random;
 
 public class Howler extends EvolvedInfected {
+    private boolean scream;
+
     public Howler(EntityType<? extends Monster> type, Level level) {
         super(type, level);
     }
-    private boolean scream;
 
     @Override
-    protected void registerGoals() {
-
-        this.goalSelector.addGoal(3, new CustomMeleeAttackGoal(this,1.2,true));
-        this.goalSelector.addGoal(2, new HowlerAttackGoal( this,1.5));
+    protected void addRegularGoals() {
+        super.addRegularGoals();
+        this.goalSelector.addGoal(2, new HowlerAttackGoal(this, 1.5));
+        this.goalSelector.addGoal(3, new CustomMeleeAttackGoal(this, 1.2, true));
         this.goalSelector.addGoal(4, new RandomStrollGoal(this, 0.8));
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
-
-
-        super.registerGoals();
     }
-    @Override
-    public List<? extends String> getDropList() {
-        return SConfig.DATAGEN.inf_howler_loot.get();
-    }
-    @Override
-    public void tick() {
-        if (isAlive() && scream){
-            this.playSound(Ssounds.HOWLER_GROWL.get());
-            scream = false;
-        }
-        super.tick();
-    }
-
-    private class HowlerAttackGoal extends Goal {
-        private int screamTimer = 0;
-        private final double speedModifier;
-        protected Mob mob;
-        protected Level level;
-
-        private HowlerAttackGoal(Mob mob , double speedModifier) {
-            this.level = mob.level();
-            this.mob = mob;
-            this.speedModifier = speedModifier;
-        }
-
-
-        @Override
-        public boolean canUse() {
-            return this.mob.getTarget() != null;
-        }
-
-        @Override
-        public void tick() {
-            if (screamTimer > 0){
-            --screamTimer;
-            }if (this.mob.getTarget() != null) {
-
-                double ze = mob.distanceToSqr(mob.getTarget());
-                this.mob.getLookControl().setLookAt(this.mob.getTarget(), 10.0F, (float) this.mob.getMaxHeadXRot());
-
-                if (ze > 120.0D) {
-                    this.mob.getNavigation().moveTo(this.mob.getTarget(), this.speedModifier);
-                } else{
-                    if (checkForInfected(this.mob) && screamTimer <= 0) {
-                    ScreamAOE(this.mob);
-                    ScreamBuffInfected(this.mob);
-                        this.screamTimer = 120;
-                    }
-                    if (!checkForInfected(this.mob) && screamTimer <= 0){
-                        int r = random.nextInt(1, 3);
-                        for (int index0 = 0; index0 < r; index0++) {
-                            SummonScream(this.mob);
-                        }
-                        this.screamTimer = 120;
-                    }
-                 }
-            }
-        }
-    }
-
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
@@ -117,109 +56,154 @@ public class Howler extends EvolvedInfected {
                 .add(Attributes.ARMOR, SConfig.SERVER.how_armor.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.FOLLOW_RANGE, 24)
                 .add(Attributes.ATTACK_KNOCKBACK, 3);
-
     }
 
-
-    protected SoundEvent getAmbientSound() {
-        return Ssounds.INF_GROWL.get();
+    @Override protected SoundEvent getAmbientSound() { return Ssounds.INF_GROWL.get(); }
+    @Override protected SoundEvent getDeathSound() { return Ssounds.INF_DAMAGE.get(); }
+    protected SoundEvent getStepSound() { return SoundEvents.ZOMBIE_STEP; }
+    @Override
+    protected SoundEvent getHurtSound(DamageSource p_33034_) {return Ssounds.INF_DAMAGE.get();}
+    @Override
+    protected void playStepSound(BlockPos p_20135_, BlockState p_20136_) {
+        this.playSound(getStepSound(), 0.15F, 1.0F);
     }
 
-    protected SoundEvent getHurtSound() {
-        return Ssounds.INF_DAMAGE.get();
+    @Override
+    public void tick() {
+        if (isAlive() && scream) {
+            this.playSound(Ssounds.HOWLER_GROWL.get());
+            scream = false;
+        }
+        super.tick();
     }
 
-    protected SoundEvent getDeathSound() {
-        return Ssounds.INF_DAMAGE.get();
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.inf_howler_loot.get();
     }
 
-    protected SoundEvent getStepSound() {
-        return SoundEvents.ZOMBIE_STEP;
-    }
+    public void ScreamAOE(Entity origin) {
+        AABB area = origin.getBoundingBox().inflate(12);
+        List<Entity> targets = origin.level().getEntities(origin, area, EntitySelector.NO_CREATIVE_OR_SPECTATOR);
 
-    protected void playStepSound() {
-        this.playSound(this.getStepSound(), 0.15F, 1.0F);
-    }
-
-    public void ScreamAOE(Entity entity){
-            AABB boundingBox = entity.getBoundingBox().inflate(12);
-            List<Entity> entities = entity.level().getEntities(entity, boundingBox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
-
-            for (Entity entity1 : entities) {
-                if(entity1 instanceof Infected livingEntity) {
-                    livingEntity.addEffect( new MobEffectInstance(Seffects.MARKER.get() ,  400, 0));
-
-                }
-                if (entity1 instanceof Player  livingEntity) {
-                    livingEntity.addEffect( new MobEffectInstance(MobEffects.CONFUSION ,  100, 0));
-                    livingEntity.addEffect( new MobEffectInstance(MobEffects.WEAKNESS ,  200, 0));
-                }
+        for (Entity target : targets) {
+            if (target instanceof Infected infected) {
+                infected.addEffect(new MobEffectInstance(Seffects.MARKER.get(), 400, 0));
+            } else if (target instanceof Player player) {
+                player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 100, 0));
+                player.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 200, 0));
             }
-    }
-
-
-    public void SummonScream(LivingEntity entity) {
-        ServerLevelAccessor world = (ServerLevelAccessor) entity.level();
-        Level level = entity.level();
-        Random rand = new Random();
-        int d = random.nextInt(0 ,2);
-        int r = random.nextInt(-8, 8);
-        int c = random.nextInt(-8, 8);
-        List<? extends String> ev = SConfig.SERVER.howler_summon.get();
-        int randomIndex = rand.nextInt(ev.size());
-        ResourceLocation randomElement1 = new ResourceLocation(ev.get(randomIndex));
-        EntityType<?> randomElement = ForgeRegistries.ENTITY_TYPES.getValue(randomElement1);
-        Mob waveentity = (Mob) randomElement.create(level);
-        if (waveentity != null){
-            waveentity.teleportRelative(entity.getX() + r, entity.getY() + 0.5D + d, entity.getZ() + c);
-            waveentity.finalizeSpawn(world, level.getCurrentDifficultyAt(new BlockPos((int) entity.getX()  ,(int) entity.getY() ,(int) entity.getZ() )), MobSpawnType.NATURAL, null,null);
-            level.addFreshEntity(waveentity);
-            this.scream = true;
         }
     }
 
+    public void ScreamBuffInfected(Entity origin) {
+        AABB area = origin.getBoundingBox().inflate(6);
+        List<Entity> allies = origin.level().getEntities(origin, area);
 
-    boolean checkForInfected(Entity entity){
-        AABB boundingBox = entity.getBoundingBox().inflate(4);
-        List<Entity> entities = entity.level().getEntities(entity, boundingBox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
+        int duration = switch (origin.level().getDifficulty()) {
+            case EASY -> 100;
+            case NORMAL -> 200;
+            case HARD -> 400;
+            default -> 0;
+        };
+        int amplifier = origin.level().getDifficulty() == Difficulty.HARD ? 1 : 0;
 
-        for (Entity en : entities) {
-            if (en instanceof Infected && !(SConfig.SERVER.support.get().contains(en.getEncodeId()) || en instanceof Carrier)){
+        List<? extends String> buffs = SConfig.SERVER.howler_effects_buff.get();
+        String randomBuff = buffs.get(random.nextInt(buffs.size()));
+        MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(randomBuff));
+
+        if (effect != null) {
+            for (Entity ally : allies) {
+                if (ally instanceof Infected infected) {
+                    infected.addEffect(new MobEffectInstance(effect, duration, amplifier));
+                }
+            }
+        }
+
+        this.scream = true;
+    }
+
+    public void SummonScream(LivingEntity caster) {
+        ServerLevelAccessor levelAccessor = (ServerLevelAccessor) caster.level();
+        Level level = caster.level();
+
+        int dx = random.nextInt(-8, 9);
+        int dz = random.nextInt(-8, 9);
+        int dy = random.nextInt(0, 2);
+
+        List<? extends String> summonPool = SConfig.SERVER.howler_summon.get();
+        String chosen = summonPool.get(random.nextInt(summonPool.size()));
+        ResourceLocation entityId = new ResourceLocation(chosen);
+
+        EntityType<?> entityType = ForgeRegistries.ENTITY_TYPES.getValue(entityId);
+        if (entityType != null) {
+            Mob summoned = (Mob) entityType.create(level);
+            if (summoned != null) {
+                summoned.teleportRelative(caster.getX() + dx, caster.getY() + 0.5D + dy, caster.getZ() + dz);
+                summoned.finalizeSpawn(
+                        levelAccessor,
+                        level.getCurrentDifficultyAt(BlockPos.containing(caster.position())),
+                        MobSpawnType.NATURAL,
+                        null,
+                        null
+                );
+                level.addFreshEntity(summoned);
+                this.scream = true;
+            }
+        }
+    }
+
+    public boolean checkForInfected(Entity origin) {
+        AABB area = origin.getBoundingBox().inflate(4);
+        List<Entity> nearby = origin.level().getEntities(origin, area, EntitySelector.NO_CREATIVE_OR_SPECTATOR);
+
+        for (Entity entity : nearby) {
+            if (entity instanceof Infected && !(SConfig.SERVER.support.get().contains(entity.getEncodeId()) || entity instanceof Carrier)) {
                 return true;
             }
         }
         return false;
     }
 
+    private class HowlerAttackGoal extends Goal {
+        private final Mob mob;
+        private final double speed;
+        private int screamTimer = 0;
 
-    public void ScreamBuffInfected(Entity entity){
-        Level level = entity.level();
-        AABB boundingBox = entity.getBoundingBox().inflate(6);
-        List<Entity> entities = entity.level().getEntities(entity, boundingBox);
-        Random rand = new Random();
-        List<? extends String> buffer = SConfig.SERVER.howler_effects_buff.get();
-        int j=0,k=0;
-        if (isAlive()){
-            if (level.getDifficulty() == Difficulty.EASY){
-                k = 100;
-            }else  if (level.getDifficulty() == Difficulty.NORMAL){
-                k = 200;
-            } else if (level.getDifficulty() == Difficulty.HARD){
-                j = 1; k = 400;
-            }
+        private HowlerAttackGoal(Mob mob, double speedModifier) {
+            this.mob = mob;
+            this.speed = speedModifier;
         }
 
-        for (int i = 0; i < 1; ++i) {
-            int randomIndex = rand.nextInt(buffer.size());
-            ResourceLocation randomElement1 = new ResourceLocation(buffer.get(randomIndex));
-            MobEffect randomElement = ForgeRegistries.MOB_EFFECTS.getValue(randomElement1);
-            for (Entity en : entities) {
-                if (en instanceof Infected buff){
-                    assert randomElement != null;
-                    buff.addEffect(new MobEffectInstance(randomElement , k, j));
+        @Override
+        public boolean canUse() {
+            return mob.getTarget() != null;
+        }
+
+        @Override
+        public void tick() {
+            if (screamTimer > 0) screamTimer--;
+
+            LivingEntity target = mob.getTarget();
+            if (target == null) return;
+
+            mob.getLookControl().setLookAt(target, 10.0F, mob.getMaxHeadXRot());
+            double dist = mob.distanceToSqr(target);
+
+            if (dist > 120.0D) {
+                mob.getNavigation().moveTo(target, speed);
+            } else if (screamTimer <= 0) {
+                if (checkForInfected(mob)) {
+                    ScreamAOE(mob);
+                    ScreamBuffInfected(mob);
+                } else {
+                    int summons = random.nextInt(1, 3);
+                    for (int i = 0; i < summons; i++) {
+                        SummonScream(mob);
+                    }
                 }
+                screamTimer = 120;
             }
         }
-        this.scream = true;
     }
 }
