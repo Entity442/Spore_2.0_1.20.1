@@ -71,32 +71,23 @@ public class Infected extends Monster{
     public static final EntityDataAccessor<Boolean> LINKED = SynchedEntityData.defineId(Infected.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> PERSISTENT = SynchedEntityData.defineId(Infected.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<String> ORIGIN = SynchedEntityData.defineId(Infected.class, EntityDataSerializers.STRING);
-    @Nullable
-    BlockPos searchPos;
-    @Nullable
-    protected LivingEntity  partner;
+    @Nullable private BlockPos searchPos;
+    @Nullable private LivingEntity partner;
     public Infected(EntityType<? extends Monster> type, Level level) {
         super(type, level);
         this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 16.0F);
         this.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, -1.0F);
         this.setPathfindingMalus(BlockPathTypes.DANGER_OTHER, 16.0F);
-        this.setPathfindingMalus(BlockPathTypes.DANGER_OTHER, -1.0F);
-        this.setPathfindingMalus(BlockPathTypes.DANGER_POWDER_SNOW, 16.0F);
         this.setPathfindingMalus(BlockPathTypes.DANGER_POWDER_SNOW, -1.0F);
         this.xpReward = 5;
-        Sentities.INFECTED_ENTITIES.add(this);
     }
     public List<? extends String> getDropList(){
         return null;
     }
     @Nullable
-    public BlockPos getSearchPos() {
-        return searchPos;
-    }
+    public BlockPos getSearchPos() {return searchPos;}
 
-    public void setSearchPos(@Nullable BlockPos searchPos) {
-        this.searchPos = searchPos;
-    }
+    public void setSearchPos(@Nullable BlockPos searchPos) {this.searchPos = searchPos;}
 
     public void travel(Vec3 p_32858_) {
         if (this.isEffectiveAi() && this.isInFluidType()) {
@@ -233,45 +224,19 @@ public class Infected extends Monster{
         return SConfig.SERVER.should_starve.get() && entityData.get(EVOLUTION_POINTS) <= 0;
     }
 
-    @Override
-    public float getWalkTargetValue(BlockPos pos, LevelReader reader) {
-        return SConfig.SERVER.daytime_spawn.get() ? 0.0F: super.getWalkTargetValue(pos, reader);
-    }
-
     public void aiStep() {
         super.aiStep();
-
-        if (SConfig.SERVER.weaktocold.get()){
-        if (!this.level().isClientSide && this.tickCount % 20 == 0 && (this.isInPowderSnow || this.isFreazing())) {
-            this.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 1, false, false), Infected.this);
-            this.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0, false, false), Infected.this);
-        }}
-
-        if (canStarve() && this.tickCount % 20 == 0){
-            if (entityData.get(HUNGER) < SConfig.SERVER.hunger.get()) {
-                int i = this.isInPowderSnow || this.isFreazing() ? 2:1;
-                entityData.set(HUNGER, entityData.get(HUNGER) + i);
-            } else if (entityData.get(HUNGER) >= SConfig.SERVER.hunger.get() && !this.hasEffect(Seffects.STARVATION.get())) {
-                this.addEffect(new MobEffectInstance(Seffects.STARVATION.get(), 100, 0));
-            }
+        if (!level().isClientSide && tickCount % 20 == 0) {
+            applyColdWeaknessEffects();
+            handleStarvationProgress();
         }
 
-        if ((this.horizontalCollision || additionalBreakingTriggers()) && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
-            boolean flag = false;
-            AABB aabb = this.getBoundingBox().inflate(0.2D).move(0,0.5,0);
-            for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
-                BlockState blockstate = this.level().getBlockState(blockpos);
-                if (blockBreakingParameter(blockstate,blockpos)) {
-                    flag = interactBlock(blockpos,this.level()) || flag;
-                }
-                if (!flag && this.onGround()) {
-                    this.jumpFromGround();
-                }
-            }
-
+        if ((horizontalCollision || additionalBreakingTriggers()) && canGrief()) {
+            breakNearbyBlocks();
         }
-        if (this.horizontalCollision && this.isInWater()){
-            this.jumpInFluid(ForgeMod.WATER_TYPE.get());
+
+        if (horizontalCollision && isInWater()) {
+            jumpInFluid(ForgeMod.WATER_TYPE.get());
         }
     }
     public boolean additionalBreakingTriggers(){
@@ -281,7 +246,50 @@ public class Infected extends Monster{
     public boolean blockBreakingParameter(BlockState blockstate,BlockPos blockpos){
         return (blockstate.getBlock() instanceof AbstractGlassBlock || blockstate.getBlock() instanceof LeavesBlock) && blockstate.getDestroySpeed(level() ,blockpos) >= 0 && blockstate.getDestroySpeed(level() ,blockpos) < 2;
     }
+    private void handleStarvationProgress() {
+        if (!canStarve()) return;
 
+        int currentHunger = getHunger();
+        int hungerThreshold = SConfig.SERVER.hunger.get();
+        boolean freezingPenalty = isInPowderSnow || isFreazing();
+        int hungerIncrement = freezingPenalty ? 2 : 1;
+
+        if (currentHunger < hungerThreshold) {
+            setHunger(currentHunger + hungerIncrement);
+        } else if (!hasEffect(Seffects.STARVATION.get())) {
+            addEffect(new MobEffectInstance(Seffects.STARVATION.get(), 100, 0));
+        }
+    }
+    private void applyColdWeaknessEffects() {
+        if (!SConfig.SERVER.weaktocold.get()) return;
+        if (!isInPowderSnow && !isFreazing()) return;
+
+        addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 1, false, false), this);
+        addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0, false, false), this);
+    }
+    private boolean canGrief() {
+        return net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(level(), this);
+    }
+
+    private void breakNearbyBlocks() {
+        boolean brokeAny = false;
+        AABB aabb = getBoundingBox().inflate(0.2D).move(0, 0.5, 0);
+
+        for (BlockPos pos : BlockPos.betweenClosed(
+                Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ),
+                Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+
+            BlockState state = level().getBlockState(pos);
+
+            if (blockBreakingParameter(state, pos)) {
+                brokeAny |= interactBlock(pos, level());
+            }
+        }
+
+        if (!brokeAny && onGround()) {
+            jumpFromGround();
+        }
+    }
     public boolean interactBlock(BlockPos blockPos, Level level) {
         BlockState state = level.getBlockState(blockPos);
         if (biomass().contains(state)){
