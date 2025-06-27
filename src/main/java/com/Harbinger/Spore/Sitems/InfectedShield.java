@@ -1,8 +1,7 @@
 package com.Harbinger.Spore.Sitems;
 
-import com.Harbinger.Spore.Core.SConfig;
-import com.Harbinger.Spore.Core.Sitems;
-import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.Core.*;
+import com.Harbinger.Spore.Fluids.BileLiquid;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsBaseItem;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsMutations;
 import net.minecraft.network.chat.Component;
@@ -110,7 +109,8 @@ public class InfectedShield extends SporeToolsBaseItem {
                 Vec3 direction = target.position().subtract(player.position()).normalize();
                 target.hurtMarked = true;
                 target.knockback(getVariant(stack) == SporeToolsMutations.CALCIFIED ? 2.5f : 1.5F, -direction.x, -direction.z);
-                target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,200,0));
+                player.doHurtTarget(target);
+                abstractEffects(stack,target);
                 if (getVariant(stack) == SporeToolsMutations.TOXIC){
                     target.addEffect(new MobEffectInstance(MobEffects.POISON, 200,0));
                 }
@@ -129,7 +129,19 @@ public class InfectedShield extends SporeToolsBaseItem {
             this.hurtTool(stack,player,1);
         }
     }
-
+    public void abstractEffects(ItemStack stack, LivingEntity arrow){
+        if (stack.getEnchantmentLevel(Senchantments.CORROSIVE_POTENCY.get())>0){
+            arrow.addEffect(new MobEffectInstance(Seffects.CORROSION.get(),200,1));
+        }
+        if (stack.getEnchantmentLevel(Senchantments.GASTRIC_SPEWAGE.get())>0){
+            for (MobEffectInstance instance : BileLiquid.bileEffects())
+                arrow.addEffect(instance);
+        }
+        if (arrow.canFreeze()){
+            arrow.setTicksFrozen(arrow.getTicksFrozen()+300);
+        }
+        arrow.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,200,0));
+    }
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level p_41422_, List<Component> components, TooltipFlag p_41424_) {
         super.appendHoverText(stack, p_41422_, components, p_41424_);

@@ -14,5 +14,8 @@
       "translation": [ 0, 8, 4 ],
       "scale": [ 2.5, 2.5, 1 ]
     }
-  }
+  },
+  "overrides": [
+    {"predicate": {"throwing": 1}, "model": "spore:item/infected_spear_throwing"}
+  ]
 }

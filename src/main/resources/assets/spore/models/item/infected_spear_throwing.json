@@ -1,5 +1,5 @@
 {
-  "parent": "spore:item/handheldweaponthrow",
+  "parent": "item/generated",
   "gui_light": "front",
   "textures": {
     "layer0": "spore:item/infected_spear",
