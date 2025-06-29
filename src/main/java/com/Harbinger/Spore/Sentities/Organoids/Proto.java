@@ -14,6 +14,7 @@ import com.Harbinger.Spore.Sentities.Utility.GastGeber;
 import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
 import com.Harbinger.Spore.Sentities.VariantKeeper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.*;
 import net.minecraft.network.chat.Component;
@@ -652,6 +653,9 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
 
     @Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance p_33283_, MobSpawnType p_33284_, @Nullable SpawnGroupData p_33285_, @Nullable CompoundTag p_33286_) {
+        if (serverLevelAccessor instanceof ServerLevel serverLevel && SConfig.SERVER.teleport_hive.get()) {
+            teleportToSurface(serverLevel, this);
+        }
         this.loadChunks();
         this.entityData.set(NODE,this.getOnPos());
         return super.finalizeSpawn(serverLevelAccessor, p_33283_, p_33284_, p_33285_, p_33286_);
@@ -770,5 +774,26 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         String member = possibleReplacements.get(random.nextInt(possibleReplacements.size()));
         int add = isVariantKeeper(member);
         return member + "_" + add;
+    }
+
+    public static void teleportToSurface(Level level, Mob entity) {
+        if (level.canSeeSky(entity.blockPosition())){
+            return;
+        }
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(
+                Mth.floor(entity.getX()),
+                level.getMaxBuildHeight(),
+                Mth.floor(entity.getZ())
+        );
+
+        while (pos.getY() > level.getMinBuildHeight()) {
+            pos.move(Direction.DOWN);
+            BlockState state = level.getBlockState(pos);
+            BlockState stateAbove = level.getBlockState(pos.above());
+            if (state.isSolidRender(level, pos) && stateAbove.isAir()) {
+                entity.teleportTo(pos.getX() + 0.5D, pos.getY() + 1.01D, pos.getZ() + 0.5D);
+                return;
+            }
+        }
     }
 }

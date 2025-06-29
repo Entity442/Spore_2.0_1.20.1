@@ -125,7 +125,7 @@ public class InfectedShield extends SporeToolsBaseItem {
                 player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 200,1));
             }
             setCharge(stack,0);
-            player.level().playSound(null, player.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 1.0F, 1.0F);
+            player.level().playSound(null, player.blockPosition(), Ssounds.SHIELD_BASH.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
             this.hurtTool(stack,player,1);
         }
     }

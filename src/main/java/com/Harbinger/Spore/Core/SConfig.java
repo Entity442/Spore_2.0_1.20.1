@@ -31,6 +31,8 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Boolean> weaktocold;
         public final ForgeConfigSpec.ConfigValue<Boolean> should_starve;
         public final ForgeConfigSpec.ConfigValue<Boolean> higher_thinking;
+        public final ForgeConfigSpec.ConfigValue<Boolean> teleport_hive;
+        public final ForgeConfigSpec.ConfigValue<Boolean> damagecap;
 
         public final ForgeConfigSpec.ConfigValue<Integer> max_infected_cap;
         public final ForgeConfigSpec.ConfigValue<Integer> max_evolved_cap;
@@ -560,7 +562,8 @@ public class SConfig {
             this.costumes_active = builder.comment("Default false").define("Should the costumes be always active?",false);
             this.higher_thinking = builder.comment("Default true").define("Should some infected have higher thinking such as opening doors or trying to break certain blocks?",true);
             this.hunger = builder.define("Hunger in seconds",300);
-
+            this.teleport_hive = builder.comment("Default false").define("Move the hivemind to the surface once it forms?",false);
+            this.damagecap = builder.comment("Default true").define("Should evolved and hyper have a damage cap on hard mode?",true);
             builder.pop();
             builder.push("Targeting Tasks");
             this.at_mob = builder.comment("Default true").define("Should attack other mobs?",true);

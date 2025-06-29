@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Sentities.BaseEntities;
 
+import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Difficulty;
@@ -31,7 +32,7 @@ public class EvolvedInfected extends Infected {
     }
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if(this.level().getDifficulty() == Difficulty.HARD && amount > getDamageCap()){
+        if(this.level().getDifficulty() == Difficulty.HARD && amount > getDamageCap() && SConfig.SERVER.damagecap.get()){
             return super.hurt(source, (float) getDamageCap());
         }
         return super.hurt(source, amount);

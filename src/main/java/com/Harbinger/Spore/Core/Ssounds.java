@@ -174,6 +174,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> INFECTED_GEAR_EQUIP = soundRegistry("infected_gear_equip");
 
+    public static final RegistryObject<SoundEvent> SHIELD_BASH = soundRegistry("shield_bash");
+
     private Ssounds() {
     }
 }

@@ -467,6 +467,11 @@
   "sounds": [
     "spore:pci_inject"
   ]
+},"shield_bash" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:shield_bash"
+  ]
 }
 
 }
