@@ -176,6 +176,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> SHIELD_BASH = soundRegistry("shield_bash");
 
+    public static final RegistryObject<SoundEvent> TUMOROID_EXPLOSION = soundRegistry("tumoroid_explosion");
+
     private Ssounds() {
     }
 }

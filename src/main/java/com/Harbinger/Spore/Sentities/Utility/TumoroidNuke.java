@@ -13,6 +13,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -124,6 +125,7 @@ public class TumoroidNuke extends UtilityEntity{
             if (fire && this.level() instanceof ServerLevel serverLevel){
                 Utilities.convertBlocks(serverLevel,this,this.getOnPos(),14, Blocks.FIRE.defaultBlockState());
             }
+            level().playSound(this,blockPosition(),Ssounds.TUMOROID_EXPLOSION.get(), SoundSource.MASTER,1f,1f);
             this.discard();
         }
     }
