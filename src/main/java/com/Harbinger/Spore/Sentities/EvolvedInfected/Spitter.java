@@ -150,7 +150,7 @@ public class Spitter extends EvolvedInfected implements RangedAttackMob, Variant
     }
 
     protected SoundEvent getAmbientSound() {
-        return Ssounds.INF_GROWL.get();
+        return Ssounds.INF_VILLAGER_AMBIENT.get();
     }
 
     protected SoundEvent getHurtSound(DamageSource p_34327_) {

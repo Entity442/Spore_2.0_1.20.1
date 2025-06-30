@@ -178,6 +178,10 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> TUMOROID_EXPLOSION = soundRegistry("tumoroid_explosion");
 
+    public static final RegistryObject<SoundEvent> INF_VILLAGER_AMBIENT = soundRegistry("villager_ambient");
+
+    public static final RegistryObject<SoundEvent> INF_PILLAGER_AMBIENT = soundRegistry("pillager_ambient");
+
     private Ssounds() {
     }
 }

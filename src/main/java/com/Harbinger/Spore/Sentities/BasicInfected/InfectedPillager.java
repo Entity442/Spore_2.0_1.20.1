@@ -167,7 +167,7 @@ public class InfectedPillager extends Infected implements CrossbowAttackMob , In
     }
 
     protected SoundEvent getAmbientSound() {
-        return Ssounds.INF_GROWL.get();
+        return Ssounds.INF_PILLAGER_AMBIENT.get();
     }
 
     protected SoundEvent getHurtSound() {

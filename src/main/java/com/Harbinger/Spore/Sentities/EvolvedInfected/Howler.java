@@ -58,7 +58,7 @@ public class Howler extends EvolvedInfected {
                 .add(Attributes.ATTACK_KNOCKBACK, 3);
     }
 
-    @Override protected SoundEvent getAmbientSound() { return Ssounds.INF_GROWL.get(); }
+    @Override protected SoundEvent getAmbientSound() { return Ssounds.INF_PILLAGER_AMBIENT.get(); }
     @Override protected SoundEvent getDeathSound() { return Ssounds.INF_DAMAGE.get(); }
     protected SoundEvent getStepSound() { return SoundEvents.ZOMBIE_STEP; }
     @Override

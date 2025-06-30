@@ -475,7 +475,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(BIOMASS,0);
+        this.entityData.define(BIOMASS,100);
         this.entityData.define(HOSTS,0);
         this.entityData.define(NODE,this.getOnPos());
     }

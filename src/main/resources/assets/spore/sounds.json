@@ -246,6 +246,23 @@
       "spore:infected_evoker_death"
     ]
   },
+  "villager_ambient" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:villager_ambient1",
+      "spore:villager_ambient2",
+      "spore:villager_ambient3"
+    ]
+  },
+  "pillager_ambient" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:pillager_ambient1",
+      "spore:pillager_ambient2",
+      "spore:pillager_ambient3",
+      "spore:pillager_ambient4"
+    ]
+  },
   "braiomil_attack" :{
     "subtitle": "sounds.spore.braiomil_attack",
     "sounds": [
