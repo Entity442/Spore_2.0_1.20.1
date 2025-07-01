@@ -37,7 +37,7 @@ public class SpecificClientEvents {
         if (player == null || mc.level == null) return;
         ItemStack stack = player.getItemInHand(event.getHand());
         for (ArmorModelList.HandDisplay handDisplay : ArmorModelList.itemDisplay(stack)){
-            if (stack.getItem() instanceof CustomModelArmorData armorData && event.getHand().equals(handDisplay.slot)){
+            if (stack.getItem() instanceof CustomModelArmorData armorData && event.getHand().equals(handDisplay.slot) && stack.getItem().equals(handDisplay.item)){
                 renderCustomHand(player,event.getPartialTick(),event.getPackedLight(),event.getMultiBufferSource(),event.getPoseStack(),armorData.getTextureLocation(),handDisplay);
             }
         }
