@@ -7,7 +7,6 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 public class LivingLeggings extends LivingExoskeleton implements CustomModelArmorData{
-    private final ResourceLocation TEXTURE = new ResourceLocation("spore:textures/armor/test.png");
     public LivingLeggings() {
         super(Type.LEGGINGS);
     }

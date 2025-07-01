@@ -22,7 +22,7 @@ import java.util.List;
 @OnlyIn(Dist.CLIENT)
 public class ArmorModelList {
     private static final ResourceLocation psi_glow = new ResourceLocation("spore:textures/item/pci_gl.png");
-    private static final TestBootModel<LivingEntity> boots = new TestBootModel<>();
+    private static final fleshArmorModel<LivingEntity> boots = new fleshArmorModel<>();
     private static final GasMaskModel<LivingEntity> gasMaskModel = new GasMaskModel<>();
     private static final ElytrumModel<LivingEntity> elytrumModel = new ElytrumModel<>();
     private static final PCI_Model<LivingEntity> pci = new PCI_Model<>();
@@ -100,7 +100,7 @@ public class ArmorModelList {
         map.add(new Quad(EquipmentSlot.CHEST, Sitems.LIVING_CHEST.get().asItem(),humanoidModel.body,boots,boots.body,0,0,0,1.1f));
         map.add(new Quad(EquipmentSlot.CHEST, Sitems.LIVING_CHEST.get().asItem(),humanoidModel.rightArm,boots,boots.rightArm,0.35f,-0.125f,0,1.1f));
         map.add(new Quad(EquipmentSlot.CHEST, Sitems.LIVING_CHEST.get().asItem(),humanoidModel.leftArm,boots,boots.leftArm,-0.35f,-0.125f,0,1.1f));
-        map.add(new Quad(EquipmentSlot.HEAD, Sitems.LIVING_HELMET.get().asItem(),humanoidModel.head,boots,boots.headwear,0f,0f,0,1f));
+        map.add(new Quad(EquipmentSlot.HEAD, Sitems.LIVING_HELMET.get().asItem(),humanoidModel.head,boots,boots.headwear,0f,0f,0,1.1f));
         map.add(new Quad(EquipmentSlot.HEAD, Sitems.GAS_MASK.get().asItem(),humanoidModel.head,gasMaskModel,gasMaskModel.GasMask,0f,-0.05f,0,1f));
         map.add(new Quad(EquipmentSlot.CHEST, Sitems.R_ELYTRON.get().asItem(),humanoidModel.body,elytrumModel,elytrumModel.body,0f,0f,-0.1f,1f));
         map.add(new Quad(EquipmentSlot.MAINHAND, Sitems.PCI.get().asItem(), humanoidModel.rightArm, pci, pci.PCIBODY, -0.15f, -0.35f, -0.05f, 1f));

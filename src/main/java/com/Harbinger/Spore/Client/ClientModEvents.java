@@ -155,6 +155,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(MushroomExplosionTop.LAYER_LOCATION, MushroomExplosionTop::createBodyLayer);
         event.registerLayerDefinition(FireDiskModel.LAYER_LOCATION, FireDiskModel::createBodyLayer);
         event.registerLayerDefinition(SickleModel.LAYER_LOCATION, SickleModel::createBodyLayer);
+        event.registerLayerDefinition(fleshArmorModel.LAYER_LOCATION, fleshArmorModel::createBodyLayer);
     }
 
 
