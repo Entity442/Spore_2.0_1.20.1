@@ -30,6 +30,13 @@
     "spore:slash2"
   ]
 },
+  "evolve_hurt" :{
+    "subtitle": "sounds.spore.damage",
+    "sounds": [
+      "spore:evolve_damage_1",
+      "spore:evolve_damage_2"
+    ]
+  },
   "inf_growl" :{
     "subtitle": "sounds.spore.growl",
     "sounds": [

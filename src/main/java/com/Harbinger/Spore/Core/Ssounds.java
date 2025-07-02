@@ -132,6 +132,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> SURGERY = soundRegistry("surgery");
 
+    public static final RegistryObject<SoundEvent> EVOLVE_HURT = soundRegistry("evolve_hurt");
+
     public static final RegistryObject<SoundEvent> HEVOKER_AMBIENT = soundRegistry("hevoker_ambient");
 
     public static final RegistryObject<SoundEvent> HINDICATOR_AMBIENT = soundRegistry("hindicator_ambient");

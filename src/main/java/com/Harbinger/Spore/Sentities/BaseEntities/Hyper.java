@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sentities.BaseEntities;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sblocks;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
 import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.BufferAI;
@@ -13,6 +14,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
@@ -76,7 +78,9 @@ public class Hyper extends Infected{
         }
         return false;
     }
-
+    protected SoundEvent getHurtSound(DamageSource p_34327_) {
+        return Ssounds.EVOLVE_HURT.get();
+    }
     @Override
     public boolean hasLineOfSight(Entity entity) {
         if (entity instanceof LivingEntity livingEntity && this.distanceToSqr(livingEntity) < 100){

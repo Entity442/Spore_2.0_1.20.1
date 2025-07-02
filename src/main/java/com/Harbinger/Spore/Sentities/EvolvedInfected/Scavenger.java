@@ -172,10 +172,6 @@ public class Scavenger extends EvolvedInfected implements FlyingInfected {
         return Ssounds.INF_VILLAGER_GROWL.get();
     }
 
-    protected SoundEvent getHurtSound(DamageSource p_34327_) {
-        return Ssounds.INF_VILLAGER_DAMAGE.get();
-    }
-
     protected SoundEvent getDeathSound() {
         return Ssounds.INF_VILLAGER_DEATH.get();
     }

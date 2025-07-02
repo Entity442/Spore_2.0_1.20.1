@@ -281,9 +281,6 @@ public class Wendigo extends Hyper {
         return Ssounds.WENDIGO_AMBIENT.get();
     }
 
-    protected SoundEvent getHurtSound(DamageSource p_34327_) {
-        return Ssounds.INF_DAMAGE.get();
-    }
 
     protected SoundEvent getDeathSound() {
         return Ssounds.INF_DAMAGE.get();
