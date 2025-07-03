@@ -60,11 +60,6 @@ public class Saugling extends Experiment {
     }
 
     @Override
-    public boolean isNoAi() {
-        return super.isNoAi() || isHidden();
-    }
-
-    @Override
     public boolean hurt(DamageSource source, float amount) {
         if (isHidden()){
             return false;
@@ -111,12 +106,18 @@ public class Saugling extends Experiment {
     @Override
     protected void addRegularGoals() {
         super.addRegularGoals();
+        this.goalSelector.addGoal(3, new LeapAtTargetGoal(this,0.4F));
         this.goalSelector.addGoal(3, new CustomMeleeAttackGoal(this, 1.5, false) {
             @Override
             protected double getAttackReachSqr(LivingEntity entity) {
-                return 2.0 + entity.getBbWidth() * entity.getBbWidth();}});
+                return 2.0 + entity.getBbWidth() * entity.getBbWidth();}
+
+            @Override
+            public boolean canUse() {
+                return super.canUse() && !Saugling.this.isHidden();
+            }
+        });
         this.goalSelector.addGoal(3, new HideInChestGoal(this));
-        this.goalSelector.addGoal(4, new LeapAtTargetGoal(this,0.4F));
         this.goalSelector.addGoal(4, new RandomStrollGoal(this, 0.8));
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
     }
@@ -142,9 +143,9 @@ public class Saugling extends Experiment {
                 setPrimed(false);
                 openChest(getChestPos());
             }
+            this.makeStuckInBlock(Blocks.AIR.defaultBlockState(),new Vec3(0,1,0));
         }
     }
-
     public static class HideInChestGoal extends Goal {
         private final Saugling mob;
         private BlockPos targetChest;
@@ -198,7 +199,7 @@ public class Saugling extends Experiment {
         setPrimed(false);
         openChest(getChestPos());
         if (level().getBlockState(getChestPos().above()).isAir()){
-            this.teleportTo(getChestPos().getX(),getChestPos().getY()+1,getChestPos().getZ());
+            this.teleportTo(getChestPos().getX()+0.5,getChestPos().getY()+1,getChestPos().getZ()+0.5);
         }
     }
     public void openChest(BlockPos pos) {
