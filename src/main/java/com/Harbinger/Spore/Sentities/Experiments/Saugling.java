@@ -10,6 +10,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -34,12 +35,10 @@ public class Saugling extends Experiment {
     public static final EntityDataAccessor<Boolean> IS_HIDDEN = SynchedEntityData.defineId(Saugling.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<BlockPos> CHEST_POS = SynchedEntityData.defineId(Saugling.class, EntityDataSerializers.BLOCK_POS);
     public static final EntityDataAccessor<Boolean> PRIMED = SynchedEntityData.defineId(Saugling.class, EntityDataSerializers.BOOLEAN);
-    private int hideCooldown = 0;
     public Saugling(EntityType<? extends Monster> type, Level level) {
         super(type, level);
     }
 
-    public int getHideCooldown(){return 0;}
     public boolean isHidden(){
         return entityData.get(IS_HIDDEN);
     }
@@ -103,33 +102,29 @@ public class Saugling extends Experiment {
                 .add(Attributes.ATTACK_KNOCKBACK, 1);
 
     }
+
     @Override
-    protected void addRegularGoals() {
-        super.addRegularGoals();
+    protected void registerGoals() {
+        super.registerGoals();
         this.goalSelector.addGoal(3, new LeapAtTargetGoal(this,0.4F));
         this.goalSelector.addGoal(3, new CustomMeleeAttackGoal(this, 1.5, false) {
             @Override
             protected double getAttackReachSqr(LivingEntity entity) {
                 return 2.0 + entity.getBbWidth() * entity.getBbWidth();}
-
-            @Override
-            public boolean canUse() {
-                return super.canUse() && !Saugling.this.isHidden();
-            }
         });
         this.goalSelector.addGoal(3, new HideInChestGoal(this));
-        this.goalSelector.addGoal(4, new RandomStrollGoal(this, 0.8));
-        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
     }
+
+    @Override
+    public boolean isNoAi() {
+        return super.isNoAi() || isHidden();
+    }
+
     @Override
     public void aiStep() {
         super.aiStep();
 
-        if (isHidden()) {
-            if (hideCooldown > 0) {
-                --hideCooldown;
-            }
-
+        if (isHidden() && tickCount % 20 == 0) {
             if (!isPrimed()) {
                 AABB aabb = this.getBoundingBox().inflate(3);
                 boolean playerNearby = !this.level().getEntitiesOfClass(LivingEntity.class, aabb,
@@ -143,7 +138,6 @@ public class Saugling extends Experiment {
                 setPrimed(false);
                 openChest(getChestPos());
             }
-            this.makeStuckInBlock(Blocks.AIR.defaultBlockState(),new Vec3(0,1,0));
         }
     }
     public static class HideInChestGoal extends Goal {
@@ -157,17 +151,14 @@ public class Saugling extends Experiment {
 
         @Override
         public boolean canUse() {
-            if (mob.getHideCooldown() > 0 || mob.getTarget() != null){
-                return false;
-            }
-            if (mob.isHidden()) return false;
+            if (mob.isHidden() || mob.getTarget() != null) return false;
             targetChest = findNearbyChest();
             return targetChest != null;
         }
 
         @Override
         public void start() {
-            if (targetChest != null) {
+            if (targetChest != null && targetChest != BlockPos.ZERO) {
                 mob.setChestPos(targetChest);
                 mob.getNavigation().moveTo(targetChest.getX(), targetChest.getY(), targetChest.getZ(), 1.0);
             }
@@ -176,8 +167,8 @@ public class Saugling extends Experiment {
 
         @Override
         public void tick() {
-            if (targetChest != null) {
-                if (mob.position().distanceToSqr(Vec3.atCenterOf(targetChest)) < 1.5 * 1.5) {
+            if (targetChest != null && targetChest != BlockPos.ZERO) {
+                if (mob.position().distanceToSqr(Vec3.atCenterOf(targetChest)) < 1.5) {
                     mob.hideInChest();
                 }
             }
@@ -190,7 +181,7 @@ public class Saugling extends Experiment {
                     return pos.immutable();
                 }
             }
-            return null;
+            return BlockPos.ZERO;
         }
 
     }
@@ -209,7 +200,6 @@ public class Saugling extends Experiment {
             this.level().blockEvent(pos, chestBlock.getBlockState().getBlock(), 1, 1);
             this.level().updateNeighborsAt(pos, chestBlock.getBlockState().getBlock());
             this.level().updateNeighborsAt(pos.below(), chestBlock.getBlockState().getBlock());
-            this.hideCooldown = 100;
         }
     }
 }
