@@ -154,7 +154,7 @@ public class Saugling extends Experiment {
 
         @Override
         public boolean canUse() {
-            if (mob.isHidden() && mob.tickCount % 20 == 0) return false;
+            if (mob.isHidden() || mob.getTarget() != null) return false;
             targetChest = findNearbyChest();
             return targetChest != null;
         }
