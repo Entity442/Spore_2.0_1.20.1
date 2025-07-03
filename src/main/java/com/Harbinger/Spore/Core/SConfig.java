@@ -190,6 +190,10 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> knight_damage;
         public final ForgeConfigSpec.ConfigValue<Double> knight_armor;
 
+        public final ForgeConfigSpec.ConfigValue<Double> sau_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> sau_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> sau_armor;
+
         public final ForgeConfigSpec.ConfigValue<Double> ineb_hp;
         public final ForgeConfigSpec.ConfigValue<Double> ineb_damage;
         public final ForgeConfigSpec.ConfigValue<Double> ineb_armor;
@@ -1076,6 +1080,12 @@ public class SConfig {
             this.knight_hp = builder.comment("Default 25").defineInRange("Sets Knight Max health", 25, 1, Double.MAX_VALUE);
             this.knight_damage = builder.comment("Default 7").defineInRange("Sets Knight Damage", 7, 1, Double.MAX_VALUE);
             this.knight_armor = builder.comment("Default 7").defineInRange("Sets Knight Armor", 7, 1, Double.MAX_VALUE);
+            builder.pop();
+
+            builder.push("Saugling");
+            this.sau_hp = builder.comment("Default 25").defineInRange("Sets Saugling Max health", 25, 1, Double.MAX_VALUE);
+            this.sau_damage = builder.comment("Default 7").defineInRange("Sets Saugling Damage", 7, 1, Double.MAX_VALUE);
+            this.sau_armor = builder.comment("Default 5").defineInRange("Sets Saugling Armor", 5, 1, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("Inebrieter");
