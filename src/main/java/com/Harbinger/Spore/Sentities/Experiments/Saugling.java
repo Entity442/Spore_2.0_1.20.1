@@ -131,7 +131,7 @@ public class Saugling extends Experiment {
             if (!isPrimed()) {
                 AABB aabb = this.getBoundingBox().inflate(3);
                 boolean playerNearby = !this.level().getEntitiesOfClass(LivingEntity.class, aabb,
-                        entity -> entity.isAlive() && entity instanceof Player player && !player.getAbilities().instabuild).isEmpty();
+                        entity -> entity.isAlive() && TARGET_SELECTOR.test(entity)).isEmpty();
 
                 if (playerNearby) {
                     setPrimed(true);
