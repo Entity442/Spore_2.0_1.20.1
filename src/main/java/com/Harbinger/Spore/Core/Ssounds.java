@@ -184,6 +184,12 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> INF_PILLAGER_AMBIENT = soundRegistry("pillager_ambient");
 
+    public static final RegistryObject<SoundEvent> ADVENTURER_AMBIENT = soundRegistry("adventurer_ambient");
+
+    public static final RegistryObject<SoundEvent> TRADER_AMBIENT = soundRegistry("trader_ambient");
+
+    public static final RegistryObject<SoundEvent> ORGANOID_DAMAGE = soundRegistry("organoid_damage");
+
     private Ssounds() {
     }
 }

@@ -11,7 +11,6 @@ import com.Harbinger.Spore.Sentities.VariantKeeper;
 import com.Harbinger.Spore.Sentities.Variants.VigilVariants;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -37,20 +36,16 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.block.entity.SignText;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.awt.SystemColor.text;
 
 public class Vigil extends Organoid implements TraceableEntity, VariantKeeper {
     private static final EntityDataAccessor<Integer> TRIGGER = SynchedEntityData.defineId(Vigil.class, EntityDataSerializers.INT);
@@ -218,10 +213,6 @@ public class Vigil extends Organoid implements TraceableEntity, VariantKeeper {
 
     protected SoundEvent getAmbientSound() {
         return Ssounds.VIGIL_AMBIENT.get();
-    }
-
-    protected SoundEvent getHurtSound(DamageSource p_34327_) {
-        return Ssounds.INF_DAMAGE.get();
     }
 
     protected SoundEvent getDeathSound() {

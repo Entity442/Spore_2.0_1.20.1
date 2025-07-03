@@ -111,7 +111,7 @@ public class Protector extends EvolvedInfected implements ArmedInfected,HasUsabl
         tag.putInt("pearls",getPearls());
     }
     protected SoundEvent getAmbientSound() {
-        return Ssounds.INF_GROWL.get();
+        return Ssounds.ADVENTURER_AMBIENT.get();
     }
 
     protected SoundEvent getDeathSound() {

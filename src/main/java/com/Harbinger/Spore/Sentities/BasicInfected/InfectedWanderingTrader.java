@@ -77,7 +77,7 @@ public class InfectedWanderingTrader extends Infected implements EvolvingInfecte
 
     }
     protected SoundEvent getAmbientSound() {
-        return Ssounds.INF_VILLAGER_AMBIENT.get();
+        return Ssounds.TRADER_AMBIENT.get();
     }
 
     protected SoundEvent getHurtSound() {

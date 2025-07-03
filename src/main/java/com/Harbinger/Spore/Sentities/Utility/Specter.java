@@ -273,7 +273,7 @@ public class Specter extends UtilityEntity implements Enemy, ArmorPersentageBypa
     }
 
     protected SoundEvent getHurtSound(DamageSource p_34327_) {
-        return Ssounds.INF_DAMAGE.get();
+        return Ssounds.EVOLVE_HURT.get();
     }
 
     protected SoundEvent getDeathSound() {

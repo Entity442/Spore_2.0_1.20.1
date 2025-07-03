@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities.Experiments;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Experiment;
 import net.minecraft.core.BlockPos;
@@ -8,6 +9,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -26,6 +28,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -151,7 +154,7 @@ public class Saugling extends Experiment {
 
         @Override
         public boolean canUse() {
-            if (mob.isHidden() || mob.getTarget() != null) return false;
+            if (mob.isHidden() && mob.tickCount % 20 == 0) return false;
             targetChest = findNearbyChest();
             return targetChest != null;
         }
@@ -201,5 +204,30 @@ public class Saugling extends Experiment {
             this.level().updateNeighborsAt(pos, chestBlock.getBlockState().getBlock());
             this.level().updateNeighborsAt(pos.below(), chestBlock.getBlockState().getBlock());
         }
+    }
+
+    @Override
+    public boolean isDormant() {
+        return false;
+    }
+
+    protected SoundEvent getAmbientSound() {
+        return Ssounds.INF_GROWL.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource p_34327_) {
+        return Ssounds.INF_DAMAGE.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return Ssounds.INF_DAMAGE.get();
+    }
+
+    protected SoundEvent getStepSound() {
+        return SoundEvents.ZOMBIE_STEP;
+    }
+
+    protected void playStepSound(BlockPos p_34316_, BlockState p_34317_) {
+        this.playSound(this.getStepSound(), 0.15F, 1.0F);
     }
 }

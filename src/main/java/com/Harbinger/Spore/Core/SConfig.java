@@ -577,7 +577,7 @@ public class SConfig {
 
             this.blacklist = builder.defineList("Mobs Not Targeted",
                     Lists.newArrayList(
-                            "minecraft:creeper","minecraft:squid","minecraft:bat","minecraft:armor_stand","creeperoverhaul:","sculkhorde:","fromanotherworld:") , o -> o instanceof String);
+                            "minecraft:creeper","minecraft:allay","minecraft:dolphin","minecraft:glow_squid","minecraft:squid","minecraft:bat","minecraft:armor_stand","creeperoverhaul:","sculkhorde:","fromanotherworld:") , o -> o instanceof String);
 
             this.whitelist = builder.defineList("Mobs ALWAYS Targeted",
                     Lists.newArrayList("minecraft:villager","minecraft:wandering_trader","minecraft:iron_golem") , o -> o instanceof String);
@@ -1195,7 +1195,7 @@ public class SConfig {
                     Lists.newArrayList("spore:inf_human|80|2|5","spore:inf_drowned|10|1|2","spore:inf_pillager|40|1|3","spore:inf_villager|70|1|3","spore:inf_player|20|1|2"
                             ,"spore:inf_wanderer|25|1|2","spore:inf_witch|25|1|2") , o -> o instanceof String);
             this.structure_spawns = builder.defineList("Mobs that spawn in laboratory type structures",
-                    Lists.newArrayList("spore:inf_hazmat|70|2|5","spore:inf_player|20|1|2","spore:plagued|15|1|2","spore:lacerator|20|1|3","spore:biobloob|10|1|2") , o -> o instanceof String);
+                    Lists.newArrayList("spore:inf_hazmat|70|2|5","spore:saugling|70|1|2","spore:inebriater|70|2|3","spore:inf_player|20|1|2","spore:plagued|15|1|2","spore:lacerator|20|1|3","spore:biobloob|10|1|2") , o -> o instanceof String);
 
             builder.pop();
             builder.push("Explosion");

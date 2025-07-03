@@ -1,17 +1,23 @@
 package com.Harbinger.Spore.Sentities.BasicInfected;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
+import com.Harbinger.Spore.Sentities.EvolvedInfected.Inebriator;
+import com.Harbinger.Spore.Sentities.EvolvingInfected;
 import com.Harbinger.Spore.Sentities.VariantKeeper;
 import com.Harbinger.Spore.Sentities.Variants.HazmatVariant;
+import com.Harbinger.Spore.Sentities.Variants.ScamperVariants;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
@@ -28,7 +34,10 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-public class InfectedHazmat extends Infected implements VariantKeeper {
+import java.util.Collection;
+import java.util.List;
+
+public class InfectedHazmat extends Infected implements VariantKeeper , EvolvingInfected {
     private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(InfectedHazmat.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> BLOW_TIME = SynchedEntityData.defineId(InfectedHazmat.class, EntityDataSerializers.INT);
     public InfectedHazmat(EntityType<? extends Monster> type, Level level) {
@@ -136,6 +145,35 @@ public class InfectedHazmat extends Infected implements VariantKeeper {
             if (this.getBlowTime() >= 60){
                 explodeTank();
             }
+        }
+        if (this.getVariant() == HazmatVariant.COAT){
+            tickEvolution(this,null, ScamperVariants.DEFAULT);
+        }
+    }
+
+    @Override
+    public void Evolve(Infected livingEntity, List<? extends String> value, ScamperVariants variants) {
+        if (level() instanceof ServerLevel world){
+            if (this.getVariant() == HazmatVariant.COAT){
+                Inebriator inebriator = new Inebriator(Sentities.INEBRIATER.get(),world);
+                Collection<MobEffectInstance> collection = livingEntity.getActiveEffects();
+                for(MobEffectInstance mobeffectinstance : collection) {
+                    inebriator.addEffect(new MobEffectInstance(mobeffectinstance));
+                }
+                inebriator.setKills(livingEntity.getKills());
+                inebriator.setEvoPoints(livingEntity.getEvoPoints());
+                inebriator.setSearchPos(livingEntity.getSearchPos());
+                inebriator.setLinked(livingEntity.getLinked());
+                inebriator.setPos(livingEntity.getX(), livingEntity.getY() + 0.5D, livingEntity.getZ());
+                inebriator.setCustomName(livingEntity.getCustomName());
+                inebriator.finalizeSpawn(world, livingEntity.level().getCurrentDifficultyAt(new BlockPos((int) livingEntity.getX(),(int)  livingEntity.getY(),(int)  livingEntity.getZ())), MobSpawnType.NATURAL, null, null);
+                world.addFreshEntity(inebriator);
+                livingEntity.discard();
+            }
+            double x0 = livingEntity.getX() - (random.nextFloat() - 0.1) * 0.1D;
+            double y0 = livingEntity.getY() + (random.nextFloat() - 0.25) * 0.15D * 5;
+            double z0 = livingEntity.getZ() + (random.nextFloat() - 0.1) * 0.1D;
+            world.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x0, y0, z0, 2, 0, 0, 0, 1);
         }
     }
 

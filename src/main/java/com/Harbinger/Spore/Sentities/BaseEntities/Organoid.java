@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Sentities.BaseEntities;
 
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.Organoids.Mound;
 import com.Harbinger.Spore.Sentities.Organoids.Proto;
 import com.Harbinger.Spore.Sentities.Projectile.AcidBall;
@@ -12,6 +13,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -55,6 +57,9 @@ public class Organoid extends UtilityEntity implements Enemy {
         if (tickCount % 200 == 0 && !(this instanceof Proto || this instanceof Mound)){
             regulateSpawns();
         }
+    }
+    protected SoundEvent getHurtSound(DamageSource p_34327_) {
+        return Ssounds.ORGANOID_DAMAGE.get();
     }
 
     @Override

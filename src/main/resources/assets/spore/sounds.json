@@ -71,6 +71,29 @@
       "spore:hindicator_ambient"
     ]
   },
+  "adventurer_ambient" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:adventurer_ambient1",
+      "spore:adventurer_ambient2",
+      "spore:adventurer_ambient3"
+    ]
+  },
+  "trader_ambient" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:trader_ambient1",
+      "spore:trader_ambient2",
+      "spore:trader_ambient3"
+    ]
+  },
+  "organoid_damage" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:organoid_damage1",
+      "spore:organoid_damage2"
+    ]
+  },
   "forgotten_patient" :{
     "subtitle": "sounds.spore.forgotten_patient",
     "sounds": [
