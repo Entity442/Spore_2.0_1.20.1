@@ -6,6 +6,7 @@ import com.Harbinger.Spore.Sentities.EvolvedInfected.*;
 import com.Harbinger.Spore.Sentities.Experiments.Biobloob;
 import com.Harbinger.Spore.Sentities.Experiments.Lacerator;
 import com.Harbinger.Spore.Sentities.Experiments.Plagued;
+import com.Harbinger.Spore.Sentities.Experiments.Saugling;
 import com.Harbinger.Spore.Sentities.FallenMultipart.HowitzerArm;
 import com.Harbinger.Spore.Sentities.FallenMultipart.Licker;
 import com.Harbinger.Spore.Sentities.FallenMultipart.SiegerTail;
@@ -57,6 +58,14 @@ public class Sentities {
     public static final RegistryObject<EntityType<Protector>> PROTECTOR = SPORE_ENTITIES.register("protector",
             () -> EntityType.Builder.of(Protector::new, INFECTED).sized(0.6f, 2f)
                     .build(new ResourceLocation(Spore.MODID, "protector").toString()));
+
+    public static final RegistryObject<EntityType<Inebriator>> INEBRIATER = SPORE_ENTITIES.register("inebriater",
+            () -> EntityType.Builder.of(Inebriator::new, INFECTED).sized(0.6f, 1.8f)
+                    .build(new ResourceLocation(Spore.MODID, "inebriater").toString()));
+
+    public static final RegistryObject<EntityType<Saugling>> SAUGLING = SPORE_ENTITIES.register("saugling",
+            () -> EntityType.Builder.of(Saugling::new, INFECTED).sized(0.9f, 0.9f)
+                    .build(new ResourceLocation(Spore.MODID, "saugling").toString()));
 
     public static final RegistryObject<EntityType<Griefer>> GRIEFER = SPORE_ENTITIES.register("griefer",
             () -> EntityType.Builder.of(Griefer::new, INFECTED).sized(0.8f, 2.1f)

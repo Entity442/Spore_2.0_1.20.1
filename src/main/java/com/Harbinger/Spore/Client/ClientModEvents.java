@@ -11,6 +11,7 @@ import com.Harbinger.Spore.Particles.AcidParticle;
 import com.Harbinger.Spore.Particles.BloodParticle;
 import com.Harbinger.Spore.Particles.SporeParticle;
 import com.Harbinger.Spore.Screens.*;
+import com.Harbinger.Spore.Sentities.Experiments.Saugling;
 import com.Harbinger.Spore.Sitems.Agents.AbstractSyringe;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeArmorData;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
@@ -149,6 +150,8 @@ public class ClientModEvents {
         event.registerLayerDefinition(PCI_Model.LAYER_LOCATION, PCI_Model::createBodyLayer);
         event.registerLayerDefinition(PCI_ModelL.LAYER_LOCATION, PCI_ModelL::createBodyLayer);
         event.registerLayerDefinition(ProtectorModel.LAYER_LOCATION, ProtectorModel::createBodyLayer);
+        event.registerLayerDefinition(InebriaterModel.LAYER_LOCATION, InebriaterModel::createBodyLayer);
+        event.registerLayerDefinition(SauglingModel.LAYER_LOCATION, SauglingModel::createBodyLayer);
 
 
         event.registerLayerDefinition(BombFunnelModel.LAYER_LOCATION, BombFunnelModel::createBodyLayer);
@@ -245,6 +248,8 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.THROWN_SICKEL.get(), SickleRenderer::new);
         event.registerEntityRenderer(Sentities.THROWN_BOOMERANG.get(), ThrownBoomerangRenderer::new);
         event.registerEntityRenderer(Sentities.PROTECTOR.get(), ProtectorRenderer::new);
+        event.registerEntityRenderer(Sentities.INEBRIATER.get(), InebriatorRenderer::new);
+        event.registerEntityRenderer(Sentities.SAUGLING.get(), SauglingRenderer::new);
 
         event.registerBlockEntityRenderer(SblockEntities.OVERGROWN_SPAWNER.get(), new OvergrownSpawnerRenderer());
         event.registerBlockEntityRenderer(SblockEntities.BRAIN_REMNANTS.get(), new BrainRemnantsRenderer());

@@ -190,6 +190,11 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> knight_damage;
         public final ForgeConfigSpec.ConfigValue<Double> knight_armor;
 
+        public final ForgeConfigSpec.ConfigValue<Double> ineb_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> ineb_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> ineb_armor;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> ineb_buffs;
+
         public final ForgeConfigSpec.ConfigValue<Double> protector_hp;
         public final ForgeConfigSpec.ConfigValue<Double> protector_damage;
         public final ForgeConfigSpec.ConfigValue<Double> protector_armor;
@@ -1071,6 +1076,14 @@ public class SConfig {
             this.knight_hp = builder.comment("Default 25").defineInRange("Sets Knight Max health", 25, 1, Double.MAX_VALUE);
             this.knight_damage = builder.comment("Default 7").defineInRange("Sets Knight Damage", 7, 1, Double.MAX_VALUE);
             this.knight_armor = builder.comment("Default 7").defineInRange("Sets Knight Armor", 7, 1, Double.MAX_VALUE);
+            builder.pop();
+
+            builder.push("Inebrieter");
+            this.ineb_hp = builder.comment("Default 30").defineInRange("Sets Inebrieter Max health", 30, 1, Double.MAX_VALUE);
+            this.ineb_damage = builder.comment("Default 7").defineInRange("Sets Inebrieter Damage", 7, 1, Double.MAX_VALUE);
+            this.ineb_armor = builder.comment("Default 3").defineInRange("Sets Inebrieter Armor", 3, 1, Double.MAX_VALUE);
+            this.ineb_buffs = builder.defineList("Buffs the Inebrieter might give to its patient",
+                    Lists.newArrayList("minecraft:regeneration|300|1","minecraft:resistance|400|0","minecraft:speed|200|1") , o -> o instanceof String);
             builder.pop();
 
             builder.push("Nuckelave");
