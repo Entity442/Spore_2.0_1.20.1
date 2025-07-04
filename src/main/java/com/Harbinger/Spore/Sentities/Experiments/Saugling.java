@@ -156,6 +156,10 @@ public class Saugling extends Experiment {
         }
         return BlockPos.ZERO;
     }
+
+    public boolean checkChest(Level level){
+        return level.getBlockState(getChestPos()).is(Blocks.CHEST) && getChestPos() != BlockPos.ZERO;
+    }
     @Override
     public void aiStep() {
         super.aiStep();
@@ -166,6 +170,10 @@ public class Saugling extends Experiment {
             --setTicksOut;
         }
         if (isHidden() && tickCount % 20 == 0) {
+            if (!checkChest(level())){
+                setIsHidden(false);
+                setPrimed(false);
+            }
             if (!isPrimed()) {
                 AABB aabb = this.getBoundingBox().inflate(3);
                 List<LivingEntity> livingEntities = this.level().getEntitiesOfClass(LivingEntity.class, aabb,
