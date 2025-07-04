@@ -157,6 +157,11 @@ public class Saugling extends Experiment {
         return BlockPos.ZERO;
     }
 
+    @Override
+    public boolean isInvisible() {
+        return isHidden();
+    }
+
     public boolean checkChest(Level level){
         return level.getBlockState(getChestPos()).is(Blocks.CHEST) && getChestPos() != BlockPos.ZERO;
     }
