@@ -216,7 +216,7 @@ public class InfectedWitch extends Infected implements RangedAttackMob , RangedB
     }
 
     protected SoundEvent getAmbientSound() {
-        return Ssounds.INF_GROWL.get();
+        return Ssounds.WITCH_AMBIENT.get();
     }
 
     protected SoundEvent getHurtSound(DamageSource p_34327_) {

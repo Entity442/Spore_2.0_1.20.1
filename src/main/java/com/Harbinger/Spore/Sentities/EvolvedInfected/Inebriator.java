@@ -101,14 +101,27 @@ public class Inebriator extends EvolvedInfected {
         if (this.attackAnimationTick > 0) {
             --this.attackAnimationTick;
         }
-        if (tickCount % 20 == 0){
+        if (tickCount % 40 == 0){
             checkForPatients();
+            LivingEntity livingEntity = getPatient();
             if (getPatient() != null && (!getPatient().isAlive())) {
                 setPatient(null);
             }
+            if (livingEntity != null){
+                if (!livingEntity.isAlive()){
+                    setPatient(null);
+                }else {
+                    if (livingEntity.distanceTo(this) < 4){
+                        this.InjectMedicine(this.effects);
+                    }
+                }
+            }
         }
     }
-
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.inebriater_loot.get();
+    }
     public int getAttackAnimationTick() {
         return this.attackAnimationTick;
     }
@@ -124,8 +137,8 @@ public class Inebriator extends EvolvedInfected {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(2, new FollowPatientGoal(this, 1.0, 4.0f, 2.0f));
-        this.goalSelector.addGoal(3, new CustomMeleeAttackGoal(this, 1.5, false) {
+        this.goalSelector.addGoal(2, new FollowPatientGoal(this, 1.5, 4.0f, 2.0f));
+        this.goalSelector.addGoal(3, new CustomMeleeAttackGoal(this, 1.2, false) {
             @Override
             protected double getAttackReachSqr(LivingEntity entity) {
                 return 4.0 + entity.getBbWidth() * entity.getBbWidth();}
@@ -134,7 +147,7 @@ public class Inebriator extends EvolvedInfected {
             public boolean canUse() {
                 AABB aabb = mob.getBoundingBox().inflate(4, 1, 4);
                 List<Entity> allies = mob.level().getEntities(mob, aabb, entity ->
-                        entity instanceof Infected || entity instanceof UtilityEntity);
+                        (entity instanceof Infected || entity instanceof UtilityEntity) && !(entity instanceof Inebriator));
                 return allies.isEmpty() && super.canUse();
             }});
 
@@ -175,9 +188,6 @@ public class Inebriator extends EvolvedInfected {
         public void tick() {
             if (target != null) {
                 mob.getNavigation().moveTo(target, speedModifier);
-                if (mob.tickCount % 40 == 0 && target.distanceTo(mob) < 4){
-                    mob.InjectMedicine(mob.effects);
-                }
             }
         }
 

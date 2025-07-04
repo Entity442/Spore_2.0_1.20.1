@@ -1205,7 +1205,7 @@ public class SConfig {
                     Lists.newArrayList("spore:inf_human|80|2|5","spore:inf_drowned|10|1|2","spore:inf_pillager|40|1|3","spore:inf_villager|70|1|3","spore:inf_player|20|1|2"
                             ,"spore:inf_wanderer|25|1|2","spore:inf_witch|25|1|2") , o -> o instanceof String);
             this.structure_spawns = builder.defineList("Mobs that spawn in laboratory type structures",
-                    Lists.newArrayList("spore:inf_hazmat|70|2|5","spore:saugling|70|1|2","spore:inebriater|70|2|3","spore:inf_player|20|1|2","spore:plagued|15|1|2","spore:lacerator|20|1|3","spore:biobloob|10|1|2") , o -> o instanceof String);
+                    Lists.newArrayList("spore:inf_hazmat|70|2|5","spore:saugling|15|1|2","spore:inebriater|30|2|3","spore:inf_player|20|1|2","spore:plagued|15|1|2","spore:lacerator|20|1|3","spore:biobloob|10|1|2") , o -> o instanceof String);
 
             builder.pop();
             builder.push("Explosion");
@@ -1459,6 +1459,8 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> delusioner_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> hindicator_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_protector_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> inebriater_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> saugling_loot;
 
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> name;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> player_h;
@@ -1570,6 +1572,10 @@ public class SConfig {
                     Lists.newArrayList("spore:mutated_fiber|80|5|17","spore:armor_fragment|80|2|9","spore:mutated_heart|10|1|3","spore:claw_fragment|80|6|9","spore:innards|50|1|2","spore:tumor|100|4|8","spore:tendons|60|3|7") , o -> o instanceof String);
             this.construct_loot = builder.defineList("Construct",
                     Lists.newArrayList("spore:mutated_fiber|80|5|17","spore:mutated_heart|10|1|3","spore:innards|50|1|2","spore:tumor|100|4|8","spore:tendons|60|3|7") , o -> o instanceof String);
+            this.inebriater_loot = builder.defineList("Inebriater",
+                    Lists.newArrayList("spore:mutated_fiber|800|1|3","spore:mutated_heart|10|1|1","spore:tumor|100|4|8") , o -> o instanceof String);
+            this.saugling_loot = builder.defineList("Saugling",
+                    Lists.newArrayList("spore:mutated_fiber|20|1|3","spore:mutated_heart|10|1|1","spore:tumor|20|1|1") , o -> o instanceof String);
 
 
             this.sca_loot = builder.defineList("Scamper",

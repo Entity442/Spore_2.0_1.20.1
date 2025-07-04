@@ -118,6 +118,44 @@
       "spore:construct_ambient"
     ]
   },
+  "witch_ambient" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:witch_ambient1",
+      "spore:witch_ambient2",
+      "spore:witch_ambient3"
+    ]
+  },
+  "drowned_ambient" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:drowned_ambient1",
+      "spore:drowned_ambient2",
+      "spore:drowned_ambient3"
+    ]
+  },
+  "husk_ambient" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:husk_ambient1",
+      "spore:husk_ambient2",
+      "spore:husk_ambient3"
+    ]
+  },
+  "vindicator_ambient" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:vindicator_ambient"
+    ]
+  },
+  "scamper_ambient" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:scamper_ambient1",
+      "spore:scamper_ambient2",
+      "spore:scamper_ambient3"
+    ]
+  },
   "scavenger_screech" :{
     "subtitle": "sounds.spore.growl",
     "sounds": [

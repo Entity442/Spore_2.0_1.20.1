@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Experiment;
+import com.Harbinger.Spore.Sentities.MovementControls.InfectedWallMovementControl;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -12,7 +13,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -20,8 +20,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -33,13 +33,17 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
+import java.util.List;
 
 public class Saugling extends Experiment {
     public static final EntityDataAccessor<Boolean> IS_HIDDEN = SynchedEntityData.defineId(Saugling.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<BlockPos> CHEST_POS = SynchedEntityData.defineId(Saugling.class, EntityDataSerializers.BLOCK_POS);
     public static final EntityDataAccessor<Boolean> PRIMED = SynchedEntityData.defineId(Saugling.class, EntityDataSerializers.BOOLEAN);
+    private int setTicksOut = 0;
     public Saugling(EntityType<? extends Monster> type, Level level) {
         super(type, level);
+        this.navigation = new WallClimberNavigation(this,level);
+        this.moveControl = new InfectedWallMovementControl(this);
     }
 
     public boolean isHidden(){
@@ -60,7 +64,10 @@ public class Saugling extends Experiment {
     public void setChestPos(BlockPos val){
         entityData.set(CHEST_POS,val);
     }
-
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.saugling_loot.get();
+    }
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if (isHidden()){
@@ -106,40 +113,65 @@ public class Saugling extends Experiment {
 
     }
 
+    public int getSetTicksOut() {
+        return setTicksOut;
+    }
+
+    public void setSetTicksOut(int setTicksOut) {
+        this.setTicksOut = setTicksOut;
+    }
+
     @Override
     protected void registerGoals() {
         super.registerGoals();
+        this.goalSelector.addGoal(2, new HideInChestGoal(this));
         this.goalSelector.addGoal(3, new LeapAtTargetGoal(this,0.4F));
-        this.goalSelector.addGoal(3, new CustomMeleeAttackGoal(this, 1.5, false) {
+        this.goalSelector.addGoal(4, new CustomMeleeAttackGoal(this, 1.5, false) {
             @Override
             protected double getAttackReachSqr(LivingEntity entity) {
                 return 2.0 + entity.getBbWidth() * entity.getBbWidth();}
         });
-        this.goalSelector.addGoal(3, new HideInChestGoal(this));
+        this.goalSelector.addGoal(5, new RandomStrollGoal(this, 0.8));
     }
 
     @Override
     public boolean isNoAi() {
-        return super.isNoAi() || isHidden();
+        return isHidden();
     }
 
+    private void leapAtTarget(LivingEntity target){
+        Vec3 $$0 = this.getDeltaMovement();
+        Vec3 $$1 = new Vec3(target.getX() - this.getX(), target.getY() - this.getY(), getZ() - this.getZ());
+        if ($$1.lengthSqr() > 1.0E-7) {
+            $$1 = $$1.normalize().scale(0.4).add($$0.scale(0.2));
+        }
+        this.setDeltaMovement($$1.x, $$1.y, $$1.z);
+    }
     @Override
     public void aiStep() {
         super.aiStep();
-
+        if (setTicksOut > 0){
+            --setTicksOut;
+        }
         if (isHidden() && tickCount % 20 == 0) {
             if (!isPrimed()) {
                 AABB aabb = this.getBoundingBox().inflate(3);
-                boolean playerNearby = !this.level().getEntitiesOfClass(LivingEntity.class, aabb,
-                        entity -> entity.isAlive() && TARGET_SELECTOR.test(entity)).isEmpty();
+                List<LivingEntity> livingEntities = this.level().getEntitiesOfClass(LivingEntity.class, aabb,
+                        entity -> entity.isAlive() && TARGET_SELECTOR.test(entity) && !(entity instanceof Player player && player.getAbilities().instabuild));
 
-                if (playerNearby) {
+                if (!livingEntities.isEmpty()) {
                     setPrimed(true);
+                    this.setTarget(livingEntities.get(random.nextInt(livingEntities.size())));
                 }
             } else {
                 setIsHidden(false);
                 setPrimed(false);
                 openChest(getChestPos());
+                setSetTicksOut(100);
+                LivingEntity target = this.getTarget();
+                if (target != null){
+                    leapAtTarget(target);
+                }
             }
         }
     }
@@ -156,7 +188,7 @@ public class Saugling extends Experiment {
         public boolean canUse() {
             if (mob.isHidden() || mob.getTarget() != null) return false;
             targetChest = findNearbyChest();
-            return targetChest != null;
+            return targetChest != null && mob.getSetTicksOut() <= 0;
         }
 
         @Override

@@ -97,7 +97,7 @@ public class Volatile extends EvolvedInfected {
     }
 
     protected SoundEvent getAmbientSound() {
-        return Ssounds.INF_GROWL.get();
+        return Ssounds.WITCH_AMBIENT.get();
     }
 
     protected SoundEvent getDeathSound() {

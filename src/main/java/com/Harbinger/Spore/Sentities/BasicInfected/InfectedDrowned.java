@@ -95,7 +95,7 @@ public class InfectedDrowned extends Infected implements WaterInfected , Evolvin
     }
 
     protected SoundEvent getAmbientSound() {
-        return Ssounds.INF_GROWL.get();
+        return Ssounds.DROWNED_AMBIENT.get();
     }
 
     protected SoundEvent getHurtSound(DamageSource p_34327_) {

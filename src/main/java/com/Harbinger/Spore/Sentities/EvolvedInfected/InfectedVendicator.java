@@ -108,7 +108,7 @@ public class InfectedVendicator extends EvolvedInfected implements ArmedInfected
     }
 
     protected SoundEvent getAmbientSound() {
-        return Ssounds.INF_GROWL.get();
+        return Ssounds.VINDICATOR_AMBIENT.get();
     }
 
     protected SoundEvent getHurtSound(DamageSource p_34327_) {
