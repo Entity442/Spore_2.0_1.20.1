@@ -163,9 +163,12 @@ public class Protector extends EvolvedInfected implements ArmedInfected,HasUsabl
                 if (isLookingAtMe(livingEntity)){
                     this.playSound(SoundEvents.SHIELD_BLOCK);
                     return false;
-                }else {
-                    this.ticksUnShielded = 100;
                 }
+            }
+        }else{
+            if (entity != null && this.getShielded()){
+                this.playSound(SoundEvents.SHIELD_BREAK);
+                this.ticksUnShielded = 100;
             }
         }
         return super.hurt(source, amount);

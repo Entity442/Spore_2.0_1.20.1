@@ -12,7 +12,7 @@ public class PlatedChestplate extends PlatedExoskeleton {
     }
     @Override
     public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-        return GET_LOCATION_1.get(getVariant(stack));
+        return "spore:textures/entity/empty.png";
     }
 
 }
