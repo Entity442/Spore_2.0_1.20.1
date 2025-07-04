@@ -170,7 +170,7 @@ public class Bloater extends EvolvedInfected implements WaterInfected {
     }
 
     protected SoundEvent getAmbientSound() {
-        return Ssounds.INF_GROWL.get();
+        return Ssounds.DROWNED_AMBIENT.get();
     }
 
     protected SoundEvent getDeathSound() {
