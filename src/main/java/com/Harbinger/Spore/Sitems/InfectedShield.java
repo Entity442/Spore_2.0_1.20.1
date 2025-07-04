@@ -137,7 +137,7 @@ public class InfectedShield extends SporeToolsBaseItem {
             for (MobEffectInstance instance : BileLiquid.bileEffects())
                 arrow.addEffect(instance);
         }
-        if (arrow.canFreeze()){
+        if (stack.getEnchantmentLevel(Senchantments.CRYOGENIC_ASPECT.get())>0 && arrow.canFreeze()){
             arrow.setTicksFrozen(arrow.getTicksFrozen()+300);
         }
         arrow.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,200,0));
