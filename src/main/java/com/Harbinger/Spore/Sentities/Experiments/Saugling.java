@@ -147,9 +147,21 @@ public class Saugling extends Experiment {
         }
         this.setDeltaMovement($$1.x, $$1.y, $$1.z);
     }
+    private BlockPos findNearbyChest() {
+        BlockPos mobPos = this.blockPosition();
+        for (BlockPos pos : BlockPos.betweenClosed(mobPos.offset(-8, -2, -8), mobPos.offset(8, 2, 8))) {
+            if (this.level().getBlockState(pos).is(Blocks.CHEST)) {
+                return pos.immutable();
+            }
+        }
+        return BlockPos.ZERO;
+    }
     @Override
     public void aiStep() {
         super.aiStep();
+        if (tickCount % 60 == 0){
+            setChestPos(findNearbyChest());
+        }
         if (setTicksOut > 0){
             --setTicksOut;
         }
@@ -177,7 +189,6 @@ public class Saugling extends Experiment {
     }
     public static class HideInChestGoal extends Goal {
         private final Saugling mob;
-        private BlockPos targetChest;
 
         public HideInChestGoal(Saugling mob) {
             this.mob = mob;
@@ -187,38 +198,26 @@ public class Saugling extends Experiment {
         @Override
         public boolean canUse() {
             if (mob.isHidden() || mob.getTarget() != null) return false;
-            targetChest = findNearbyChest();
-            return targetChest != null && mob.getSetTicksOut() <= 0;
+            return mob.getChestPos() != BlockPos.ZERO && mob.getSetTicksOut() <= 0;
         }
 
         @Override
         public void start() {
-            if (targetChest != null && targetChest != BlockPos.ZERO) {
-                mob.setChestPos(targetChest);
-                mob.getNavigation().moveTo(targetChest.getX(), targetChest.getY(), targetChest.getZ(), 1.0);
+            if (mob.getChestPos() != null && mob.getChestPos() != BlockPos.ZERO) {
+                mob.setChestPos(mob.getChestPos());
+                mob.getNavigation().moveTo(mob.getChestPos().getX(), mob.getChestPos().getY(), mob.getChestPos().getZ(), 1.0);
             }
 
         }
 
         @Override
         public void tick() {
-            if (targetChest != null && targetChest != BlockPos.ZERO) {
-                if (mob.position().distanceToSqr(Vec3.atCenterOf(targetChest)) < 1.5) {
+            if (mob.getChestPos() != null && mob.getChestPos() != BlockPos.ZERO) {
+                if (mob.position().distanceToSqr(Vec3.atCenterOf(mob.getChestPos())) < 1.5) {
                     mob.hideInChest();
                 }
             }
         }
-
-        private BlockPos findNearbyChest() {
-            BlockPos mobPos = mob.blockPosition();
-            for (BlockPos pos : BlockPos.betweenClosed(mobPos.offset(-8, -2, -8), mobPos.offset(8, 2, 8))) {
-                if (mob.level().getBlockState(pos).is(Blocks.CHEST)) {
-                    return pos.immutable();
-                }
-            }
-            return BlockPos.ZERO;
-        }
-
     }
     public void hideInChest() {
         setIsHidden(true);
