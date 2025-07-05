@@ -33,11 +33,9 @@ import java.util.List;
 
 public class Inebriator extends EvolvedInfected {
     private int attackAnimationTick;
-    public final List<MobEffectInstance> effects;
     private LivingEntity patient;
     public Inebriator(EntityType<? extends Monster> type, Level level) {
         super(type, level);
-        effects = getEffects();
     }
     public void setPatient(LivingEntity patient){
         this.patient = patient;
@@ -112,7 +110,7 @@ public class Inebriator extends EvolvedInfected {
                     setPatient(null);
                 }else {
                     if (livingEntity.distanceTo(this) < 4){
-                        this.InjectMedicine(this.effects);
+                        this.InjectMedicine(this.getEffects());
                     }
                 }
             }
