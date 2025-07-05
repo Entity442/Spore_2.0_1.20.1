@@ -41,6 +41,12 @@ public class InfectedSickle extends SporeSwordBase {
     }
 
     @Override
+    public boolean hurtEnemy(ItemStack stack, LivingEntity living, LivingEntity entity) {
+        if (getThrownSickle(stack)){return false;}
+        return super.hurtEnemy(stack, living, entity);
+    }
+
+    @Override
     public float getDestroySpeed(ItemStack stack, BlockState state) {
         return state.is(BlockTags.MINEABLE_WITH_HOE) ? 2F:1F;
     }
