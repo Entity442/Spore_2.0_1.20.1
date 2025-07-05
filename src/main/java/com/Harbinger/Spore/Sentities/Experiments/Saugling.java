@@ -274,4 +274,9 @@ public class Saugling extends Experiment {
     protected void playStepSound(BlockPos p_34316_, BlockState p_34317_) {
         this.playSound(this.getStepSound(), 0.15F, 1.0F);
     }
+
+    @Override
+    protected int calculateFallDamage(float p_21237_, float p_21238_) {
+        return super.calculateFallDamage(p_21237_, p_21238_) - 10;
+    }
 }
