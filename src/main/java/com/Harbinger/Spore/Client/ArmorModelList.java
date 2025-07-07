@@ -99,8 +99,8 @@ public class ArmorModelList {
         map.add(new com.Harbinger.Spore.Client.ArmorModelList.Quad(EquipmentSlot.LEGS, Sitems.LIVING_PANTS.get().asItem(),humanoidModel.rightLeg,livingEntityfleshArmorModel,livingEntityfleshArmorModel.rightLeg,0.1f,-0.8f,0,1.01f));
         map.add(new com.Harbinger.Spore.Client.ArmorModelList.Quad(EquipmentSlot.LEGS, Sitems.LIVING_PANTS.get().asItem(),humanoidModel.body,livingEntityfleshArmorModel,livingEntityfleshArmorModel.pelvis,0,0,0,1f));
         map.add(new com.Harbinger.Spore.Client.ArmorModelList.Quad(EquipmentSlot.CHEST, Sitems.LIVING_CHEST.get().asItem(),humanoidModel.body,livingEntityfleshArmorModel,livingEntityfleshArmorModel.body,0,0,0,1f));
-        map.add(new com.Harbinger.Spore.Client.ArmorModelList.Quad(EquipmentSlot.CHEST, Sitems.LIVING_CHEST.get().asItem(),humanoidModel.rightArm,livingEntityfleshArmorModel,livingEntityfleshArmorModel.rightArm,0.25f,-0.125f,0,1f));
-        map.add(new com.Harbinger.Spore.Client.ArmorModelList.Quad(EquipmentSlot.CHEST, Sitems.LIVING_CHEST.get().asItem(),humanoidModel.leftArm,livingEntityfleshArmorModel,livingEntityfleshArmorModel.leftArm,-0.25f,-0.125f,0,1f));
+        map.add(new com.Harbinger.Spore.Client.ArmorModelList.Quad(EquipmentSlot.CHEST, Sitems.LIVING_CHEST.get().asItem(),humanoidModel.rightArm,livingEntityfleshArmorModel,livingEntityfleshArmorModel.rightArm,0.3f,-0.125f,0,1f));
+        map.add(new com.Harbinger.Spore.Client.ArmorModelList.Quad(EquipmentSlot.CHEST, Sitems.LIVING_CHEST.get().asItem(),humanoidModel.leftArm,livingEntityfleshArmorModel,livingEntityfleshArmorModel.leftArm,-0.3f,-0.125f,0,1f));
         map.add(new com.Harbinger.Spore.Client.ArmorModelList.Quad(EquipmentSlot.HEAD, Sitems.LIVING_HELMET.get().asItem(),humanoidModel.head,livingEntityfleshArmorModel,livingEntityfleshArmorModel.headwear,0f,0f,0,1f));
 
         map.add(new com.Harbinger.Spore.Client.ArmorModelList.Quad(EquipmentSlot.FEET, Sitems.PLATED_BOOTS.get().asItem(),humanoidModel.leftLeg,plated,plated.leftBoot,-0.1f,-0.8f,0,1f));
