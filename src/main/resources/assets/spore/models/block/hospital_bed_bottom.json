@@ -1,8 +1,8 @@
 {
 	"format_version": "1.21.6",
 	"credit": "Made with Blockbench",
-	"texture_size": [128, 128],
 	"render_type": "translucent",
+	"texture_size": [128, 128],
 	"textures": {
 		"0": "spore:block/hospital_bed",
 		"particle": "spore:block/hospital_bed"
@@ -18,8 +18,8 @@
 				"east": {"uv": [2.625, 4, 6.625, 4.25], "texture": "#0"},
 				"south": {"uv": [5.375, 0.25, 7.375, 0.5], "texture": "#0"},
 				"west": {"uv": [4, 3.25, 8, 3.5], "texture": "#0"},
-				"up": {"uv": [2, 4, 0, 0], "texture": "#0"},
-				"down": {"uv": [4, 0, 2, 4], "texture": "#0"}
+				"up": {"uv": [2, 4, 0, 2], "texture": "#0"},
+				"down": {"uv": [4, 2, 2, 4], "texture": "#0"}
 			}
 		},
 		{
@@ -373,7 +373,6 @@
 			}
 		}
 	],
-	"display": {},
 	"groups": [
 		{
 			"name": "hosital bed",
