@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "facing=north,part=bottom": { "model": "spore:block/hospital_bed_bottom", "y": 180 },
+    "facing=north,part=top": { "model": "spore:block/hospital_bed_top", "y": 180 },
+    "facing=east,part=bottom": { "model": "spore:block/hospital_bed_bottom", "y": 270 },
+    "facing=east,part=top": { "model": "spore:block/hospital_bed_top", "y": 270 },
+    "facing=south,part=bottom": { "model": "spore:block/hospital_bed_bottom", "y": 0 },
+    "facing=south,part=top": { "model": "spore:block/hospital_bed_top", "y": 0 },
+    "facing=west,part=bottom": { "model": "spore:block/hospital_bed_bottom", "y": 90 },
+    "facing=west,part=top": { "model": "spore:block/hospital_bed_top", "y": 90 }
+  }
+}

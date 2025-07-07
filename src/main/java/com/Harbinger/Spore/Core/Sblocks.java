@@ -116,6 +116,7 @@ public class Sblocks {
     public static final RegistryObject<Block> BIOMASS_LUMP = BLOCKS.register("biomass_lump", BiomassLump::new);
     public static final RegistryObject<Block> HIVE_SPAWN = BLOCKS.register("hive_spawn", HiveSpawn::new);
 
+    public static final RegistryObject<Block> LABORATORY_BED = BLOCKS.register("laboratory_bed", LabBedBlock::new);
 
     public static final RegistryObject<Block> ORGANITE = BLOCKS.register("organite", OrganiteBlock::new);
     public static final RegistryObject<Block> ROOTED_BIOMASS = BLOCKS.register("rooted_biomass", () -> new Block(BlockBehaviour.Properties.of().strength(2f,2f).sound(SoundType.SLIME_BLOCK)));

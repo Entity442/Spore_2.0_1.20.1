@@ -515,6 +515,7 @@ public class Sitems {
     public static final RegistryObject<Item> LAB_SLAB3 = Techblock(Sblocks.LAB_SLAB3);
     public static final RegistryObject<Item> LAB_STAIR = Techblock(Sblocks.LAB_STAIR);
     public static final RegistryObject<Item> IRON_LADDER = Techblock(Sblocks.IRON_LADDER);
+    public static final RegistryObject<Item> LABORATORY_BED = Techblock(Sblocks.LABORATORY_BED);
     public static final RegistryObject<Item> VENT_PLATE = Techblock(Sblocks.VENT_PLATE);
     public static final RegistryObject<Item> RUSTED_VENT_PLATE = Techblock(Sblocks.RUSTED_VENT_PLATE);
     public static final RegistryObject<Item> VENT_DOOR = Techblock(Sblocks.VENT_DOOR);
