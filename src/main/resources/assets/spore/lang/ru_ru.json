@@ -6,6 +6,7 @@
   "attribute.name.spore.corrosives": "Коррозивность",
   "attribute.name.spore.ballistic": "Баллистичность",
   "attribute.name.spore.grinding": "Шлифование",
+  "block.spore.laboratory_bed": "Лабораторная кровать",
   "block.spore.growths_big": "Мицелий",
   "block.spore.growths_small": "Мицелий",
   "block.spore.blomfung": "Расцвëтший мицелий",
@@ -687,7 +688,7 @@
   "spore.proto.message.3": "Этот мир уже не твой, чтобы завоëвывать его",
   "spore.proto.message.4": "Малыш, пойди-ка в ваниллу",
   "spore.proto.message.5": "Я никогда не окончу твои страдания",
-  "spore.proto.message.6": "Если так выходит, то поставь сложность мира на "Мирную" ",
+  "spore.proto.message.6": "Если так выходит, то поставь сложность мира на Мирную" ,
   "spore.proto.message.7": "Игроки таких глупостей не делают... Обычно",
   "spore.proto.message.8": "Ты не более чем жертва",
   "spore.proto.message.9": "Ты не устал погибать, квадратноголовый?"

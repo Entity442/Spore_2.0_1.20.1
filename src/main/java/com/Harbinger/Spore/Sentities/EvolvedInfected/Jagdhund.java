@@ -151,7 +151,7 @@ public class Jagdhund extends EvolvedInfected {
 
     @Override
     public boolean isInvisible() {
-        return isUnderground();
+        return isUnderground() && !isEmerging();
     }
 
     @Override
