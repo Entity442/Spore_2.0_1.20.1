@@ -366,6 +366,7 @@
   "spore.entity.variant.overclocked" : "Overclocked Mutation",
   "spore.entity.variant.hazard" : "Hazardous Mutation",
   "spore.entity.variant.troll" : "Propagator Mutation",
+  "spore.entity.variant.smasher" : "Smasher Mutation",
   "spore.scanner.danger.calamity" : "RUN",
   "spore.scanner.danger.hyper" : "Very High",
   "spore.scanner.danger.evolved" : "Medium-High",

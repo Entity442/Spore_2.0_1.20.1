@@ -130,7 +130,7 @@ public class SlasherModel<T extends Slasher> extends EntityModel<T> {
 
 
 		if (entity.attackAnim > 0) {
-			float f1 = 1.0F - Mth.abs(10 - 2 * entity.attackAnim) / 6.5F;
+			float f1 = -1.0F + Mth.abs(10 - 2 * entity.attackAnim) / 6.5F;
 			if (entity.getVariant() == SlasherVariants.PIERCER){
 				f1 = -1.0F + Mth.abs(10 - 2 * entity.attackAnim) / 6.5F;
 			}

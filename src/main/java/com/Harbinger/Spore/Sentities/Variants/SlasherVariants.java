@@ -5,7 +5,8 @@ import java.util.Comparator;
 
 public enum SlasherVariants {
     DEFAULT(0,"default"),
-    PIERCER(1,"spore.entity.variant.piercer");
+    PIERCER(1,"spore.entity.variant.piercer"),
+    SMASHER(2,"spore.entity.variant.smasher");
 
     private static final SlasherVariants[] BY_ID = Arrays.stream(values()).sorted(Comparator.
             comparingInt(SlasherVariants::getId)).toArray(SlasherVariants[]::new);

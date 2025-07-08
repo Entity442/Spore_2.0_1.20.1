@@ -9,6 +9,7 @@ import com.Harbinger.Spore.Sentities.ArmorPersentageBypass;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.VariantKeeper;
 import com.Harbinger.Spore.Sentities.Variants.SlasherVariants;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -17,6 +18,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -93,6 +95,10 @@ public class Slasher extends EvolvedInfected implements ArmorPersentageBypass, V
         if (entity instanceof ServerPlayer player && this.getVariant() == SlasherVariants.PIERCER && !player.isBlocking()){
             player.getInventory().hurtArmor(SdamageTypes.slasher_piercing_damage(this),35.0f, Inventory.ALL_ARMOR_SLOTS);
         }
+        if (this.getVariant() == SlasherVariants.SMASHER && entity instanceof LivingEntity livingEntity){
+            livingEntity.hurtMarked = true;
+            livingEntity.knockback(2F, -Mth.sin(entity.getYRot() * ((float) Math.PI / 180F)), Mth.cos(entity.getYRot() * ((float) Math.PI / 180F)));
+        }
         return super.doHurtTarget(entity);
     }
 
@@ -133,7 +139,7 @@ public class Slasher extends EvolvedInfected implements ArmorPersentageBypass, V
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_146746_, DifficultyInstance p_146747_,
                                         MobSpawnType p_146748_, @Nullable SpawnGroupData p_146749_,
                                         @Nullable CompoundTag p_146750_) {
-        SlasherVariants variant = Math.random() < 0.2 ? SlasherVariants.PIERCER : SlasherVariants.DEFAULT;
+        SlasherVariants variant = Util.getRandom(SlasherVariants.values(), this.random);
         setVariant(variant);
         return super.finalizeSpawn(p_146746_, p_146747_, p_146748_, p_146749_, p_146750_);
     }
