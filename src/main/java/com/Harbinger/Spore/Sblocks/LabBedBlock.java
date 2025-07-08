@@ -18,9 +18,13 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+
+import java.util.Collections;
+import java.util.List;
 
 public class LabBedBlock extends HorizontalDirectionalBlock {
     public static final EnumProperty<TablePart> PART = EnumProperty.create("part", TablePart.class);
@@ -104,5 +108,13 @@ public class LabBedBlock extends HorizontalDirectionalBlock {
         public String getSerializedName() {
             return name;
         }
+    }
+
+    @Override
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
+        if (state.getValue(PART) == TablePart.BOTTOM) {
+            return super.getDrops(state, builder);
+        }
+        return Collections.emptyList();
     }
 }

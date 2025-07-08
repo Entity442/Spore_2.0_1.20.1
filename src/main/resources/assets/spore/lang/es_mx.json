@@ -275,6 +275,8 @@
   "item.spore.scent_spawnegg": "Aroma",
   "item.spore.scent_overcharged_spawnegg": "Aroma sobrecargada",
   "item.spore.claw_spawnegg": "Garra",
+  "item.spore.inebriater_spawnegg": "Embriagador",
+  "item.spore.saugling_spawnegg": "Saugling",
   "entity.spore.knight": "Caballero",
   "entity.spore.griefer": "Griefer",
   "entity.spore.inf_human": "Humano infectado",
@@ -338,6 +340,8 @@
   "entity.spore.hevoker_arm": "Garra de Hexenmeister",
   "entity.spore.hvindicator": "Axtwerfer",
   "entity.spore.protector": "Protector",
+  "entity.spore.inebriater": "Embriagador",
+  "entity.spore.saugling": "Saugling",
   "entity.spore.thrown_tool": "Herramienta arrojada",
   "spore.entity.variant.kidnapper" : "Mutación secuestradora",
   "spore.entity.variant.kamikaze": "Mutación Kamikaze",
@@ -668,5 +672,16 @@
   "advancement.spore.plagued.title" : "Necesita una intervención",
   "advancement.spore.plagued.description" : "Se atacado por el Plagado",
   "advancement.spore.lore_1.title" : "Escombros del pasado",
-  "advancement.spore.lore_1.description" : "Encuentra uno de los registros"
+  "advancement.spore.lore_1.description" : "Encuentra uno de los registros",
+
+  "spore.proto.message.0": "Necesitarás una espada más grande :P",
+  "spore.proto.message.1": "Rage, dejalo ya, estas acabado",
+  "spore.proto.message.2": "¿Nuevo Mundo?",
+  "spore.proto.message.3": "Este mundo no es tuyo para conquistarlo",
+  "spore.proto.message.4": "Volver a vainilla niño",
+  "spore.proto.message.5": "Nunca dejaré de cultivarte",
+  "spore.proto.message.6": "Poner el mundo en paz en este punto",
+  "spore.proto.message.7": "Los jugadores no suelen ser tan malos",
+  "spore.proto.message.8": "No eres más que una presa",
+  "spore.proto.message.9": "¿No estás cansado de morir tonto?"
 }

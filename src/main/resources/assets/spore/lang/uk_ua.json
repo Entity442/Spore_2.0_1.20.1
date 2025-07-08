@@ -272,6 +272,8 @@
   "item.spore.scent_spawnegg": "Спори",
   "item.spore.scent_overcharged_spawnegg": "Перенасичені спори",
   "item.spore.claw_spawnegg": "Кігті",
+  "item.spore.inebriater_spawnegg": "П'яниця",
+  "item.spore.saugling_spawnegg": "Сауглінг",
   "entity.spore.knight": "Лицар",
   "entity.spore.griefer": "Грифер",
   "entity.spore.inf_human": "Інфікована людина",
@@ -334,6 +336,8 @@
   "entity.spore.hevoker_arm": "Кіготь Гексенмейстера",
   "entity.spore.hvindicator": "СокирометАкстверфер",
   "entity.spore.protector": "Захисник",
+  "entity.spore.inebriater": "П'яниця",
+  "entity.spore.saugling": "Сауглінг",
   "spore.entity.variant.kidnapper" : "Мутація викрадача",
   "spore.entity.variant.kamikaze": "Камікадзе Мутація",
   "spore.entity.variant.noxious": "Шкідлива мутація",
@@ -664,5 +668,16 @@
   "advancement.spore.plagued.title" : "Час відправити його на перевиховання",
   "advancement.spore.plagued.description" : "Дай себе атакувати Зараженому",
   "advancement.spore.lore_1.title" : "Уламки минулого",
-  "advancement.spore.lore_1.description" : "Знайди кілька дисків"
+  "advancement.spore.lore_1.description" : "Знайди кілька дисків",
+
+  "spore.proto.message.0": "Тобі знадобиться більший меч :P",
+  "spore.proto.message.1": "Гнів, припини вже, ти закінчив.",
+  "spore.proto.message.2": "Новий світ?",
+  "spore.proto.message.3": "Цей світ не твій, щоб ти його підкорював",
+  "spore.proto.message.4": "Повернися до Vanilla Kid",
+  "spore.proto.message.5": "Я ніколи не перестану тебе обробляти.",
+  "spore.proto.message.6": "Встановіть мир у світі на цьому етапі",
+  "spore.proto.message.7": "Гравці зазвичай не такі погані",
+  "spore.proto.message.8": "Ти не більше ніж здобич",
+  "spore.proto.message.9": "Тобі не набридло помирати, як дурень?"
 }

@@ -22,6 +22,7 @@
     "spore:outpost_watcher",
     "spore:mycelium_block",
     "spore:mycelium_slab",
-    "spore:cabinet"
+    "spore:cabinet",
+    "spore:laboratory_bed"
   ]
 }

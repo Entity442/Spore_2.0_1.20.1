@@ -266,7 +266,8 @@
   "item.spore.hevoker_spawnegg": "Maestro delle Streghe",
   "item.spore.hvindicator_spawnegg": "Lanciatore d'asciaAxtwerfer",
   "item.spore.prot_spawnegg": "Protettore",
-
+  "item.spore.inebriater_spawnegg": "Inebriante",
+  "item.spore.saugling_spawnegg": "Saugling",
   "item.spore.scent_spawnegg": "Feromone",
   "item.spore.scent_overcharged_spawnegg": "Feromone supercaricato",
   "item.spore.claw_spawnegg": "Artiglio",
@@ -334,6 +335,8 @@
   "entity.spore.hvindicator": "Lanciatore d'asciaAxtwerfer",
   "entity.spore.hevoker_arm": "Artiglio di Hexenmeister",
   "entity.spore.protector": "Protettore",
+  "entity.spore.inebriater": "Inebriante",
+  "entity.spore.saugling": "Saugling",
   "spore.entity.variant.kidnapper" : "Mutazione Rapitore",
   "spore.entity.variant.kamikaze": "Mutazione Kamikaze",
   "spore.entity.variant.noxious": "Mutazione Velenata",
@@ -677,5 +680,16 @@
   "advancement.spore.plagued.title" : "Devo mandarlo in riabilitazione",
   "advancement.spore.plagued.description" : "Fatti assalire dal Plagued",
   "advancement.spore.lore_1.title" : "Frammenti del passato",
-  "advancement.spore.lore_1.description" : "Trova alcuni dei dischi"
+  "advancement.spore.lore_1.description" : "Trova alcuni dei dischi",
+
+  "spore.proto.message.0": "Ti servirà una spada più grande :P",
+  "spore.proto.message.1": "Rabbia, smettila, hai finito",
+  "spore.proto.message.2": "Nuovo Mondo?",
+  "spore.proto.message.3": "Questo mondo non è tuo da conquistare",
+  "spore.proto.message.4": "Torna a Vanilla Kid",
+  "spore.proto.message.5": "Non smetterò mai di coltivarti",
+  "spore.proto.message.6": "A questo punto, rendi il mondo pacifico",
+  "spore.proto.message.7": "I giocatori di solito non sono così male",
+  "spore.proto.message.8": "Non sei altro che una preda",
+  "spore.proto.message.9": "Non sei stanco di morire idiota?"
 }

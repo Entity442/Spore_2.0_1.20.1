@@ -423,7 +423,8 @@
   "entity.spore.nuclea": "半人菌兽",
   "entity.spore.hevoker": "巫术者",
   "entity.spore.hvindicator": "战斧者",
-
+  "entity.spore.inebriater": "醉酒者",
+  "entity.spore.saugling": "索格林",
 
   "entity.spore.thrown_tumor": "投掷的肿瘤",
   "entity.spore.thrown_spear": "投掷的长矛",
@@ -607,5 +608,16 @@
   "effect.spore_nightmare.bleeding": "出血",
   "death.attack.bleeding_damage": "%1$s 失血过多",
   "effect.spore_nightmare.incubator": "孵化",
-  "death.attack.bleeding_damage.player": "%1$s 试图逃离 %2$s 时流血死亡"
+  "death.attack.bleeding_damage.player": "%1$s 试图逃离 %2$s 时流血死亡",
+
+  "spore.proto.message.0": "你需要一把更大的剑",
+  "spore.proto.message.1": "愤怒退出，你已经完了",
+  "spore.proto.message.2": "新大陆？",
+  "spore.proto.message.3": "这个世界不是你所能征服的",
+  "spore.proto.message.4": "回到香草小子",
+  "spore.proto.message.5": "我永远不会停止耕种你",
+  "spore.proto.message.6": "此时将世界设置为和平",
+  "spore.proto.message.7": "球员通常不会这么糟糕",
+  "spore.proto.message.8": "你只不过是猎物",
+  "spore.proto.message.9": "你这个笨蛋，难道不厌倦死去吗？"
 }
