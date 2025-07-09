@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "spore:documents"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "item": "minecraft:paper"
+  }
+}
