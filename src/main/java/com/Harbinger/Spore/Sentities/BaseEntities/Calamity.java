@@ -505,7 +505,7 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
         entity.level().addFreshEntity(mound);
     }
     protected SoundEvent getHurtSound(DamageSource p_34327_) {
-        return Ssounds.EVOLVE_HURT.get();
+        return Ssounds.CALAMITY_DAMAGE.get();
     }
     @Nullable
     @Override

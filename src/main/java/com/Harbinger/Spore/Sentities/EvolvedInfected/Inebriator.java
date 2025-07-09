@@ -76,6 +76,7 @@ public class Inebriator extends EvolvedInfected {
                 entity.addEffect(instance);
             }
             this.level().broadcastEntityEvent(this, (byte)4);
+            this.playSound(Ssounds.INEBRIATER_INJECT.get());
         }
     }
     public void handleEntityEvent(byte value) {

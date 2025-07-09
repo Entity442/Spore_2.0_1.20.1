@@ -212,11 +212,6 @@ public class Sieger extends Calamity implements RangedAttackMob, TrueCalamity {
         return Ssounds.SIEGER_AMBIENT.get();
     }
 
-    protected SoundEvent getHurtSound(DamageSource p_34327_) {
-        return Ssounds.INF_DAMAGE.get();
-    }
-
-
     protected SoundEvent getStepSound() {
         return SoundEvents.RAVAGER_STEP;
     }

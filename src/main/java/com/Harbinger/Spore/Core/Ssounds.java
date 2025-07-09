@@ -200,6 +200,12 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> ORGANOID_DAMAGE = soundRegistry("organoid_damage");
 
+    public static final RegistryObject<SoundEvent> HYPER_DAMAGE = soundRegistry("hyper_damage");
+
+    public static final RegistryObject<SoundEvent> CALAMITY_DAMAGE = soundRegistry("calamity_damage");
+
+    public static final RegistryObject<SoundEvent> INEBRIATER_INJECT = soundRegistry("inebriater_inject");
+
     public static final RegistryObject<SoundEvent> LACERATOR_AMBIENT = soundRegistry("lacerator_ambient");
 
     public static final RegistryObject<SoundEvent> SAUGLING_AMBIENT = soundRegistry("saugling_ambient");

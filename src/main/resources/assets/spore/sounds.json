@@ -37,6 +37,26 @@
       "spore:evolved_damage_2"
     ]
   },
+  "hyper_damage" :{
+    "subtitle": "sounds.spore.damage",
+    "sounds": [
+      "spore:hyper_damage1",
+      "spore:hyper_damage2"
+    ]
+  },
+  "calamity_damage" :{
+    "subtitle": "sounds.spore.damage",
+    "sounds": [
+      "spore:calamity_damage1",
+      "spore:calamity_damage2"
+    ]
+  },
+  "inebriater_inject" :{
+    "subtitle": "sounds.spore.damage",
+    "sounds": [
+      "spore:inebriater_inject"
+    ]
+  },
   "inf_growl" :{
     "subtitle": "sounds.spore.growl",
     "sounds": [
