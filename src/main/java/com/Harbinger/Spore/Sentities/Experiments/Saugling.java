@@ -40,6 +40,7 @@ public class Saugling extends Experiment {
     public static final EntityDataAccessor<BlockPos> CHEST_POS = SynchedEntityData.defineId(Saugling.class, EntityDataSerializers.BLOCK_POS);
     public static final EntityDataAccessor<Boolean> PRIMED = SynchedEntityData.defineId(Saugling.class, EntityDataSerializers.BOOLEAN);
     private int setTicksOut = 0;
+    private int ticksOpen = 0;
     public Saugling(EntityType<? extends Monster> type, Level level) {
         super(type, level);
         this.navigation = new WallClimberNavigation(this,level);
@@ -162,6 +163,7 @@ public class Saugling extends Experiment {
         return isHidden();
     }
 
+
     public boolean checkChest(Level level){
         return level.getBlockState(getChestPos()).is(Blocks.CHEST) && getChestPos() != BlockPos.ZERO;
     }
@@ -199,7 +201,12 @@ public class Saugling extends Experiment {
                     leapAtTarget(target);
                 }
             }
-            closeChest(getChestPos());
+        }
+        if (ticksOpen > 0){
+            if (ticksOpen == 1){
+                closeChest(getChestPos());
+            }
+            ticksOpen--;
         }
     }
     public static class HideInChestGoal extends Goal {
@@ -235,6 +242,7 @@ public class Saugling extends Experiment {
         }
     }
     public void hideInChest() {
+        ticksOpen = 50;
         setIsHidden(true);
         setPrimed(false);
         openChest(getChestPos());
@@ -253,7 +261,7 @@ public class Saugling extends Experiment {
     }
     public void closeChest(BlockPos pos) {
         BlockEntity entity = this.level().getBlockEntity(pos);
-        if (entity instanceof ChestBlockEntity chestBlock && ChestBlockEntity.getOpenCount(level(),pos) > 0) {
+        if (entity instanceof ChestBlockEntity chestBlock) {
             this.playSound(SoundEvents.CHEST_CLOSE);
             this.level().blockEvent(pos, chestBlock.getBlockState().getBlock(), 1, 0);
             this.level().updateNeighborsAt(pos, chestBlock.getBlockState().getBlock());
