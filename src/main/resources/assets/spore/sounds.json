@@ -59,6 +59,43 @@
       "spore:bioblob"
     ]
   },
+  "saugling_ambient" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:saugling_ambient1",
+      "spore:saugling_ambient2",
+      "spore:saugling_ambient3"
+    ]
+  },
+  "plagued_ambient" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:plagued_ambient1",
+      "spore:plagued_ambient2",
+      "spore:plagued_ambient3"
+    ]
+  },
+  "lacerator_ambient" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:lacerator_ambient1",
+      "spore:lacerator_ambient2",
+      "spore:lacerator_ambient3"
+    ]
+  },
+  "saugling_chest_ambient" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:saugling_chest1",
+      "spore:saugling_chest2"
+    ]
+  },
+  "saugling_jumpscare" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:saugling_jumpscare"
+    ]
+  },
   "hevoker_ambient" :{
     "subtitle": "sounds.spore.growl",
     "sounds": [

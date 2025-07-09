@@ -182,10 +182,11 @@ public class Saugling extends Experiment {
             if (!isPrimed()) {
                 AABB aabb = this.getBoundingBox().inflate(3);
                 List<LivingEntity> livingEntities = this.level().getEntitiesOfClass(LivingEntity.class, aabb,
-                        entity -> entity.isAlive() && TARGET_SELECTOR.test(entity) && !(entity instanceof Player player && player.getAbilities().instabuild));
+                        entity -> entity.isAlive() && TARGET_SELECTOR.test(entity) && !(entity instanceof Player player && (player.getAbilities().instabuild || player.isSpectator())));
 
                 if (!livingEntities.isEmpty()) {
                     setPrimed(true);
+                    this.playSound(Ssounds.SAUGLING_JUMPSCARE.get());
                     this.setTarget(livingEntities.get(random.nextInt(livingEntities.size())));
                 }
             } else {
@@ -198,6 +199,7 @@ public class Saugling extends Experiment {
                     leapAtTarget(target);
                 }
             }
+            closeChest(getChestPos());
         }
     }
     public static class HideInChestGoal extends Goal {
@@ -249,6 +251,15 @@ public class Saugling extends Experiment {
             this.level().updateNeighborsAt(pos.below(), chestBlock.getBlockState().getBlock());
         }
     }
+    public void closeChest(BlockPos pos) {
+        BlockEntity entity = this.level().getBlockEntity(pos);
+        if (entity instanceof ChestBlockEntity chestBlock && ChestBlockEntity.getOpenCount(level(),pos) > 0) {
+            this.playSound(SoundEvents.CHEST_CLOSE);
+            this.level().blockEvent(pos, chestBlock.getBlockState().getBlock(), 1, 0);
+            this.level().updateNeighborsAt(pos, chestBlock.getBlockState().getBlock());
+            this.level().updateNeighborsAt(pos.below(), chestBlock.getBlockState().getBlock());
+        }
+    }
 
     @Override
     public boolean isDormant() {
@@ -256,7 +267,7 @@ public class Saugling extends Experiment {
     }
 
     protected SoundEvent getAmbientSound() {
-        return Ssounds.INF_GROWL.get();
+        return this.isHidden() ? Ssounds.SAUGLING_CHEST_AMBIENT.get() : Ssounds.SAUGLING_AMBIENT.get();
     }
 
     protected SoundEvent getHurtSound(DamageSource p_34327_) {

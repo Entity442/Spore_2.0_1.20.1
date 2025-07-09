@@ -200,6 +200,16 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> ORGANOID_DAMAGE = soundRegistry("organoid_damage");
 
+    public static final RegistryObject<SoundEvent> LACERATOR_AMBIENT = soundRegistry("lacerator_ambient");
+
+    public static final RegistryObject<SoundEvent> SAUGLING_AMBIENT = soundRegistry("saugling_ambient");
+
+    public static final RegistryObject<SoundEvent> PLAGUED_AMBIENT = soundRegistry("plagued_ambient");
+
+    public static final RegistryObject<SoundEvent> SAUGLING_CHEST_AMBIENT = soundRegistry("saugling_chest_ambient");
+
+    public static final RegistryObject<SoundEvent> SAUGLING_JUMPSCARE = soundRegistry("saugling_jumpscare");
+
     private Ssounds() {
     }
 }
