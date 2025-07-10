@@ -107,10 +107,9 @@ public class ArmorModelList {
         map.add(new com.Harbinger.Spore.Client.ArmorModelList.Quad(EquipmentSlot.FEET, Sitems.PLATED_BOOTS.get().asItem(),humanoidModel.rightLeg,plated,plated.rightBoot,0.1f,-0.8f,0,1.01f));
         map.add(new com.Harbinger.Spore.Client.ArmorModelList.Quad(EquipmentSlot.LEGS, Sitems.PLATED_PANTS.get().asItem(),humanoidModel.leftLeg,plated,plated.leftLeg,-0.1f,-0.8f,0,1f));
         map.add(new com.Harbinger.Spore.Client.ArmorModelList.Quad(EquipmentSlot.LEGS, Sitems.PLATED_PANTS.get().asItem(),humanoidModel.rightLeg,plated,plated.rightLeg,0.1f,-0.8f,0,1.01f));
-        map.add(new com.Harbinger.Spore.Client.ArmorModelList.Quad(EquipmentSlot.LEGS, Sitems.PLATED_PANTS.get().asItem(),humanoidModel.body,plated,plated.pelvis,0,0,0,1f));
         map.add(new com.Harbinger.Spore.Client.ArmorModelList.Quad(EquipmentSlot.CHEST, Sitems.PLATED_CHEST.get().asItem(),humanoidModel.body,plated,plated.body,0,0,0,1f));
-        map.add(new com.Harbinger.Spore.Client.ArmorModelList.Quad(EquipmentSlot.CHEST, Sitems.PLATED_CHEST.get().asItem(),humanoidModel.rightArm,plated,plated.rightArm,0.35f,-0.125f,0,1f));
-        map.add(new com.Harbinger.Spore.Client.ArmorModelList.Quad(EquipmentSlot.CHEST, Sitems.PLATED_CHEST.get().asItem(),humanoidModel.leftArm,plated,plated.leftArm,-0.35f,-0.125f,0,1f));
+        map.add(new com.Harbinger.Spore.Client.ArmorModelList.Quad(EquipmentSlot.CHEST, Sitems.PLATED_CHEST.get().asItem(),humanoidModel.rightArm,plated,plated.rightArm,0.3f,-0.125f,0,1f));
+        map.add(new com.Harbinger.Spore.Client.ArmorModelList.Quad(EquipmentSlot.CHEST, Sitems.PLATED_CHEST.get().asItem(),humanoidModel.leftArm,plated,plated.leftArm,-0.3f,-0.125f,0,1f));
         map.add(new com.Harbinger.Spore.Client.ArmorModelList.Quad(EquipmentSlot.HEAD, Sitems.PLATED_HELMET.get().asItem(),humanoidModel.head,plated,plated.headwear,0f,0f,0,1f));
 
         map.add(new Quad(EquipmentSlot.HEAD, Sitems.GAS_MASK.get().asItem(),humanoidModel.head,gasMaskModel,gasMaskModel.GasMask,0f,-0.05f,0,1f));

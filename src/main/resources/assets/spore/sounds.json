@@ -202,7 +202,9 @@
   "vindicator_ambient" :{
     "subtitle": "sounds.spore.growl",
     "sounds": [
-      "spore:vindicator_ambient"
+      "spore:vindicator_ambient1",
+      "spore:vindicator_ambient2",
+      "spore:vindicator_ambient3"
     ]
   },
   "scamper_ambient" :{
@@ -347,6 +349,14 @@
       "spore:infected_villager_ambient"
     ]
   },
+  "scientist_ambient" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:scientist_ambient1",
+      "spore:scientist_ambient2",
+      "spore:scientist_ambient3"
+    ]
+  },
   "inf_villager_death" :{
     "subtitle": "sounds.spore.damage",
     "sounds": [
@@ -356,7 +366,9 @@
   "inf_evoker_damage" :{
     "subtitle": "sounds.spore.damage",
     "sounds": [
-      "spore:infected_evoker_hurt"
+      "spore:infected_ambient1",
+      "spore:infected_ambient2",
+      "spore:infected_ambient3"
     ]
   },
   "inf_evoker_growl" :{

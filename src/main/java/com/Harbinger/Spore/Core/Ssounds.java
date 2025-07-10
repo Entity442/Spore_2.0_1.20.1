@@ -216,6 +216,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> SAUGLING_JUMPSCARE = soundRegistry("saugling_jumpscare");
 
+    public static final RegistryObject<SoundEvent> SCIENTIST_AMBIENT = soundRegistry("scientist_ambient");
+
     private Ssounds() {
     }
 }
