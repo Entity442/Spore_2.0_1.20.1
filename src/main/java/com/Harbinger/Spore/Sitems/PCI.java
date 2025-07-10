@@ -8,7 +8,6 @@ import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -67,7 +66,7 @@ public class PCI extends BaseItem2 implements CustomModelArmorData,Vanishable {
 
     @Override
     public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
-        if (entity.level().isClientSide && entity instanceof LocalPlayer player && !player.getCooldowns().isOnCooldown(this)) {
+        if (entity.level().isClientSide && entity instanceof Player player && !player.getCooldowns().isOnCooldown(this)) {
             PCIAnimationTracker.trigger(player);
         }
         return super.onEntitySwing(stack, entity);
