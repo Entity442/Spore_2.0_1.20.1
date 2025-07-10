@@ -59,7 +59,7 @@ public class InfectedHazmat extends Infected implements VariantKeeper , Evolving
     }
 
     protected SoundEvent getAmbientSound() {
-        return Ssounds.INF_GROWL.get();
+        return Ssounds.SCIENTIST_AMBIENT.get();
     }
 
     protected SoundEvent getHurtSound(DamageSource p_34327_) {

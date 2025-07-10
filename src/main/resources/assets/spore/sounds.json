@@ -366,15 +366,15 @@
   "inf_evoker_damage" :{
     "subtitle": "sounds.spore.damage",
     "sounds": [
-      "spore:infected_ambient1",
-      "spore:infected_ambient2",
-      "spore:infected_ambient3"
+      "spore:infected_evoker_hurt"
     ]
   },
   "inf_evoker_growl" :{
     "subtitle": "sounds.spore.growl",
     "sounds": [
-      "spore:infected_evoker_ambient"
+      "spore:evoker_ambient1",
+      "spore:evoker_ambient2",
+      "spore:evoker_ambient3"
     ]
   },
   "inf_evoker_death" :{

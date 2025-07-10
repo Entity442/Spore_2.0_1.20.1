@@ -199,7 +199,7 @@ public class Inebriator extends EvolvedInfected {
 
 
     protected SoundEvent getAmbientSound() {
-        return Ssounds.INF_GROWL.get();
+        return Ssounds.SCIENTIST_AMBIENT.get();
     }
 
     protected SoundEvent getDeathSound() {
