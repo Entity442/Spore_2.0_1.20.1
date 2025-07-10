@@ -105,6 +105,7 @@ public class InfectedCleaver extends SporeSwordBase implements DeathRewardingWea
                 AABB area = player.getBoundingBox().inflate(3.5,1,3.5);
                 List<LivingEntity> targets = player.level().getEntitiesOfClass(LivingEntity.class, area, e -> e != player && e.isAlive());
                 for (LivingEntity target : targets) {
+                    this.hurtEnemy(stack,target,player);
                     target.hurt(player.damageSources().playerAttack(player), SConfig.SERVER.cleaver_damage.get()/2f);
                     target.hurtTime = 10;
                     target.invulnerableTime = 10;
