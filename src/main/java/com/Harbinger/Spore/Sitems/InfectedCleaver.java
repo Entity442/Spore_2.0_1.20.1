@@ -2,10 +2,9 @@ package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.ExtremelySusThings.ClientUtils;
 import com.Harbinger.Spore.Sitems.BaseWeapons.DeathRewardingWeapon;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeSwordBase;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -92,15 +91,7 @@ public class InfectedCleaver extends SporeSwordBase implements DeathRewardingWea
         int charge = getUseDuration(stack) - count;
 
         if (level.isClientSide) {
-            Entity entity1 = Minecraft.getInstance().cameraEntity;
-            if (entity1 instanceof LocalPlayer localPlayer && localPlayer.equals(player)){
-                float currentYaw = localPlayer.getYRot();
-                float newYaw = currentYaw + 10F;
-                localPlayer.setYRot(newYaw % 360);
-                localPlayer.setYHeadRot(newYaw % 360);
-                localPlayer.yBodyRot = newYaw % 360;
-                localPlayer.yHeadRot = newYaw % 360;
-            }
+            ClientUtils.spinPlayer(player);
         } else {
             if (charge % 5 == 0) {
                 double radius = 2.5;
