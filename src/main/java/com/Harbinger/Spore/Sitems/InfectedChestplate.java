@@ -21,7 +21,7 @@ public class InfectedChestplate extends InfectedExoskeleton{
     }
     @Override
     public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-        return GET_LOCATION_1.get(getVariant(stack));
+        return "spore:textures/entity/empty.png";
     }
     @Override
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {

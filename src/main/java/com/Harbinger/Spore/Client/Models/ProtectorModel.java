@@ -85,7 +85,7 @@ public class ProtectorModel<T extends Protector> extends EntityModel<T> implemen
 		PartDefinition FullBody = Protector.addOrReplaceChild("FullBody", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition Body = FullBody.addOrReplaceChild("Body", CubeListBuilder.create().texOffs(0, 27).addBox(-3.6F, -5.0F, -2.2F, 8.0F, 9.0F, 5.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 15).addBox(-4.0F, 2.0F, -3.0F, 9.0F, 5.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(-0.4F, -19.0F, -0.3F));
+				.texOffs(0, 15).addBox(-4.0F, 2.0F, -3.0F, 9.0F, 5.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(-0.4F, -19.0F, -0.3F));
 
 		PartDefinition CalciumChunk_r1 = Body.addOrReplaceChild("CalciumChunk_r1", CubeListBuilder.create().texOffs(21, 64).addBox(0.0F, -4.0F, -5.0F, 5.0F, 4.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.5F, -2.1F, 3.1F, -0.9791F, 0.4257F, -0.0399F));
 
@@ -103,8 +103,9 @@ public class ProtectorModel<T extends Protector> extends EntityModel<T> implemen
 
 		PartDefinition RibCage1 = RibHeart.addOrReplaceChild("RibCage1", CubeListBuilder.create(), PartPose.offset(-5.0F, 3.0F, 1.0F));
 
-		PartDefinition Rib_r1 = RibCage1.addOrReplaceChild("Rib_r1", CubeListBuilder.create().texOffs(104, 35).addBox(-1.0F, -2.0F, -1.0F, 3.0F, 2.0F, 2.0F, new CubeDeformation(0.0F))
-		.texOffs(104, 30).addBox(-1.0F, -5.0F, -1.0F, 3.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 1.2741F, 0.0F));
+		PartDefinition Rib_r1 = RibCage1.addOrReplaceChild("Rib_r1", CubeListBuilder.create().texOffs(104, 35).addBox(-1.0F, -2.0F, -1.0F, 3.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.25F, 0.0F, 1.2741F, 0.0F));
+
+		PartDefinition Rib_r2 = RibCage1.addOrReplaceChild("Rib_r2", CubeListBuilder.create().texOffs(104, 30).addBox(-1.0F, -2.0F, -1.0F, 3.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, 1.2741F, 0.0F));
 
 		PartDefinition Heart = RibHeart.addOrReplaceChild("Heart", CubeListBuilder.create(), PartPose.offset(-2.8F, 0.0F, 1.3F));
 
@@ -116,16 +117,17 @@ public class ProtectorModel<T extends Protector> extends EntityModel<T> implemen
 
 		PartDefinition RibCage2 = RibHeart.addOrReplaceChild("RibCage2", CubeListBuilder.create(), PartPose.offset(0.0F, 3.0F, 0.0F));
 
-		PartDefinition Rib_r2 = RibCage2.addOrReplaceChild("Rib_r2", CubeListBuilder.create().texOffs(104, 40).addBox(-1.0F, -2.0F, -1.0F, 3.0F, 2.0F, 2.0F, new CubeDeformation(0.0F))
-		.texOffs(104, 45).addBox(-1.0F, -5.0F, -1.0F, 3.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, -1.3265F, 0.0F));
+		PartDefinition Rib_r3 = RibCage2.addOrReplaceChild("Rib_r3", CubeListBuilder.create().texOffs(104, 40).addBox(-1.0F, -2.0F, -1.0F, 3.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, -1.3265F, 0.0F));
+
+		PartDefinition Rib_r4 = RibCage2.addOrReplaceChild("Rib_r4", CubeListBuilder.create().texOffs(104, 45).addBox(-1.0F, -2.0F, -1.0F, 3.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, -0.5F, 0.0F, -1.3265F, 0.0F));
 
 		PartDefinition Arms = FullBody.addOrReplaceChild("Arms", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition ShieldArm = Arms.addOrReplaceChild("ShieldArm", CubeListBuilder.create(), PartPose.offset(-2.6F, -20.7F, 0.5F));
 
-		PartDefinition rightArm = ShieldArm.addOrReplaceChild("rightArm", CubeListBuilder.create().texOffs(85, 0).addBox(-1.4F, -0.7F, -2.5F, 4.0F, 7.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0F, -4.0F, 0.0F, 0.0F, 0.0F, 0.48F));
+		PartDefinition rightArm = ShieldArm.addOrReplaceChild("rightArm", CubeListBuilder.create().texOffs(85, 0).addBox(-2.5179F, -0.6818F, -2.5F, 4.0F, 7.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0F, -3.5F, 0.0F, 0.0F, 0.0F, 0.48F));
 
-		PartDefinition rightForArm = rightArm.addOrReplaceChild("rightForArm", CubeListBuilder.create().texOffs(0, 57).addBox(-1.7F, 0.0F, -2.9F, 5.0F, 8.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 6.0F, 0.0F, -0.4821F, -0.2129F, -0.3838F));
+		PartDefinition rightForArm = rightArm.addOrReplaceChild("rightForArm", CubeListBuilder.create().texOffs(0, 57).addBox(-1.7F, 0.0F, -2.9F, 5.0F, 8.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.1179F, 6.0182F, 0.0F, -0.4821F, -0.2129F, -0.3838F));
 
 		PartDefinition shield = rightForArm.addOrReplaceChild("shield", CubeListBuilder.create(), PartPose.offsetAndRotation(-2.0F, 2.0F, 3.0F, 1.4775F, 1.1324F, 1.4679F));
 
@@ -189,18 +191,18 @@ public class ProtectorModel<T extends Protector> extends EntityModel<T> implemen
 
 		PartDefinition ShieldTumor_r3 = tumors.addOrReplaceChild("ShieldTumor_r3", CubeListBuilder.create().texOffs(36, 103).addBox(-2.0F, -2.0F, -1.0F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(7.1F, -2.7F, 2.0F, -0.3204F, 0.0282F, -0.1378F));
 
-		PartDefinition LeftArm = Arms.addOrReplaceChild("LeftArm", CubeListBuilder.create().texOffs(84, 84).addBox(-0.4F, -2.6F, -1.6F, 4.0F, 7.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(4.4F, -21.4F, -0.4F));
+		PartDefinition LeftArm = Arms.addOrReplaceChild("LeftArm", CubeListBuilder.create().texOffs(84, 84).addBox(-0.4F, -0.6F, -1.6F, 4.0F, 7.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(4.4F, -23.4F, -0.4F));
 
-		PartDefinition CalciumArmor_r5 = LeftArm.addOrReplaceChild("CalciumArmor_r5", CubeListBuilder.create().texOffs(95, 96).addBox(-1.0F, -3.0F, -1.0F, 5.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.1F, -1.2F, -0.1F, 0.0F, -0.1571F, 0.6283F));
+		PartDefinition CalciumArmor_r5 = LeftArm.addOrReplaceChild("CalciumArmor_r5", CubeListBuilder.create().texOffs(95, 96).addBox(-1.0F, -3.0F, -1.0F, 5.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.1F, 0.8F, -0.1F, 0.0F, -0.1571F, 0.6283F));
 
-		PartDefinition CalciumArmor_r6 = LeftArm.addOrReplaceChild("CalciumArmor_r6", CubeListBuilder.create().texOffs(76, 96).addBox(-1.0F, -3.0F, -1.0F, 5.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.4F, -1.1F, -1.0F, 0.1482F, 0.243F, 0.1079F));
+		PartDefinition CalciumArmor_r6 = LeftArm.addOrReplaceChild("CalciumArmor_r6", CubeListBuilder.create().texOffs(76, 96).addBox(-1.0F, -3.0F, -1.0F, 5.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.4F, 0.9F, -1.0F, 0.1482F, 0.243F, 0.1079F));
 
-		PartDefinition CalciumArmor_r7 = LeftArm.addOrReplaceChild("CalciumArmor_r7", CubeListBuilder.create().texOffs(38, 95).addBox(-1.0F, -3.0F, -1.0F, 5.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, -1.7F, -0.1F, -0.0043F, -0.1221F, 0.0352F));
+		PartDefinition CalciumArmor_r7 = LeftArm.addOrReplaceChild("CalciumArmor_r7", CubeListBuilder.create().texOffs(38, 95).addBox(-1.0F, -3.0F, -1.0F, 5.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, 0.3F, -0.1F, -0.0043F, -0.1221F, 0.0352F));
 
-		PartDefinition LeftArmLower_r1 = LeftArm.addOrReplaceChild("LeftArmLower_r1", CubeListBuilder.create().texOffs(102, 0).addBox(-1.4F, -0.2F, -2.0F, 3.0F, 7.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.4F, 3.3F, 0.7F, 0.1047F, 0.0F, 0.0F));
+		PartDefinition LeftArmLower_r1 = LeftArm.addOrReplaceChild("LeftArmLower_r1", CubeListBuilder.create().texOffs(102, 0).addBox(-1.4F, -0.2F, -2.0F, 3.0F, 7.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.4F, 5.3F, 0.7F, 0.1047F, 0.0F, 0.0F));
 
 		PartDefinition Head = FullBody.addOrReplaceChild("Head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -6.5F, -5.6F, 8.0F, 6.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(101, 84).addBox(-4.0F, -0.7F, 0.4F, 8.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -25.0F, -0.2F));
+				.texOffs(101, 84).addBox(-4.0F, -0.7F, 0.4F, 8.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -25.0F, -2.2F, -0.1309F, 0.0F, 0.0F));
 
 		PartDefinition Petal_r4 = Head.addOrReplaceChild("Petal_r4", CubeListBuilder.create().texOffs(54, 25).addBox(-1.0F, 0.0F, -1.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.6F, -6.4F, -1.0F, -0.1571F, -0.2094F, 0.0F));
 
@@ -214,27 +216,20 @@ public class ProtectorModel<T extends Protector> extends EntityModel<T> implemen
 
 		PartDefinition CalciumArmor_r11 = Head.addOrReplaceChild("CalciumArmor_r11", CubeListBuilder.create().texOffs(57, 95).addBox(-1.0F, -3.0F, -1.0F, 5.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.9F, -1.4F, -6.3F, 0.0897F, -0.5546F, 0.1217F));
 
-		PartDefinition Jaw = Head.addOrReplaceChild("Jaw", CubeListBuilder.create(), PartPose.offsetAndRotation(0.4F, -0.4F, 2.4F, -0.0873F, 0.0F, 0.0F));
-
-		PartDefinition Jaw_r1 = Jaw.addOrReplaceChild("Jaw_r1", CubeListBuilder.create().texOffs(31, 16).addBox(-4.0F, -1.0F, -6.3F, 8.0F, 2.0F, 6.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(-0.4F, 0.6F, -0.8F, 0.2269F, 0.0F, 0.0F));
-
-		PartDefinition headWear = Head.addOrReplaceChild("headWear", CubeListBuilder.create().texOffs(0, 0).addBox(-16.0F, -23.5F, -17.6F, 32.0F, 32.0F, 32.0F, new CubeDeformation(-11.6F)), PartPose.offset(0.0F, 4.0F, 0.0F));
+		PartDefinition Jaw = Head.addOrReplaceChild("Jaw", CubeListBuilder.create().texOffs(31, 16).addBox(-4.0F, -0.4128F, -5.0038F, 8.0F, 1.0F, 6.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 106).addBox(-4.0F, -1.4128F, -5.0038F, 8.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.25F, 0.4F, 0.1745F, 0.0F, 0.0F));
 
 		PartDefinition Legs = Protector.addOrReplaceChild("Legs", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition LeftLeg = Legs.addOrReplaceChild("LeftLeg", CubeListBuilder.create().texOffs(85, 12).addBox(-2.5F, 0.0F, -2.5F, 4.0F, 5.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(44, 71).addBox(-3.0F, 5.0F, -3.0F, 5.0F, 7.0F, 5.0F, new CubeDeformation(0.0F))
-		.texOffs(63, 111).addBox(-3.057F, 3.9154F, -3.0535F, 5.0F, 8.0F, 5.0F, new CubeDeformation(0.2F)), PartPose.offset(2.5F, -12.0F, 0.5F));
+				.texOffs(44, 71).addBox(-3.0F, 5.0F, -3.0F, 5.0F, 7.0F, 5.0F, new CubeDeformation(0.0F))
+				.texOffs(63, 111).addBox(-3.057F, 3.9154F, -3.0535F, 5.0F, 8.0F, 5.0F, new CubeDeformation(0.2F)), PartPose.offset(2.5F, -12.0F, 0.5F));
 
-		PartDefinition Petal_r6 = LeftLeg.addOrReplaceChild("Petal_r6", CubeListBuilder.create().texOffs(50, 40).addBox(-1.0F, 0.0F, -1.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.7F, 2.9F, -0.1F, -0.1222F, -0.0524F, 0.0F));
-
-		PartDefinition LeftBoot = LeftLeg.addOrReplaceChild("LeftBoot", CubeListBuilder.create().texOffs(0, 92).addBox(-3.0F, -12.0F, -1.0F, 16.0F, 20.0F, 16.0F, new CubeDeformation(-5.0F)), PartPose.offset(-5.557F, 8.9154F, -7.5535F));
+		PartDefinition Petal_r6 = LeftLeg.addOrReplaceChild("Petal_r6", CubeListBuilder.create().texOffs(54, 25).addBox(-1.0F, 0.0F, -1.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.7F, 2.9F, -0.1F, -0.1222F, -0.0524F, 0.0F));
 
 		PartDefinition RightLeg = Legs.addOrReplaceChild("RightLeg", CubeListBuilder.create().texOffs(50, 85).addBox(-1.5F, 0.0F, -2.5F, 4.0F, 5.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 71).addBox(-2.0F, 5.0F, -3.0F, 5.0F, 7.0F, 5.0F, new CubeDeformation(0.0F))
-		.texOffs(98, 109).addBox(-1.957F, 3.9154F, -3.0535F, 5.0F, 8.0F, 5.0F, new CubeDeformation(0.2F)), PartPose.offset(-2.5F, -12.0F, 0.5F));
-
-		PartDefinition RightBoot = RightLeg.addOrReplaceChild("RightBoot", CubeListBuilder.create().texOffs(0, 92).addBox(-3.0F, -12.0F, -1.0F, 16.0F, 20.0F, 16.0F, new CubeDeformation(-4.99F)), PartPose.offset(-4.557F, 8.9154F, -7.5535F));
+				.texOffs(0, 71).addBox(-2.0F, 5.0F, -3.0F, 5.0F, 7.0F, 5.0F, new CubeDeformation(0.0F))
+				.texOffs(98, 109).addBox(-1.957F, 3.9154F, -3.0535F, 5.0F, 8.0F, 5.0F, new CubeDeformation(0.2F)), PartPose.offset(-2.5F, -12.0F, 0.5F));
 
 		return LayerDefinition.create(meshdefinition, 256, 128);
 	}
