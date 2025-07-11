@@ -175,6 +175,12 @@
       "spore:construct_ambient"
     ]
   },
+  "spore_burst" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:spore_burst"
+    ]
+  },
   "witch_ambient" :{
     "subtitle": "sounds.spore.growl",
     "sounds": [

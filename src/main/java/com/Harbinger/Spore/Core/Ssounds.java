@@ -218,6 +218,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> SCIENTIST_AMBIENT = soundRegistry("scientist_ambient");
 
+    public static final RegistryObject<SoundEvent> SPORE_BURST = soundRegistry("spore_burst");
+
     private Ssounds() {
     }
 }

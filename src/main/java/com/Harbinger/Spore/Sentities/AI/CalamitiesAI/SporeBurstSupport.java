@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Sentities.AI.CalamitiesAI;
 
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
@@ -34,6 +35,7 @@ public class SporeBurstSupport extends Goal {
     public void start() {
         this.calamity.setStun(60);
         if (calamity instanceof TrueCalamity trueCalamity){
+            calamity.playSound(Ssounds.SPORE_BURST.get());
             sporeBurst(trueCalamity.buffs(),trueCalamity.debuffs(),trueCalamity.chemicalRange());
         }
         super.start();
