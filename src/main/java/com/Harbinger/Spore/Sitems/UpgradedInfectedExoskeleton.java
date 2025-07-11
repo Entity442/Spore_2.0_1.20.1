@@ -11,6 +11,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -24,7 +25,8 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 import java.util.Map;
 
-public class UpgradedInfectedExoskeleton extends SporeBaseArmor {
+public class UpgradedInfectedExoskeleton extends SporeBaseArmor implements CustomModelArmorData{
+    private static final ResourceLocation location = new ResourceLocation("spore:textures/armor/living_armor_set.png");
     public UpgradedInfectedExoskeleton(Type type) {
         super(type, new int[]{0, 0, SConfig.SERVER.chestplate_up_durability.get(),0}, new int[]{0, 0, SConfig.SERVER.chestplate_up_protection.get(), 0}, SConfig.SERVER.armor_toughness.get(), SConfig.SERVER.knockback_resistance.get() /10F, Ssounds.INFECTED_GEAR_EQUIP.get(), "Upgraded Living Armor");
     }
@@ -47,28 +49,15 @@ public class UpgradedInfectedExoskeleton extends SporeBaseArmor {
         }
     }
 
-
-    public static Map<SporeArmorMutations,String> GET_LOCATION_1 =
-            Util.make(Maps.newEnumMap(SporeArmorMutations.class), (p_114874_) -> {
-                p_114874_.put(SporeArmorMutations.DEFAULT, "spore:textures/armor/default/infected_layer_1.png");
-                p_114874_.put(SporeArmorMutations.REINFORCED, "spore:textures/armor/reinforced/infected_layer_1.png");
-                p_114874_.put(SporeArmorMutations.SKELETAL, "spore:textures/armor/skeletal/infected_layer_1.png");
-                p_114874_.put(SporeArmorMutations.DROWNED, "spore:textures/armor/drowned/infected_layer_1.png");
-                p_114874_.put(SporeArmorMutations.CHARRED, "spore:textures/armor/charred/infected_layer_1.png");
-            });
-    public static Map<SporeArmorMutations,String> GET_LOCATION_2 =
-            Util.make(Maps.newEnumMap(SporeArmorMutations.class), (p_114874_) -> {
-                p_114874_.put(SporeArmorMutations.DEFAULT, "spore:textures/armor/default/infected_layer_2.png");
-                p_114874_.put(SporeArmorMutations.REINFORCED, "spore:textures/armor/reinforced/infected_layer_2.png");
-                p_114874_.put(SporeArmorMutations.SKELETAL, "spore:textures/armor/skeletal/infected_layer_2.png");
-                p_114874_.put(SporeArmorMutations.DROWNED, "spore:textures/armor/drowned/infected_layer_2.png");
-                p_114874_.put(SporeArmorMutations.CHARRED, "spore:textures/armor/charred/infected_layer_2.png");
-            });
+    @Override
+    public ResourceLocation getTextureLocation() {
+        return location;
+    }
 
     public static  class InfectedUpChestplate extends UpgradedInfectedExoskeleton{
         @Override
         public @org.jetbrains.annotations.Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-            return GET_LOCATION_1.get(getVariant(stack));
+            return "spore:textures/entity/empty.png";
         }
 
         public InfectedUpChestplate() {

@@ -22,6 +22,7 @@ import java.util.List;
 @OnlyIn(Dist.CLIENT)
 public class ArmorModelList {
     private static final ResourceLocation psi_glow = new ResourceLocation("spore:textures/item/pci_gl.png");
+    private static final ResourceLocation elytron = new ResourceLocation("spore:textures/armor/elytron.png");
     private static final fleshArmorModel<LivingEntity> livingEntityfleshArmorModel = new fleshArmorModel<>();
     private static final platedArmorModel<LivingEntity> plated = new platedArmorModel<>();
     private static final GasMaskModel<LivingEntity> gasMaskModel = new GasMaskModel<>();
@@ -123,10 +124,12 @@ public class ArmorModelList {
         map.add(new com.Harbinger.Spore.Client.ArmorModelList.Quad(EquipmentSlot.CHEST, Sitems.INF_CHEST.get().asItem(),humanoidModel.leftArm,livingArmorModel,livingArmorModel.leftArm,-0.3f,-0.125f,0,1f));
         map.add(new com.Harbinger.Spore.Client.ArmorModelList.Quad(EquipmentSlot.HEAD, Sitems.INF_HELMET.get().asItem(),humanoidModel.head,livingArmorModel,livingArmorModel.headwear,0f,0f,0,1f));
 
+        map.add(new com.Harbinger.Spore.Client.ArmorModelList.Quad(EquipmentSlot.CHEST, Sitems.INF_UP_CHESTPLATE.get().asItem(),humanoidModel.body,livingArmorModel,livingArmorModel.body,0,0,0,1f));
+        map.add(new com.Harbinger.Spore.Client.ArmorModelList.Quad(EquipmentSlot.CHEST, Sitems.INF_UP_CHESTPLATE.get().asItem(),humanoidModel.rightArm,livingArmorModel,livingArmorModel.rightArm,0.3f,-0.125f,0,1f));
+        map.add(new com.Harbinger.Spore.Client.ArmorModelList.Quad(EquipmentSlot.CHEST, Sitems.INF_UP_CHESTPLATE.get().asItem(),humanoidModel.leftArm,livingArmorModel,livingArmorModel.leftArm,-0.3f,-0.125f,0,1f));
 
         map.add(new Quad(EquipmentSlot.HEAD, Sitems.GAS_MASK.get().asItem(),humanoidModel.head,gasMaskModel,gasMaskModel.GasMask,0f,-0.05f,0,1f));
         map.add(new Quad(EquipmentSlot.CHEST, Sitems.R_ELYTRON.get().asItem(),humanoidModel.body,elytrumModel,elytrumModel.body,0f,0f,-0.1f,1f));
-        map.add(new Quad(EquipmentSlot.CHEST, Sitems.INF_UP_CHESTPLATE.get().asItem(),humanoidModel.body,elytrumModel,elytrumModel.body,0f,0f,-0.1f,1f));
         map.add(new Quad(EquipmentSlot.MAINHAND, Sitems.PCI.get().asItem(), humanoidModel.rightArm, pci, pci.PCIBODY, -0.15f, -0.35f, -0.05f, 1f));
         map.add(new Quad(EquipmentSlot.OFFHAND, Sitems.PCI.get().asItem(), humanoidModel.leftArm, pciL, pciL.PCIBODY, 0.15f, -0.35f, 0.05f, 1f));
         return map;
@@ -153,6 +156,13 @@ public class ArmorModelList {
                     return RenderType.eyes(psi_glow);
                 }
                 return null;
+            }
+        });
+        map.add(new Quader(EquipmentSlot.CHEST, Sitems.INF_UP_CHESTPLATE.get().asItem(), humanoidModel.body,elytrumModel,elytrumModel.body,0f,0f,-0.2f,1f, 0, 0, 0,
+                livingEntity){
+            @Override
+            public RenderType type(ResourceLocation location) {
+                return RenderType.entityTranslucent(elytron);
             }
         });
         return map;
