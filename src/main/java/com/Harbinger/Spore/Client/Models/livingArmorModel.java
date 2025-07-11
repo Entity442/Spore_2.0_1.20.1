@@ -29,7 +29,8 @@ public class livingArmorModel<T extends LivingEntity> extends EntityModel<T> {
 	public final ModelPart leftBoot;
 	public final ModelPart rightBoot;
 
-	public livingArmorModel(ModelPart root) {
+	public livingArmorModel() {
+		ModelPart root =createBodyLayer().bakeRoot();
 		this.headwear = root.getChild("headwear");
 		this.tendril = this.headwear.getChild("tendril");
 		this.body = root.getChild("body");
