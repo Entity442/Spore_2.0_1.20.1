@@ -158,7 +158,7 @@ public class ArmorModelList {
                 return null;
             }
         });
-        map.add(new Quader(EquipmentSlot.CHEST, Sitems.INF_UP_CHESTPLATE.get().asItem(), humanoidModel.body,elytrumModel,elytrumModel.body,0f,0f,-0.2f,1f, 0, 0, 0,
+        map.add(new Quader(EquipmentSlot.CHEST, Sitems.INF_UP_CHESTPLATE.get().asItem(), humanoidModel.body,elytrumModel,elytrumModel.body,0f,0f,0.05f,1f, 0, 0, 0,
                 livingEntity){
             @Override
             public RenderType type(ResourceLocation location) {

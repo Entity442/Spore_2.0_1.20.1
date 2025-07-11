@@ -204,7 +204,8 @@
     "sounds": [
       "spore:vindicator_ambient1",
       "spore:vindicator_ambient2",
-      "spore:vindicator_ambient3"
+      "spore:vindicator_ambient3",
+      "spore:vindicator_ambient4"
     ]
   },
   "scamper_ambient" :{
