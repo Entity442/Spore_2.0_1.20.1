@@ -1,11 +1,11 @@
 package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Sparticles;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.ExtremelySusThings.ClientUtils;
 import com.Harbinger.Spore.Sitems.BaseWeapons.DeathRewardingWeapon;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeSwordBase;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -13,7 +13,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -99,7 +98,7 @@ public class InfectedCleaver extends SporeSwordBase implements DeathRewardingWea
                     double angle = 2 * Math.PI * i / 10;
                     double x = player.getX() + radius * Math.cos(angle);
                     double z = player.getZ() + radius * Math.sin(angle);
-                    ((ServerLevel) entity.level()).sendParticles(ParticleTypes.SWEEP_ATTACK, x, player.getY() + 1, z, 1, 0, 0, 0, 0);
+                    ((ServerLevel) entity.level()).sendParticles(Sparticles.SPORE_SLASH.get(), x, player.getY() + 1, z, 1, 0, 0, 0, 0);
                 }
 
                 AABB area = player.getBoundingBox().inflate(3.5,1,3.5);

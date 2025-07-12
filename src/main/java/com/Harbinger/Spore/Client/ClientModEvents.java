@@ -7,9 +7,7 @@ import com.Harbinger.Spore.Client.Models.NukeParts.FireDiskModel;
 import com.Harbinger.Spore.Client.Models.NukeParts.MushroomExplosionTop;
 import com.Harbinger.Spore.Client.Renderers.*;
 import com.Harbinger.Spore.Core.*;
-import com.Harbinger.Spore.Particles.AcidParticle;
-import com.Harbinger.Spore.Particles.BloodParticle;
-import com.Harbinger.Spore.Particles.SporeParticle;
+import com.Harbinger.Spore.Particles.*;
 import com.Harbinger.Spore.Screens.*;
 import com.Harbinger.Spore.Sentities.Experiments.Saugling;
 import com.Harbinger.Spore.Sitems.Agents.AbstractSyringe;
@@ -298,6 +296,12 @@ public class ClientModEvents {
 
         Minecraft.getInstance().particleEngine.register(Sparticles.BLOOD_PARTICLE.get(),
                 BloodParticle.Provider::new);
+
+        Minecraft.getInstance().particleEngine.register(Sparticles.SPORE_SLASH.get(),
+                SlashParticle.Provider::new);
+
+        Minecraft.getInstance().particleEngine.register(Sparticles.SPORE_IMPACT.get(),
+                BashParticle.Provider::new);
     }
 
     @SubscribeEvent

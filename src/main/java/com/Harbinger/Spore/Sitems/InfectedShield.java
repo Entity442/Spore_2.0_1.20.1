@@ -5,6 +5,7 @@ import com.Harbinger.Spore.Fluids.BileLiquid;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsBaseItem;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsMutations;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -106,6 +107,7 @@ public class InfectedShield extends SporeToolsBaseItem {
                     e -> e != player && e.isAlive() && player.hasLineOfSight(e));
 
             for (LivingEntity target : entities) {
+                ((ServerLevel) target.level()).sendParticles(Sparticles.SPORE_IMPACT.get(), target.getX(), target.getY()+1, target.getZ(), 1, 0, 0, 0, 0);
                 Vec3 direction = target.position().subtract(player.position()).normalize();
                 target.hurtMarked = true;
                 target.knockback(getVariant(stack) == SporeToolsMutations.CALCIFIED ? 2.5f : 1.5F, -direction.x, -direction.z);
