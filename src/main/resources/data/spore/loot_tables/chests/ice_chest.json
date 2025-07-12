@@ -98,7 +98,7 @@
         {
           "type": "minecraft:item",
           "name": "spore:pci",
-          "weight": 20,
+          "weight": 5,
           "functions": [
             {
               "function": "set_count",
