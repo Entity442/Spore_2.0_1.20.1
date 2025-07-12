@@ -189,6 +189,14 @@
   "advancement.spore.plagued.description" : "遇到0号实验体",
   "advancement.spore.lore_1.title" : "过去的碎片",
   "advancement.spore.lore_1.description" : "找到部分磁盘",
+  "advancement.spore.saugling.title": "Странный детсад",
+  "advancement.spore.saugling.description": "Испугайся Сауглинга",
+  "advancement.spore.protector.title": "НА ЗЕМЛЮ, ГОСПОДИН ПРЕЗИДЕНТ!",
+  "advancement.spore.protector.description": "Попади под атаку Протектора",
+  "advancement.spore.inebriater.title": "Познакомься с медиком",
+  "advancement.spore.inebriater.description": "Найди Инебриэйтера",
+  "advancement.spore.biobloob.title": "Когда наступает рассвет...",
+  "advancement.spore.biobloob.description": "Столкнись с Биоблобом",
   
 
   "block.spore.lab_block1": "实验室砖",
