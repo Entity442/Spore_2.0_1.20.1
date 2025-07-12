@@ -30,6 +30,8 @@ import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.ToolActions;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -134,7 +136,7 @@ public class Nuclealave extends EvolvedInfected implements RangedAttackMob , Arm
         return this.getMainHandItem().getItem() instanceof FlintAndSteelItem || this.getOffhandItem().getItem() instanceof FlintAndSteelItem;
     }
     private boolean canShield(){
-        return this.getMainHandItem().getItem() instanceof ShieldItem || this.getOffhandItem().getItem() instanceof ShieldItem;
+        return this.getMainHandItem().canPerformAction(ToolActions.SHIELD_BLOCK) || this.getOffhandItem().canPerformAction(ToolActions.SHIELD_BLOCK);
     }
     private ItemStack getShieldInHand(){
         if (this.getMainHandItem().getItem() instanceof ShieldItem){
