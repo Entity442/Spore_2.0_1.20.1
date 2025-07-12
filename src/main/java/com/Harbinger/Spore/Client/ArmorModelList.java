@@ -203,4 +203,10 @@ public class ArmorModelList {
 
         return map;
     }
+
+    public static List<Item> itemBlacklist(){
+        List<Item> val = new ArrayList<>();
+        val.add(Sitems.PCI.get());
+        return val;
+    }
 }

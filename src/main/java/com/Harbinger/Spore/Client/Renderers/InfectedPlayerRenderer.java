@@ -17,7 +17,6 @@ import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
@@ -27,7 +26,6 @@ import java.util.Objects;
 
 @OnlyIn(Dist.CLIENT)
 public class InfectedPlayerRenderer extends BaseInfectedRenderer<InfectedPlayer , HumanoidModel<InfectedPlayer>> {
-    RandomSource source = RandomSource.create();
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/inf_player.png");
     private static final ResourceLocation TECHNO = new ResourceLocation(Spore.MODID,
@@ -46,6 +44,7 @@ public class InfectedPlayerRenderer extends BaseInfectedRenderer<InfectedPlayer 
                 (context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)),
                 new HumanoidArmorModel(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)), context.getModelManager()));
         this.addLayer(new ItemInHandLayer<>(this, context.getItemInHandRenderer()));
+        this.addLayer(new CustomArmorLayer<>(this));
     }
 
     @Override

@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 public class CustomArmorLayer<E extends  LivingEntity,M extends HumanoidModel<E>> extends RenderLayer<E, M> {
@@ -28,7 +29,7 @@ public class CustomArmorLayer<E extends  LivingEntity,M extends HumanoidModel<E>
     public void render(PoseStack poseStack, MultiBufferSource buffer, int light, E entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float v5) {
         for (ArmorModelList.Quad quad : ArmorModelList.modelItemMap((HumanoidModel<LivingEntity>) origin)) {
             ItemStack stack = entity.getItemBySlot(quad.slot());
-            if (stack.isEmpty() || stack.getItem() != quad.item()) continue;
+            if (stack.isEmpty() || stack.getItem() != quad.item() || (ArmorModelList.itemBlacklist().contains(stack.getItem()) && !(entity instanceof Player))) continue;
             float red;
             float green;
             float blue;
@@ -54,7 +55,7 @@ public class CustomArmorLayer<E extends  LivingEntity,M extends HumanoidModel<E>
         }
         for (ArmorModelList.Quader quad : ArmorModelList.complexModelItemMap((HumanoidModel<LivingEntity>) origin,entity)) {
             ItemStack stack = entity.getItemBySlot(quad.slot);
-            if (stack.isEmpty() || stack.getItem() != quad.item) continue;
+            if (stack.isEmpty() || stack.getItem() != quad.item || (ArmorModelList.itemBlacklist().contains(stack.getItem()) && !(entity instanceof Player))) continue;
             float red;
             float green;
             float blue;

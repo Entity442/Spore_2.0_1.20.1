@@ -36,6 +36,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.block.entity.SignText;
@@ -258,7 +259,7 @@ public class Vigil extends Organoid implements TraceableEntity, VariantKeeper {
     }
 
     public void pickAndPlaceMessage(ServerLevel serverLevel, BlockPos pos) {
-        if (pos.equals(BlockPos.ZERO) || !serverLevel.getBlockState(pos).isAir()) {
+        if (pos.equals(BlockPos.ZERO) || !(serverLevel.getBlockState(pos).isAir() || serverLevel.getBlockState(pos).getBlock() instanceof BushBlock)) {
             return;
         }
 
