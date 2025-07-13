@@ -24,11 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 public class ArmorModelList {
     private static final ResourceLocation psi_glow = new ResourceLocation("spore:textures/item/pci_gl.png");
-    private static final ResourceLocation elytron = new ResourceLocation("spore:textures/armor/elytron.png");
     private static final fleshArmorModel<LivingEntity> livingEntityfleshArmorModel = new fleshArmorModel<>();
     private static final platedArmorModel<LivingEntity> plated = new platedArmorModel<>();
     private static final GasMaskModel<LivingEntity> gasMaskModel = new GasMaskModel<>();
-    private static final ElytrumModel<LivingEntity> elytrumModel = new ElytrumModel<>();
     private static final livingArmorModel<LivingEntity> livingArmorModel = new livingArmorModel<>();
     private static final PCI_Model<LivingEntity> pci = new PCI_Model<>();
     private static final PCI_ModelL<LivingEntity> pciL = new PCI_ModelL<>();
@@ -128,6 +126,15 @@ public class ArmorModelList {
     public static final RightBootArmorPart INF_RIGHT_BOOT_PART = new RightBootArmorPart(Sitems.INF_BOOTS.get().asItem(),() ->livingArmorModel,() ->livingArmorModel.rightBoot,0.1f,-0.8f,0,1.01f);
     public static final LeftBootArmorPart INF_LEFT_BOOT_PART = new LeftBootArmorPart(Sitems.INF_BOOTS.get().asItem(),() ->livingArmorModel,() ->livingArmorModel.leftBoot,-0.1f,-0.8f,0,1f);
 
+    public static final BodyArmorPart INF_UP_CHEST_PART =  new BodyArmorPart(Sitems.INF_UP_CHESTPLATE.get().asItem(),() ->livingArmorModel,() ->livingArmorModel.body,0,0,0,1f);
+    public static final RightArmArmorPart INF_UP_RIGHT_ARM_PART = new RightArmArmorPart(Sitems.INF_UP_CHESTPLATE.get().asItem(),() ->livingArmorModel,() ->livingArmorModel.rightArm,0.3f,-0.125f,0,1f);
+    public static final LeftArmArmorPart INF_UP_LEFT_ARM_PART =  new LeftArmArmorPart(Sitems.INF_UP_CHESTPLATE.get().asItem(),() ->livingArmorModel,() ->livingArmorModel.leftArm,-0.3f,-0.125f,0,1f);
+    private static final ElytrumPart ELYTRUM_UP = new ElytrumPart(Sitems.INF_UP_CHESTPLATE.get().asItem());
+
+
+    private static final HelmetArmorPart GASMASK_PART = new HelmetArmorPart(Sitems.GAS_MASK.get().asItem(),() ->gasMaskModel,() ->gasMaskModel.GasMask,0f,0f,0,1f);
+    private static final ElytrumPart ELYTRUM = new ElytrumPart(Sitems.R_ELYTRON.get().asItem());
+
     public static final List<BaseArmorRenderingBit> ARMOR_RENDERING_BITS = new ArrayList<>(){{
         add(LIVING_HELMET_PART);
         add(LIVING_CHEST_PART);
@@ -157,6 +164,14 @@ public class ArmorModelList {
         add(INF_LEFT_LEG_PART);
         add(INF_RIGHT_BOOT_PART);
         add(INF_LEFT_BOOT_PART);
+
+        add(INF_UP_CHEST_PART);
+        add(INF_UP_RIGHT_ARM_PART);
+        add(INF_UP_LEFT_ARM_PART);
+        add(ELYTRUM_UP);
+
+        add(ELYTRUM);
+        add(GASMASK_PART);
     }};
 
 

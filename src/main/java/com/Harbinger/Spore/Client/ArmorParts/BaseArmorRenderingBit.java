@@ -87,7 +87,7 @@ public abstract class BaseArmorRenderingBit {
             blue = 1f;
             green = 1f;
         }
-        if (itemStack.getItem() instanceof CustomModelArmorData armorData){
+        if (itemStack.getItem() instanceof CustomModelArmorData armorData && itemStack.getItem().equals(item)){
             VertexConsumer consumer = consumer(buffer,armorData,model,livingEntity);
             applyTransformEx(poseStack,getPiece(model),this.x,this.y,this.z,this.expand,this.Xspin,this.Yspin,this.Zspin,() -> {
                 part.get().render(poseStack, consumer, light, OverlayTexture.NO_OVERLAY, red, green, blue, 1f);
