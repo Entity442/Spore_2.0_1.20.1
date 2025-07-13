@@ -36,9 +36,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.*;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @Mod.EventBusSubscriber(modid = Spore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientModEvents {
@@ -260,7 +262,6 @@ public class ClientModEvents {
     @SubscribeEvent
     public static void clientSetup(final FMLClientSetupEvent event) {
         SItemProperties.addCustomItemProperties();
-
         event.enqueueWork(() -> {
             MenuScreens.register(SMenu.CONTAINER.get(), ContainerScreen::new);
             MenuScreens.register(SMenu.SURGERY_MENU.get(), SurgeryScreen::new);
