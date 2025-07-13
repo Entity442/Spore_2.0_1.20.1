@@ -129,11 +129,11 @@ public class ArmorModelList {
     public static final BodyArmorPart INF_UP_CHEST_PART =  new BodyArmorPart(Sitems.INF_UP_CHESTPLATE.get().asItem(),() ->livingArmorModel,() ->livingArmorModel.body,0,0,0,1f);
     public static final RightArmArmorPart INF_UP_RIGHT_ARM_PART = new RightArmArmorPart(Sitems.INF_UP_CHESTPLATE.get().asItem(),() ->livingArmorModel,() ->livingArmorModel.rightArm,0.3f,-0.125f,0,1f);
     public static final LeftArmArmorPart INF_UP_LEFT_ARM_PART =  new LeftArmArmorPart(Sitems.INF_UP_CHESTPLATE.get().asItem(),() ->livingArmorModel,() ->livingArmorModel.leftArm,-0.3f,-0.125f,0,1f);
-    private static final ElytrumPart ELYTRUM_UP = new ElytrumPart(Sitems.INF_UP_CHESTPLATE.get().asItem());
+    private static final ElytrumPart ELYTRUM_UP = new ElytrumPart(Sitems.INF_UP_CHESTPLATE.get().asItem(),0f,0f,0.1f);
 
 
     private static final HelmetArmorPart GASMASK_PART = new HelmetArmorPart(Sitems.GAS_MASK.get().asItem(),() ->gasMaskModel,() ->gasMaskModel.GasMask,0f,0f,0,1f);
-    private static final ElytrumPart ELYTRUM = new ElytrumPart(Sitems.R_ELYTRON.get().asItem());
+    private static final ElytrumPart ELYTRUM = new ElytrumPart(Sitems.R_ELYTRON.get().asItem(),0f,0f,-0.1f);
 
     public static final List<BaseArmorRenderingBit> ARMOR_RENDERING_BITS = new ArrayList<>(){{
         add(LIVING_HELMET_PART);
