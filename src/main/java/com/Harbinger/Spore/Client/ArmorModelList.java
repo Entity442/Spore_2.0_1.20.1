@@ -32,7 +32,7 @@ public class ArmorModelList {
     private static final PCI_ModelL<LivingEntity> pciL = new PCI_ModelL<>();
 
     private static final PCIHandModelItem RIGHT_PCI = new PCIHandModelItem(InteractionHand.MAIN_HAND,pci,pci.PCIBODY,0.95f, -0.7f, -0.35f,1,-90,90,0,psi_glow);
-    private static final PCIHandModelItem LEFT_PCI = new PCIHandModelItem(InteractionHand.OFF_HAND,pciL,pciL.PCIBODY,-1f, -0.7f, -0.35f,1,-90,90,0,psi_glow);
+    private static final PCIHandModelItem LEFT_PCI = new PCIHandModelItem(InteractionHand.OFF_HAND,pci,pci.PCIBODY,-1f, -0.7f, -0.35f,1,-90,90,0,psi_glow);
 
     public static final List<ComplexHandModelItem> ITEM_RENDERING_BITS = new ArrayList<>(){{
         add(RIGHT_PCI);
