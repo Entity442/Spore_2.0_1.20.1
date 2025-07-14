@@ -95,8 +95,6 @@ public class ArmorModelList {
         return map;
     }
 
-    public static final List<Item> itemBlacklist = new ArrayList<>(){{add(Sitems.PCI.get());}};
-
     private static final HelmetArmorPart LIVING_HELMET_PART = new HelmetArmorPart(Sitems.LIVING_HELMET.get().asItem(),() ->livingEntityfleshArmorModel,() ->livingEntityfleshArmorModel.headwear,0f,0f,0,1f);
     public static final BodyArmorPart LIVING_CHEST_PART =  new BodyArmorPart(Sitems.LIVING_CHEST.get().asItem(),() ->livingEntityfleshArmorModel,() ->livingEntityfleshArmorModel.body,0,0,0,1f);
     public static final RightArmArmorPart LIVING_RIGHT_ARM_PART = new RightArmArmorPart(Sitems.LIVING_CHEST.get().asItem(),() ->livingEntityfleshArmorModel,() ->livingEntityfleshArmorModel.rightArm,0.3f,-0.125f,0,1f);
@@ -135,6 +133,9 @@ public class ArmorModelList {
     private static final HelmetArmorPart GASMASK_PART = new HelmetArmorPart(Sitems.GAS_MASK.get().asItem(),() ->gasMaskModel,() ->gasMaskModel.GasMask,0f,0f,0,1f);
     private static final ElytrumPart ELYTRUM = new ElytrumPart(Sitems.R_ELYTRON.get().asItem(),0f,0f,-0.1f);
 
+    private static final RightPCIArmorPart PCI_RIGHT = new RightPCIArmorPart(() -> pci,() -> pci.PCIBODY,psi_glow);
+    private static final LeftPCIArmorPart PCI_LEFT = new LeftPCIArmorPart(() -> pciL,() -> pciL.PCIBODY,psi_glow);
+
     public static final List<BaseArmorRenderingBit> ARMOR_RENDERING_BITS = new ArrayList<>(){{
         add(LIVING_HELMET_PART);
         add(LIVING_CHEST_PART);
@@ -172,6 +173,9 @@ public class ArmorModelList {
 
         add(ELYTRUM);
         add(GASMASK_PART);
+
+        add(PCI_RIGHT);
+        add(PCI_LEFT);
     }};
 
 

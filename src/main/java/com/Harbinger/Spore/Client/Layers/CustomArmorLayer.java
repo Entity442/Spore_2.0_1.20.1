@@ -2,15 +2,12 @@ package com.Harbinger.Spore.Client.Layers;
 
 import com.Harbinger.Spore.Client.ArmorModelList;
 import com.Harbinger.Spore.Client.ArmorParts.BaseArmorRenderingBit;
-import com.Harbinger.Spore.Sitems.BaseWeapons.SporeArmorData;
-import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
@@ -27,10 +24,6 @@ public class CustomArmorLayer<E extends  LivingEntity,M extends HumanoidModel<E>
             return;
         }
         for (BaseArmorRenderingBit bit : parts){
-            ItemStack stack = bit.stack(entity);
-            if (ArmorModelList.itemBlacklist.contains(stack.getItem())){
-                continue;
-            }
             bit.tickMovement(entity,poseStack,(HumanoidModel<LivingEntity>)origin,light,buffer);
             bit.model.get().setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks+entity.tickCount, netHeadYaw, headPitch);
         }

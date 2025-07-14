@@ -77,8 +77,10 @@ public class PCI_Model<T extends LivingEntity> extends EntityModel<T> {
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		float anim = PCIAnimationTracker.getProgress((Player) entity, 0);
-		this.needle.zScale = 1 + anim;
+		if (entity instanceof Player player){
+			float anim = PCIAnimationTracker.getProgress(player, 0);
+			this.needle.zScale = 1 + anim;
+		}
 	}
 
 	@Override
