@@ -31,69 +31,15 @@ public class ArmorModelList {
     private static final PCI_Model<LivingEntity> pci = new PCI_Model<>();
     private static final PCI_ModelL<LivingEntity> pciL = new PCI_ModelL<>();
 
-    public abstract static class HandDisplay{
-        public final InteractionHand slot;
-        public final Item item;
-        public final EntityModel<? extends LivingEntity> model;
-        public final ModelPart part;
-        public final float x;
-        public final float y;
-        public final float z;
-        public final float expand;
-        public final float Xspin;
-        public final float Yspin;
-        public final float Zspin;
-        protected HandDisplay(InteractionHand slot, Item item, EntityModel<? extends LivingEntity> model, ModelPart part, float x, float y, float z, float expand, float xspin, float yspin, float zspin) {
-            this.slot = slot;
-            this.item = item;
-            this.model = model;
-            this.part = part;
-            this.x = x;
-            this.y = y;
-            this.z = z;
-            this.expand = expand;
-            Xspin = xspin;
-            Yspin = yspin;
-            Zspin = zspin;
-        }
-        public abstract RenderType type(ResourceLocation location);
-    }
+    private static final PCIHandModelItem RIGHT_PCI = new PCIHandModelItem(InteractionHand.MAIN_HAND,pci,pci.PCIBODY,0.95f, -0.7f, -0.35f,1,-90,90,0,psi_glow);
+    private static final PCIHandModelItem LEFT_PCI = new PCIHandModelItem(InteractionHand.OFF_HAND,pciL,pciL.PCIBODY,-1f, -0.7f, -0.35f,1,-90,90,0,psi_glow);
 
-    public static List<HandDisplay> itemDisplay(ItemStack stack){
-        List<HandDisplay> map = new ArrayList<>();
-        map.add(new HandDisplay(InteractionHand.MAIN_HAND,Sitems.PCI.get().asItem(),pci,pci.PCIBODY,0.95f, -0.7f, -0.35f,1,-90,90,0){
-            @Override
-            public RenderType type(ResourceLocation location) {
-                return RenderType.entityCutoutNoCull(location);
-            }
-        });
-        map.add(new HandDisplay(InteractionHand.MAIN_HAND,Sitems.PCI.get().asItem(),pci,pci.PCIBODY,0.95f, -0.7f, -0.35f,1,-90,90,0){
-            @Override
-            public RenderType type(ResourceLocation location) {
-                if (stack.getItem() instanceof PCI pci && pci.getCharge(stack) > 0){
-                    return RenderType.eyes(psi_glow);
-                }
-                return null;
-            }
-        });
-        map.add(new HandDisplay(InteractionHand.OFF_HAND,Sitems.PCI.get().asItem(),pci,pci.PCIBODY,-1f, -0.7f, -0.35f,1,-90,90,0){
-            @Override
-            public RenderType type(ResourceLocation location) {
-                return RenderType.entityCutoutNoCull(location);
-            }
-        });
-        map.add(new HandDisplay(InteractionHand.OFF_HAND,Sitems.PCI.get().asItem(),pci,pci.PCIBODY,-1f, -0.7f, -0.35f,1,-90,90,0){
-            @Override
-            public RenderType type(ResourceLocation location) {
-                if (stack.getItem() instanceof PCI pci && pci.getCharge(stack) > 0){
-                    return RenderType.eyes(psi_glow);
-                }
-                return null;
-            }
-        });
+    public static final List<ComplexHandModelItem> ITEM_RENDERING_BITS = new ArrayList<>(){{
+        add(RIGHT_PCI);
+        add(LEFT_PCI);
 
-        return map;
-    }
+    }};
+
 
     private static final HelmetArmorPart LIVING_HELMET_PART = new HelmetArmorPart(Sitems.LIVING_HELMET.get().asItem(),() ->livingEntityfleshArmorModel,() ->livingEntityfleshArmorModel.headwear,0f,0f,0,1f);
     public static final BodyArmorPart LIVING_CHEST_PART =  new BodyArmorPart(Sitems.LIVING_CHEST.get().asItem(),() ->livingEntityfleshArmorModel,() ->livingEntityfleshArmorModel.body,0,0,0,1f);
