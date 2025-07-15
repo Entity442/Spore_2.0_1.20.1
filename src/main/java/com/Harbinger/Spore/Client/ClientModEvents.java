@@ -16,22 +16,26 @@ import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
 import com.Harbinger.Spore.Sitems.CustomModelArmorData;
 import com.Harbinger.Spore.Spore;
 import com.Harbinger.Spore.sEvents.SItemProperties;
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.ArmorStandRenderer;
-import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.client.renderer.entity.*;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
+import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -41,6 +45,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Mod.EventBusSubscriber(modid = Spore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientModEvents {
@@ -278,15 +286,29 @@ public class ClientModEvents {
     @SubscribeEvent
     public static void addLayers(final EntityRenderersEvent.AddLayers event) {
         event.getSkins().forEach(name -> {
-            if(event.getSkin(name) instanceof PlayerRenderer renderer) {
+            if (event.getSkin(name) instanceof PlayerRenderer renderer) {
                 renderer.addLayer(new CustomArmorLayer<>(renderer));
             }
         });
         if (event.getRenderer(EntityType.ARMOR_STAND) instanceof ArmorStandRenderer renderer){
             renderer.addLayer(new CustomArmorLayer<>(renderer));
         }
+        tryToAddArmorToType(event);
     }
+    private static void tryToAddArmorToType(EntityRenderersEvent.AddLayers event){
+        for (EntityType<?> type : ForgeRegistries.ENTITY_TYPES.getValues()){
+           if (type == null){continue;}
+            try {
+                if (event.getRenderer((EntityType<? extends LivingEntity>) type) instanceof HumanoidMobRenderer renderer){
+                    renderer.addLayer(new CustomArmorLayer<>(renderer));
+                }
+            } catch (Exception e) {
+                ResourceLocation id = ForgeRegistries.ENTITY_TYPES.getKey(type);
+                Spore.LOGGER.warn("Could not apply custom armor to entity type {}: {}", id, e.getMessage());
+            }
 
+        }
+    }
     @SubscribeEvent
     public static void registerParticle(RegisterParticleProvidersEvent event) {
         Minecraft.getInstance().particleEngine.register(Sparticles.SPORE_PARTICLE.get(),
