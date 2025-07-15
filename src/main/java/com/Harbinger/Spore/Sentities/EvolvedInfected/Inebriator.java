@@ -64,7 +64,7 @@ public class Inebriator extends EvolvedInfected {
              && (livingEntity instanceof Infected || livingEntity instanceof UtilityEntity);});
             if (entities.isEmpty()){return;}
             Entity entity = entities.get(random.nextInt(entities.size()));
-            if (entity instanceof LivingEntity livingEntity && !(livingEntity instanceof Inebriator) && this.hasLineOfSight(livingEntity))
+            if (entity instanceof LivingEntity livingEntity && !(livingEntity instanceof Inebriator) && this.hasLineOfSight(livingEntity) && !livingEntity.isInvulnerable())
             {setPatient(livingEntity);}
         }
     }

@@ -140,6 +140,11 @@ public class Saugling extends Experiment {
         return isHidden();
     }
 
+    @Override
+    public boolean isInvulnerable() {
+        return isHidden();
+    }
+
     private void leapAtTarget(LivingEntity target){
         Vec3 $$0 = this.getDeltaMovement();
         Vec3 $$1 = new Vec3(target.getX() - this.getX(), target.getY() - this.getY(), getZ() - this.getZ());
