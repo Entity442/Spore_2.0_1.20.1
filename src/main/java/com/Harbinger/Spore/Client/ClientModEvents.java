@@ -290,9 +290,6 @@ public class ClientModEvents {
                 renderer.addLayer(new CustomArmorLayer<>(renderer));
             }
         });
-        if (event.getRenderer(EntityType.ARMOR_STAND) instanceof ArmorStandRenderer renderer){
-            renderer.addLayer(new CustomArmorLayer<>(renderer));
-        }
         tryToAddArmorToType(event);
     }
     private static void tryToAddArmorToType(EntityRenderersEvent.AddLayers event){
