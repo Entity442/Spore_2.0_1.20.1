@@ -495,6 +495,7 @@ public class HandlerEvents {
     public static void SpawnPlacement(SpawnPlacementRegisterEvent event){
         for (RegistryObject<EntityType<?>> type : Sentities.SPORE_ENTITIES.getEntries()){
             EntityType<?> entityType = type.get();
+            if (blacklist().contains(entityType)){continue;}
             try {
                 event.register((EntityType<Infected>) entityType, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,Infected::checkMonsterInfectedRules, SpawnPlacementRegisterEvent.Operation.AND);
             } catch (Exception e) {
@@ -504,6 +505,14 @@ public class HandlerEvents {
         }
     }
 
+    private static List<EntityType<?>> blacklist(){
+        List<EntityType<?>> values = new ArrayList<>();
+        values.add(Sentities.PLAGUED.get());
+        values.add(Sentities.LACERATOR.get());
+        values.add(Sentities.BIOBLOOB.get());
+        values.add(Sentities.SAUGLING.get());
+        return values;
+    }
 
 
     @SubscribeEvent
@@ -694,7 +703,7 @@ public class HandlerEvents {
                 if (!protectorList.isEmpty() && attacker != null){
                     for (Protector protector1 : protectorList){
                         double d0 = protector1.distanceTo(attacker);
-                        if (protector1.isAlive() && d0 < 64f && !attacker.isSpectator()){
+                        if (protector1.isAlive() && d0 < 64f && !attacker.isSpectator() && Utilities.TARGET_SELECTOR.Test(attacker)){
                             protector1.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,100,0));
                             protector1.setTarget(attacker);
                         }
