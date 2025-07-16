@@ -14,6 +14,7 @@ import com.Harbinger.Spore.Sentities.EvolvingInfected;
 import com.Harbinger.Spore.Sentities.Projectile.AcidBall;
 import com.Harbinger.Spore.Sentities.Projectile.Vomit;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -420,10 +421,7 @@ public class Infected extends Monster{
                 return false;
             }
         }
-        if (SConfig.SERVER.daytime_spawn.get()){
-            return checkAnyLightMonsterSpawnRules(p_219014_, levelAccessor, type, pos, source) && levelAccessor.canSeeSky(pos);
-        }else
-            return isDarkEnoughToSpawn(levelAccessor, pos, source) && checkMobSpawnRules(p_219014_, levelAccessor, type, pos, source);
+        return isDarkEnoughToSpawn(levelAccessor, pos, source) && checkMobSpawnRules(p_219014_, levelAccessor, type, pos, source);
     }
 
 
@@ -489,6 +487,9 @@ public class Infected extends Monster{
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance p_21435_, MobSpawnType p_21436_, @org.jetbrains.annotations.Nullable SpawnGroupData p_21437_, @org.jetbrains.annotations.Nullable CompoundTag p_21438_) {
         setDefaultLinkage(serverLevelAccessor);
         spawnWithPoints();
+        if (!(this instanceof Experiment) && SConfig.SERVER.daytime_spawn.get() && p_21436_ == MobSpawnType.NATURAL){
+            teleportToSurface(level(),this);
+        }
         return super.finalizeSpawn(serverLevelAccessor, p_21435_, p_21436_, p_21437_, p_21438_);
     }
     public void setDefaultLinkage(ServerLevelAccessor level){
@@ -513,7 +514,26 @@ public class Infected extends Monster{
             this.setEvoPoints(SConfig.SERVER.min_kills.get());
         }
     }
+    public void teleportToSurface(Level level, Mob entity) {
+        if (level.canSeeSky(entity.blockPosition())){
+            return;
+        }
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(
+                Mth.floor(entity.getX()),
+                level.getMaxBuildHeight(),
+                Mth.floor(entity.getZ())
+        );
 
+        while (pos.getY() > level.getMinBuildHeight()) {
+            pos.move(Direction.DOWN);
+            BlockState state = level.getBlockState(pos);
+            BlockState stateAbove = level.getBlockState(pos.above());
+            if (state.isSolidRender(level, pos) && stateAbove.isAir()) {
+                entity.teleportTo(pos.getX() + 0.5D, pos.getY() + 1.01D, pos.getZ() + 0.5D);
+                return;
+            }
+        }
+    }
     public void enchantEquipment(LivingEntity living){
         if (living instanceof ArmedInfected armedInfected){
             armedInfected.enchantItems(living);
