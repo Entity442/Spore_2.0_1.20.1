@@ -413,7 +413,6 @@ public class Infected extends Monster{
         }
         return false;
     }
-
     private static boolean furtherSpawnParameters(EntityType<? extends Infected> p_219014_,ServerLevelAccessor levelAccessor, MobSpawnType type, BlockPos pos, RandomSource source){
         MinecraftServer server = levelAccessor.getServer();
         if (server != null){
