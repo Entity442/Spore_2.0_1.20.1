@@ -112,15 +112,21 @@ public class IncubatorBlock extends BaseEntityBlock {
             }
             if (blockEntity.getItem(0).isEmpty()) {
                 if (item.is(ItemTags.create(new ResourceLocation("spore:weapons")))) {
-                    blockEntity.setItem(0, item.copy());
-                    item.shrink(1);
+                    if (level.isClientSide){
+                        blockEntity.setItem(0, item.copy());
+                    }else {
+                        blockEntity.setItem(0, item.copy());
+                        item.shrink(1);
+                    }
                     return InteractionResult.SUCCESS;
                 }
             } else {
-                if (!level.isClientSide){
+                if (level.isClientSide){
+                    blockEntity.setItem(0, ItemStack.EMPTY);
+                }else {
                     popResource(level, pos, blockEntity.getItem(0).copy());
+                    blockEntity.setItem(0, ItemStack.EMPTY);
                 }
-                blockEntity.setItem(0, ItemStack.EMPTY);
                 return InteractionResult.SUCCESS;
             }
         }
@@ -135,7 +141,6 @@ public class IncubatorBlock extends BaseEntityBlock {
         CompoundTag tag = stack.getOrCreateTag();
         return tag.getInt("fuel");
     }
-
     @Override
     public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
         if (level.getBlockEntity(pos) instanceof IncubatorBlockEntity incubatorBlock){
@@ -147,7 +152,6 @@ public class IncubatorBlock extends BaseEntityBlock {
         }
         return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
     }
-
 
     @Override
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity entity, ItemStack stack) {

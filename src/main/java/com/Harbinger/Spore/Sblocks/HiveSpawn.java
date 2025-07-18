@@ -81,6 +81,9 @@ public class HiveSpawn extends BaseEntityBlock implements SimpleWaterloggedBlock
                     proto.tickEmerging();
                     proto.setPos(blockPos.getX(), blockPos.getY(), blockPos.getZ());
                     proto.loadChunks();
+                    if (SConfig.SERVER.teleport_hive.get()){
+                        Proto.teleportToSurface(level,proto);
+                    }
                     level.addFreshEntity(proto);
                 }
                 for(ServerPlayer player : level.getServer().getPlayerList().getPlayers()){

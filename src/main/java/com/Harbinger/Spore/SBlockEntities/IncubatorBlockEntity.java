@@ -61,8 +61,8 @@ public class IncubatorBlockEntity extends BlockEntity implements AnimatedEntity,
     @Override
     public void load(CompoundTag tag) {
         super.load(tag);
-        setFuel(tag.getInt("fuel"));
-        setSide(getSide());
+        this.fuel = tag.getInt("fuel");
+        this.side = tag.getInt("side");
         this.stacks = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
         ContainerHelper.loadAllItems(tag, this.stacks);
     }
@@ -74,6 +74,7 @@ public class IncubatorBlockEntity extends BlockEntity implements AnimatedEntity,
 
     @Override
     public CompoundTag getUpdateTag() {
+        this.setChanged();
         return this.saveWithFullMetadata();
     }
 
@@ -188,8 +189,10 @@ public class IncubatorBlockEntity extends BlockEntity implements AnimatedEntity,
     }
 
     @Override
-    public ItemStack removeItemNoUpdate(int p_18951_) {
-        return null;
+    public ItemStack removeItemNoUpdate(int index) {
+        ItemStack stack = this.stacks.get(index);
+        this.stacks.set(index, ItemStack.EMPTY);
+        return stack;
     }
 
     @Override
@@ -214,8 +217,7 @@ public class IncubatorBlockEntity extends BlockEntity implements AnimatedEntity,
     @Override
     public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket packet) {
         if (packet != null && packet.getTag() != null) {
-            this.stacks = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-            ContainerHelper.loadAllItems(packet.getTag(), this.stacks);
+            this.load(packet.getTag());
         }
     }
 
