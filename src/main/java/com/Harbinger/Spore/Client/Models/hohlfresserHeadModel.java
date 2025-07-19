@@ -1217,6 +1217,7 @@ public class hohlfresserHeadModel<T extends Hohlfresser> extends EntityModel<T> 
 		this.animateTentacleX(this.Tendril6,frontTentacle6);
 		this.animateTentacleX(this.Seg2Tendril6,frontTentacle6);
 		this.animateTentacleX(this.Seg3Tendril6,frontTentacle6);
+
 	}
 
 	@Override
