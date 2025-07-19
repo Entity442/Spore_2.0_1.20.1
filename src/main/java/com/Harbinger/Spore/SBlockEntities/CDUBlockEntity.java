@@ -24,8 +24,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -114,6 +112,9 @@ public class CDUBlockEntity extends BlockEntity implements MenuProvider {
             if (state.is(TagKey.create(ForgeRegistries.BLOCKS.getRegistryKey(),new ResourceLocation(Spore.MODID,"removable_foliage")))){
                 if (Math.random() < 0.2)
                     level.removeBlock(blockpos,false);
+            }
+            if (state == Sblocks.REMAINS.get().defaultBlockState()){
+                level.setBlock(blockpos,Sblocks.FROZEN_REMAINS.get().defaultBlockState(),3);
             }
             if (Math.random() < 0.2 && !blockMap.isEmpty()){
                 for (StoreDouble storeDouble : blockMap){

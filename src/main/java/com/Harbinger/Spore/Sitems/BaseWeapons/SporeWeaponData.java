@@ -7,6 +7,8 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import org.jetbrains.annotations.Nullable;
 
 public interface SporeWeaponData {
@@ -134,7 +136,8 @@ public interface SporeWeaponData {
     }
 
     default double modifyDamage(ItemStack stack,double value){
-        return getVariant(stack) == SporeToolsMutations.VAMPIRIC ? (calculateTrueDamage(stack,value) * -0.2) : 0;
+        float sharpness = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SHARPNESS,stack) * 0.5f + 1f;
+        return sharpness + (getVariant(stack) == SporeToolsMutations.VAMPIRIC ? (calculateTrueDamage(stack,value) * -0.2) : 0);
     }
     default double modifyRange(ItemStack stack){
         return 0;

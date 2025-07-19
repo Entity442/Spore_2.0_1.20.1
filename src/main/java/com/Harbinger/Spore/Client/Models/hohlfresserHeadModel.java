@@ -1188,6 +1188,7 @@ public class hohlfresserHeadModel<T extends Hohlfresser> extends EntityModel<T> 
 		float frontTentacle4 = Mth.sin(ageInTicks/4)/7;
 		float frontTentacle5 = Mth.cos(ageInTicks/5)/6;
 		float frontTentacle6 = Mth.sin(ageInTicks/5)/5;
+		float frontTentacle7 = Mth.sin(ageInTicks/4)/7;
 		this.animateTentacleZ(this.EndRoot,backTentacle);
 		this.animateTentacleZ(this.ESeg1,backTentacle);
 		this.animateTentacleZ(this.ESeg2,backTentacle);
@@ -1217,7 +1218,9 @@ public class hohlfresserHeadModel<T extends Hohlfresser> extends EntityModel<T> 
 		this.animateTentacleX(this.Tendril6,frontTentacle6);
 		this.animateTentacleX(this.Seg2Tendril6,frontTentacle6);
 		this.animateTentacleX(this.Seg3Tendril6,frontTentacle6);
-
+		this.animateTentacleX(this.Tendril7,frontTentacle7);
+		this.animateTentacleY(this.Seg2Tendril7,frontTentacle7);
+		this.animateTentacleY(this.Seg3Tendril7,frontTentacle7);
 	}
 
 	@Override
