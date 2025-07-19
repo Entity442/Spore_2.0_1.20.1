@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Client.Models;// Made with Blockbench 4.12.3
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
+import com.Harbinger.Spore.Client.CorpseHandelingModel;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -16,7 +17,7 @@ import net.minecraft.util.Mth;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SiegerModel<T extends Sieger> extends EntityModel<T> implements TentacledModel {
+public class SiegerModel<T extends Sieger> extends EntityModel<T> implements TentacledModel , CorpseHandelingModel {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "siegermodel"), "main");
 	private final ModelPart smolleg;
@@ -64,6 +65,7 @@ public class SiegerModel<T extends Sieger> extends EntityModel<T> implements Ten
 		this.BackRightForLeg2 = BackRightForLeg.getChild("BackRightLeg2").getChild("legback4");
 		this.BackLeftForLeg = BackLeftLeg.getChild("legback");
 		this.BackLeftForLeg2 = BackLeftForLeg.getChild("BackLeftLeg2").getChild("legback2");
+		initializePartLists();
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -1436,5 +1438,35 @@ public class SiegerModel<T extends Sieger> extends EntityModel<T> implements Ten
 		BackRightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		BackLeftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
+	public final List<ModelPart> torsoParts = new ArrayList<>();
+	private final List<ModelPart> jawParts = new ArrayList<>();
+	private final List<ModelPart> rightLegsParts = new ArrayList<>();
+	private final List<ModelPart> leftLegsParts = new ArrayList<>();
+	private final List<ModelPart> leftBackLegsParts = new ArrayList<>();
+	private final List<ModelPart> rightBackLegsParts = new ArrayList<>();
+
+	@Override
+	public List<List<ModelPart>> getCorpseParts() {
+		return new ArrayList<>(){{
+			add(torsoParts);
+			add(jawParts);
+			add(rightLegsParts);
+			add(leftLegsParts);
+			add(leftBackLegsParts);
+			add(rightBackLegsParts);
+		}};
+	}
+
+	@Override
+	public void initializePartLists() {
+		torsoParts.add(mainbody);
+		torsoParts.add(mainbody2);
+		jawParts.add(jaw);
+		rightLegsParts.add(RightLegJointY);
+		leftLegsParts.add(LeftLegJointY);
+		leftBackLegsParts.add(BackLeftLeg);
+		rightBackLegsParts.add(BackRightLeg);
+	}
+
 
 }

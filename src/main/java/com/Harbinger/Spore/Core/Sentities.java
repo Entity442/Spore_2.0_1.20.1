@@ -308,6 +308,10 @@ public class Sentities {
             () -> EntityType.Builder.of(InfEvoClaw::new, INFECTED).sized(0.5f, 1f)
                     .build(new ResourceLocation(Spore.MODID, "claw").toString()));
 
+    public static final RegistryObject<EntityType<CorpseEntity>> CORPSE_PIECE = SPORE_ENTITIES.register("corpse_piece",
+            () -> EntityType.Builder.of(CorpseEntity::new, MobCategory.MISC).sized(1f, 1f)
+                    .build(new ResourceLocation(Spore.MODID, "corpse_piece").toString()));
+
     public static final RegistryObject<EntityType<Mound>> MOUND = SPORE_ENTITIES.register("mound",
             () -> EntityType.Builder.of(Mound::new, ORGANOID).sized(0.3f, 0.3f)
                     .build(new ResourceLocation(Spore.MODID, "mound").toString()));

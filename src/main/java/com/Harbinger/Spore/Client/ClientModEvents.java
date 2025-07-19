@@ -149,7 +149,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(hVindicatorModel.LAYER_LOCATION, hVindicatorModel::createBodyLayer);
         event.registerLayerDefinition(TentacleSegmentModel.LAYER_LOCATION, TentacleSegmentModel::createBodyLayer);
         event.registerLayerDefinition(ReconstructedMindModel.LAYER_LOCATION, ReconstructedMindModel::createBodyLayer);
-        event.registerLayerDefinition(WormHeadModel.LAYER_LOCATION, WormHeadModel::createBodyLayer);
+        event.registerLayerDefinition(hohlfresserHeadModel.LAYER_LOCATION, hohlfresserHeadModel::createBodyLayer);
         event.registerLayerDefinition(WormSegmentModel.LAYER_LOCATION, WormSegmentModel::createBodyLayer);
         event.registerLayerDefinition(WormTailModel.LAYER_LOCATION, WormTailModel::createBodyLayer);
         event.registerLayerDefinition(ExperimentDormantLayerModel.LAYER_LOCATION, ExperimentDormantLayerModel::createBodyLayer);
@@ -258,6 +258,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.PROTECTOR.get(), ProtectorRenderer::new);
         event.registerEntityRenderer(Sentities.INEBRIATER.get(), InebriatorRenderer::new);
         event.registerEntityRenderer(Sentities.SAUGLING.get(), SauglingRenderer::new);
+        event.registerEntityRenderer(Sentities.CORPSE_PIECE.get(), CorpseRenderer::new);
 
         event.registerBlockEntityRenderer(SblockEntities.OVERGROWN_SPAWNER.get(), new OvergrownSpawnerRenderer());
         event.registerBlockEntityRenderer(SblockEntities.BRAIN_REMNANTS.get(), new BrainRemnantsRenderer());

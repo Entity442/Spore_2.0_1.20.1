@@ -1,8 +1,8 @@
 package com.Harbinger.Spore.Client.Renderers;
 
-import com.Harbinger.Spore.Client.Models.WormHeadModel;
 import com.Harbinger.Spore.Client.Models.WormSegmentModel;
 import com.Harbinger.Spore.Client.Models.WormTailModel;
+import com.Harbinger.Spore.Client.Models.hohlfresserHeadModel;
 import com.Harbinger.Spore.Client.Special.CalamityRenderer;
 import com.Harbinger.Spore.Sentities.BaseEntities.HohlMultipart;
 import com.Harbinger.Spore.Sentities.Calamities.Hohlfresser;
@@ -28,15 +28,15 @@ public class HohlRenderer<Type extends Hohlfresser> extends CalamityRenderer<Typ
     private final WormSegmentModel<Type> segments;
     private final WormTailModel<Type> tail;
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
-            "textures/entity/blank.png");
+            "textures/entity/hohl_head.png");
     private static final ResourceLocation INNARDS = new ResourceLocation(Spore.MODID,
             "textures/entity/worm_innards.png");
     private static final ResourceLocation EYES_TEXTURE = new ResourceLocation(Spore.MODID,
-            "textures/entity/eyes/sieger.png");
+            "textures/entity/eyes/hohl_head.png");
 
 
     public HohlRenderer(EntityRendererProvider.Context context) {
-        super(context, new WormHeadModel<>(context.bakeLayer(WormHeadModel.LAYER_LOCATION)), 4f);
+        super(context, new hohlfresserHeadModel<>(context.bakeLayer(hohlfresserHeadModel.LAYER_LOCATION)), 4f);
         segments = new WormSegmentModel<>(context.bakeLayer(WormSegmentModel.LAYER_LOCATION));
         tail = new WormTailModel<>(context.bakeLayer(WormTailModel.LAYER_LOCATION));
     }

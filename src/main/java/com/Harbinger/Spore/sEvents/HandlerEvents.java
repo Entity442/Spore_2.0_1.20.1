@@ -37,6 +37,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -230,6 +231,20 @@ public class HandlerEvents {
                     world.addFreshEntity(nukeEntity);
                     return 1;
                 }).requires(s -> s.hasPermission(1)));
+        event.getDispatcher().register(Commands.literal(Spore.MODID+":corpse")
+                .executes(arguments -> {
+                    ServerLevel world = arguments.getSource().getLevel();
+                    RandomSource source = RandomSource.create();
+                    int x = (int) arguments.getSource().getPosition().x();
+                    int y = (int) arguments.getSource().getPosition().y();
+                    int z = (int) arguments.getSource().getPosition().z();
+                    CorpseEntity corpseEntity = new CorpseEntity(Sentities.CORPSE_PIECE.get(), world);
+                    corpseEntity.setCorpseType(source.nextInt(6));
+                    corpseEntity.setOwnerId("spore:sieger");
+                    corpseEntity.setPos(x,y,z);
+                    world.addFreshEntity(corpseEntity);
+                    return 1;
+                }).requires(s -> s.hasPermission(1)));
         event.getDispatcher().register(Commands.literal(Spore.MODID+":erase_the_fungus")
                 .executes(arguments -> {
                     ServerLevel serverLevel = arguments.getSource().getLevel();
@@ -310,6 +325,16 @@ public class HandlerEvents {
                         AABB hitbox = entity.getBoundingBox().inflate(5);
                         List<Entity> entities = entity.level().getEntities(entity, hitbox);
                         for (Entity entity1 : entities) {
+                            if (entity1 instanceof CorpseEntity corpseEntity){
+                                player.displayClientMessage(Component.literal("Host ? " + corpseEntity.getOwnerId()),false);
+                                player.displayClientMessage(Component.literal("ID ? " + corpseEntity.getCorpseType()),false);
+                                for (int i=0;i<corpseEntity.getInventory().getContainerSize();i++){
+                                    ItemStack stack = corpseEntity.getInventory().getItem(i);
+                                    if (stack != ItemStack.EMPTY){
+                                        player.displayClientMessage(Component.literal("ID ? " + stack.getItem().asItem().getDescription()),false);
+                                    }
+                                }
+                            }
                             if(entity1 instanceof Infected infected) {
                                 player.displayClientMessage(Component.literal("Entity "+ infected.getEncodeId() + " " + infected.getCustomName()),false);
                                 player.displayClientMessage(Component.literal("Current Health " + infected.getHealth() + "/" + infected.getMaxHealth()),false);
