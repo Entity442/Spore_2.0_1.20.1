@@ -78,32 +78,33 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
     }
 
     public Vec3 tickMultipartPosition(int headId, Vec3 parentPos, float parentXRot, float parentYRot, float ourYRot, boolean doHeight) {
-        // Get a simple fixed offset from the parent (same as before)
-        Vec3 parentButt = parentPos.add(calcOffsetVec(new Vec3(-0.5f, 0, 0f), parentXRot, parentYRot));
-        Vec3 ourButt = parentButt.add(calcOffsetVec(new Vec3(4.5f, 0, 0f), this.getXRot(), ourYRot));
+        Vec3 parentButt = parentPos.add(calcOffsetVec(new Vec3(-0.5f, 2, -1.5f), parentXRot, parentYRot));
+        Vec3 ourButt = parentButt.add(calcOffsetVec(new Vec3(4.5f, 2, -1.5f), this.getXRot(), ourYRot));
 
-        // Keep using direction vector to compute rotation (but skip averaging or snaking)
+        // only use rotation info
         double dx = parentButt.x - ourButt.x;
         double dz = parentButt.z - ourButt.z;
         double dist = Math.sqrt(dx * dx + dz * dz);
-
-        double hgt = doHeight ? getLowPartHeight(parentButt.x, parentButt.y, parentButt.z) + getHighPartHeight(ourButt.x, ourButt.y, ourButt.z) : 0;
+        double hgt = 0;
+        if (doHeight) {
+            hgt = getLowPartHeight(parentButt.x, parentButt.y, parentButt.z)
+                    + getHighPartHeight(ourButt.x, ourButt.y, ourButt.z);
+        }
         if (Math.abs(hgt - prevHeight) > 0.2F) prevHeight = hgt;
         double yOffset = Mth.clamp(this.getScale() * prevHeight, -0.6F, 0.6F);
 
         float yaw = (float)(Mth.atan2(dz, dx) * Mth.RAD_TO_DEG) - 90.0F;
-        float pitch = limitAngle(this.getXRot(), (float)(-Mth.atan2(yOffset, dist) * Mth.RAD_TO_DEG), 2F);
+        float pitch = limitAngle(this.getXRot(), (float)(-Mth.atan2(yOffset, dist) * Mth.RAD_TO_DEG), 5F);
 
-        // Apply calculated rotation
         this.setXRot(pitch);
+        this.setYRot(yaw);
         this.yHeadRot = yaw;
 
-        // Just snap to the calculated butt position (no interpolation/smoothing)
-        this.moveTo(ourButt.x, ourButt.y, ourButt.z, yaw, pitch);
-
+        // Do NOT move to avg — let position remain externally managed
         this.headEntityId = headId;
-        return ourButt;
+        return this.position();
     }
+
 
 
     public Vec3 calcOffsetVec(Vec3 vec, float xRot, float yRot) {

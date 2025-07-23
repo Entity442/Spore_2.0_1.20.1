@@ -207,7 +207,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
                     if (partParent instanceof HohlMultipart partIndex) {
                         partIndex.setChildId(part.getUUID());
                     }
-                    part.setPos(part.tickMultipartPosition(this.getId(), prevPos, this.getXRot(), this.getYRot(), reqRot, true));
+                    part.setPos(part.tickMultipartPosition(this.getId(), prevPos, this.getXRot(), prevReqRot, reqRot, true));
                     partParent = part;
                     level().addFreshEntity(part);
                     parts[i] = part;
@@ -228,9 +228,10 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
             float xRot = this.getXRot();
             for (int i = 0; i < getSegments(); i++) {
                 if (this.parts[i] != null) {
-                    final float prevReqRot = calcPartRotation(i) + getYawForPart(i);
-                    final float reqRot = calcPartRotation(i + 1) + getYawForPart(i);
-                    prev = parts[i].tickMultipartPosition(this.getId(), prev, xRot, prevReqRot, reqRot, true);
+                    final float yaw = getYawForPart(i); // or just use head YRot
+                    prev = parts[i].tickMultipartPosition(
+                            this.getId(), prev, xRot, this.getYRot(), yaw, true
+                    );
                     xRot = parts[i].getXRot();
                 }
             }
