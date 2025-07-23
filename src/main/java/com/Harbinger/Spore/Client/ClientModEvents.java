@@ -161,6 +161,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(InebriaterModel.LAYER_LOCATION, InebriaterModel::createBodyLayer);
         event.registerLayerDefinition(SauglingModel.LAYER_LOCATION, SauglingModel::createBodyLayer);
         event.registerLayerDefinition(SmasherSlasherModel.LAYER_LOCATION, SmasherSlasherModel::createBodyLayer);
+        event.registerLayerDefinition(HohlfresserSeg1Model.LAYER_LOCATION, HohlfresserSeg1Model::createBodyLayer);
 
 
         event.registerLayerDefinition(BombFunnelModel.LAYER_LOCATION, BombFunnelModel::createBodyLayer);
@@ -251,6 +252,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.NUKE.get(), NuclearBombRenderer::new);
         event.registerEntityRenderer(Sentities.TENTACLE.get(), TentacleRenderer::new);
         event.registerEntityRenderer(Sentities.HOHLFRESSER.get(), HohlRenderer::new);
+        event.registerEntityRenderer(Sentities.HOHLFRESSER_SEG.get(), HohlSegRenderer::new);
         event.registerEntityRenderer(Sentities.BIOBLOOB.get(), BiobloobRenderer::new);
         event.registerEntityRenderer(Sentities.THROWN_KNIFE.get(), KnifeRenderer::new);
         event.registerEntityRenderer(Sentities.THROWN_SICKEL.get(), SickleRenderer::new);

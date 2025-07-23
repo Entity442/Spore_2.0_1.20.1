@@ -88,6 +88,7 @@ public class Attributes {
         event.put(Sentities.HVINDICATOR.get(), Hvindicator.createAttributes().build());
         event.put(Sentities.TENTACLE.get(), Tentacle.createAttributes().build());
         event.put(Sentities.HOHLFRESSER.get(), Hohlfresser.createAttributes().build());
+        event.put(Sentities.HOHLFRESSER_SEG.get(), Hohlfresser.createAttributes().build());
         event.put(Sentities.BIOBLOOB.get(), Biobloob.createAttributes().build());
         event.put(Sentities.PROTECTOR.get(), Protector.createAttributes().build());
         event.put(Sentities.INEBRIATER.get(), Inebriator.createAttributes().build());

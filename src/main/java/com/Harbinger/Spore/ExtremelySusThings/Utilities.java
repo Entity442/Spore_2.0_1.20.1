@@ -6,6 +6,7 @@ import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
+import com.Harbinger.Spore.Sentities.TrueCalamity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;
@@ -83,7 +84,7 @@ public class Utilities {
     }
 
     public static final Predicate<LivingEntity> TARGET_SELECTOR_PREDICATE = (entity) -> {
-        if (entity instanceof Infected || entity instanceof UtilityEntity){
+        if (entity instanceof Infected || entity instanceof UtilityEntity || entity instanceof TrueCalamity){
             return false;
         }else if ((entity instanceof AbstractFish || entity instanceof Animal) && !SConfig.SERVER.at_an.get()){
             return false;

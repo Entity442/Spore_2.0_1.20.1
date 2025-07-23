@@ -25,8 +25,6 @@ import org.joml.Matrix4f;
 
 @OnlyIn(Dist.CLIENT)
 public class HohlRenderer<Type extends Hohlfresser> extends CalamityRenderer<Type , EntityModel<Type>>{
-    private final WormSegmentModel<Type> segments;
-    private final WormTailModel<Type> tail;
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/hohl_head.png");
     private static final ResourceLocation INNARDS = new ResourceLocation(Spore.MODID,
@@ -37,16 +35,12 @@ public class HohlRenderer<Type extends Hohlfresser> extends CalamityRenderer<Typ
 
     public HohlRenderer(EntityRendererProvider.Context context) {
         super(context, new hohlfresserHeadModel<>(context.bakeLayer(hohlfresserHeadModel.LAYER_LOCATION)), 4f);
-        segments = new WormSegmentModel<>(context.bakeLayer(WormSegmentModel.LAYER_LOCATION));
-        tail = new WormTailModel<>(context.bakeLayer(WormTailModel.LAYER_LOCATION));
     }
 
     @Override
     public ResourceLocation getTextureLocation(Type entity) {
         return TEXTURE;
     }
-
-
     @Override
     public ResourceLocation eyeLayerTexture() {
         return EYES_TEXTURE;
@@ -55,36 +49,16 @@ public class HohlRenderer<Type extends Hohlfresser> extends CalamityRenderer<Typ
     @Override
     public void render(Type type, float value1, float value2, PoseStack stack, MultiBufferSource bufferSource, int light) {
         super.render(type, value1, value2, stack, bufferSource, light);
-        float i = type.getYHeadRot();
         HohlMultipart previous = null;
-        for (int e = 0; e<type.getSubEntities().size();e++){
-            HohlMultipart segment = type.getSubEntities().get(e);
-            renderSegment(type, segment,previous, stack, bufferSource, light, i,value2,e == type.getSubEntities().size()-1);
-            previous = segment;
-        }
-        if (!type.getSubEntities().isEmpty()){
-            renderConnectionHead(type, type.getSubEntities().get(0), stack, bufferSource,value2);
-        }
-    }
-
-    private void renderSegment(Type parent ,HohlMultipart entity,HohlMultipart previous, PoseStack stack, MultiBufferSource bufferSource,
-                               int packedLight,float y,float age,boolean isLast) {
-        EntityModel<Type> proper_model = isLast ? tail : segments;
-        float limbSwing = parent.walkAnimation.position();
-        float limbSwingAmount = parent.walkAnimation.speed();
-        VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityCutout(TEXTURE));
-        Vec3 vec3 = parent.position().subtract(entity.position()).scale(-1.5);
-        stack.pushPose();
-        stack.scale(entity.getInflation(),entity.getInflation(),entity.getInflation());
-        stack.translate(vec3.x,vec3.y,vec3.z);
-        stack.mulPose(Axis.YP.rotationDegrees(180.0F - y));
-        stack.mulPose(Axis.ZP.rotationDegrees(180.0F));
-        stack.translate(0,-1.5,0);
-        proper_model.setupAnim(parent, limbSwing, limbSwingAmount, age, parent.getYRot(), parent.getXRot());
-        proper_model.renderToBuffer(stack,consumer,packedLight, OverlayTexture.NO_OVERLAY,1,1,1,1);
-        stack.popPose();
-        if (previous != null) {
-            renderConnection(parent,previous, entity, stack, bufferSource,age);
+        if (type.getHolfParts() != null && type.getHolfParts().length > 0){
+            renderConnectionHead(type, type.getHolfParts()[0], stack, bufferSource,value2);
+            for (int e = 0; e<type.getHolfParts().length;e++){
+                HohlMultipart segment = type.getHolfParts()[e];
+                if (previous != null) {
+                    renderConnection(type,previous, segment, stack, bufferSource,value2);
+                }
+                previous = segment;
+            }
         }
     }
 

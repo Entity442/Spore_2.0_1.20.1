@@ -374,5 +374,8 @@ public class Sentities {
     public static final RegistryObject<EntityType<Hohlfresser>> HOHLFRESSER = SPORE_ENTITIES.register("hohlfresser",
             () -> EntityType.Builder.of(Hohlfresser::new, INFECTED).sized(3.5f, 3.5f)
                     .build(new ResourceLocation(Spore.MODID, "hohlfresser").toString()));
+    public static final RegistryObject<EntityType<HohlMultipart>> HOHLFRESSER_SEG = SPORE_ENTITIES.register("hohlfresser_seg",
+            () -> EntityType.Builder.of(HohlMultipart::new, INFECTED).sized(3.5f, 3.5f)
+                    .build(new ResourceLocation(Spore.MODID, "hohlfresser_seg").toString()));
 
 }
