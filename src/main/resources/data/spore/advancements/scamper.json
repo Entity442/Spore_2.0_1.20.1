@@ -4,7 +4,10 @@
       "item": "spore:scamper_spawnegg"
     },
     "title":{"translate": "advancement.spore.scamper.title"},
-    "description":{"translate": "advancement.spore.scamper.description"}
+    "description":{"translate": "advancement.spore.scamper.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:inf_mobs",

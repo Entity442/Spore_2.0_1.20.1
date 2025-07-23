@@ -4,7 +4,11 @@
       "item": "spore:braio_spawnegg"
     },
     "title":{"translate": "advancement.spore.braiomil.title"},
-    "description":{"translate": "advancement.spore.braiomil.description"}
+    "description":{"translate": "advancement.spore.braiomil.description"},
+
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:inf_human",

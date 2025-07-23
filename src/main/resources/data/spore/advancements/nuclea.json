@@ -4,7 +4,10 @@
       "item": "spore:nuclea_spawnegg"
     },
     "title":{"translate": "advancement.spore.nuclea.title"},
-    "description":{"translate": "advancement.spore.nuclea.description"}
+    "description":{"translate": "advancement.spore.nuclea.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:inf_player",

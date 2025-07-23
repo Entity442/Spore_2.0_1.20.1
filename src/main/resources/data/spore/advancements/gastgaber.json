@@ -4,7 +4,10 @@
       "item": "spore:gastgaber_spawnegg"
     },
     "title":{"translate": "advancement.spore.gastgaber.title"},
-    "description":{"translate": "advancement.spore.gastgaber.description"}
+    "description":{"translate": "advancement.spore.gastgaber.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:scamper",

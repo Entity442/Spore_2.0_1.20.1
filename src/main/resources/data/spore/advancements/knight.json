@@ -4,7 +4,10 @@
       "item": "spore:knight_spawnegg"
     },
     "title":{"translate": "advancement.spore.knight.title"},
-    "description":{"translate": "advancement.spore.knight.description"}
+    "description":{"translate": "advancement.spore.knight.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:inf_human",

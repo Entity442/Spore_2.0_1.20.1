@@ -4,7 +4,10 @@
       "item": "spore:leaper_spawnegg"
     },
     "title":{"translate": "advancement.spore.leaper.title"},
-    "description":{"translate": "advancement.spore.leaper.description"}
+    "description":{"translate": "advancement.spore.leaper.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:inf_villager",

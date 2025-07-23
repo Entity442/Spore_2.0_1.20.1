@@ -4,7 +4,10 @@
       "item": "spore:inf_husk_spawnegg"
     },
     "title":{"translate": "advancement.spore.inf_husk.title"},
-    "description":{"translate": "advancement.spore.inf_husk.description"}
+    "description":{"translate": "advancement.spore.inf_husk.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:inf_mobs",

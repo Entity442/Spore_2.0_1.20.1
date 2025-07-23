@@ -4,7 +4,10 @@
       "item": "spore:busser_spawnegg"
     },
     "title":{"translate": "advancement.spore.busser.title"},
-    "description":{"translate": "advancement.spore.busser.description"}
+    "description":{"translate": "advancement.spore.busser.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:inf_human",

@@ -4,7 +4,10 @@
       "item": "spore:construct_spawnegg"
     },
     "title":{"translate": "advancement.spore.inf_contruct.title"},
-    "description":{"translate": "advancement.spore.inf_contruct.description"}
+    "description":{"translate": "advancement.spore.inf_contruct.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:inf_mobs",

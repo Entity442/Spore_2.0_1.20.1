@@ -4,7 +4,10 @@
       "item": "spore:umarmed_spawnegg"
     },
     "title":{"translate": "advancement.spore.umarmed.title"},
-    "description":{"translate": "advancement.spore.umarmed.description"}
+    "description":{"translate": "advancement.spore.umarmed.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:proto",

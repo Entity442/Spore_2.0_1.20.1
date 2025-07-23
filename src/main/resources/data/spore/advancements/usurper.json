@@ -4,7 +4,10 @@
       "item": "spore:usurper_spawnegg"
     },
     "title":{"translate": "advancement.spore.usurper.title"},
-    "description":{"translate": "advancement.spore.usurper.description"}
+    "description":{"translate": "advancement.spore.usurper.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:proto",

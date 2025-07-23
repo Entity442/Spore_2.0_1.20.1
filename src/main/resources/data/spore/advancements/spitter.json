@@ -4,7 +4,10 @@
       "item": "spore:spitter_spawnegg"
     },
     "title":{"translate": "advancement.spore.spitter.title"},
-    "description":{"translate": "advancement.spore.spitter.description"}
+    "description":{"translate": "advancement.spore.spitter.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:inf_villager",

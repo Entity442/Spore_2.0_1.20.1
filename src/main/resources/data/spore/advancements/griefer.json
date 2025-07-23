@@ -4,7 +4,10 @@
       "item": "spore:griefer_spawnegg"
     },
     "title":{"translate": "advancement.spore.griefer.title"},
-    "description":{"translate": "advancement.spore.griefer.description"}
+    "description":{"translate": "advancement.spore.griefer.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:inf_human",

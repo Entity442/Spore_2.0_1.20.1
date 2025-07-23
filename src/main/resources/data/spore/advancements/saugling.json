@@ -4,7 +4,10 @@
       "item": "spore:saugling_spawnegg"
     },
     "title":{"translate": "advancement.spore.saugling.title"},
-    "description":{"translate": "advancement.spore.saugling.description"}
+    "description":{"translate": "advancement.spore.saugling.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:lore1",

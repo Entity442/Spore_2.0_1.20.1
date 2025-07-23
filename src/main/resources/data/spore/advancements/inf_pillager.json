@@ -4,7 +4,10 @@
       "item": "spore:inf_pillager_spawnegg"
     },
     "title":{"translate": "advancement.spore.inf_pillager.title"},
-    "description":{"translate": "advancement.spore.inf_pillager.description"}
+    "description":{"translate": "advancement.spore.inf_pillager.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:inf_mobs",

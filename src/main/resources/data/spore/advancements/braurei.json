@@ -4,7 +4,10 @@
       "item": "spore:braurei_spawnegg"
     },
     "title":{"translate": "advancement.spore.braurei.title"},
-    "description":{"translate": "advancement.spore.braurei.description"}
+    "description":{"translate": "advancement.spore.braurei.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:proto",

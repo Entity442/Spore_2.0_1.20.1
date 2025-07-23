@@ -4,7 +4,10 @@
       "item": "spore:stalker_spawnegg"
     },
     "title":{"translate": "advancement.spore.stalker.title"},
-    "description":{"translate": "advancement.spore.stalker.description"}
+    "description":{"translate": "advancement.spore.stalker.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:inf_pillager",

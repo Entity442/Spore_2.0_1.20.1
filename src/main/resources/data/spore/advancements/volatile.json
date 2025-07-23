@@ -4,7 +4,10 @@
       "item": "spore:volatile_spawnegg"
     },
     "title":{"translate": "advancement.spore.volatile.title"},
-    "description":{"translate": "advancement.spore.volatile.description"}
+    "description":{"translate": "advancement.spore.volatile.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:inf_witch",

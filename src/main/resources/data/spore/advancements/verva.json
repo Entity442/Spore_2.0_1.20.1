@@ -4,7 +4,10 @@
       "item": "spore:verva_spawnegg"
     },
     "title":{"translate": "advancement.spore.verva.title"},
-    "description":{"translate": "advancement.spore.verva.description"}
+    "description":{"translate": "advancement.spore.verva.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:proto",

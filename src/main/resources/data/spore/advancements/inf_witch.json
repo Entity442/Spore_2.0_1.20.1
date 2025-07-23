@@ -4,7 +4,10 @@
       "item": "spore:inf_witch_spawnegg"
     },
     "title":{"translate": "advancement.spore.inf_witch.title"},
-    "description":{"translate": "advancement.spore.inf_witch.description"}
+    "description":{"translate": "advancement.spore.inf_witch.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:inf_mobs",

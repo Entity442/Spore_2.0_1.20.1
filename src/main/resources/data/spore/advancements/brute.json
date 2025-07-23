@@ -4,7 +4,10 @@
       "item": "spore:brute_spawnegg"
     },
     "title":{"translate": "advancement.spore.brute.title"},
-    "description":{"translate": "advancement.spore.brute.description"}
+    "description":{"translate": "advancement.spore.brute.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:inf_pillager",

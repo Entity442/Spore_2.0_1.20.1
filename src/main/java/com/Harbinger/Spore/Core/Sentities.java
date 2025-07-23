@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Core;
 
+import com.Harbinger.Spore.Sentities.BaseEntities.HohlMultipart;
 import com.Harbinger.Spore.Sentities.BasicInfected.*;
 import com.Harbinger.Spore.Sentities.Calamities.*;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.*;
@@ -371,6 +372,7 @@ public class Sentities {
                     .build(new ResourceLocation(Spore.MODID, "howitzer").toString()));
 
     public static final RegistryObject<EntityType<Hohlfresser>> HOHLFRESSER = SPORE_ENTITIES.register("hohlfresser",
-            () -> EntityType.Builder.of(Hohlfresser::new, INFECTED).sized(2f, 2f)
+            () -> EntityType.Builder.of(Hohlfresser::new, INFECTED).sized(3.5f, 3.5f)
                     .build(new ResourceLocation(Spore.MODID, "hohlfresser").toString()));
+
 }

@@ -4,7 +4,10 @@
       "item": "spore:thorn_spawnegg"
     },
     "title":{"translate": "advancement.spore.thorn.title"},
-    "description":{"translate": "advancement.spore.thorn.description"}
+    "description":{"translate": "advancement.spore.thorn.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:inf_husk",

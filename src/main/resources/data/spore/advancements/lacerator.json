@@ -4,7 +4,10 @@
       "item": "spore:lacerator_spawnegg"
     },
     "title":{"translate": "advancement.spore.lacerator.title"},
-    "description":{"translate": "advancement.spore.lacerator.description"}
+    "description":{"translate": "advancement.spore.lacerator.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:lore1",

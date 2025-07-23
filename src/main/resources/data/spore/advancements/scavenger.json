@@ -4,7 +4,10 @@
       "item": "spore:scavenger_spawnegg"
     },
     "title":{"translate": "advancement.spore.scavenger.title"},
-    "description":{"translate": "advancement.spore.scavenger.description"}
+    "description":{"translate": "advancement.spore.scavenger.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:inf_husk",

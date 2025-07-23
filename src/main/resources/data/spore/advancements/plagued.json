@@ -4,7 +4,10 @@
       "item": "spore:plagued_spawnegg"
     },
     "title":{"translate": "advancement.spore.plagued.title"},
-    "description":{"translate": "advancement.spore.plagued.description"}
+    "description":{"translate": "advancement.spore.plagued.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:lore1",

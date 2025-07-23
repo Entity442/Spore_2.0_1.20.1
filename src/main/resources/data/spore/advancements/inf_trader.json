@@ -4,7 +4,10 @@
       "item": "spore:inf_wanderer_spawnegg"
     },
     "title":{"translate": "advancement.spore.inf_wanderer.title"},
-    "description":{"translate": "advancement.spore.inf_wanderer.description"}
+    "description":{"translate": "advancement.spore.inf_wanderer.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:inf_mobs",

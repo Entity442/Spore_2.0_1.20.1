@@ -4,7 +4,10 @@
       "item": "spore:inf_drowned_spawnegg"
     },
     "title":{"translate": "advancement.spore.inf_drowned.title"},
-    "description":{"translate": "advancement.spore.inf_drowned.description"}
+    "description":{"translate": "advancement.spore.inf_drowned.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:inf_mobs",

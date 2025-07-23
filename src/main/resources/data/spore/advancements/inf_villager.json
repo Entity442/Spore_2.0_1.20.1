@@ -4,7 +4,10 @@
       "item": "spore:inf_villager_spawnegg"
     },
     "title":{"translate": "advancement.spore.inf_villager.title"},
-    "description":{"translate": "advancement.spore.inf_villager.description"}
+    "description":{"translate": "advancement.spore.inf_villager.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:inf_mobs",

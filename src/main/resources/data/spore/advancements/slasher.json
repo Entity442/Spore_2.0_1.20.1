@@ -4,7 +4,10 @@
       "item": "spore:slasher_spawnegg"
     },
     "title":{"translate": "advancement.spore.slasher.title"},
-    "description":{"translate": "advancement.spore.slasher.description"}
+    "description":{"translate": "advancement.spore.slasher.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:inf_villager",

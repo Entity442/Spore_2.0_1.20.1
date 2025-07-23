@@ -4,7 +4,10 @@
       "item": "spore:inf_vind_spawnegg"
     },
     "title":{"translate": "advancement.spore.inf_vindicator.title"},
-    "description":{"translate": "advancement.spore.inf_vindicator.description"}
+    "description":{"translate": "advancement.spore.inf_vindicator.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
   "parent": "spore:inf_mobs",

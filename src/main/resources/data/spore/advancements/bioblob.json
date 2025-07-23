@@ -4,9 +4,12 @@
       "item": "spore:biobloob_spawnegg"
     },
     "title":{"translate": "advancement.spore.biobloob.title"},
-    "description":{"translate": "advancement.spore.biobloob.description"}
-  },
+    "description":{"translate": "advancement.spore.biobloob.description"},
 
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
+  },
   "parent": "spore:lore1",
   "criteria": {
     "hurt_infected": {
@@ -33,5 +36,6 @@
       "hurt_infected",
       "hurt_by_infected"
     ]
-  ]
+  ],
+  "announce_to_chat": false
 }
