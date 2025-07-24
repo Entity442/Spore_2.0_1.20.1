@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Client.Renderers;
 import com.Harbinger.Spore.Client.Models.HohlfresserSeg1Model;
 import com.Harbinger.Spore.Sentities.BaseEntities.HohlMultipart;
 import com.Harbinger.Spore.Spore;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -24,4 +25,10 @@ public class HohlSegRenderer<Type extends HohlMultipart> extends LivingEntityRen
         return TEXTURE;
     }
 
+    @Override
+    protected void scale(Type type, PoseStack stack, float p_115316_) {
+        float size = type.getSize();
+        stack.scale(size,size,size);
+        super.scale(type, stack, p_115316_);
+    }
 }

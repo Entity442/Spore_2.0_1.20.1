@@ -34,10 +34,12 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     public static final EntityDataAccessor<Integer> VULNERABLE = SynchedEntityData.defineId(Hohlfresser.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Boolean> ADAPTED = SynchedEntityData.defineId(Hohlfresser.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> UNDERGROUND = SynchedEntityData.defineId(Hohlfresser.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Float> WORM_ANGLE = SynchedEntityData.defineId(Hohlfresser.class, EntityDataSerializers.FLOAT);
+
     private HohlMultipart[] parts;
     public final float[] ringBuffer = new float[64];
     public int ringBufferIndex = -1;
-
+    public float prevWormAngle;
     public Hohlfresser(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
     }
@@ -50,6 +52,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         this.entityData.define(VULNERABLE, 0);
         this.entityData.define(CHILD_UUID, Optional.empty());
         this.entityData.define(CHILD_ID, -1);
+        this.entityData.define(WORM_ANGLE, 0f);
     }
 
     @Override
@@ -60,6 +63,11 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
                 entityData.set(VULNERABLE, 600);
             }
         }
+    }
+    public float getSpin(){
+        float speed = (float) Math.sqrt(this.getDeltaMovement().x * this.getDeltaMovement().x +
+                this.getDeltaMovement().z * this.getDeltaMovement().z);
+        return speed * 2.5F * tickCount;
     }
 
     @Override
@@ -112,6 +120,12 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     public boolean hurt(CalamityMultipart calamityMultipart, DamageSource source, float value) {
         this.hurt(source, value);
         return false;
+    }
+    public void setWormAngle(float angle){
+        this.entityData.set(WORM_ANGLE,angle);
+    }
+    public float getWormAngle(){
+        return entityData.get(WORM_ANGLE);
     }
 
     @Override
@@ -181,25 +195,35 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         return false;
     }
 
-        public void tick() {
+    public void tick() {
         super.tick();
-            Vec3 motion = this.getDeltaMovement();
-            if (motion.lengthSqr() > 0.0001) {
-                float motionYaw = (float)(Mth.atan2(motion.z, motion.x) * (180F / Math.PI)) - 90F;
-                this.setYRot(Mth.rotLerp(0.1F, this.getYRot(), motionYaw));
-            }
+        prevWormAngle = this.getWormAngle();
+        if (this.yRotO - this.getYRot() > 0.05F) {
+            this.setWormAngle(this.getWormAngle() + 15);
+        } else if (this.yRotO - this.getYRot() < -0.05F) {
+            this.setWormAngle(this.getWormAngle() - 15);
+        } else if (this.getWormAngle() > 0) {
+            this.setWormAngle(Math.max(this.getWormAngle() - 20, 0));
+        } else if (this.getWormAngle() < 0) {
+            this.setWormAngle(Math.min(this.getWormAngle() + 20, 0));
+        }
+
         if (!this.level().isClientSide) {
             final Entity child = getChild();
             if (child == null) {
+                float size = 1;
                 LivingEntity partParent = this;
                 parts = new HohlMultipart[getSegments()];
                 Vec3 vec3 = (new Vec3(-2.5,0,1.75)).yRot(-this.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
                 Vec3 prevPos = this.position().add(vec3);
                 for (int i = 0; i < getSegments(); i++) {
+                    size = size - 0.1f;
                     final float prevReqRot = calcPartRotation(i) + getYawForPart(i);
                     final float reqRot = calcPartRotation(i + 1) + getYawForPart(i);
                     HohlMultipart part = new HohlMultipart(Sentities.HOHLFRESSER_SEG.get(), this.level());
                     part.setParent(partParent);
+                    part.setSize(size);
+                    part.setIsTail(i == getSegments()-1);
                     if (partParent == this) {
                         this.setChildId(part.getUUID());
                         this.entityData.set(CHILD_ID, part.getId());
@@ -207,7 +231,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
                     if (partParent instanceof HohlMultipart partIndex) {
                         partIndex.setChildId(part.getUUID());
                     }
-                    part.setPos(part.tickMultipartPosition(this.getId(), prevPos, this.getXRot(), prevReqRot, reqRot, true));
+                    part.setPos(part.tickMultipartPosition(this.getId(), prevPos, this.getXRot(), prevReqRot, reqRot, true,getSpin()));
                     partParent = part;
                     level().addFreshEntity(part);
                     parts[i] = part;
@@ -230,7 +254,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
                 if (this.parts[i] != null) {
                     final float yaw = getYawForPart(i); // or just use head YRot
                     prev = parts[i].tickMultipartPosition(
-                            this.getId(), prev, xRot, this.getYRot(), yaw, true
+                            this.getId(), prev, xRot, this.getYRot(), yaw, true,getSpin()
                     );
                     xRot = parts[i].getXRot();
                 }

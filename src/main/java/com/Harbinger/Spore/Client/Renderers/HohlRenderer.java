@@ -50,10 +50,9 @@ public class HohlRenderer<Type extends Hohlfresser> extends CalamityRenderer<Typ
     public void render(Type type, float value1, float value2, PoseStack stack, MultiBufferSource bufferSource, int light) {
         super.render(type, value1, value2, stack, bufferSource, light);
         HohlMultipart previous = null;
-        if (type.getHolfParts() != null && type.getHolfParts().length > 0){
+        if (type.getHolfParts() != null){
             renderConnectionHead(type, type.getHolfParts()[0], stack, bufferSource,value2);
-            for (int e = 0; e<type.getHolfParts().length;e++){
-                HohlMultipart segment = type.getHolfParts()[e];
+            for (HohlMultipart segment : type.getHolfParts()){
                 if (previous != null) {
                     renderConnection(type,previous, segment, stack, bufferSource,value2);
                 }
@@ -84,10 +83,10 @@ public class HohlRenderer<Type extends Hohlfresser> extends CalamityRenderer<Typ
             stack.mulPose(Axis.YP.rotation(yaw));
             stack.mulPose(Axis.XP.rotation(pitch));
 
-            float startWidth = (from.getBbWidth() * from.getInflation())*0.5f;
-            float startHeight = (from.getBbHeight() * from.getInflation())*0.5f;
-            float endWidth = (to.getBbWidth() * to.getInflation())*0.5f;
-            float endHeight = (to.getBbHeight() * to.getInflation())*0.5f;
+            float startWidth = (from.getBbWidth() * from.getInflation())*1.5f;
+            float startHeight = (from.getBbHeight() * from.getInflation())*1.5f;
+            float endWidth = (to.getBbWidth() * to.getInflation())*1.5f;
+            float endHeight = (to.getBbHeight() * to.getInflation())*1.5f;
 
             VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityTranslucent(GET_TEXTURE(parent)));
             PoseStack.Pose pose = stack.last();

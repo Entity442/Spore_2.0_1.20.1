@@ -1,3 +1,4 @@
+
 package com.Harbinger.Spore.Sentities.BaseEntities;
 
 import com.Harbinger.Spore.Sentities.Calamities.Hohlfresser;
@@ -12,6 +13,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -33,9 +35,14 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
     private int headEntityId = -1;
     private static final EntityDataAccessor<Optional<UUID>> CHILD_UUID = SynchedEntityData.defineId(HohlMultipart.class, EntityDataSerializers.OPTIONAL_UUID);
     private static final EntityDataAccessor<Optional<UUID>> PARENT_UUID = SynchedEntityData.defineId(HohlMultipart.class, EntityDataSerializers.OPTIONAL_UUID);
-
+    private static final EntityDataAccessor<Float> SIZE = SynchedEntityData.defineId(HohlMultipart.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(HohlMultipart.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(HohlMultipart.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> IS_TAIL = SynchedEntityData.defineId(HohlMultipart.class, EntityDataSerializers.BOOLEAN);
+    private float spin;
     public HohlMultipart(EntityType<? extends LivingEntity> p_20966_, Level p_20967_) {
         super(p_20966_, p_20967_);
+        noPhysics = true;
         this.setNoGravity(true);
     }
 
@@ -48,6 +55,10 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
         super.defineSynchedData();
         this.entityData.define(CHILD_UUID, Optional.empty());
         this.entityData.define(PARENT_UUID, Optional.empty());
+        this.entityData.define(SIZE, 1f);
+        this.entityData.define(VARIANT, 0);
+        this.entityData.define(COLOR, -1);
+        this.entityData.define(IS_TAIL, false);
     }
     public Entity getChild() {
         UUID id = getChildId();
@@ -60,7 +71,6 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
     public void tick() {
         super.tick();
         isInsidePortal = false;
-        this.setDeltaMovement(Vec3.ZERO);
 
         if (tickCount > 1) {
             Entity parent = getParentSafe();
@@ -76,41 +86,58 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
             }
         }
     }
+    public float getSpin(){
+        return spin;
+    }
+    public Vec3 tickMultipartPosition(int headId, Vec3 parentPos, float parentXRot, float parentYRot, float ourYRot, boolean doHeight,float spin) {
+        // Distance between segments (adjust as needed)
+        double spacing = 2.5f * this.getBbWidth();
 
-    public Vec3 tickMultipartPosition(int headId, Vec3 parentPos, float parentXRot, float parentYRot, float ourYRot, boolean doHeight) {
-        Vec3 parentButt = parentPos.add(calcOffsetVec(new Vec3(-0.5f, 2, -1.5f), parentXRot, parentYRot));
-        Vec3 ourButt = parentButt.add(calcOffsetVec(new Vec3(4.5f, 2, -1.5f), this.getXRot(), ourYRot));
+        // Offset backward along parent's rotation
+        Vec3 offset = calcOffsetVec((float) -spacing, parentXRot, parentYRot);
+        Vec3 targetPos = parentPos.add(offset);
 
-        // only use rotation info
-        double dx = parentButt.x - ourButt.x;
-        double dz = parentButt.z - ourButt.z;
-        double dist = Math.sqrt(dx * dx + dz * dz);
-        double hgt = 0;
+        // Optional smoothing (can adjust blend factor)
+        Vec3 smoothedPos = this.position().lerp(targetPos, 0.5);
+
+        // Vertical adjustment if enabled
+        double yOffset = 0.0;
         if (doHeight) {
-            hgt = getLowPartHeight(parentButt.x, parentButt.y, parentButt.z)
-                    + getHighPartHeight(ourButt.x, ourButt.y, ourButt.z);
+            double hgt = getLowPartHeight(targetPos.x, targetPos.y, targetPos.z) + getHighPartHeight(targetPos.x, targetPos.y, targetPos.z);
+            if (Math.abs(hgt - prevHeight) > 0.2F) {
+                prevHeight = hgt;
+            }
+            yOffset = Mth.clamp(this.getScale() * prevHeight, -0.6F, 0.6F);
         }
-        if (Math.abs(hgt - prevHeight) > 0.2F) prevHeight = hgt;
-        double yOffset = Mth.clamp(this.getScale() * prevHeight, -0.6F, 0.6F);
 
+        // Calculate yaw/pitch toward parent for proper segment orientation
+        double dx = parentPos.x - smoothedPos.x;
+        double dz = parentPos.z - smoothedPos.z;
         float yaw = (float)(Mth.atan2(dz, dx) * Mth.RAD_TO_DEG) - 90.0F;
-        float pitch = limitAngle(this.getXRot(), (float)(-Mth.atan2(yOffset, dist) * Mth.RAD_TO_DEG), 5F);
 
+        double horizontalDist = Math.sqrt(dx * dx + dz * dz);
+        float pitch = limitAngle(this.getXRot(), (float)(-Mth.atan2(yOffset, horizontalDist) * Mth.RAD_TO_DEG), 5F);
+
+        // Update segment rotation and position
         this.setXRot(pitch);
-        this.setYRot(yaw);
-        this.yHeadRot = yaw;
+        this.setYRot(parentYRot);
+        this.yHeadRot = parentYRot;
+        this.moveTo(smoothedPos.x, parentPos.y, smoothedPos.z, yaw, pitch);
 
-        // Do NOT move to avg — let position remain externally managed
+        // Save head reference
         this.headEntityId = headId;
-        return this.position();
+        this.spin = spin;
+        return smoothedPos;
+    }
+
+    private Vec3 calcOffsetVec(float offsetZ, float xRot, float yRot){
+        return new Vec3(0, 0, offsetZ).xRot(xRot * Mth.DEG_TO_RAD).yRot(-yRot * Mth.DEG_TO_RAD);
     }
 
 
-
-    public Vec3 calcOffsetVec(Vec3 vec, float xRot, float yRot) {
-        return vec
-                .xRot(xRot * Mth.DEG_TO_RAD)
-                .yRot((-yRot + 90F) * Mth.DEG_TO_RAD);
+    @Override
+    public boolean isInvulnerableTo(DamageSource source) {
+        return source.is(DamageTypes.IN_WALL)  || source.is(DamageTypes.FALL);
     }
 
     public boolean isOpaqueBlockAt(double x, double y, double z) {
@@ -212,6 +239,10 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
         super.addAdditionalSaveData(tag);
         if (getParentId() != null) tag.putUUID("ParentUUID", getParentId());
         if (getChildId() != null) tag.putUUID("ChildUUID", getChildId());
+        tag.putFloat("size",entityData.get(SIZE));
+        tag.putInt("variant",entityData.get(VARIANT));
+        tag.putInt("color",entityData.get(COLOR));
+        tag.putBoolean("tail",entityData.get(IS_TAIL));
     }
 
     @Override
@@ -219,6 +250,36 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
         super.readAdditionalSaveData(tag);
         if (tag.hasUUID("ParentUUID")) setParentId(tag.getUUID("ParentUUID"));
         if (tag.hasUUID("ChildUUID")) setChildId(tag.getUUID("ChildUUID"));
+        entityData.set(SIZE,tag.getFloat("size"));
+        entityData.set(VARIANT,tag.getInt("variant"));
+        entityData.set(COLOR,tag.getInt("color"));
+        entityData.set(IS_TAIL,tag.getBoolean("tail"));
+    }
+
+    public void setSize(float val){
+        entityData.set(SIZE,val);
+    }
+    public void setVariant(int val){
+        entityData.set(VARIANT,val);
+    }
+    public void setColor(int val){
+        entityData.set(COLOR,val);
+    }
+    public void setIsTail(boolean val){
+        entityData.set(IS_TAIL,val);
+    }
+
+    public float getSize(){
+        return entityData.get(SIZE);
+    }
+    public int getVariant(){
+        return entityData.get(COLOR);
+    }
+    public int getColor(){
+        return entityData.get(COLOR);
+    }
+    public boolean isTail(){
+        return entityData.get(IS_TAIL);
     }
 
     @Override
@@ -239,5 +300,18 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
     @Override
     public List<? extends String> debuffs() {
         return List.of();
+    }
+
+    @Override
+    public void onSyncedDataUpdated(List<SynchedEntityData.DataValue<?>> dataValues) {
+        super.onSyncedDataUpdated(dataValues);
+        if (dataValues.equals(SIZE)) {
+            refreshDimensions();
+        }
+    }
+
+    @Override
+    public EntityDimensions getDimensions(Pose p_21047_) {
+        return super.getDimensions(p_21047_).scale(this.getSize());
     }
 }
