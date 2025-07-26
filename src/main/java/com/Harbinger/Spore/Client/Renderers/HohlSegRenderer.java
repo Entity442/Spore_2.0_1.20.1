@@ -77,11 +77,11 @@ public class HohlSegRenderer<Type extends HohlMultipart> extends LivingEntityRen
             stack.translate(vec3.x, vec3.y+1, vec3.z);
             stack.mulPose(Axis.YP.rotation(yaw));
             stack.mulPose(Axis.XP.rotation(pitch));
-
-            float startWidth = parent.getBbWidth()*0.5f * parent.getSize();
-            float startHeight = parent.getBbHeight()*0.5f * parent.getSize();
-            float endWidth = to.getBbWidth()*0.5f * i;
-            float endHeight = to.getBbHeight()*0.5f * i;
+            float inf = 0.6f;
+            float startWidth = parent.getBbWidth()*inf * parent.getSize();
+            float startHeight = parent.getBbHeight()*inf * parent.getSize();
+            float endWidth = to.getBbWidth()*inf * i;
+            float endHeight = to.getBbHeight()*inf * i;
 
             VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityTranslucent(INNARDS));
             PoseStack.Pose pose = stack.last();

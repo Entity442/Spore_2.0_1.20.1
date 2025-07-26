@@ -16,6 +16,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -69,7 +70,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     public float getSpin(){
         float speed = (float) Math.sqrt(this.getDeltaMovement().x * this.getDeltaMovement().x +
                 this.getDeltaMovement().z * this.getDeltaMovement().z);
-        spin = spin + speed * 0.001F * tickCount;
+        spin = spin + speed * 0.00025F * tickCount;
         return spin;
     }
 
@@ -285,7 +286,10 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         float angle = (float) (-Math.sin(this.walkDist * 3 - i) * 40);
         return angle * 0.5f * i;
     }
-
+    @Override
+    public boolean isInvulnerableTo(DamageSource source) {
+        return source.is(DamageTypes.IN_WALL)  || source.is(DamageTypes.FALL);
+    }
     @Override
     public void registerGoals() {
         this.goalSelector.addGoal(4, new AOEMeleeAttackGoal(this, 1.5, false, 2.5, 6 ,livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}) {

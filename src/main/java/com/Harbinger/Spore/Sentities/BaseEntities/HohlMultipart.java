@@ -92,7 +92,7 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
     public float getSpin(){
         float speed = (float) Math.sqrt(this.getDeltaMovement().x * this.getDeltaMovement().x +
                 this.getDeltaMovement().z * this.getDeltaMovement().z);
-        spin = spin + speed * 0.001F * tickCount;
+        spin = spin + speed * 0.00025F * tickCount;
         return spin;
     }
     public Vec3 tickMultipartPosition(int headId, Vec3 parentPos, float parentXRot, float parentYRot, float ourYRot, boolean doHeight) {
@@ -126,7 +126,7 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
 
         // === NEW: Disable gravity & physics if too far from parent ===
         double distanceToParent = this.position().distanceTo(parentPos);
-        boolean disablePhysics = distanceToParent > 10.0;
+        boolean disablePhysics = distanceToParent > 5.0;
 
         this.setNoGravity(disablePhysics);
         this.setDeltaMovement(disablePhysics ? getParentSafe().getDeltaMovement().multiply(1,0,1) : getParentSafe().getDeltaMovement());
