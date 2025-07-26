@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Client.Renderers;
 
 import com.Harbinger.Spore.Client.Models.HohlfresserSeg1Model;
 import com.Harbinger.Spore.Sentities.BaseEntities.HohlMultipart;
+import com.Harbinger.Spore.Sentities.Calamities.Hohlfresser;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -68,7 +69,7 @@ public class HohlSegRenderer<Type extends HohlMultipart> extends LivingEntityRen
 
         float yaw = (float)Math.atan2(direction.x, direction.z);
         float pitch = (float)-Math.asin(direction.y);
-        float i = to instanceof HohlMultipart hohlMultipart ? hohlMultipart.getSize() : 1f;
+        float i = to instanceof HohlMultipart hohlMultipart ? hohlMultipart.getSize() : to instanceof Hohlfresser ? 1.2f : 0f;
 
         stack.pushPose();
         {

@@ -40,11 +40,9 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
     private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(HohlMultipart.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> IS_TAIL = SynchedEntityData.defineId(HohlMultipart.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> PARENT_ID = SynchedEntityData.defineId(HohlMultipart.class, EntityDataSerializers.INT);
-    private float spin;
     public HohlMultipart(EntityType<? extends LivingEntity> p_20966_, Level p_20967_) {
         super(p_20966_, p_20967_);
-        noPhysics = true;
-        this.setNoGravity(true);
+        this.setMaxUpStep(1.5F);
     }
 
     @Override
@@ -88,24 +86,19 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
         }
     }
     public float getSpin(){
-        if (getParentSafe() instanceof Hohlfresser hohlfresser){
-            spin = hohlfresser.getSpin();
-            return hohlfresser.getSpin();
-        }
-        return spin;
+        float speed = (float) Math.sqrt(this.getDeltaMovement().x * this.getDeltaMovement().x +
+                this.getDeltaMovement().z * this.getDeltaMovement().z);
+        return speed * 2.5F * tickCount;
     }
     public Vec3 tickMultipartPosition(int headId, Vec3 parentPos, float parentXRot, float parentYRot, float ourYRot, boolean doHeight) {
-        // Distance between segments (adjust as needed)
         double spacing = 1.5f * this.getBbWidth();
+        Vec3 buttOffset = calcOffsetVec((float) -spacing, parentXRot, parentYRot);
+        Vec3 targetPos = parentPos.add(buttOffset);
 
-        // Offset backward along parent's rotation
-        Vec3 offset = calcOffsetVec((float) -spacing, parentXRot, parentYRot);
-        Vec3 targetPos = parentPos.add(offset);
+        Vec3 currentPos = this.position();
+        Vec3 smoothedPos = currentPos.lerp(targetPos, 0.25); // Smoother movement
 
-        // Optional smoothing (can adjust blend factor)
-        Vec3 smoothedPos = this.position().lerp(targetPos, 0.5);
-
-        // Vertical adjustment if enabled
+        // Optional vertical adjustment
         double yOffset = 0.0;
         if (doHeight) {
             double hgt = getLowPartHeight(targetPos.x, targetPos.y, targetPos.z) + getHighPartHeight(targetPos.x, targetPos.y, targetPos.z);
@@ -115,24 +108,35 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
             yOffset = Mth.clamp(this.getScale() * prevHeight, -0.6F, 0.6F);
         }
 
-        // Calculate yaw/pitch toward parent for proper segment orientation
+        // Calculate direction to face toward parent
         double dx = parentPos.x - smoothedPos.x;
         double dz = parentPos.z - smoothedPos.z;
-        float yaw = (float)(Mth.atan2(dz, dx) * Mth.RAD_TO_DEG) - 90.0F;
-
         double horizontalDist = Math.sqrt(dx * dx + dz * dz);
-        float pitch = limitAngle(this.getXRot(), (float)(-Mth.atan2(yOffset, horizontalDist) * Mth.RAD_TO_DEG), 5F);
 
-        // Update segment rotation and position
-        this.setXRot(pitch);
-        this.setYRot(parentYRot);
-        this.yHeadRot = parentYRot;
-        this.moveTo(smoothedPos.x, parentPos.y, smoothedPos.z, yaw, pitch);
+        float targetYaw = (float)(Mth.atan2(dz, dx) * Mth.RAD_TO_DEG) - 90.0F;
+        float smoothedYaw = limitAngle(this.getYRot(), targetYaw, 7.5F);
 
-        // Save head reference
+        float targetPitch = (float)(-Mth.atan2(yOffset, horizontalDist) * Mth.RAD_TO_DEG);
+        float smoothedPitch = limitAngle(this.getXRot(), targetPitch, 5F);
+
+        // === NEW: Disable gravity & physics if too far from parent ===
+        double distanceToParent = this.position().distanceTo(parentPos);
+        boolean disablePhysics = distanceToParent > 10.0;
+
+        this.setNoGravity(disablePhysics);
+        this.setDeltaMovement(disablePhysics ? this.getDeltaMovement().multiply(1,0,1) : this.getDeltaMovement());
+        noPhysics = disablePhysics;
+        // Move to new location
+        this.moveTo(smoothedPos.x, onGround() ? this.position().y : smoothedPos.y, smoothedPos.z, smoothedYaw, smoothedPitch);
+        this.setYRot(smoothedYaw);
+        this.setXRot(smoothedPitch);
+        this.yHeadRot = smoothedYaw;
+
         this.headEntityId = headId;
         return smoothedPos;
     }
+
+
 
     private Vec3 calcOffsetVec(float offsetZ, float xRot, float yRot){
         return new Vec3(0, 0, offsetZ).xRot(xRot * Mth.DEG_TO_RAD).yRot(-yRot * Mth.DEG_TO_RAD);

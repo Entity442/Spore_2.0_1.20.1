@@ -42,6 +42,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     public float prevWormAngle;
     public Hohlfresser(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
+        this.setMaxUpStep(1.5F);
     }
 
     @Override
@@ -67,7 +68,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     public float getSpin(){
         float speed = (float) Math.sqrt(this.getDeltaMovement().x * this.getDeltaMovement().x +
                 this.getDeltaMovement().z * this.getDeltaMovement().z);
-        return speed * 2.5F * tickCount;
+        return speed * 0.5F * tickCount;
     }
 
     @Override
