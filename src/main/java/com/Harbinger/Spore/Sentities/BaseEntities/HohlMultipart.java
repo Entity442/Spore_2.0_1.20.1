@@ -39,15 +39,12 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(HohlMultipart.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(HohlMultipart.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> IS_TAIL = SynchedEntityData.defineId(HohlMultipart.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> PARENT_ID = SynchedEntityData.defineId(HohlMultipart.class, EntityDataSerializers.INT);
     private float spin;
     public HohlMultipart(EntityType<? extends LivingEntity> p_20966_, Level p_20967_) {
         super(p_20966_, p_20967_);
         noPhysics = true;
         this.setNoGravity(true);
-    }
-
-    public float getInflation(){
-        return 1f;
     }
 
     @Override
@@ -59,13 +56,17 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
         this.entityData.define(VARIANT, 0);
         this.entityData.define(COLOR, -1);
         this.entityData.define(IS_TAIL, false);
+        this.entityData.define(PARENT_ID,-1);
     }
     public Entity getChild() {
         UUID id = getChildId();
-        if (id != null && !level().isClientSide) {
-            return ((ServerLevel) level()).getEntity(id);
+        if (id != null && level() instanceof ServerLevel serverLevel) {
+            return serverLevel.getEntity(id);
         }
         return null;
+    }
+    public int getParentIntId(){
+        return entityData.get(PARENT_ID);
     }
     @Override
     public void tick() {
@@ -87,11 +88,15 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
         }
     }
     public float getSpin(){
+        if (getParentSafe() instanceof Hohlfresser hohlfresser){
+            spin = hohlfresser.getSpin();
+            return hohlfresser.getSpin();
+        }
         return spin;
     }
-    public Vec3 tickMultipartPosition(int headId, Vec3 parentPos, float parentXRot, float parentYRot, float ourYRot, boolean doHeight,float spin) {
+    public Vec3 tickMultipartPosition(int headId, Vec3 parentPos, float parentXRot, float parentYRot, float ourYRot, boolean doHeight) {
         // Distance between segments (adjust as needed)
-        double spacing = 2.5f * this.getBbWidth();
+        double spacing = 1.5f * this.getBbWidth();
 
         // Offset backward along parent's rotation
         Vec3 offset = calcOffsetVec((float) -spacing, parentXRot, parentYRot);
@@ -126,7 +131,6 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
 
         // Save head reference
         this.headEntityId = headId;
-        this.spin = spin;
         return smoothedPos;
     }
 
@@ -198,7 +202,10 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
     public Entity getParentSafe() {
         UUID id = getParentId();
         if (id != null && level() instanceof ServerLevel serverLevel) {
-            return serverLevel.getEntity(id);
+            Entity parent = serverLevel.getEntity(id);
+            if (parent == null){return null;}
+            this.entityData.set(PARENT_ID,parent.getId());
+            return parent;
         }
         return null;
     }
