@@ -60,8 +60,9 @@ public class HohlSegRenderer<Type extends HohlMultipart> extends LivingEntityRen
 
     private void renderConnection(Type parent, Entity to, PoseStack stack,
                                   MultiBufferSource buffer, float partialTick) {
-        Vec3 start = parent.getPosition(partialTick);
-        Vec3 end = to.getPosition(partialTick);
+        float i = to instanceof HohlMultipart hohlMultipart ? hohlMultipart.getSize() : to instanceof Hohlfresser ? 1.2f : 0f;
+        Vec3 start = parent.getPosition(partialTick).add(0, (parent.getBbHeight() * 0.3f * parent.getSize()),0);
+        Vec3 end = to.getPosition(partialTick).add(0, (to.getBbHeight() * 0.2f * i),0);
 
         Vec3 direction = end.subtract(start);
         float length = (float)direction.length();
@@ -69,7 +70,6 @@ public class HohlSegRenderer<Type extends HohlMultipart> extends LivingEntityRen
 
         float yaw = (float)Math.atan2(direction.x, direction.z);
         float pitch = (float)-Math.asin(direction.y);
-        float i = to instanceof HohlMultipart hohlMultipart ? hohlMultipart.getSize() : to instanceof Hohlfresser ? 1.2f : 0f;
 
         stack.pushPose();
         {
