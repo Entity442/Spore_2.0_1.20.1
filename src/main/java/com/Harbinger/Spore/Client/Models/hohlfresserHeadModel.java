@@ -1221,6 +1221,7 @@ public class hohlfresserHeadModel<T extends Hohlfresser> extends EntityModel<T> 
 		this.animateTentacleX(this.Tendril7,frontTentacle7);
 		this.animateTentacleY(this.Seg2Tendril7,frontTentacle7);
 		this.animateTentacleY(this.Seg3Tendril7,frontTentacle7);
+		hohl_head.zRot = entity.getSpin();
 	}
 
 	@Override
