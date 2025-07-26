@@ -40,6 +40,7 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
     private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(HohlMultipart.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> IS_TAIL = SynchedEntityData.defineId(HohlMultipart.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> PARENT_ID = SynchedEntityData.defineId(HohlMultipart.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Float> SPIN = SynchedEntityData.defineId(HohlMultipart.class, EntityDataSerializers.FLOAT);
     public HohlMultipart(EntityType<? extends LivingEntity> p_20966_, Level p_20967_) {
         super(p_20966_, p_20967_);
         this.setMaxUpStep(1.5F);
@@ -55,6 +56,7 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
         this.entityData.define(COLOR, -1);
         this.entityData.define(IS_TAIL, false);
         this.entityData.define(PARENT_ID,-1);
+        this.entityData.define(SPIN,0f);
     }
     public Entity getChild() {
         UUID id = getChildId();
@@ -84,11 +86,15 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
                 }
             }
         }
+        if (tickCount % 100 == 0){
+            refreshDimensions();
+        }
     }
     public float getSpin(){
         float speed = (float) Math.sqrt(this.getDeltaMovement().x * this.getDeltaMovement().x +
                 this.getDeltaMovement().z * this.getDeltaMovement().z);
-        return speed * 1.25F * tickCount;
+        entityData.set(SPIN,entityData.get(SPIN) + speed * 1.25F * tickCount);
+        return entityData.get(SPIN);
     }
     public Vec3 tickMultipartPosition(int headId, Vec3 parentPos, float parentXRot, float parentYRot, float ourYRot, boolean doHeight) {
         double spacing = 1.5f * this.getBbWidth();
@@ -311,14 +317,6 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
     @Override
     public List<? extends String> debuffs() {
         return List.of();
-    }
-
-    @Override
-    public void onSyncedDataUpdated(List<SynchedEntityData.DataValue<?>> dataValues) {
-        super.onSyncedDataUpdated(dataValues);
-        if (dataValues.equals(SIZE)) {
-            refreshDimensions();
-        }
     }
 
     @Override

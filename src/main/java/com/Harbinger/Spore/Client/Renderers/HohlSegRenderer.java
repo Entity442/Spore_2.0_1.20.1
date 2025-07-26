@@ -62,7 +62,7 @@ public class HohlSegRenderer<Type extends HohlMultipart> extends LivingEntityRen
                                   MultiBufferSource buffer, float partialTick) {
         float i = to instanceof HohlMultipart hohlMultipart ? hohlMultipart.getSize() : to instanceof Hohlfresser ? 1.2f : 0f;
         Vec3 start = parent.getPosition(partialTick).add(0, (parent.getBbHeight() * 0.3f * parent.getSize()),0);
-        Vec3 end = to.getPosition(partialTick).add(0, (to.getBbHeight() * 0.2f * i),0);
+        Vec3 end = to.getPosition(partialTick).add(0, (to.getBbHeight() * 0.45f * i),0);
 
         Vec3 direction = end.subtract(start);
         float length = (float)direction.length();

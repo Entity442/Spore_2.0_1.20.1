@@ -35,6 +35,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     public static final EntityDataAccessor<Boolean> ADAPTED = SynchedEntityData.defineId(Hohlfresser.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> UNDERGROUND = SynchedEntityData.defineId(Hohlfresser.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Float> WORM_ANGLE = SynchedEntityData.defineId(Hohlfresser.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> SPIN = SynchedEntityData.defineId(Hohlfresser.class, EntityDataSerializers.FLOAT);
 
     private HohlMultipart[] parts = null;
     public final float[] ringBuffer = new float[64];
@@ -54,6 +55,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         this.entityData.define(CHILD_UUID, Optional.empty());
         this.entityData.define(CHILD_ID, -1);
         this.entityData.define(WORM_ANGLE, 0f);
+        this.entityData.define(SPIN, 0f);
     }
 
     @Override
@@ -68,7 +70,8 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     public float getSpin(){
         float speed = (float) Math.sqrt(this.getDeltaMovement().x * this.getDeltaMovement().x +
                 this.getDeltaMovement().z * this.getDeltaMovement().z);
-        return speed * 0.5F * tickCount;
+        entityData.set(SPIN,entityData.get(SPIN) + speed * 1.25F * tickCount);
+        return entityData.get(SPIN);
     }
 
     @Override
