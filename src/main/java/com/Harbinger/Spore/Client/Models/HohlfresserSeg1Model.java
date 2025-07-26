@@ -13,8 +13,9 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
-public class HohlfresserSeg1Model<T extends HohlMultipart> extends EntityModel<T> {
+public class HohlfresserSeg1Model<T extends HohlMultipart> extends EntityModel<T> implements TentacledModel{
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "hohlfresser_seg1"), "main");
 	private final ModelPart hohl_seg;
@@ -380,10 +381,28 @@ public class HohlfresserSeg1Model<T extends HohlMultipart> extends EntityModel<T
 
 		return LayerDefinition.create(meshdefinition, 512, 512);
 	}
-
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+		float moveSeg1 = Mth.cos(ageInTicks/6)/7;
+		float moveSeg2 = Mth.sin(ageInTicks/8)/5;
+		float moveSeg3 = Mth.cos(ageInTicks/6)/6;
+		float moveSeg4 = Mth.cos(ageInTicks/5)/5;
+		this.animateTentacleZ(Root1,moveSeg1);
+		this.animateTentacleZ(R1Seg2,moveSeg1);
+		this.animateTentacleZ(R1Seg3,moveSeg1);
+		this.animateTentacleZ(R1Seg4,moveSeg1);
+		this.animateTentacleZ(Tendril1,moveSeg2);
+		this.animateTentacleX(Seg2Tendril1,moveSeg2);
+		this.animateTentacleX(Seg3Tendril1,moveSeg2);
+		this.animateTentacleX(Seg4Tendril1,moveSeg2);
+		this.animateTentacleY(Tendril2,moveSeg3);
+		this.animateTentacleY(Seg2Tendril2,moveSeg3);
+		this.animateTentacleY(Seg3Tendril2,moveSeg3);
+		this.animateTentacleX(Tendril3,moveSeg4);
+		this.animateTentacleX(Seg2Tendril3,moveSeg4);
+		this.animateTentacleX(Seg3Tendril3,moveSeg4);
+		this.animateTentacleX(Seg3Tendril3,moveSeg4);
+		hohl_seg.zRot = entity.getSpin();
 	}
 
 	@Override
