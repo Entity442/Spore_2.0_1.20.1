@@ -13,6 +13,7 @@ import com.Harbinger.Spore.Sentities.BaseEntities.*;
 import com.Harbinger.Spore.Sentities.BasicInfected.InfectedDrowned;
 import com.Harbinger.Spore.Sentities.Calamities.Gazenbrecher;
 import com.Harbinger.Spore.Sentities.Calamities.Hinderburg;
+import com.Harbinger.Spore.Sentities.Calamities.Hohlfresser;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Protector;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
@@ -378,6 +379,9 @@ public class HandlerEvents {
                                     if (calamity instanceof Hinderburg sieger){
                                         player.displayClientMessage(Component.literal("Is armed "+ sieger.isArmed()),false);
                                     }
+                                if (calamity instanceof Hohlfresser sieger){
+                                    player.displayClientMessage(Component.literal("Underground "+ sieger.isUnderground()),false);
+                                }
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
                             }else if (entity1 instanceof Mound mound){
                                     player.displayClientMessage(Component.literal("Entity "+ mound.getEncodeId() + " " + mound.getCustomName()),false);

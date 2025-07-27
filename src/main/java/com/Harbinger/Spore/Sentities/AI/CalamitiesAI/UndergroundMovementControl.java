@@ -21,24 +21,36 @@ public class UndergroundMovementControl extends MoveControl {
         }
     }
     public void moveUnderground() {
-        Vec3 target = new Vec3(wantedX, wantedY, wantedZ);
-        if (target.equals(Vec3.ZERO)) return;
+        // Desired target position
+        double targetX = this.getWantedX();
+        double targetY = this.getWantedY();
+        double targetZ = this.getWantedZ();
+        // Current position
+        double currentX = mob.getX();
+        double currentY = mob.getY();
+        double currentZ = mob.getZ();
 
-        Vec3 currentPos = mob.position();
-        Vec3 direction = target.subtract(currentPos).normalize();
-        double distance = target.distanceTo(currentPos);
+        // Vector from current to target
+        Vec3 toTarget = new Vec3(targetX - currentX, targetY - currentY, targetZ - currentZ);
 
-        // Smooth acceleration/deceleration
-        double speed = Mth.clamp(distance * 0.1, 0.02, 0.2); // Adjust speed dynamically
+        // If we're already close, don't move further
+        if (toTarget.lengthSqr() < 0.001) {
+            mob.setDeltaMovement(Vec3.ZERO);
+            return;
+        }
+
+        // Normalize and scale for speed
+        Vec3 direction = toTarget.normalize();
+        double speed = 0.3; // Adjust to desired underground speed
         Vec3 movement = direction.scale(speed);
 
-        // Apply movement
+        // Apply motion directly
         mob.setDeltaMovement(movement);
         mob.move(MoverType.SELF, movement);
 
-        // Face movement direction smoothly
-        float targetYaw = (float) (Mth.atan2(direction.z, direction.x) * (180F / Math.PI) - 90F);
-        mob.setYRot(Mth.approachDegrees(mob.getYRot(), targetYaw, 10F));
-        mob.setYHeadRot(mob.getYRot());
+        // Optional: rotate to face direction of movement
+        float yaw = (float)(Mth.atan2(direction.z, direction.x) * (180F / Math.PI)) - 90.0F;
+        mob.setYRot(yaw);
+        mob.setYHeadRot(yaw);
     }
 }

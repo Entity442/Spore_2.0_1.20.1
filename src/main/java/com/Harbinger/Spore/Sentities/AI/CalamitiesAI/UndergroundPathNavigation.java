@@ -3,17 +3,14 @@ package com.Harbinger.Spore.Sentities.AI.CalamitiesAI;
 import com.Harbinger.Spore.Sentities.Calamities.Hohlfresser;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.PathNavigationRegion;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.*;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
@@ -46,17 +43,7 @@ public class UndergroundPathNavigation extends GroundPathNavigation {
 
     @Override
     protected boolean canMoveDirectly(Vec3 from, Vec3 to) {
-        // If not underground, use default behavior
-        if (!(this.mob instanceof Hohlfresser hohl) || !hohl.canGoUnderground()) {
-            return super.canMoveDirectly(from, to);
-        }
-
-        // Raycast to check the path
-        BlockHitResult hit = level.clip(new ClipContext(from, to, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, mob));
-        BlockState state = level.getBlockState(hit.getBlockPos());
-
-        // Only allow no-clip if the block is passable
-        return !hohl.isColliding(hit.getBlockPos(), state);
+        return true;
     }
 
     @Override

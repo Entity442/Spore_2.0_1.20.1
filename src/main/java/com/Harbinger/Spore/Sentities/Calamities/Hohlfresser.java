@@ -26,6 +26,7 @@ import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -117,16 +118,22 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     protected void grief(AABB aabb) {
         if (!isUnderground()){
             super.grief(aabb);
+            if (Math.random() < 0.3f){
+                setUnderground(true);
+            }
         }
     }
     public boolean isUnderground(){
         return entityData.get(UNDERGROUND);
     }
-    public void setUnderground(boolean val){
-        entityData.set(UNDERGROUND,val);
-        if (val){
-            this.setDeltaMovement(getDeltaMovement().add(0,-0.1,0));
-            ticksBeforeComingUp = 40;
+    public void setUnderground(boolean val) {
+        entityData.set(UNDERGROUND, val);
+        if (val) {
+            entityData.set(VULNERABLE, 0);
+            ticksBeforeComingUp = 80;
+            this.setDeltaMovement(getDeltaMovement().add(0, -0.1, 0));
+        } else {
+            entityData.set(VULNERABLE, 200);
         }
     }
     @Override
@@ -137,7 +144,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         }
 
         boolean shouldCollide = (!state.is(BlockTags.MINEABLE_WITH_SHOVEL) && !state.is(BlockTags.MINEABLE_WITH_PICKAXE))
-                || !(state.getDestroySpeed(level(), pos) <= 3); // Default: collides
+                || !(state.getDestroySpeed(level(), pos) <= 3) || !(state.getBlock() instanceof BushBlock); // Default: collides
         // Store in cache
         collisionCache.put(pos.immutable(), shouldCollide);
         return shouldCollide;
@@ -146,10 +153,8 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     @Override
     public void travel(Vec3 travelVector) {
         this.setNoGravity(isUnderground());
+        this.noPhysics = isUnderground();
         super.travel(travelVector);
-        if (moveControl.getWantedY() < this.getY() && entityData.get(VULNERABLE) <= 0){
-            setUnderground(true);
-        }
     }
 
     @Override
@@ -300,12 +305,27 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
                 }
             }
         }
-        if (tickCount % 20 == 0 && ticksBeforeComingUp <= 0 && level().canSeeSky(this.getOnPos())){
-            setUnderground(false);
+        if (tickCount % 20 == 0 && isUnderground() && ticksBeforeComingUp <= 0) {
+            boolean canSeeSky = level().canSeeSky(this.getOnPos());
+            boolean col = !checkBlocksForCol();
+            if (canSeeSky || col) {
+                setUnderground(false);
+            }
+        } else if (!isUnderground()){
+            if (moveControl.getWantedY() < this.getY() && entityData.get(VULNERABLE) <= 0){
+                setUnderground(true);
+            }
         }
         if (ticksBeforeComingUp > 0){
             ticksBeforeComingUp--;
         }
+    }
+    public boolean checkBlocksForCol(){
+        AABB aabb = this.getBoundingBox().inflate(0.9);
+        for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+            return !isColliding(blockpos,level().getBlockState(blockpos));
+        }
+        return false;
     }
     private float getYawForPart(int i) {
         return this.getRingBuffer(4 + i * 2, 1.0F);
@@ -346,9 +366,6 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
 
     @Override
     public boolean hasLineOfSight(Entity entity) {
-        if (isUnderground()){
-            return true;
-        }
-        return super.hasLineOfSight(entity);
+        return true;
     }
 }
