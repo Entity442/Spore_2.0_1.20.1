@@ -129,7 +129,13 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
         boolean disablePhysics = distanceToParent > 5.0;
 
         this.setNoGravity(disablePhysics);
-        this.setDeltaMovement(disablePhysics ? getParentSafe().getDeltaMovement().multiply(1,0,1) : getParentSafe().getDeltaMovement());
+        Entity entity = getParentSafe();
+        if (entity != null){
+            if (disablePhysics){
+                teleportTo(entity.getX(),entity.getY(),entity.getZ());
+            }
+            this.setDeltaMovement(disablePhysics ? entity.getDeltaMovement().multiply(1,0,1) : entity.getDeltaMovement());
+        }
         noPhysics = disablePhysics;
         // Move to new location
         this.moveTo(smoothedPos.x, onGround() ? this.position().y : smoothedPos.y, smoothedPos.z, smoothedYaw, smoothedPitch);

@@ -9,11 +9,13 @@ import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.BaseEntities.HohlMultipart;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -24,6 +26,8 @@ import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
@@ -45,6 +49,8 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     public Hohlfresser(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         this.setMaxUpStep(1.5F);
+        this.moveControl = new UndergroundMovementControl(this);
+        this.navigation = new UndergroundPathNavigation(this,level);
     }
 
     @Override
@@ -56,16 +62,6 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         this.entityData.define(CHILD_UUID, Optional.empty());
         this.entityData.define(CHILD_ID, -1);
         this.entityData.define(WORM_ANGLE, 0f);
-    }
-
-    @Override
-    public void onSyncedDataUpdated(List<SynchedEntityData.DataValue<?>> dataValues) {
-        super.onSyncedDataUpdated(dataValues);
-        if (dataValues.equals(UNDERGROUND)) {
-            if (!entityData.get(UNDERGROUND)) {
-                entityData.set(VULNERABLE, 600);
-            }
-        }
     }
     public float getSpin(){
         float speed = (float) Math.sqrt(this.getDeltaMovement().x * this.getDeltaMovement().x +
@@ -86,10 +82,6 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
 
     public boolean canGoUnderground() {
         return !entityData.get(UNDERGROUND) && entityData.get(VULNERABLE) <= 0;
-    }
-
-    public boolean canContinueBeingUnderground() {
-        return entityData.get(UNDERGROUND);
     }
 
     @Override
@@ -118,6 +110,46 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     public void setDefaultAdaptation(ServerLevelAccessor level) {
         super.setDefaultAdaptation(level);
         entityData.set(ADAPTED, true);
+    }
+
+    @Override
+    protected void grief(AABB aabb) {
+        if (!isUnderground()){
+            super.grief(aabb);
+        }
+    }
+    public boolean isUnderground(){
+        return entityData.get(UNDERGROUND);
+    }
+    @Override
+    public boolean isColliding(BlockPos pos, BlockState state) {
+        if ((state.is(BlockTags.MINEABLE_WITH_SHOVEL) || state.is(BlockTags.MINEABLE_WITH_PICKAXE))
+                && state.getDestroySpeed(level(), pos) <= 3) {
+            return false;
+        }
+        return super.isColliding(pos, state);
+    }
+
+    @Override
+    public void travel(Vec3 travelVector) {
+
+        if (isUnderground()) {
+            noPhysics = true;
+            this.setNoGravity(true);
+        } else {
+            noPhysics = false;
+            this.setNoGravity(false);
+        }
+        super.travel(travelVector);
+        if (moveControl.getWantedY() < this.getY() && entityData.get(VULNERABLE) <= 0){
+            entityData.set(UNDERGROUND,true);
+        }
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        System.out.print(source.getMsgId());
+        return super.hurt(source, amount);
     }
 
     @Override
@@ -211,6 +243,9 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         } else if (this.getWormAngle() < 0) {
             this.setWormAngle(Math.min(this.getWormAngle() + 20, 0));
         }
+        if (entityData.get(VULNERABLE) > 0){
+            entityData.set(VULNERABLE,entityData.get(VULNERABLE)-1);
+        }
 
         if (!this.level().isClientSide) {
             final Entity child = getChild();
@@ -218,13 +253,10 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
                 float size = 1;
                 LivingEntity partParent = this;
                 parts = new HohlMultipart[getSegments()];
-                Vec3 vec3 = (new Vec3(-2.5,0,1.75)).yRot(-this.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
-                Vec3 prevPos = this.position().add(vec3);
                 for (int i = 0; i < getSegments(); i++) {
                     size = size - 0.1f;
-                    final float prevReqRot = calcPartRotation(i) + getYawForPart(i);
-                    final float reqRot = calcPartRotation(i + 1) + getYawForPart(i);
                     HohlMultipart part = new HohlMultipart(Sentities.HOHLFRESSER_SEG.get(), this.level());
+                    part.setPos(this.getX(),this.getY(),this.getZ());
                     part.setParent(partParent);
                     part.setSize(size);
                     part.setIsTail(i == getSegments()-1);
@@ -235,11 +267,9 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
                     if (partParent instanceof HohlMultipart partIndex) {
                         partIndex.setChildId(part.getUUID());
                     }
-                    part.setPos(part.tickMultipartPosition(this.getId(), prevPos, this.getXRot(), prevReqRot, reqRot, true));
                     partParent = part;
                     level().addFreshEntity(part);
                     parts[i] = part;
-                    prevPos = part.position();
                 }
             }
             if (shouldReplaceParts() && this.getChild() instanceof HohlMultipart) {
@@ -282,10 +312,6 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         return Mth.wrapDegrees(d0 + d1 * partialTicks);
     }
 
-    private float calcPartRotation(int i) {
-        float angle = (float) (-Math.sin(this.walkDist * 3 - i) * 40);
-        return angle * 0.5f * i;
-    }
     @Override
     public boolean isInvulnerableTo(DamageSource source) {
         return source.is(DamageTypes.IN_WALL)  || source.is(DamageTypes.FALL);
@@ -295,7 +321,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         this.goalSelector.addGoal(4, new AOEMeleeAttackGoal(this, 1.5, false, 2.5, 6 ,livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}) {
             protected double getAttackReachSqr(LivingEntity entity) {
                 float f = Hohlfresser.this.getBbWidth();
-                return f * 3.0F * f * 3.0F + entity.getBbWidth();
+                return f * 1.5F * f * 1.5F + entity.getBbWidth();
             }
         });
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.2));
@@ -304,5 +330,13 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         this.goalSelector.addGoal(8, new SporeBurstSupport(this));
         this.goalSelector.addGoal(9, new RandomStrollGoal(this, 1));
         super.registerGoals();
+    }
+
+    @Override
+    public boolean hasLineOfSight(Entity entity) {
+        if (isUnderground()){
+            return true;
+        }
+        return super.hasLineOfSight(entity);
     }
 }
