@@ -41,7 +41,8 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     public static final EntityDataAccessor<Boolean> UNDERGROUND = SynchedEntityData.defineId(Hohlfresser.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Float> WORM_ANGLE = SynchedEntityData.defineId(Hohlfresser.class, EntityDataSerializers.FLOAT);
     private float spin = 0;
-
+    private int ticksBeforeComingUp = 0;
+    private final Map<BlockPos, Boolean> collisionCache = new WeakHashMap<>();
     private HohlMultipart[] parts = null;
     public final float[] ringBuffer = new float[64];
     public int ringBufferIndex = -1;
@@ -57,7 +58,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(ADAPTED, false);
-        this.entityData.define(UNDERGROUND, true);
+        this.entityData.define(UNDERGROUND, false);
         this.entityData.define(VULNERABLE, 0);
         this.entityData.define(CHILD_UUID, Optional.empty());
         this.entityData.define(CHILD_ID, -1);
@@ -121,28 +122,33 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     public boolean isUnderground(){
         return entityData.get(UNDERGROUND);
     }
+    public void setUnderground(boolean val){
+        entityData.set(UNDERGROUND,val);
+        if (val){
+            this.setDeltaMovement(getDeltaMovement().add(0,-0.1,0));
+            ticksBeforeComingUp = 40;
+        }
+    }
     @Override
     public boolean isColliding(BlockPos pos, BlockState state) {
-        if ((state.is(BlockTags.MINEABLE_WITH_SHOVEL) || state.is(BlockTags.MINEABLE_WITH_PICKAXE))
-                && state.getDestroySpeed(level(), pos) <= 3) {
-            return false;
+        // Check cache first
+        if (collisionCache.containsKey(pos)) {
+            return collisionCache.get(pos);
         }
-        return super.isColliding(pos, state);
+
+        boolean shouldCollide = (!state.is(BlockTags.MINEABLE_WITH_SHOVEL) && !state.is(BlockTags.MINEABLE_WITH_PICKAXE))
+                || !(state.getDestroySpeed(level(), pos) <= 3); // Default: collides
+        // Store in cache
+        collisionCache.put(pos.immutable(), shouldCollide);
+        return shouldCollide;
     }
 
     @Override
     public void travel(Vec3 travelVector) {
-
-        if (isUnderground()) {
-            noPhysics = true;
-            this.setNoGravity(true);
-        } else {
-            noPhysics = false;
-            this.setNoGravity(false);
-        }
+        this.setNoGravity(isUnderground());
         super.travel(travelVector);
         if (moveControl.getWantedY() < this.getY() && entityData.get(VULNERABLE) <= 0){
-            entityData.set(UNDERGROUND,true);
+            setUnderground(true);
         }
     }
 
@@ -293,6 +299,12 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
                     xRot = parts[i].getXRot();
                 }
             }
+        }
+        if (tickCount % 20 == 0 && ticksBeforeComingUp <= 0 && level().canSeeSky(this.getOnPos())){
+            setUnderground(false);
+        }
+        if (ticksBeforeComingUp > 0){
+            ticksBeforeComingUp--;
         }
     }
     private float getYawForPart(int i) {
