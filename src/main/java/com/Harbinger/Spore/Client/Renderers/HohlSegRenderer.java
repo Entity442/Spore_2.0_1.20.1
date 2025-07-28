@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Client.Renderers;
 
 import com.Harbinger.Spore.Client.Models.HohlfresserSeg1Model;
+import com.Harbinger.Spore.Client.Models.hohlfresserTailModel;
 import com.Harbinger.Spore.Sentities.BaseEntities.HohlMultipart;
 import com.Harbinger.Spore.Sentities.Calamities.Hohlfresser;
 import com.Harbinger.Spore.Spore;
@@ -8,6 +9,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -23,14 +25,16 @@ import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
 @OnlyIn(Dist.CLIENT)
-public class HohlSegRenderer<Type extends HohlMultipart> extends LivingEntityRenderer<Type , HohlfresserSeg1Model<Type>> {
+public class HohlSegRenderer<Type extends HohlMultipart> extends LivingEntityRenderer<Type , EntityModel<Type>> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/hohl_seg1.png");
     private static final ResourceLocation INNARDS = new ResourceLocation(Spore.MODID,
             "textures/entity/worm_innards.png");
-
+    private final EntityModel<Type> mainSegment = this.getModel();
+    private final EntityModel<Type> tailModel;
     public HohlSegRenderer(EntityRendererProvider.Context context) {
         super(context, new HohlfresserSeg1Model<>(context.bakeLayer(HohlfresserSeg1Model.LAYER_LOCATION)), 4f);
+        tailModel = new hohlfresserTailModel<>(context.bakeLayer(hohlfresserTailModel.LAYER_LOCATION));
     }
 
     @Override
@@ -47,6 +51,7 @@ public class HohlSegRenderer<Type extends HohlMultipart> extends LivingEntityRen
 
     @Override
     public void render(Type type, float val1, float val2, PoseStack stack, MultiBufferSource source, int light) {
+        model = type.isTail() ? tailModel : mainSegment;
         super.render(type, val1, val2, stack, source, light);
         ClientLevel level = Minecraft.getInstance().level;
         int i = type.getParentIntId();
