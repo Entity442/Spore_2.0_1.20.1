@@ -26,7 +26,6 @@ import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -116,9 +115,13 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     @Override
     protected void grief(AABB aabb) {
         if (!isUnderground()){
-            super.grief(aabb);
+            DamageSource source = this.getLastDamageSource();
+            AABB box = source == null ? aabb : aabb.move(new Vec3(0,1,0));
             if (Math.random() < 0.2f){
                 handleDigIn();
+            }
+            if (this.tickCount % 20 == 0){
+                super.grief(box);
             }
         }
     }
@@ -128,7 +131,6 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     public void setUnderground(boolean val) {
         if (val) {
             ticksUnder = 40;
-            entityData.set(VULNERABLE, 0);
         } else {
             entityData.set(VULNERABLE, 200);
         }
