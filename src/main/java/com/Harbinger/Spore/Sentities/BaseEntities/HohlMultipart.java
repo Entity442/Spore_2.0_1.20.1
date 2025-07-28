@@ -47,6 +47,11 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
     }
 
     @Override
+    public boolean canBeCollidedWith() {
+        return false;
+    }
+
+    @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(CHILD_UUID, Optional.empty());

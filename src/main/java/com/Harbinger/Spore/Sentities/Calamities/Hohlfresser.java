@@ -42,12 +42,11 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     public static final EntityDataAccessor<Boolean> UNDERGROUND = SynchedEntityData.defineId(Hohlfresser.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Float> WORM_ANGLE = SynchedEntityData.defineId(Hohlfresser.class, EntityDataSerializers.FLOAT);
     private float spin = 0;
-    private int ticksBeforeComingUp = 0;
-    private final Map<BlockPos, Boolean> collisionCache = new WeakHashMap<>();
     private HohlMultipart[] parts = null;
     public final float[] ringBuffer = new float[64];
     public int ringBufferIndex = -1;
     public float prevWormAngle;
+    private int ticksUnder;
     public Hohlfresser(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         this.setMaxUpStep(1.5F);
@@ -118,8 +117,8 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     protected void grief(AABB aabb) {
         if (!isUnderground()){
             super.grief(aabb);
-            if (Math.random() < 0.3f){
-                setUnderground(true);
+            if (Math.random() < 0.2f){
+                handleDigIn();
             }
         }
     }
@@ -127,46 +126,19 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         return entityData.get(UNDERGROUND);
     }
     public void setUnderground(boolean val) {
-        entityData.set(UNDERGROUND, val);
         if (val) {
+            ticksUnder = 40;
             entityData.set(VULNERABLE, 0);
-            ticksBeforeComingUp = 80;
-            this.setDeltaMovement(getDeltaMovement().add(0, -0.1, 0));
         } else {
             entityData.set(VULNERABLE, 200);
         }
-    }
-    @Override
-    public boolean isColliding(BlockPos pos, BlockState state) {
-        // Check cache first
-        if (collisionCache.containsKey(pos)) {
-            return collisionCache.get(pos);
-        }
-
-        boolean shouldCollide = (!state.is(BlockTags.MINEABLE_WITH_SHOVEL) && !state.is(BlockTags.MINEABLE_WITH_PICKAXE))
-                || !(state.getDestroySpeed(level(), pos) <= 3) || !(state.getBlock() instanceof BushBlock); // Default: collides
-        // Store in cache
-        collisionCache.put(pos.immutable(), shouldCollide);
-        return shouldCollide;
-    }
-
-    @Override
-    public void travel(Vec3 travelVector) {
-        this.setNoGravity(isUnderground());
-        this.noPhysics = isUnderground();
-        super.travel(travelVector);
-    }
-
-    @Override
-    public boolean hurt(DamageSource source, float amount) {
-        System.out.print(source.getMsgId());
-        return super.hurt(source, amount);
+        entityData.set(UNDERGROUND, val);
+        this.noPhysics = val;
     }
 
     @Override
     public boolean hurt(CalamityMultipart calamityMultipart, DamageSource source, float value) {
-        this.hurt(source, value);
-        return false;
+        return this.hurt(source, value);
     }
     public void setWormAngle(float angle){
         this.entityData.set(WORM_ANGLE,angle);
@@ -305,27 +277,48 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
                 }
             }
         }
-        if (tickCount % 20 == 0 && isUnderground() && ticksBeforeComingUp <= 0) {
-            boolean canSeeSky = level().canSeeSky(this.getOnPos());
-            boolean col = !checkBlocksForCol();
-            if (canSeeSky || col) {
-                setUnderground(false);
-            }
-        } else if (!isUnderground()){
-            if (moveControl.getWantedY() < this.getY() && entityData.get(VULNERABLE) <= 0){
-                setUnderground(true);
-            }
+        if (isUnderground()) {
+            handleUnearthing();
         }
-        if (ticksBeforeComingUp > 0){
-            ticksBeforeComingUp--;
+        if (tickCount % 10 == 0 && !isUnderground() && entityData.get(VULNERABLE) <= 0){
+            handleDigIn();
+        }
+        if (ticksUnder > 0){ticksUnder--;}
+    }
+    public void handleDigIn(){
+        double val = level().getBlockState(getOnPos()).getDestroySpeed(level(),getOnPos());
+        boolean surface = val >= 0 || val <= 3;
+        boolean tooDeep =  level().getMinBuildHeight() < this.getY() - 5;
+        if ((moveControl.getWantedY() < this.getY()-1 || moveControl.getWantedY() > this.getY()+1) && surface && tooDeep){
+            setUnderground(true);
         }
     }
-    public boolean checkBlocksForCol(){
-        AABB aabb = this.getBoundingBox().inflate(0.9);
-        for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
-            return !isColliding(blockpos,level().getBlockState(blockpos));
+
+    public void handleUnearthing(){
+        AABB aabb = this.getBoundingBox().inflate(1,1.4,1);
+        int airAmount = 0;
+        boolean meetsHardBlock = false;
+        boolean meetsWrongBlock = false;
+        for(BlockPos blockpos : BlockPos.betweenClosed(
+                Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ),
+                Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+            BlockState state = level().getBlockState(blockpos);
+            double hardness = state.getDestroySpeed(level(),blockpos);
+            if (level().canSeeSky(blockpos) && ticksUnder <= 0){
+                airAmount++;
+            }
+            if (!(state.is(BlockTags.MINEABLE_WITH_SHOVEL) || state.is(BlockTags.MINEABLE_WITH_PICKAXE)) && hardness != 0) {
+                meetsWrongBlock = true;
+                break;
+            }
+            if (hardness < 0 || hardness > 3){
+                meetsHardBlock = true;
+                break;
+            }
         }
-        return false;
+        if (airAmount >= 8 || meetsHardBlock || meetsWrongBlock){
+            setUnderground(false);
+        }
     }
     private float getYawForPart(int i) {
         return this.getRingBuffer(4 + i * 2, 1.0F);

@@ -1,56 +1,52 @@
 package com.Harbinger.Spore.Sentities.AI.CalamitiesAI;
 
 import com.Harbinger.Spore.Sentities.Calamities.Hohlfresser;
+import com.Harbinger.Spore.Sentities.MovementControls.CalamityMovementControl;
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.control.MoveControl;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.Shapes;
 
-public class UndergroundMovementControl extends MoveControl {
+public class UndergroundMovementControl extends CalamityMovementControl {
     public UndergroundMovementControl(Mob mob) {
-        super(mob);
+        super(mob, 30);
     }
 
     @Override
     public void tick() {
-        if (this.mob instanceof Hohlfresser worm && worm.canGoUnderground()) {
-            moveUnderground();
-        } else {
-            super.tick(); // Fall back to normal movement
-        }
+        moveUnderground();
+        mob.setNoGravity(isInWall(mob));
     }
+
+    boolean isInWall(LivingEntity mob){
+        float f = mob.getBbWidth() * 0.8F;
+        AABB aabb = AABB.ofSize(mob.getEyePosition().add(0,-0.05,0), (double)f, 1.0E-6, (double)f);
+        return BlockPos.betweenClosedStream(aabb).anyMatch((p_201942_) -> {
+            BlockState blockstate = mob.level().getBlockState(p_201942_);
+            return !blockstate.isAir() && blockstate.isSuffocating(mob.level(), p_201942_) && Shapes.joinIsNotEmpty(blockstate.getCollisionShape(mob.level(), p_201942_).move((double)p_201942_.getX(), (double)p_201942_.getY(), (double)p_201942_.getZ()), Shapes.create(aabb), BooleanOp.AND);
+        });
+    }
+
     public void moveUnderground() {
-        // Desired target position
-        double targetX = this.getWantedX();
-        double targetY = this.getWantedY();
-        double targetZ = this.getWantedZ();
-        // Current position
-        double currentX = mob.getX();
-        double currentY = mob.getY();
-        double currentZ = mob.getZ();
-
-        // Vector from current to target
-        Vec3 toTarget = new Vec3(targetX - currentX, targetY - currentY, targetZ - currentZ);
-
-        // If we're already close, don't move further
-        if (toTarget.lengthSqr() < 0.001) {
-            mob.setDeltaMovement(Vec3.ZERO);
-            return;
+        if (this.operation == MoveControl.Operation.MOVE_TO) {
+            Vec3 vec3 = new Vec3(this.wantedX - this.mob.getX(), this.wantedY - this.mob.getY(), this.wantedZ - this.mob.getZ());
+            vec3 = vec3.normalize();
+            double speed = mob instanceof Hohlfresser hohlfresser && hohlfresser.isUnderground() ? 0.03D : 0.1D;
+            this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(vec3.scale(speed)));
+            float yaw = (float)(Mth.atan2(vec3.z, vec3.x) * (180F / Math.PI)) - 90.0F;
+            mob.setYRot(yaw);
+            mob.setYHeadRot(yaw);
         }
-
-        // Normalize and scale for speed
-        Vec3 direction = toTarget.normalize();
-        double speed = 0.3; // Adjust to desired underground speed
-        Vec3 movement = direction.scale(speed);
-
-        // Apply motion directly
-        mob.setDeltaMovement(movement);
-        mob.move(MoverType.SELF, movement);
-
-        // Optional: rotate to face direction of movement
-        float yaw = (float)(Mth.atan2(direction.z, direction.x) * (180F / Math.PI)) - 90.0F;
-        mob.setYRot(yaw);
-        mob.setYHeadRot(yaw);
+        if (this.operation == Operation.WAIT){
+            if (!this.hasWanted() && this.mob.getTarget() == null){
+                this.mob.setDeltaMovement(Vec3.ZERO);
+            }
+        }
     }
 }
