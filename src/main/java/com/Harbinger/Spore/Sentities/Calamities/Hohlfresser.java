@@ -280,17 +280,19 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         if (isUnderground()) {
             handleUnearthing();
         }
-        if (tickCount % 10 == 0 && !isUnderground() && entityData.get(VULNERABLE) <= 0){
+        if (tickCount % 10 == 0){
             handleDigIn();
         }
         if (ticksUnder > 0){ticksUnder--;}
     }
     public void handleDigIn(){
-        double val = level().getBlockState(getOnPos()).getDestroySpeed(level(),getOnPos());
-        boolean surface = val >= 0 || val <= 3;
-        boolean tooDeep =  level().getMinBuildHeight() < this.getY() - 5;
-        if ((moveControl.getWantedY() < this.getY()-1 || moveControl.getWantedY() > this.getY()+1) && surface && tooDeep){
-            setUnderground(true);
+        if (!isUnderground() && entityData.get(VULNERABLE) <= 0){
+            double val = level().getBlockState(getOnPos()).getDestroySpeed(level(),getOnPos());
+            boolean surface = val >= 0 || val <= 3;
+            boolean tooDeep =  level().getMinBuildHeight() < this.getY() - 5;
+            if ((moveControl.getWantedY() < this.getY() || moveControl.getWantedY() > this.getY()) && surface && tooDeep){
+                setUnderground(true);
+            }
         }
     }
 
