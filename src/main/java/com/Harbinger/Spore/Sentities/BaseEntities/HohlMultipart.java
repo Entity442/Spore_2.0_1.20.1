@@ -23,6 +23,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraftforge.fluids.FluidType;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -50,7 +51,10 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
     public boolean canBeCollidedWith() {
         return false;
     }
-
+    @Override
+    public boolean canDrownInFluidType(FluidType type) {
+        return false;
+    }
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();

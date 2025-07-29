@@ -33,6 +33,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.fluids.FluidType;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -369,6 +370,11 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         this.goalSelector.addGoal(7, new SummonScentInCombat(this));
         this.goalSelector.addGoal(8, new SporeBurstSupport(this));
         super.registerGoals();
+    }
+
+    @Override
+    public boolean canDrownInFluidType(FluidType type) {
+        return false;
     }
 
     @Override

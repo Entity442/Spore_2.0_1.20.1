@@ -36,7 +36,7 @@ public class UndergroundMovementControl extends CalamityMovementControl {
         if (this.operation == MoveControl.Operation.MOVE_TO) {
             Vec3 vec3 = new Vec3(this.wantedX - this.mob.getX(), this.wantedY - this.mob.getY(), this.wantedZ - this.mob.getZ());
             vec3 = vec3.normalize();
-            vec3 = isInWall(mob) ? vec3 : vec3.multiply(1,0,1);
+            vec3 = vec3.multiply(1,isInWall(mob) ? 1 : 0,1);
             double speed = mob instanceof Hohlfresser hohlfresser && hohlfresser.isUnderground() ? 0.05D : 0.15D;
             this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(vec3.scale(speed)));
             float yaw = (float)(Mth.atan2(vec3.z, vec3.x) * (180F / Math.PI)) - 90.0F;
