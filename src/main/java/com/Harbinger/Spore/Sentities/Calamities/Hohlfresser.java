@@ -300,14 +300,55 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
             handleDigIn();
         }
         if (ticksUnder > 0){ticksUnder--;}
+        if (tickCount % 20 == 0 && isMoving() && isUnderground() && this.getTarget() != null){
+            tryAndCrumbleBlocks();
+        }
+    }
+
+    public void tryAndCrumbleBlocks(){
+        boolean canGrief = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this);
+        if (!canGrief){
+            return;
+        }
+        AABB aabb = this.getBoundingBox().inflate(8);
+        for(BlockPos blockpos : BlockPos.betweenClosed(
+                Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ),
+                Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+            BlockState state = this.level().getBlockState(blockpos);
+            BlockState stateBelow = this.level().getBlockState(blockpos.below());
+            boolean canFall = stateBelow.isAir() || stateBelow.liquid();
+            if (canFall && Math.random() <0.01f){
+                if (state.getDestroySpeed(this.level(),blockpos) <= SConfig.SERVER.calamity_bd.get()){
+                    this.level().removeBlock(blockpos,false);
+                    FallingBlockEntity.fall(this.level(),blockpos,state);
+                }
+            }
+        }
     }
     public void handleDigIn(){
         if (!isUnderground() && entityData.get(VULNERABLE) <= 0){
-            double val = level().getBlockState(getOnPos()).getDestroySpeed(level(),getOnPos());
-            boolean surface = val >= 0 || val <= 3;
+            AABB aabb = this.getBoundingBox().inflate(1,1.4,1);
+            boolean surface = true;
+            boolean hardnessT = true;
+            for(BlockPos blockpos : BlockPos.betweenClosed(
+                    Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ),
+                    Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+                BlockState state = level().getBlockState(blockpos);
+                double hardness = state.getDestroySpeed(level(),blockpos);
+                if (state.is(BlockTags.MINEABLE_WITH_SHOVEL) || state.is(BlockTags.MINEABLE_WITH_PICKAXE) || state.liquid()) {
+                    surface = false;
+                    break;
+                }
+                if (hardness < 0 || hardness > 3){
+                    hardnessT = false;
+                    break;
+                }
+            }
             boolean tooDeep =  level().getMinBuildHeight() < this.getY() - 5;
-            if ((moveControl.getWantedY() < this.getY() || moveControl.getWantedY() > this.getY()) && surface && tooDeep){
-                setUnderground(true);
+            if (surface && hardnessT && tooDeep){
+                if (moveControl.getWantedY() < this.getY() || moveControl.getWantedY() > this.getY()){
+                    setUnderground(true);
+                }
             }
         }
     }
@@ -414,34 +455,6 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         @Override
         public void tick() {
             super.tick();
-            if (mob.tickCount % 40 == 0 && isMoving()){
-                tryAndCrumbleBlocks();
-            }
-        }
-        boolean isMoving(){
-            return Math.sqrt(mob.getDeltaMovement().x * mob.getDeltaMovement().x +
-                    mob.getDeltaMovement().z * mob.getDeltaMovement().z) > 0;
-        }
-
-        public void tryAndCrumbleBlocks(){
-            boolean canGrief = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(mob.level(), mob);
-            if (!canGrief){
-                return;
-            }
-            AABB aabb = mob.getBoundingBox().inflate(6);
-            for(BlockPos blockpos : BlockPos.betweenClosed(
-                    Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ),
-                    Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
-                BlockState state = mob.level().getBlockState(blockpos);
-                BlockState stateBelow = mob.level().getBlockState(blockpos.below());
-                boolean canFall = stateBelow.isAir() || stateBelow.liquid();
-                if (canFall && Math.random() <0.1f){
-                    if (state.getDestroySpeed(mob.level(),blockpos) <= SConfig.SERVER.calamity_bd.get()){
-                        mob.level().removeBlock(blockpos,false);
-                        FallingBlockEntity.fall(mob.level(),blockpos,state);
-                    }
-                }
-            }
         }
     }
 }
