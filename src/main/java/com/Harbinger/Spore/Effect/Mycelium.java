@@ -1,10 +1,8 @@
 package com.Harbinger.Spore.Effect;
 
-import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Damage.SdamageTypes;
-import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
-import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
+import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,7 +14,7 @@ public class Mycelium extends MobEffect {
     }
 
     public void applyEffectTick(LivingEntity entity, int intense) {
-        if (!(SConfig.SERVER.mycelium.get().contains(entity.getEncodeId()) || entity instanceof Infected || entity instanceof UtilityEntity)){
+        if (Utilities.TARGET_SELECTOR.Test(entity)){
             if (this == Seffects.MYCELIUM.get()) {
                 if (!entity.level().isClientSide && entity instanceof Player player && player.getFoodData().getFoodLevel() > 0 && intense < 1){
                     player.causeFoodExhaustion(1.0F);

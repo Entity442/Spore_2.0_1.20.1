@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sblocks;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sblocks;
+import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import net.minecraft.core.BlockPos;
@@ -103,7 +104,7 @@ public class HangingPlant extends GenericFoliageBlock {
 
 
     public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
-        if (entity instanceof LivingEntity && !(entity instanceof Infected || entity instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(entity.getEncodeId()) || SConfig.SERVER.mycelium.get().contains(entity.getEncodeId()))) {
+        if (entity instanceof LivingEntity living && !(living instanceof Infected || Utilities.TARGET_SELECTOR.Test(living) || SConfig.SERVER.mycelium.get().contains(living.getEncodeId()))) {
             entity.makeStuckInBlock(state, new Vec3((double)0.8F, 0.75D, (double)0.8F));
             if (!level.isClientSide && (entity.xOld != entity.getX() || entity.zOld != entity.getZ())) {
                 double d0 = Math.abs(entity.getX() - entity.xOld);
