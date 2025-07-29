@@ -327,28 +327,11 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     }
     public void handleDigIn(){
         if (!isUnderground() && entityData.get(VULNERABLE) <= 0){
-            AABB aabb = this.getBoundingBox().inflate(1,1.4,1);
-            boolean surface = true;
-            boolean hardnessT = true;
-            for(BlockPos blockpos : BlockPos.betweenClosed(
-                    Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ),
-                    Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
-                BlockState state = level().getBlockState(blockpos);
-                double hardness = state.getDestroySpeed(level(),blockpos);
-                if (state.is(BlockTags.MINEABLE_WITH_SHOVEL) || state.is(BlockTags.MINEABLE_WITH_PICKAXE) || state.liquid()) {
-                    surface = false;
-                    break;
-                }
-                if (hardness < 0 || hardness > 3){
-                    hardnessT = false;
-                    break;
-                }
-            }
+            double val = level().getBlockState(getOnPos()).getDestroySpeed(level(),getOnPos());
+            boolean surface = val >= 0 || val <= 3;
             boolean tooDeep =  level().getMinBuildHeight() < this.getY() - 5;
-            if (surface && hardnessT && tooDeep){
-                if (moveControl.getWantedY() < this.getY() || moveControl.getWantedY() > this.getY()){
-                    setUnderground(true);
-                }
+            if ((moveControl.getWantedY() < this.getY() || moveControl.getWantedY() > this.getY()) && surface && tooDeep){
+                setUnderground(true);
             }
         }
     }
