@@ -58,7 +58,7 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
         this.entityData.define(PARENT_UUID, Optional.empty());
         this.entityData.define(SIZE, 1f);
         this.entityData.define(VARIANT, 0);
-        this.entityData.define(COLOR, -1);
+        this.entityData.define(COLOR, 0);
         this.entityData.define(IS_TAIL, false);
         this.entityData.define(PARENT_ID,-1);
     }

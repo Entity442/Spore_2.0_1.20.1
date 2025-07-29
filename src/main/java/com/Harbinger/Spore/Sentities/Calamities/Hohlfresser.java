@@ -368,7 +368,6 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         this.goalSelector.addGoal(7, new SummonScentInCombat(this));
         this.goalSelector.addGoal(8, new SporeBurstSupport(this));
         this.goalSelector.addGoal(9, new RandomStrollGoal(this, 1));
-        this.goalSelector.addGoal(6, new FloatDiveGoal(this));
         super.registerGoals();
     }
 
