@@ -251,6 +251,15 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_debuffs;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_explosive_effects;
 
+
+        public final ForgeConfigSpec.ConfigValue<Double> hohl_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> hohl_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> hohl_armor;
+        public final ForgeConfigSpec.ConfigValue<Double> hohl_dpsr;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> hohl_buffs;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> hohl_debuffs;
+
+
         public final ForgeConfigSpec.ConfigValue<Double> howit_hp;
         public final ForgeConfigSpec.ConfigValue<Double> howit_damage;
         public final ForgeConfigSpec.ConfigValue<Double> howit_armor;
@@ -844,6 +853,18 @@ public class SConfig {
                     Lists.newArrayList("minecraft:wither", "spore:mycelium_ef", "minecraft:weakness") , o -> o instanceof String);
             builder.pop();
 
+            builder.push("Hohlfresser");
+            this.hohl_hp = builder.comment("Default 250").defineInRange("Sets Hohlfresser Max health", 250, 1, Double.MAX_VALUE);
+            this.hohl_damage = builder.comment("Default 20").defineInRange("Sets Hohlfresser Damage", 20, 1, Double.MAX_VALUE);
+            this.hohl_armor = builder.comment("Default 25").defineInRange("Sets Hohlfresser Armor", 25, 1, Double.MAX_VALUE);
+            this.hohl_dpsr = builder.comment("Default 70").defineInRange("Sets Hohlfresser Damage Cap , set to 0 to disable", 50, 0, Double.MAX_VALUE);
+
+            this.hohl_buffs = builder.comment("Default values: minecraft:speed|600|0 ,minecraft:strength|600|0 ,minecraft:resistance|600|1").defineList("Sieger buffs",
+                    Lists.newArrayList("minecraft:speed|600|0" , "minecraft:strength|600|0","minecraft:resistance|600|1") , o -> o instanceof String);
+            this.hohl_debuffs = builder.comment("Default values: minecraft:weakness|600|1 ,spore:mycelium|600|1 ,minecraft:slowness|600|1").defineList("Sieger debuffs",
+                    Lists.newArrayList("minecraft:weakness|600|0" , "minecraft:mining_fatigue|600|0","minecraft:slowness|600|1") , o -> o instanceof String);
+            builder.pop();
+
             builder.push("Gazenbreacher");
             this.gazen_hp = builder.comment("Default 350").defineInRange("Sets Gazenbreacher Max health", 350, 1, Double.MAX_VALUE);
             this.gazen_damage = builder.comment("Default 25").defineInRange("Sets Gazenbreacher Damage", 25, 1, Double.MAX_VALUE);
@@ -1428,6 +1449,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> gazen_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> hindie_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> howit_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> hohl_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> howit_foot_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_tail_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> gazen_tongue_loot;
@@ -1586,6 +1608,9 @@ public class SConfig {
 
             this.howit_loot = builder.defineList("Howitzer",
                     Lists.newArrayList("spore:mutated_fiber|100|53|95","spore:armor_fragment|100|15|25","spore:mutated_heart|90|6|14","spore:tumor|100|6|15","spore:cerebrum|70|2|7","spore:spine_fragment|56|4|9","spore:innards|100|3|15") , o -> o instanceof String);
+
+            this.hohl_loot = builder.defineList("Hohlfresser",
+                    Lists.newArrayList("spore:mutated_fiber|100|20|75","spore:armor_fragment|100|15|38","spore:mutated_heart|70|3|7","spore:tumor|100|6|23","spore:cerebrum|70|2|7","spore:spine_fragment|56|4|9") , o -> o instanceof String);
 
 
             this.gazen_loot = builder.defineList("Gazenbrecher",

@@ -75,6 +75,11 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     }
 
     @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.hohl_loot.get();
+    }
+
+    @Override
     public boolean isPushable() {
         return !entityData.get(UNDERGROUND);
     }
@@ -87,7 +92,10 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     public boolean canGoUnderground() {
         return !entityData.get(UNDERGROUND) && entityData.get(VULNERABLE) <= 0;
     }
-
+    @Override
+    public double getDamageCap() {
+        return SConfig.SERVER.hohl_dpsr.get();
+    }
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
@@ -160,20 +168,20 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
 
     @Override
     public List<? extends String> buffs() {
-        return SConfig.SERVER.sieger_buffs.get();
+        return SConfig.SERVER.hohl_buffs.get();
     }
 
     @Override
     public List<? extends String> debuffs() {
-        return SConfig.SERVER.sieger_debuffs.get();
+        return SConfig.SERVER.hohl_debuffs.get();
     }
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, SConfig.SERVER.sieger_hp.get() * SConfig.SERVER.global_health.get())
+                .add(Attributes.MAX_HEALTH, SConfig.SERVER.hohl_hp.get() * SConfig.SERVER.global_health.get())
                 .add(Attributes.MOVEMENT_SPEED, 0.23)
-                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.sieger_damage.get() * SConfig.SERVER.global_damage.get())
-                .add(Attributes.ARMOR, SConfig.SERVER.sieger_armor.get() * SConfig.SERVER.global_armor.get())
+                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.hohl_damage.get() * SConfig.SERVER.global_damage.get())
+                .add(Attributes.ARMOR, SConfig.SERVER.hohl_armor.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.FOLLOW_RANGE, 64)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1)
                 .add(Attributes.ATTACK_KNOCKBACK, 2)
