@@ -5,10 +5,11 @@ import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.*;
-import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.BaseEntities.HohlMultipart;
+import com.Harbinger.Spore.Sentities.MovementControls.UndergroundMovementControl;
+import com.Harbinger.Spore.Sentities.MovementControls.UndergroundPathNavigation;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -333,7 +334,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
                 break;
             }
         }
-        if (airAmount >= 8 || meetsHardBlock || meetsWrongBlock){
+        if (airAmount >= 4 || meetsHardBlock || meetsWrongBlock){
             setUnderground(false);
         }
     }
@@ -367,7 +368,6 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         this.goalSelector.addGoal(6, new CalamityInfectedCommand(this));
         this.goalSelector.addGoal(7, new SummonScentInCombat(this));
         this.goalSelector.addGoal(8, new SporeBurstSupport(this));
-        this.goalSelector.addGoal(9, new RandomStrollGoal(this, 1));
         super.registerGoals();
     }
 

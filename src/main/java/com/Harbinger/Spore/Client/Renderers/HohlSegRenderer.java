@@ -106,9 +106,19 @@ public class HohlSegRenderer<Type extends HohlMultipart> extends LivingEntityRen
         float yaw = (float)Math.atan2(direction.x, direction.z);
         float pitch = (float)-Math.asin(direction.y);
         int color = parent.getColor();
-        float r = (float) (color >> 16 & 255) / 255.0F;
-        float g = (float) (color >> 8 & 255) / 255.0F;
-        float b = (float) (color & 255) / 255.0F;
+        float r;
+        float g;
+        float b;
+        if (color == 0){
+            r = 1f;
+            g = 1f;
+            b = 1f;
+        }else {
+            r = (float) (color >> 16 & 255) / 255.0F;
+            g = (float) (color >> 8 & 255) / 255.0F;
+            b = (float) (color & 255) / 255.0F;
+        }
+
         stack.pushPose();
         {
             Vec3 vec3 = parent.position().subtract(parent.position()).scale(-1);

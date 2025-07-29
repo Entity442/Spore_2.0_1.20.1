@@ -1,4 +1,4 @@
-package com.Harbinger.Spore.Sentities.AI.CalamitiesAI;
+package com.Harbinger.Spore.Sentities.MovementControls;
 
 import com.Harbinger.Spore.Sentities.Calamities.Hohlfresser;
 import net.minecraft.core.BlockPos;
@@ -79,7 +79,11 @@ public class UndergroundPathNavigation extends GroundPathNavigation {
 
         }
     }
-    public static class HohlfresserNodeEvaluator extends WalkNodeEvaluator {
+    public static class HohlfresserNodeEvaluator extends SwimNodeEvaluator {
+        public HohlfresserNodeEvaluator() {
+            super(true);
+        }
+
         @Override
         public BlockPathTypes getBlockPathType(BlockGetter level, int x, int y, int z) {
             return BlockPathTypes.OPEN;

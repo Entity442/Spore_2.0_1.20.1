@@ -1,7 +1,6 @@
-package com.Harbinger.Spore.Sentities.AI.CalamitiesAI;
+package com.Harbinger.Spore.Sentities.MovementControls;
 
 import com.Harbinger.Spore.Sentities.Calamities.Hohlfresser;
-import com.Harbinger.Spore.Sentities.MovementControls.CalamityMovementControl;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
@@ -25,9 +24,6 @@ public class UndergroundMovementControl extends CalamityMovementControl {
     }
 
     boolean isInWall(LivingEntity mob){
-        if (mob.level().canSeeSky(mob.blockPosition())){
-            return false;
-        }
         float f = mob.getBbWidth() * 0.8F;
         AABB aabb = AABB.ofSize(mob.getEyePosition().add(0,-0.05,0), (double)f, 1.0E-6, (double)f);
         return BlockPos.betweenClosedStream(aabb).anyMatch((p_201942_) -> {
@@ -40,6 +36,7 @@ public class UndergroundMovementControl extends CalamityMovementControl {
         if (this.operation == MoveControl.Operation.MOVE_TO) {
             Vec3 vec3 = new Vec3(this.wantedX - this.mob.getX(), this.wantedY - this.mob.getY(), this.wantedZ - this.mob.getZ());
             vec3 = vec3.normalize();
+            vec3 = isInWall(mob) ? vec3 : vec3.multiply(1,0,1);
             double speed = mob instanceof Hohlfresser hohlfresser && hohlfresser.isUnderground() ? 0.05D : 0.15D;
             this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(vec3.scale(speed)));
             float yaw = (float)(Mth.atan2(vec3.z, vec3.x) * (180F / Math.PI)) - 90.0F;
