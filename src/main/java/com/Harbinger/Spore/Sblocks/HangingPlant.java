@@ -104,7 +104,7 @@ public class HangingPlant extends GenericFoliageBlock {
 
 
     public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
-        if (entity instanceof LivingEntity living && !(living instanceof Infected || Utilities.TARGET_SELECTOR.Test(living) || SConfig.SERVER.mycelium.get().contains(living.getEncodeId()))) {
+        if (entity instanceof LivingEntity living && Utilities.TARGET_SELECTOR.Test(living)) {
             entity.makeStuckInBlock(state, new Vec3((double)0.8F, 0.75D, (double)0.8F));
             if (!level.isClientSide && (entity.xOld != entity.getX() || entity.zOld != entity.getZ())) {
                 double d0 = Math.abs(entity.getX() - entity.xOld);
