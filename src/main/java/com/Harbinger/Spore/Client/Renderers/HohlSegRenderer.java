@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Client.Renderers;
 
 import com.Harbinger.Spore.Client.Models.HohlfresserSeg1Model;
 import com.Harbinger.Spore.Client.Models.hohlfresserTailModel;
+import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.HohlMultipart;
 import com.Harbinger.Spore.Sentities.Calamities.Hohlfresser;
 import com.Harbinger.Spore.Spore;
@@ -15,6 +16,8 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -35,6 +38,7 @@ public class HohlSegRenderer<Type extends HohlMultipart> extends LivingEntityRen
     public HohlSegRenderer(EntityRendererProvider.Context context) {
         super(context, new HohlfresserSeg1Model<>(context.bakeLayer(HohlfresserSeg1Model.LAYER_LOCATION)), 4f);
         tailModel = new hohlfresserTailModel<>(context.bakeLayer(hohlfresserTailModel.LAYER_LOCATION));
+        this.addLayer(new HohlColors<>(this));
     }
 
     @Override
@@ -53,6 +57,9 @@ public class HohlSegRenderer<Type extends HohlMultipart> extends LivingEntityRen
     public void render(Type type, float val1, float val2, PoseStack stack, MultiBufferSource source, int light) {
         model = type.isTail() ? tailModel : mainSegment;
         super.render(type, val1, val2, stack, source, light);
+        if (type.isInvisible()){
+            return;
+        }
         ClientLevel level = Minecraft.getInstance().level;
         int i = type.getParentIntId();
         if (level != null && i != -1){
@@ -62,7 +69,24 @@ public class HohlSegRenderer<Type extends HohlMultipart> extends LivingEntityRen
             }
         }
     }
+    public class HohlColors<T extends HohlMultipart, M extends EntityModel<T>> extends RenderLayer<T, M> {
+        public HohlColors(RenderLayerParent<T, M> p_117346_) {
+            super(p_117346_);
+        }
 
+        @Override
+        public void render(PoseStack poseStack, MultiBufferSource multiBufferSource, int val, T type, float v, float v1, float v2, float v3, float v4, float v5) {
+            if (!type.isInvisible()){
+                if (type.getColor() == 0){return;}
+                int i = type.getColor();
+                float r = (float) (i >> 16 & 255) / 255.0F;
+                float g = (float) (i >> 8 & 255) / 255.0F;
+                float b = (float) (i & 255) / 255.0F;
+                VertexConsumer consumer = multiBufferSource.getBuffer(RenderType.entityTranslucent(getTextureLocation(type)));
+                getParentModel().renderToBuffer(poseStack,consumer,val, OverlayTexture.NO_OVERLAY,r,g,b,0.5f);
+            }
+        }
+    }
     private void renderConnection(Type parent, Entity to, PoseStack stack,
                                   MultiBufferSource buffer, float partialTick) {
         float i = to instanceof HohlMultipart hohlMultipart ? hohlMultipart.getSize() : to instanceof Hohlfresser ? 1.2f : 0f;
@@ -75,7 +99,10 @@ public class HohlSegRenderer<Type extends HohlMultipart> extends LivingEntityRen
 
         float yaw = (float)Math.atan2(direction.x, direction.z);
         float pitch = (float)-Math.asin(direction.y);
-
+        int color = parent.getColor();
+        float r = (float) (color >> 16 & 255) / 255.0F;
+        float g = (float) (color >> 8 & 255) / 255.0F;
+        float b = (float) (color & 255) / 255.0F;
         stack.pushPose();
         {
             Vec3 vec3 = parent.position().subtract(parent.position()).scale(-1);
@@ -96,7 +123,7 @@ public class HohlSegRenderer<Type extends HohlMultipart> extends LivingEntityRen
                     endWidth, endHeight,      // End dimensions
                     length,                   // Distance between segments
                     OverlayTexture.NO_OVERLAY, 15728880,
-                    1, 1, 1, 1);              // RGBA color
+                    r, g, b, 1);              // RGBA color
         }
         stack.popPose();
     }

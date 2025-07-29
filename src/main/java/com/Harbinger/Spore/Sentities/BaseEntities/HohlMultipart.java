@@ -251,6 +251,15 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
     }
 
     @Override
+    public boolean isInvisible() {
+        Entity entity = this.getParentSafe();
+        if (entity != null && entity.isInvisible()){
+            return true;
+        }
+        return super.isInvisible();
+    }
+
+    @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
         Entity parent = getParentSafe();
         return parent instanceof LivingEntity living ? living.interact(player, hand) : super.interact(player, hand);
@@ -300,7 +309,7 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
         return entityData.get(SIZE);
     }
     public int getVariant(){
-        return entityData.get(COLOR);
+        return entityData.get(VARIANT);
     }
     public int getColor(){
         return entityData.get(COLOR);

@@ -5,6 +5,7 @@ import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.*;
+import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.BaseEntities.HohlMultipart;
@@ -23,15 +24,18 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.item.FallingBlockEntity;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.function.Predicate;
 
 public class Hohlfresser extends Calamity implements TrueCalamity {
     private static final EntityDataAccessor<Optional<UUID>> CHILD_UUID = SynchedEntityData.defineId(Hohlfresser.class, EntityDataSerializers.OPTIONAL_UUID);
@@ -244,6 +248,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
                     part.setPos(this.getX(),this.getY(),this.getZ());
                     part.setParent(partParent);
                     part.setSize(size);
+                    part.setColor(this.getMutationColor());
                     part.setIsTail(i == getSegments()-1);
                     if (partParent == this) {
                         this.setChildId(part.getUUID());
@@ -340,29 +345,91 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         final float d1 = this.ringBuffer[j] - d0;
         return Mth.wrapDegrees(d0 + d1 * partialTicks);
     }
-
+    public boolean isMoving(){
+        return Math.sqrt(this.getDeltaMovement().x * this.getDeltaMovement().x +
+                this.getDeltaMovement().z * this.getDeltaMovement().z) > 0;
+    }
     @Override
     public boolean isInvulnerableTo(DamageSource source) {
         return source.is(DamageTypes.IN_WALL)  || source.is(DamageTypes.FALL);
     }
     @Override
     public void registerGoals() {
-        this.goalSelector.addGoal(4, new AOEMeleeAttackGoal(this, 1.5, false, 2.5, 6 ,livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}) {
-            protected double getAttackReachSqr(LivingEntity entity) {
-                float f = Hohlfresser.this.getBbWidth();
-                return f * 1.5F * f * 1.5F + entity.getBbWidth();
-            }
-        });
-        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.2));
+        this.goalSelector.addGoal(4, new HohlfresserMeleeAttack(this, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
         this.goalSelector.addGoal(6, new CalamityInfectedCommand(this));
         this.goalSelector.addGoal(7, new SummonScentInCombat(this));
         this.goalSelector.addGoal(8, new SporeBurstSupport(this));
         this.goalSelector.addGoal(9, new RandomStrollGoal(this, 1));
+        this.goalSelector.addGoal(6, new FloatDiveGoal(this));
         super.registerGoals();
     }
 
     @Override
-    public boolean hasLineOfSight(Entity entity) {
+    public boolean hasLineOfSight(Entity p_147185_) {
         return true;
+    }
+
+    static class HohlfresserMeleeAttack extends AOEMeleeAttackGoal{
+        public HohlfresserMeleeAttack(Hohlfresser mob, Predicate<LivingEntity> targets) {
+            super(mob, 1.5, false, 2.5, 6 ,targets);
+        }
+        protected double getAttackReachSqr(LivingEntity entity) {
+            float f = mob.getBbWidth();
+            return f * 1.5F * f * 1.5F + entity.getBbWidth();
+        }
+
+        @Override
+        protected void checkAndPerformAttack(LivingEntity entity, double p_25558_) {
+            if (hasLineOfSight(entity)){
+                super.checkAndPerformAttack(entity, p_25558_);
+            }
+        }
+
+        public boolean hasLineOfSight(Entity target) {
+            if (target.level() != mob.level()) {
+                return false;
+            } else {
+                Vec3 vec3 = new Vec3(mob.getX(), mob.getEyeY(), mob.getZ());
+                Vec3 vec31 = new Vec3(target.getX(), target.getEyeY(), target.getZ());
+                if (vec31.distanceTo(vec3) > 128.0) {
+                    return false;
+                } else {
+                    return mob.level().clip(new ClipContext(vec3, vec31, ClipContext.Block.COLLIDER, net.minecraft.world.level.ClipContext.Fluid.NONE, mob)).getType() == HitResult.Type.MISS;
+                }
+            }
+        }
+
+        @Override
+        public void tick() {
+            super.tick();
+            if (mob.tickCount % 40 == 0 && isMoving()){
+                tryAndCrumbleBlocks();
+            }
+        }
+        boolean isMoving(){
+            return Math.sqrt(mob.getDeltaMovement().x * mob.getDeltaMovement().x +
+                    mob.getDeltaMovement().z * mob.getDeltaMovement().z) > 0;
+        }
+
+        public void tryAndCrumbleBlocks(){
+            boolean canGrief = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(mob.level(), mob);
+            if (!canGrief){
+                return;
+            }
+            AABB aabb = mob.getBoundingBox().inflate(4);
+            for(BlockPos blockpos : BlockPos.betweenClosed(
+                    Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ),
+                    Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+                if (Math.random() <0.1f){
+                    BlockState state = mob.level().getBlockState(blockpos);
+                    BlockState stateBelow = mob.level().getBlockState(blockpos.below());
+                    boolean canFall = stateBelow.isAir() || stateBelow.liquid();
+                    if (canFall && state.getDestroySpeed(mob.level(),blockpos) <= SConfig.SERVER.calamity_bd.get()){
+                        mob.level().removeBlock(blockpos,false);
+                        FallingBlockEntity.fall(mob.level(),blockpos,state);
+                    }
+                }
+            }
+        }
     }
 }

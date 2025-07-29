@@ -964,7 +964,7 @@ public class SConfig {
             this.reconstructor_water = builder.defineList("Mobs that are summoned for water support",
                     Lists.newArrayList("spore:gazenbreacher" ) , o -> o instanceof String);
             this.reconstructor_underground = builder.defineList("Mobs that are summoned for underground support",
-                    Lists.newArrayList("spore:gazenbreacher","spore:sieger" ) , o -> o instanceof String);
+                    Lists.newArrayList("spore:hohlfresser" ) , o -> o instanceof String);
             builder.pop();
 
 
