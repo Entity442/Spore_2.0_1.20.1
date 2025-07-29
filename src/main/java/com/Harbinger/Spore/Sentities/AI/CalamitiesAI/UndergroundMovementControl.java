@@ -46,6 +46,8 @@ public class UndergroundMovementControl extends CalamityMovementControl {
         if (this.operation == Operation.WAIT){
             if (!this.hasWanted() && this.mob.getTarget() == null){
                 this.mob.setDeltaMovement(Vec3.ZERO);
+                mob.setYRot(0);
+                mob.setYHeadRot(0);
             }
         }
     }
