@@ -69,6 +69,12 @@ public class HohlSegRenderer<Type extends HohlMultipart> extends LivingEntityRen
             }
         }
     }
+
+    @Override
+    protected boolean shouldShowName(Type p_115333_) {
+        return false;
+    }
+
     public class HohlColors<T extends HohlMultipart, M extends EntityModel<T>> extends RenderLayer<T, M> {
         public HohlColors(RenderLayerParent<T, M> p_117346_) {
             super(p_117346_);

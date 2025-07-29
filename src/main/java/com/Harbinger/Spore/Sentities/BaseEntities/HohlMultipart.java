@@ -251,6 +251,11 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
     }
 
     @Override
+    public boolean shouldShowName() {
+        return false;
+    }
+
+    @Override
     public boolean isInvisible() {
         Entity entity = this.getParentSafe();
         if (entity != null && entity.isInvisible()){
