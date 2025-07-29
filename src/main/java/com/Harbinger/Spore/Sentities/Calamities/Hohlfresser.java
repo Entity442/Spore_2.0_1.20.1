@@ -24,7 +24,6 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -326,7 +325,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
             if (level().canSeeSky(blockpos) && ticksUnder <= 0){
                 airAmount++;
             }
-            if (!(state.is(BlockTags.MINEABLE_WITH_SHOVEL) || state.is(BlockTags.MINEABLE_WITH_PICKAXE)) && hardness != 0) {
+            if (!(state.is(BlockTags.MINEABLE_WITH_SHOVEL) || state.is(BlockTags.MINEABLE_WITH_PICKAXE) || state.liquid()) && hardness != 0) {
                 meetsWrongBlock = true;
                 break;
             }
@@ -429,15 +428,15 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
             if (!canGrief){
                 return;
             }
-            AABB aabb = mob.getBoundingBox().inflate(4);
+            AABB aabb = mob.getBoundingBox().inflate(6);
             for(BlockPos blockpos : BlockPos.betweenClosed(
                     Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ),
                     Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
-                if (Math.random() <0.1f){
-                    BlockState state = mob.level().getBlockState(blockpos);
-                    BlockState stateBelow = mob.level().getBlockState(blockpos.below());
-                    boolean canFall = stateBelow.isAir() || stateBelow.liquid();
-                    if (canFall && state.getDestroySpeed(mob.level(),blockpos) <= SConfig.SERVER.calamity_bd.get()){
+                BlockState state = mob.level().getBlockState(blockpos);
+                BlockState stateBelow = mob.level().getBlockState(blockpos.below());
+                boolean canFall = stateBelow.isAir() || stateBelow.liquid();
+                if (canFall && Math.random() <0.1f){
+                    if (state.getDestroySpeed(mob.level(),blockpos) <= SConfig.SERVER.calamity_bd.get()){
                         mob.level().removeBlock(blockpos,false);
                         FallingBlockEntity.fall(mob.level(),blockpos,state);
                     }

@@ -24,6 +24,9 @@ public class UndergroundMovementControl extends CalamityMovementControl {
     }
 
     boolean isInWall(LivingEntity mob){
+        if (mob.isInWater() || mob.isInLava()){
+            return true;
+        }
         float f = mob.getBbWidth() * 0.8F;
         AABB aabb = AABB.ofSize(mob.getEyePosition().add(0,-0.05,0), (double)f, 1.0E-6, (double)f);
         return BlockPos.betweenClosedStream(aabb).anyMatch((p_201942_) -> {
