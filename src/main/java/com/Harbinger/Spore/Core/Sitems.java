@@ -315,7 +315,7 @@ public class Sitems {
             () -> new SporeSpawnEgg(Sentities.HOWITZER,18414394,SpawnEggType.CALAMITY));
 
     public  static final RegistryObject<Item> HOHLFRESSER_SPAWNEGG = ITEMS.register("hohlfresser_spawnegg",
-            () -> new SporeSpawnEgg(Sentities.HOHLFRESSER,18414394,SpawnEggType.CALAMITY));
+            () -> new SporeSpawnEgg(Sentities.HOHLFRESSER,76414394,SpawnEggType.CALAMITY));
 
 
     public  static final RegistryObject<Item> ACID = ITEMS.register("acid",

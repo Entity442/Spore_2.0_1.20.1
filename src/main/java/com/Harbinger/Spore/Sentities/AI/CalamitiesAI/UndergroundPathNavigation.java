@@ -25,6 +25,7 @@ public class UndergroundPathNavigation extends GroundPathNavigation {
     protected @NotNull PathFinder createPathFinder(int maxNodes) {
         NodeEvaluator evaluator = new HohlfresserNodeEvaluator();
         evaluator.setCanPassDoors(true);
+        evaluator.canFloat();
         return new PathFinder(evaluator, maxNodes);
     }
     public Path createPath(BlockPos pos, int value) {
