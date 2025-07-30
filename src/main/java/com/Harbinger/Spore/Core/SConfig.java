@@ -862,7 +862,7 @@ public class SConfig {
             this.hohl_buffs = builder.comment("Default values: minecraft:speed|600|0 ,minecraft:strength|600|0 ,minecraft:resistance|600|1").defineList("Sieger buffs",
                     Lists.newArrayList("minecraft:speed|600|0" , "minecraft:strength|600|0","minecraft:resistance|600|1") , o -> o instanceof String);
             this.hohl_debuffs = builder.comment("Default values: minecraft:weakness|600|1 ,spore:mycelium|600|1 ,minecraft:slowness|600|1").defineList("Sieger debuffs",
-                    Lists.newArrayList("minecraft:weakness|600|0" , "minecraft:mining_fatigue|600|0","minecraft:slowness|600|1") , o -> o instanceof String);
+                    Lists.newArrayList("minecraft:weakness|600|0" , "minecraft:mining_fatigue|600|0","spore:mycelium_ef|600|1") , o -> o instanceof String);
             builder.pop();
 
             builder.push("Gazenbreacher");

@@ -127,15 +127,13 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
 
     @Override
     protected void grief(AABB aabb) {
-        if (!isUnderground()){
+        if (!isUnderground() && tickCount % 20 == 0){
             DamageSource source = this.getLastDamageSource();
             AABB box = source == null ? aabb : aabb.move(new Vec3(0,1,0));
             if (Math.random() < 0.2f){
                 handleDigIn();
             }
-            if (this.tickCount % 20 == 0){
-                super.grief(box);
-            }
+            super.grief(box);
         }
     }
     public boolean isUnderground(){
@@ -325,35 +323,75 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
             }
         }
     }
+    private record BlockCheckResult(boolean isMineable, boolean isHard, boolean isWrong) {}
+    private BlockCheckResult analyzeBlock(BlockState state, BlockPos pos, Map<BlockState, BlockCheckResult> cache) {
+        return cache.computeIfAbsent(state, s -> {
+            double hardness = s.getDestroySpeed(level(), pos);
+            boolean isMineable = s.is(BlockTags.MINEABLE_WITH_SHOVEL) || s.is(BlockTags.MINEABLE_WITH_PICKAXE) || s.liquid() || hardness == 0;
+            boolean isHard = hardness < 0 || hardness > 3;
+            boolean isWrong = !isMineable;
+            return new BlockCheckResult(isMineable, isHard, isWrong);
+        });
+    }
+    private boolean checkBlocksUnder() {
+        AABB aabb = this.getBoundingBox().move(0, -1, 0);
+        Map<BlockState, BlockCheckResult> cache = new HashMap<>();
+
+        for (BlockPos pos : BlockPos.betweenClosed(
+                Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ),
+                Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+
+            BlockState state = level().getBlockState(pos);
+            BlockCheckResult result = analyzeBlock(state, pos, cache);
+
+            if (result.isHard || !result.isMineable) {
+                this.setDeltaMovement(getDeltaMovement().add(0, 0.1, 0));
+                return false;
+            }
+        }
+        return true;
+    }
     public void handleDigIn(){
         if (!isUnderground() && entityData.get(VULNERABLE) <= 0){
-            double val = level().getBlockState(getOnPos()).getDestroySpeed(level(),getOnPos());
-            boolean surface = val >= 0 || val <= 3;
             boolean tooDeep =  level().getMinBuildHeight() < this.getY() - 5;
-            if ((moveControl.getWantedY() < this.getY() || moveControl.getWantedY() > this.getY()) && surface && tooDeep){
-                setUnderground(true);
+            boolean below = moveControl.getWantedY() < this.getY();
+            boolean above = moveControl.getWantedY() > this.getY();
+            if ((below || above)){
+                if (checkBlocksUnder() && tooDeep){
+                    setUnderground(true);
+                }else {
+                    if (tickCount % 20 == 0){
+                        AABB aabb = this.getBoundingBox().move(below ? new Vec3(0,-1,0) : new Vec3(0,1,0));
+                        grief(aabb);
+                    }
+                }
+
             }
         }
     }
 
     public void handleUnearthing(){
-        AABB aabb = this.getBoundingBox().inflate(1,1.4,1);
+        AABB aabb = this.getBoundingBox().inflate(1, 1.4, 1);
         int airAmount = 0;
         boolean meetsHardBlock = false;
         boolean meetsWrongBlock = false;
-        for(BlockPos blockpos : BlockPos.betweenClosed(
+        Map<BlockState, BlockCheckResult> cache = new HashMap<>();
+
+        for (BlockPos pos : BlockPos.betweenClosed(
                 Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ),
                 Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
-            BlockState state = level().getBlockState(blockpos);
-            double hardness = state.getDestroySpeed(level(),blockpos);
-            if (level().canSeeSky(blockpos) && ticksUnder <= 0){
+
+            BlockState state = level().getBlockState(pos);
+            BlockCheckResult result = analyzeBlock(state, pos, cache);
+
+            if (level().canSeeSky(pos) && ticksUnder <= 0) {
                 airAmount++;
             }
-            if (!(state.is(BlockTags.MINEABLE_WITH_SHOVEL) || state.is(BlockTags.MINEABLE_WITH_PICKAXE) || state.liquid()) && hardness != 0) {
+            if (result.isWrong) {
                 meetsWrongBlock = true;
                 break;
             }
-            if (hardness < 0 || hardness > 3){
+            if (result.isHard) {
                 meetsHardBlock = true;
                 break;
             }
