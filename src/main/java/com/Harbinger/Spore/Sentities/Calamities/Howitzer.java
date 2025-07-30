@@ -31,7 +31,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -336,30 +335,11 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
         if (canEntitySeeTheSky(entity) && canEntitySeeTheSky(this) || entity.distanceToSqr(this) < 200){
             return true;
         }else
-            return super.hasLineOfSight(entity) || calculateHouseThiccness(entity);
+            return super.hasLineOfSight(entity);
     }
 
     private boolean canEntitySeeTheSky(Entity entity){
         return entity.level().canSeeSky(entity.getOnPos());
-    }
-    private boolean calculateHouseThiccness(Entity entity){
-        List<BlockPos> floorPositions = new ArrayList<>();
-        List<BlockPos> roofPositions = new ArrayList<>();
-        AABB floorAABB = entity.getBoundingBox().inflate(1,8,1).move(0,-4,0);
-        AABB roofAABB = entity.getBoundingBox().inflate(1,8,1).move(0,4,0);
-        for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(floorAABB.minX), Mth.floor(floorAABB.minY), Mth.floor(floorAABB.minZ), Mth.floor(floorAABB.maxX), Mth.floor(floorAABB.maxY), Mth.floor(floorAABB.maxZ))) {
-            BlockState blockstate = this.level().getBlockState(blockpos);
-            if (blockstate.isSolidRender(entity.level(),blockpos)){
-                floorPositions.add(blockpos);
-            }
-        }
-        for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(roofAABB.minX), Mth.floor(roofAABB.minY), Mth.floor(roofAABB.minZ), Mth.floor(roofAABB.maxX), Mth.floor(roofAABB.maxY), Mth.floor(roofAABB.maxZ))) {
-            BlockState blockstate = this.level().getBlockState(blockpos);
-            if (blockstate.isSolidRender(entity.level(),blockpos)){
-                roofPositions.add(blockpos);
-            }
-        }
-        return floorPositions.size() < 4 || roofPositions.size() < 4;
     }
 
     @Override
