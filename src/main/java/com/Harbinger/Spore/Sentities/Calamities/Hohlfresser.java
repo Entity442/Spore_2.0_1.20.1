@@ -294,7 +294,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         if (isUnderground()) {
             handleUnearthing();
         }
-        if (tickCount % 10 == 0){
+        if (tickCount % 20 == 0){
             handleDigIn();
         }
         if (ticksUnder > 0){ticksUnder--;}
@@ -327,14 +327,27 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     private BlockCheckResult analyzeBlock(BlockState state, BlockPos pos, Map<BlockState, BlockCheckResult> cache) {
         return cache.computeIfAbsent(state, s -> {
             double hardness = s.getDestroySpeed(level(), pos);
-            boolean isMineable = s.is(BlockTags.MINEABLE_WITH_SHOVEL) || s.is(BlockTags.MINEABLE_WITH_PICKAXE) || s.liquid() || hardness == 0;
-            boolean isHard = hardness < 0 || hardness > 3;
+            if (hardness == -1) {
+                return new BlockCheckResult(false, true, true);
+            }
+
+            boolean isMineable = (
+                    s.isAir() ||
+                            s.canBeReplaced() ||
+                            s.is(BlockTags.MINEABLE_WITH_SHOVEL) ||
+                            s.is(BlockTags.MINEABLE_WITH_PICKAXE) ||
+                            s.liquid()
+            );
+
+            boolean isHard = hardness > 3;
             boolean isWrong = !isMineable;
+
             return new BlockCheckResult(isMineable, isHard, isWrong);
         });
     }
+
     private boolean checkBlocksUnder() {
-        AABB aabb = this.getBoundingBox().move(0, -1, 0);
+        AABB aabb = this.getBoundingBox().move(0, -0.6, 0);
         Map<BlockState, BlockCheckResult> cache = new HashMap<>();
 
         for (BlockPos pos : BlockPos.betweenClosed(
@@ -344,11 +357,13 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
             BlockState state = level().getBlockState(pos);
             BlockCheckResult result = analyzeBlock(state, pos, cache);
 
-            if (result.isHard || !result.isMineable) {
-                this.setDeltaMovement(getDeltaMovement().add(0, 0.1, 0));
-                return false;
-            }
+            if (result.isHard || !result.isMineable) return false;
+            BlockPos above = pos.above();
+            BlockState aboveState = level().getBlockState(above);
+            BlockCheckResult aboveResult = analyzeBlock(aboveState, above, cache);
+            if (!aboveResult.isMineable || aboveResult.isHard) return false;
         }
+
         return true;
     }
     public void handleDigIn(){
