@@ -26,10 +26,12 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
@@ -310,6 +312,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     }
 
     public void tryAndCrumbleBlocks(){
+        if (level().isClientSide){return;}
         boolean canGrief = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this);
         if (!canGrief){
             return;
@@ -328,10 +331,13 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
                     FallingBlockEntity.fall(this.level(),blockpos,state);
                 }
             }
+            if (state.is(Blocks.GRASS_BLOCK) && Math.random() < 0.2){
+                level().setBlock(blockpos,Math.random() < 0.5f ? Blocks.DIRT.defaultBlockState() : Blocks.COARSE_DIRT.defaultBlockState(),3);
+            }
         }
     }
-    private record BlockCheckResult(boolean isMineable, boolean isHard, boolean isWrong) {}
-    private BlockCheckResult analyzeBlock(BlockState state, BlockPos pos, Map<BlockState, BlockCheckResult> cache) {
+    public record BlockCheckResult(boolean isMineable, boolean isHard, boolean isWrong) {}
+    public BlockCheckResult analyzeBlock(BlockState state, BlockPos pos, Map<BlockState, BlockCheckResult> cache) {
         return cache.computeIfAbsent(state, s -> {
             double hardness = s.getDestroySpeed(level(), pos);
             if (hardness == -1) {
@@ -447,7 +453,8 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     }
     @Override
     public void registerGoals() {
-        this.goalSelector.addGoal(4, new HohlfresserMeleeAttack(this, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
+        this.goalSelector.addGoal(4,new HohlChargeGoal(this,1.5D,200));
+        this.goalSelector.addGoal(5, new HohlfresserMeleeAttack(this, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
         this.goalSelector.addGoal(6, new CalamityInfectedCommand(this));
         this.goalSelector.addGoal(7, new SummonScentInCombat(this));
         this.goalSelector.addGoal(8, new SporeBurstSupport(this));
@@ -530,4 +537,58 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         }
     }
 
+    static class HohlChargeGoal extends Goal{
+        private int timeBeforeCharge;
+        private final Hohlfresser mob;
+        private final LivingEntity target;
+        private final double speed;
+        private final int time;
+
+        HohlChargeGoal(Hohlfresser mob, double speed, int time) {
+            this.mob = mob;
+            target = mob.getTarget();
+            this.speed = speed;
+            this.time = time;
+        }
+
+        @Override
+        public boolean canUse() {
+            if (timeBeforeCharge < time){
+                timeBeforeCharge++;
+            }else {
+                if (!mob.isUnderground() || target == null){
+                    timeBeforeCharge = 0;
+                    return false;
+                }else {
+                    if (checkVectorForCharging(target)){
+                       return chargeAtLocation(target);
+                    }
+                }
+            }
+            return false;
+        }
+
+        boolean checkVectorForCharging(LivingEntity target){
+            Map<BlockState, BlockCheckResult> cache = new HashMap<>();
+            Vec3 startVec = new Vec3(mob.getX(), mob.getY(), mob.getZ());
+            Vec3 endVec = new Vec3(target.getX(), target.getY(), target.getZ());
+            Vec3 direction = endVec.subtract(startVec).normalize();
+            double distance = startVec.distanceTo(endVec);
+            for (int i = 0; i <= distance; i++) {
+                Vec3 current = startVec.add(direction.scale(i));
+                BlockPos pos = new BlockPos((int) current.x,(int) current.y,(int)current.z);
+                BlockState state = mob.level().getBlockState(pos);
+                BlockCheckResult result = mob.analyzeBlock(state, pos, cache);
+                if (result.isHard || !result.isMineable) return false;
+            }
+            return true;
+        }
+        boolean chargeAtLocation(LivingEntity target){
+            Vec3 vec3 = new Vec3(target.getX() - this.mob.getX(), target.getY() - this.mob.getY(), target.getZ() - this.mob.getZ());
+            vec3 = vec3.normalize();
+            this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(vec3.scale(speed)));
+            timeBeforeCharge = 0;
+            return true;
+        }
+    }
 }
