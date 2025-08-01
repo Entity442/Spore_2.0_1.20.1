@@ -55,7 +55,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     private int ticksUnder;
     public Hohlfresser(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
-        this.setMaxUpStep(1.5F);
+        this.setMaxUpStep(2F);
         this.moveControl = new UndergroundMovementControl(this);
         this.navigation = new UndergroundPathNavigation(this,level);
     }
