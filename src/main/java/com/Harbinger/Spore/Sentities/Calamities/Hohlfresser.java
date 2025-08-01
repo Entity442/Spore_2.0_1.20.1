@@ -377,13 +377,12 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         if (!isUnderground() && entityData.get(VULNERABLE) <= 0){
             boolean tooDeep =  level().getMinBuildHeight() < this.getY() - 5;
             boolean below = moveControl.getWantedY() < this.getY();
-            boolean above = moveControl.getWantedY() > this.getY();
-            if ((below || above)){
+            if ((below)){
                 if (checkBlocksUnder() && tooDeep){
                     setUnderground(true);
                 }else {
                     if (tickCount % 20 == 0){
-                        AABB aabb = this.getBoundingBox().move(below ? new Vec3(0,-1,0) : new Vec3(0,1,0));
+                        AABB aabb = this.getBoundingBox().move(new Vec3(0,-1,0));
                         grief(aabb);
                     }
                 }
