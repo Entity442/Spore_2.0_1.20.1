@@ -383,7 +383,8 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         if (!isUnderground() && entityData.get(VULNERABLE) <= 0){
             boolean tooDeep =  level().getMinBuildHeight() < this.getY() - 5;
             boolean below = moveControl.getWantedY() < this.getY();
-            if ((below)){
+            boolean above = moveControl.getWantedY() > this.getY()+2;
+            if (below || above){
                 if (checkBlocksUnder() && tooDeep){
                     setUnderground(true);
                 }else {
@@ -453,7 +454,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     }
     @Override
     public void registerGoals() {
-        this.goalSelector.addGoal(4,new HohlChargeGoal(this,1.5D,200));
+        this.goalSelector.addGoal(4,new HohlChargeGoal(this,3D,100));
         this.goalSelector.addGoal(5, new HohlfresserMeleeAttack(this, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
         this.goalSelector.addGoal(6, new CalamityInfectedCommand(this));
         this.goalSelector.addGoal(7, new SummonScentInCombat(this));
@@ -557,7 +558,6 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
                 timeBeforeCharge++;
             }else {
                 if (!mob.isUnderground() || target == null){
-                    timeBeforeCharge = 0;
                     return false;
                 }else {
                     if (checkVectorForCharging(target)){
@@ -579,7 +579,10 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
                 BlockPos pos = new BlockPos((int) current.x,(int) current.y,(int)current.z);
                 BlockState state = mob.level().getBlockState(pos);
                 BlockCheckResult result = mob.analyzeBlock(state, pos, cache);
-                if (result.isHard || !result.isMineable) return false;
+                if (result.isHard || !result.isMineable){
+                    timeBeforeCharge = 0;
+                    return false;
+                }
             }
             return true;
         }
