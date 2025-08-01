@@ -304,7 +304,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         if (tickCount % 20 == 0 && isMoving() && isUnderground() && this.getTarget() != null){
             tryAndCrumbleBlocks();
         }
-        if (tickCount % 80 == 0){
+        if (tickCount % 80 == 0 && isUnderground()){
             this.playSound(Ssounds.WORM_DIGGING.get());
         }
     }
