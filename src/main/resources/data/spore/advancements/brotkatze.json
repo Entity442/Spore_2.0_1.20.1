@@ -4,11 +4,7 @@
       "item": "spore:brotkatze_spawnegg"
     },
     "title":{"translate": "advancement.spore.brotkatze.title"},
-    "description":{"translate": "advancement.spore.brotkatze.description"},
-
-    "show_toast": true,
-    "announce_to_chat": false,
-    "hidden": true
+    "description":{"translate": "advancement.spore.brotkatze.description"}
   },
 
   "parent": "spore:braiomil",

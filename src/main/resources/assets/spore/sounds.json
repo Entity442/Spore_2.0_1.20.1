@@ -79,6 +79,12 @@
       "spore:bioblob"
     ]
   },
+  "worm_digging" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:worm_digging"
+    ]
+  },
   "saugling_ambient" :{
     "subtitle": "sounds.spore.growl",
     "sounds": [

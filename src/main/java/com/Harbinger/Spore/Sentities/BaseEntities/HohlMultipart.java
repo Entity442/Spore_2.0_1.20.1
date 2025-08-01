@@ -14,6 +14,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -260,12 +261,12 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
     }
 
     @Override
-    public boolean isInvisible() {
+    protected void onEffectAdded(MobEffectInstance instance, @org.jetbrains.annotations.Nullable Entity p_147191_) {
+        super.onEffectAdded(instance, p_147191_);
         Entity entity = this.getParentSafe();
-        if (entity != null && entity.isInvisible()){
-            return true;
+        if (entity instanceof LivingEntity living){
+            living.addEffect(instance);
         }
-        return super.isInvisible();
     }
 
     @Override

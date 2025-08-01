@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Sentities.Calamities;
 import com.Harbinger.Spore.Core.SAttributes;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sentities;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.*;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
@@ -21,6 +22,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -141,6 +143,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     }
     public void setUnderground(boolean val) {
         if (val) {
+            this.playSound(Ssounds.WORM_DIGGING.get());
             ticksUnder = 40;
         } else {
             entityData.set(VULNERABLE, 200);
@@ -301,6 +304,9 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         if (tickCount % 20 == 0 && isMoving() && isUnderground() && this.getTarget() != null){
             tryAndCrumbleBlocks();
         }
+        if (tickCount % 80 == 0){
+            this.playSound(Ssounds.WORM_DIGGING.get());
+        }
     }
 
     public void tryAndCrumbleBlocks(){
@@ -316,7 +322,8 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
             BlockState stateBelow = this.level().getBlockState(blockpos.below());
             boolean canFall = stateBelow.isAir() || stateBelow.liquid();
             if (canFall && Math.random() <0.01f){
-                if (state.getDestroySpeed(this.level(),blockpos) <= SConfig.SERVER.calamity_bd.get()){
+                double speed = state.getDestroySpeed(this.level(),blockpos);
+                if (speed > 0 && speed <= SConfig.SERVER.calamity_bd.get()){
                     this.level().removeBlock(blockpos,false);
                     FallingBlockEntity.fall(this.level(),blockpos,state);
                 }
@@ -493,4 +500,35 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
             super.tick();
         }
     }
+
+    @Override
+    public boolean doHurtTarget(Entity entity) {
+        this.playSound(Ssounds.SIEGER_BITE.get());
+        return super.doHurtTarget(entity);
+    }
+
+    @Override
+    protected void onEffectAdded(MobEffectInstance instance, @org.jetbrains.annotations.Nullable Entity entity) {
+        super.onEffectAdded(instance, entity);
+        if (getHolfParts() == null){
+            return;
+        }else {
+            for (HohlMultipart hohlMultipart : getHolfParts()){
+                hohlMultipart.addEffect(instance);
+            }
+        }
+    }
+
+    @Override
+    protected void onEffectRemoved(MobEffectInstance instance) {
+        super.onEffectRemoved(instance);
+        if (getHolfParts() == null){
+            return;
+        }else {
+            for (HohlMultipart hohlMultipart : getHolfParts()){
+                hohlMultipart.removeEffect(instance.getEffect());
+            }
+        }
+    }
+
 }

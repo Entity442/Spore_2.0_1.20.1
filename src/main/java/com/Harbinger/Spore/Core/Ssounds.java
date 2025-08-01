@@ -220,6 +220,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> SPORE_BURST = soundRegistry("spore_burst");
 
+    public static final RegistryObject<SoundEvent> WORM_DIGGING = soundRegistry("worm_digging");
+
     private Ssounds() {
     }
 }
