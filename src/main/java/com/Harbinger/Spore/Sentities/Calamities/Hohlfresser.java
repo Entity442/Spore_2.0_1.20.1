@@ -383,7 +383,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         if (!isUnderground() && entityData.get(VULNERABLE) <= 0){
             boolean tooDeep =  level().getMinBuildHeight() < this.getY() - 5;
             boolean below = moveControl.getWantedY() < this.getY();
-            boolean above = moveControl.getWantedY() > this.getY()+2;
+            boolean above = moveControl.getWantedY() > this.getY()+1;
             if (below || above){
                 if (checkBlocksUnder() && tooDeep){
                     setUnderground(true);
@@ -454,7 +454,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     }
     @Override
     public void registerGoals() {
-        this.goalSelector.addGoal(4,new HohlChargeGoal(this,3D,100));
+        this.goalSelector.addGoal(4,new HohlChargeGoal(this,1.5D,200));
         this.goalSelector.addGoal(5, new HohlfresserMeleeAttack(this, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
         this.goalSelector.addGoal(6, new CalamityInfectedCommand(this));
         this.goalSelector.addGoal(7, new SummonScentInCombat(this));
@@ -557,7 +557,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
             if (timeBeforeCharge < time){
                 timeBeforeCharge++;
             }else {
-                if (!mob.isUnderground() || target == null){
+                if (target == null){
                     return false;
                 }else {
                     if (checkVectorForCharging(target)){
@@ -587,6 +587,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
             return true;
         }
         boolean chargeAtLocation(LivingEntity target){
+            mob.setUnderground(true);
             Vec3 vec3 = new Vec3(target.getX() - this.mob.getX(), target.getY() - this.mob.getY(), target.getZ() - this.mob.getZ());
             vec3 = vec3.normalize();
             this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(vec3.scale(speed)));
