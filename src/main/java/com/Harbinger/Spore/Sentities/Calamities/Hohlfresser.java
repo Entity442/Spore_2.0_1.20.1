@@ -28,6 +28,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.item.FallingBlockEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -322,6 +323,13 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
 
     public void tryAndCrumbleBlocks(){
         if (level().isClientSide){return;}
+        Player player = level().getNearestPlayer(this,-1);
+        if (player == null){
+            return;
+        }
+        if (player.distanceTo(this) > 400){
+            return;
+        }
         boolean canGrief = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this);
         if (!canGrief){
             return;

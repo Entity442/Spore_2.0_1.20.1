@@ -1,6 +1,5 @@
 package com.Harbinger.Spore.sEvents;
 
-import com.Harbinger.Spore.Client.Layers.CustomArmorLayer;
 import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
@@ -20,10 +19,8 @@ import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
 import com.Harbinger.Spore.Sentities.Organoids.*;
 import com.Harbinger.Spore.Sentities.Utility.*;
 import com.Harbinger.Spore.Sitems.BaseWeapons.*;
-import com.Harbinger.Spore.Sitems.InfectedShield;
 import com.Harbinger.Spore.Sitems.PCI;
 import com.Harbinger.Spore.Spore;
-import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
