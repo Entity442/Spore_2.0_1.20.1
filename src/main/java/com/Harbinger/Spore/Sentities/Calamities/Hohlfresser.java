@@ -36,6 +36,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraftforge.fluids.FluidType;
 
 import javax.annotation.Nullable;
@@ -111,7 +113,14 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
             tag.putUUID("ChildUUID", getChildId());
         }
     }
-
+    public boolean isInWall(LivingEntity mob){
+        float f = mob.getBbWidth() * 0.8F;
+        AABB aabb = AABB.ofSize(mob.getEyePosition().add(0,-0.05,0), (double)f, 1.0E-6, (double)f);
+        return BlockPos.betweenClosedStream(aabb).anyMatch((p_201942_) -> {
+            BlockState blockstate = mob.level().getBlockState(p_201942_);
+            return !blockstate.isAir() && blockstate.isSuffocating(mob.level(), p_201942_) && Shapes.joinIsNotEmpty(blockstate.getCollisionShape(mob.level(), p_201942_).move((double)p_201942_.getX(), (double)p_201942_.getY(), (double)p_201942_.getZ()), Shapes.create(aabb), BooleanOp.AND);
+        });
+    }
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
@@ -306,7 +315,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         if (tickCount % 20 == 0 && isMoving() && isUnderground() && this.getTarget() != null){
             tryAndCrumbleBlocks();
         }
-        if (tickCount % 80 == 0 && isUnderground()){
+        if (tickCount % 80 == 0 && isUnderground() && isInWall(this)){
             this.playSound(Ssounds.WORM_DIGGING.get());
         }
     }
@@ -336,12 +345,15 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
             }
         }
     }
-    public record BlockCheckResult(boolean isMineable, boolean isHard, boolean isWrong) {}
-    public BlockCheckResult analyzeBlock(BlockState state, BlockPos pos, Map<BlockState, BlockCheckResult> cache) {
+    public static final int FLAG_MINEABLE = 1; // 0b001
+    public static final int FLAG_HARD = 2;     // 0b010
+    public static final int FLAG_WRONG = 4;    // 0b100
+
+    public int analyzeBlock(BlockState state, BlockPos pos, Map<BlockState, Integer> cache) {
         return cache.computeIfAbsent(state, s -> {
             double hardness = s.getDestroySpeed(level(), pos);
             if (hardness == -1) {
-                return new BlockCheckResult(false, true, true);
+                return FLAG_HARD | FLAG_WRONG; // Not mineable, hard, and wrong
             }
 
             boolean isMineable = (
@@ -349,32 +361,39 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
                             s.canBeReplaced() ||
                             s.is(BlockTags.MINEABLE_WITH_SHOVEL) ||
                             s.is(BlockTags.MINEABLE_WITH_PICKAXE) ||
-                            s.liquid()
+                            s.liquid() ||
+                            hardness == 0
             );
 
             boolean isHard = hardness > 3;
             boolean isWrong = !isMineable;
 
-            return new BlockCheckResult(isMineable, isHard, isWrong);
+            int result = 0;
+            if (isMineable) result |= FLAG_MINEABLE;
+            if (isHard) result |= FLAG_HARD;
+            if (isWrong) result |= FLAG_WRONG;
+
+            return result;
         });
     }
 
     private boolean checkBlocksUnder() {
         AABB aabb = this.getBoundingBox().move(0, -0.6, 0);
-        Map<BlockState, BlockCheckResult> cache = new HashMap<>();
+        Map<BlockState, Integer> cache = new HashMap<>();
 
         for (BlockPos pos : BlockPos.betweenClosed(
                 Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ),
                 Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
 
             BlockState state = level().getBlockState(pos);
-            BlockCheckResult result = analyzeBlock(state, pos, cache);
+            int result = analyzeBlock(state, pos, cache);
 
-            if (result.isHard || !result.isMineable) return false;
-            BlockPos above = pos.above();
-            BlockState aboveState = level().getBlockState(above);
-            BlockCheckResult aboveResult = analyzeBlock(aboveState, above, cache);
-            if (!aboveResult.isMineable || aboveResult.isHard) return false;
+            if ((result & FLAG_HARD) != 0 || (result & FLAG_MINEABLE) == 0) return false;
+
+            BlockState aboveState = level().getBlockState(pos.above());
+            int aboveResult = analyzeBlock(aboveState, pos.above(), cache);
+
+            if ((aboveResult & FLAG_MINEABLE) == 0 || (aboveResult & FLAG_HARD) != 0) return false;
         }
 
         return true;
@@ -400,26 +419,26 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
 
     public void handleUnearthing(){
         AABB aabb = this.getBoundingBox().inflate(1, 1.4, 1);
+        Map<BlockState, Integer> cache = new HashMap<>();
         int airAmount = 0;
         boolean meetsHardBlock = false;
         boolean meetsWrongBlock = false;
-        Map<BlockState, BlockCheckResult> cache = new HashMap<>();
 
         for (BlockPos pos : BlockPos.betweenClosed(
                 Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ),
                 Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
 
             BlockState state = level().getBlockState(pos);
-            BlockCheckResult result = analyzeBlock(state, pos, cache);
+            int result = analyzeBlock(state, pos, cache);
 
             if (level().canSeeSky(pos) && ticksUnder <= 0) {
                 airAmount++;
             }
-            if (result.isWrong) {
+            if ((result & FLAG_WRONG) != 0) {
                 meetsWrongBlock = true;
                 break;
             }
-            if (result.isHard) {
+            if ((result & FLAG_HARD) != 0) {
                 meetsHardBlock = true;
                 break;
             }
@@ -454,7 +473,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     }
     @Override
     public void registerGoals() {
-        this.goalSelector.addGoal(4,new HohlChargeGoal(this,1.5D,200));
+        this.goalSelector.addGoal(4,new HohlChargeGoal(this,0.25D,100));
         this.goalSelector.addGoal(5, new HohlfresserMeleeAttack(this, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
         this.goalSelector.addGoal(6, new CalamityInfectedCommand(this));
         this.goalSelector.addGoal(7, new SummonScentInCombat(this));
@@ -466,10 +485,30 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     public boolean canDrownInFluidType(FluidType type) {
         return false;
     }
+    private boolean checkVectorForSeeing(Entity target) {
+        Map<BlockState, Integer> cache = new HashMap<>();
+        Vec3 startVec = this.position();
+        Vec3 endVec = target.position();
+        Vec3 direction = endVec.subtract(startVec).normalize();
+        double distance = startVec.distanceTo(endVec);
+
+        for (double i = 0; i <= distance; i += 0.5) {
+            Vec3 current = startVec.add(direction.scale(i));
+            BlockPos pos = BlockPos.containing(current);
+            BlockState state = this.level().getBlockState(pos);
+            int result = this.analyzeBlock(state, pos, cache);
+
+            if ((result & FLAG_HARD) != 0 || (result & FLAG_MINEABLE) == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     @Override
-    public boolean hasLineOfSight(Entity p_147185_) {
-        return true;
+    public boolean hasLineOfSight(Entity entity) {
+
+        return super.hasLineOfSight(entity) || checkVectorForSeeing(entity);
     }
 
     static class HohlfresserMeleeAttack extends AOEMeleeAttackGoal{
@@ -538,61 +577,74 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         }
     }
 
-    static class HohlChargeGoal extends Goal{
-        private int timeBeforeCharge;
+    static class HohlChargeGoal extends Goal {
         private final Hohlfresser mob;
-        private final LivingEntity target;
         private final double speed;
-        private final int time;
+        private final int chargeDelay;
+        private int chargeTimer = 0;
 
-        HohlChargeGoal(Hohlfresser mob, double speed, int time) {
+        HohlChargeGoal(Hohlfresser mob, double speed, int chargeDelay) {
             this.mob = mob;
-            target = mob.getTarget();
             this.speed = speed;
-            this.time = time;
+            this.chargeDelay = chargeDelay;
         }
 
         @Override
         public boolean canUse() {
-            if (timeBeforeCharge < time){
-                timeBeforeCharge++;
+            LivingEntity target = mob.getTarget();
+            if (target == null || !target.isAlive()) {
+                chargeTimer = 0;
+                return false;
+            }
+
+            if (chargeTimer < chargeDelay) {
+                chargeTimer++;
+                return false;
             }else {
-                if (target == null){
-                    return false;
-                }else {
-                    if (checkVectorForCharging(target)){
-                       return chargeAtLocation(target);
-                    }
+                if (checkVectorForCharging(target)) {
+                    return true;
                 }
             }
+            chargeTimer = 0;
             return false;
         }
 
-        boolean checkVectorForCharging(LivingEntity target){
-            Map<BlockState, BlockCheckResult> cache = new HashMap<>();
-            Vec3 startVec = new Vec3(mob.getX(), mob.getY(), mob.getZ());
-            Vec3 endVec = new Vec3(target.getX(), target.getY(), target.getZ());
+        @Override
+        public void start() {
+            LivingEntity target = mob.getTarget();
+            if (target != null) {
+                mob.setUnderground(true);
+                Vec3 direction = target.position().subtract(mob.position());
+                mob.setDeltaMovement(mob.getDeltaMovement().add(direction.scale(speed)));
+            }
+            chargeTimer = 0;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return false;
+        }
+
+        private boolean checkVectorForCharging(Entity target) {
+            Map<BlockState, Integer> cache = new HashMap<>();
+            Vec3 startVec = mob.position();
+            Vec3 endVec = target.position();
             Vec3 direction = endVec.subtract(startVec).normalize();
             double distance = startVec.distanceTo(endVec);
-            for (int i = 0; i <= distance; i++) {
+
+            for (double i = 0; i <= distance; i += 0.5) {
                 Vec3 current = startVec.add(direction.scale(i));
-                BlockPos pos = new BlockPos((int) current.x,(int) current.y,(int)current.z);
+                BlockPos pos = BlockPos.containing(current);
                 BlockState state = mob.level().getBlockState(pos);
-                BlockCheckResult result = mob.analyzeBlock(state, pos, cache);
-                if (result.isHard || !result.isMineable){
-                    timeBeforeCharge = 0;
+                int result = mob.analyzeBlock(state, pos, cache);
+
+                if ((result & FLAG_HARD) != 0 || (result & FLAG_MINEABLE) == 0) {
                     return false;
                 }
             }
             return true;
         }
-        boolean chargeAtLocation(LivingEntity target){
-            mob.setUnderground(true);
-            Vec3 vec3 = new Vec3(target.getX() - this.mob.getX(), target.getY() - this.mob.getY(), target.getZ() - this.mob.getZ());
-            vec3 = vec3.normalize();
-            this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(vec3.scale(speed)));
-            timeBeforeCharge = 0;
-            return true;
-        }
+
     }
+
 }

@@ -136,7 +136,7 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
 
         // === NEW: Disable gravity & physics if too far from parent ===
         double distanceToParent = this.position().distanceTo(parentPos);
-        boolean disablePhysics = distanceToParent > 10.0;
+        boolean disablePhysics = distanceToParent > 5.0;
 
         Entity entity = getParentSafe();
         if (entity != null){

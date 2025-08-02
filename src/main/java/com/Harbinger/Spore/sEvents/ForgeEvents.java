@@ -31,7 +31,7 @@ public class ForgeEvents {
                 shakeCamera(distance,maxShakeDistance,maxShakeIntensity,event);
             }
             for (Hohlfresser worm1 : worm) {
-                if (worm1.isUnderground() && worm1.isMoving()){
+                if (worm1.isUnderground() && worm1.isMoving() && worm1.isInWall(worm1)){
                     double distance = player.distanceTo(worm1);
                     shakeCamera(distance,maxShakeDistance,4,event);
                 }

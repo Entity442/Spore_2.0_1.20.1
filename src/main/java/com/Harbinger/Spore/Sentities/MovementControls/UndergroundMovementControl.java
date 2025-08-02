@@ -45,6 +45,12 @@ public class UndergroundMovementControl extends CalamityMovementControl {
             float yaw = (float)(Mth.atan2(vec3.z, vec3.x) * (180F / Math.PI)) - 90.0F;
             mob.setYRot(yaw);
             mob.setYHeadRot(yaw);
+            if (mob.horizontalCollision && getWantedY() > mob.getY()) {
+                Vec3 initialVec = mob.getDeltaMovement();
+                Vec3 climbVec = new Vec3(initialVec.x, 0.2D, initialVec.z);
+                mob.setDeltaMovement(climbVec.x * 0.91D,
+                        climbVec.y * 0.98D, climbVec.z * 0.91D);
+            }
         }else {
             operation = Operation.WAIT;
         }
