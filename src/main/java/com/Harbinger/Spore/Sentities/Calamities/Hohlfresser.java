@@ -473,7 +473,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     }
     @Override
     public void registerGoals() {
-        this.goalSelector.addGoal(4,new HohlChargeGoal(this,0.25D,100));
+        this.goalSelector.addGoal(4,new HohlChargeGoal(this,0.5D,100));
         this.goalSelector.addGoal(5, new HohlfresserMeleeAttack(this, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
         this.goalSelector.addGoal(6, new CalamityInfectedCommand(this));
         this.goalSelector.addGoal(7, new SummonScentInCombat(this));
@@ -517,28 +517,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         }
         protected double getAttackReachSqr(LivingEntity entity) {
             float f = mob.getBbWidth();
-            return f * 1.5F * f * 1.5F + entity.getBbWidth();
-        }
-
-        @Override
-        protected void checkAndPerformAttack(LivingEntity entity, double p_25558_) {
-            if (hasLineOfSight(entity)){
-                super.checkAndPerformAttack(entity, p_25558_);
-            }
-        }
-
-        public boolean hasLineOfSight(Entity target) {
-            if (target.level() != mob.level()) {
-                return false;
-            } else {
-                Vec3 vec3 = new Vec3(mob.getX(), mob.getEyeY(), mob.getZ());
-                Vec3 vec31 = new Vec3(target.getX(), target.getEyeY(), target.getZ());
-                if (vec31.distanceTo(vec3) > 128.0) {
-                    return false;
-                } else {
-                    return mob.level().clip(new ClipContext(vec3, vec31, ClipContext.Block.COLLIDER, net.minecraft.world.level.ClipContext.Fluid.NONE, mob)).getType() == HitResult.Type.MISS;
-                }
-            }
+            return f * 1.5F * f + entity.getBbWidth();
         }
 
         @Override
