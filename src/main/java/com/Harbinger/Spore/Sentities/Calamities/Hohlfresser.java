@@ -348,7 +348,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
                     FallingBlockEntity.fall(this.level(),blockpos,state);
                 }
             }
-            if (state.is(Blocks.GRASS_BLOCK) && Math.random() < 0.2){
+            if ((state.is(Blocks.GRASS_BLOCK) || state.is(Blocks.DIRT)) && Math.random() < 0.2){
                 level().setBlock(blockpos,Math.random() < 0.5f ? Blocks.DIRT.defaultBlockState() : Blocks.COARSE_DIRT.defaultBlockState(),3);
             }
         }
@@ -481,7 +481,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
     }
     @Override
     public void registerGoals() {
-        this.goalSelector.addGoal(4,new HohlChargeGoal(this,0.5D,100));
+        this.goalSelector.addGoal(4,new HohlChargeGoal(this,0.5D,300,100));
         this.goalSelector.addGoal(5, new HohlfresserMeleeAttack(this, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
         this.goalSelector.addGoal(6, new CalamityInfectedCommand(this));
         this.goalSelector.addGoal(7, new SummonScentInCombat(this));
@@ -569,11 +569,13 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         private final double speed;
         private final int chargeDelay;
         private int chargeTimer = 0;
+        private final float distance;
 
-        HohlChargeGoal(Hohlfresser mob, double speed, int chargeDelay) {
+        HohlChargeGoal(Hohlfresser mob, double speed, int chargeDelay, float distance) {
             this.mob = mob;
             this.speed = speed;
             this.chargeDelay = chargeDelay;
+            this.distance = distance;
         }
 
         @Override
@@ -599,7 +601,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         @Override
         public void start() {
             LivingEntity target = mob.getTarget();
-            if (target != null) {
+            if (target != null && target.distanceTo(mob) < distance) {
                 mob.setUnderground(true);
                 Vec3 direction = target.position().subtract(mob.position());
                 mob.setDeltaMovement(mob.getDeltaMovement().add(direction.scale(speed)));
