@@ -249,6 +249,10 @@ public class Sentities {
             () -> EntityType.Builder.of(NukeEntity::new, MobCategory.MISC).sized(1.1f, 3f)
                     .build(new ResourceLocation(Spore.MODID, "nuke").toString()));
 
+    public static final RegistryObject<EntityType<VomitHohlBall>> VOMIT_BALL = register("vomit_ball",
+            EntityType.Builder.<VomitHohlBall>of(VomitHohlBall::new, MobCategory.MISC).setCustomClientFactory((spawnEntity, level) -> new VomitHohlBall(level))
+                    .setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(0.5f, 0.5f));
+
     public static final RegistryObject<EntityType<AcidBall>> ACID_BALL = register("acid_ball",
             EntityType.Builder.<AcidBall>of(AcidBall::new, MobCategory.MISC).setCustomClientFactory((spawnEntity, level) -> new AcidBall(level))
                     .setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(0.5f, 0.5f));

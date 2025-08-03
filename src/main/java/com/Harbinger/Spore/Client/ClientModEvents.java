@@ -236,6 +236,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.HVINDICATOR.get(), HyperVindicatorRenderer::new);
 
         event.registerEntityRenderer(Sentities.ACID_BALL.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(Sentities.VOMIT_BALL.get(), VomitRenderer::new);
         event.registerEntityRenderer(Sentities.SPIT.get(), BulletRender::new);
         event.registerEntityRenderer(Sentities.BILE.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(Sentities.ACID.get(), ThrownItemRenderer::new);

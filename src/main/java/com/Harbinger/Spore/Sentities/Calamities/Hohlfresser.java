@@ -11,6 +11,7 @@ import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.BaseEntities.HohlMultipart;
 import com.Harbinger.Spore.Sentities.MovementControls.UndergroundMovementControl;
 import com.Harbinger.Spore.Sentities.MovementControls.UndergroundPathNavigation;
+import com.Harbinger.Spore.Sentities.Projectile.VomitHohlBall;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -28,6 +29,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.item.FallingBlockEntity;
+import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -45,7 +47,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Predicate;
 
-public class Hohlfresser extends Calamity implements TrueCalamity {
+public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackMob {
     private static final EntityDataAccessor<Optional<UUID>> CHILD_UUID = SynchedEntityData.defineId(Hohlfresser.class, EntityDataSerializers.OPTIONAL_UUID);
     private static final EntityDataAccessor<Integer> CHILD_ID = SynchedEntityData.defineId(Hohlfresser.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Integer> VULNERABLE = SynchedEntityData.defineId(Hohlfresser.class, EntityDataSerializers.INT);
@@ -311,6 +313,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         }
         if (tickCount % 20 == 0){
             handleDigIn();
+            handleShooting();
         }
         if (ticksUnder > 0){ticksUnder--;}
         if (tickCount % 20 == 0 && isMoving() && isUnderground() && this.getTarget() != null){
@@ -318,6 +321,25 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         }
         if (tickCount % 80 == 0 && isUnderground() && isInWall(this)){
             this.playSound(Ssounds.WORM_DIGGING.get());
+        }
+    }
+    void handleShooting(){
+        LivingEntity living = this.getTarget();
+        if (living != null && living.distanceToSqr(this)> 100 && hasSight(living)){
+            VomitHohlBall.shoot(this,living,5);
+        }
+    }
+    public boolean hasSight(Entity entity) {
+        if (entity.level() != this.level()) {
+            return false;
+        } else {
+            Vec3 vec3 = new Vec3(this.getX(), this.getEyeY(), this.getZ());
+            Vec3 vec31 = new Vec3(entity.getX(), entity.getEyeY(), entity.getZ());
+            if (vec31.distanceTo(vec3) > 128.0) {
+                return false;
+            } else {
+                return this.level().clip(new ClipContext(vec3, vec31, ClipContext.Block.COLLIDER, net.minecraft.world.level.ClipContext.Fluid.NONE, this)).getType() == HitResult.Type.MISS;
+            }
         }
     }
 
@@ -414,13 +436,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
             if (below || above){
                 if (checkBlocksUnder() && tooDeep){
                     setUnderground(true);
-                }else {
-                    if (tickCount % 20 == 0){
-                        AABB aabb = this.getBoundingBox().move(new Vec3(0,-1,0));
-                        grief(aabb);
-                    }
                 }
-
             }
         }
     }
@@ -519,6 +535,11 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         return super.hasLineOfSight(entity) || checkVectorForSeeing(entity);
     }
 
+    @Override
+    public void performRangedAttack(LivingEntity livingEntity, float v) {
+        VomitHohlBall.shoot(level(),livingEntity,2,5,1);
+    }
+
     static class HohlfresserMeleeAttack extends AOEMeleeAttackGoal{
         public HohlfresserMeleeAttack(Hohlfresser mob, Predicate<LivingEntity> targets) {
             super(mob, 1.5, false, 2.5, 6 ,targets);
@@ -526,11 +547,6 @@ public class Hohlfresser extends Calamity implements TrueCalamity {
         protected double getAttackReachSqr(LivingEntity entity) {
             float f = mob.getBbWidth();
             return f * 1.5F * f + entity.getBbWidth();
-        }
-
-        @Override
-        public void tick() {
-            super.tick();
         }
     }
 
