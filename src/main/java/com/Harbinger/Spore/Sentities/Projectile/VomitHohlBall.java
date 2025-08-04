@@ -89,7 +89,7 @@ public class VomitHohlBall extends AbstractArrow {
         return entityarrow;
     }
 
-    public static VomitHohlBall shoot(LivingEntity entity, LivingEntity target, float damage) {
+    public static VomitHohlBall shoot(LivingEntity entity, LivingEntity target, float damage,boolean ore) {
         VomitHohlBall entityarrow = new VomitHohlBall(Sentities.VOMIT_BALL.get(), entity, entity.level());
         double dx = target.getX() - entity.getX();
         double dy = target.getY() + target.getEyeHeight() - 2;
@@ -97,6 +97,7 @@ public class VomitHohlBall extends AbstractArrow {
         entityarrow.shoot(dx, dy - entityarrow.getY() + Math.hypot(dx, dz) * 0.2F, dz, 2, 4.0F);
         entityarrow.setBaseDamage(damage);
         entityarrow.setKnockback(1);
+        entityarrow.setOres(ore);
         entity.level().addFreshEntity(entityarrow);
 
         return entityarrow;

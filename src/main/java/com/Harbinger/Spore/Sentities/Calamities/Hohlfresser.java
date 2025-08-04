@@ -337,7 +337,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
     void handleShooting(){
         LivingEntity living = this.getTarget();
         if (living != null && living.distanceToSqr(this)> 100 && hasSight(living)){
-            VomitHohlBall.shoot(this,living,5);
+            performRangedAttack(living,0);
         }
     }
     public boolean hasSight(Entity entity) {
@@ -555,8 +555,8 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
         if (Math.random() < 0.1f){
             shootTumor(livingEntity);
         }else {
-            float extraDamage = entityData.get(ORES) * 0.25f;
-            VomitHohlBall.shoot(level(),livingEntity,2,SConfig.SERVER.hohl_r_damage.get()+extraDamage,1,entityData.get(ORES) > 0);
+            float extraDamage = (float) (SConfig.SERVER.hohl_r_damage.get() + getOres() * 0.25f);
+            VomitHohlBall.shoot(this,livingEntity,extraDamage,getOres() > 0);
         }
     }
     void shootTumor(LivingEntity livingEntity){
@@ -568,7 +568,6 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
         double dy = livingEntity.getY() + livingEntity.getEyeHeight();
         double dz = livingEntity.getZ() - this.getZ();
         tumor.setExplode(Level.ExplosionInteraction.MOB);
-
         tumor.shoot(dx, dy - tumor.getY() + Math.hypot(dx, dz) * 0.05F, dz, 1f, 12.0F);
         level().addFreshEntity(tumor);
     }
