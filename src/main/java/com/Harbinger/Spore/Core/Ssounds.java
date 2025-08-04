@@ -222,6 +222,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> WORM_DIGGING = soundRegistry("worm_digging");
 
+    public static final RegistryObject<SoundEvent> HOHL_AMBIENT = soundRegistry("hohl_ambient");
+
     private Ssounds() {
     }
 }

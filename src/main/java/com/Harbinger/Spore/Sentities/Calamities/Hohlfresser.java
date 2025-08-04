@@ -688,7 +688,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
     }
 
     protected SoundEvent getAmbientSound() {
-        return Ssounds.SIEGER_AMBIENT.get();
+        return Ssounds.HOHL_AMBIENT.get();
     }
 
     protected SoundEvent getStepSound() {

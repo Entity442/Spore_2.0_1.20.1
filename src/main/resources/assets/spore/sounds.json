@@ -93,6 +93,13 @@
       "spore:saugling_ambient3"
     ]
   },
+  "hohl_ambient" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:hohl_ambient",
+      "spore:hohl_ambient2"
+    ]
+  },
   "plagued_ambient" :{
     "subtitle": "sounds.spore.growl",
     "sounds": [
