@@ -74,7 +74,7 @@ public class VomitHohlBall extends AbstractArrow {
             float movement1 = (this.random.nextFloat() - this.random.nextFloat()) * 0.5f;
             float movement2 = (this.random.nextFloat() - this.random.nextFloat()) * 0.5f;
             float movement3 = (this.random.nextFloat() - this.random.nextFloat()) * 0.5f;
-            level().addParticle(Sparticles.VOMIT.get(),this.getX()+movement1,this.getY()+movement2,this.getZ()+movement3,0,0,0);
+            level().addParticle(Sparticles.VOMIT_ORES.get(),this.getX()+movement1,this.getY()+movement2,this.getZ()+movement3,0,0,0);
         }
     }
 

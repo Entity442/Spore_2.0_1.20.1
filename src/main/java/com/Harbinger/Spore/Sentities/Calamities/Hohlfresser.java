@@ -22,6 +22,8 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
@@ -556,7 +558,8 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
             shootTumor(livingEntity);
         }else {
             float extraDamage = (float) (SConfig.SERVER.hohl_r_damage.get() + getOres() * 0.2f);
-            VomitHohlBall.shoot(this,livingEntity,extraDamage,getOres() > 0,getKills() > 0);
+            double damage = SConfig.SERVER.hohl_damage.get() <= extraDamage ? SConfig.SERVER.hohl_damage.get() : extraDamage;
+            VomitHohlBall.shoot(this,livingEntity,(float) damage,getOres() > 0,getKills() > 0);
         }
     }
     void shootTumor(LivingEntity livingEntity){
@@ -682,6 +685,18 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
             return true;
         }
 
+    }
+
+    protected SoundEvent getAmbientSound() {
+        return Ssounds.SIEGER_AMBIENT.get();
+    }
+
+    protected SoundEvent getStepSound() {
+        return SoundEvents.RAVAGER_STEP;
+    }
+
+    protected void playStepSound(BlockPos p_34316_, BlockState p_34317_) {
+        this.playSound(this.getStepSound(), 0.15F, 1.0F);
     }
 
 }
