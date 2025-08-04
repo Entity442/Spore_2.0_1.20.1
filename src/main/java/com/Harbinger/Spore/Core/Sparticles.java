@@ -29,6 +29,10 @@ public class Sparticles {
 
     public static final RegistryObject<SimpleParticleType> VOMIT =
             PARTICLE_TYPES.register("vomit", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> VOMIT_BONE =
+            PARTICLE_TYPES.register("vomit_bone", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> VOMIT_ORES =
+            PARTICLE_TYPES.register("vomit_ores", () -> new SimpleParticleType(true));
     public static void register(IEventBus eventBus) {
         PARTICLE_TYPES.register(eventBus);
     }

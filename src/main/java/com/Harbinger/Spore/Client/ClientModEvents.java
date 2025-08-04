@@ -333,6 +333,10 @@ public class ClientModEvents {
 
         Minecraft.getInstance().particleEngine.register(Sparticles.VOMIT.get(),
                 VomitParticle.Provider::new);
+        Minecraft.getInstance().particleEngine.register(Sparticles.VOMIT_BONE.get(),
+                VomitParticle.Provider::new);
+        Minecraft.getInstance().particleEngine.register(Sparticles.VOMIT_ORES.get(),
+                VomitParticle.Provider::new);
     }
 
     @SubscribeEvent

@@ -555,8 +555,8 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
         if (Math.random() < 0.1f){
             shootTumor(livingEntity);
         }else {
-            float extraDamage = (float) (SConfig.SERVER.hohl_r_damage.get() + getOres() * 0.25f);
-            VomitHohlBall.shoot(this,livingEntity,extraDamage,getOres() > 0);
+            float extraDamage = (float) (SConfig.SERVER.hohl_r_damage.get() + getOres() * 0.2f);
+            VomitHohlBall.shoot(this,livingEntity,extraDamage,getOres() > 0,getKills() > 0);
         }
     }
     void shootTumor(LivingEntity livingEntity){
