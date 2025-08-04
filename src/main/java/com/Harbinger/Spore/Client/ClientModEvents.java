@@ -330,6 +330,9 @@ public class ClientModEvents {
 
         Minecraft.getInstance().particleEngine.register(Sparticles.SPORE_IMPACT.get(),
                 BashParticle.Provider::new);
+
+        Minecraft.getInstance().particleEngine.register(Sparticles.VOMIT.get(),
+                VomitParticle.Provider::new);
     }
 
     @SubscribeEvent

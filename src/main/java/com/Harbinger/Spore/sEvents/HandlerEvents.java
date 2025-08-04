@@ -378,6 +378,7 @@ public class HandlerEvents {
                                     }
                                 if (calamity instanceof Hohlfresser sieger){
                                     player.displayClientMessage(Component.literal("Underground "+ sieger.isUnderground()),false);
+                                    player.displayClientMessage(Component.literal("Ores ? "+ sieger.getOres()),false);
                                 }
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
                             }else if (entity1 instanceof Mound mound){

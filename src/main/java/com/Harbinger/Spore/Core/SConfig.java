@@ -254,6 +254,7 @@ public class SConfig {
 
         public final ForgeConfigSpec.ConfigValue<Double> hohl_hp;
         public final ForgeConfigSpec.ConfigValue<Double> hohl_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> hohl_r_damage;
         public final ForgeConfigSpec.ConfigValue<Double> hohl_armor;
         public final ForgeConfigSpec.ConfigValue<Double> hohl_dpsr;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> hohl_buffs;
@@ -856,6 +857,7 @@ public class SConfig {
             builder.push("Hohlfresser");
             this.hohl_hp = builder.comment("Default 250").defineInRange("Sets Hohlfresser Max health", 250, 1, Double.MAX_VALUE);
             this.hohl_damage = builder.comment("Default 20").defineInRange("Sets Hohlfresser Damage", 20, 1, Double.MAX_VALUE);
+            this.hohl_r_damage = builder.comment("Default 5").defineInRange("Sets Hohlfresser Ramged Damage", 5, 1, Double.MAX_VALUE);
             this.hohl_armor = builder.comment("Default 25").defineInRange("Sets Hohlfresser Armor", 25, 1, Double.MAX_VALUE);
             this.hohl_dpsr = builder.comment("Default 70").defineInRange("Sets Hohlfresser Damage Cap , set to 0 to disable", 50, 0, Double.MAX_VALUE);
 

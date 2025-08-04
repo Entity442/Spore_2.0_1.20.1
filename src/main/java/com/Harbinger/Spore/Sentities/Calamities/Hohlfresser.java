@@ -11,15 +11,19 @@ import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.BaseEntities.HohlMultipart;
 import com.Harbinger.Spore.Sentities.MovementControls.UndergroundMovementControl;
 import com.Harbinger.Spore.Sentities.MovementControls.UndergroundPathNavigation;
+import com.Harbinger.Spore.Sentities.Projectile.ThrownTumor;
 import com.Harbinger.Spore.Sentities.Projectile.VomitHohlBall;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -34,6 +38,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -54,6 +59,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
     public static final EntityDataAccessor<Boolean> ADAPTED = SynchedEntityData.defineId(Hohlfresser.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> UNDERGROUND = SynchedEntityData.defineId(Hohlfresser.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Float> WORM_ANGLE = SynchedEntityData.defineId(Hohlfresser.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> ORES = SynchedEntityData.defineId(Hohlfresser.class, EntityDataSerializers.FLOAT);
     private float spin = 0;
     private HohlMultipart[] parts = null;
     public final float[] ringBuffer = new float[64];
@@ -76,6 +82,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
         this.entityData.define(CHILD_UUID, Optional.empty());
         this.entityData.define(CHILD_ID, -1);
         this.entityData.define(WORM_ANGLE, 0f);
+        this.entityData.define(ORES, 0f);
     }
     public float getSpin(){
         float speed = (float) Math.sqrt(this.getDeltaMovement().x * this.getDeltaMovement().x +
@@ -112,6 +119,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
         tag.putBoolean("adaptation", entityData.get(ADAPTED));
         tag.putBoolean("underground", entityData.get(UNDERGROUND));
         tag.putInt("vulnerable", entityData.get(VULNERABLE));
+        tag.putFloat("ores", entityData.get(ORES));
         if (getChildId() != null) {
             tag.putUUID("ChildUUID", getChildId());
         }
@@ -130,6 +138,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
         entityData.set(ADAPTED, tag.getBoolean("adaptation"));
         entityData.set(UNDERGROUND, tag.getBoolean("underground"));
         entityData.set(VULNERABLE, tag.getInt("vulnerable"));
+        entityData.set(ORES, tag.getFloat("ores"));
         if (tag.hasUUID("ChildUUID")) {
             setChildId(tag.getUUID("ChildUUID"));
         }
@@ -313,7 +322,6 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
         }
         if (tickCount % 20 == 0){
             handleDigIn();
-            handleShooting();
         }
         if (ticksUnder > 0){ticksUnder--;}
         if (tickCount % 20 == 0 && isMoving() && isUnderground() && this.getTarget() != null){
@@ -321,6 +329,9 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
         }
         if (tickCount % 80 == 0 && isUnderground() && isInWall(this)){
             this.playSound(Ssounds.WORM_DIGGING.get());
+        }
+        if (tickCount % 10 == 0){
+            handleShooting();
         }
     }
     void handleShooting(){
@@ -342,7 +353,8 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
             }
         }
     }
-
+    public static final TagKey<Block> ORE_TAG = TagKey.create(Registries.BLOCK,new ResourceLocation("forge:ores"));
+    public float getOres(){return entityData.get(ORES);}
     public void tryAndCrumbleBlocks(){
         if (level().isClientSide){return;}
         Player player = level().getNearestPlayer(this,-1);
@@ -372,6 +384,10 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
             }
             if ((state.is(Blocks.GRASS_BLOCK) || state.is(Blocks.DIRT)) && Math.random() < 0.2){
                 level().setBlock(blockpos,Math.random() < 0.5f ? Blocks.DIRT.defaultBlockState() : Blocks.COARSE_DIRT.defaultBlockState(),3);
+            }
+            if (state.is(ORE_TAG)){
+                this.entityData.set(ORES,entityData.get(ORES)+1);
+                level().setBlock(blockpos,blockpos.getY() < 0 ? Blocks.COBBLED_DEEPSLATE.defaultBlockState() : Blocks.COBBLESTONE.defaultBlockState(),3);
             }
         }
     }
@@ -531,13 +547,30 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
 
     @Override
     public boolean hasLineOfSight(Entity entity) {
-
         return super.hasLineOfSight(entity) || checkVectorForSeeing(entity);
     }
 
     @Override
     public void performRangedAttack(LivingEntity livingEntity, float v) {
-        VomitHohlBall.shoot(level(),livingEntity,2,5,1);
+        if (Math.random() < 0.1f){
+            shootTumor(livingEntity);
+        }else {
+            float extraDamage = entityData.get(ORES) * 0.25f;
+            VomitHohlBall.shoot(level(),livingEntity,2,SConfig.SERVER.hohl_r_damage.get()+extraDamage,1,entityData.get(ORES) > 0);
+        }
+    }
+    void shootTumor(LivingEntity livingEntity){
+        if (level().isClientSide){
+            return;
+        }
+        ThrownTumor tumor = new ThrownTumor(level(),this);
+        double dx = livingEntity.getX() - this.getX();
+        double dy = livingEntity.getY() + livingEntity.getEyeHeight();
+        double dz = livingEntity.getZ() - this.getZ();
+        tumor.setExplode(Level.ExplosionInteraction.MOB);
+
+        tumor.shoot(dx, dy - tumor.getY() + Math.hypot(dx, dz) * 0.05F, dz, 1f, 12.0F);
+        level().addFreshEntity(tumor);
     }
 
     static class HohlfresserMeleeAttack extends AOEMeleeAttackGoal{

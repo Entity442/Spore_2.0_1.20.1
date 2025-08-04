@@ -26,6 +26,9 @@ public class Sparticles {
 
     public static final RegistryObject<SimpleParticleType> SPORE_IMPACT =
             PARTICLE_TYPES.register("spore_impact", () -> new SimpleParticleType(true));
+
+    public static final RegistryObject<SimpleParticleType> VOMIT =
+            PARTICLE_TYPES.register("vomit", () -> new SimpleParticleType(true));
     public static void register(IEventBus eventBus) {
         PARTICLE_TYPES.register(eventBus);
     }
