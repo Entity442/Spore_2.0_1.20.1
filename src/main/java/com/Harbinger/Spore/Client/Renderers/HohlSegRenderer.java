@@ -1,14 +1,18 @@
 package com.Harbinger.Spore.Client.Renderers;
 
 import com.Harbinger.Spore.Client.Models.HohlfresserSeg1Model;
+import com.Harbinger.Spore.Client.Models.HohlfresserSeg2Model;
 import com.Harbinger.Spore.Client.Models.hohlfresserTailModel;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.HohlMultipart;
 import com.Harbinger.Spore.Sentities.Calamities.Hohlfresser;
+import com.Harbinger.Spore.Sentities.Variants.BraureiVariants;
 import com.Harbinger.Spore.Spore;
+import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -27,23 +31,38 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
+import java.util.Map;
+
 @OnlyIn(Dist.CLIENT)
 public class HohlSegRenderer<Type extends HohlMultipart> extends LivingEntityRenderer<Type , EntityModel<Type>> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
-            "textures/entity/hohl_seg1.png");
+    public static final Map<HohlMultipart.SegmentVariants, ResourceLocation> TEXTURE =
+            Util.make(Maps.newEnumMap(HohlMultipart.SegmentVariants.class), (p_114874_) -> {
+                p_114874_.put(HohlMultipart.SegmentVariants.DEFAULT,
+                        new ResourceLocation(Spore.MODID, "textures/entity/hohl_seg1.png"));
+                p_114874_.put(HohlMultipart.SegmentVariants.MELEE,
+                        new ResourceLocation(Spore.MODID, "textures/entity/hohl_seg2.png"));
+                p_114874_.put(HohlMultipart.SegmentVariants.ORGAN,
+                        new ResourceLocation(Spore.MODID, "textures/entity/hohl_seg2.png"));
+            });
     private static final ResourceLocation INNARDS = new ResourceLocation(Spore.MODID,
             "textures/entity/worm_innards.png");
+
     private final EntityModel<Type> mainSegment = this.getModel();
+    private final EntityModel<Type> meleeSegment;
+    private final EntityModel<Type> organSegment;
     private final EntityModel<Type> tailModel;
+
     public HohlSegRenderer(EntityRendererProvider.Context context) {
         super(context, new HohlfresserSeg1Model<>(context.bakeLayer(HohlfresserSeg1Model.LAYER_LOCATION)), 4f);
+        meleeSegment = new HohlfresserSeg2Model<>(context.bakeLayer(HohlfresserSeg2Model.LAYER_LOCATION));
+        organSegment = new HohlfresserSeg2Model<>(context.bakeLayer(HohlfresserSeg2Model.LAYER_LOCATION));
         tailModel = new hohlfresserTailModel<>(context.bakeLayer(hohlfresserTailModel.LAYER_LOCATION));
         this.addLayer(new HohlColors<>(this));
     }
 
     @Override
     public ResourceLocation getTextureLocation(Type entity) {
-        return TEXTURE;
+        return TEXTURE.get(entity.getSegmentVariant());
     }
 
     @Override
@@ -52,10 +71,21 @@ public class HohlSegRenderer<Type extends HohlMultipart> extends LivingEntityRen
         stack.scale(size,size,size);
         super.scale(type, stack, p_115316_);
     }
+    public EntityModel<Type> getSegmentModel(Type type){
+        switch (type.getSegmentVariant()){
+            case MELEE -> {
+                return meleeSegment;
+            }
+            case ORGAN -> {
+                return organSegment;
+            }
+        }
+        return mainSegment;
+    }
 
     @Override
     public void render(Type type, float val1, float val2, PoseStack stack, MultiBufferSource source, int light) {
-        model = type.isTail() ? tailModel : mainSegment;
+        model = type.isTail() ? tailModel : getSegmentModel(type);
         super.render(type, val1, val2, stack, source, light);
         if (type.isInvisible()){
             return;

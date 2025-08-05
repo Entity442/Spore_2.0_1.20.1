@@ -3,6 +3,8 @@ package com.Harbinger.Spore.Sentities.BaseEntities;
 
 import com.Harbinger.Spore.Sentities.Calamities.Hohlfresser;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
+import com.Harbinger.Spore.Sentities.Variants.BraureiVariants;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -27,9 +29,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraftforge.fluids.FluidType;
 
 import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Predicate;
 
 public class HohlMultipart extends LivingEntity implements TrueCalamity {
@@ -361,5 +361,36 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
     @Override
     public EntityDimensions getDimensions(Pose p_21047_) {
         return super.getDimensions(p_21047_).scale(this.getSize());
+    }
+    private void setVariant(SegmentVariants variant) {
+        this.entityData.set(VARIANT, variant.getId() & 255);
+    }
+    public void setVariant(){
+        SegmentVariants variant = Util.getRandom(SegmentVariants.values(), this.random);
+        setVariant(variant);
+    }
+    public SegmentVariants getSegmentVariant() {
+        return SegmentVariants.byId(this.entityData.get(VARIANT) & 255);
+    }
+    public enum SegmentVariants {
+        DEFAULT(0),
+        MELEE(1),
+        ORGAN(2);
+
+        private static final SegmentVariants[] BY_ID = Arrays.stream(values()).sorted(Comparator.
+                comparingInt(SegmentVariants::getId)).toArray(SegmentVariants[]::new);
+        private final int id;
+
+        SegmentVariants(int id) {
+            this.id = id;
+        }
+
+        public int getId() {
+            return this.id;
+        }
+
+        public static SegmentVariants byId(int id) {
+            return BY_ID[id % BY_ID.length];
+        }
     }
 }

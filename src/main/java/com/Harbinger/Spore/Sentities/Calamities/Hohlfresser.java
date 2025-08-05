@@ -285,6 +285,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
                     part.setParent(partParent);
                     part.setSize(size);
                     part.setColor(this.getMutationColor());
+                    part.setVariant();
                     part.setIsTail(i == getSegments()-1);
                     if (partParent == this) {
                         this.setChildId(part.getUUID());
