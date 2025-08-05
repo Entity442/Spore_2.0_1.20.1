@@ -13,7 +13,7 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-public class HohlfresserSeg2Model<T extends HohlMultipart> extends EntityModel<T> {
+public class HohlfresserSeg2Model<T extends HohlMultipart> extends EntityModel<T> implements TentacledModel{
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "hohlfresserseg2model"), "main");
 	private final ModelPart hohl_seg;
@@ -799,7 +799,58 @@ public class HohlfresserSeg2Model<T extends HohlMultipart> extends EntityModel<T
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+		float moveSeg1 = Mth.cos(ageInTicks/6)/7;
+		float moveSeg2 = Mth.sin(ageInTicks/8)/5;
+		float moveSeg3 = Mth.cos(ageInTicks/6)/6;
+		float moveSeg4 = Mth.cos(ageInTicks/5)/5;
+		float moveSeg5 = Mth.sin(ageInTicks/5)/6;
+		hohl_seg.zRot = entity.getSpin();
+		this.animateTentacleY(Root1,moveSeg1);
+		this.animateTentacleZ(R1Seg2,moveSeg1);
+		this.animateTentacleZ(R1Seg3,moveSeg1);
+		this.animateTentacleZ(R1Seg4,moveSeg1);
+		this.animateTentacleZ(Root2,moveSeg2);
+		this.animateTentacleZ(R1Seg5,moveSeg2);
+		this.animateTentacleZ(R1Seg6,moveSeg2);
+		this.animateTentacleZ(R1Seg7,moveSeg2);
+		this.animateTentacleZ(Root3,moveSeg3);
+		this.animateTentacleZ(R1Seg8,moveSeg3);
+		this.animateTentacleZ(R1Seg9,moveSeg3);
+		this.animateTentacleZ(R1Seg10,moveSeg3);
+		this.animateTentacleY(Root4,moveSeg4);
+		this.animateTentacleZ(R1Seg11,moveSeg4);
+		this.animateTentacleZ(R1Seg12,moveSeg4);
+		this.animateTentacleZ(R1Seg13,moveSeg4);
+		this.animateTentacleY(Root5,moveSeg5);
+		this.animateTentacleZ(R1Seg14,moveSeg5);
+		this.animateTentacleZ(R1Seg15,moveSeg5);
+		this.animateTentacleZ(R1Seg16,moveSeg5);
+		this.animateTentacleX(LeftArm,moveSeg4);
+		this.animateTentacleY(LeftArm,moveSeg5);
+		this.animateTentacleX(jaw,moveSeg1);
+		this.animateTentacleX(LeftArm2,moveSeg3);
+		this.animateTentacleX(RightArm2,-moveSeg3);
+		this.animateTentacleX(jaw2,-moveSeg4);
+		this.animateTentacleY(RightArm3,-moveSeg2);
+		this.animateTentacleY(jaw3,moveSeg1);
+		this.animateTentacleX(RightArm4,-moveSeg4);
+		this.animateTentacleY(RightArm4,-moveSeg5);
+		this.animateTentacleY(jaw4,moveSeg5);
+		this.animateTentacleX(ThornTendril,moveSeg1);
+		this.animateTentacleX(LAClaw2,moveSeg2);
+		this.animateTentacleX(LeftArmSplit1,moveSeg1);
+		this.animateTentacleX(LeftArmSplit2,-moveSeg3);
+		this.animateTentacleZ(ThornTendril2,moveSeg2);
+		this.animateTentacleX(LAClaw3,moveSeg4);
+		this.animateTentacleX(LeftArmSplit3,moveSeg5);
+		this.animateTentacleX(LeftArmSplit4,-moveSeg3);
+		this.animateTentacleZ(ThornTendril3,-moveSeg2);
+		this.animateTentacleX(LeftArmSplit5,moveSeg4);
+		this.animateTentacleX(LeftArmSplit6,moveSeg5);
+		this.animateTentacleY(ThornTendril4,moveSeg2);
+		this.animateTentacleX(LAClaw4,moveSeg4);
+		this.animateTentacleZ(LeftArmSplit7,moveSeg3);
+		this.animateTentacleZ(LeftArmSplit8,moveSeg2);
 	}
 
 	@Override
