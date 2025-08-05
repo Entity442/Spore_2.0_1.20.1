@@ -195,6 +195,16 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
         return dy;
     }
 
+    @Override
+    public boolean canBeSeenAsEnemy() {
+        return false;
+    }
+
+    @Override
+    public boolean isPushable() {
+        return false;
+    }
+
     public boolean isFluidAt(double x, double y, double z) {
         if (this.noPhysics) return false;
         return !level().getFluidState(BlockPos.containing(x, y, z)).isEmpty();
@@ -261,12 +271,12 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
     }
 
     @Override
-    protected void onEffectAdded(MobEffectInstance instance, @org.jetbrains.annotations.Nullable Entity p_147191_) {
-        super.onEffectAdded(instance, p_147191_);
+    public boolean addEffect(MobEffectInstance instance, @org.jetbrains.annotations.Nullable Entity e) {
         Entity entity = this.getParentSafe();
         if (entity instanceof LivingEntity living){
             living.addEffect(instance);
         }
+        return super.addEffect(instance, e);
     }
 
     @Override

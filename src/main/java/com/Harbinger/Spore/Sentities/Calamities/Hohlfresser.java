@@ -22,6 +22,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
@@ -100,12 +101,12 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
 
     @Override
     public boolean isPushable() {
-        return !entityData.get(UNDERGROUND);
+        return false;
     }
 
     @Override
     public boolean canBeCollidedWith() {
-        return !entityData.get(UNDERGROUND);
+        return false;
     }
 
     public boolean canGoUnderground() {
@@ -359,11 +360,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
     public float getOres(){return entityData.get(ORES);}
     public void tryAndCrumbleBlocks(){
         if (level().isClientSide){return;}
-        Player player = level().getNearestPlayer(this,-1);
-        if (player == null){
-            return;
-        }
-        if (player.distanceTo(this) > 400){
+        if (level() instanceof ServerLevel serverLevel && !checkForNearbyPlayers(serverLevel)){
             return;
         }
         boolean canGrief = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this);
@@ -387,11 +384,24 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
             if ((state.is(Blocks.GRASS_BLOCK) || state.is(Blocks.DIRT)) && Math.random() < 0.2){
                 level().setBlock(blockpos,Math.random() < 0.5f ? Blocks.DIRT.defaultBlockState() : Blocks.COARSE_DIRT.defaultBlockState(),3);
             }
-            if (state.is(ORE_TAG)){
+            if (state.is(ORE_TAG) && Math.random() < 0.05f){
                 this.entityData.set(ORES,entityData.get(ORES)+1);
                 level().setBlock(blockpos,blockpos.getY() < 0 ? Blocks.COBBLED_DEEPSLATE.defaultBlockState() : Blocks.COBBLESTONE.defaultBlockState(),3);
             }
         }
+    }
+
+    private boolean checkForNearbyPlayers(ServerLevel serverLevel){
+        List<ServerPlayer> playerList = serverLevel.getPlayers(p -> true);
+        if (playerList.isEmpty()){
+            return false;
+        }
+        for (ServerPlayer player : playerList){
+            if (player.distanceTo(this) < 400){
+                return true;
+            }
+        }
+        return false;
     }
     public static final int FLAG_MINEABLE = 1; // 0b001
     public static final int FLAG_HARD = 2;     // 0b010
@@ -592,15 +602,15 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
     }
 
     @Override
-    protected void onEffectAdded(MobEffectInstance instance, @org.jetbrains.annotations.Nullable Entity entity) {
-        super.onEffectAdded(instance, entity);
+    public boolean addEffect(MobEffectInstance instance, @org.jetbrains.annotations.Nullable Entity entity) {
         if (getHolfParts() == null){
-            return;
+            return super.addEffect(instance, entity);
         }else {
             for (HohlMultipart hohlMultipart : getHolfParts()){
                 hohlMultipart.addEffect(instance);
             }
         }
+        return super.addEffect(instance, entity);
     }
 
     @Override
