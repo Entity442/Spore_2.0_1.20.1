@@ -568,7 +568,8 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
             shootTumor(livingEntity);
         }else {
             float extraDamage = (float) (SConfig.SERVER.hohl_r_damage.get() + getOres() * 0.2f);
-            double damage = SConfig.SERVER.hohl_damage.get() <= extraDamage ? SConfig.SERVER.hohl_damage.get() : extraDamage;
+            double maxDamage = SConfig.SERVER.hohl_damage.get()/2;
+            double damage = maxDamage <= extraDamage ? maxDamage : extraDamage;
             VomitHohlBall.shoot(this,livingEntity,(float) damage,getOres() > 0,getKills() > 0);
         }
     }
@@ -599,18 +600,6 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
     public boolean doHurtTarget(Entity entity) {
         this.playSound(Ssounds.SIEGER_BITE.get());
         return super.doHurtTarget(entity);
-    }
-
-    @Override
-    public boolean addEffect(MobEffectInstance instance, @org.jetbrains.annotations.Nullable Entity entity) {
-        if (getHolfParts() == null){
-            return super.addEffect(instance, entity);
-        }else {
-            for (HohlMultipart hohlMultipart : getHolfParts()){
-                hohlMultipart.addEffect(instance);
-            }
-        }
-        return super.addEffect(instance, entity);
     }
 
     @Override
