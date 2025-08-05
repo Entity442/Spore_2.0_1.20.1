@@ -384,7 +384,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
             if ((state.is(Blocks.GRASS_BLOCK) || state.is(Blocks.DIRT)) && Math.random() < 0.2){
                 level().setBlock(blockpos,Math.random() < 0.5f ? Blocks.DIRT.defaultBlockState() : Blocks.COARSE_DIRT.defaultBlockState(),3);
             }
-            if (state.is(ORE_TAG) && Math.random() < 0.05f){
+            if (state.is(ORE_TAG) && Math.random() < 0.005f){
                 this.entityData.set(ORES,entityData.get(ORES)+1);
                 level().setBlock(blockpos,blockpos.getY() < 0 ? Blocks.COBBLED_DEEPSLATE.defaultBlockState() : Blocks.COBBLESTONE.defaultBlockState(),3);
             }
@@ -611,6 +611,21 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
             }
         }
         return super.addEffect(instance, entity);
+    }
+
+    @Override
+    protected void onEffectAdded(MobEffectInstance instance, @org.jetbrains.annotations.Nullable Entity p_147191_) {
+        super.onEffectAdded(instance, p_147191_);
+        if (getHolfParts() == null){
+            return;
+        }else {
+            for (HohlMultipart hohlMultipart : getHolfParts()){
+                if (hohlMultipart.hasEffect(instance.getEffect())){
+                    return;
+                }
+                hohlMultipart.addEffect(instance);
+            }
+        }
     }
 
     @Override
