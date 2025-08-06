@@ -1,9 +1,10 @@
 
 package com.Harbinger.Spore.Sentities.BaseEntities;
 
+import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.Calamities.Hohlfresser;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
-import com.Harbinger.Spore.Sentities.Variants.BraureiVariants;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -97,6 +98,9 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
         }
         if (tickCount % 100 == 0){
             refreshDimensions();
+        }
+        if (tickCount % 30 == 0 && getSegmentVariant() == SegmentVariants.MELEE && !isTail()){
+            dealMeleeDamageAround();
         }
     }
     public float getSpin(){
@@ -219,9 +223,21 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
 
     @Override
     public boolean hurt(DamageSource source, float damage) {
+        if (!isTail() && getSegmentVariant() == SegmentVariants.ORGAN){
+            damage = damage*4;
+        }
         this.hurtMarked = true;
         this.hurtTime = 20;
         return hurtHeadId(source, damage);
+    }
+
+    public void dealMeleeDamageAround(){
+        AABB aabb = this.getBoundingBox().inflate(1.5);
+        List<Entity> entities = level().getEntities(this,aabb,entity -> {return entity instanceof LivingEntity living && Utilities.TARGET_SELECTOR.Test(living);});
+        float damage = (float) (SConfig.SERVER.hohl_damage.get() * SConfig.SERVER.global_damage.get() /2f);
+        for (Entity entity : entities){
+            entity.hurt(level().damageSources().mobAttack(this),damage);
+        }
     }
 
     public boolean hurtHeadId(DamageSource source, float damage) {
