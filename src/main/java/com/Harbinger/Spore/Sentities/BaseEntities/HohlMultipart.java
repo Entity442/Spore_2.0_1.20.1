@@ -224,7 +224,7 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
     @Override
     public boolean hurt(DamageSource source, float damage) {
         if (!isTail() && getSegmentVariant() == SegmentVariants.ORGAN){
-            damage = damage*4;
+            damage = damage*2.5f;
         }
         this.hurtMarked = true;
         this.hurtTime = 20;
