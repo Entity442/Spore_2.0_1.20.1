@@ -163,6 +163,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(SmasherSlasherModel.LAYER_LOCATION, SmasherSlasherModel::createBodyLayer);
         event.registerLayerDefinition(HohlfresserSeg1Model.LAYER_LOCATION, HohlfresserSeg1Model::createBodyLayer);
         event.registerLayerDefinition(HohlfresserSeg2Model.LAYER_LOCATION, HohlfresserSeg2Model::createBodyLayer);
+        event.registerLayerDefinition(HohlfresserSeg3Model.LAYER_LOCATION, HohlfresserSeg3Model::createBodyLayer);
         event.registerLayerDefinition(hohlfresserTailModel.LAYER_LOCATION, hohlfresserTailModel::createBodyLayer);
 
 

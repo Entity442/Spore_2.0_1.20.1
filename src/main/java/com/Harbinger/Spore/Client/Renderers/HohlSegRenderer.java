@@ -1,12 +1,9 @@
 package com.Harbinger.Spore.Client.Renderers;
 
-import com.Harbinger.Spore.Client.Models.HohlfresserSeg1Model;
-import com.Harbinger.Spore.Client.Models.HohlfresserSeg2Model;
-import com.Harbinger.Spore.Client.Models.hohlfresserTailModel;
-import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
+import com.Harbinger.Spore.Client.Layers.SporeRenderTypes;
+import com.Harbinger.Spore.Client.Models.*;
 import com.Harbinger.Spore.Sentities.BaseEntities.HohlMultipart;
 import com.Harbinger.Spore.Sentities.Calamities.Hohlfresser;
-import com.Harbinger.Spore.Sentities.Variants.BraureiVariants;
 import com.Harbinger.Spore.Spore;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -24,6 +21,7 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
@@ -38,14 +36,16 @@ public class HohlSegRenderer<Type extends HohlMultipart> extends LivingEntityRen
     public static final Map<HohlMultipart.SegmentVariants, ResourceLocation> TEXTURE =
             Util.make(Maps.newEnumMap(HohlMultipart.SegmentVariants.class), (p_114874_) -> {
                 p_114874_.put(HohlMultipart.SegmentVariants.DEFAULT,
-                        new ResourceLocation(Spore.MODID, "textures/entity/hohl_seg1.png"));
+                        new ResourceLocation(Spore.MODID, "textures/entity/hohl/hohl_seg1.png"));
                 p_114874_.put(HohlMultipart.SegmentVariants.MELEE,
-                        new ResourceLocation(Spore.MODID, "textures/entity/hohl_seg2.png"));
+                        new ResourceLocation(Spore.MODID, "textures/entity/hohl/hohl_seg2.png"));
                 p_114874_.put(HohlMultipart.SegmentVariants.ORGAN,
-                        new ResourceLocation(Spore.MODID, "textures/entity/hohl_seg2.png"));
+                        new ResourceLocation(Spore.MODID, "textures/entity/hohl/hohl_seg3.png"));
             });
     private static final ResourceLocation INNARDS = new ResourceLocation(Spore.MODID,
             "textures/entity/worm_innards.png");
+    private static final ResourceLocation TAIL = new ResourceLocation(Spore.MODID,
+            "textures/entity/hohl/hohl_seg1.png");
 
     private final EntityModel<Type> mainSegment = this.getModel();
     private final EntityModel<Type> meleeSegment;
@@ -55,14 +55,15 @@ public class HohlSegRenderer<Type extends HohlMultipart> extends LivingEntityRen
     public HohlSegRenderer(EntityRendererProvider.Context context) {
         super(context, new HohlfresserSeg1Model<>(context.bakeLayer(HohlfresserSeg1Model.LAYER_LOCATION)), 4f);
         meleeSegment = new HohlfresserSeg2Model<>(context.bakeLayer(HohlfresserSeg2Model.LAYER_LOCATION));
-        organSegment = new HohlfresserSeg2Model<>(context.bakeLayer(HohlfresserSeg2Model.LAYER_LOCATION));
+        organSegment = new HohlfresserSeg3Model<>(context.bakeLayer(HohlfresserSeg3Model.LAYER_LOCATION));
         tailModel = new hohlfresserTailModel<>(context.bakeLayer(hohlfresserTailModel.LAYER_LOCATION));
         this.addLayer(new HohlColors<>(this));
+        this.addLayer(new HohlEmmisive<>(this));
     }
 
     @Override
     public ResourceLocation getTextureLocation(Type entity) {
-        return TEXTURE.get(entity.getSegmentVariant());
+        return entity.isTail() ? TAIL :  TEXTURE.get(entity.getSegmentVariant());
     }
 
     @Override
@@ -294,5 +295,22 @@ public class HohlSegRenderer<Type extends HohlMultipart> extends LivingEntityRen
                 .color(red, green, blue, alpha).uv(0, 1)
                 .overlayCoords(overlay).uv2(lightmap)
                 .normal(normal, 1, 0, 0).endVertex();
+    }
+
+    static class HohlEmmisive <T extends HohlMultipart,M extends EntityModel<T>> extends RenderLayer<T, M> {
+        private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
+                "textures/entity/hohl/hohl_bile.png");
+        public HohlEmmisive(RenderLayerParent<T, M> renderLayerParent) {
+            super(renderLayerParent);
+        }
+
+        @Override
+        public void render(PoseStack matrixStack, MultiBufferSource buffer, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+            if (!entity.isInvisible() && entity.getSegmentVariant() == HohlMultipart.SegmentVariants.ORGAN && !entity.isTail()){
+                float alpha = 0.5F + 0.5F * Mth.sin(ageInTicks * 0.1F);
+                VertexConsumer vertexConsumer = buffer.getBuffer(SporeRenderTypes.glowingTranslucent(TEXTURE));
+                getParentModel().renderToBuffer(matrixStack, vertexConsumer, packedLight, 15728640, 1.0F, 1.0F, 1.0F, alpha);
+            }
+        }
     }
 }
