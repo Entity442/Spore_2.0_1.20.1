@@ -32,6 +32,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -562,11 +563,21 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
     public boolean hasLineOfSight(Entity entity) {
         return super.hasLineOfSight(entity) || checkVectorForSeeing(entity);
     }
+    public int getShootingAmount(){
+        AttributeInstance instance = this.getAttribute(SAttributes.BALLISTIC.get());
+        if (instance != null && instance.getValue() > 0){
+            int value = (int) (instance.getValue()*3);
+            return random.nextInt(value+1);
+        }
+        return 1;
+    }
 
     @Override
     public void performRangedAttack(LivingEntity livingEntity, float v) {
         if (Math.random() < 0.1f){
-            shootTumor(livingEntity);
+            for (int i = 0;i<getShootingAmount();i++){
+                shootTumor(livingEntity);
+            }
         }else {
             float extraDamage = (float) (SConfig.SERVER.hohl_r_damage.get() + getOres() * 0.2f);
             double maxDamage = SConfig.SERVER.hohl_damage.get()/2;

@@ -692,6 +692,8 @@
   "advancement.spore.inebriater.description" : "Encounter an Inebriater.",
   "advancement.spore.biobloob.title" : "Amalgamation",
   "advancement.spore.biobloob.description" : "Encounter a Bioblob.",
+  "advancement.spore.hohlfresser.title" : "Ol' Stumpy",
+  "advancement.spore.hohlfresser.description" : "Encounter a Hohlfresser.",
 
   "spore.proto.message.0": "You're gonna need a bigger sword :P",
   "spore.proto.message.1": "Rage quit already you're done",

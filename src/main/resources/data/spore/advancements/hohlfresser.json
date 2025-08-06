@@ -1,0 +1,37 @@
+{
+  "display": {
+    "icon": {
+      "item": "spore:hohlfresser_spawnegg"
+    },
+    "title":{"translate": "advancement.spore.hohlfresser.title"},
+    "description":{"translate": "advancement.spore.hohlfresser.description"}
+  },
+
+  "parent": "spore:reconstructor",
+  "criteria": {
+    "hurt_infected": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "entity": {
+          "type": "spore:hohlfresser"
+        }
+      }
+    },
+    "hurt_by_infected": {
+      "trigger": "minecraft:entity_hurt_player",
+      "conditions": {
+        "damage": {
+          "source_entity": {
+            "type": "spore:hohlfresser"
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "hurt_infected",
+      "hurt_by_infected"
+    ]
+  ]
+}
