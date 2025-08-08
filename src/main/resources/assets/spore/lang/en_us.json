@@ -351,6 +351,7 @@
   "entity.spore.inebriater": "Inebriater",
   "entity.spore.saugling": "Saugling",
   "entity.spore.hohlfresser": "Hohlfresser",
+  "entity.spore.hohlfresser_seg": "Hohlfresser",
   "spore.entity.variant.kidnapper" : "Kidnapper Mutation",
   "spore.entity.variant.kamikaze": "Kamikaze Mutation",
   "spore.entity.variant.noxious": "Noxious Mutation",

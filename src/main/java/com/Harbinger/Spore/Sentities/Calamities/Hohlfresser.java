@@ -70,6 +70,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
     public int ringBufferIndex = -1;
     public float prevWormAngle;
     private int ticksUnder;
+    private static final Map<BlockState, Integer> cache = new WeakHashMap<>();
     public Hohlfresser(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         this.setMaxUpStep(2F);
@@ -439,7 +440,6 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
 
     private boolean checkBlocksUnder() {
         AABB aabb = this.getBoundingBox().move(0, -0.6, 0);
-        Map<BlockState, Integer> cache = new HashMap<>();
 
         for (BlockPos pos : BlockPos.betweenClosed(
                 Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ),
@@ -473,7 +473,6 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
 
     public void handleUnearthing(){
         AABB aabb = this.getBoundingBox().inflate(1, 1.4, 1);
-        Map<BlockState, Integer> cache = new HashMap<>();
         int airAmount = 0;
         boolean meetsHardBlock = false;
         boolean meetsWrongBlock = false;
@@ -540,7 +539,6 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
         return false;
     }
     private boolean checkVectorForSeeing(Entity target) {
-        Map<BlockState, Integer> cache = new HashMap<>();
         Vec3 startVec = this.position();
         Vec3 endVec = target.position();
         Vec3 direction = endVec.subtract(startVec).normalize();
@@ -615,16 +613,14 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
     }
 
     @Override
-    protected void onEffectAdded(MobEffectInstance instance, @org.jetbrains.annotations.Nullable Entity p_147191_) {
-        super.onEffectAdded(instance, p_147191_);
-        if (getHolfParts() == null){
-            return;
-        }else {
-            for (HohlMultipart hohlMultipart : getHolfParts()){
-                if (hohlMultipart.hasEffect(instance.getEffect())){
-                    return;
-                }
-                hohlMultipart.addEffect(instance);
+    protected void onEffectAdded(MobEffectInstance instance, @Nullable Entity source) {
+        super.onEffectAdded(instance, source);
+        HohlMultipart[] parts = getHolfParts();
+        if (parts == null) return;
+        for (HohlMultipart part : parts) {
+            MobEffectInstance existing = part.getEffect(instance.getEffect());
+            if (existing == null || existing.getDuration() < instance.getDuration() - 5) {
+                part.addEffect(new MobEffectInstance(instance)); // copy to avoid shared timer
             }
         }
     }
