@@ -232,13 +232,13 @@ public class HandlerEvents {
         event.getDispatcher().register(Commands.literal(Spore.MODID+":corpse")
                 .executes(arguments -> {
                     ServerLevel world = arguments.getSource().getLevel();
-                    RandomSource source = RandomSource.create();
+                    RandomSource randomSource = RandomSource.create();
                     int x = (int) arguments.getSource().getPosition().x();
                     int y = (int) arguments.getSource().getPosition().y();
                     int z = (int) arguments.getSource().getPosition().z();
                     CorpseEntity corpseEntity = new CorpseEntity(Sentities.CORPSE_PIECE.get(), world);
-                    corpseEntity.setCorpseType(source.nextInt(6));
-                    corpseEntity.setOwnerId("spore:sieger");
+                    corpseEntity.setCorpseType(randomSource.nextInt(8));
+                    corpseEntity.setOwnerAda(true);
                     corpseEntity.setPos(x,y,z);
                     world.addFreshEntity(corpseEntity);
                     return 1;
@@ -324,7 +324,7 @@ public class HandlerEvents {
                         List<Entity> entities = entity.level().getEntities(entity, hitbox);
                         for (Entity entity1 : entities) {
                             if (entity1 instanceof CorpseEntity corpseEntity){
-                                player.displayClientMessage(Component.literal("Host ? " + corpseEntity.getOwnerId()),false);
+                                player.displayClientMessage(Component.literal("isAdapted ? " + corpseEntity.getOwnerAda()),false);
                                 player.displayClientMessage(Component.literal("ID ? " + corpseEntity.getCorpseType()),false);
                                 for (int i=0;i<corpseEntity.getInventory().getContainerSize();i++){
                                     ItemStack stack = corpseEntity.getInventory().getItem(i);
