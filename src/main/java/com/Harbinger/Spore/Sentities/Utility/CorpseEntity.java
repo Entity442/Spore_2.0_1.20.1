@@ -86,10 +86,6 @@ public class CorpseEntity extends Entity {
     @Override
     public InteractionResult interactAt(Player player, Vec3 hitVec, InteractionHand hand) {
         if (!level().isClientSide) {
-            if (player.isShiftKeyDown()){
-                inventory.addItem(new ItemStack(Items.APPLE));
-                return InteractionResult.SUCCESS;
-            }
             for (int i = 0; i < inventory.getContainerSize(); i++) {
                 ItemStack stack = inventory.getItem(i);
                 if (!stack.isEmpty()) {

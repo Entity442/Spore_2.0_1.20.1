@@ -13,6 +13,7 @@ import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.FallenMultipart.SiegerTail;
+import com.Harbinger.Spore.Sentities.HitboxesForParts;
 import com.Harbinger.Spore.Sentities.Projectile.ThrownTumor;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
 import net.minecraft.core.BlockPos;
@@ -364,4 +365,16 @@ public class Sieger extends Calamity implements RangedAttackMob, TrueCalamity {
         return super.getMutation();
     }
 
+
+    @Override
+    public boolean getAdaptation() {
+        return isAdapted();
+    }
+
+    @Override
+    public List<HitboxesForParts> parts() {
+        return List.of(HitboxesForParts.SIEGER_BODY,HitboxesForParts.SIEGER_JAW,
+                HitboxesForParts.SIEGER_RIGHT_LEG,HitboxesForParts.SIEGER_LEFT_LEG,
+                HitboxesForParts.SIEGER_BACK_RIGHT_LEG,HitboxesForParts.SIEGER_BACK_LEFT_LEG,HitboxesForParts.SIEGER_TAIL);
+    }
 }

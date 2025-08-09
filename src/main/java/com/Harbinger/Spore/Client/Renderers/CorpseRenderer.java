@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -29,21 +30,24 @@ public class CorpseRenderer<T extends CorpseEntity> extends EntityRenderer<T> {
     }
 
     @Override
-    public void render(T entity, float val1, float val2, PoseStack stack, MultiBufferSource source, int light) {
+    public void render(T entity, float entityYaw, float val2, PoseStack stack, MultiBufferSource source, int light) {
         if (partToRender == null || partToRender.id() != entity.getCorpseType()) {
             partToRender = CalamityPartsHandeling.getPart(entity.getCorpseType());
-            if (partToRender == null) return; // prevent crash
+            if (partToRender == null) return;
         }
         stack.pushPose();
-        stack.translate(partToRender.z(),partToRender.y(),partToRender.x());
-
+        stack.translate(0,0,0);
         stack.mulPose(Axis.XP.rotationDegrees(180 + partToRender.xRot()));
-        stack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(val2, entity.yRotO, entity.getYRot()) + partToRender.yRot()));
-        stack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(val2, entity.xRotO, entity.getXRot()) + partToRender.zRot()));
+        stack.mulPose(Axis.YP.rotationDegrees(partToRender.yRot()));
+        stack.mulPose(Axis.ZP.rotationDegrees(partToRender.zRot()));
+        stack.translate(-partToRender.z(),-partToRender.y(),-partToRender.x());
         VertexConsumer consumer = source.getBuffer(RenderType.entityCutout(getTextureLocation(entity)));
         for (ModelPart part : partToRender.parts()) {
             part.render(stack, consumer, light, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
         }
+        stack.popPose();
+        stack.pushPose();
+        stack.mulPose(Axis.YP.rotationDegrees(180.0F - entityYaw));
         stack.popPose();
     }
 

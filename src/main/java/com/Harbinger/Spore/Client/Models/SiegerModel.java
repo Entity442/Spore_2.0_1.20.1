@@ -1,7 +1,6 @@
 package com.Harbinger.Spore.Client.Models;// Made with Blockbench 4.12.3
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
-import com.Harbinger.Spore.Client.CorpseHandelingModel;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -17,31 +16,56 @@ import net.minecraft.util.Mth;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SiegerModel<T extends Sieger> extends EntityModel<T> implements TentacledModel , CorpseHandelingModel {
+public class SiegerModel<T extends Sieger> extends EntityModel<T> implements TentacledModel {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "siegermodel"), "main");
-	private final ModelPart smolleg;
-	private final ModelPart mainbody;
-	private final ModelPart mainbody2;
-	private final ModelPart tail;
-	private final ModelPart tail2;
-	private final ModelPart tail3;
-	private final ModelPart tail4;
+	public final ModelPart smolleg;
+	public final ModelPart mainbody;
+	public final ModelPart mainbody2;
+	public final ModelPart tail;
+	public final ModelPart tail2;
+	public final ModelPart tail3;
+	public final ModelPart tail4;
 	private final ModelPart tailTumor1;
 	private final ModelPart tailTumor2;
 	private final ModelPart tailTumor3;
-	private final ModelPart RightLegJointY;
+	public final ModelPart RightLegJointY;
 	private final ModelPart RightLegForLeg;
-	private final ModelPart LeftLegJointY;
+	public final ModelPart LeftLegJointY;
 	private final ModelPart LeftLegForleg1;
 	private final ModelPart LeftLegForleg2;
-	private final ModelPart jaw;
-	private final ModelPart BackRightLeg;
+	public final ModelPart jaw;
+	public final ModelPart BackRightLeg;
 	private final ModelPart BackRightForLeg;
 	private final ModelPart BackRightForLeg2;
-	private final ModelPart BackLeftLeg;
+	public final ModelPart BackLeftLeg;
 	private final ModelPart BackLeftForLeg;
 	private final ModelPart BackLeftForLeg2;
+	public SiegerModel(){
+		ModelPart root = createBodyLayer().bakeRoot();
+		this.smolleg = root.getChild("smolleg");
+		this.mainbody = root.getChild("mainbody");
+		this.mainbody2 = root.getChild("mainbody2");
+		this.tail = root.getChild("tail");
+		this.tail2 = tail.getChild("tail2");
+		this.tail3 = tail2.getChild("tail3");
+		this.tail4 = tail3.getChild("tail4");
+		this.tailTumor1 = tail3.getChild("TumorBase3");
+		this.tailTumor2 = tail4.getChild("tumor").getChild("TumorBase2");
+		this.tailTumor3 = tail4.getChild("tumor").getChild("TumorBase");
+		this.RightLegJointY = root.getChild("RightLegJointY");
+		this.RightLegForLeg = RightLegJointY.getChild("RightLeg").getChild("RightForleg");
+		this.LeftLegJointY = root.getChild("LeftLegJointY");
+		this.LeftLegForleg1 = LeftLegJointY.getChild("LeftLeg").getChild("leg2").getChild("twitstedleg");
+		this.LeftLegForleg2 = LeftLegJointY.getChild("LeftLeg").getChild("leg2").getChild("twitstedleg2");
+		this.jaw = root.getChild("jaw");
+		this.BackRightLeg = root.getChild("BackRightLeg");
+		this.BackLeftLeg = root.getChild("BackLeftLeg");
+		this.BackRightForLeg = BackRightLeg.getChild("legback3");
+		this.BackRightForLeg2 = BackRightForLeg.getChild("BackRightLeg2").getChild("legback4");
+		this.BackLeftForLeg = BackLeftLeg.getChild("legback");
+		this.BackLeftForLeg2 = BackLeftForLeg.getChild("BackLeftLeg2").getChild("legback2");
+	}
 	public SiegerModel(ModelPart root) {
 		this.smolleg = root.getChild("smolleg");
 		this.mainbody = root.getChild("mainbody");
@@ -65,8 +89,8 @@ public class SiegerModel<T extends Sieger> extends EntityModel<T> implements Ten
 		this.BackRightForLeg2 = BackRightForLeg.getChild("BackRightLeg2").getChild("legback4");
 		this.BackLeftForLeg = BackLeftLeg.getChild("legback");
 		this.BackLeftForLeg2 = BackLeftForLeg.getChild("BackLeftLeg2").getChild("legback2");
-		initializePartLists();
 	}
+
 
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
@@ -1437,35 +1461,6 @@ public class SiegerModel<T extends Sieger> extends EntityModel<T> implements Ten
 		jaw.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		BackRightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		BackLeftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-	}
-	public final List<ModelPart> torsoParts = new ArrayList<>();
-	private final List<ModelPart> jawParts = new ArrayList<>();
-	private final List<ModelPart> rightLegsParts = new ArrayList<>();
-	private final List<ModelPart> leftLegsParts = new ArrayList<>();
-	private final List<ModelPart> leftBackLegsParts = new ArrayList<>();
-	private final List<ModelPart> rightBackLegsParts = new ArrayList<>();
-
-	@Override
-	public List<List<ModelPart>> getCorpseParts() {
-		return new ArrayList<>(){{
-			add(torsoParts);
-			add(jawParts);
-			add(rightLegsParts);
-			add(leftLegsParts);
-			add(leftBackLegsParts);
-			add(rightBackLegsParts);
-		}};
-	}
-
-	@Override
-	public void initializePartLists() {
-		torsoParts.add(mainbody);
-		torsoParts.add(mainbody2);
-		jawParts.add(jaw);
-		rightLegsParts.add(RightLegJointY);
-		leftLegsParts.add(LeftLegJointY);
-		leftBackLegsParts.add(BackLeftLeg);
-		rightBackLegsParts.add(BackRightLeg);
 	}
 
 

@@ -10,8 +10,10 @@ import com.Harbinger.Spore.Sentities.AI.CalamityPathNavigation;
 import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.ArmorPersentageBypass;
 import com.Harbinger.Spore.Sentities.EvolvingInfected;
+import com.Harbinger.Spore.Sentities.HitboxesForParts;
 import com.Harbinger.Spore.Sentities.MovementControls.CalamityMovementControl;
 import com.Harbinger.Spore.Sentities.Organoids.Mound;
+import com.Harbinger.Spore.Sentities.Utility.CorpseEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -21,6 +23,7 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.EntityTypeTags;
@@ -36,8 +39,11 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
@@ -48,6 +54,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.network.NetworkHooks;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -475,27 +482,6 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
             serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x0, y0, z0, 4, 0, 0, 0, 1);
         }
         super.die(source);
-        AABB aabb = this.getBoundingBox().inflate(2.5);
-        for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
-            BlockState blockState = level().getBlockState(blockpos);
-            BlockState above = level().getBlockState(blockpos.above());
-            if (!level().isClientSide() && blockState.isSolidRender(level(), blockpos) && !above.isSolidRender(level(), blockpos)) {
-                if (Math.random() < 0.9) {
-                    if (Math.random() < 0.7) {
-                        level().setBlock(blockpos.above(), Sblocks.MYCELIUM_VEINS.get().defaultBlockState(), 2);
-                    }
-                    if (Math.random() < 0.1) {
-                        level().setBlock(blockpos.above(), Sblocks.BIOMASS_BLOCK.get().defaultBlockState(), 2);
-                    }
-                    if (Math.random() < 0.1) {
-                        level().setBlock(blockpos.above(), Sblocks.ROOTED_BIOMASS.get().defaultBlockState(), 2);
-                    }
-                    if (Math.random() < 0.1) {
-                        level().setBlock(blockpos.above(), Sblocks.REMAINS.get().defaultBlockState(), 2);
-                    }
-                }
-            }
-        }
         this.discard();
     }
     private void SummonMound(Entity entity){
@@ -531,4 +517,90 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
         }
         return super.addEffect(instance, entity);
     }
+    public List<ItemStack> getDroppedItems(int val) {
+        List<ItemStack> drops = new ArrayList<>();
+
+        if (getDropList() == null || getDropList().isEmpty()) {
+            return drops;
+        }
+
+        for (String str : getDropList()) {
+            String[] parts = str.split("\\|");
+            if (parts.length < 4) continue; // Safety check
+
+            ResourceLocation itemId = new ResourceLocation(parts[0]);
+            Item item = ForgeRegistries.ITEMS.getValue(itemId);
+            if (item == null) continue;
+
+            ItemStack stack = new ItemStack(item);
+            int minCount = Integer.parseUnsignedInt(parts[2]);
+            int maxCount = Integer.parseUnsignedInt(parts[3]);
+            int chancePercent = Integer.parseUnsignedInt(parts[1]) + (val * 10);
+
+            int quantity;
+            if (minCount == maxCount) {
+                quantity = val > 0 ? random.nextInt(maxCount, maxCount + val) : maxCount;
+            } else if (minCount >= 1 && maxCount >= 1) {
+                float scale = 1.0f + (0.15f * val);
+                int adjustedMax = (int) (maxCount * scale);
+                quantity = random.nextInt(minCount, adjustedMax + 1);
+            } else {
+                quantity = 1;
+            }
+
+            if (random.nextFloat() < (chancePercent / 100F)) {
+                stack.setCount(quantity);
+                drops.add(stack);
+            }
+        }
+
+        return drops;
+    }
+    public List<HitboxesForParts> parts() {
+        return List.of();
+    }
+    public boolean getAdaptation() {
+        return false;
+    }
+
+    @Override
+    protected void dropCustomDeathLoot(DamageSource source, int val, boolean recentlyHit) {
+        if (level().isClientSide()) {
+            return;
+        }
+
+        List<ItemStack> allDrops = getDroppedItems(val);
+        List<HitboxesForParts> corpseParts = parts();
+
+        if (corpseParts.isEmpty()) {
+            return;
+        }
+
+        int itemsPerPart = allDrops.isEmpty() ? 0 : (int) Math.ceil((double) allDrops.size() / corpseParts.size());
+        int dropIndex = 0;
+
+        for (int i = 0; i < corpseParts.size(); i++) {
+            CorpseEntity piece = new CorpseEntity(Sentities.CORPSE_PIECE.get(), level());
+            piece.moveTo(this.position());
+
+            for (int j = 0; j < itemsPerPart && dropIndex < allDrops.size(); j++) {
+                piece.addToInventory(allDrops.get(dropIndex));
+                dropIndex++;
+            }
+
+            double speed = 0.2 + random.nextDouble() * 0.3;
+            double angle = random.nextDouble() * (Math.PI * 2);
+            piece.setDeltaMovement(
+                    speed * Math.cos(angle),
+                    0.2 + random.nextDouble() * 0.2, // upward boost
+                    speed * Math.sin(angle)
+            );
+
+            piece.setOwnerAda(getAdaptation());
+            piece.setCorpseType(i);
+            level().addFreshEntity(piece);
+        }
+    }
+
+
 }
