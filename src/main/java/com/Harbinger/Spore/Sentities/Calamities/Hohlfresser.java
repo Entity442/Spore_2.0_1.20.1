@@ -559,6 +559,9 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
 
     @Override
     public boolean hasLineOfSight(Entity entity) {
+        if (this.getSearchArea() != BlockPos.ZERO){
+            return super.hasLineOfSight(entity);
+        }
         return super.hasLineOfSight(entity) || checkVectorForSeeing(entity);
     }
     public int getShootingAmount(){
