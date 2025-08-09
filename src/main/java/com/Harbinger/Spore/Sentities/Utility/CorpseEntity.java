@@ -1,5 +1,7 @@
 package com.Harbinger.Spore.Sentities.Utility;
 
+import com.Harbinger.Spore.Sentities.HitboxesForParts;
+import com.Harbinger.Spore.Sentities.Variants.BraureiVariants;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -10,15 +12,15 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.List;
 
 public class CorpseEntity extends Entity {
     private static final EntityDataAccessor<Integer> TYPE = SynchedEntityData.defineId(CorpseEntity.class, EntityDataSerializers.INT);
@@ -157,5 +159,22 @@ public class CorpseEntity extends Entity {
     @Override
     public boolean shouldBeSaved() {
         return true;
+    }
+
+    public HitboxesForParts getVariant() {
+        return HitboxesForParts.byId(this.getCorpseType() & 255);
+    }
+    @Override
+    public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
+        super.onSyncedDataUpdated(key);
+        if (TYPE.equals(key)) {
+            this.refreshDimensions();
+            this.setBoundingBox(this.getDimensions(this.getPose()).makeBoundingBox(this.position()));
+        }
+    }
+    @Override
+    public EntityDimensions getDimensions(Pose pose) {
+        HitboxesForParts parts = getVariant();
+        return EntityDimensions.scalable(parts.getWidth(), parts.getHeight());
     }
 }
