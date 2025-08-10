@@ -33,11 +33,11 @@ public class CalamityPartsHandeling {
     public static final Part GAZEN_LEFT_LEG = new Part(10,List.of(gazenModel.LeftLeg),0,0.75f,-1.25f,0,0,0,new ResourceLocation(Spore.MODID,"textures/entity/gazen.png"),new ResourceLocation(Spore.MODID,"textures/entity/burned_gazen.png"));
     public static final Part LICKER = new Part(11,List.of(gazenModel.Licker1),-1f,0,0,0,0,0,new ResourceLocation(Spore.MODID,"textures/entity/gazen.png"),new ResourceLocation(Spore.MODID,"textures/entity/burned_gazen.png"));
 
-    public static final Part HINDEN_FRONT = new Part(12,List.of(hindieModel.FrontSection),-6f,-4f,0,45,0,0,new ResourceLocation(Spore.MODID,"textures/entity/hindie.png"),new ResourceLocation(Spore.MODID,"textures/entity/hindie_adapted.png"));
-    public static final Part HINDEN_BACK = new Part(13,List.of(hindieModel.BackSectionSection),6f,-4f,0,-45,0,0,new ResourceLocation(Spore.MODID,"textures/entity/hindie.png"),new ResourceLocation(Spore.MODID,"textures/entity/hindie_adapted.png"));
+    public static final Part HINDEN_FRONT = new Part(12,List.of(hindieModel.FrontSection),-3.5f,-4f,0,-45,0,0,new ResourceLocation(Spore.MODID,"textures/entity/hindie.png"),new ResourceLocation(Spore.MODID,"textures/entity/hindie_adapted.png"));
+    public static final Part HINDEN_BACK = new Part(13,List.of(hindieModel.BackSectionSection),3.5f,-4f,0,45,0,0,new ResourceLocation(Spore.MODID,"textures/entity/hindie.png"),new ResourceLocation(Spore.MODID,"textures/entity/hindie_adapted.png"));
     public static final Part MAW = new Part(14,List.of(hindieModel.Maw),0,-4,0,180,0,0,new ResourceLocation(Spore.MODID,"textures/entity/hindie.png"),new ResourceLocation(Spore.MODID,"textures/entity/hindie_adapted.png"));
-    public static final Part RIGHT_CANNON = new Part(15,List.of(hindieModel.RightCannon),0,0,-1.5f,0,0,0,new ResourceLocation(Spore.MODID,"textures/entity/hindie.png"),new ResourceLocation(Spore.MODID,"textures/entity/hindie_adapted.png"));
-    public static final Part LEFT_CANNON = new Part(16,List.of(hindieModel.LeftCannon),0,0,1.5f,0,0,0,new ResourceLocation(Spore.MODID,"textures/entity/hindie.png"),new ResourceLocation(Spore.MODID,"textures/entity/hindie_adapted.png"));
+    public static final Part RIGHT_CANNON = new Part(15,List.of(hindieModel.RightCannon),0.3f,0,0f,0,0,0,new ResourceLocation(Spore.MODID,"textures/entity/hindie.png"),new ResourceLocation(Spore.MODID,"textures/entity/hindie_adapted.png"));
+    public static final Part LEFT_CANNON = new Part(16,List.of(hindieModel.LeftCannon),0.3f,0,6f,0,0,0,new ResourceLocation(Spore.MODID,"textures/entity/hindie.png"),new ResourceLocation(Spore.MODID,"textures/entity/hindie_adapted.png"));
 
 
     public static Part getPart(int value){
