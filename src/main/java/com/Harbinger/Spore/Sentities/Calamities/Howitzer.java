@@ -12,6 +12,7 @@ import com.Harbinger.Spore.Sentities.AI.LeapGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.FallenMultipart.HowitzerArm;
+import com.Harbinger.Spore.Sentities.HitboxesForParts;
 import com.Harbinger.Spore.Sentities.Projectile.FleshBomb;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
 import com.Harbinger.Spore.Sentities.Utility.NukeEntity;
@@ -631,5 +632,31 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
         }else{
             living.addEffect(new MobEffectInstance(MobEffects.WEAKNESS,400,0));
         }
+    }
+
+    @Override
+    public boolean getAdaptation() {
+        return isRadioactive();
+    }
+
+    private final List<HitboxesForParts> innatePartList = List.of(HitboxesForParts.HOWI_CANNON1,
+            HitboxesForParts.HOWI_CANNON2, HitboxesForParts.HOWI_CANNON3,HitboxesForParts.HOWI_LEFT_LEG,
+            HitboxesForParts.HOWI_RIGHT_LEG,HitboxesForParts.HOWI_SACK);
+    @Override
+    public List<HitboxesForParts> parts() {
+        List<HitboxesForParts> values = new ArrayList<>();
+        if (getRightArmHp() > 0){
+            values.add(HitboxesForParts.HOWI_RIGHT_ARM);
+        }
+        if (getLeftArmHp() > 0){
+            values.add(HitboxesForParts.HOWI_LEFT_ARM);
+        }
+        for (HitboxesForParts hitboxes : innatePartList){
+            HitboxesForParts part = calculateChance(hitboxes,0.65f);
+            if (part != null){
+                values.add(part);
+            }
+        }
+        return values;
     }
 }

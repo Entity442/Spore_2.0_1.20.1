@@ -20,7 +20,15 @@ public enum HitboxesForParts {
     HINDEN_BACK(13,3.5f,3.5f),
     MAW(14,3,1.5f),
     RIGHT_CANNON(15,1.5f,1),
-    LEFT_CANNON(16,1.5f,1);
+    LEFT_CANNON(16,1.5f,1),
+    HOWI_CANNON1(17,2f,3f),
+    HOWI_CANNON2(18,2f,3f),
+    HOWI_CANNON3(19,2f,3f),
+    HOWI_LEFT_LEG(20,1f,1.5f),
+    HOWI_RIGHT_LEG(21,1f,1.5f),
+    HOWI_LEFT_ARM(22,3,2),
+    HOWI_RIGHT_ARM(23,3,2),
+    HOWI_SACK(24,2,1);
 
     private final int ID;
     private final float width;

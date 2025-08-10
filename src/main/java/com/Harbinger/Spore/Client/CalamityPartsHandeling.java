@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Client;
 
 import com.Harbinger.Spore.Client.Models.GazenbrecherModel;
 import com.Harbinger.Spore.Client.Models.HindieModel;
+import com.Harbinger.Spore.Client.Models.HowitzerModel;
 import com.Harbinger.Spore.Client.Models.SiegerModel;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.client.model.geom.ModelPart;
@@ -17,12 +18,15 @@ public class CalamityPartsHandeling {
     private static final SiegerModel<?> siegerModel = new SiegerModel<>();
     private static final GazenbrecherModel<?> gazenModel = new GazenbrecherModel<>();
     private static final HindieModel<?> hindieModel = new HindieModel<>();
+    private static final HowitzerModel<?> howiModel = new HowitzerModel<>();
     private static final ResourceLocation DEFAULT_SIEGER = new ResourceLocation(Spore.MODID,"textures/entity/sieger.png");
     private static final ResourceLocation ADAPTED_SIEGER = new ResourceLocation(Spore.MODID,"textures/entity/war_sieger.png");
     private static final ResourceLocation DEFAULT_GAZEN = new ResourceLocation(Spore.MODID,"textures/entity/gazen.png");
     private static final ResourceLocation ADAPTED_GAZEN = new ResourceLocation(Spore.MODID,"textures/entity/burned_gazen.png");
     private static final ResourceLocation DEFAULT_HINDEN = new ResourceLocation(Spore.MODID,"textures/entity/hindie.png");
     private static final ResourceLocation ADAPTED_HINDEN = new ResourceLocation(Spore.MODID,"textures/entity/hindie_adapted.png");
+    private static final ResourceLocation DEFAULT_HOWI = new ResourceLocation(Spore.MODID,"textures/entity/hindie.png");
+    private static final ResourceLocation ADAPTED_HOWI  = new ResourceLocation(Spore.MODID,"textures/entity/hindie_adapted.png");
     public record Part(int id, List<ModelPart> parts,float x, float y,float z,float xRot, float yRot,float zRot, ResourceLocation location,ResourceLocation adapted_location){}
 
     public static final Part SIEGER_BODY = new Part(0,List.of(siegerModel.mainbody,siegerModel.mainbody2),0,0,0,0,0,0,DEFAULT_SIEGER,ADAPTED_SIEGER);
@@ -44,6 +48,15 @@ public class CalamityPartsHandeling {
     public static final Part MAW = new Part(14,List.of(hindieModel.Maw),0,-4,0,180,0,0,DEFAULT_HINDEN,ADAPTED_HINDEN);
     public static final Part RIGHT_CANNON = new Part(15,List.of(hindieModel.RightCannon),0.3f,0,0f,0,0,0,DEFAULT_HINDEN,ADAPTED_HINDEN);
     public static final Part LEFT_CANNON = new Part(16,List.of(hindieModel.LeftCannon),0.3f,0,6f,0,0,0,DEFAULT_HINDEN,ADAPTED_HINDEN);
+
+    public static final Part HOWI_CANNON1 = new Part(17,List.of(howiModel.CononCluster1),0,0,0,0,0,0,DEFAULT_HOWI,ADAPTED_HOWI);
+    public static final Part HOWI_CANNON2 = new Part(18,List.of(howiModel.CononCluster2),0,0,0,0,0,0,DEFAULT_HOWI,ADAPTED_HOWI);
+    public static final Part HOWI_CANNON3 = new Part(19,List.of(howiModel.CononCluster3),0,0,0,0,0,0,DEFAULT_HOWI,ADAPTED_HOWI);
+    public static final Part LEFT_LEG = new Part(20,List.of(howiModel.LeftLeg),0,0,0,0,0,0,DEFAULT_HOWI,ADAPTED_HOWI);
+    public static final Part RIGHT_LEG = new Part(21,List.of(howiModel.RightLeg),0,0,0,0,0,0,DEFAULT_HOWI,ADAPTED_HOWI);
+    public static final Part LEFT_ARM = new Part(22,List.of(howiModel.LeftArm),0,0,0,0,0,0,DEFAULT_HOWI,ADAPTED_HOWI);
+    public static final Part RIGHT_ARM = new Part(23,List.of(howiModel.RightArm),0,0,0,0,0,0,DEFAULT_HOWI,ADAPTED_HOWI);
+    public static final Part SACK = new Part(24,List.of(howiModel.Tumor7),0,0,0,0,0,0,DEFAULT_HOWI,ADAPTED_HOWI);
 
 
     public static Part getPart(int value){
@@ -70,5 +83,14 @@ public class CalamityPartsHandeling {
         add(MAW);
         add(RIGHT_CANNON);
         add(LEFT_CANNON);
+
+        add(HOWI_CANNON1);
+        add(HOWI_CANNON2);
+        add(HOWI_CANNON3);
+        add(LEFT_LEG);
+        add(RIGHT_LEG);
+        add(LEFT_ARM);
+        add(RIGHT_ARM);
+        add(SACK);
     }};
 }
