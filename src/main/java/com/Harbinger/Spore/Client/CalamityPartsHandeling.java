@@ -25,8 +25,8 @@ public class CalamityPartsHandeling {
     private static final ResourceLocation ADAPTED_GAZEN = new ResourceLocation(Spore.MODID,"textures/entity/burned_gazen.png");
     private static final ResourceLocation DEFAULT_HINDEN = new ResourceLocation(Spore.MODID,"textures/entity/hindie.png");
     private static final ResourceLocation ADAPTED_HINDEN = new ResourceLocation(Spore.MODID,"textures/entity/hindie_adapted.png");
-    private static final ResourceLocation DEFAULT_HOWI = new ResourceLocation(Spore.MODID,"textures/entity/hindie.png");
-    private static final ResourceLocation ADAPTED_HOWI  = new ResourceLocation(Spore.MODID,"textures/entity/hindie_adapted.png");
+    private static final ResourceLocation DEFAULT_HOWI = new ResourceLocation(Spore.MODID,"textures/entity/howitzer.png");
+    private static final ResourceLocation ADAPTED_HOWI  = new ResourceLocation(Spore.MODID,"textures/entity/nuclear_howitzer.png");
     public record Part(int id, List<ModelPart> parts,float x, float y,float z,float xRot, float yRot,float zRot, ResourceLocation location,ResourceLocation adapted_location){}
 
     public static final Part SIEGER_BODY = new Part(0,List.of(siegerModel.mainbody,siegerModel.mainbody2),0,0,0,0,0,0,DEFAULT_SIEGER,ADAPTED_SIEGER);
@@ -52,10 +52,10 @@ public class CalamityPartsHandeling {
     public static final Part HOWI_CANNON1 = new Part(17,List.of(howiModel.CononCluster1),0,0,0,0,0,0,DEFAULT_HOWI,ADAPTED_HOWI);
     public static final Part HOWI_CANNON2 = new Part(18,List.of(howiModel.CononCluster2),0,0,0,0,0,0,DEFAULT_HOWI,ADAPTED_HOWI);
     public static final Part HOWI_CANNON3 = new Part(19,List.of(howiModel.CononCluster3),0,0,0,0,0,0,DEFAULT_HOWI,ADAPTED_HOWI);
-    public static final Part LEFT_LEG = new Part(20,List.of(howiModel.LeftLeg),0,0,0,0,0,0,DEFAULT_HOWI,ADAPTED_HOWI);
+    public static final Part LEFT_LEG = new Part(20,List.of(howiModel.LeftLeg),0,0,2f,0,0,90,DEFAULT_HOWI,ADAPTED_HOWI);
     public static final Part RIGHT_LEG = new Part(21,List.of(howiModel.RightLeg),0,0,0,0,0,0,DEFAULT_HOWI,ADAPTED_HOWI);
     public static final Part LEFT_ARM = new Part(22,List.of(howiModel.LeftArm),0,0,0,0,0,0,DEFAULT_HOWI,ADAPTED_HOWI);
-    public static final Part RIGHT_ARM = new Part(23,List.of(howiModel.RightArm),0,0,0,0,0,0,DEFAULT_HOWI,ADAPTED_HOWI);
+    public static final Part RIGHT_ARM = new Part(23,List.of(howiModel.RightArm),3.5f,0,-2f,0,0,90,DEFAULT_HOWI,ADAPTED_HOWI);
     public static final Part SACK = new Part(24,List.of(howiModel.Tumor7),0,0,0,0,0,0,DEFAULT_HOWI,ADAPTED_HOWI);
 
 
