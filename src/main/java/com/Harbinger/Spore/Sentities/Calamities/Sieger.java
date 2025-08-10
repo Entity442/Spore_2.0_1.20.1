@@ -372,7 +372,7 @@ public class Sieger extends Calamity implements RangedAttackMob, TrueCalamity {
         return isAdapted();
     }
 
-    private static final List<HitboxesForParts> innatePartList = List.of(HitboxesForParts.SIEGER_BODY,
+    private final List<HitboxesForParts> innatePartList = List.of(HitboxesForParts.SIEGER_BODY,
             HitboxesForParts.SIEGER_JAW,
             HitboxesForParts.SIEGER_RIGHT_LEG,HitboxesForParts.SIEGER_LEFT_LEG,
             HitboxesForParts.SIEGER_BACK_RIGHT_LEG,HitboxesForParts.SIEGER_BACK_LEFT_LEG);
@@ -389,12 +389,5 @@ public class Sieger extends Calamity implements RangedAttackMob, TrueCalamity {
             }
         }
         return values;
-    }
-    public HitboxesForParts calculateChance(HitboxesForParts part,float val){
-        if (Math.random() < val){
-            return part;
-        }else {
-            return null;
-        }
     }
 }

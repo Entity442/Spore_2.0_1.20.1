@@ -9,6 +9,7 @@ import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.*;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.FallenMultipart.Licker;
+import com.Harbinger.Spore.Sentities.HitboxesForParts;
 import com.Harbinger.Spore.Sentities.Projectile.BileProjectile;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
 import com.Harbinger.Spore.Sentities.WaterInfected;
@@ -32,6 +33,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fluids.FluidType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Gazenbrecher extends Calamity implements WaterInfected , RangedAttackMob , TrueCalamity {
@@ -365,5 +367,27 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
             return "spore.entity.variant.crispy";
         }
         return super.getMutation();
+    }
+
+    @Override
+    public boolean getAdaptation() {
+        return isAdaptedToFire();
+    }
+
+    private final List<HitboxesForParts> innatePartList = List.of(HitboxesForParts.GAZEN_TAIL,
+            HitboxesForParts.GAZEN_HEAD, HitboxesForParts.GAZEN_LEFT_LEG,HitboxesForParts.GAZEN_RIGHT_LEG);
+    @Override
+    public List<HitboxesForParts> parts() {
+        List<HitboxesForParts> values = new ArrayList<>();
+        if (getTongueHp() > 0){
+            values.add(HitboxesForParts.LICKER);
+        }
+        for (HitboxesForParts hitboxes : innatePartList){
+            HitboxesForParts part = calculateChance(hitboxes,0.85f);
+            if (part != null){
+                values.add(part);
+            }
+        }
+        return values;
     }
 }

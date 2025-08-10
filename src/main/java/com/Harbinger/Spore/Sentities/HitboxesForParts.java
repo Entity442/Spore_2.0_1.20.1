@@ -10,7 +10,12 @@ public enum HitboxesForParts {
     SIEGER_LEFT_LEG(3,1.5f,2),
     SIEGER_BACK_RIGHT_LEG(4,1.75f,1.75f),
     SIEGER_BACK_LEFT_LEG(5,1.75f,2),
-    SIEGER_TAIL(6,3f,1);
+    SIEGER_TAIL(6,3f,1),
+    GAZEN_TAIL(7,2,2),
+    GAZEN_HEAD(8,2,2),
+    GAZEN_RIGHT_LEG(9,1.75f,1),
+    GAZEN_LEFT_LEG(10,1.75f,1),
+    LICKER(11,1,1);
 
     private final int ID;
     private final float width;

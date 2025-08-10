@@ -604,12 +604,12 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
             partEntity.moveTo(this.position());
             partEntity.setDeltaMovement(new Vec3(
                     (random.nextDouble() - 0.5) * 0.6,
-                    random.nextDouble() * 0.6 + 0.1,
+                    random.nextDouble() * 0.6 + 0.3,
                     (random.nextDouble() - 0.5) * 0.6
             ));
 
             partEntity.setOwnerAda(getAdaptation());
-            partEntity.setCorpseType(i);
+            partEntity.setCorpseType(partList.get(i).getID());
 
             level().addFreshEntity(partEntity);
         }
