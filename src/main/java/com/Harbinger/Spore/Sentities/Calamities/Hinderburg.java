@@ -15,6 +15,7 @@ import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.FlyingInfected;
+import com.Harbinger.Spore.Sentities.HitboxesForParts;
 import com.Harbinger.Spore.Sentities.Projectile.ThrownTumor;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
 import com.Harbinger.Spore.Sentities.Utility.TumoroidNuke;
@@ -43,6 +44,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamity , RangedAttackMob {
@@ -469,5 +471,23 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
             return "spore.entity.variant.overclocked";
         }
         return super.getMutation();
+    }
+    @Override
+    public boolean getAdaptation() {
+        return isAdapted();
+    }
+
+    private final List<HitboxesForParts> innatePartList = List.of(HitboxesForParts.HINDEN_FRONT,
+            HitboxesForParts.HINDEN_BACK, HitboxesForParts.MAW,HitboxesForParts.RIGHT_CANNON, HitboxesForParts.LEFT_CANNON);
+    @Override
+    public List<HitboxesForParts> parts() {
+        List<HitboxesForParts> values = new ArrayList<>();
+        for (HitboxesForParts hitboxes : innatePartList){
+            HitboxesForParts part = calculateChance(hitboxes,0.75f);
+            if (part != null){
+                values.add(part);
+            }
+        }
+        return values;
     }
 }

@@ -15,7 +15,12 @@ public enum HitboxesForParts {
     GAZEN_HEAD(8,2,2),
     GAZEN_RIGHT_LEG(9,1.75f,1),
     GAZEN_LEFT_LEG(10,1.75f,1),
-    LICKER(11,1,1);
+    LICKER(11,1,1),
+    HINDEN_FRONT(12,3.5f,3.5f),
+    HINDEN_BACK(13,3.5f,3.5f),
+    MAW(14,3,1.5f),
+    RIGHT_CANNON(15,1.5f,1),
+    LEFT_CANNON(16,1.5f,1);
 
     private final int ID;
     private final float width;

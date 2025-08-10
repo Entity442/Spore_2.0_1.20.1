@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Client;
 
 import com.Harbinger.Spore.Client.Models.GazenbrecherModel;
+import com.Harbinger.Spore.Client.Models.HindieModel;
 import com.Harbinger.Spore.Client.Models.SiegerModel;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.client.model.geom.ModelPart;
@@ -15,6 +16,7 @@ import java.util.List;
 public class CalamityPartsHandeling {
     private static final SiegerModel<?> siegerModel = new SiegerModel<>();
     private static final GazenbrecherModel<?> gazenModel = new GazenbrecherModel<>();
+    private static final HindieModel<?> hindieModel = new HindieModel<>();
     public record Part(int id, List<ModelPart> parts,float x, float y,float z,float xRot, float yRot,float zRot, ResourceLocation location,ResourceLocation adapted_location){}
 
     public static final Part SIEGER_BODY = new Part(0,List.of(siegerModel.mainbody,siegerModel.mainbody2),0,0,0,0,0,0,new ResourceLocation(Spore.MODID,"textures/entity/sieger.png"),new ResourceLocation(Spore.MODID,"textures/entity/war_sieger.png"));
@@ -31,6 +33,11 @@ public class CalamityPartsHandeling {
     public static final Part GAZEN_LEFT_LEG = new Part(10,List.of(gazenModel.LeftLeg),0,0.75f,-1.25f,0,0,0,new ResourceLocation(Spore.MODID,"textures/entity/gazen.png"),new ResourceLocation(Spore.MODID,"textures/entity/burned_gazen.png"));
     public static final Part LICKER = new Part(11,List.of(gazenModel.Licker1),-1f,0,0,0,0,0,new ResourceLocation(Spore.MODID,"textures/entity/gazen.png"),new ResourceLocation(Spore.MODID,"textures/entity/burned_gazen.png"));
 
+    public static final Part HINDEN_FRONT = new Part(12,List.of(hindieModel.FrontSection),-6f,-4f,0,45,0,0,new ResourceLocation(Spore.MODID,"textures/entity/hindie.png"),new ResourceLocation(Spore.MODID,"textures/entity/hindie_adapted.png"));
+    public static final Part HINDEN_BACK = new Part(13,List.of(hindieModel.BackSectionSection),6f,-4f,0,-45,0,0,new ResourceLocation(Spore.MODID,"textures/entity/hindie.png"),new ResourceLocation(Spore.MODID,"textures/entity/hindie_adapted.png"));
+    public static final Part MAW = new Part(14,List.of(hindieModel.Maw),0,-4,0,180,0,0,new ResourceLocation(Spore.MODID,"textures/entity/hindie.png"),new ResourceLocation(Spore.MODID,"textures/entity/hindie_adapted.png"));
+    public static final Part RIGHT_CANNON = new Part(15,List.of(hindieModel.RightCannon),0,0,-1.5f,0,0,0,new ResourceLocation(Spore.MODID,"textures/entity/hindie.png"),new ResourceLocation(Spore.MODID,"textures/entity/hindie_adapted.png"));
+    public static final Part LEFT_CANNON = new Part(16,List.of(hindieModel.LeftCannon),0,0,1.5f,0,0,0,new ResourceLocation(Spore.MODID,"textures/entity/hindie.png"),new ResourceLocation(Spore.MODID,"textures/entity/hindie_adapted.png"));
 
 
     public static Part getPart(int value){
@@ -51,5 +58,11 @@ public class CalamityPartsHandeling {
         add(GAZEN_RIGHT_LEG);
         add(GAZEN_LEFT_LEG);
         add(LICKER);
+
+        add(HINDEN_FRONT);
+        add(HINDEN_BACK);
+        add(MAW);
+        add(RIGHT_CANNON);
+        add(LEFT_CANNON);
     }};
 }
