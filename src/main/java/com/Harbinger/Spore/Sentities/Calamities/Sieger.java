@@ -40,6 +40,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Sieger extends Calamity implements RangedAttackMob, TrueCalamity {
@@ -371,10 +372,29 @@ public class Sieger extends Calamity implements RangedAttackMob, TrueCalamity {
         return isAdapted();
     }
 
+    private static final List<HitboxesForParts> innatePartList = List.of(HitboxesForParts.SIEGER_BODY,
+            HitboxesForParts.SIEGER_JAW,
+            HitboxesForParts.SIEGER_RIGHT_LEG,HitboxesForParts.SIEGER_LEFT_LEG,
+            HitboxesForParts.SIEGER_BACK_RIGHT_LEG,HitboxesForParts.SIEGER_BACK_LEFT_LEG);
     @Override
     public List<HitboxesForParts> parts() {
-        return List.of(HitboxesForParts.SIEGER_BODY,HitboxesForParts.SIEGER_JAW,
-                HitboxesForParts.SIEGER_RIGHT_LEG,HitboxesForParts.SIEGER_LEFT_LEG,
-                HitboxesForParts.SIEGER_BACK_RIGHT_LEG,HitboxesForParts.SIEGER_BACK_LEFT_LEG,HitboxesForParts.SIEGER_TAIL);
+        List<HitboxesForParts> values = new ArrayList<>();
+        if (getTailHp() > 0){
+            values.add(HitboxesForParts.SIEGER_TAIL);
+        }
+        for (HitboxesForParts hitboxes : innatePartList){
+            HitboxesForParts part = calculateChance(hitboxes,0.75f);
+            if (part != null){
+                values.add(part);
+            }
+        }
+        return values;
+    }
+    public HitboxesForParts calculateChance(HitboxesForParts part,float val){
+        if (Math.random() < val){
+            return part;
+        }else {
+            return null;
+        }
     }
 }

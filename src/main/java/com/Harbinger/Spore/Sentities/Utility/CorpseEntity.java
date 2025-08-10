@@ -1,7 +1,10 @@
 package com.Harbinger.Spore.Sentities.Utility;
 
+import com.Harbinger.Spore.Core.Sblocks;
+import com.Harbinger.Spore.Core.Sentities;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.HitboxesForParts;
-import com.Harbinger.Spore.Sentities.Variants.BraureiVariants;
+import com.Harbinger.Spore.Sentities.Organoids.Mound;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -13,18 +16,20 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-
-import java.util.List;
 
 public class CorpseEntity extends Entity {
     private static final EntityDataAccessor<Integer> TYPE = SynchedEntityData.defineId(CorpseEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> OWNER_ADA = SynchedEntityData.defineId(CorpseEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(CorpseEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> TIMER = SynchedEntityData.defineId(CorpseEntity.class, EntityDataSerializers.INT);
     private final SimpleContainer inventory = new SimpleContainer(20);
     public CorpseEntity(EntityType<?> p_19870_, Level p_19871_) {
         super(p_19870_, p_19871_);
@@ -34,6 +39,8 @@ public class CorpseEntity extends Entity {
     protected void defineSynchedData() {
         this.entityData.define(TYPE, 0);
         this.entityData.define(OWNER_ADA,false);
+        this.entityData.define(COLOR, 0);
+        this.entityData.define(TIMER, 0);
     }
     public SimpleContainer getInventory(){
         return inventory;
@@ -44,6 +51,8 @@ public class CorpseEntity extends Entity {
     @Override
     protected void readAdditionalSaveData(CompoundTag compoundTag) {
         setCorpseType(compoundTag.getInt("corpse_type"));
+        setColor(compoundTag.getInt("color"));
+        entityData.set(TIMER,compoundTag.getInt("timer"));
         setOwnerAda(compoundTag.getBoolean("owner_ada"));
         ListTag listtag = compoundTag.getList("Items",10);
 
@@ -57,6 +66,8 @@ public class CorpseEntity extends Entity {
     @Override
     protected void addAdditionalSaveData(CompoundTag compoundTag) {
         compoundTag.putInt("corpse_type",getCorpseType());
+        compoundTag.putInt("color",getColor());
+        compoundTag.putInt("timer",entityData.get(TIMER));
         compoundTag.putBoolean("owner_ada",getOwnerAda());
         ListTag listtag = new ListTag();
         for (int i = 0; i < this.inventory.getContainerSize(); i++) {
@@ -76,6 +87,12 @@ public class CorpseEntity extends Entity {
     public int getCorpseType(){
         return entityData.get(TYPE);
     }
+    public void setColor(int e){
+        entityData.set(COLOR,e);
+    }
+    public int getColor(){
+        return entityData.get(COLOR);
+    }
     public void setOwnerAda(boolean e){
         entityData.set(OWNER_ADA,e);
     }
@@ -91,6 +108,8 @@ public class CorpseEntity extends Entity {
                 if (!stack.isEmpty()) {
                     summonItem(stack);
                     inventory.setItem(i, ItemStack.EMPTY);
+                    this.playSound(Ssounds.CALAMITY_DAMAGE.get());
+                    break;
                 }
             }
 
@@ -146,6 +165,38 @@ public class CorpseEntity extends Entity {
                 this.setDeltaMovement(Vec3.ZERO); // full stop
             }
         }
+        if (tickCount % 20 == 0){
+            tickTimer();
+        }
+    }
+    private void tickTimer(){
+        int time = entityData.get(TIMER);
+        if (time < 6000){
+            time++;
+            entityData.set(TIMER,time);
+        }else {
+            summonBiomass();
+        }
+    }
+    private void summonBiomass(){
+        if (level().isClientSide){
+            return;
+        }
+        if (Math.random() < 0.1){
+            Mound mound = new Mound(Sentities.MOUND.get(), level());
+            mound.moveTo(this.position());
+            mound.tickEmerging();
+            level().addFreshEntity(mound);
+        }else {
+            AABB aabb = this.getBoundingBox().inflate(1);
+            for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+                BlockState blockState = level().getBlockState(blockpos);
+                if (blockState.isAir() && Math.random() < 0.2f){
+                    FallingBlockEntity.fall(level(),blockpos, Sblocks.REMAINS.get().defaultBlockState());
+                }
+            }
+        }
+        discard();
     }
 
     @Override

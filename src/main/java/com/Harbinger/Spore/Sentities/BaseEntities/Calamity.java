@@ -39,6 +39,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
@@ -482,6 +483,7 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
             serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x0, y0, z0, 4, 0, 0, 0, 1);
         }
         super.die(source);
+        summonBiomass();
         this.discard();
     }
     private void SummonMound(Entity entity){
@@ -564,43 +566,75 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
     }
 
     @Override
-    protected void dropCustomDeathLoot(DamageSource source, int val, boolean recentlyHit) {
+    protected void dropCustomDeathLoot(DamageSource source, int val, boolean bool) {
         if (level().isClientSide()) {
             return;
         }
 
-        List<ItemStack> allDrops = getDroppedItems(val);
-        List<HitboxesForParts> corpseParts = parts();
-
-        if (corpseParts.isEmpty()) {
+        List<ItemStack> loot = getDroppedItems(val);
+        List<HitboxesForParts> partList = parts();
+        if (partList.isEmpty() || loot.isEmpty()) {
             return;
         }
 
-        int itemsPerPart = allDrops.isEmpty() ? 0 : (int) Math.ceil((double) allDrops.size() / corpseParts.size());
-        int dropIndex = 0;
+        int partCount = partList.size();
 
-        for (int i = 0; i < corpseParts.size(); i++) {
-            CorpseEntity piece = new CorpseEntity(Sentities.CORPSE_PIECE.get(), level());
-            piece.moveTo(this.position());
+        List<List<ItemStack>> distributedLoot = new ArrayList<>();
+        for (int i = 0; i < partCount; i++) {
+            distributedLoot.add(new ArrayList<>());
+        }
 
-            for (int j = 0; j < itemsPerPart && dropIndex < allDrops.size(); j++) {
-                piece.addToInventory(allDrops.get(dropIndex));
-                dropIndex++;
+        for (ItemStack stack : loot) {
+            int baseAmount = stack.getCount() / partCount;
+            int remainder = stack.getCount() % partCount;
+
+            for (int i = 0; i < partCount; i++) {
+                int amount = baseAmount + (i < remainder ? 1 : 0);
+                if (amount > 0) {
+                    distributedLoot.get(i).add(stack.copyWithCount(amount));
+                }
             }
+        }
+        for (int i = 0; i < partCount; i++) {
+            CorpseEntity partEntity = new CorpseEntity(Sentities.CORPSE_PIECE.get(), level());
+            for (ItemStack stack : distributedLoot.get(i)) {
+                partEntity.addToInventory(stack);
+            }
+            partEntity.setColor(this.getMutationColor());
+            partEntity.moveTo(this.position());
+            partEntity.setDeltaMovement(new Vec3(
+                    (random.nextDouble() - 0.5) * 0.6,
+                    random.nextDouble() * 0.6 + 0.1,
+                    (random.nextDouble() - 0.5) * 0.6
+            ));
 
-            double speed = 0.2 + random.nextDouble() * 0.3;
-            double angle = random.nextDouble() * (Math.PI * 2);
-            piece.setDeltaMovement(
-                    speed * Math.cos(angle),
-                    0.2 + random.nextDouble() * 0.2, // upward boost
-                    speed * Math.sin(angle)
-            );
+            partEntity.setOwnerAda(getAdaptation());
+            partEntity.setCorpseType(i);
 
-            piece.setOwnerAda(getAdaptation());
-            piece.setCorpseType(i);
-            level().addFreshEntity(piece);
+            level().addFreshEntity(partEntity);
         }
     }
-
-
+    public HitboxesForParts calculateChance(HitboxesForParts part,float val){
+        if (Math.random() < val){
+            return part;
+        }else {
+            return null;
+        }
+    }
+    private void summonBiomass(){
+        if (level().isClientSide){
+            return;
+        }
+        AABB aabb = this.getBoundingBox().inflate(1);
+        for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+            BlockState blockState = level().getBlockState(blockpos);
+            if (blockState.isAir() && Math.random() < 0.1f){
+                BlockState state = states.get(random.nextInt(states.size()));
+                FallingBlockEntity.fall(level(),blockpos,state);
+            }
+        }
+    }
+    private static final List<BlockState> states = List.of(Sblocks.BIOMASS_BLOCK.get().defaultBlockState()
+    ,Sblocks.ROOTED_BIOMASS.get().defaultBlockState(),Sblocks.CALCIFIED_BIOMASS_BLOCK.get().defaultBlockState()
+            ,Sblocks.SICKEN_BIOMASS_BLOCK.get().defaultBlockState(),Sblocks.REMAINS.get().defaultBlockState());
 }

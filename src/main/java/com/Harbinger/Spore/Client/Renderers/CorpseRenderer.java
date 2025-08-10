@@ -35,6 +35,10 @@ public class CorpseRenderer<T extends CorpseEntity> extends EntityRenderer<T> {
             partToRender = CalamityPartsHandeling.getPart(entity.getCorpseType());
             if (partToRender == null) return;
         }
+        int i = entity.getColor();
+        float r = (float) (i >> 16 & 255) / 255.0F;
+        float g = (float) (i >> 8 & 255) / 255.0F;
+        float b = (float) (i & 255) / 255.0F;
         stack.pushPose();
         stack.translate(0,0,0);
         stack.mulPose(Axis.XP.rotationDegrees(180 + partToRender.xRot()));
@@ -42,8 +46,12 @@ public class CorpseRenderer<T extends CorpseEntity> extends EntityRenderer<T> {
         stack.mulPose(Axis.ZP.rotationDegrees(partToRender.zRot()));
         stack.translate(-partToRender.z(),-partToRender.y(),-partToRender.x());
         VertexConsumer consumer = source.getBuffer(RenderType.entityCutout(getTextureLocation(entity)));
+        VertexConsumer vertexConsumer = source.getBuffer(RenderType.entityTranslucent(getTextureLocation(entity)));
         for (ModelPart part : partToRender.parts()) {
             part.render(stack, consumer, light, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+            if (entity.getColor() != 0){
+                part.render(stack, vertexConsumer, light, OverlayTexture.NO_OVERLAY, r,g,b,0.5f);
+            }
         }
         stack.popPose();
         stack.pushPose();
