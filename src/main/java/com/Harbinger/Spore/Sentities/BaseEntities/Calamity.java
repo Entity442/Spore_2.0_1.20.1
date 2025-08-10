@@ -477,9 +477,9 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
     public void die(DamageSource source) {
 
         if (this.level() instanceof ServerLevel serverLevel){
-            double x0 = this.getX() - (random.nextFloat() - 0.1) * 1.2D;
-            double y0 = this.getY() + (random.nextFloat() - 0.25) * 1.25D * 5;
-            double z0 = this.getZ() + (random.nextFloat() - 0.1) * 1.2D;
+            double x0 = this.getX() - (random.nextFloat() - 0.1) * 3.2D;
+            double y0 = this.getY() + (random.nextFloat() - 0.25) * 3.25D * 5;
+            double z0 = this.getZ() + (random.nextFloat() - 0.1) * 3.2D;
             serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x0, y0, z0, 4, 0, 0, 0, 1);
         }
         super.die(source);
@@ -603,9 +603,9 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
             partEntity.setColor(this.getMutationColor());
             partEntity.moveTo(this.position());
             partEntity.setDeltaMovement(new Vec3(
-                    (random.nextDouble() - 0.5) * 0.6,
+                    (random.nextDouble() - random.nextDouble()) * 0.9,
                     random.nextDouble() * 0.6 + 0.3,
-                    (random.nextDouble() - 0.5) * 0.6
+                    (random.nextDouble() - random.nextDouble()) * 0.9
             ));
 
             partEntity.setOwnerAda(getAdaptation());
