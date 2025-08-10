@@ -26,9 +26,9 @@ public class HindieModel<T extends Hinderburg> extends EntityModel<T> {
 	private final ModelPart LeftSsplit;
 	private final ModelPart RightNsplit;
 	private final ModelPart RightSsplit;
-	private final ModelPart RightCannon;
+	public final ModelPart RightCannon;
 	private final ModelPart RightTumor;
-	private final ModelPart LeftCannon;
+	public final ModelPart LeftCannon;
 	private final ModelPart LeftTumor;
 	private final ModelPart FrontTendril1;
 	private final ModelPart FrontTendril2;
@@ -39,6 +39,9 @@ public class HindieModel<T extends Hinderburg> extends EntityModel<T> {
 	private final ModelPart BackTendrils3;
 	private final ModelPart BackTendrils4;
 	private final ModelPart BackTendrils5;
+	public final ModelPart FrontSection;
+	public final ModelPart BackSectionSection;
+	public final ModelPart Maw;
 
 	public HindieModel(ModelPart root) {
 		this.Hindie = root.getChild("Hindie");
@@ -62,7 +65,36 @@ public class HindieModel<T extends Hinderburg> extends EntityModel<T> {
 		this.BackTendrils3 = this.Hindie.getChild("Center").getChild("Back1").getChild("Back1Bottom").getChild("B1Tendrils").getChild("B1Tendril3");
 		this.BackTendrils4 = this.Hindie.getChild("Center").getChild("Back1").getChild("Back1Bottom").getChild("B1Tendrils").getChild("B1Tendril4");
 		this.BackTendrils5 = this.Hindie.getChild("Center").getChild("Back1").getChild("Back1Bottom").getChild("B1Tendrils").getChild("B1Tendril4");
-
+		this.FrontSection = this.Hindie.getChild("Center").getChild("Front1");
+		this.BackSectionSection = this.Hindie.getChild("Center").getChild("Back1");
+		this.Maw = this.Hindie.getChild("Center").getChild("CavnerousMaw");
+	}
+	public HindieModel() {
+		ModelPart root = createBodyLayer().bakeRoot();
+		this.Hindie = root.getChild("Hindie");
+		this.LeftLip = this.Hindie.getChild("Center").getChild("CavnerousMaw").getChild("LeftLip");
+		this.RightLip = this.Hindie.getChild("Center").getChild("CavnerousMaw").getChild("RightLip");
+		this.LeftNsplit = this.LeftLip.getChild("NorthJawSplit");
+		this.LeftNsplit2 = this.LeftNsplit.getChild("LNJSBase");
+		this.LeftSsplit = this.LeftLip.getChild("SouthJawSplit");
+		this.RightNsplit = this.RightLip.getChild("RightNorthJawSplit");
+		this.RightSsplit = this.RightLip.getChild("RightSouthJawSplit");
+		this.RightCannon = this.Hindie.getChild("Center").getChild("CenterTendrils").getChild("RightCannon");
+		this.LeftCannon = this.Hindie.getChild("Center").getChild("CenterTendrils").getChild("LeftCannon");
+		this.RightTumor = this.RightCannon.getChild("Tumors");
+		this.LeftTumor = this.LeftCannon.getChild("LeftTumors");
+		this.FrontTendril1 = this.Hindie.getChild("Center").getChild("Front1").getChild("Front1Bottom").getChild("Front1Tendrils").getChild("F1Tendril1");
+		this.FrontTendril2 = this.Hindie.getChild("Center").getChild("Front1").getChild("Front1Bottom").getChild("Front1Tendrils").getChild("F1Tendril2");
+		this.FrontTendril3 = this.Hindie.getChild("Center").getChild("Front1").getChild("Front1Bottom").getChild("Front1Tendrils").getChild("F1Tendril3");
+		this.FrontTendril4 = this.Hindie.getChild("Center").getChild("Front1").getChild("Front2").getChild("Front2Bottom").getChild("Front2Tendrils").getChild("F2Tendril1");
+		this.BackTendrils1 = this.Hindie.getChild("Center").getChild("Back1").getChild("Back1Bottom").getChild("B1Tendrils").getChild("B1Tendril1");
+		this.BackTendrils2 = this.Hindie.getChild("Center").getChild("Back1").getChild("Back1Bottom").getChild("B1Tendrils").getChild("B1Tendril2");
+		this.BackTendrils3 = this.Hindie.getChild("Center").getChild("Back1").getChild("Back1Bottom").getChild("B1Tendrils").getChild("B1Tendril3");
+		this.BackTendrils4 = this.Hindie.getChild("Center").getChild("Back1").getChild("Back1Bottom").getChild("B1Tendrils").getChild("B1Tendril4");
+		this.BackTendrils5 = this.Hindie.getChild("Center").getChild("Back1").getChild("Back1Bottom").getChild("B1Tendrils").getChild("B1Tendril4");
+		this.FrontSection = this.Hindie.getChild("Center").getChild("Front1");
+		this.BackSectionSection = this.Hindie.getChild("Center").getChild("Back1");
+		this.Maw = this.Hindie.getChild("Center").getChild("CavnerousMaw");
 	}
 
 	public static LayerDefinition createBodyLayer() {

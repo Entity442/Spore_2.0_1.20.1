@@ -21,12 +21,12 @@ public class GazenbrecherModel<T extends Gazenbrecher> extends HierarchicalModel
 	private final ModelPart Gazenbreacher;
 	private final ModelPart Segment2;
 	private final ModelPart Segment3;
-	private final ModelPart Segment4;
-	private final ModelPart TopJaw;
-	private final ModelPart RightJaw;
-	private final ModelPart LeftJaw;
-	private final ModelPart LeftLeg;
-	private final ModelPart RightLeg;
+	public final ModelPart Segment4;
+	public final ModelPart TopJaw;
+	public final ModelPart RightJaw;
+	public final ModelPart LeftJaw;
+	public final ModelPart LeftLeg;
+	public final ModelPart RightLeg;
 	private final ModelPart SmolL1;
 	private final ModelPart SmolL2;
 	private final ModelPart SmolL3;
@@ -35,13 +35,44 @@ public class GazenbrecherModel<T extends Gazenbrecher> extends HierarchicalModel
 	private final ModelPart BackRightFin;
 	private final ModelPart BackLeftFin;
 	private final ModelPart Tumors;
-	private final ModelPart Licker1;
+	public final ModelPart Licker1;
 	private final ModelPart Licker2;
 	private final ModelPart Head;
 	private final ModelPart RightArm;
 	private final ModelPart LeftArm;
 
 	public GazenbrecherModel(ModelPart root) {
+		this.Gazenbreacher = root.getChild("Gazenbreacher");
+		this.Segment2 = Gazenbreacher.getChild("FrontSeg1").getChild("CenterBaseGroup");
+		this.Segment3 = Segment2.getChild("BackSeg1");
+		this.Segment4 = Segment3.getChild("BackSeg2");
+
+		this.TopJaw = Gazenbreacher.getChild("FrontSeg1").getChild("FrontSeg2").getChild("Head").getChild("Jaw").getChild("TopJaw");
+		this.RightJaw = Gazenbreacher.getChild("FrontSeg1").getChild("FrontSeg2").getChild("Head").getChild("Jaw").getChild("RightJaw");
+		this.LeftJaw = Gazenbreacher.getChild("FrontSeg1").getChild("FrontSeg2").getChild("Head").getChild("Jaw").getChild("LeftJaw");
+
+		this.LeftLeg = Gazenbreacher.getChild("FrontSeg1").getChild("FrontSeg2").getChild("FrontSeg2BaseGroup").getChild("Limbs").getChild("LeftLimb");
+		this.RightLeg = Gazenbreacher.getChild("FrontSeg1").getChild("FrontSeg2").getChild("FrontSeg2BaseGroup").getChild("Limbs").getChild("RightLimb");
+		this.SmolL1 = Gazenbreacher.getChild("FrontSeg1").getChild("FrontSeg2").getChild("FrontSeg2BaseGroup").getChild("Limbs").getChild("Smoll1");
+		this.SmolL2 = Gazenbreacher.getChild("FrontSeg1").getChild("FrontSeg2").getChild("FrontSeg2BaseGroup").getChild("Limbs").getChild("Smoll2");
+		this.SmolL3 = Gazenbreacher.getChild("FrontSeg1").getChild("FrontSeg2").getChild("FrontSeg2BaseGroup").getChild("Limbs").getChild("Smoll3");
+
+		this.LeftFin = Gazenbreacher.getChild("FrontSeg1").getChild("FrontSeg2").getChild("FrontSeg2BaseGroup").getChild("BackSegFin").getChild("LeftFin");
+		this.RightFin = Gazenbreacher.getChild("FrontSeg1").getChild("FrontSeg1BaseGroup").getChild("FrontSeg1Fin").getChild("RightSidefin");
+
+		this.BackRightFin = Segment4.getChild("BackSeg3").getChild("Tail").getChild("RightTail");
+		this.BackLeftFin = Segment4.getChild("BackSeg3").getChild("Tail").getChild("LeftTail");
+
+		this.Tumors = Gazenbreacher.getChild("FrontSeg1").getChild("FrontSeg2").getChild("Head").getChild("Jaw").getChild("Licker").getChild("Tumors");
+		this.Licker1 = Gazenbreacher.getChild("FrontSeg1").getChild("FrontSeg2").getChild("Head").getChild("Jaw").getChild("Licker").getChild("LickerSeg2");
+		this.Licker2 = Licker1.getChild("LickerSeg3");
+		this.Head = Licker2.getChild("ToungeHead");
+		this.RightArm = Licker2.getChild("RightArm");
+		this.LeftArm = Licker2.getChild("LeftArm");
+
+	}
+	public GazenbrecherModel() {
+		ModelPart root = createBodyLayer().bakeRoot();
 		this.Gazenbreacher = root.getChild("Gazenbreacher");
 		this.Segment2 = Gazenbreacher.getChild("FrontSeg1").getChild("CenterBaseGroup");
 		this.Segment3 = Segment2.getChild("BackSeg1");
