@@ -15,6 +15,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -99,9 +100,20 @@ public class CorpseEntity extends Entity {
     public boolean getOwnerAda(){
         return entityData.get(OWNER_ADA);
     }
-
+    public int getTimer(){return entityData.get(TIMER);}
     @Override
     public InteractionResult interactAt(Player player, Vec3 hitVec, InteractionHand hand) {
+        createLoot();
+        return InteractionResult.SUCCESS;
+    }
+
+    @Override
+    public boolean hurt(DamageSource p_19946_, float p_19947_) {
+        createLoot();
+        return super.hurt(p_19946_, p_19947_);
+    }
+
+    private void createLoot(){
         if (!level().isClientSide) {
             for (int i = 0; i < inventory.getContainerSize(); i++) {
                 ItemStack stack = inventory.getItem(i);
@@ -117,7 +129,6 @@ public class CorpseEntity extends Entity {
                 this.discard();
             }
         }
-        return InteractionResult.SUCCESS;
     }
     @Override
     public boolean isPickable() {
@@ -171,7 +182,7 @@ public class CorpseEntity extends Entity {
     }
     private void tickTimer(){
         int time = entityData.get(TIMER);
-        if (time < 6000){
+        if (time < 300){
             time++;
             entityData.set(TIMER,time);
         }else {

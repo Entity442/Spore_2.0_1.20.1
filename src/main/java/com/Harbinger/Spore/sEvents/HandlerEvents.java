@@ -16,6 +16,7 @@ import com.Harbinger.Spore.Sentities.Calamities.Hohlfresser;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Protector;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
+import com.Harbinger.Spore.Sentities.HitboxesForParts;
 import com.Harbinger.Spore.Sentities.Organoids.*;
 import com.Harbinger.Spore.Sentities.Utility.*;
 import com.Harbinger.Spore.Sitems.BaseWeapons.*;
@@ -237,7 +238,7 @@ public class HandlerEvents {
                     int y = (int) arguments.getSource().getPosition().y();
                     int z = (int) arguments.getSource().getPosition().z();
                     CorpseEntity corpseEntity = new CorpseEntity(Sentities.CORPSE_PIECE.get(), world);
-                    corpseEntity.setCorpseType(randomSource.nextInt(8));
+                    corpseEntity.setCorpseType(randomSource.nextInt(HitboxesForParts.values().length));
                     corpseEntity.setOwnerAda(true);
                     corpseEntity.setPos(x,y,z);
                     world.addFreshEntity(corpseEntity);
@@ -326,6 +327,7 @@ public class HandlerEvents {
                             if (entity1 instanceof CorpseEntity corpseEntity){
                                 player.displayClientMessage(Component.literal("isAdapted ? " + corpseEntity.getOwnerAda()),false);
                                 player.displayClientMessage(Component.literal("ID ? " + corpseEntity.getCorpseType()),false);
+                                player.displayClientMessage(Component.literal("Timer ? " + corpseEntity.getTimer()),false);
                                 for (int i=0;i<corpseEntity.getInventory().getContainerSize();i++){
                                     ItemStack stack = corpseEntity.getInventory().getItem(i);
                                     if (stack != ItemStack.EMPTY){
