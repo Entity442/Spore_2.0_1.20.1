@@ -64,12 +64,12 @@ public class CalamityPartsHandeling {
     public static final Part HOWI_RIGHT_ARM = new Part(23,List.of(howiModel.RightArm),3.5f,0,-2f,0,0,90,DEFAULT_HOWI,ADAPTED_HOWI);
     public static final Part HOWI_SACK = new Part(24,List.of(howiModel.Tumor7),0,0,0,0,0,0,DEFAULT_HOWI,ADAPTED_HOWI);
 
-    public static final Part HOHL_JAW = new Part(25,List.of(worm_headModel.TrueHead),0,0,0,0,0,0,HOHLHEAD,HOHLHEAD);
-    public static final Part HOHL_HEAD = new Part(26,List.of(worm_headModel.Middle),0,0,0,0,0,0,HOHLHEAD,HOHLHEAD);
-    public static final Part HOHL_SEG1 = new Part(27,List.of(worm_seg1Model.hohl_seg),0,0,0,0,0,0,HOHL_SEG,HOHL_SEG);
-    public static final Part HOHL_SEG2 = new Part(28,List.of(worm_seg2Model.hohl_seg),0,0,0,0,0,0,HOHL_SHARP_SEG,HOHL_SHARP_SEG);
-    public static final Part HOHL_SEG3 = new Part(29,List.of(worm_seg3Model.hohl_seg),0,0,0,0,0,0,HOHL_ORGAN_SEG,HOHL_ORGAN_SEG);
-    public static final Part HOHL_TAIL = new Part(30,List.of(worm_tailModel.tail),0,0,0,0,0,0,HOHL_SEG,HOHL_SEG);
+    public static final Part HOHL_JAW = new Part(25,List.of(worm_headModel.TrueHead),-3.5f,0,0,-90,0,0,HOHLHEAD,HOHLHEAD);
+    public static final Part HOHL_HEAD = new Part(26,List.of(worm_headModel.Middle),2.25f,0,0,-90,0,0,HOHLHEAD,HOHLHEAD);
+    public static final Part HOHL_SEG1 = new Part(27,List.of(worm_seg1Model.hohl_seg),0,0.5f,0,0,0,0,HOHL_SEG,HOHL_SEG);
+    public static final Part HOHL_SEG2 = new Part(28,List.of(worm_seg2Model.hohl_seg),0,0.5f,0,0,0,0,HOHL_SHARP_SEG,HOHL_SHARP_SEG);
+    public static final Part HOHL_SEG3 = new Part(29,List.of(worm_seg3Model.hohl_seg),0,0.5f,0,0,0,0,HOHL_ORGAN_SEG,HOHL_ORGAN_SEG);
+    public static final Part HOHL_TAIL = new Part(30,List.of(worm_tailModel.tail),0,0,0.5f,0,0,0,HOHL_SEG,HOHL_SEG);
 
     public static Part getPart(int value){
         return getParts.stream().filter(p -> p.id == value).findFirst().orElse(SIEGER_BODY);
