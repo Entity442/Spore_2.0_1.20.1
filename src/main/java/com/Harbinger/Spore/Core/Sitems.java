@@ -94,6 +94,12 @@ public class Sitems {
             () -> new Tumor(Tumor.TumorType.BILE));
     public  static final RegistryObject<Item> FROZEN_TUMOR = ITEMS.register("frozen_tumor",
             () -> new Tumor(Tumor.TumorType.FROZEN));
+    public  static final RegistryObject<Item> REFORGED_BIOMASS_T = ITEMS.register("reforged_biomass_t",
+            () -> new BaseItem(new Item.Properties()));
+    public  static final RegistryObject<Item> REFORGED_BIOMASS_W = ITEMS.register("reforged_biomass_w",
+            () -> new BaseItem(new Item.Properties()));
+    public  static final RegistryObject<Item> REFORGED_BIOMASS_A = ITEMS.register("reforged_biomass_a",
+            () -> new BaseItem(new Item.Properties()));
     public  static final RegistryObject<Item> SAUSAGE = ITEMS.register("sausage",
             () -> new BaseItem(new Item.Properties().stacksTo(16).food(new FoodProperties.Builder().nutrition(8).saturationMod(0.8F).effect(()-> new MobEffectInstance(Seffects.MYCELIUM.get(),200,0),0.4f)
                     .effect(()-> new MobEffectInstance(MobEffects.ABSORPTION,300,1),1f).meat().build())));
