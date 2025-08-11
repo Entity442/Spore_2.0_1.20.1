@@ -16,7 +16,7 @@ import net.minecraft.util.Mth;
 public class hohlfresserTailModel<T extends HohlMultipart> extends EntityModel<T> implements TentacledModel{
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "hohlfressertailmodel"), "main");
-	private final ModelPart tail;
+	public final ModelPart tail;
 	private final ModelPart SegBase;
 	private final ModelPart Tumors;
 	private final ModelPart SpineSide;
@@ -77,6 +77,68 @@ public class hohlfresserTailModel<T extends HohlMultipart> extends EntityModel<T
 	private final ModelPart Bloom2;
 
 	public hohlfresserTailModel(ModelPart root) {
+		this.tail = root.getChild("tail");
+		this.SegBase = this.tail.getChild("SegBase");
+		this.Tumors = this.tail.getChild("Tumors");
+		this.SpineSide = this.tail.getChild("SpineSide");
+		this.SpineTop = this.tail.getChild("SpineTop");
+		this.rib2 = this.SpineTop.getChild("rib2");
+		this.rib3 = this.SpineTop.getChild("rib3");
+		this.Bodies = this.tail.getChild("Bodies");
+		this.Body30 = this.Bodies.getChild("Body30");
+		this.Body31 = this.Bodies.getChild("Body31");
+		this.Body32 = this.Bodies.getChild("Body32");
+		this.Body33 = this.Bodies.getChild("Body33");
+		this.Body34 = this.Bodies.getChild("Body34");
+		this.Body35 = this.Bodies.getChild("Body35");
+		this.Body36 = this.Bodies.getChild("Body36");
+		this.Body37 = this.Bodies.getChild("Body37");
+		this.Body2 = this.Bodies.getChild("Body2");
+		this.Body3 = this.Bodies.getChild("Body3");
+		this.Body4 = this.Bodies.getChild("Body4");
+		this.Body5 = this.Bodies.getChild("Body5");
+		this.Body6 = this.Bodies.getChild("Body6");
+		this.Body7 = this.Bodies.getChild("Body7");
+		this.Body8 = this.Bodies.getChild("Body8");
+		this.Tendrils = this.tail.getChild("Tendrils");
+		this.Root1 = this.Tendrils.getChild("Root1");
+		this.R1Seg2 = this.Root1.getChild("R1Seg2");
+		this.R1Seg3 = this.R1Seg2.getChild("R1Seg3");
+		this.R1Seg4 = this.R1Seg3.getChild("R1Seg4");
+		this.Tendril1 = this.Tendrils.getChild("Tendril1");
+		this.Seg2Tendril1 = this.Tendril1.getChild("Seg2Tendril1");
+		this.Seg3Tendril1 = this.Seg2Tendril1.getChild("Seg3Tendril1");
+		this.Seg4Tendril1 = this.Seg3Tendril1.getChild("Seg4Tendril1");
+		this.Tendril2 = this.Tendrils.getChild("Tendril2");
+		this.Seg2Tendril2 = this.Tendril2.getChild("Seg2Tendril2");
+		this.Seg3Tendril2 = this.Seg2Tendril2.getChild("Seg3Tendril2");
+		this.Tendril3 = this.Tendrils.getChild("Tendril3");
+		this.Seg2Tendril3 = this.Tendril3.getChild("Seg2Tendril3");
+		this.Seg3Tendril3 = this.Seg2Tendril3.getChild("Seg3Tendril3");
+		this.Seg4Tendril2 = this.Seg3Tendril3.getChild("Seg4Tendril2");
+		this.Bloom = this.tail.getChild("Bloom");
+		this.Tumors2 = this.tail.getChild("Tumors2");
+		this.Tumors3 = this.tail.getChild("Tumors3");
+		this.EndRoot = this.tail.getChild("EndRoot");
+		this.ESeg1 = this.EndRoot.getChild("ESeg1");
+		this.ESeg2 = this.ESeg1.getChild("ESeg2");
+		this.ESeg3 = this.ESeg2.getChild("ESeg3");
+		this.EndRoot2 = this.tail.getChild("EndRoot2");
+		this.ESeg4 = this.EndRoot2.getChild("ESeg4");
+		this.ESeg5 = this.ESeg4.getChild("ESeg5");
+		this.ESeg6 = this.ESeg5.getChild("ESeg6");
+		this.EndRoot3 = this.tail.getChild("EndRoot3");
+		this.ESeg7 = this.EndRoot3.getChild("ESeg7");
+		this.ESeg8 = this.ESeg7.getChild("ESeg8");
+		this.ESeg9 = this.ESeg8.getChild("ESeg9");
+		this.EndRoot4 = this.tail.getChild("EndRoot4");
+		this.ESeg10 = this.EndRoot4.getChild("ESeg10");
+		this.ESeg11 = this.ESeg10.getChild("ESeg11");
+		this.ESeg12 = this.ESeg11.getChild("ESeg12");
+		this.Bloom2 = this.tail.getChild("Bloom2");
+	}
+	public hohlfresserTailModel() {
+		ModelPart root = createBodyLayer().bakeRoot();
 		this.tail = root.getChild("tail");
 		this.SegBase = this.tail.getChild("SegBase");
 		this.Tumors = this.tail.getChild("Tumors");

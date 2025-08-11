@@ -2,7 +2,6 @@ package com.Harbinger.Spore.Client.Models;// Made with Blockbench 4.12.6
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
-import com.Harbinger.Spore.Client.Models.TentacledModel;
 import com.Harbinger.Spore.Sentities.BaseEntities.HohlMultipart;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.client.model.EntityModel;
@@ -17,7 +16,7 @@ import net.minecraft.util.Mth;
 public class HohlfresserSeg3Model<T extends HohlMultipart> extends EntityModel<T> implements TentacledModel {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "hohlfresserseg3model"), "main");
-	private final ModelPart hohl_seg;
+	public final ModelPart hohl_seg;
 	private final ModelPart SegBase;
 	private final ModelPart Tumors;
 	private final ModelPart SpineSide;
@@ -52,6 +51,42 @@ public class HohlfresserSeg3Model<T extends HohlMultipart> extends EntityModel<T
 	private final ModelPart Body5;
 
 	public HohlfresserSeg3Model(ModelPart root) {
+		this.hohl_seg = root.getChild("hohl_seg");
+		this.SegBase = this.hohl_seg.getChild("SegBase");
+		this.Tumors = this.hohl_seg.getChild("Tumors");
+		this.SpineSide = this.hohl_seg.getChild("SpineSide");
+		this.SpineSide2 = this.hohl_seg.getChild("SpineSide2");
+		this.SpineTop = this.hohl_seg.getChild("SpineTop");
+		this.SpineBottom = this.hohl_seg.getChild("SpineBottom");
+		this.Tendrils = this.hohl_seg.getChild("Tendrils");
+		this.Tendril1 = this.Tendrils.getChild("Tendril1");
+		this.Seg2Tendril1 = this.Tendril1.getChild("Seg2Tendril1");
+		this.Seg3Tendril1 = this.Seg2Tendril1.getChild("Seg3Tendril1");
+		this.Seg4Tendril1 = this.Seg3Tendril1.getChild("Seg4Tendril1");
+		this.Tendril2 = this.Tendrils.getChild("Tendril2");
+		this.Seg2Tendril2 = this.Tendril2.getChild("Seg2Tendril2");
+		this.Seg3Tendril2 = this.Seg2Tendril2.getChild("Seg3Tendril2");
+		this.Tendril3 = this.Tendrils.getChild("Tendril3");
+		this.Seg2Tendril3 = this.Tendril3.getChild("Seg2Tendril3");
+		this.Seg3Tendril3 = this.Seg2Tendril3.getChild("Seg3Tendril3");
+		this.Seg4Tendril2 = this.Seg3Tendril3.getChild("Seg4Tendril2");
+		this.Tumors2 = this.hohl_seg.getChild("Tumors2");
+		this.BileTumor = this.hohl_seg.getChild("BileTumor");
+		this.BileTumor2 = this.hohl_seg.getChild("BileTumor2");
+		this.BileTumor3 = this.hohl_seg.getChild("BileTumor3");
+		this.veins = this.hohl_seg.getChild("veins");
+		this.tumorHeart = this.veins.getChild("tumorHeart");
+		this.veins2 = this.hohl_seg.getChild("veins2");
+		this.tumorHeart2 = this.veins2.getChild("tumorHeart2");
+		this.bodies = this.hohl_seg.getChild("bodies");
+		this.Body1 = this.bodies.getChild("Body1");
+		this.Body2 = this.bodies.getChild("Body2");
+		this.Body3 = this.bodies.getChild("Body3");
+		this.Body4 = this.bodies.getChild("Body4");
+		this.Body5 = this.bodies.getChild("Body5");
+	}
+	public HohlfresserSeg3Model() {
+		ModelPart root = createBodyLayer().bakeRoot();
 		this.hohl_seg = root.getChild("hohl_seg");
 		this.SegBase = this.hohl_seg.getChild("SegBase");
 		this.Tumors = this.hohl_seg.getChild("Tumors");

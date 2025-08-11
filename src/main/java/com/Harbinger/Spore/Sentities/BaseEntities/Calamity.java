@@ -595,6 +595,9 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
                 }
             }
         }
+        summonCorpsePart(partCount,distributedLoot,partList);
+    }
+    public void summonCorpsePart(int partCount,List<List<ItemStack>> distributedLoot,List<HitboxesForParts> partList){
         for (int i = 0; i < partCount; i++) {
             CorpseEntity partEntity = new CorpseEntity(Sentities.CORPSE_PIECE.get(), level());
             for (ItemStack stack : distributedLoot.get(i)) {

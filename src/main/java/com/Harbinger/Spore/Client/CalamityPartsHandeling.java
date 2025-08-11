@@ -1,9 +1,6 @@
 package com.Harbinger.Spore.Client;
 
-import com.Harbinger.Spore.Client.Models.GazenbrecherModel;
-import com.Harbinger.Spore.Client.Models.HindieModel;
-import com.Harbinger.Spore.Client.Models.HowitzerModel;
-import com.Harbinger.Spore.Client.Models.SiegerModel;
+import com.Harbinger.Spore.Client.Models.*;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.resources.ResourceLocation;
@@ -19,6 +16,11 @@ public class CalamityPartsHandeling {
     private static final GazenbrecherModel<?> gazenModel = new GazenbrecherModel<>();
     private static final HindieModel<?> hindieModel = new HindieModel<>();
     private static final HowitzerModel<?> howiModel = new HowitzerModel<>();
+    private static final hohlfresserHeadModel<?> worm_headModel = new hohlfresserHeadModel<>();
+    private static final HohlfresserSeg1Model<?> worm_seg1Model = new HohlfresserSeg1Model<>();
+    private static final HohlfresserSeg2Model<?> worm_seg2Model = new HohlfresserSeg2Model<>();
+    private static final HohlfresserSeg3Model<?> worm_seg3Model = new HohlfresserSeg3Model<>();
+    private static final hohlfresserTailModel<?> worm_tailModel = new hohlfresserTailModel<>();
     private static final ResourceLocation DEFAULT_SIEGER = new ResourceLocation(Spore.MODID,"textures/entity/sieger.png");
     private static final ResourceLocation ADAPTED_SIEGER = new ResourceLocation(Spore.MODID,"textures/entity/war_sieger.png");
     private static final ResourceLocation DEFAULT_GAZEN = new ResourceLocation(Spore.MODID,"textures/entity/gazen.png");
@@ -27,6 +29,10 @@ public class CalamityPartsHandeling {
     private static final ResourceLocation ADAPTED_HINDEN = new ResourceLocation(Spore.MODID,"textures/entity/hindie_adapted.png");
     private static final ResourceLocation DEFAULT_HOWI = new ResourceLocation(Spore.MODID,"textures/entity/howitzer.png");
     private static final ResourceLocation ADAPTED_HOWI  = new ResourceLocation(Spore.MODID,"textures/entity/nuclear_howitzer.png");
+    private static final ResourceLocation HOHLHEAD  = new ResourceLocation(Spore.MODID,"textures/entity/hohl_head.png");
+    private static final ResourceLocation HOHL_SEG  = new ResourceLocation(Spore.MODID,"textures/entity/hohl/hohl_seg1.png");
+    private static final ResourceLocation HOHL_SHARP_SEG  = new ResourceLocation(Spore.MODID,"textures/entity/hohl/hohl_seg2.png");
+    private static final ResourceLocation HOHL_ORGAN_SEG  = new ResourceLocation(Spore.MODID,"textures/entity/hohl/hohl_seg3.png");
     public record Part(int id, List<ModelPart> parts,float x, float y,float z,float xRot, float yRot,float zRot, ResourceLocation location,ResourceLocation adapted_location){}
 
     public static final Part SIEGER_BODY = new Part(0,List.of(siegerModel.mainbody,siegerModel.mainbody2),0,0,0,0,0,0,DEFAULT_SIEGER,ADAPTED_SIEGER);
@@ -58,6 +64,12 @@ public class CalamityPartsHandeling {
     public static final Part HOWI_RIGHT_ARM = new Part(23,List.of(howiModel.RightArm),3.5f,0,-2f,0,0,90,DEFAULT_HOWI,ADAPTED_HOWI);
     public static final Part HOWI_SACK = new Part(24,List.of(howiModel.Tumor7),0,0,0,0,0,0,DEFAULT_HOWI,ADAPTED_HOWI);
 
+    public static final Part HOHL_JAW = new Part(25,List.of(worm_headModel.TrueHead),0,0,0,0,0,0,HOHLHEAD,HOHLHEAD);
+    public static final Part HOHL_HEAD = new Part(26,List.of(worm_headModel.Middle),0,0,0,0,0,0,HOHLHEAD,HOHLHEAD);
+    public static final Part HOHL_SEG1 = new Part(27,List.of(worm_seg1Model.hohl_seg),0,0,0,0,0,0,HOHL_SEG,HOHL_SEG);
+    public static final Part HOHL_SEG2 = new Part(28,List.of(worm_seg2Model.hohl_seg),0,0,0,0,0,0,HOHL_SHARP_SEG,HOHL_SHARP_SEG);
+    public static final Part HOHL_SEG3 = new Part(29,List.of(worm_seg3Model.hohl_seg),0,0,0,0,0,0,HOHL_ORGAN_SEG,HOHL_ORGAN_SEG);
+    public static final Part HOHL_TAIL = new Part(30,List.of(worm_tailModel.tail),0,0,0,0,0,0,HOHL_SEG,HOHL_SEG);
 
     public static Part getPart(int value){
         return getParts.stream().filter(p -> p.id == value).findFirst().orElse(SIEGER_BODY);
@@ -92,5 +104,12 @@ public class CalamityPartsHandeling {
         add(HOWI_LEFT_ARM);
         add(HOWI_RIGHT_ARM);
         add(HOWI_SACK);
+
+        add(HOHL_JAW);
+        add(HOHL_HEAD);
+        add(HOHL_SEG1);
+        add(HOHL_SEG2);
+        add(HOHL_SEG3);
+        add(HOHL_TAIL);
     }};
 }

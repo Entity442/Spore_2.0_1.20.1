@@ -28,7 +28,13 @@ public enum HitboxesForParts {
     HOWI_RIGHT_LEG(21,2f,1f),
     HOWI_LEFT_ARM(22,3,2),
     HOWI_RIGHT_ARM(23,3,2),
-    HOWI_SACK(24,2,1);
+    HOWI_SACK(24,2,1),
+    HOHL_JAW(25,3,3),
+    HOHL_HEAD(26,3,3),
+    HOHL_SEG1(27,3,3),
+    HOHL_SEG2(28,3,3),
+    HOHL_SEG3(29,3,3),
+    HOHL_TAIL(30,3,3);
 
     private final int ID;
     private final float width;

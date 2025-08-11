@@ -31,6 +31,7 @@ public class CorpseEntity extends Entity {
     private static final EntityDataAccessor<Boolean> OWNER_ADA = SynchedEntityData.defineId(CorpseEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(CorpseEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> TIMER = SynchedEntityData.defineId(CorpseEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Float> INFLATION = SynchedEntityData.defineId(CorpseEntity.class, EntityDataSerializers.FLOAT);
     private final SimpleContainer inventory = new SimpleContainer(20);
     public CorpseEntity(EntityType<?> p_19870_, Level p_19871_) {
         super(p_19870_, p_19871_);
@@ -42,6 +43,7 @@ public class CorpseEntity extends Entity {
         this.entityData.define(OWNER_ADA,false);
         this.entityData.define(COLOR, 0);
         this.entityData.define(TIMER, 0);
+        this.entityData.define(INFLATION, 1f);
     }
     public SimpleContainer getInventory(){
         return inventory;
@@ -55,6 +57,7 @@ public class CorpseEntity extends Entity {
         setColor(compoundTag.getInt("color"));
         entityData.set(TIMER,compoundTag.getInt("timer"));
         setOwnerAda(compoundTag.getBoolean("owner_ada"));
+        setInflation(compoundTag.getFloat("inflation"));
         ListTag listtag = compoundTag.getList("Items",10);
 
         for (int i = 0; i < listtag.size(); i++) {
@@ -70,6 +73,7 @@ public class CorpseEntity extends Entity {
         compoundTag.putInt("color",getColor());
         compoundTag.putInt("timer",entityData.get(TIMER));
         compoundTag.putBoolean("owner_ada",getOwnerAda());
+        compoundTag.putFloat("inflation",getInflation());
         ListTag listtag = new ListTag();
         for (int i = 0; i < this.inventory.getContainerSize(); i++) {
             ItemStack itemstack = this.inventory.getItem(i);
@@ -101,6 +105,12 @@ public class CorpseEntity extends Entity {
         return entityData.get(OWNER_ADA);
     }
     public int getTimer(){return entityData.get(TIMER);}
+    public void setInflation(float e){
+        entityData.set(INFLATION,e);
+    }
+    public float getInflation(){
+        return entityData.get(INFLATION);
+    }
     @Override
     public InteractionResult interactAt(Player player, Vec3 hitVec, InteractionHand hand) {
         createLoot();
@@ -233,6 +243,6 @@ public class CorpseEntity extends Entity {
     @Override
     public EntityDimensions getDimensions(Pose pose) {
         HitboxesForParts parts = getVariant();
-        return EntityDimensions.scalable(parts.getWidth(), parts.getHeight());
+        return EntityDimensions.scalable(parts.getWidth(), parts.getHeight()).scale(getInflation());
     }
 }

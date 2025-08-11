@@ -41,6 +41,8 @@ public class CorpseRenderer<T extends CorpseEntity> extends EntityRenderer<T> {
         ///stack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTicks, entity.xRotO, entity.getXRot())));
 
         stack.pushPose();
+        float scaleValue = entity.getInflation();
+        stack.scale(scaleValue,scaleValue,scaleValue);
         stack.mulPose(Axis.XP.rotationDegrees(180 + partToRender.xRot()));
         stack.mulPose(Axis.YP.rotationDegrees(partToRender.yRot()));
         stack.mulPose(Axis.ZP.rotationDegrees(partToRender.zRot()));

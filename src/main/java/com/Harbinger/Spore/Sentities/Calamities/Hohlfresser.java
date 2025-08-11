@@ -9,11 +9,13 @@ import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.*;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.BaseEntities.HohlMultipart;
+import com.Harbinger.Spore.Sentities.HitboxesForParts;
 import com.Harbinger.Spore.Sentities.MovementControls.UndergroundMovementControl;
 import com.Harbinger.Spore.Sentities.MovementControls.UndergroundPathNavigation;
 import com.Harbinger.Spore.Sentities.Projectile.ThrownTumor;
 import com.Harbinger.Spore.Sentities.Projectile.VomitHohlBall;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
+import com.Harbinger.Spore.Sentities.Utility.CorpseEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -38,7 +40,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.monster.RangedAttackMob;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -54,6 +56,7 @@ import net.minecraftforge.fluids.FluidType;
 
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 
 public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackMob {
@@ -724,4 +727,73 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
         this.playSound(this.getStepSound(), 0.15F, 1.0F);
     }
 
+    private final List<HitboxesForParts> innatePartList = List.of(HitboxesForParts.HOHL_JAW, HitboxesForParts.HOHL_HEAD);
+    private final List<HitboxesForParts> tailHitboxes = List.of(HitboxesForParts.HOHL_SEG1, HitboxesForParts.HOHL_SEG2, HitboxesForParts.HOHL_SEG3, HitboxesForParts.HOHL_TAIL);
+    @Override
+    public List<HitboxesForParts> parts() {
+        List<HitboxesForParts> values = new ArrayList<>(innatePartList);
+        if (getHolfParts() != null){
+            for (HohlMultipart multipart : getHolfParts()){
+                values.add(CalculateParts(multipart));
+            }
+        }
+        return values;
+    }
+
+    @Override
+    public void summonCorpsePart(int partCount, List<List<ItemStack>> distributedLoot, List<HitboxesForParts> partList) {
+        AtomicInteger index = new AtomicInteger();
+        for (int i = 0; i < partCount; i++) {
+            CorpseEntity partEntity = new CorpseEntity(Sentities.CORPSE_PIECE.get(), level());
+            for (ItemStack stack : distributedLoot.get(i)) {
+                partEntity.addToInventory(stack);
+            }
+            partEntity.setColor(this.getMutationColor());
+            partEntity.moveTo(calculateSegmentsPosition(i-2));
+            partEntity.setDeltaMovement(new Vec3(
+                    (random.nextDouble() - random.nextDouble()) * 0.9,
+                    random.nextDouble() * 0.6 + 0.3,
+                    (random.nextDouble() - random.nextDouble()) * 0.9
+            ));
+            partEntity.setOwnerAda(getAdaptation());
+            partEntity.setCorpseType(partList.get(i).getID());
+            partEntity.setInflation(tryToFindInflation(index.get(),partList.get(i).getID(), index::getAndIncrement));
+            level().addFreshEntity(partEntity);
+        }
+    }
+    private Vec3 calculateSegmentsPosition(int value){
+        if (value < 0 || this.getHolfParts() == null || this.getHolfParts().length < value){
+            return this.position();
+        }else {
+            return this.getHolfParts()[value].position();
+        }
+    }
+    public float tryToFindInflation(int startPoint,int ID,Runnable runnable){
+        if (getHolfParts() == null){
+            return 1f;
+        }
+        int length = getHolfParts().length;
+        if (length < startPoint){
+            return 1f;
+        }
+        if (tailHitboxes.contains(HitboxesForParts.byId(ID))) {
+            HohlMultipart multipart = getHolfParts()[startPoint];
+            return multipart == null ? 1f : multipart.getSize();
+        }
+        runnable.run();
+        return 1f;
+    }
+
+    private HitboxesForParts CalculateParts(HohlMultipart hohlMultipart){
+        if (hohlMultipart.isTail()){
+            return HitboxesForParts.HOHL_TAIL;
+        }
+        if (hohlMultipart.getSegmentVariant() == HohlMultipart.SegmentVariants.MELEE){
+            return HitboxesForParts.HOHL_SEG2;
+        }
+        if (hohlMultipart.getSegmentVariant() == HohlMultipart.SegmentVariants.ORGAN){
+            return HitboxesForParts.HOHL_SEG3;
+        }
+        return HitboxesForParts.HOHL_SEG1;
+    }
 }
