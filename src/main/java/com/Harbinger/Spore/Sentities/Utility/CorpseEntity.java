@@ -135,7 +135,6 @@ public class CorpseEntity extends Entity {
                 if (!stack.isEmpty()) {
                     summonItem(stack);
                     inventory.setItem(i, ItemStack.EMPTY);
-                    this.playSound(Ssounds.CALAMITY_DAMAGE.get());
                     break;
                 }
             }
