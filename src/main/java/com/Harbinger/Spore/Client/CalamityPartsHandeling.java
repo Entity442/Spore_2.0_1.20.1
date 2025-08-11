@@ -49,9 +49,9 @@ public class CalamityPartsHandeling {
     public static final Part RIGHT_CANNON = new Part(15,List.of(hindieModel.RightCannon),0.3f,0,0f,0,0,0,DEFAULT_HINDEN,ADAPTED_HINDEN);
     public static final Part LEFT_CANNON = new Part(16,List.of(hindieModel.LeftCannon),0.3f,0,6f,0,0,0,DEFAULT_HINDEN,ADAPTED_HINDEN);
 
-    public static final Part HOWI_CANNON1 = new Part(17,List.of(howiModel.CononCluster1),2,1,0,0,0,0,DEFAULT_HOWI,ADAPTED_HOWI);
-    public static final Part HOWI_CANNON2 = new Part(18,List.of(howiModel.CononCluster2),2,1,0,0,0,0,DEFAULT_HOWI,ADAPTED_HOWI);
-    public static final Part HOWI_CANNON3 = new Part(19,List.of(howiModel.CononCluster3),2,1,0,0,0,0,DEFAULT_HOWI,ADAPTED_HOWI);
+    public static final Part HOWI_CANNON1 = new Part(17,List.of(howiModel.CononCluster1),1.5f,0.8f,-1f,0,0,0,DEFAULT_HOWI,ADAPTED_HOWI);
+    public static final Part HOWI_CANNON2 = new Part(18,List.of(howiModel.CononCluster2),0.75f,0.5f,1.75f,0,0,0,DEFAULT_HOWI,ADAPTED_HOWI);
+    public static final Part HOWI_CANNON3 = new Part(19,List.of(howiModel.CononCluster3),-1.75f,1,-1,0,0,0,DEFAULT_HOWI,ADAPTED_HOWI);
     public static final Part HOWI_LEFT_LEG = new Part(20,List.of(howiModel.LeftLeg),0,1,1.5f,90,0,90,DEFAULT_HOWI,ADAPTED_HOWI);
     public static final Part HOWI_RIGHT_LEG = new Part(21,List.of(howiModel.RightLeg),0.5f,-0.5f,-2.5f,90,0,90,DEFAULT_HOWI,ADAPTED_HOWI);
     public static final Part HOWI_LEFT_ARM = new Part(22,List.of(howiModel.LeftArm),-3.5f,0,3.5f,0,0,90,DEFAULT_HOWI,ADAPTED_HOWI);
