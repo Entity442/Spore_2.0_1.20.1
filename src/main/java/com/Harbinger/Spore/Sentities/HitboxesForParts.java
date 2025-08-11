@@ -24,8 +24,8 @@ public enum HitboxesForParts {
     HOWI_CANNON1(17,2f,3f),
     HOWI_CANNON2(18,2f,3f),
     HOWI_CANNON3(19,2f,3f),
-    HOWI_LEFT_LEG(20,1f,1.5f),
-    HOWI_RIGHT_LEG(21,1f,1.5f),
+    HOWI_LEFT_LEG(20,1.5f,1.5f),
+    HOWI_RIGHT_LEG(21,2f,1f),
     HOWI_LEFT_ARM(22,3,2),
     HOWI_RIGHT_ARM(23,3,2),
     HOWI_SACK(24,2,1);
