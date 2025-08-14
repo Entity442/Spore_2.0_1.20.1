@@ -1,12 +1,16 @@
 package com.Harbinger.Spore.Sentities.AI.CalamitiesAI;
 
+import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
+import com.Harbinger.Spore.Sblocks.CDUBlock;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -36,14 +40,24 @@ public class SporeBurstSupport extends Goal {
         this.calamity.setStun(60);
         if (calamity instanceof TrueCalamity trueCalamity){
             calamity.playSound(Ssounds.SPORE_BURST.get());
-            sporeBurst(trueCalamity.buffs(),trueCalamity.debuffs(),trueCalamity.chemicalRange());
+            AABB boundingBox = calamity.getBoundingBox().inflate(trueCalamity.chemicalRange());
+            sporeBurst(trueCalamity.buffs(),trueCalamity.debuffs(),boundingBox);
+            killCDUs(boundingBox);
         }
         super.start();
     }
+    private void killCDUs(AABB aabb){
+        for(BlockPos blockpos : BlockPos.betweenClosed(
+                Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ),
+                Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+            if (calamity.level().getBlockState(blockpos).is(Sblocks.CDU.get())){
+                CDUBlock.replaceCDU(blockpos,calamity.level());
+            }
+        }
+    }
 
-    private void sporeBurst(List<? extends String> buffs,List<? extends String> debuffs,int range){
+    private void sporeBurst(List<? extends String> buffs,List<? extends String> debuffs,AABB boundingBox){
         calamity.playAmbientSound();
-        AABB boundingBox = calamity.getBoundingBox().inflate(range);
         List<Entity> entities = calamity.level().getEntities(calamity, boundingBox);
         for (Entity entity : entities) {
             if (entity instanceof LivingEntity living){
@@ -52,6 +66,9 @@ public class SporeBurstSupport extends Goal {
                 }
                 if (living instanceof UtilityEntity || living instanceof Infected){
                     applyEffects(living,buffs);
+                    if (living instanceof Infected infected){
+                        infected.setKills(infected.getKills()+calamity.getRandom().nextInt(4));
+                    }
                 }
             }
         }

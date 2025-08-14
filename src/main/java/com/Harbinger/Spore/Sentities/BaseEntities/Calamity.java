@@ -6,6 +6,7 @@ import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
 import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.CalamityVigilCall;
+import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SporeBurstSupport;
 import com.Harbinger.Spore.Sentities.AI.CalamityPathNavigation;
 import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.ArmorPersentageBypass;
@@ -31,6 +32,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -39,6 +41,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.WrappedGoal;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Enemy;
@@ -58,6 +61,7 @@ import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Method;
 import java.util.*;
 
 import static com.Harbinger.Spore.ExtremelySusThings.Utilities.biomass;
@@ -286,9 +290,28 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
         if(amount > getDamageCap() && getDamageCap() > 0){
             return super.hurt(source, (float) getDamageCap());
         }
+        if (source.is(DamageTypes.FREEZE) && Math.random() < 0.2f){
+            Calamity.forceStart(findGoal(this, SporeBurstSupport.class));
+        }
         return super.hurt(source, amount);
     }
-
+    public static void forceStart(Goal goal) {
+        try {
+            Method m = Goal.class.getDeclaredMethod("start");
+            m.setAccessible(true);
+            m.invoke(goal);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static <T extends Goal> T findGoal(Mob mob, Class<T> goalClass) {
+        for (WrappedGoal wrapped : mob.goalSelector.getAvailableGoals()) {
+            if (goalClass.isInstance(wrapped.getGoal())) {
+                return goalClass.cast(wrapped.getGoal());
+            }
+        }
+        return null;
+    }
     public  boolean tryToDigDown(){
         if (this.getSearchArea() != BlockPos.ZERO && this.verticalCollisionBelow){
             double x = Math.abs(this.getSearchArea().getX())  - Math.abs(this.getX());
