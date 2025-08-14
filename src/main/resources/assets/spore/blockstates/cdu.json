@@ -1,9 +1,10 @@
 {
   "variants": {
-    "": [
-      {
-        "model": "spore:block/cdu"
-      }
-    ]
+    "lit=false": {
+      "model": "spore:block/cdu"
+    },
+    "lit=true": {
+      "model": "spore:block/covered_cdu"
+    }
   }
 }

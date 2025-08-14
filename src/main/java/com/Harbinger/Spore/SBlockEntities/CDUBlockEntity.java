@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.SblockEntities;
 import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.Sblocks.CDUBlock;
 import com.Harbinger.Spore.Screens.CDUMenu;
 import com.Harbinger.Spore.Sentities.Utility.InfectionTendril;
 import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
@@ -155,15 +156,17 @@ public class CDUBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     public static <E extends BlockEntity> void serverTick(Level level, BlockPos blockPos, BlockState blockState, CDUBlockEntity e) {
-        if (e.getFuel() > 0 && !level.isClientSide){
-            e.fuel--;
-            if (e.getFuel() % 100 == 0){
-                e.cleanInfection(blockPos);
+        if (CDUBlock.isCDUUsable(blockPos,e.level)){
+            if (e.getFuel() > 0 && !level.isClientSide){
+                e.fuel--;
+                if (e.getFuel() % 100 == 0){
+                    e.cleanInfection(blockPos);
+                }
+                if (e.getFuel() % 80 == 0){
+                    level.playSound(null,blockPos, Ssounds.CDU_AMBIENT.get(), SoundSource.BLOCKS,1,1);
+                }
             }
-            if (e.getFuel() % 80 == 0){
-                level.playSound(null,blockPos, Ssounds.CDU_AMBIENT.get(), SoundSource.BLOCKS,1,1);
-            }
-         }
+        }
     }
 
     @Override

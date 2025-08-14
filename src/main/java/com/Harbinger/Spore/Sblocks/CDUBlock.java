@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sblocks;
 
 import com.Harbinger.Spore.Core.SblockEntities;
+import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.SBlockEntities.CDUBlockEntity;
@@ -23,6 +24,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -30,6 +32,9 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -41,8 +46,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class CDUBlock extends BaseEntityBlock {
+    public static final BooleanProperty LIT = BlockStateProperties.LIT;
     public CDUBlock() {
         super(BlockBehaviour.Properties.of().sound(SoundType.STONE).strength(6f, 20f));
+        this.registerDefaultState(this.stateDefinition.any().setValue(LIT, false));
     }
 
     @Nullable
@@ -54,6 +61,26 @@ public class CDUBlock extends BaseEntityBlock {
     @Override
     public RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
+    }
+
+    public static void replaceCDU(BlockPos pos,Level level){
+        if (level == null || level.isClientSide){
+            return;
+        }
+        BlockState blockState = level.getBlockState(pos);
+        if (blockState.equals(Sblocks.CDU.get().defaultBlockState())){
+            level.setBlock(pos,blockState.getBlock().defaultBlockState().setValue(LIT,true),3);
+        }
+    }
+    public static boolean isCDUUsable(BlockPos pos,Level level){
+        if (level == null || level.isClientSide){
+            return false;
+        }
+        BlockState state = level.getBlockState(pos);
+        if (!state.getBlock().equals(Sblocks.CDU.get())){
+            return false;
+        }
+        return state.getValue(LIT);
     }
 
     @Override
@@ -79,7 +106,11 @@ public class CDUBlock extends BaseEntityBlock {
             return box(0.1, 0, 0.1, 15.9, 16, 15.9).move(offset.x, offset.y, offset.z);
         }
     }
-
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> blockStateBuilder) {
+        super.createBlockStateDefinition(blockStateBuilder);
+        blockStateBuilder.add(LIT);
+    }
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
         super.use(state, level, pos, player, hand, result);

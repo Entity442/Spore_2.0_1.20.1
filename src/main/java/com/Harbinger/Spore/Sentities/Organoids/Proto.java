@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Sentities.Organoids;
 import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
+import com.Harbinger.Spore.Sblocks.CDUBlock;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.NeuralProcessing.ProtoAIs.ProtoTargeting;
 import com.Harbinger.Spore.Sentities.BaseEntities.*;
@@ -30,6 +31,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -496,6 +498,9 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
                 SummonHelpers();
             summonDefense = 160;
         }
+        if (source.is(DamageTypes.FREEZE) && Math.random() < 0.2f){
+            SpreadInfection(level(),SConfig.SERVER.mound_range_age4.get() * 2,this.entityData.get(NODE));
+        }
         return super.hurt(source, amount);
     }
     protected SoundEvent getAmbientSound() {
@@ -790,6 +795,14 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
                 entity.teleportTo(pos.getX() + 0.5D, pos.getY() + 1.01D, pos.getZ() + 0.5D);
                 return;
             }
+        }
+    }
+
+    @Override
+    public void SpreadFoliageAndConvert(Level level, BlockState blockstate, BlockPos blockpos) {
+        FoliageSpread.super.SpreadFoliageAndConvert(level, blockstate, blockpos);
+        if (blockstate.getBlock().equals(Sblocks.CDU.get())){
+            CDUBlock.replaceCDU(blockpos,level);
         }
     }
 }
