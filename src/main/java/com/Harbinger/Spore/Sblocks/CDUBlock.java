@@ -78,22 +78,24 @@ public class CDUBlock extends BaseEntityBlock {
         }
         BlockState state = level.getBlockState(pos);
         if (!state.getBlock().equals(Sblocks.CDU.get())){
-            return false;
+            return true;
         }
-        return state.getValue(LIT);
+        return !state.getValue(LIT);
     }
 
     @Override
     public void animateTick(BlockState state, Level level, BlockPos blockPos, RandomSource randomSource) {
         super.animateTick(state, level, blockPos, randomSource);
         BlockEntity entity = level.getBlockEntity(blockPos);
-        if (entity instanceof CDUBlockEntity blockEntity && blockEntity.getFuel() > 0){
-            for (int i = 0; i < 360; i++) {
-                if (i % 20 == 0) {
-                    double yy = Math.sin(i) * Math.cos(i) * 0.25d;
-                    level.addParticle(ParticleTypes.SNOWFLAKE,
-                            blockPos.getX()+0.47, blockPos.getY() + 1, blockPos.getZ()+0.47,
-                            Math.cos(i) * 0.15d, yy, Math.sin(i) * 0.15d);
+        if (!state.getValue(LIT)){
+            if (entity instanceof CDUBlockEntity blockEntity && blockEntity.getFuel() > 0){
+                for (int i = 0; i < 360; i++) {
+                    if (i % 20 == 0) {
+                        double yy = Math.sin(i) * Math.cos(i) * 0.25d;
+                        level.addParticle(ParticleTypes.SNOWFLAKE,
+                                blockPos.getX()+0.47, blockPos.getY() + 1, blockPos.getZ()+0.47,
+                                Math.cos(i) * 0.15d, yy, Math.sin(i) * 0.15d);
+                    }
                 }
             }
         }
