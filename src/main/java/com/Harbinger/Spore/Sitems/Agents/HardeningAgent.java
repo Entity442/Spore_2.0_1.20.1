@@ -13,12 +13,12 @@ public class HardeningAgent extends MutationAgents{
     @Override
     public void mutateWeapon(ItemStack stack) {
         if (stack.getItem() instanceof SporeWeaponData item){
-            int i = SConfig.SERVER.agent_durability.get();
+            int i =1+ SConfig.SERVER.agent_durability.get();
             item.setMaxAdditionalDurability(this.source.nextInt(i/2,i),stack);
         }
         if (stack.getItem() instanceof SporeArmorData item){
-            int i = SConfig.SERVER.agent_durability.get();
-            int j = SConfig.SERVER.agent_toughness.get();
+            int i =1+ SConfig.SERVER.agent_durability.get();
+            int j =1+ SConfig.SERVER.agent_toughness.get();
             item.setMaxAdditionalDurability(this.source.nextInt(i/2,i),stack);
             item.setAdditionalToughness(this.source.nextInt(1,j),stack);
         }

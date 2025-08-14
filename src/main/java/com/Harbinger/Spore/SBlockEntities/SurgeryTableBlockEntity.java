@@ -5,6 +5,7 @@ import com.Harbinger.Spore.Core.SblockEntities;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Recipes.SurgeryRecipe;
 import com.Harbinger.Spore.Screens.SurgeryMenu;
+import com.Harbinger.Spore.Sitems.Agents.ConnectingAgent;
 import com.Harbinger.Spore.Sitems.Agents.MutationAgents;
 import com.Harbinger.Spore.Sitems.BaseWeapons.*;
 import net.minecraft.core.BlockPos;
@@ -145,7 +146,7 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
             if (Math.random() < (mutation * 0.01) && stack.getItem() instanceof SporeArmorData item){
                 item.setVariant(SporeArmorMutations.byId(player.getRandom().nextInt(SporeArmorMutations.values().length)),stack);
             }
-            stack.setDamageValue(player.getRandom().nextInt(stack.getMaxDamage()));
+            stack.setDamageValue(itemHandler.getStackInSlot(AGENT_SLOT_3) == ItemStack.EMPTY ? player.getRandom().nextInt(stack.getMaxDamage()) : 0);
         }
     }
 

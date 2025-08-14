@@ -13,11 +13,11 @@ public class ConnectingAgent extends MutationAgents{
     @Override
     public void mutateWeapon(ItemStack stack) {
         if (stack.getItem() instanceof SporeWeaponData item){
-            int i = SConfig.SERVER.agent_enchantability.get();
+            int i =1+ SConfig.SERVER.agent_enchantability.get();
             item.setLuck(this.source.nextInt(1,i),stack);
         }
         if (stack.getItem() instanceof SporeArmorData item){
-            int i = SConfig.SERVER.agent_enchantability.get();
+            int i =1+ SConfig.SERVER.agent_enchantability.get();
             item.setLuck(this.source.nextInt(1,i),stack);
         }
     }
