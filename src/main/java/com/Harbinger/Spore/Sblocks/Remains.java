@@ -6,12 +6,16 @@ import com.Harbinger.Spore.Core.Sparticles;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -41,6 +45,13 @@ public class Remains extends Block {
                 livingEntity.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),400,1));
             }
         }
+    }
+
+    @Override
+    protected void tryDropExperience(ServerLevel serverLevel, BlockPos p_220824_, ItemStack p_220825_, IntProvider vak) {
+        RandomSource source = RandomSource.create();
+        super.tryDropExperience(serverLevel, p_220824_, p_220825_, vak);
+        this.popExperience(serverLevel, p_220824_, source.nextInt(6));
     }
 
     @Override

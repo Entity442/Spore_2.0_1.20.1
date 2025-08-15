@@ -1,8 +1,12 @@
 package com.Harbinger.Spore.Sblocks;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -29,7 +33,12 @@ public class FrozenRemains extends Block {
             livingEntity.setTicksFrozen(livingEntity.getTicksFrozen()+20);
         }
     }
-
+    @Override
+    protected void tryDropExperience(ServerLevel serverLevel, BlockPos p_220824_, ItemStack p_220825_, IntProvider vak) {
+        RandomSource source = RandomSource.create();
+        super.tryDropExperience(serverLevel, p_220824_, p_220825_, vak);
+        this.popExperience(serverLevel, p_220824_, source.nextInt(6));
+    }
     @Override
     public boolean canSurvive(BlockState blockstate, LevelReader worldIn, BlockPos pos) {
         BlockPos blockpos = pos.below();
