@@ -658,6 +658,12 @@ public class HandlerEvents {
         }
     }
     @SubscribeEvent
+    public static void FallProt(LivingFallEvent event){
+        if (event.getEntity().getItemBySlot(EquipmentSlot.FEET).getItem() == Sitems.INF_UP_BOOTS.get()){
+            event.setDistance(event.getDistance()-25);
+        }
+    }
+    @SubscribeEvent
     public static void ProtectFromEffect(MobEffectEvent.Applicable event)
     {
         LivingEntity living = event.getEntity();

@@ -33,10 +33,10 @@ import java.util.UUID;
 public class UpgradedInfectedExoskeleton extends SporeBaseArmor implements CustomModelArmorData{
     private static final ResourceLocation location = new ResourceLocation("spore:textures/armor/living_armor_set_mk.png");
     public UpgradedInfectedExoskeleton(Type type) {
-        super(type, new int[]{SConfig.SERVER.helmet_up_durability.get(), SConfig.SERVER.chestplate_up_durability.get()
-                        , SConfig.SERVER.pants_up_durability.get(),SConfig.SERVER.boots_up_durability.get()},
-                new int[]{SConfig.SERVER.helmet_protection.get(), SConfig.SERVER.chestplate_up_protection.get()
-                        , SConfig.SERVER.pants_up_protection.get(), SConfig.SERVER.boots_up_protection.get()},
+        super(type, new int[]{SConfig.SERVER.boots_up_durability.get(), SConfig.SERVER.pants_up_durability.get(),
+                        SConfig.SERVER.chestplate_up_durability.get() ,SConfig.SERVER.helmet_up_durability.get()},
+                new int[]{SConfig.SERVER.boots_up_protection.get(), SConfig.SERVER.pants_up_protection.get(),
+                        SConfig.SERVER.chestplate_up_protection.get(),SConfig.SERVER.helmet_protection.get()},
                 SConfig.SERVER.armor_toughness.get(),
                 SConfig.SERVER.knockback_resistance.get() /10F,
                 Ssounds.INFECTED_GEAR_EQUIP.get(), "Upgraded Living Armor");
@@ -136,7 +136,7 @@ public class UpgradedInfectedExoskeleton extends SporeBaseArmor implements Custo
         @Override
         public void onArmorTick(ItemStack stack, Level level, Player player) {
             super.onArmorTick(stack, level, player);
-            if (player.tickCount % 10 == 0 && player.isShiftKeyDown()){
+            if (player.tickCount % 10 == 0 && player.isCrouching()){
                 player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION,200,0,false,false));
             }
             if (player.tickCount % 20 == 0 && player.isInWater()){
@@ -161,14 +161,15 @@ public class UpgradedInfectedExoskeleton extends SporeBaseArmor implements Custo
             if (this.getVariant(stack) == SporeArmorMutations.DROWNED){
                 builder.put(ForgeMod.SWIM_SPEED.get(), new AttributeModifier(uuid, "Armor Speed modifier", 0.25, AttributeModifier.Operation.ADDITION));
             }
-            builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid, "Armor Speed modifier",0.02 + (this.getVariant(stack) == SporeArmorMutations.REINFORCED ? -0.01 : 0.01), AttributeModifier.Operation.ADDITION));
+            float speed = (this.getVariant(stack) == SporeArmorMutations.REINFORCED || this.getVariant(stack) == SporeArmorMutations.SKELETAL) ? this.getVariant(stack) == SporeArmorMutations.REINFORCED ? -0.01f : 0.01f : 0f;
+            builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid, "Armor Speed modifier",0.02 + speed, AttributeModifier.Operation.ADDITION));
             return slot == this.type.getSlot() && tooHurt(stack) ? builder.build() : ImmutableMultimap.of();
         }
 
         @Override
         public void onArmorTick(ItemStack stack, Level level, Player player) {
             super.onArmorTick(stack, level, player);
-            if (player.tickCount % 30 == 0 && player.isInWater()){
+            if (player.tickCount % 30 == 0){
                 player.addEffect(new MobEffectInstance(MobEffects.JUMP,40,1,false,false));
             }
         }
