@@ -28,6 +28,7 @@ public class ArmorModelList {
     private static final platedArmorModel<LivingEntity> plated = new platedArmorModel<>();
     private static final GasMaskModel<LivingEntity> gasMaskModel = new GasMaskModel<>();
     private static final livingArmorModel<LivingEntity> livingArmorModel = new livingArmorModel<>();
+    private static final livingArmorMkModel<LivingEntity> livingUpArmor = new livingArmorMkModel<>();
     private static final PCI_Model<LivingEntity> pci = new PCI_Model<>();
     private static final PCI_ModelL<LivingEntity> pciL = new PCI_ModelL<>();
 
@@ -70,10 +71,15 @@ public class ArmorModelList {
     public static final RightBootArmorPart INF_RIGHT_BOOT_PART = new RightBootArmorPart(Sitems.INF_BOOTS.get().asItem(),() ->livingArmorModel,() ->livingArmorModel.rightBoot,0.1f,-0.8f,0,1.01f);
     public static final LeftBootArmorPart INF_LEFT_BOOT_PART = new LeftBootArmorPart(Sitems.INF_BOOTS.get().asItem(),() ->livingArmorModel,() ->livingArmorModel.leftBoot,-0.1f,-0.8f,0,1f);
 
-    public static final BodyArmorPart INF_UP_CHEST_PART =  new BodyArmorPart(Sitems.INF_UP_CHESTPLATE.get().asItem(),() ->livingArmorModel,() ->livingArmorModel.body,0,0,0,1f);
-    public static final RightArmArmorPart INF_UP_RIGHT_ARM_PART = new RightArmArmorPart(Sitems.INF_UP_CHESTPLATE.get().asItem(),() ->livingArmorModel,() ->livingArmorModel.rightArm,0.3f,-0.125f,0,1f);
-    public static final LeftArmArmorPart INF_UP_LEFT_ARM_PART =  new LeftArmArmorPart(Sitems.INF_UP_CHESTPLATE.get().asItem(),() ->livingArmorModel,() ->livingArmorModel.leftArm,-0.3f,-0.125f,0,1f);
-    private static final ElytrumPart ELYTRUM_UP = new ElytrumPart(Sitems.INF_UP_CHESTPLATE.get().asItem(),0f,0f,0.1f);
+    private static final HelmetArmorPart INF_UP_HELMET_PART = new HelmetArmorPart(Sitems.INF_UP_HELMET.get().asItem(),() ->livingUpArmor,() ->livingUpArmor.headwear,0f,0f,0,1f);
+    public static final BodyArmorPart INF_UP_CHEST_PART =  new BodyArmorPart(Sitems.INF_UP_CHESTPLATE.get().asItem(),() ->livingUpArmor,() ->livingUpArmor.body,0,0,0,1f);
+    public static final RightArmArmorPart INF_UP_RIGHT_ARM_PART = new RightArmArmorPart(Sitems.INF_UP_CHESTPLATE.get().asItem(),() ->livingUpArmor,() ->livingUpArmor.rightArm,0.3f,-0.125f,0,1f);
+    public static final LeftArmArmorPart INF_UP_LEFT_ARM_PART =  new LeftArmArmorPart(Sitems.INF_UP_CHESTPLATE.get().asItem(),() ->livingUpArmor,() ->livingUpArmor.leftArm,-0.3f,-0.125f,0,1f);
+    public static final BodyArmorPart INF_UP_PELVIS_PART = new BodyArmorPart(Sitems.INF_UP_PANTS.get().asItem(),() ->livingUpArmor,() ->livingUpArmor.pelvis,   0,0,0,1f);
+    public static final RightLegArmorPart INF_UP_RIGHT_LEG_PART = new RightLegArmorPart(Sitems.INF_UP_PANTS.get().asItem(),() ->livingUpArmor,() ->livingUpArmor.rightLeg,0.1f,-0.8f,0,1.01f);
+    public static final LeftLegArmorPart INF_UP_LEFT_LEG_PART = new LeftLegArmorPart(Sitems.INF_UP_PANTS.get().asItem(),() ->livingUpArmor,() ->livingUpArmor.leftLeg,-0.1f,-0.8f,0,1f);
+    public static final RightBootArmorPart INF_UP_RIGHT_BOOT_PART = new RightBootArmorPart(Sitems.INF_UP_BOOTS.get().asItem(),() ->livingUpArmor,() ->livingUpArmor.rightBoot,0.1f,-0.8f,0,1.01f);
+    public static final LeftBootArmorPart INF_UP_LEFT_BOOT_PART = new LeftBootArmorPart(Sitems.INF_UP_BOOTS.get().asItem(),() ->livingUpArmor,() ->livingUpArmor.leftBoot,-0.1f,-0.8f,0,1f);
 
 
     private static final HelmetArmorPart GASMASK_PART = new HelmetArmorPart(Sitems.GAS_MASK.get().asItem(),() ->gasMaskModel,() ->gasMaskModel.GasMask,0f,0f,0,1f);
@@ -112,10 +118,15 @@ public class ArmorModelList {
         add(INF_RIGHT_BOOT_PART);
         add(INF_LEFT_BOOT_PART);
 
+        add(INF_UP_HELMET_PART);
         add(INF_UP_CHEST_PART);
         add(INF_UP_RIGHT_ARM_PART);
         add(INF_UP_LEFT_ARM_PART);
-        add(ELYTRUM_UP);
+        add(INF_UP_PELVIS_PART);
+        add(INF_UP_RIGHT_LEG_PART);
+        add(INF_UP_LEFT_LEG_PART);
+        add(INF_UP_RIGHT_BOOT_PART);
+        add(INF_UP_LEFT_BOOT_PART);
 
         add(ELYTRUM);
         add(GASMASK_PART);

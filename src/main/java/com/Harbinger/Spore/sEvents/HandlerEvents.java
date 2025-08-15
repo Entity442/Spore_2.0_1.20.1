@@ -37,6 +37,7 @@ import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -659,21 +660,26 @@ public class HandlerEvents {
     @SubscribeEvent
     public static void ProtectFromEffect(MobEffectEvent.Applicable event)
     {
-        if (event.getEntity() != null){
-            event.getEffectInstance();
-            if (event.getEffectInstance().getEffect() == Seffects.MYCELIUM.get() && Utilities.helmetList().contains(event.getEntity().getItemBySlot(EquipmentSlot.HEAD).getItem())){
+        LivingEntity living = event.getEntity();
+        MobEffectInstance instance = event.getEffectInstance();
+        MobEffect mobEffect = event.getEffectInstance().getEffect();
+        if (living != null){
+            if (mobEffect == Seffects.MYCELIUM.get() && Utilities.helmetList().contains(living.getItemBySlot(EquipmentSlot.HEAD).getItem())){
                 event.setResult(Event.Result.DENY);
             }
             if (SConfig.SERVER.faw_target.get() && event.getEntity().getType().is(TagKey.create(Registries.ENTITY_TYPE,
                     new ResourceLocation("fromanotherworld:things")))){
-                if (event.getEffectInstance().getEffect() == Seffects.MARKER.get()){
+                if (mobEffect == Seffects.MARKER.get()){
                     event.setResult(Event.Result.DENY);
                 }
             }else if (SConfig.SERVER.skulk_target.get() && event.getEntity().getType().is(TagKey.create(Registries.ENTITY_TYPE,
                     new ResourceLocation("sculkhorde:sculk_entity")))){
-                if (event.getEffectInstance().getEffect() == Seffects.MARKER.get()){
+                if (mobEffect == Seffects.MARKER.get()){
                     event.setResult(Event.Result.DENY);
                 }
+            }
+            if (living.getItemBySlot(EquipmentSlot.HEAD).getItem() == Sitems.INF_UP_HELMET.get() && mobEffect == Seffects.MADNESS.get() && instance.getAmplifier() < 1){
+                event.setResult(Event.Result.DENY);
             }
         }
     }

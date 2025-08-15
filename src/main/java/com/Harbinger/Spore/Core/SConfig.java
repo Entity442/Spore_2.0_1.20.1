@@ -458,12 +458,18 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Integer> helmet_durability;
         public final ForgeConfigSpec.ConfigValue<Integer> chestplate_durability;
         public final ForgeConfigSpec.ConfigValue<Integer> chestplate_up_durability;
+        public final ForgeConfigSpec.ConfigValue<Integer> helmet_up_durability;
+        public final ForgeConfigSpec.ConfigValue<Integer> pants_up_durability;
+        public final ForgeConfigSpec.ConfigValue<Integer> boots_up_durability;
         public final ForgeConfigSpec.ConfigValue<Integer> pants_durability;
         public final ForgeConfigSpec.ConfigValue<Integer> boots_durability;
 
         public final ForgeConfigSpec.ConfigValue<Integer> helmet_protection;
         public final ForgeConfigSpec.ConfigValue<Integer> chestplate_protection;
         public final ForgeConfigSpec.ConfigValue<Integer> chestplate_up_protection;
+        public final ForgeConfigSpec.ConfigValue<Integer> helmet_up_protection;
+        public final ForgeConfigSpec.ConfigValue<Integer> pants_up_protection;
+        public final ForgeConfigSpec.ConfigValue<Integer> boots_up_protection;
         public final ForgeConfigSpec.ConfigValue<Integer> pants_protection;
         public final ForgeConfigSpec.ConfigValue<Integer> boots_protection;
 
@@ -1242,7 +1248,7 @@ public class SConfig {
             builder.push("Weapons and Tools OwO");
             builder.push("Gas Masks");
             this.gas_masks = builder.defineList("Gas masks",
-                    Lists.newArrayList("spore:gas_mask") , o -> o instanceof String);
+                    Lists.newArrayList("spore:gas_mask","spore:inf_up_helmet") , o -> o instanceof String);
             builder.pop();
             builder.push("Weapon Agents data");
             this.agent_durability = builder.comment("Durability increase 60%").defineInRange("Durability increase 60%",60,2, Integer.MAX_VALUE);
@@ -1349,6 +1355,24 @@ public class SConfig {
             this.mace_damage = builder.comment("Default 11").defineInRange("Damage", 11, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.pop();
+            builder.push("Living Upgraded Chestplate");
+            builder.push("Helmet Upgraded");
+            this.helmet_up_durability = builder.comment("Default 600").defineInRange("Helmet Durability", 600, 1, Integer.MAX_VALUE);
+            this.helmet_up_protection = builder.comment("Default 6").defineInRange("Helmet Protection", 6, 1, Integer.MAX_VALUE);
+            builder.pop();
+            builder.push("Chestplate Upgraded");
+            this.chestplate_up_durability = builder.comment("Default 700").defineInRange("Chestplate Durability", 700, 1, Integer.MAX_VALUE);
+            this.chestplate_up_protection = builder.comment("Default 13").defineInRange("Chestplate Protection", 13, 1, Integer.MAX_VALUE);
+            builder.pop();
+            builder.push("Leggings Upgraded");
+            this.pants_up_durability = builder.comment("Default 650").defineInRange("Leggings Durability", 650, 1, Integer.MAX_VALUE);
+            this.pants_up_protection = builder.comment("Default 9").defineInRange("Leggings Protection", 9, 1, Integer.MAX_VALUE);
+            builder.pop();
+            builder.push("Boots Upgraded");
+            this.boots_up_durability = builder.comment("Default 400").defineInRange("Boots Durability", 400, 1, Integer.MAX_VALUE);
+            this.boots_up_protection = builder.comment("Default 6").defineInRange("Boots Protection", 6, 1, Integer.MAX_VALUE);
+            builder.pop();
+            builder.pop();
             builder.push("Living Exoskeleton");
             builder.push("Helmet");
             this.helmet_durability = builder.comment("Default 350").defineInRange("Helmet Durability", 350, 1, Integer.MAX_VALUE);
@@ -1358,11 +1382,7 @@ public class SConfig {
             this.chestplate_durability = builder.comment("Default 500").defineInRange("Chestplate Durability", 500, 1, Integer.MAX_VALUE);
             this.chestplate_protection = builder.comment("Default 10").defineInRange("Chestplate Protection", 10, 1, Integer.MAX_VALUE);
             builder.pop();
-            builder.push("Chestplate Upgraded");
-            this.chestplate_up_durability = builder.comment("Default 700").defineInRange("Chestplate Durability", 700, 1, Integer.MAX_VALUE);
-            this.chestplate_up_protection = builder.comment("Default 13").defineInRange("Chestplate Protection", 13, 1, Integer.MAX_VALUE);
-            builder.pop();
-            builder.push("Leggings");
+             builder.push("Leggings");
             this.pants_durability = builder.comment("Default 400").defineInRange("Leggings Durability", 400, 1, Integer.MAX_VALUE);
             this.pants_protection = builder.comment("Default 9").defineInRange("Leggings Protection", 9, 1, Integer.MAX_VALUE);
             builder.pop();

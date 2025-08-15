@@ -427,8 +427,14 @@ public class Sitems {
             LivingBoots::new);
     public  static final RegistryObject<Item> R_ELYTRON = ITEMS.register("r_elytron", Elytron.InfectedElytron::new);
 
+    public  static final RegistryObject<Item> INF_UP_HELMET = ITEMS.register("inf_up_helmet",
+            UpgradedInfectedExoskeleton.InfectedUpHelmet::new);
     public  static final RegistryObject<Item> INF_UP_CHESTPLATE = ITEMS.register("inf_up_chest",
             UpgradedInfectedExoskeleton.InfectedUpChestplate::new);
+    public  static final RegistryObject<Item> INF_UP_PANTS = ITEMS.register("inf_up_pants",
+            UpgradedInfectedExoskeleton.InfectedUpPants::new);
+    public  static final RegistryObject<Item> INF_UP_BOOTS = ITEMS.register("inf_up_boots",
+            UpgradedInfectedExoskeleton.InfectedUpBoots::new);
 
 
     public  static final RegistryObject<Item> CORRUPTED_RECORD = ITEMS.register("corrupted_record",
