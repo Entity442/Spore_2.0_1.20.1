@@ -77,12 +77,12 @@ public class livingArmorMkModel<T extends LivingEntity> extends EntityModel<T> i
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
 		PartDefinition headwear = partdefinition.addOrReplaceChild("headwear", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(1.2F))
-		.texOffs(96, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(1.0F))
-		.texOffs(32, 6).addBox(-1.0F, -9.0F, -4.0F, 2.0F, 1.0F, 8.0F, new CubeDeformation(1.0F))
-		.texOffs(27, -12).addBox(0.0F, -12.0F, -6.0F, 0.0F, 4.0F, 12.0F, new CubeDeformation(0.0F))
-		.texOffs(64, -8).addBox(-3.0F, -10.0F, -4.0F, 0.0F, 2.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(64, -8).addBox(3.0F, -10.0F, -4.0F, 0.0F, 2.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(110, 57).addBox(-4.0F, -8.0F, -6.0F, 8.0F, 8.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+				.texOffs(96, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(1.0F))
+				.texOffs(32, 6).addBox(-1.0F, -9.0F, -4.0F, 2.0F, 1.0F, 8.0F, new CubeDeformation(1.0F))
+				.texOffs(27, -12).addBox(0.0F, -12.0F, -6.0F, 0.0F, 4.0F, 12.0F, new CubeDeformation(0.0F))
+				.texOffs(64, -8).addBox(-3.0F, -10.0F, -4.0F, 0.0F, 2.0F, 8.0F, new CubeDeformation(0.0F))
+				.texOffs(64, -8).addBox(3.0F, -10.0F, -4.0F, 0.0F, 2.0F, 8.0F, new CubeDeformation(0.0F))
+				.texOffs(110, 57).addBox(-4.0F, -8.0F, -6.0F, 8.0F, 8.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition pupil = headwear.addOrReplaceChild("pupil", CubeListBuilder.create().texOffs(101, 58).addBox(-1.5F, -1.5F, -0.55F, 3.0F, 4.0F, 1.0F, new CubeDeformation(-0.5F)), PartPose.offset(0.0F, -3.0F, -6.0F));
 
@@ -122,14 +122,14 @@ public class livingArmorMkModel<T extends LivingEntity> extends EntityModel<T> i
 
 		PartDefinition lob1 = brain.addOrReplaceChild("lob1", CubeListBuilder.create(), PartPose.offset(3.0F, -6.0F, 0.0F));
 
-		PartDefinition cube_r13 = lob1.addOrReplaceChild("cube_r13", CubeListBuilder.create().texOffs(83, 0).addBox(-3.0F, -4.0F, -1.0F, 4.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.0F, 1.0F, 0.0F, -0.0814F, 0.2947F, -0.2739F));
+		PartDefinition cube_r13 = lob1.addOrReplaceChild("cube_r13", CubeListBuilder.create().texOffs(83, 0).addBox(-3.0F, -4.0F, -1.0F, 4.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.75F, 1.0F, -1.25F, -0.0814F, 0.2947F, -0.2739F));
 
 		PartDefinition lob2 = brain.addOrReplaceChild("lob2", CubeListBuilder.create(), PartPose.offset(-3.0F, -6.0F, 0.0F));
 
-		PartDefinition cube_r14 = lob2.addOrReplaceChild("cube_r14", CubeListBuilder.create().texOffs(83, 0).mirror().addBox(-1.0F, -4.0F, -1.0F, 4.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-2.0F, 1.0F, 0.0F, -0.0814F, -0.2947F, 0.2739F));
+		PartDefinition cube_r14 = lob2.addOrReplaceChild("cube_r14", CubeListBuilder.create().texOffs(83, 0).mirror().addBox(-1.0F, -4.0F, -1.0F, 4.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-1.75F, 1.0F, -1.25F, -0.0814F, -0.2947F, 0.2739F));
 
 		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 16).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, new CubeDeformation(1.15F))
-		.texOffs(104, 22).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, new CubeDeformation(1.01F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+				.texOffs(104, 22).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, new CubeDeformation(1.01F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition cube_r15 = body.addOrReplaceChild("cube_r15", CubeListBuilder.create().texOffs(110, 43).mirror().addBox(-1.0F, -2.0F, 0.0F, 3.0F, 4.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(2.25F, 1.0F, 3.0F, 0.0F, 0.0F, 0.6109F));
 
@@ -170,7 +170,7 @@ public class livingArmorMkModel<T extends LivingEntity> extends EntityModel<T> i
 		PartDefinition right_for_wing = right_wing.addOrReplaceChild("right_for_wing", CubeListBuilder.create().texOffs(0, 108).addBox(-4.25F, -7.0F, 0.06F, 17.0F, 20.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(-5.5F, 12.0F, -1.0F));
 
 		PartDefinition rightArm = partdefinition.addOrReplaceChild("rightArm", CubeListBuilder.create().texOffs(24, 16).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(1.11F))
-		.texOffs(88, 22).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(1.0F)), PartPose.offset(-5.0F, 2.0F, 0.0F));
+				.texOffs(88, 22).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(1.0F)), PartPose.offset(-5.0F, 2.0F, 0.0F));
 
 		PartDefinition cube_r23 = rightArm.addOrReplaceChild("cube_r23", CubeListBuilder.create().texOffs(30, 62).addBox(0.0F, -5.0F, -1.0F, 0.0F, 5.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0F, 9.0F, 0.8F, 0.0F, 1.5708F, -3.1416F));
 
@@ -187,7 +187,7 @@ public class livingArmorMkModel<T extends LivingEntity> extends EntityModel<T> i
 		PartDefinition right_arm_r5 = rightArm.addOrReplaceChild("right_arm_r5", CubeListBuilder.create().texOffs(0, 48).addBox(-4.0F, -11.0F, -1.0F, 7.0F, 9.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.8F, 3.0F, 0.5F, 0.0F, 0.0F, -0.48F));
 
 		PartDefinition leftArm = partdefinition.addOrReplaceChild("leftArm", CubeListBuilder.create().texOffs(0, 32).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(1.11F))
-		.texOffs(72, 22).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(1.0F)), PartPose.offset(5.0F, 2.0F, 0.0F));
+				.texOffs(72, 22).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(1.0F)), PartPose.offset(5.0F, 2.0F, 0.0F));
 
 		PartDefinition cube_r25 = leftArm.addOrReplaceChild("cube_r25", CubeListBuilder.create().texOffs(24, 56).addBox(0.0F, -5.0F, -1.0F, 0.0F, 5.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, 9.0F, -1.2F, 0.0F, -1.5708F, -3.1416F));
 
@@ -198,7 +198,7 @@ public class livingArmorMkModel<T extends LivingEntity> extends EntityModel<T> i
 		PartDefinition left_arm_r2 = leftArm.addOrReplaceChild("left_arm_r2", CubeListBuilder.create().texOffs(40, 15).addBox(-1.8F, -4.0F, -3.0F, 4.0F, 1.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offsetAndRotation(0.8F, 0.0F, 0.0F, 0.0F, 0.0F, 0.48F));
 
 		PartDefinition leftLeg = partdefinition.addOrReplaceChild("leftLeg", CubeListBuilder.create().texOffs(88, 35).mirror().addBox(-2.1F, 0.0F, -2.0F, 4.0F, 7.0F, 4.0F, new CubeDeformation(0.5F)).mirror(false)
-		.texOffs(72, 46).mirror().addBox(-1.5F, -2.0F, -3.0F, 3.0F, 10.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(2.0F, 12.0F, 0.0F));
+				.texOffs(72, 46).mirror().addBox(-1.5F, -2.0F, -3.0F, 3.0F, 10.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(2.0F, 12.0F, 0.0F));
 
 		PartDefinition cube_r27 = leftLeg.addOrReplaceChild("cube_r27", CubeListBuilder.create().texOffs(72, 46).addBox(-1.0F, -2.0F, -2.0F, 2.0F, 9.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.75F, 0.25F, 2.75F, 0.0F, 0.7854F, 0.0F));
 
@@ -213,7 +213,7 @@ public class livingArmorMkModel<T extends LivingEntity> extends EntityModel<T> i
 		PartDefinition cube_r32 = leftLeg.addOrReplaceChild("cube_r32", CubeListBuilder.create().texOffs(16, 43).mirror().addBox(0.9F, 2.0F, -2.0F, 0.0F, 1.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(1.6F, 1.0F, -0.5F, 0.0F, 0.0436F, 0.0F));
 
 		PartDefinition rightLeg = partdefinition.addOrReplaceChild("rightLeg", CubeListBuilder.create().texOffs(88, 35).addBox(-1.9F, 0.0F, -2.0F, 4.0F, 7.0F, 4.0F, new CubeDeformation(0.5F))
-		.texOffs(72, 46).addBox(-1.5F, -2.0F, -3.0F, 3.0F, 10.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.0F, 12.0F, 0.0F));
+				.texOffs(72, 46).addBox(-1.5F, -2.0F, -3.0F, 3.0F, 10.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.0F, 12.0F, 0.0F));
 
 		PartDefinition cube_r33 = rightLeg.addOrReplaceChild("cube_r33", CubeListBuilder.create().texOffs(72, 46).mirror().addBox(-1.0F, -2.0F, -2.0F, 2.0F, 9.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-2.75F, 0.25F, 2.75F, 0.0F, -0.7854F, 0.0F));
 
@@ -230,7 +230,7 @@ public class livingArmorMkModel<T extends LivingEntity> extends EntityModel<T> i
 		PartDefinition pelvis = partdefinition.addOrReplaceChild("pelvis", CubeListBuilder.create().texOffs(104, 32).addBox(-4.0F, -2.0F, -2.0F, 8.0F, 2.0F, 4.0F, new CubeDeformation(0.25F)), PartPose.offset(0.0F, 12.0F, 0.0F));
 
 		PartDefinition leftBoot = partdefinition.addOrReplaceChild("leftBoot", CubeListBuilder.create().texOffs(46, 43).addBox(-1.9F, 7.0F, -2.0F, 4.0F, 5.0F, 4.0F, new CubeDeformation(1.11F))
-		.texOffs(112, 48).addBox(-2.0F, 7.0F, -2.0F, 4.0F, 5.0F, 4.0F, new CubeDeformation(1.0F)), PartPose.offset(1.9F, 12.0F, 0.0F));
+				.texOffs(112, 48).addBox(-2.0F, 7.0F, -2.0F, 4.0F, 5.0F, 4.0F, new CubeDeformation(1.0F)), PartPose.offset(1.9F, 12.0F, 0.0F));
 
 		PartDefinition cube_r39 = leftBoot.addOrReplaceChild("cube_r39", CubeListBuilder.create().texOffs(92, 63).addBox(0.0F, -4.0F, 0.0F, 3.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.75F, 9.0F, 0.5F, -0.2153F, -0.8008F, 0.0554F));
 
@@ -245,7 +245,7 @@ public class livingArmorMkModel<T extends LivingEntity> extends EntityModel<T> i
 		PartDefinition cube_r44 = leftBoot.addOrReplaceChild("cube_r44", CubeListBuilder.create().texOffs(46, 50).addBox(0.1F, -5.0F, -1.0F, 0.0F, 5.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.5F, 13.0F, -6.0F, 0.1745F, 0.2618F, 0.0F));
 
 		PartDefinition rightBoot = partdefinition.addOrReplaceChild("rightBoot", CubeListBuilder.create().texOffs(40, 22).addBox(-1.9F, 7.0F, -2.0F, 4.0F, 5.0F, 4.0F, new CubeDeformation(1.12F))
-		.texOffs(96, 48).addBox(-1.8F, 7.0F, -2.0F, 4.0F, 5.0F, 4.0F, new CubeDeformation(1.01F)), PartPose.offset(-2.1F, 12.0F, 0.0F));
+				.texOffs(96, 48).addBox(-1.8F, 7.0F, -2.0F, 4.0F, 5.0F, 4.0F, new CubeDeformation(1.01F)), PartPose.offset(-2.1F, 12.0F, 0.0F));
 
 		PartDefinition cube_r45 = rightBoot.addOrReplaceChild("cube_r45", CubeListBuilder.create().texOffs(72, 57).mirror().addBox(0.0F, -2.0F, -1.0F, 1.0F, 4.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.8F, 9.0F, 1.0F, -0.1745F, 0.0F, 0.0F));
 
