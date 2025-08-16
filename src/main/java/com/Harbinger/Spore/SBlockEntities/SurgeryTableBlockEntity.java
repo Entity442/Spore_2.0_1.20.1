@@ -129,7 +129,7 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
         }
     }
     public Optional<GraftingRecipe> getCurrentGraftingRecipe() {
-        SimpleContainer inventory = new SimpleContainer(this.itemHandler.getSlots());
+        SimpleContainer inventory = new SimpleContainer(3);
         for (int i = GRATING_ITEM_ONE; i < GRATING_ITEM_TWO; i++) {
             inventory.setItem(i-GRATING_ITEM_ONE, this.itemHandler.getStackInSlot(i));
         }
@@ -202,10 +202,6 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
         }
     }
     public void updateSecondOutputSlot() {
-        if (itemHandler.getStackInSlot(STRING_SLOT) == ItemStack.EMPTY){
-            this.itemHandler.setStackInSlot(SurgeryTableBlockEntity.OUTPUT_SLOT, ItemStack.EMPTY);
-            return;
-        }
         Optional<GraftingRecipe> match = this.getCurrentGraftingRecipe();
         if (match.isPresent()){
             ItemStack stack = match.get().getResultItem(null);

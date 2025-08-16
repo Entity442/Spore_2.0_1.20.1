@@ -15,7 +15,6 @@
     }
   ],
   "output": {
-    "item": "spore:inf_up_chest",
-    "count": 1
+    "item": "spore:inf_up_chest"
   }
 }

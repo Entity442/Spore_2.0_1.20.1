@@ -33,10 +33,10 @@ public class GraftingRecipe implements Recipe<SimpleContainer> {
 
     @Override
     public boolean matches(SimpleContainer simpleContainer, Level level) {
-        if (level.isClientSide() || simpleContainer.getContainerSize() < 3) {
+        if (level.isClientSide() || simpleContainer.getContainerSize() < 24) {
             return false;
         }
-        for (int i = 0; i < 3; i++) {
+        for (int i = SurgeryTableBlockEntity.GRATING_ITEM_ONE; i < SurgeryTableBlockEntity.GRATING_ITEM_TWO; i++) {
             if (!inputItems.get(i).test(simpleContainer.getItem(i))) {
                 return false;
             }
@@ -88,7 +88,7 @@ public class GraftingRecipe implements Recipe<SimpleContainer> {
         public GraftingRecipe fromJson(ResourceLocation resourceLocation, JsonObject jsonObject) {
             ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(jsonObject, "output"));
             JsonArray ingredients = GsonHelper.getAsJsonArray(jsonObject, "ingredients");
-            NonNullList<Ingredient> inputs = NonNullList.withSize(3, Ingredient.EMPTY);
+            NonNullList<Ingredient> inputs = NonNullList.withSize(24, Ingredient.EMPTY);
 
             for (int i = 0; i < ingredients.size(); i++) {
                 JsonObject ingredientJson = ingredients.get(i).getAsJsonObject();

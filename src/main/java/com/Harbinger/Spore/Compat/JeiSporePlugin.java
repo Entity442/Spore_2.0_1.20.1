@@ -28,6 +28,7 @@ public ResourceLocation getPluginUid() {
     public void registerCategories(IRecipeCategoryRegistration registration) {
         registration.addRecipeCategories(new SurgeryCraftingCategory(registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new InjectionCraftingCategory(registration.getJeiHelpers().getGuiHelper()));
+        registration.addRecipeCategories(new GraftingCraftingCategory(registration.getJeiHelpers().getGuiHelper()));
 }
 
     @Override

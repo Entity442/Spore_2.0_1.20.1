@@ -14,14 +14,11 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 
 public class GraftingCraftingCategory implements IRecipeCategory<GraftingRecipe> {
-    public static final ResourceLocation UID = new ResourceLocation(Spore.MODID, "surgery");
+    public static final ResourceLocation UID = new ResourceLocation(Spore.MODID, "grafting");
     public static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/gui/grafting_gui.png");
     public static final RecipeType<GraftingRecipe> GRAFTING_TYPE =
