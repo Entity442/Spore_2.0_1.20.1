@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Recipes;
 
+import com.Harbinger.Spore.SBlockEntities.SurgeryTableBlockEntity;
 import com.Harbinger.Spore.Spore;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -91,7 +92,7 @@ public class GraftingRecipe implements Recipe<SimpleContainer> {
 
             for (int i = 0; i < ingredients.size(); i++) {
                 JsonObject ingredientJson = ingredients.get(i).getAsJsonObject();
-                int slot = GsonHelper.getAsInt(ingredientJson, "slot", i);
+                int slot = GsonHelper.getAsInt(ingredientJson, "slot", i + SurgeryTableBlockEntity.GRATING_ITEM_ONE);
                 if (slot >= 0 && slot < inputs.size()) {
                     inputs.set(slot, Ingredient.fromJson(ingredientJson));
                 }

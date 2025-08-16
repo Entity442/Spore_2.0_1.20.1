@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Compat;
 
+import com.Harbinger.Spore.Recipes.GraftingRecipe;
 import com.Harbinger.Spore.Recipes.InjectionRecipe;
 import com.Harbinger.Spore.Recipes.SurgeryRecipe;
 import com.Harbinger.Spore.Screens.InjectionScreen;
@@ -36,8 +37,10 @@ public ResourceLocation getPluginUid() {
             RecipeManager recipeManager = Minecraft.getInstance().level.getRecipeManager();
             List<SurgeryRecipe> surgeryRecipes = recipeManager.getAllRecipesFor(SurgeryRecipe.SurgeryRecipeType.INSTANCE);
             List<InjectionRecipe> injectionRecipes = recipeManager.getAllRecipesFor(InjectionRecipe.InjectionRecipeType.INSTANCE);
+            List<GraftingRecipe> grafting = recipeManager.getAllRecipesFor(GraftingRecipe.GraftingRecipeType.INSTANCE);
             registration.addRecipes(SurgeryCraftingCategory.SURGERY_TYPE, surgeryRecipes);
             registration.addRecipes(InjectionCraftingCategory.INJECTION_TYPE, injectionRecipes);
+            registration.addRecipes(GraftingCraftingCategory.GRAFTING_TYPE, grafting);
         }
     }
 

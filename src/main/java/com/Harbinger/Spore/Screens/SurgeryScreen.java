@@ -47,9 +47,9 @@ public class SurgeryScreen extends AbstractContainerScreen<SurgeryMenu> {
         this.invisibleButton = addRenderableWidget(new InvisibleButton(
                 buttonX + 142, buttonY, 20, 20, Component.literal(""),
                 button -> {
-                    if (Minecraft.getInstance().player != null) {
+                    if (Minecraft.getInstance().cameraEntity instanceof Player player) {
                         BlockPos pos = menu.blockEntity.getBlockPos();
-                        SporePacketHandler.sendToServer(new OpenGraftingScreenPacket(pos));
+                        SporePacketHandler.sendToServer(new OpenGraftingScreenPacket(pos,player.getId()));
                     }
 
                 },(btn) -> Component.literal("Go To Recipes")));

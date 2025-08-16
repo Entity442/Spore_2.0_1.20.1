@@ -2,16 +2,16 @@
   "type": "spore:grafting",
   "ingredients": [
     {
-      "item": "spore:inf_up_chest",
-      "slot": 0
+      "item": "spore:inf_chest",
+      "slot": 21
     },
     {
       "item": "spore:reforged_biomass_a",
-      "slot": 1
+      "slot": 22
     },
     {
       "item": "spore:r_elytron",
-      "slot": 2
+      "slot": 23
     }
   ],
   "output": {
