@@ -37,7 +37,7 @@ public class UpgradedInfectedExoskeleton extends SporeBaseArmor implements Custo
                         SConfig.SERVER.chestplate_up_durability.get() ,SConfig.SERVER.helmet_up_durability.get()},
                 new int[]{SConfig.SERVER.boots_up_protection.get(), SConfig.SERVER.pants_up_protection.get(),
                         SConfig.SERVER.chestplate_up_protection.get(),SConfig.SERVER.helmet_protection.get()},
-                SConfig.SERVER.armor_toughness.get(),
+                SConfig.SERVER.armor_toughness.get()+2,
                 SConfig.SERVER.knockback_resistance.get() /10F,
                 Ssounds.INFECTED_GEAR_EQUIP.get(), "Upgraded Living Armor");
     }
@@ -53,14 +53,28 @@ public class UpgradedInfectedExoskeleton extends SporeBaseArmor implements Custo
     }
 
     public void geteffect(LivingEntity entity) {
-        if (!entity.hasEffect(Seffects.SYMBIOSIS.get())){
-            if ((entity.getItemBySlot(EquipmentSlot.FEET).getItem() == Sitems.INF_UP_BOOTS.get())
-                    && (entity.getItemBySlot(EquipmentSlot.LEGS).getItem() == Sitems.INF_UP_PANTS.get())
-                    && (entity.getItemBySlot(EquipmentSlot.CHEST).getItem() == Sitems.INF_UP_CHESTPLATE.get())
-                    && (entity.getItemBySlot(EquipmentSlot.HEAD).getItem() == Sitems.INF_UP_HELMET.get())) {
-                entity.addEffect(new MobEffectInstance(Seffects.SYMBIOSIS.get(), 200, 1, (false), (false)));
+        if (!entity.hasEffect(Seffects.SYMBIOSIS.get()) && entity.tickCount % 20 == 0){
+            int val = getEffectMod(entity);
+            if (val != -1){
+                entity.addEffect(new MobEffectInstance(Seffects.SYMBIOSIS.get(), 200, val, (false), (false)));
             }
         }
+    }
+    private int getEffectMod(LivingEntity living){
+        int i = 0;
+        ItemStack helmet = living.getItemBySlot(EquipmentSlot.HEAD);
+        ItemStack chest = living.getItemBySlot(EquipmentSlot.CHEST);
+        ItemStack legs = living.getItemBySlot(EquipmentSlot.LEGS);
+        ItemStack feet = living.getItemBySlot(EquipmentSlot.FEET);
+        if (helmet.getItem().equals(Sitems.INF_UP_HELMET.get())){i=i+2;}
+        if (chest.getItem().equals(Sitems.INF_UP_CHESTPLATE.get())){i=i+2;}
+        if (legs.getItem().equals(Sitems.INF_UP_PANTS.get())){i=i+2;}
+        if (feet.getItem().equals(Sitems.INF_UP_BOOTS.get())){i=i+2;}
+        if (helmet.getItem().equals(Sitems.INF_HELMET.get())){i++;}
+        if (chest.getItem().equals(Sitems.INF_CHEST.get())){i++;}
+        if (legs.getItem().equals(Sitems.INF_PANTS.get())){i++;}
+        if (feet.getItem().equals(Sitems.INF_BOOTS.get())){i++;}
+        return  i < 4 ? -1 : i > 7 ? 1 : 0;
     }
 
     @Override
