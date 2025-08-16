@@ -136,7 +136,7 @@ public interface SporeWeaponData {
     }
 
     default double modifyDamage(ItemStack stack,double value){
-        float sharpness = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SHARPNESS,stack) * 0.5f + 1f;
+        float sharpness =EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SHARPNESS,stack) > 0 ? EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SHARPNESS,stack) * 0.5f + 1f : 0;
         return sharpness + (getVariant(stack) == SporeToolsMutations.VAMPIRIC ? (calculateTrueDamage(stack,value) * -0.2) : 0);
     }
     default double modifyRange(ItemStack stack){

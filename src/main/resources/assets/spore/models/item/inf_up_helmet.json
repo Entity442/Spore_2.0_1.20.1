@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "spore:item/infected_helmet"
+    "layer0": "spore:item/inf_up_helmet"
   }
 }
