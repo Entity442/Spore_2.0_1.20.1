@@ -36,7 +36,7 @@ public class GraftingRecipe implements Recipe<SimpleContainer> {
         if (level.isClientSide() || simpleContainer.getContainerSize() < 24) {
             return false;
         }
-        for (int i = SurgeryTableBlockEntity.GRATING_ITEM_ONE; i < SurgeryTableBlockEntity.GRATING_ITEM_TWO; i++) {
+        for (int i = SurgeryTableBlockEntity.GRATING_ITEM_ONE; i < SurgeryTableBlockEntity.GRATING_ITEM_TWO+1; i++) {
             if (!inputItems.get(i).test(simpleContainer.getItem(i))) {
                 return false;
             }

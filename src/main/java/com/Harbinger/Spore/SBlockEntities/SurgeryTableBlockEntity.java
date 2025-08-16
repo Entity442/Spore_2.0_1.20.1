@@ -129,9 +129,9 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
         }
     }
     public Optional<GraftingRecipe> getCurrentGraftingRecipe() {
-        SimpleContainer inventory = new SimpleContainer(3);
-        for (int i = GRATING_ITEM_ONE; i < GRATING_ITEM_TWO; i++) {
-            inventory.setItem(i-GRATING_ITEM_ONE, this.itemHandler.getStackInSlot(i));
+        SimpleContainer inventory = new SimpleContainer(25);
+        for (int i = GRATING_ITEM_ONE; i < GRATING_ITEM_TWO+1; i++) {
+            inventory.setItem(i, this.itemHandler.getStackInSlot(i));
         }
 
         Optional<GraftingRecipe> recipe = this.level != null ? this.level.getRecipeManager().getRecipeFor(GraftingRecipe.GraftingRecipeType.INSTANCE, inventory, level) : null;
@@ -145,10 +145,10 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
     public void consumeItemsGrafting() {
         Optional<GraftingRecipe> match = this.getCurrentGraftingRecipe();
         match.ifPresent(recipe -> {
-            for (int i = GRATING_ITEM_ONE; i < GRATING_ITEM_TWO; i++) {
+            for (int i = GRATING_ITEM_ONE; i < GRATING_ITEM_TWO+1; i++) {
                 ItemStack stack = itemHandler.getStackInSlot(i);
                 if (!stack.isEmpty()) {
-                    itemHandler.extractItem(i-GRATING_ITEM_ONE, 1, false);
+                    itemHandler.extractItem(i, 1, false);
                 }
             }
         });
