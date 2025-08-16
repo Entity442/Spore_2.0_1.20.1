@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.ExtremelySusThings;
 
 import com.Harbinger.Spore.ExtremelySusThings.Package.AdvancementGivingPackage;
+import com.Harbinger.Spore.ExtremelySusThings.Package.OpenGraftingScreenPacket;
 import com.Harbinger.Spore.ExtremelySusThings.Package.RequestAdvancementPacket;
 import com.Harbinger.Spore.ExtremelySusThings.Package.SyncAdvancementPacket;
 import net.minecraft.resources.ResourceLocation;
@@ -38,6 +39,11 @@ public class SporePacketHandler {
                 .encoder(AdvancementGivingPackage::encode)
                 .decoder(AdvancementGivingPackage::new)
                 .consumerMainThread(AdvancementGivingPackage::handle)
+                .add();
+        INSTANCE.messageBuilder(OpenGraftingScreenPacket.class, packetId.getAndIncrement())
+                .encoder(OpenGraftingScreenPacket::encode)
+                .decoder(OpenGraftingScreenPacket::new)
+                .consumerMainThread(OpenGraftingScreenPacket::handle)
                 .add();
     }
     public static <T> void sendToServer(T packet) {

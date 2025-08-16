@@ -1,26 +1,22 @@
 package com.Harbinger.Spore.Screens;
 
-import com.Harbinger.Spore.ExtremelySusThings.Package.OpenGraftingScreenPacket;
-import com.Harbinger.Spore.ExtremelySusThings.SporePacketHandler;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.fml.ModList;
 
-public class SurgeryScreen extends AbstractContainerScreen<SurgeryMenu> {
+public class GraftingScreen extends AbstractContainerScreen<GraftingMenu> {
     private InvisibleButton invisibleButton;
-    private InvisibleButton invisibleButton2;
     private static final ResourceLocation TEXTURE =
-            new ResourceLocation(Spore.MODID, "textures/gui/surgery_table_gui.png");
+            new ResourceLocation(Spore.MODID, "textures/gui/grafting_gui.png");
 
-    public SurgeryScreen(SurgeryMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
+    public GraftingScreen(GraftingMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
         this.imageWidth = 176;
         this.imageHeight = 166;
@@ -44,15 +40,6 @@ public class SurgeryScreen extends AbstractContainerScreen<SurgeryMenu> {
 
                     },(btn) -> Component.literal("Go To Recipes")));
         }
-        this.invisibleButton = addRenderableWidget(new InvisibleButton(
-                buttonX + 142, buttonY, 20, 20, Component.literal(""),
-                button -> {
-                    if (Minecraft.getInstance().player != null) {
-                        BlockPos pos = menu.blockEntity.getBlockPos();
-                        SporePacketHandler.sendToServer(new OpenGraftingScreenPacket(pos));
-                    }
-
-                },(btn) -> Component.literal("Go To Recipes")));
     }
 
     @Override

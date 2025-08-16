@@ -3,9 +3,9 @@ package com.Harbinger.Spore.SBlockEntities;
 
 import com.Harbinger.Spore.Core.SblockEntities;
 import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.Recipes.GraftingRecipe;
 import com.Harbinger.Spore.Recipes.SurgeryRecipe;
 import com.Harbinger.Spore.Screens.SurgeryMenu;
-import com.Harbinger.Spore.Sitems.Agents.ConnectingAgent;
 import com.Harbinger.Spore.Sitems.Agents.MutationAgents;
 import com.Harbinger.Spore.Sitems.BaseWeapons.*;
 import net.minecraft.core.BlockPos;
@@ -41,18 +41,22 @@ import java.util.List;
 import java.util.Optional;
 
 public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider {
-    public final ItemStackHandler itemHandler = new ItemStackHandler(21);
+    public final ItemStackHandler itemHandler = new ItemStackHandler(25);
     public final TagKey<Item> stringLikeItem = ItemTags.create(new ResourceLocation("spore:stitches"));
     public static final int STRING_SLOT = 16;
     public static final int AGENT_SLOT_1 = 17;
     public static final int AGENT_SLOT_2 = 18;
     public static final int AGENT_SLOT_3 = 19;
     public static final int OUTPUT_SLOT = 20;
+    public static final int GRATING_ITEM_ONE = 21;
+    public static final int GRATING_INGREDIENT = 22;
+    public static final int GRATING_ITEM_TWO = 23;
+    public static final int GRATING_OUTPUT = 24;
     private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
-    protected final ContainerData data;
+    public final ContainerData data;
     public SurgeryTableBlockEntity(BlockPos p_155229_, BlockState p_155230_) {
         super(SblockEntities.SURGERY_TABLE_ENTITY.get(), p_155229_, p_155230_);
-        this.data = new SimpleContainerData(20);
+        this.data = new SimpleContainerData(25);
     }
 
     @Override
@@ -124,6 +128,34 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
             this.level.playLocalSound(this.getBlockPos(), Ssounds.SURGERY.get(), SoundSource.BLOCKS,1f,1f,true);
         }
     }
+    public Optional<GraftingRecipe> getCurrentGraftingRecipe() {
+        SimpleContainer inventory = new SimpleContainer(this.itemHandler.getSlots());
+        for (int i = GRATING_ITEM_ONE; i < GRATING_ITEM_TWO; i++) {
+            inventory.setItem(i-GRATING_ITEM_ONE, this.itemHandler.getStackInSlot(i));
+        }
+
+        Optional<GraftingRecipe> recipe = this.level != null ? this.level.getRecipeManager().getRecipeFor(GraftingRecipe.GraftingRecipeType.INSTANCE, inventory, level) : null;
+        if (recipe.isPresent()) {
+            System.out.println("Found matching recipe: " + recipe.get().getId());
+        } else {
+            System.out.println("No matching recipe found.");
+        }
+        return recipe;
+    }
+    public void consumeItemsGrafting() {
+        Optional<GraftingRecipe> match = this.getCurrentGraftingRecipe();
+        match.ifPresent(recipe -> {
+            for (int i = GRATING_ITEM_ONE; i < GRATING_ITEM_TWO; i++) {
+                ItemStack stack = itemHandler.getStackInSlot(i);
+                if (!stack.isEmpty()) {
+                    itemHandler.extractItem(i-GRATING_ITEM_ONE, 1, false);
+                }
+            }
+        });
+        if (level != null){
+            this.level.playLocalSound(this.getBlockPos(), Ssounds.SURGERY.get(), SoundSource.BLOCKS,1f,1f,true);
+        }
+    }
     public void assembleWeapon(Player player, ItemStack stack){
         int mutation = 15;
         int[] e = new int[]{AGENT_SLOT_1,AGENT_SLOT_2,AGENT_SLOT_3};
@@ -150,8 +182,8 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
         }
     }
 
-    public boolean canInsertIntoOutputSlot(ItemStack stack) {
-        ItemStack outputStack = itemHandler.getStackInSlot(OUTPUT_SLOT);
+    public boolean canInsertIntoOutputSlot(ItemStack stack,int slot) {
+        ItemStack outputStack = itemHandler.getStackInSlot(slot);
         return outputStack.isEmpty();
     }
     public void updateOutputSlot() {
@@ -162,15 +194,31 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
         Optional<SurgeryRecipe> match = this.getCurrentRecipe();
         if (match.isPresent()){
             ItemStack stack = match.get().getResultItem(null);
-            if (canInsertIntoOutputSlot(stack)) {
+            if (canInsertIntoOutputSlot(stack,OUTPUT_SLOT)) {
                 itemHandler.insertItem(OUTPUT_SLOT, stack.copy(), false);
             }
         }else {
             this.itemHandler.setStackInSlot(SurgeryTableBlockEntity.OUTPUT_SLOT, ItemStack.EMPTY);
         }
     }
+    public void updateSecondOutputSlot() {
+        if (itemHandler.getStackInSlot(STRING_SLOT) == ItemStack.EMPTY){
+            this.itemHandler.setStackInSlot(SurgeryTableBlockEntity.OUTPUT_SLOT, ItemStack.EMPTY);
+            return;
+        }
+        Optional<GraftingRecipe> match = this.getCurrentGraftingRecipe();
+        if (match.isPresent()){
+            ItemStack stack = match.get().getResultItem(null);
+            if (canInsertIntoOutputSlot(stack,GRATING_OUTPUT)) {
+                itemHandler.insertItem(GRATING_OUTPUT, stack.copy(), false);
+            }
+        }else {
+            this.itemHandler.setStackInSlot(SurgeryTableBlockEntity.GRATING_OUTPUT, ItemStack.EMPTY);
+        }
+    }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, SurgeryTableBlockEntity entity) {
         entity.updateOutputSlot();
+        entity.updateSecondOutputSlot();
     }
 }

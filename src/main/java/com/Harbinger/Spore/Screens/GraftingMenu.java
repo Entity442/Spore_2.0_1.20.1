@@ -16,14 +16,14 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
 
-public class SurgeryMenu extends AbstractContainerMenu {
+public class GraftingMenu extends AbstractContainerMenu {
     public final SurgeryTableBlockEntity blockEntity;
     private final Level level;
-    public SurgeryMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
+    public GraftingMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
         this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(25));}
 
-    public SurgeryMenu(int pContainerId, Inventory inv, BlockEntity entity, ContainerData data) {
-        super(SMenu.SURGERY_MENU.get(), pContainerId);
+    public GraftingMenu(int pContainerId, Inventory inv, BlockEntity entity, ContainerData data) {
+        super(SMenu.GRAFTING_MENU.get(), pContainerId);
         checkContainerSize(inv, 25);
         blockEntity = ((SurgeryTableBlockEntity) entity);
         this.level = inv.player.level();
@@ -31,57 +31,16 @@ public class SurgeryMenu extends AbstractContainerMenu {
         addPlayerHotbar(inv);
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
-            this.addSlot(new SlotItemHandler(iItemHandler, 0, 7, 8));
-            this.addSlot(new SlotItemHandler(iItemHandler, 1, 7, 26));
-            this.addSlot(new SlotItemHandler(iItemHandler, 2, 7, 44));
-            this.addSlot(new SlotItemHandler(iItemHandler, 3, 7, 62));
-            this.addSlot(new SlotItemHandler(iItemHandler, 4, 25, 8));
-            this.addSlot(new SlotItemHandler(iItemHandler, 5, 25, 26));
-            this.addSlot(new SlotItemHandler(iItemHandler, 6, 25, 44));
-            this.addSlot(new SlotItemHandler(iItemHandler, 7, 25, 62));
-            this.addSlot(new SlotItemHandler(iItemHandler, 8, 43, 8));
-            this.addSlot(new SlotItemHandler(iItemHandler, 9, 43, 26));
-            this.addSlot(new SlotItemHandler(iItemHandler, 10, 43, 44));
-            this.addSlot(new SlotItemHandler(iItemHandler, 11, 43, 62));
-            this.addSlot(new SlotItemHandler(iItemHandler, 12, 61, 8));
-            this.addSlot(new SlotItemHandler(iItemHandler, 13, 61, 26));
-            this.addSlot(new SlotItemHandler(iItemHandler, 14, 61, 44));
-            this.addSlot(new SlotItemHandler(iItemHandler, 15, 61, 62));
-            this.addSlot(new SlotItemHandler(iItemHandler,  16, 97, 8){
+            this.addSlot(new SlotItemHandler(iItemHandler, SurgeryTableBlockEntity.GRATING_ITEM_ONE, 25, 8));
+            this.addSlot(new SlotItemHandler(iItemHandler, SurgeryTableBlockEntity.GRATING_INGREDIENT, 25, 35));
+            this.addSlot(new SlotItemHandler(iItemHandler, SurgeryTableBlockEntity.GRATING_ITEM_TWO, 25, 62));
+            this.addSlot(new SlotItemHandler(iItemHandler, SurgeryTableBlockEntity.GRATING_OUTPUT, 88, 35) {
                 @Override
-                public boolean mayPlace(@NotNull ItemStack stack) {
-                    return stack.is(blockEntity.stringLikeItem);
-                }
-            });
-            this.addSlot(new SlotItemHandler(iItemHandler, 17, 115, 8){
-                @Override
-                public boolean mayPlace(@NotNull ItemStack stack) {
-                    return stack.getItem() == Sitems.HARDENING_AGENT.get();
-                }
-            });
-            this.addSlot(new SlotItemHandler(iItemHandler, 18, 133, 8){
-                @Override
-                public boolean mayPlace(@NotNull ItemStack stack) {
-                    return stack.getItem() == Sitems.SHARPENING_AGENT.get();
-                }
-            });
-            this.addSlot(new SlotItemHandler(iItemHandler, 19, 151, 8){
-                @Override
-                public boolean mayPlace(@NotNull ItemStack stack) {
-                    return stack.getItem() == Sitems.INTEGRATING_AGENT.get();
-                }
-            });
-            this.addSlot(new SlotItemHandler(iItemHandler,  20, 124, 53){
-                @Override
-                public boolean mayPlace(ItemStack stack) {
-                    return false;
-                }
-
+                public boolean mayPlace(ItemStack stack) { return false; }
                 @Override
                 public void onTake(Player player, ItemStack stack) {
                     super.onTake(player, stack);
-                    blockEntity.consumeItems();
-                    blockEntity.assembleWeapon(player,stack);
+                    blockEntity.consumeItemsGrafting();
                 }
             });
         });
@@ -104,8 +63,8 @@ public class SurgeryMenu extends AbstractContainerMenu {
 
     @Override
     public ItemStack quickMoveStack(Player playerIn, int pIndex) {
-        if (pIndex == 20) {
-            return ItemStack.EMPTY; // Prevent shift-clicking from output slot
+        if (pIndex == 24) {
+            return ItemStack.EMPTY;
         }
         Slot sourceSlot = slots.get(pIndex);
         if (!sourceSlot.hasItem()) return ItemStack.EMPTY;  //EMPTY_ITEM
@@ -164,13 +123,13 @@ public class SurgeryMenu extends AbstractContainerMenu {
         if (playerIn instanceof ServerPlayer serverPlayer) {
             if (!serverPlayer.isAlive() || serverPlayer.hasDisconnected()) {
                 for (int j = 0; j < blockEntity.itemHandler.getSlots(); ++j) {
-                    if (j != 20){
+                    if (j != 20 && j != 24){
                         playerIn.drop(blockEntity.itemHandler.extractItem(j, blockEntity.itemHandler.getStackInSlot(j).getCount(), false), false);
                     }
                 }
             } else {
                 for (int i = 0; i < blockEntity.itemHandler.getSlots(); ++i) {
-                    if (i != 20){
+                    if (i != 20 && i != 24){
                         playerIn.getInventory().placeItemBackInInventory(blockEntity.itemHandler.extractItem(i, blockEntity.itemHandler.getStackInSlot(i).getCount(), false));
                     }
                  }

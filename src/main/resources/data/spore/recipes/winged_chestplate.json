@@ -1,15 +1,21 @@
 {
-  "type": "minecraft:smithing_transform",
-  "addition": {
-    "item": "spore:r_elytron"
-  },
-  "base": {
-    "item": "spore:inf_chest"
-  },
-  "result": {
-    "item": "spore:inf_up_chest"
-  },
-  "template": {
-    "item": "spore:armor_plate"
+  "type": "spore:grafting",
+  "ingredients": [
+    {
+      "item": "spore:inf_up_chest",
+      "slot": 0
+    },
+    {
+      "item": "spore:reforged_biomass_a",
+      "slot": 1
+    },
+    {
+      "item": "spore:r_elytron",
+      "slot": 2
+    }
+  ],
+  "output": {
+    "item": "spore:inf_up_chest",
+    "count": 1
   }
 }

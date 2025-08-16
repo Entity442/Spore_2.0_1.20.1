@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Core;
 
+import com.Harbinger.Spore.Recipes.GraftingRecipe;
 import com.Harbinger.Spore.Recipes.InjectionRecipe;
 import com.Harbinger.Spore.Recipes.SurgeryRecipe;
 import com.Harbinger.Spore.Recipes.WombRecipe;
@@ -16,6 +17,9 @@ public class Srecipes {
 
     public static final RegistryObject<RecipeSerializer<SurgeryRecipe>> SURGERY_SERIALIZER =
             SERIALIZERS.register("surgery", () -> SurgeryRecipe.SurgeryRecipeSerializer.INSTANCE);
+
+    public static final RegistryObject<RecipeSerializer<GraftingRecipe>> GRAFTING_SERIALIZER =
+            SERIALIZERS.register("grafting", () -> GraftingRecipe.GraftingRecipeSerializer.INSTANCE);
 
     public static final RegistryObject<RecipeSerializer<InjectionRecipe>> INJECTION_SERIALIZER =
             SERIALIZERS.register("injection", () -> InjectionRecipe.InjectionRecipeSerializer.INSTANCE);

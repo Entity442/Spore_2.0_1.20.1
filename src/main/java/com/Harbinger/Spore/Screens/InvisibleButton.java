@@ -9,8 +9,4 @@ public class InvisibleButton extends Button {
         super(p_259075_, p_259271_, p_260232_, p_260028_, p_259351_, p_260152_, p_259552_);
     }
 
-    @Override
-    public void render(GuiGraphics p_282421_, int p_93658_, int p_93659_, float p_93660_) {
-
-    }
 }
