@@ -45,6 +45,7 @@ public class InfectedExoskeleton extends SporeBaseArmor implements CustomModelAr
         ItemStack chest = living.getItemBySlot(EquipmentSlot.CHEST);
         ItemStack legs = living.getItemBySlot(EquipmentSlot.LEGS);
         ItemStack feet = living.getItemBySlot(EquipmentSlot.FEET);
+        if (helmet.equals(ItemStack.EMPTY) || chest.equals(ItemStack.EMPTY) || legs.equals(ItemStack.EMPTY) || feet.equals(ItemStack.EMPTY)){return -1;}
         if (helmet.getItem().equals(Sitems.INF_UP_HELMET.get())){i=i+2;}
         if (chest.getItem().equals(Sitems.INF_UP_CHESTPLATE.get())){i=i+2;}
         if (legs.getItem().equals(Sitems.INF_UP_PANTS.get())){i=i+2;}
