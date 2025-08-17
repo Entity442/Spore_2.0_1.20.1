@@ -182,7 +182,7 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
         }
     }
 
-    public void assembleGraft(ItemStack stack){
+    public ItemStack assembleGraft(ItemStack stack){
         ItemStack firstItem = itemHandler.getStackInSlot(GRATING_ITEM_ONE);
         ItemStack secondItem = itemHandler.getStackInSlot(GRATING_ITEM_TWO);
         Map<Enchantment,Integer> enchants = EnchantmentHelper.getEnchantments(firstItem);
@@ -251,6 +251,7 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
             armorData.setVariant(SporeArmorMutations.byId(mutation),stack);
         }
         enchants.forEach(stack::enchant);
+        return stack;
     }
 
     public boolean canInsertIntoOutputSlot(ItemStack stack,int slot) {

@@ -54,11 +54,20 @@ public class GraftingMenu extends AbstractContainerMenu {
                 public boolean mayPlace(ItemStack stack) {
                     return false; // output only
                 }
+
+                @Override
+                public @NotNull ItemStack getItem() {
+                    ItemStack base = super.getItem();
+                    if (!base.isEmpty()) {
+                        return blockEntity.assembleGraft(base);
+                    }
+                    return base;
+                }
+
                 @Override
                 public void onTake(Player player, ItemStack stack) {
                     super.onTake(player, stack);
                     blockEntity.consumeItemsGrafting();
-                    blockEntity.assembleGraft(stack);
                 }
             });
         });
