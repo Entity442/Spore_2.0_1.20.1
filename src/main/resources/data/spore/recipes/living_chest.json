@@ -2,7 +2,7 @@
   "type": "spore:grafting",
   "ingredients": [
     {
-      "item": "spore:living_chest",
+      "item": "spore:plated_chest",
       "slot": 21
     },
     {
@@ -10,7 +10,7 @@
       "slot": 22
     },
     {
-      "item": "spore:plated_chest",
+      "item": "spore:living_chest",
       "slot": 23
     }
   ],

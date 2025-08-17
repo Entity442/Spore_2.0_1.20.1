@@ -41,6 +41,7 @@ public class GraftingMenu extends AbstractContainerMenu {
                 public void onTake(Player player, ItemStack stack) {
                     super.onTake(player, stack);
                     blockEntity.consumeItemsGrafting();
+                    blockEntity.assembleGraft(stack);
                 }
             });
         });

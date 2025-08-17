@@ -2,7 +2,7 @@
   "type": "spore:grafting",
   "ingredients": [
     {
-      "item": "spore:living_helmet",
+      "item": "spore:plated_helmet",
       "slot": 21
     },
     {
@@ -10,7 +10,7 @@
       "slot": 22
     },
     {
-      "item": "spore:plated_helmet",
+      "item": "spore:living_helmet",
       "slot": 23
     }
   ],

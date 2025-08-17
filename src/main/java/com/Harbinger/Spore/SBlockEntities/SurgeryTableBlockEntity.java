@@ -25,6 +25,8 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -36,9 +38,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider {
     public final ItemStackHandler itemHandler = new ItemStackHandler(25);
@@ -182,6 +182,77 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
         }
     }
 
+    public void assembleGraft(ItemStack stack){
+        ItemStack firstItem = itemHandler.getStackInSlot(GRATING_ITEM_ONE);
+        ItemStack secondItem = itemHandler.getStackInSlot(GRATING_ITEM_TWO);
+        Map<Enchantment,Integer> enchants = EnchantmentHelper.getEnchantments(firstItem);
+        enchants.putAll(EnchantmentHelper.getEnchantments(secondItem));
+        if (stack.getItem() instanceof SporeWeaponData weaponData){
+            int luck = 0;
+            int extra_durability= 0;
+            double extra_damage= 0;
+            int mutation= 0;
+            if (firstItem.getItem() instanceof SporeWeaponData firstWdata && secondItem.getItem() instanceof SporeWeaponData secondWData){
+                luck = (firstWdata.getLuck(firstItem) + secondWData.getLuck(secondItem))/2;
+                extra_durability = (firstWdata.getMaxAdditionalDurability(firstItem) + secondWData.getMaxAdditionalDurability(secondItem))/2;
+                extra_damage = (firstWdata.getAdditionalDamage(firstItem) + secondWData.getAdditionalDamage(secondItem))/2;
+                mutation = Math.random() < 0.5f ? firstWdata.getTypeVariant(firstItem) : secondWData.getTypeVariant(secondItem);
+            }else {
+                if (firstItem.getItem() instanceof SporeWeaponData firstWdata){
+                    luck = firstWdata.getLuck(firstItem);
+                    extra_durability = firstWdata.getMaxAdditionalDurability(firstItem);
+                    extra_damage = firstWdata.getAdditionalDamage(firstItem);
+                    mutation =firstWdata.getTypeVariant(firstItem);
+                }
+                if (secondItem.getItem() instanceof SporeWeaponData secondWData){
+                    luck = secondWData.getLuck(secondItem);
+                    extra_durability = secondWData.getMaxAdditionalDurability(secondItem);
+                    extra_damage = secondWData.getAdditionalDamage(secondItem);
+                    mutation =secondWData.getTypeVariant(secondItem);
+                }
+            }
+            weaponData.setLuck(luck,stack);
+            weaponData.setMaxAdditionalDurability(extra_durability,stack);
+            weaponData.setAdditionalDamage(extra_damage,stack);
+            weaponData.setVariant(SporeToolsMutations.byId(mutation),stack);
+        }
+        if (stack.getItem() instanceof SporeArmorData armorData){
+            int luck = 0;
+            int extra_durability= 0;
+            double extra_protection= 0;
+            double agent_toughness= 0;
+            int mutation= 0;
+            if (firstItem.getItem() instanceof SporeArmorData firstWdata && secondItem.getItem() instanceof SporeArmorData secondWData){
+                luck = (firstWdata.getLuck(firstItem) + secondWData.getLuck(secondItem))/2;
+                extra_durability = (firstWdata.getMaxAdditionalDurability(firstItem) + secondWData.getMaxAdditionalDurability(secondItem))/2;
+                extra_protection = (firstWdata.getAdditionalProtection(firstItem) + secondWData.getAdditionalProtection(secondItem))/2;
+                agent_toughness = (firstWdata.getAdditionalToughness(firstItem) + secondWData.getAdditionalToughness(secondItem))/2;
+                mutation = Math.random() < 0.5f ? firstWdata.getTypeVariant(firstItem) : secondWData.getTypeVariant(secondItem);
+            }else {
+                if (firstItem.getItem() instanceof SporeArmorData firstWdata){
+                    luck = firstWdata.getLuck(firstItem);
+                    extra_durability = firstWdata.getMaxAdditionalDurability(firstItem);
+                    extra_protection = firstWdata.getAdditionalProtection(firstItem);
+                    agent_toughness = firstWdata.getAdditionalToughness(firstItem);
+                    mutation =firstWdata.getTypeVariant(firstItem);
+                }
+                if (secondItem.getItem() instanceof SporeArmorData secondWData){
+                    luck = secondWData.getLuck(secondItem);
+                    extra_durability = secondWData.getMaxAdditionalDurability(secondItem);
+                    extra_protection = secondWData.getAdditionalProtection(secondItem);
+                    agent_toughness = secondWData.getAdditionalToughness(secondItem);
+                    mutation =secondWData.getTypeVariant(secondItem);
+                }
+            }
+            armorData.setLuck(luck,stack);
+            armorData.setMaxAdditionalDurability(extra_durability,stack);
+            armorData.setAdditionalProtection(extra_protection,stack);
+            armorData.setAdditionalToughness(agent_toughness,stack);
+            armorData.setVariant(SporeArmorMutations.byId(mutation),stack);
+        }
+        enchants.forEach(stack::enchant);
+    }
+
     public boolean canInsertIntoOutputSlot(ItemStack stack,int slot) {
         ItemStack outputStack = itemHandler.getStackInSlot(slot);
         return outputStack.isEmpty();
@@ -195,7 +266,7 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
         if (match.isPresent()){
             ItemStack stack = match.get().getResultItem(null);
             if (canInsertIntoOutputSlot(stack,OUTPUT_SLOT)) {
-                itemHandler.insertItem(OUTPUT_SLOT, stack.copy(), false);
+                itemHandler.insertItem(OUTPUT_SLOT, stack.copy(), true);
             }
         }else {
             this.itemHandler.setStackInSlot(SurgeryTableBlockEntity.OUTPUT_SLOT, ItemStack.EMPTY);
@@ -206,7 +277,7 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
         if (match.isPresent()){
             ItemStack stack = match.get().getResultItem(null);
             if (canInsertIntoOutputSlot(stack,GRATING_OUTPUT)) {
-                itemHandler.insertItem(GRATING_OUTPUT, stack.copy(), false);
+                itemHandler.insertItem(GRATING_OUTPUT, stack.copy(), true);
             }
         }else {
             this.itemHandler.setStackInSlot(SurgeryTableBlockEntity.GRATING_OUTPUT, ItemStack.EMPTY);

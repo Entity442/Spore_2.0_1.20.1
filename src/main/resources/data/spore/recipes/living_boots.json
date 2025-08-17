@@ -2,7 +2,7 @@
   "type": "spore:grafting",
   "ingredients": [
     {
-      "item": "spore:living_boots",
+      "item": "spore:plated_boots",
       "slot": 21
     },
     {
@@ -10,7 +10,7 @@
       "slot": 22
     },
     {
-      "item": "spore:plated_boots",
+      "item": "spore:living_boots",
       "slot": 23
     }
   ],
