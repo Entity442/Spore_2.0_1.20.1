@@ -1,0 +1,20 @@
+{
+  "type": "spore:grafting",
+  "ingredients": [
+    {
+      "item": "spore:living_helmet",
+      "slot": 21
+    },
+    {
+      "item": "spore:integrating_agent",
+      "slot": 22
+    },
+    {
+      "item": "spore:plated_helmet",
+      "slot": 23
+    }
+  ],
+  "output": {
+    "item": "spore:inf_helmet"
+  }
+}

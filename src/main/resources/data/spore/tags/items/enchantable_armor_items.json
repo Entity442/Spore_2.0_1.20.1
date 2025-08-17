@@ -14,6 +14,9 @@
     "spore:living_pants",
     "spore:living_boots",
     "spore:r_elytron",
-    "spore:inf_up_chest"
+    "spore:inf_up_chest",
+    "spore:inf_up_helmet",
+    "spore:inf_up_pants",
+    "spore:inf_up_boots"
   ]
 }

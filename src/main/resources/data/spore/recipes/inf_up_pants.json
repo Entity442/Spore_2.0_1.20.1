@@ -1,0 +1,20 @@
+{
+  "type": "spore:grafting",
+  "ingredients": [
+    {
+      "item": "spore:inf_pants",
+      "slot": 21
+    },
+    {
+      "item": "spore:reforged_biomass_t",
+      "slot": 22
+    },
+    {
+      "item": "spore:plated_muscle",
+      "slot": 23
+    }
+  ],
+  "output": {
+    "item": "spore:inf_up_pants"
+  }
+}

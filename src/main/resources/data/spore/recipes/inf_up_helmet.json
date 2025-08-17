@@ -1,0 +1,20 @@
+{
+  "type": "spore:grafting",
+  "ingredients": [
+    {
+      "item": "spore:inf_helmet",
+      "slot": 21
+    },
+    {
+      "item": "spore:brain_remnants",
+      "slot": 22
+    },
+    {
+      "item": "spore:vigil_eye",
+      "slot": 23
+    }
+  ],
+  "output": {
+    "item": "spore:inf_up_helmet"
+  }
+}

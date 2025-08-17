@@ -38,7 +38,7 @@ public class UpgradedInfectedExoskeleton extends SporeBaseArmor implements Custo
                 new int[]{SConfig.SERVER.boots_up_protection.get(), SConfig.SERVER.pants_up_protection.get(),
                         SConfig.SERVER.chestplate_up_protection.get(),SConfig.SERVER.helmet_protection.get()},
                 SConfig.SERVER.armor_toughness.get()+2,
-                SConfig.SERVER.knockback_resistance.get() /10F,
+                SConfig.SERVER.knockback_resistance.get(),
                 Ssounds.INFECTED_GEAR_EQUIP.get(), "Upgraded Living Armor");
     }
     @Override
@@ -152,7 +152,7 @@ public class UpgradedInfectedExoskeleton extends SporeBaseArmor implements Custo
         public void onArmorTick(ItemStack stack, Level level, Player player) {
             super.onArmorTick(stack, level, player);
             if (player.tickCount % 10 == 0 && player.isCrouching()){
-                player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION,200,0,false,false));
+                player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION,600,0,false,false));
             }
             if (player.tickCount % 20 == 0 && player.isInWater()){
                 player.addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING,200,0,false,false));
