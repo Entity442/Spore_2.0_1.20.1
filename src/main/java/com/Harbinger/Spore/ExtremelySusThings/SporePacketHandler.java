@@ -1,9 +1,6 @@
 package com.Harbinger.Spore.ExtremelySusThings;
 
-import com.Harbinger.Spore.ExtremelySusThings.Package.AdvancementGivingPackage;
-import com.Harbinger.Spore.ExtremelySusThings.Package.OpenGraftingScreenPacket;
-import com.Harbinger.Spore.ExtremelySusThings.Package.RequestAdvancementPacket;
-import com.Harbinger.Spore.ExtremelySusThings.Package.SyncAdvancementPacket;
+import com.Harbinger.Spore.ExtremelySusThings.Package.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkRegistry;
@@ -44,6 +41,11 @@ public class SporePacketHandler {
                 .encoder(OpenGraftingScreenPacket::encode)
                 .decoder(OpenGraftingScreenPacket::new)
                 .consumerMainThread(OpenGraftingScreenPacket::handle)
+                .add();
+        INSTANCE.messageBuilder(OpenSurgeryScreenPacket.class, packetId.getAndIncrement())
+                .encoder(OpenSurgeryScreenPacket::encode)
+                .decoder(OpenSurgeryScreenPacket::new)
+                .consumerMainThread(OpenSurgeryScreenPacket::handle)
                 .add();
     }
     public static <T> void sendToServer(T packet) {

@@ -1,15 +1,17 @@
 package com.Harbinger.Spore.Screens;
 
+import com.Harbinger.Spore.ExtremelySusThings.Package.OpenSurgeryScreenPacket;
+import com.Harbinger.Spore.ExtremelySusThings.SporePacketHandler;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.fml.ModList;
 
 public class GraftingScreen extends AbstractContainerScreen<GraftingMenu> {
     private InvisibleButton invisibleButton;
@@ -29,17 +31,15 @@ public class GraftingScreen extends AbstractContainerScreen<GraftingMenu> {
         this.titleLabelY = 10000;
         int buttonX = this.width / 2 - 50;
         int buttonY = this.height / 2 - 20;
-        if (!ModList.get().isLoaded("jei")){
-            this.invisibleButton = addRenderableWidget(new InvisibleButton(
-                    buttonX + 50, buttonY, 20, 20, Component.literal(""),
-                    button -> {
-                        if (Minecraft.getInstance().cameraEntity instanceof Player player) {
-                            SurgeryRecipeMenu menu1 = new SurgeryRecipeMenu(1, player.getInventory());
-                            Minecraft.getInstance().setScreen(new SurgeryRecipeScreen(menu1, player.getInventory(),
-                                    Component.translatable("block.spore.surgery_table")));}
+        this.invisibleButton = addRenderableWidget(new InvisibleButton(
+                buttonX + 110, buttonY-7, 20, 20, Component.literal(""),
+                button -> {
+                    if (Minecraft.getInstance().cameraEntity instanceof Player player) {
+                        BlockPos pos = menu.blockEntity.getBlockPos();
+                        SporePacketHandler.sendToServer(new OpenSurgeryScreenPacket(pos,player.getId()));
+                    }
 
-                    },(btn) -> Component.literal("Go To Recipes")));
-        }
+                },(btn) -> Component.literal("Go To Recipes")));
     }
 
     @Override
