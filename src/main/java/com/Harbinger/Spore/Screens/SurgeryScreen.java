@@ -45,7 +45,7 @@ public class SurgeryScreen extends AbstractContainerScreen<SurgeryMenu> {
                     },(btn) -> Component.literal("Go To Recipes")));
         }
         this.invisibleButton = addRenderableWidget(new InvisibleButton(
-                buttonX + 142, buttonY, 20, 20, Component.literal(""),
+                buttonX + 110, buttonY-7, 20, 20, Component.literal(""),
                 button -> {
                     if (Minecraft.getInstance().cameraEntity instanceof Player player) {
                         BlockPos pos = menu.blockEntity.getBlockPos();
