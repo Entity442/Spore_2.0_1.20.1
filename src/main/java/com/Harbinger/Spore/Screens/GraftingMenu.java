@@ -54,19 +54,9 @@ public class GraftingMenu extends AbstractContainerMenu {
                 public boolean mayPlace(ItemStack stack) {
                     return false; // output only
                 }
-
-                @Override
-                public @NotNull ItemStack getItem() {
-                    ItemStack base = super.getItem();
-                    if (!base.isEmpty()) {
-                        return blockEntity.assembleGraft(base);
-                    }
-                    return base;
-                }
-
                 @Override
                 public void onTake(Player player, ItemStack stack) {
-                    super.onTake(player, stack);
+                    super.onTake(player, blockEntity.assembleGraft(stack));
                     blockEntity.consumeItemsGrafting();
                 }
             });
@@ -83,12 +73,13 @@ public class GraftingMenu extends AbstractContainerMenu {
 
     @Override
     public ItemStack quickMoveStack(Player playerIn, int pIndex) {
-        if (pIndex == SurgeryTableBlockEntity.GRATING_OUTPUT) {
+        if (pIndex ==  SurgeryTableBlockEntity.GRATING_OUTPUT) {
             return ItemStack.EMPTY; // Prevent shift-clicking from output slot
         }
         Slot sourceSlot = slots.get(pIndex);
         if (!sourceSlot.hasItem()) return ItemStack.EMPTY;  //EMPTY_ITEM
         ItemStack sourceStack = sourceSlot.getItem();
+        sourceSlot.onTake(playerIn,sourceStack);
         ItemStack copyOfSourceStack = sourceStack.copy();
 
         // Check if the slot clicked is one of the vanilla container slots
