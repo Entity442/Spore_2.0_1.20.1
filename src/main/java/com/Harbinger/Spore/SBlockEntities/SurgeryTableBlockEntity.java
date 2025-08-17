@@ -266,7 +266,7 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
         if (match.isPresent()){
             ItemStack stack = match.get().getResultItem(null);
             if (canInsertIntoOutputSlot(stack,OUTPUT_SLOT)) {
-                itemHandler.insertItem(OUTPUT_SLOT, stack.copy(), true);
+                itemHandler.insertItem(OUTPUT_SLOT, stack.copy(), false);
             }
         }else {
             this.itemHandler.setStackInSlot(SurgeryTableBlockEntity.OUTPUT_SLOT, ItemStack.EMPTY);
@@ -277,7 +277,7 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
         if (match.isPresent()){
             ItemStack stack = match.get().getResultItem(null);
             if (canInsertIntoOutputSlot(stack,GRATING_OUTPUT)) {
-                itemHandler.insertItem(GRATING_OUTPUT, stack.copy(), true);
+                itemHandler.insertItem(GRATING_OUTPUT, stack.copy(), false);
             }
         }else {
             this.itemHandler.setStackInSlot(SurgeryTableBlockEntity.GRATING_OUTPUT, ItemStack.EMPTY);

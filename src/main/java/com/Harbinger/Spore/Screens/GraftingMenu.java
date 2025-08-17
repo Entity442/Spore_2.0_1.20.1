@@ -2,7 +2,6 @@ package com.Harbinger.Spore.Screens;
 
 import com.Harbinger.Spore.Core.SMenu;
 import com.Harbinger.Spore.Core.Sblocks;
-import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.SBlockEntities.SurgeryTableBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,24 +18,42 @@ import org.jetbrains.annotations.NotNull;
 public class GraftingMenu extends AbstractContainerMenu {
     public final SurgeryTableBlockEntity blockEntity;
     private final Level level;
-    public GraftingMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
-        this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(25));}
 
-    public GraftingMenu(int pContainerId, Inventory inv, BlockEntity entity, ContainerData data) {
-        super(SMenu.GRAFTING_MENU.get(), pContainerId);
-        checkContainerSize(inv, 25);
-        blockEntity = ((SurgeryTableBlockEntity) entity);
+    // --- constants ---
+    private static final int HOTBAR_SLOT_COUNT = 9;
+    private static final int PLAYER_INVENTORY_ROW_COUNT = 3;
+    private static final int PLAYER_INVENTORY_COLUMN_COUNT = 9;
+    private static final int PLAYER_INVENTORY_SLOT_COUNT = PLAYER_INVENTORY_ROW_COUNT * PLAYER_INVENTORY_COLUMN_COUNT;
+    private static final int VANILLA_SLOT_COUNT = HOTBAR_SLOT_COUNT + PLAYER_INVENTORY_SLOT_COUNT; // 36
+    private static final int VANILLA_FIRST_SLOT_INDEX = 0;
+    private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
+
+    // only 4 slots used in this menu
+    private static final int TE_INVENTORY_SLOT_COUNT = 4;
+
+    public GraftingMenu(int containerId, Inventory inv, FriendlyByteBuf extraData) {
+        this(containerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(25));
+    }
+
+    public GraftingMenu(int containerId, Inventory inv, BlockEntity entity, ContainerData data) {
+        super(SMenu.GRAFTING_MENU.get(), containerId);
+        this.blockEntity = (SurgeryTableBlockEntity) entity;
         this.level = inv.player.level();
+
+        // add player slots
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
 
+        // add grafting slots (21–24 in the block entity)
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
             this.addSlot(new SlotItemHandler(iItemHandler, SurgeryTableBlockEntity.GRATING_ITEM_ONE, 25, 8));
             this.addSlot(new SlotItemHandler(iItemHandler, SurgeryTableBlockEntity.GRATING_INGREDIENT, 25, 35));
             this.addSlot(new SlotItemHandler(iItemHandler, SurgeryTableBlockEntity.GRATING_ITEM_TWO, 25, 62));
             this.addSlot(new SlotItemHandler(iItemHandler, SurgeryTableBlockEntity.GRATING_OUTPUT, 88, 35) {
                 @Override
-                public boolean mayPlace(ItemStack stack) { return false; }
+                public boolean mayPlace(ItemStack stack) {
+                    return false; // output only
+                }
                 @Override
                 public void onTake(Player player, ItemStack stack) {
                     super.onTake(player, stack);
@@ -45,27 +62,20 @@ public class GraftingMenu extends AbstractContainerMenu {
                 }
             });
         });
+
         addDataSlots(data);
     }
 
-
-    private static final int HOTBAR_SLOT_COUNT = 9;
-    private static final int PLAYER_INVENTORY_ROW_COUNT = 3;
-    private static final int PLAYER_INVENTORY_COLUMN_COUNT = 9;
-    private static final int PLAYER_INVENTORY_SLOT_COUNT = PLAYER_INVENTORY_COLUMN_COUNT * PLAYER_INVENTORY_ROW_COUNT;
-    private static final int VANILLA_SLOT_COUNT = HOTBAR_SLOT_COUNT + PLAYER_INVENTORY_SLOT_COUNT;
-    private static final int VANILLA_FIRST_SLOT_INDEX = 0;
-    private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
-
-    // THIS YOU HAVE TO DEFINE!
-    private static final int TE_INVENTORY_SLOT_COUNT = 25;  // must be the number of slots you have!
-
-
+    @Override
+    public boolean stillValid(Player player) {
+        return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
+                player, Sblocks.SURGERY_TABLE.get());
+    }
 
     @Override
     public ItemStack quickMoveStack(Player playerIn, int pIndex) {
-        if (pIndex == 24) {
-            return ItemStack.EMPTY;
+        if (pIndex == SurgeryTableBlockEntity.GRATING_OUTPUT) {
+            return ItemStack.EMPTY; // Prevent shift-clicking from output slot
         }
         Slot sourceSlot = slots.get(pIndex);
         if (!sourceSlot.hasItem()) return ItemStack.EMPTY;  //EMPTY_ITEM
@@ -98,43 +108,38 @@ public class GraftingMenu extends AbstractContainerMenu {
         return copyOfSourceStack;
     }
 
+
     @Override
-    public boolean stillValid(Player pPlayer) {
-        return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
-                pPlayer, Sblocks.SURGERY_TABLE.get());
+    public void removed(Player player) {
+        super.removed(player);
+        if (player instanceof ServerPlayer serverPlayer) {
+            if (!serverPlayer.isAlive() || serverPlayer.hasDisconnected()) {
+                for (int j = SurgeryTableBlockEntity.GRATING_ITEM_ONE; j <= SurgeryTableBlockEntity.GRATING_ITEM_TWO; ++j) {
+                    player.drop(blockEntity.itemHandler.extractItem(j,
+                            blockEntity.itemHandler.getStackInSlot(j).getCount(), false), false);
+                }
+            } else {
+                for (int j = SurgeryTableBlockEntity.GRATING_ITEM_ONE; j <= SurgeryTableBlockEntity.GRATING_ITEM_TWO; ++j) {
+                    player.getInventory().placeItemBackInInventory(
+                            blockEntity.itemHandler.extractItem(j,
+                                    blockEntity.itemHandler.getStackInSlot(j).getCount(), false));
+                }
+            }
+        }
     }
 
     private void addPlayerInventory(Inventory playerInventory) {
-        for (int i = 0; i < 3; ++i) {
-            for (int l = 0; l < 9; ++l) {
-                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 8 + l * 18, 84 + i * 18));
+        for (int row = 0; row < 3; ++row) {
+            for (int col = 0; col < 9; ++col) {
+                this.addSlot(new Slot(playerInventory, col + row * 9 + 9,
+                        8 + col * 18, 84 + row * 18));
             }
         }
     }
 
     private void addPlayerHotbar(Inventory playerInventory) {
-        for (int i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
-        }
-    }
-
-    @Override
-    public void removed(Player playerIn) {
-        super.removed(playerIn);
-        if (playerIn instanceof ServerPlayer serverPlayer) {
-            if (!serverPlayer.isAlive() || serverPlayer.hasDisconnected()) {
-                for (int j = 0; j < blockEntity.itemHandler.getSlots(); ++j) {
-                    if (j != 20 && j != 24){
-                        playerIn.drop(blockEntity.itemHandler.extractItem(j, blockEntity.itemHandler.getStackInSlot(j).getCount(), false), false);
-                    }
-                }
-            } else {
-                for (int i = 0; i < blockEntity.itemHandler.getSlots(); ++i) {
-                    if (i != 20 && i != 24){
-                        playerIn.getInventory().placeItemBackInInventory(blockEntity.itemHandler.extractItem(i, blockEntity.itemHandler.getStackInSlot(i).getCount(), false));
-                    }
-                 }
-            }
+        for (int col = 0; col < 9; ++col) {
+            this.addSlot(new Slot(playerInventory, col, 8 + col * 18, 142));
         }
     }
 }
