@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Compat;
 import com.Harbinger.Spore.Recipes.GraftingRecipe;
 import com.Harbinger.Spore.Recipes.InjectionRecipe;
 import com.Harbinger.Spore.Recipes.SurgeryRecipe;
+import com.Harbinger.Spore.Screens.GraftingScreen;
 import com.Harbinger.Spore.Screens.InjectionScreen;
 import com.Harbinger.Spore.Screens.SurgeryScreen;
 import com.Harbinger.Spore.Spore;
@@ -49,6 +50,8 @@ public ResourceLocation getPluginUid() {
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
         registration.addRecipeClickArea(SurgeryScreen.class, 88, 62, 20, 20,
                 SurgeryCraftingCategory.SURGERY_TYPE);
+        registration.addRecipeClickArea(GraftingScreen.class, 88, 62, 20, 20,
+                GraftingCraftingCategory.GRAFTING_TYPE);
         registration.addRecipeClickArea(InjectionScreen.class, 88, 62, 20, 20,
                 InjectionCraftingCategory.INJECTION_TYPE);
     }
