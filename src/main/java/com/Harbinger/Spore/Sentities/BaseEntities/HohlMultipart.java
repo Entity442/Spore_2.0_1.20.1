@@ -2,6 +2,7 @@
 package com.Harbinger.Spore.Sentities.BaseEntities;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.Calamities.Hohlfresser;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
@@ -12,6 +13,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -48,7 +50,9 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
         super(p_20966_, p_20967_);
         this.setMaxUpStep(1.5F);
     }
-
+    protected SoundEvent getHurtSound(DamageSource p_34327_) {
+        return Ssounds.CALAMITY_DAMAGE.get();
+    }
     @Override
     public boolean canBeCollidedWith() {
         return false;
