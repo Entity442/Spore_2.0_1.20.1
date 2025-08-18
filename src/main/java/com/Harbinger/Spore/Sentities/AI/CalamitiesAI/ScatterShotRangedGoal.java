@@ -90,7 +90,7 @@ public class ScatterShotRangedGoal extends Goal {
                 return;
             }
             RandomSource randomSource = RandomSource.create();
-            int shot = randomSource.nextInt(this.minShots,this.maxShots) + getExtraShots();
+            int shot = randomSource.nextInt(this.minShots,this.maxShots + getExtraShots());
 
             float f = (float)Math.sqrt(d0) / this.attackRadius;
             float f1 = Mth.clamp(f, 0.1F, 1.0F);
