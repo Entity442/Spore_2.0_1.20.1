@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "T##",
+    " R#",
+    "T T"
+  ],
+  "key": {
+    "R": {
+      "item": "spore:symbiotic_reagent"
+    },
+    "#": {
+      "item": "spore:fang"
+    },
+    "T": {
+      "item": "spore:innards"
+    }
+},
+  "result": {
+    "item": "spore:voracious_reagent"
+  }
+}

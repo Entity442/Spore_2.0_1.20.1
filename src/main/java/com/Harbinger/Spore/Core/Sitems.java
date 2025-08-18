@@ -78,6 +78,8 @@ public class Sitems {
             () -> new Innards( new Item.Properties()));
     public  static final RegistryObject<Item> SICKLE_FRAGMENT = ITEMS.register("sickle_fragment",
             () -> new BaseItem( new Item.Properties()));
+    public  static final RegistryObject<Item> FANG = ITEMS.register("fang",
+            () -> new BaseItem( new Item.Properties()));
     public  static final RegistryObject<Item> SPIKE = ITEMS.register("spike",
             () -> new BaseItem( new Item.Properties()));
     public  static final RegistryObject<Item> SHIELD_FRAGMENT = ITEMS.register("shield_fragment",
