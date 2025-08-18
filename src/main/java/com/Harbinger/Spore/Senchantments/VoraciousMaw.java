@@ -18,7 +18,7 @@ public class VoraciousMaw extends BaseSporeEnchantment {
     public void doPostAttack(LivingEntity livingEntity, Entity entity, int value) {
         super.doPostAttack(livingEntity, entity, value);
         if (livingEntity.getItemBySlot(EquipmentSlot.HEAD).getEnchantmentLevel(this) > 0){
-            if (Math.random() < 0.1f){
+            if (Math.random() < 0.3f){
                 livingEntity.playSound(SoundEvents.GENERIC_EAT);
                 livingEntity.addEffect(new MobEffectInstance(MobEffects.SATURATION,40,0));
             }

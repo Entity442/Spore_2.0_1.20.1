@@ -22,6 +22,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.*;
@@ -200,11 +201,17 @@ public abstract class SporeBaseArmor extends ArmorItem implements SporeArmorData
 
     @Override
     public boolean overrideOtherStackedOnMe(ItemStack stack, ItemStack itemStack, Slot slot, ClickAction clickAction, Player player, SlotAccess slotAccess) {
-        if (clickAction == ClickAction.SECONDARY && itemStack.getItem().isEdible() && stack.getEnchantmentLevel(Senchantments.VORACIOUS_MAW.get()) > 0 && stack.getDamageValue() > 0){
-            stack.setDamageValue(getDamage(stack)-50);
-            itemStack.shrink(1);
-            player.playNotifySound(SoundEvents.GENERIC_EAT, SoundSource.AMBIENT, 1f, 1f);
-            return true;
+        if (clickAction == ClickAction.SECONDARY && stack.getEnchantmentLevel(Senchantments.VORACIOUS_MAW.get()) > 0 && stack.getDamageValue() > 0){
+            if (!itemStack.isEdible()){
+                return false;
+            }
+            FoodProperties properties = itemStack.getItem().getFoodProperties(itemStack,null);
+            if (properties != null && properties.isMeat()){
+                stack.setDamageValue(getDamage(stack)-50);
+                itemStack.shrink(1);
+                player.playNotifySound(SoundEvents.GENERIC_EAT, SoundSource.AMBIENT, 1f, 1f);
+                return true;
+            }
         }
         boolean shouldOverride = clickAction == ClickAction.SECONDARY
                 && itemStack.getItem() == Sitems.SYRINGE.get()
