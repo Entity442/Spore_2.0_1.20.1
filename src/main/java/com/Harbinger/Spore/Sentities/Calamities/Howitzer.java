@@ -463,7 +463,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
     }
 
     public boolean isRadioactive(){
-        return this.entityData.get(ORES) >= 60;
+        return this.entityData.get(ORES) >= 100;
     }
 
     @Override

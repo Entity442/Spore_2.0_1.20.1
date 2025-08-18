@@ -91,6 +91,9 @@
   "block.spore.heart_pie": "Torta di Cuore",
   "block.spore.cooked_torso": "Torso Cotto",
   "block.spore.skull_soup": "Zuppa di Teschi",
+  "item.spore.reforged_biomass_t": "Biomassa riforgiata terrestre",
+  "item.spore.reforged_biomass_w": "Biomassa riforgiata acquatica",
+  "item.spore.reforged_biomass_a": "Biomassa riforgiata aerea",
   "item.spore.slice_of_heartpie": "Fetta di Torta di Cuore",
   "item.spore.organoid_soup": "Zuppa di Organoidi",
   "item.spore.meaty_icecream": "Gelato alla carne",
@@ -158,6 +161,8 @@
   "item.spore.cryogenic_reagent": "Reagente Criogenico",
   "item.spore.gastric_reagent": "Reagente Gastrico",
   "item.spore.corrosive_reagent": "Reagente Corrosivo",
+  "item.spore.serrated_reagent": "Reagente seghettato",
+  "item.spore.voracious_reagent": "Reagente vorace",
 
   "spore.item.mutation.vampiric" : "Vampirico",
   "spore.item.mutation.calcified" : "Calcificato",
@@ -272,6 +277,7 @@
   "item.spore.scent_spawnegg": "Feromone",
   "item.spore.scent_overcharged_spawnegg": "Feromone supercaricato",
   "item.spore.claw_spawnegg": "Artiglio",
+  "item.spore.hohlfresser_spawnegg": "Hohlfresser",
 
   "entity.spore.knight": "Cavaliere",
   "entity.spore.griefer": "Artificere",
@@ -338,6 +344,8 @@
   "entity.spore.protector": "Protettore",
   "entity.spore.inebriater": "Inebriante",
   "entity.spore.saugling": "Saugling",
+  "entity.spore.hohlfresser": "Hohlfresser",
+  "entity.spore.hohlfresser_seg": "Hohlfresser",
   "spore.entity.variant.kidnapper" : "Mutazione Rapitore",
   "spore.entity.variant.kamikaze": "Mutazione Kamikaze",
   "spore.entity.variant.noxious": "Mutazione Velenata",
@@ -363,7 +371,7 @@
   "spore.scanner.danger.organoid" : "Variabile",
   "spore.scanner.danger.utility" : "Sconosciuto",
   "spore.scanner.line.scamper": "Tempo prima che venga Sovrastato ",
-
+  "entity.spore.corpse_piece": "Cadavere smembrato",
   "spore.scanner.line.1" : "Sconosciuto",
   "spore.scanner.line.2" : "Soggetto ",
   "spore.scanner.line.3" : "Sottospecie ",
@@ -400,7 +408,8 @@
   "enchantment.spore.corrosive_potency.desc": "L'Arma possiede un'Abilita corrosiva, cosi che le sue vittime sentiranno il tocco che gli scioglie.",
   "enchantment.spore.unwavering_nature.desc": "La carne si rifiuta di dimenticare di Infettare sia la vittima che il suo Padrone.",
   "enchantment.spore.mutagenic_reactant.desc": "L'Instabilita del Fungo cerca di aiutare i suoi Fratelli, non il suo Padrone.",
-
+  "enchantment.spore.serrated_thorns.desc": "Strati su strati di spine corrosive e velenose che proteggono l'ospite.",
+  "enchantment.spore.voracious_maw.desc": "Una fauce famelica che divora tutto ciò che è carne per curare l'arma o l'armatura su cui è innestata.",
 
   "entity.spore.thrown_tumor": "Tumore",
   "entity.spore.thrown_spear": "Lancia Infettata",
@@ -415,7 +424,8 @@
   "enchantment.spore.corrosive_potency": "Potenza Corrosiva",
   "enchantment.spore.unwavering_nature": "Natura Instabile",
   "enchantment.spore.mutagenic_reactant": "Reagente Mutagenico",
-
+  "enchantment.spore.serrated_thorns": "Spine seghettate",
+  "enchantment.spore.voracious_maw": "Fauci vorace",
 
   "effect.spore.mycelium_ef": "Infezione Micelica",
   "effect.spore.stunt": "Stunt",
