@@ -469,7 +469,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
     @Override
     public void ActivateAdaptation() {
         super.ActivateAdaptation();
-        this.entityData.set(ORES,60);
+        this.entityData.set(ORES,100);
     }
 
     @Override

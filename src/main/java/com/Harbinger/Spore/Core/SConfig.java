@@ -1366,11 +1366,11 @@ public class SConfig {
             builder.pop();
             builder.push("Leggings Upgraded");
             this.pants_up_durability = builder.comment("Default 650").defineInRange("Leggings Durability", 650, 1, Integer.MAX_VALUE);
-            this.pants_up_protection = builder.comment("Default 9").defineInRange("Leggings Protection", 9, 1, Integer.MAX_VALUE);
+            this.pants_up_protection = builder.comment("Default 10").defineInRange("Leggings Protection", 10, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Boots Upgraded");
             this.boots_up_durability = builder.comment("Default 400").defineInRange("Boots Durability", 400, 1, Integer.MAX_VALUE);
-            this.boots_up_protection = builder.comment("Default 6").defineInRange("Boots Protection", 6, 1, Integer.MAX_VALUE);
+            this.boots_up_protection = builder.comment("Default 5").defineInRange("Boots Protection", 5, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.pop();
             builder.push("Living Exoskeleton");

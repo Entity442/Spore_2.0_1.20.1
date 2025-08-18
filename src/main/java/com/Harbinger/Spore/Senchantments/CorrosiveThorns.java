@@ -24,7 +24,7 @@ public class CorrosiveThorns extends BaseSporeEnchantment {
 
     @Override
     public void doPostHurt(LivingEntity livingEntity, Entity entity, int value) {
-        if (entity instanceof LivingEntity attacker) {
+        if (entity instanceof LivingEntity attacker && attacker.isAlive()) {
             int totalLevel = 0;
             for (ItemStack armor : livingEntity.getArmorSlots()) {
                 totalLevel += EnchantmentHelper.getItemEnchantmentLevel(this, armor);
@@ -52,6 +52,5 @@ public class CorrosiveThorns extends BaseSporeEnchantment {
 
             }
         }
-        super.doPostAttack(livingEntity, entity, value);
     }
 }
