@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Sitems.BaseWeapons;
 
+import com.Harbinger.Spore.Core.Senchantments;
 import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sitems.BaseItem;
@@ -10,6 +11,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -161,6 +163,12 @@ public class SporeToolsBaseItem extends BaseItem implements IForgeItem ,SporeWea
     }
     @Override
     public boolean overrideOtherStackedOnMe(ItemStack stack, ItemStack itemStack, Slot slot, ClickAction clickAction, Player player, SlotAccess slotAccess) {
+        if (clickAction == ClickAction.SECONDARY && itemStack.getItem().isEdible() && stack.getEnchantmentLevel(Senchantments.VORACIOUS_MAW.get()) > 0 && stack.getDamageValue() > 0){
+            stack.setDamageValue(getDamage(stack)-50);
+            itemStack.shrink(1);
+            player.playNotifySound(SoundEvents.GENERIC_EAT, SoundSource.AMBIENT, 1f, 1f);
+            return true;
+        }
         boolean shouldOverride = clickAction == ClickAction.SECONDARY
                 && itemStack.getItem() == Sitems.SYRINGE.get()
                 && getVariant(stack) != SporeToolsMutations.DEFAULT;

@@ -398,6 +398,20 @@ public class Sitems {
                     return Senchantments.CORROSIVE_POTENCY.get();
                 }
             });
+    public  static final RegistryObject<Item> SERRATED_REAGENT = ITEMS.register("serrated_reagent",
+            () -> new BiologicalReagent(BiologicalReagent.AcceptedTypes.ARMOR_TYPES){
+                @Override
+                public Enchantment getAppliedEnchantment() {
+                    return Senchantments.SERRATED_THORNS.get();
+                }
+            });
+    public  static final RegistryObject<Item> VORACIOUS_REAGENT = ITEMS.register("voracious_reagent",
+            () -> new BiologicalReagent(BiologicalReagent.AcceptedTypes.ALL_TYPES){
+                @Override
+                public Enchantment getAppliedEnchantment() {
+                    return Senchantments.VORACIOUS_MAW.get();
+                }
+            });
 
     public  static final RegistryObject<Item> INF_HELMET = ITEMS.register("inf_helmet",
             InfectedHelmet::new);

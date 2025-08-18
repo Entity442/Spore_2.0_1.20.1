@@ -27,6 +27,8 @@ public class Senchantments {
     public static final RegistryObject<Enchantment> CRYOGENIC_ASPECT = ENCHANTMENTS.register("cryogenic_aspect", CryogenicAspect::new);
     public static final RegistryObject<Enchantment> GASTRIC_SPEWAGE = ENCHANTMENTS.register("gastric_spewage", GastricSpewage::new);
     public static final RegistryObject<Enchantment> CORROSIVE_POTENCY = ENCHANTMENTS.register("corrosive_potency", CorrosivePotency::new);
+    public static final RegistryObject<Enchantment> SERRATED_THORNS = ENCHANTMENTS.register("serrated_thorns", CorrosiveThorns::new);
+    public static final RegistryObject<Enchantment> VORACIOUS_MAW = ENCHANTMENTS.register("voracious_maw", VoraciousMaw::new);
 
     public static final RegistryObject<Enchantment> UNWAVERING_NATURE = ENCHANTMENTS.register("unwavering_nature", UnwaveringNature::new);
     public static final RegistryObject<Enchantment> MUTAGENIC_REACTANT = ENCHANTMENTS.register("mutagenic_reactant", MutagenicReactant::new);

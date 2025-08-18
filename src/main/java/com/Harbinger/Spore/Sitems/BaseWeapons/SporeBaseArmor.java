@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Sitems.BaseWeapons;
 
+import com.Harbinger.Spore.Core.Senchantments;
 import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.google.common.collect.ImmutableMultimap;
@@ -10,6 +11,7 @@ import net.minecraft.Util;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
@@ -198,6 +200,12 @@ public abstract class SporeBaseArmor extends ArmorItem implements SporeArmorData
 
     @Override
     public boolean overrideOtherStackedOnMe(ItemStack stack, ItemStack itemStack, Slot slot, ClickAction clickAction, Player player, SlotAccess slotAccess) {
+        if (clickAction == ClickAction.SECONDARY && itemStack.getItem().isEdible() && stack.getEnchantmentLevel(Senchantments.VORACIOUS_MAW.get()) > 0 && stack.getDamageValue() > 0){
+            stack.setDamageValue(getDamage(stack)-50);
+            itemStack.shrink(1);
+            player.playNotifySound(SoundEvents.GENERIC_EAT, SoundSource.AMBIENT, 1f, 1f);
+            return true;
+        }
         boolean shouldOverride = clickAction == ClickAction.SECONDARY
                 && itemStack.getItem() == Sitems.SYRINGE.get()
                 && getVariant(stack) != SporeArmorMutations.DEFAULT;
