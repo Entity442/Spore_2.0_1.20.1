@@ -346,6 +346,8 @@ public class bansheeHowlerModel<T extends Howler> extends EntityModel<T> impleme
 		if (entity.isAggressive()){
 			this.RightArm.xRot = -89.5F;
 			this.LeftArm.xRot = RightArm.xRot;
+			this.RightArm.zRot = Mth.sin(ageInTicks/6)/7;
+			this.LeftArm.zRot = -this.RightArm.zRot;
 		}else if (!(limbSwingAmount > -0.05F && limbSwingAmount < 0.15F)){
 			this.RightArm.xRot = Mth.cos(limbSwing * 0.8F) * 0.4F * limbSwingAmount;
 			this.LeftArm.xRot = Mth.cos(limbSwing * 0.8F) * -0.4F * limbSwingAmount;
