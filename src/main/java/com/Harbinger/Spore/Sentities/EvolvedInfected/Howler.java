@@ -3,16 +3,27 @@ package com.Harbinger.Spore.Sentities.EvolvedInfected;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
+import com.Harbinger.Spore.Sentities.ArmorPersentageBypass;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.Carrier;
+import com.Harbinger.Spore.Sentities.VariantKeeper;
+import com.Harbinger.Spore.Sentities.Variants.HowlerVariants;
+import com.Harbinger.Spore.Sentities.Variants.SlasherVariants;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -28,13 +39,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
-public class Howler extends EvolvedInfected {
-    private boolean scream;
-
+public class Howler extends EvolvedInfected implements VariantKeeper, ArmorPersentageBypass {
+    private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(Spitter.class, EntityDataSerializers.INT);
     public Howler(EntityType<? extends Monster> type, Level level) {
         super(type, level);
     }
@@ -43,7 +55,13 @@ public class Howler extends EvolvedInfected {
     protected void addRegularGoals() {
         super.addRegularGoals();
         this.goalSelector.addGoal(2, new HowlerAttackGoal(this, 1.5));
-        this.goalSelector.addGoal(3, new CustomMeleeAttackGoal(this, 1.2, true));
+        this.goalSelector.addGoal(3,new BansheeMeleeGoal(this,this.random));
+        this.goalSelector.addGoal(3, new CustomMeleeAttackGoal(this, 1.2, true){
+            @Override
+            public boolean canUse() {
+                return super.canUse() && getVariant() == HowlerVariants.DEFAULT;
+            }
+        });
         this.goalSelector.addGoal(4, new RandomStrollGoal(this, 0.8));
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
     }
@@ -65,13 +83,40 @@ public class Howler extends EvolvedInfected {
     protected void playStepSound(BlockPos p_20135_, BlockState p_20136_) {
         this.playSound(getStepSound(), 0.15F, 1.0F);
     }
+    public HowlerVariants getVariant() {
+        return HowlerVariants.byId(this.getTypeVariant() & 255);
+    }
+
+    public int getTypeVariant() {
+        return this.entityData.get(DATA_ID_TYPE_VARIANT);
+    }
+    @Override
+    public void setVariant(int i) {
+        if (i > HowlerVariants.values().length || i < 0){
+            this.entityData.set(DATA_ID_TYPE_VARIANT, 0);
+        }else {
+            this.entityData.set(DATA_ID_TYPE_VARIANT, i);
+        }
+    }
 
     @Override
-    public void tick() {
-        if (isAlive() && scream) {
-            this.playSound(Ssounds.HOWLER_GROWL.get());
-            scream = false;
+    public int amountOfMutations() {
+        return HowlerVariants.values().length;
+    }
+
+    private void setVariant(HowlerVariants variant) {
+        this.entityData.set(DATA_ID_TYPE_VARIANT, variant.getId() & 255);
+    }
+
+    @Override
+    public String getMutation() {
+        if (getTypeVariant() != 0){
+            return this.getVariant().getName();
         }
+        return super.getMutation();
+    }
+    @Override
+    public void tick() {
         super.tick();
     }
 
@@ -80,6 +125,10 @@ public class Howler extends EvolvedInfected {
         return SConfig.DATAGEN.inf_howler_loot.get();
     }
 
+    @Override
+    public boolean isSprinting() {
+        return super.isSprinting() || getVariant() == HowlerVariants.BANSHEE && getTarget() != null;
+    }
     public void ScreamAOE(Entity origin) {
         AABB area = origin.getBoundingBox().inflate(12);
         List<Entity> targets = origin.level().getEntities(origin, area, EntitySelector.NO_CREATIVE_OR_SPECTATOR);
@@ -118,7 +167,7 @@ public class Howler extends EvolvedInfected {
             }
         }
 
-        this.scream = true;
+        this.playSound(Ssounds.HOWLER_GROWL.get());
     }
 
     public void SummonScream(LivingEntity caster) {
@@ -146,9 +195,24 @@ public class Howler extends EvolvedInfected {
                         null
                 );
                 level.addFreshEntity(summoned);
-                this.scream = true;
+                this.playSound(Ssounds.HOWLER_GROWL.get());
             }
         }
+    }
+    public void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(DATA_ID_TYPE_VARIANT, 0);
+    }
+
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putInt("Variant", this.getTypeVariant());
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        this.entityData.set(DATA_ID_TYPE_VARIANT, tag.getInt("Variant"));
     }
 
     public boolean checkForInfected(Entity origin) {
@@ -163,19 +227,24 @@ public class Howler extends EvolvedInfected {
         return false;
     }
 
+    @Override
+    public float amountOfDamage(float value) {
+        return getVariant () == HowlerVariants.BANSHEE ? (float) ((SConfig.SERVER.how_damage.get() * SConfig.SERVER.global_damage.get())/2f) : 0;
+    }
+
     private class HowlerAttackGoal extends Goal {
-        private final Mob mob;
+        private final Howler mob;
         private final double speed;
         private int screamTimer = 0;
 
-        private HowlerAttackGoal(Mob mob, double speedModifier) {
+        private HowlerAttackGoal(Howler mob, double speedModifier) {
             this.mob = mob;
             this.speed = speedModifier;
         }
 
         @Override
         public boolean canUse() {
-            return mob.getTarget() != null;
+            return mob.getTarget() != null && mob.getVariant() == HowlerVariants.DEFAULT;
         }
 
         @Override
@@ -203,5 +272,79 @@ public class Howler extends EvolvedInfected {
                 screamTimer = 120;
             }
         }
+    }
+
+    private static class BansheeMeleeGoal extends CustomMeleeAttackGoal{
+        private int timeBeforeBigScream;
+        private final RandomSource randomSource;
+        public BansheeMeleeGoal(PathfinderMob mob, RandomSource randomSource) {
+            super(mob, 2f, true);
+            this.randomSource = randomSource;
+        }
+
+        @Override
+        public void tick() {
+            super.tick();
+            if (timeBeforeBigScream < 200){
+                timeBeforeBigScream++;
+            }else {
+                callOrSummon();
+                timeBeforeBigScream = 0;
+                mob.playSound(Ssounds.HOWLER_GROWL.get());
+            }
+        }
+        public void callOrSummon(){
+            List<Infected> brothers = getBrothers();
+            if (brothers.isEmpty() || brothers.size() < 6){
+                Vec3 vec3 = Utilities.generatePositionAway(this.mob.position(), 16);
+                for (int i = 0;i<randomSource.nextInt(3,7);i++){
+                    summonAtDistance(vec3);
+                }
+            }else {
+                for (Infected infected : brothers){
+                    if (infected.isAlive() && infected.getTarget() == null){
+                        infected.setTarget(mob.getTarget());
+                    }
+                }
+            }
+        }
+        public void summonAtDistance(Vec3 vec3){
+            List<? extends String> summonPool = SConfig.SERVER.howler_summon.get();
+            String chosen = summonPool.get(randomSource.nextInt(summonPool.size()));
+            ResourceLocation entityId = new ResourceLocation(chosen);
+            EntityType<?> entityType = ForgeRegistries.ENTITY_TYPES.getValue(entityId);
+            if (entityType != null) {
+                Mob summoned = (Mob) entityType.create(mob.level());
+                if (summoned != null && mob.level() instanceof ServerLevelAccessor accessor) {
+                    summoned.teleportRelative(vec3.x, vec3.y, vec3.z);
+                    summoned.finalizeSpawn(
+                            accessor,
+                            accessor.getCurrentDifficultyAt(BlockPos.containing(mob.position())),
+                            MobSpawnType.NATURAL,
+                            null,
+                            null
+                    );
+                    summoned.setTarget(mob.getTarget());
+                    accessor.addFreshEntity(summoned);
+                }
+            }
+        }
+
+        public List<Infected> getBrothers(){
+          return mob.level().getEntitiesOfClass(Infected.class,mob.getBoundingBox().inflate(32,8,32));
+        }
+
+        @Override
+        public boolean canUse() {
+            return super.canUse() && mob instanceof Howler howler && howler.getVariant() == HowlerVariants.BANSHEE;
+        }
+    }
+
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_146746_, DifficultyInstance p_146747_,
+                                        MobSpawnType p_146748_, @Nullable SpawnGroupData p_146749_,
+                                        @Nullable CompoundTag p_146750_) {
+        setVariant(Math.random() < 0.2f ? HowlerVariants.BANSHEE : HowlerVariants.DEFAULT);
+        return super.finalizeSpawn(p_146746_, p_146747_, p_146748_, p_146749_, p_146750_);
     }
 }

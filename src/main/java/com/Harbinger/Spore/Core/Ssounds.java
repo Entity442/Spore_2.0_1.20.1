@@ -224,6 +224,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> HOHL_AMBIENT = soundRegistry("hohl_ambient");
 
+    public static final RegistryObject<SoundEvent> CALAMITY_DEATH = soundRegistry("calamity_death");
+
     private Ssounds() {
     }
 }

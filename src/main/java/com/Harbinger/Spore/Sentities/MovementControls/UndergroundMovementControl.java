@@ -41,7 +41,8 @@ public class UndergroundMovementControl extends CalamityMovementControl {
             vec3 = vec3.normalize();
             vec3 = vec3.multiply(1,isInWall(mob) ? 1 : 0,1);
             double speed = mob instanceof Hohlfresser hohlfresser && hohlfresser.isUnderground() ? 0.05D : 0.15D;
-            this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(vec3.scale(speed)));
+            double speedRep = mob.isInWater() ? speed * 0.5f : 1f;
+            this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(vec3.scale(speedRep)));
             float yaw = (float)(Mth.atan2(vec3.z, vec3.x) * (180F / Math.PI)) - 90.0F;
             mob.setYRot(yaw);
             mob.setYHeadRot(yaw);

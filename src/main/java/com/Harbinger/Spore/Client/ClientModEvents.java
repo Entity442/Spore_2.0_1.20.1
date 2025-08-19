@@ -166,7 +166,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(HohlfresserSeg2Model.LAYER_LOCATION, HohlfresserSeg2Model::createBodyLayer);
         event.registerLayerDefinition(HohlfresserSeg3Model.LAYER_LOCATION, HohlfresserSeg3Model::createBodyLayer);
         event.registerLayerDefinition(hohlfresserTailModel.LAYER_LOCATION, hohlfresserTailModel::createBodyLayer);
-
+        event.registerLayerDefinition(bansheeHowlerModel.LAYER_LOCATION, bansheeHowlerModel::createBodyLayer);
 
         event.registerLayerDefinition(BombFunnelModel.LAYER_LOCATION, BombFunnelModel::createBodyLayer);
         event.registerLayerDefinition(MushroomExplosionTop.LAYER_LOCATION, MushroomExplosionTop::createBodyLayer);

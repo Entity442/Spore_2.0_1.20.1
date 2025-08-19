@@ -29,6 +29,11 @@
     "spore:slash",
     "spore:slash2"
   ]
+},"calamity_death" :{
+  "subtitle": "sounds.spore.damage",
+  "sounds": [
+    "spore:calamity_death"
+  ]
 },
   "evolve_hurt" :{
     "subtitle": "sounds.spore.damage",
