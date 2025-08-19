@@ -157,6 +157,18 @@ public class Sitems {
     public  static final RegistryObject<Item> MEATY_ICECREAM = ITEMS.register("meaty_icecream",
             () -> new BaseItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(2F).effect(()-> new MobEffectInstance(Seffects.MYCELIUM.get(),200,0),0.4f)
                     .effect(()-> new MobEffectInstance(MobEffects.FIRE_RESISTANCE,400,0),1f).meat().build())));
+    public  static final RegistryObject<Item> AMALGAMATED_ROAST = ITEMS.register("amalgamated_roast",
+            () -> new BaseItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(16).saturationMod(8F).effect(()-> new MobEffectInstance(Seffects.MYCELIUM.get(),200,0),0.4f)
+                    .effect(()-> new MobEffectInstance(MobEffects.DAMAGE_BOOST,600,1),1f)
+                    .effect(()-> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE,600,0),1f).meat().build())));
+    public  static final RegistryObject<Item> ELDRITCH_SUSHI = ITEMS.register("eldritch_sushi",
+            () -> new BaseItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(20).saturationMod(6F).effect(()-> new MobEffectInstance(Seffects.MYCELIUM.get(),200,0),0.4f)
+                    .effect(()-> new MobEffectInstance(MobEffects.DOLPHINS_GRACE,1200,0),1f)
+                    .effect(()-> new MobEffectInstance(MobEffects.CONDUIT_POWER,1200,0),1f).meat().build())));
+    public  static final RegistryObject<Item> STUFFED_ABOMINATION = ITEMS.register("fleshy_ribs",
+            () -> new BaseItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(2F).effect(()-> new MobEffectInstance(Seffects.MYCELIUM.get(),200,0),0.4f)
+                    .effect(()-> new MobEffectInstance(MobEffects.MOVEMENT_SPEED,1000,1),1f)
+                    .effect(()-> new MobEffectInstance(MobEffects.SLOW_FALLING,1000,0),1f).meat().build())));
     public  static final RegistryObject<Item> FROZEN_DECAYED_BIOMASS = ITEMS.register("frozen_decayed_biomass",
             () -> new BaseItem(new Item.Properties()));
     public  static final RegistryObject<Item> DECAYED_TORSO = ITEMS.register("decayed_torso",

@@ -1053,7 +1053,7 @@ public class SConfig {
             builder.pop();
 
             builder.push("Plagued");
-            this.plagued_hp = builder.comment("Default 30").defineInRange("Sets Plagued Max health", 30, 1, Double.MAX_VALUE);
+            this.plagued_hp = builder.comment("Default 15").defineInRange("Sets Plagued Max health", 15, 1, Double.MAX_VALUE);
             this.plagued_damage = builder.comment("Default 5").defineInRange("Sets Plagued Damage", 5, 1, Double.MAX_VALUE);
             this.plagued_armor = builder.comment("Default 5").defineInRange("Sets Plagued Armor", 5, 0, Double.MAX_VALUE);
             builder.pop();
@@ -1159,7 +1159,7 @@ public class SConfig {
             builder.pop();
 
             builder.push("Leaper");
-            this.leap_hp = builder.comment("Default 55").defineInRange("Sets Leaper Max health", 55, 1, Double.MAX_VALUE);
+            this.leap_hp = builder.comment("Default 40").defineInRange("Sets Leaper Max health", 40, 1, Double.MAX_VALUE);
             this.leap_damage = builder.comment("Default 8").defineInRange("Sets Leaper Damage", 8, 1, Double.MAX_VALUE);
             this.leap_armor = builder.comment("Default 3").defineInRange("Sets Leaper Armor", 3, 1, Double.MAX_VALUE);
             builder.pop();
@@ -1171,7 +1171,7 @@ public class SConfig {
             builder.pop();
 
             builder.push("Volatile");
-            this.vola_hp = builder.comment("Default 60").defineInRange("Sets Volatile Max health", 60, 1, Double.MAX_VALUE);
+            this.vola_hp = builder.comment("Default 35").defineInRange("Sets Volatile Max health", 35, 1, Double.MAX_VALUE);
             this.vola_damage = builder.comment("Default 10").defineInRange("Sets Volatile Damage", 10, 1, Double.MAX_VALUE);
             this.vola_armor = builder.comment("Default 4").defineInRange("Sets Volatile Armor", 4, 1, Double.MAX_VALUE);
             this.vola_buffs = builder.defineList("Buffs the Volatile might get when hurt",
@@ -1605,7 +1605,7 @@ public class SConfig {
                     Lists.newArrayList("spore:mutated_fiber|80|3|12","spore:mutated_heart|25|1|1","minecraft:copper_ingot|15|1|1","spore:tumor|100|1|3") , o -> o instanceof String);
 
             this.nucke_loot = builder.defineList("Nuckelave",
-                    Lists.newArrayList("spore:mutated_fiber|80|3|12","spore:mutated_heart|25|1|1","spore:armor_fragment|80|3|8","spore:tumor|100|1|3") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mutated_fiber|80|3|12","spore:fang|50|1|2","spore:mutated_heart|25|1|1","spore:armor_fragment|80|3|8","spore:tumor|100|1|3") , o -> o instanceof String);
             this.inf_protector_loot = builder.defineList("Protector",
                     Lists.newArrayList("spore:mutated_fiber|80|3|12","spore:mutated_heart|25|1|1","spore:armor_fragment|80|3|8","spore:shield_fragment|100|1|4") , o -> o instanceof String);
 
@@ -1613,7 +1613,7 @@ public class SConfig {
             this.gastgaber_loot = builder.defineList("Gastgaber",
                     Lists.newArrayList("spore:mutated_fiber|80|5|12","spore:armor_fragment|80|2|6","spore:mutated_heart|10|1|3","spore:claw_fragment|80|6|9","spore:innards|50|1|2","spore:tumor|100|4|8","spore:tendons|60|3|7") , o -> o instanceof String);
             this.specter_loot = builder.defineList("Specter",
-                    Lists.newArrayList("spore:mutated_fiber|80|5|17","spore:armor_fragment|80|2|9","spore:mutated_heart|10|1|3","spore:claw_fragment|80|6|9","spore:innards|50|1|2","spore:tumor|100|4|8","spore:tendons|60|3|7") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mutated_fiber|80|5|17","spore:fang|50|1|2","spore:armor_fragment|80|2|9","spore:mutated_heart|10|1|3","spore:claw_fragment|80|6|9","spore:innards|50|1|2","spore:tumor|100|4|8","spore:tendons|60|3|7") , o -> o instanceof String);
             this.construct_loot = builder.defineList("Construct",
                     Lists.newArrayList("spore:mutated_fiber|80|5|17","spore:mutated_heart|10|1|3","spore:innards|50|1|2","spore:tumor|100|4|8","spore:tendons|60|3|7") , o -> o instanceof String);
             this.inebriater_loot = builder.defineList("Inebriater",
@@ -1629,7 +1629,7 @@ public class SConfig {
                     Lists.newArrayList("spore:mutated_fiber|100|33|75","spore:armor_fragment|100|15|38","spore:mutated_heart|70|3|7","spore:tumor|100|2|5","spore:cerebrum|70|2|7","spore:spine_fragment|56|4|9") , o -> o instanceof String);
 
             this.howit_loot = builder.defineList("Howitzer",
-                    Lists.newArrayList("spore:mutated_fiber|100|53|95","spore:armor_fragment|100|15|25","spore:mutated_heart|90|6|14","spore:tumor|100|6|15","spore:cerebrum|70|2|7","spore:spine_fragment|56|4|9","spore:innards|100|3|15") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mutated_fiber|100|53|95","spore:fang|50|1|2","spore:armor_fragment|100|15|25","spore:mutated_heart|90|6|14","spore:tumor|100|6|15","spore:cerebrum|70|2|7","spore:spine_fragment|56|4|9","spore:innards|100|3|15") , o -> o instanceof String);
 
             this.hohl_loot = builder.defineList("Hohlfresser",
                     Lists.newArrayList("spore:mutated_fiber|100|20|75","spore:armor_fragment|100|15|38","spore:mutated_heart|70|3|7","spore:tumor|100|6|23","spore:cerebrum|70|2|7","spore:spine_fragment|56|4|9") , o -> o instanceof String);
@@ -1678,7 +1678,7 @@ public class SConfig {
 
 
             this.wendigo_loot = builder.defineList("Wendigo",
-                    Lists.newArrayList("spore:mutated_fiber|70|5|9","spore:armor_fragment|80|7|12","spore:mutated_heart|50|1|1","spore:claw_fragment|80|5|15","spore:cerebrum|20|1|1","spore:spine_fragment|15|1|3","spore:altered_spleen|70|1|2") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mutated_fiber|70|5|9","spore:fang|50|1|3","spore:armor_fragment|80|7|12","spore:mutated_heart|50|1|1","spore:claw_fragment|80|5|15","spore:cerebrum|20|1|1","spore:spine_fragment|15|1|3","spore:altered_spleen|70|1|2") , o -> o instanceof String);
 
             this.hindicator_loot = builder.defineList("Axtwerfer",
                     Lists.newArrayList("spore:mutated_fiber|70|4|15","spore:armor_fragment|80|7|12","spore:mutated_heart|50|1|1","spore:claw_fragment|80|5|15","spore:cerebrum|20|1|1","spore:spine_fragment|15|1|3") , o -> o instanceof String);
@@ -1768,9 +1768,10 @@ public class SConfig {
             this.raid_level_3= builder.defineList("Raid level 3 spawns",
                     Lists.newArrayList("spore:griefer","spore:howler","spore:nuclea","spore:thorn","spore:busser", "spore:scavenger", "spore:bloater","spore:knight","spore:brute","spore:slasher","spore:volatile","spore:braiomil" , "spore:leaper", "spore:spitter","spore:jagd","spore:inf_pillager","spore:stalker","spore:inf_vindicator","spore:inf_evoker") , o -> o instanceof String);
             this.special= builder.defineList("Special Spawns",
-                    Lists.newArrayList("spore:brot","spore:inquisitor","spore:hevoker","spore:gastgaber","spore:hvendicator","spore:biobloob" ,"spore:wendigo","spore:ogre" , "spore:specter","spore:plagued","spore:lacerator","spore:inf_construct") , o -> o instanceof String);
+                    Lists.newArrayList("spore:brot","spore:saugling","spore:inquisitor","spore:hevoker","spore:gastgaber","spore:hvendicator","spore:biobloob" ,"spore:wendigo","spore:ogre" , "spore:specter","spore:plagued","spore:lacerator","spore:inf_construct") , o -> o instanceof String);
             this.drops= builder.defineList("Items that may drop at the end of the raid",
-                    Lists.newArrayList("spore:fleshy_bone","spore:hardened_bind","spore:fleshy_claw" ,"spore:living_core" , "spore:spine","spore:armor_plate","spore:plated_muscle","spore:altered_spleen","spore:corrosive_sack","spore:sickle_fragment","spore:vigil_eye","spore:symbiotic_reagent","spore:cryogenic_reagent","spore:gastric_reagent","spore:corrosive_reagent","spore:calcified_tumor","spore:frozen_tumor","spore:sicken_tumor","spore:bile_tumor") , o -> o instanceof String);
+                    Lists.newArrayList("spore:fleshy_bone","spore:hardened_bind","spore:fleshy_claw" ,"spore:living_core" , "spore:spine","spore:armor_plate","spore:plated_muscle","spore:altered_spleen","spore:corrosive_sack","spore:sickle_fragment","spore:vigil_eye","spore:symbiotic_reagent"
+                            ,"spore:cryogenic_reagent","spore:gastric_reagent","spore:corrosive_reagent","spore:serrated_reagent","spore:voracious_reagent","spore:calcified_tumor","spore:frozen_tumor","spore:sicken_tumor","spore:bile_tumor") , o -> o instanceof String);
             builder.pop();
         }
     }
