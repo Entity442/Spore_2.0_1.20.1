@@ -316,7 +316,7 @@ public class Howler extends EvolvedInfected implements VariantKeeper, ArmorPerse
             if (entityType != null) {
                 Mob summoned = (Mob) entityType.create(mob.level());
                 if (summoned != null && mob.level() instanceof ServerLevelAccessor accessor) {
-                    summoned.teleportRelative(vec3.x, vec3.y, vec3.z);
+                    summoned.teleportTo(vec3.x, mob.getY()+0.5, vec3.z);
                     summoned.finalizeSpawn(
                             accessor,
                             accessor.getCurrentDifficultyAt(BlockPos.containing(mob.position())),
