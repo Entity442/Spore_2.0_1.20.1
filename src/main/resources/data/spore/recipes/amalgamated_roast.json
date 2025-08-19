@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "spore:reforged_biomass_t"
+    },
+    {
+      "item": "spore:fungal_sauce"
+    },
+    {
+      "item": "minecraft:potato"
+    },
+    {
+      "item": "minecraft:carrot"
+    }
+  ],
+  "result": {
+    "item": "spore:amalgamated_roast"
+  }
+}
