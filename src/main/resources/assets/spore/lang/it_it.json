@@ -369,6 +369,9 @@
   "spore.entity.variant.war_torn" : "Mutazione Mutilata",
   "spore.entity.variant.overclocked" : "Mutazione Sovraccaricata",
   "spore.entity.variant.hazard" : "Mutazione Instabile",
+  "spore.entity.variant.troll" : "Mutazione Propagator",
+  "spore.entity.variant.smasher" : "Mutazione Smasher",
+  "spore.entity.variant.banshee" : "Mutazione Banshee",
 
   "spore.scanner.danger.calamity" : "Gerri Scotti",
   "spore.scanner.danger.hyper" : "Molto Alto",

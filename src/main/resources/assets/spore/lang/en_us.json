@@ -382,6 +382,7 @@
   "spore.entity.variant.hazard" : "Hazardous Mutation",
   "spore.entity.variant.troll" : "Propagator Mutation",
   "spore.entity.variant.smasher" : "Smasher Mutation",
+  "spore.entity.variant.banshee" : "Banshee Mutation",
   "spore.scanner.danger.calamity" : "RUN",
   "spore.scanner.danger.hyper" : "Very High",
   "spore.scanner.danger.evolved" : "Medium-High",

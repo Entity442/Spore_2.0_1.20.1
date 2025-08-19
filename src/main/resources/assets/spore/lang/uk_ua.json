@@ -370,7 +370,9 @@
   "spore.entity.variant.war_torn" : "Розірвана війною мутація",
   "spore.entity.variant.overclocked" : "Розігнана мутація",
   "spore.entity.variant.hazard" : "Небезпечна мутація",
-
+  "spore.entity.variant.troll" : "мутація Propagator",
+  "spore.entity.variant.smasher" : "мутація Smasher",
+  "spore.entity.variant.banshee" : "Мутація Banshee",
 
   "spore.scanner.danger.calamity" : "БІГАТИ",
   "spore.scanner.danger.hyper" : "Дуже висока",
