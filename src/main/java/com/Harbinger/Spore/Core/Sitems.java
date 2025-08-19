@@ -165,7 +165,7 @@ public class Sitems {
             () -> new BaseItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(20).saturationMod(6F).effect(()-> new MobEffectInstance(Seffects.MYCELIUM.get(),200,0),0.4f)
                     .effect(()-> new MobEffectInstance(MobEffects.DOLPHINS_GRACE,1200,0),1f)
                     .effect(()-> new MobEffectInstance(MobEffects.CONDUIT_POWER,1200,0),1f).meat().build())));
-    public  static final RegistryObject<Item> STUFFED_ABOMINATION = ITEMS.register("fleshy_ribs",
+    public  static final RegistryObject<Item> STUFFED_ABOMINATION = ITEMS.register("stuffed_abomination",
             () -> new BaseItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(2F).effect(()-> new MobEffectInstance(Seffects.MYCELIUM.get(),200,0),0.4f)
                     .effect(()-> new MobEffectInstance(MobEffects.MOVEMENT_SPEED,1000,1),1f)
                     .effect(()-> new MobEffectInstance(MobEffects.SLOW_FALLING,1000,0),1f).meat().build())));
