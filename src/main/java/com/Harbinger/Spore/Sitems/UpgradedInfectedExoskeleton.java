@@ -204,6 +204,7 @@ public class UpgradedInfectedExoskeleton extends SporeBaseArmor implements Custo
                 builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(uuid, "Armor knockback resistance", (this.knockback + modifyKnockbackResistance(stack,knockback)) * 0.1f, AttributeModifier.Operation.ADDITION));
             }
             builder.put(ForgeMod.SWIM_SPEED.get(), new AttributeModifier(uuid, "Armor Speed modifier", this.getVariant(stack) == SporeArmorMutations.DROWNED ? 0.75 : 0.5, AttributeModifier.Operation.ADDITION));
+            builder.put(ForgeMod.STEP_HEIGHT_ADDITION.get(), new AttributeModifier(uuid, "Armor Step modifier", 1, AttributeModifier.Operation.ADDITION));
             if (this.getVariant(stack) == SporeArmorMutations.REINFORCED || this.getVariant(stack) == SporeArmorMutations.SKELETAL){
                 builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid, "Armor Speed modifier", this.getVariant(stack) == SporeArmorMutations.REINFORCED ? -0.01 : 0.01, AttributeModifier.Operation.ADDITION));
             }
