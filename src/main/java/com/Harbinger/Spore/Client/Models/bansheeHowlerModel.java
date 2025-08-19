@@ -356,7 +356,7 @@ public class bansheeHowlerModel<T extends Howler> extends EntityModel<T> impleme
 			this.RightArm.xRot = Mth.sin(ageInTicks/8)/10;
 			this.LeftArm.xRot = -Mth.sin(ageInTicks/8)/10;
 		}
-		this.LeftLeg.xRot = Mth.cos(limbSwing ) * limbSwingAmount;
+		this.LeftLeg.xRot = Mth.cos(limbSwing * 0.5f) * limbSwingAmount;
 		this.RightLeg.xRot = -LeftLeg.xRot;
 		this.leftForLeg.xRot = LeftLeg.xRot < 0 ? -LeftLeg.xRot : 0;
 		this.rightForLeg.xRot = RightLeg.xRot < 0 ? -RightLeg.xRot : 0;

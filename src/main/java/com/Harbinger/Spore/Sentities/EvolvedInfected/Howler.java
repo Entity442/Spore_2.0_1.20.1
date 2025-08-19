@@ -297,7 +297,7 @@ public class Howler extends EvolvedInfected implements VariantKeeper, ArmorPerse
             List<Infected> brothers = getBrothers();
             if (brothers.isEmpty() || brothers.size() < 6){
                 Vec3 vec3 = Utilities.generatePositionAway(this.mob.position(), 16);
-                for (int i = 0;i<randomSource.nextInt(3,7);i++){
+                for (int i = 0;i<randomSource.nextInt(3,10);i++){
                     summonAtDistance(vec3);
                 }
             }else {
