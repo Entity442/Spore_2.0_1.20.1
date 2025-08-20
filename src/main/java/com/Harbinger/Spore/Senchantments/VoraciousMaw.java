@@ -23,7 +23,7 @@ public class VoraciousMaw extends BaseSporeEnchantment {
         if (livingEntity.getItemBySlot(EquipmentSlot.HEAD).getEnchantmentLevel(this) > 0 && entity instanceof Mob){
             if (Math.random() < 0.1f && livingEntity instanceof Player player){
                 player.playNotifySound(SoundEvents.GENERIC_EAT, SoundSource.AMBIENT,1,1);
-                player.addEffect(new MobEffectInstance(MobEffects.SATURATION,40,0));
+                player.getFoodData().eat(6,4);
             }
         }
     }
