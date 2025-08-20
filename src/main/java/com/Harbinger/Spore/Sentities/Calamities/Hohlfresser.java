@@ -425,7 +425,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
                             s.canBeReplaced() ||
                             s.is(BlockTags.MINEABLE_WITH_SHOVEL) ||
                             s.is(BlockTags.MINEABLE_WITH_PICKAXE) ||
-                            s.liquid() ||
+                            !s.isSolidRender(level(),pos) ||
                             hardness == 0
             );
 
@@ -563,6 +563,9 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
     @Override
     public boolean hasLineOfSight(Entity entity) {
         if (this.getSearchArea() == BlockPos.ZERO){
+            if (isInWater()){
+                return true;
+            }
             return checkVectorForSeeing(entity) || super.hasLineOfSight(entity);
         }else {
             return super.hasLineOfSight(entity);
