@@ -175,8 +175,6 @@ public class Sitems {
             () -> new BaseItem(new Item.Properties()));
     public  static final RegistryObject<Item> STUFFED_TORSO = ITEMS.register("stuffed_torso",
             () -> new BaseItem(new Item.Properties()));
-    public static final RegistryObject<Item> COOKED_TORSO = block(Sblocks.COOKED_TORSO);
-    public static final RegistryObject<Item> SKULL_SOUP = soup(Sblocks.SKULL_SOUP);
     public  static final RegistryObject<Item> DECAYED_LIMBS = ITEMS.register("decayed_limbs",
             () -> new DecayedLimbs(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(1F).effect(()-> new MobEffectInstance(Seffects.MYCELIUM.get(),200,0),0.4f)
                     .effect(()-> new MobEffectInstance(MobEffects.ABSORPTION,300,1),1f).meat().build())));
@@ -541,7 +539,8 @@ public class Sitems {
     private static RegistryObject<Item> Exceptions(RegistryObject<Block> block) {
         return ITEMS.register(block.getId().getPath(), () -> new BlockItemCBU(block.get()));
     }
-
+    public static final RegistryObject<Item> COOKED_TORSO = block(Sblocks.COOKED_TORSO);
+    public static final RegistryObject<Item> SKULL_SOUP = soup(Sblocks.SKULL_SOUP);
     public static final RegistryObject<Item> CONTAINER = Techblock(Sblocks.CONTAINER);
     public static final RegistryObject<Item> CDU = Exceptions(Sblocks.CDU);
     public static final RegistryObject<Item> ZOAHOLIC = Exceptions(Sblocks.ZOAHOLIC);
