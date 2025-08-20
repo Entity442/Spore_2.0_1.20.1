@@ -125,10 +125,6 @@ public class Howler extends EvolvedInfected implements VariantKeeper, ArmorPerse
         return SConfig.DATAGEN.inf_howler_loot.get();
     }
 
-    @Override
-    public boolean isSprinting() {
-        return super.isSprinting() || getVariant() == HowlerVariants.BANSHEE && getTarget() != null;
-    }
     public void ScreamAOE(Entity origin) {
         AABB area = origin.getBoundingBox().inflate(12);
         List<Entity> targets = origin.level().getEntities(origin, area, EntitySelector.NO_CREATIVE_OR_SPECTATOR);
