@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "spore:reforged_biomass_t",
+    "spore:reforged_biomass_w",
+    "spore:reforged_biomass_a"
+  ]
+}

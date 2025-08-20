@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "spore:amalgamated_biomass"
+    }
+  ],
+  "result": {
+    "item": "spore:plated_muscle",
+    "count": 2
+  }
+}
