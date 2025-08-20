@@ -87,6 +87,7 @@
   "block.spore.heart_pie": "Пиріг із Серцем",
   "block.spore.cooked_torso": "Приготований Торс",
   "block.spore.skull_soup": "Суп з Черепів",
+  "item.spore.respirator": "Респіратор",
   "item.spore.fang": "Ікло",
   "item.spore.reforged_biomass_t": "Наземна перероблена біомаса",
   "item.spore.reforged_biomass_w": "Водна перероблена біомаса",
@@ -370,9 +371,7 @@
   "spore.entity.variant.war_torn" : "Розірвана війною мутація",
   "spore.entity.variant.overclocked" : "Розігнана мутація",
   "spore.entity.variant.hazard" : "Небезпечна мутація",
-  "spore.entity.variant.troll" : "мутація Propagator",
-  "spore.entity.variant.smasher" : "мутація Smasher",
-  "spore.entity.variant.banshee" : "Мутація Banshee",
+
 
   "spore.scanner.danger.calamity" : "БІГАТИ",
   "spore.scanner.danger.hyper" : "Дуже висока",

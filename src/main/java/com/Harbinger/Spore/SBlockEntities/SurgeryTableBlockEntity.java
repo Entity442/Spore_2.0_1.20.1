@@ -104,13 +104,7 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
             inventory.setItem(i, this.itemHandler.getStackInSlot(i));
         }
 
-        Optional<SurgeryRecipe> recipe = this.level != null ? this.level.getRecipeManager().getRecipeFor(SurgeryRecipe.SurgeryRecipeType.INSTANCE, inventory, level) : null;
-        if (recipe.isPresent()) {
-            System.out.println("Found matching recipe: " + recipe.get().getId());
-        } else {
-            System.out.println("No matching recipe found.");
-        }
-        return recipe;
+        return this.level != null ? this.level.getRecipeManager().getRecipeFor(SurgeryRecipe.SurgeryRecipeType.INSTANCE, inventory, level) : null;
     }
 
     public void consumeItems() {
@@ -134,13 +128,7 @@ public class SurgeryTableBlockEntity extends BlockEntity implements MenuProvider
             inventory.setItem(i, this.itemHandler.getStackInSlot(i));
         }
 
-        Optional<GraftingRecipe> recipe = this.level != null ? this.level.getRecipeManager().getRecipeFor(GraftingRecipe.GraftingRecipeType.INSTANCE, inventory, level) : null;
-        if (recipe.isPresent()) {
-            System.out.println("Found matching recipe: " + recipe.get().getId());
-        } else {
-            System.out.println("No matching recipe found.");
-        }
-        return recipe;
+        return this.level != null ? this.level.getRecipeManager().getRecipeFor(GraftingRecipe.GraftingRecipeType.INSTANCE, inventory, level) : null;
     }
     public void consumeItemsGrafting() {
         Optional<GraftingRecipe> match = this.getCurrentGraftingRecipe();

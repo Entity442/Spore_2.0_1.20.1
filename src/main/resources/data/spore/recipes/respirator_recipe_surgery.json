@@ -1,0 +1,20 @@
+{
+  "type": "spore:surgery",
+  "ingredients": [
+    {"slot": 1,
+      "item": "spore:tendons" },
+    {"slot": 2,
+      "item": "spore:alveolic_sack" },
+    {"slot": 5,
+      "item": "spore:nerves" },
+    {"slot": 6,
+      "item": "spore:nerves" },
+    {"slot": 7,
+      "item": "spore:vigil_eye" },
+    {"slot": 9,
+      "item": "spore:tendons" },
+    {"slot": 10,
+      "item": "spore:alveolic_sack" }
+  ],
+  "output": { "item": "spore:respirator" }
+}

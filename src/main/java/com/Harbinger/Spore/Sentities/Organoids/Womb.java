@@ -173,13 +173,7 @@ public class Womb extends Organoid implements MenuProvider {
     }
     public Optional<WombRecipe> getCurrentRecipe(Entity entity) {
         EntityContainer container = new EntityContainer(entity);
-        Optional<WombRecipe> recipe = this.level().getRecipeManager().getRecipeFor(WombRecipe.WombRecipeType.INSTANCE, container, level());
-        if (recipe.isPresent()) {
-            System.out.println("Found matching recipe: " + recipe.get().getId());
-        } else {
-            System.out.println("No matching recipe found.");
-        }
-        return recipe;
+        return this.level().getRecipeManager().getRecipeFor(WombRecipe.WombRecipeType.INSTANCE, container, level());
     }
 
     public void addMutation(WombRecipe recipe){

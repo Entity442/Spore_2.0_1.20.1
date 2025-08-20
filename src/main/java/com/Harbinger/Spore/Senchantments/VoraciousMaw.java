@@ -8,6 +8,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 
 public class VoraciousMaw extends BaseSporeEnchantment {
     public VoraciousMaw(EquipmentSlot... slots) {
@@ -17,7 +18,7 @@ public class VoraciousMaw extends BaseSporeEnchantment {
     @Override
     public void doPostAttack(LivingEntity livingEntity, Entity entity, int value) {
         super.doPostAttack(livingEntity, entity, value);
-        if (livingEntity.getItemBySlot(EquipmentSlot.HEAD).getEnchantmentLevel(this) > 0){
+        if (livingEntity.getItemBySlot(EquipmentSlot.HEAD).getEnchantmentLevel(this) > 0 && entity instanceof Mob){
             if (Math.random() < 0.3f){
                 livingEntity.playSound(SoundEvents.GENERIC_EAT);
                 livingEntity.addEffect(new MobEffectInstance(MobEffects.SATURATION,40,0));

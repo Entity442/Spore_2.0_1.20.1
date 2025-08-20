@@ -102,6 +102,8 @@ public class Sitems {
             () -> new BaseItem(new Item.Properties()));
     public  static final RegistryObject<Item> REFORGED_BIOMASS_A = ITEMS.register("reforged_biomass_a",
             () -> new BaseItem(new Item.Properties()));
+    public  static final RegistryObject<Item> RESPIRATOR = ITEMS.register("respirator",
+            () -> new BaseItem(new Item.Properties()));
     public  static final RegistryObject<Item> SAUSAGE = ITEMS.register("sausage",
             () -> new BaseItem(new Item.Properties().stacksTo(16).food(new FoodProperties.Builder().nutrition(8).saturationMod(0.8F).effect(()-> new MobEffectInstance(Seffects.MYCELIUM.get(),200,0),0.4f)
                     .effect(()-> new MobEffectInstance(MobEffects.ABSORPTION,300,1),1f).meat().build())));
@@ -121,7 +123,7 @@ public class Sitems {
             () -> new BowlItem(new Item.Properties().stacksTo(16).food(new FoodProperties.Builder().nutrition(12).saturationMod(1.2F).effect(()-> new MobEffectInstance(Seffects.MYCELIUM.get(),200,0),0.4f)
                     .effect(()-> new MobEffectInstance(MobEffects.NIGHT_VISION,1200,0),1f).meat().build())));
     public  static final RegistryObject<Item> MILKY_SACK = ITEMS.register("milky_sack",
-            () -> new BaseItem(new Item.Properties().stacksTo(8).food(new FoodProperties.Builder().nutrition(4).saturationMod(1.2F).meat().build())));
+            () -> new BaseItem(new Item.Properties().stacksTo(8).food(new FoodProperties.Builder().nutrition(4).saturationMod(1.2F).meat().alwaysEat().build())));
     public  static final RegistryObject<Item> BRAIN_NOODLES = ITEMS.register("brain_noodles",
             () -> new BowlItem(new Item.Properties().stacksTo(16).food(new FoodProperties.Builder().nutrition(10).saturationMod(2F).effect(()-> new MobEffectInstance(Seffects.MYCELIUM.get(),200,0),0.4f)
                     .effect(()-> new MobEffectInstance(MobEffects.DIG_SPEED,300,1),1f).meat().build())));
