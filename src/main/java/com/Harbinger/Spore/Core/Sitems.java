@@ -145,12 +145,12 @@ public class Sitems {
                     .effect(()-> new MobEffectInstance(MobEffects.HEALTH_BOOST,100,1),1f)
                     .effect(()-> new MobEffectInstance(MobEffects.REGENERATION,200,1),1f).meat().build())));
     public  static final RegistryObject<Item> FUNGAL_BURGER = ITEMS.register("fungal_burger",
-            () -> new BaseItem(new Item.Properties().stacksTo(8).food(new FoodProperties.Builder().nutrition(30).saturationMod(12F).alwaysEat().effect(()-> new MobEffectInstance(Seffects.MYCELIUM.get(),200,0),0.4f)
+            () -> new BaseItem(new Item.Properties().stacksTo(8).food(new FoodProperties.Builder().nutrition(30).saturationMod(12F).effect(()-> new MobEffectInstance(Seffects.MYCELIUM.get(),200,0),0.4f)
                     .effect(()-> new MobEffectInstance(MobEffects.SLOW_FALLING,300,1),1f)
                     .effect(()-> new MobEffectInstance(MobEffects.HEALTH_BOOST,600,1),1f)
                     .effect(()-> new MobEffectInstance(MobEffects.REGENERATION,600,0),1f)
                     .effect(()-> new MobEffectInstance(MobEffects.ABSORPTION,600,1),1f)
-                    .effect(()-> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE,500,1),1f).meat().build())));
+                    .effect(()-> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE,500,1),1f).meat().alwaysEat().build())));
     public  static final RegistryObject<Item> FLESHY_RIBS = ITEMS.register("fleshy_ribs",
             () -> new BaseItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(2F).effect(()-> new MobEffectInstance(Seffects.MYCELIUM.get(),200,0),0.4f)
                     .effect(()-> new MobEffectInstance(MobEffects.DAMAGE_BOOST,400,1),1f).meat().build())));
@@ -158,15 +158,15 @@ public class Sitems {
             () -> new BaseItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(2F).effect(()-> new MobEffectInstance(Seffects.MYCELIUM.get(),200,0),0.4f)
                     .effect(()-> new MobEffectInstance(MobEffects.FIRE_RESISTANCE,400,0),1f).meat().build())));
     public  static final RegistryObject<Item> AMALGAMATED_ROAST = ITEMS.register("amalgamated_roast",
-            () -> new BaseItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(16).saturationMod(8F).effect(()-> new MobEffectInstance(Seffects.MYCELIUM.get(),200,0),0.4f)
+            () -> new BaseItem(new Item.Properties().stacksTo(16).food(new FoodProperties.Builder().nutrition(16).saturationMod(8F).effect(()-> new MobEffectInstance(Seffects.MYCELIUM.get(),200,0),0.4f)
                     .effect(()-> new MobEffectInstance(MobEffects.DAMAGE_BOOST,600,1),1f)
-                    .effect(()-> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE,600,0),1f).meat().build())));
+                    .effect(()-> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE,600,0),1f).meat().alwaysEat().build())));
     public  static final RegistryObject<Item> ELDRITCH_SUSHI = ITEMS.register("eldritch_sushi",
-            () -> new BaseItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(20).saturationMod(6F).alwaysEat().effect(()-> new MobEffectInstance(Seffects.MYCELIUM.get(),200,0),0.4f)
+            () -> new BaseItem(new Item.Properties().stacksTo(16).food(new FoodProperties.Builder().nutrition(20).saturationMod(6F).alwaysEat().effect(()-> new MobEffectInstance(Seffects.MYCELIUM.get(),200,0),0.4f)
                     .effect(()-> new MobEffectInstance(MobEffects.DOLPHINS_GRACE,1200,0),1f)
                     .effect(()-> new MobEffectInstance(MobEffects.CONDUIT_POWER,1200,0),1f).meat().build())));
     public  static final RegistryObject<Item> STUFFED_ABOMINATION = ITEMS.register("stuffed_abomination",
-            () -> new BaseItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(18).saturationMod(7F).alwaysEat().effect(()-> new MobEffectInstance(Seffects.MYCELIUM.get(),200,0),0.4f)
+            () -> new BaseItem(new Item.Properties().stacksTo(16).food(new FoodProperties.Builder().nutrition(18).saturationMod(7F).alwaysEat().effect(()-> new MobEffectInstance(Seffects.MYCELIUM.get(),200,0),0.4f)
                     .effect(()-> new MobEffectInstance(MobEffects.MOVEMENT_SPEED,1000,1),1f)
                     .effect(()-> new MobEffectInstance(MobEffects.SLOW_FALLING,1000,0),1f).meat().alwaysEat().build())));
     public  static final RegistryObject<Item> FROZEN_DECAYED_BIOMASS = ITEMS.register("frozen_decayed_biomass",
