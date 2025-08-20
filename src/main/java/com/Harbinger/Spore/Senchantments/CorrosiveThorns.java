@@ -31,7 +31,7 @@ public class CorrosiveThorns extends BaseSporeEnchantment {
             }
             int duration = 40 + totalLevel * 40;
             if (totalLevel > 0) {
-                attacker.hurt(livingEntity.damageSources().thorns(livingEntity),5 * totalLevel);
+                attacker.hurt(livingEntity.damageSources().thorns(livingEntity),3.5f * totalLevel);
                 if (Math.random() < 0.5f){
                     attacker.addEffect(new MobEffectInstance(
                             MobEffects.POISON,

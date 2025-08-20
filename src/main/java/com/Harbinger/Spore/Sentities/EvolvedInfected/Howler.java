@@ -278,7 +278,7 @@ public class Howler extends EvolvedInfected implements VariantKeeper, ArmorPerse
         private int timeBeforeBigScream;
         private final RandomSource randomSource;
         public BansheeMeleeGoal(PathfinderMob mob, RandomSource randomSource) {
-            super(mob, 2f, true);
+            super(mob, 1.75f, true);
             this.randomSource = randomSource;
         }
 
