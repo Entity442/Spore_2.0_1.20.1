@@ -331,6 +331,7 @@ public class SConfig {
 
         public final ForgeConfigSpec.ConfigValue<Double> delusioner_hp;
         public final ForgeConfigSpec.ConfigValue<Double> delusioner_armor;
+        public final ForgeConfigSpec.ConfigValue<Boolean> calamity_chunk;
 
         public final ForgeConfigSpec.ConfigValue<Double> proto_hp;
         public final ForgeConfigSpec.ConfigValue<Double> proto_armor;
@@ -582,6 +583,7 @@ public class SConfig {
             this.global_damage = builder.define("Global Damage Modifier",1.0);
             this.global_health = builder.define("Global Health Modifier",1.0);
             this.global_armor = builder.define("Global Armor Modifier",1.0);
+            this.calamity_chunk = builder.comment("Default true").define("Should a calamity load chunks while going to a signal?",true);
             this.weaktocold = builder.comment("Default true").define("Should the infected be weak to cold?",true);
             this.should_starve = builder.comment("Default true").define("Should the infected starve overtime?",true);
             this.costumes = builder.comment("Default true").define("Should certain mobs wear costumes on occasions?",true);

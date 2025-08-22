@@ -625,7 +625,7 @@ public class HandlerEvents {
         if (event.getEntity() instanceof Calamity calamity && calamity.level() instanceof ServerLevel level && calamity.getSearchArea() != BlockPos.ZERO){
             SectionPos OldChunk = event.getOldPos();
             SectionPos NewChunk = event.getNewPos();
-            if (event.didChunkChange() && OldChunk != NewChunk){
+            if (SConfig.SERVER.calamity_chunk.get() && event.didChunkChange() && OldChunk != NewChunk){
                 BlockPos position = new BlockPos((int)calamity.getX(),(int)calamity.getY(),(int)calamity.getZ());
                 if (NewChunk != null){
                     ChunkLoaderHelper.forceLoadChunk(level,position, NewChunk.x(), NewChunk.z(), true);
@@ -651,7 +651,7 @@ public class HandlerEvents {
     }
     @SubscribeEvent
     public static void UnloadAround(EntityLeaveLevelEvent event){
-        if (event.getEntity() instanceof Calamity calamity && calamity.level() instanceof ServerLevel level){
+        if (SConfig.SERVER.calamity_chunk.get() && event.getEntity() instanceof Calamity calamity && calamity.level() instanceof ServerLevel level){
             BlockPos position = new BlockPos((int)calamity.getX(),(int)calamity.getY(),(int)calamity.getZ());
             SectionPos chunk = SectionPos.of(position);
             ChunkLoaderHelper.unloadChunk(level,position, chunk.x(), chunk.z(), true);
