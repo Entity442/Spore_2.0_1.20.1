@@ -212,7 +212,7 @@ public class InfestedConstruct extends UtilityEntity implements RangedAttackMob,
             if (getMachineHealth() > 0f){
                 float damage = getDamageAfterArmorAbsorb(source,value);
                 setMachineHealth(damage > getMachineHealth() ? 0 : getMachineHealth()-damage);
-                this.invulnerableTime = 20;
+                this.invulnerableTime = 10;
                 hurtTime = 10;
                 playHurtSound(source);
             }else{

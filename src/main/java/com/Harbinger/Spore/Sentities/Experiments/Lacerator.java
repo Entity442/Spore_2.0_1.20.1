@@ -34,7 +34,8 @@ public class Lacerator extends Experiment {
                 .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.lacerator_damage.get() * SConfig.SERVER.global_damage.get())
                 .add(Attributes.ARMOR, SConfig.SERVER.lacerator_armor.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.FOLLOW_RANGE, 30)
-                .add(Attributes.ATTACK_KNOCKBACK, 1);
+                .add(Attributes.ATTACK_KNOCKBACK, 1)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 1);
     }
 
     @Override
