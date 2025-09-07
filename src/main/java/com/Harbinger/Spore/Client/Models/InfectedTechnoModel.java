@@ -13,12 +13,14 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
-public class InfectedPlayerModel<T extends InfectedPlayer> extends HumanoidModel<T> {
+public class InfectedTechnoModel<T extends InfectedPlayer> extends HumanoidModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "infectedplayermodel"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "infectedtechnomodel"), "main");
 	private final ModelPart head;
 	private final ModelPart jaw;
+	private final ModelPart halo;
 	private final ModelPart body;
 	private final ModelPart left_arm;
 	private final ModelPart right_arm;
@@ -26,10 +28,11 @@ public class InfectedPlayerModel<T extends InfectedPlayer> extends HumanoidModel
 	private final ModelPart right_leg;
 	private final ModelPart hat;
 
-	public InfectedPlayerModel(ModelPart root) {
+	public InfectedTechnoModel(ModelPart root) {
 		super(root);
 		this.head = root.getChild("head");
 		this.jaw = this.head.getChild("jaw");
+		this.halo = this.head.getChild("halo");
 		this.body = root.getChild("body");
 		this.left_arm = root.getChild("left_arm");
 		this.right_arm = root.getChild("right_arm");
@@ -45,9 +48,12 @@ public class InfectedPlayerModel<T extends InfectedPlayer> extends HumanoidModel
 		PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.0F, -5.0F, 8.0F, 6.0F, 8.0F, new CubeDeformation(0.0F))
 		.texOffs(19, 19).addBox(-4.0F, -2.0F, -2.0F, 8.0F, 2.0F, 5.0F, new CubeDeformation(0.0F))
 		.texOffs(0, 34).addBox(-4.0F, -2.0F, -5.0F, 8.0F, 1.0F, 3.0F, new CubeDeformation(0.0F))
-		.texOffs(64, 1).addBox(-4.0F, -8.0F, -5.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.2F)), PartPose.offset(0.0F, 0.0F, 1.25F));
+		.texOffs(64, 1).addBox(-4.0F, -8.0F, -5.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.2F))
+		.texOffs(58, 26).addBox(-2.0F, -4.0F, -6.0F, 4.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 1.25F));
 
 		PartDefinition jaw = head.addOrReplaceChild("jaw", CubeListBuilder.create().texOffs(24, 0).addBox(-4.0F, -0.25F, -2.75F, 8.0F, 2.0F, 3.0F, new CubeDeformation(-0.1F)), PartPose.offset(0.0F, -1.75F, -2.0F));
+
+		PartDefinition halo = head.addOrReplaceChild("halo", CubeListBuilder.create().texOffs(59, 15).addBox(-3.0F, -1.0F, -3.0F, 6.0F, 1.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -9.0F, -1.0F));
 
 		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 14).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 6.0F, 4.0F, new CubeDeformation(0.0F))
 		.texOffs(0, 48).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 6.0F, 4.0F, new CubeDeformation(0.1F))
@@ -71,6 +77,13 @@ public class InfectedPlayerModel<T extends InfectedPlayer> extends HumanoidModel
 		PartDefinition hat = partdefinition.addOrReplaceChild("hat", CubeListBuilder.create().texOffs(64, 1).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.3F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		return LayerDefinition.create(meshdefinition, 128, 64);
+	}
+
+	@Override
+	public void setupAnim(T p_102866_, float p_102867_, float p_102868_, float ageInTicks, float p_102870_, float p_102871_) {
+		super.setupAnim(p_102866_, p_102867_, p_102868_, ageInTicks, p_102870_, p_102871_);
+		this.jaw.xRot = Mth.sin(ageInTicks/8)/10;
+		this.halo.y = this.halo.getInitialPose().y + Mth.sin(ageInTicks/6)/6;
 	}
 
 	@Override

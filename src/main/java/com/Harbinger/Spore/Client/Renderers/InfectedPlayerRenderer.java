@@ -2,11 +2,16 @@ package com.Harbinger.Spore.Client.Renderers;
 
 import com.Harbinger.Spore.Client.Layers.CustomArmorLayer;
 import com.Harbinger.Spore.Client.Models.InfectedPlayerModel;
+import com.Harbinger.Spore.Client.Models.InfectedTechnoModel;
 import com.Harbinger.Spore.Client.Special.BaseInfectedRenderer;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Sentities.BasicInfected.InfectedPlayer;
+import com.Harbinger.Spore.Sentities.Variants.BraureiVariants;
+import com.Harbinger.Spore.Sentities.Variants.InfPlayerSkins;
 import com.Harbinger.Spore.Spore;
+import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.HumanoidModel;
@@ -22,24 +27,57 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @OnlyIn(Dist.CLIENT)
 public class InfectedPlayerRenderer extends BaseInfectedRenderer<InfectedPlayer , HumanoidModel<InfectedPlayer>> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
-            "textures/entity/inf_player.png");
-    private static final ResourceLocation TECHNO = new ResourceLocation(Spore.MODID,
-            "textures/entity/techno_skin.png");
     private static final ResourceLocation EYES_TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/eyes/inf_player.png");
-    private static final ResourceLocation DEFAULT_SKIN = new ResourceLocation("minecraft:textures/entity/player/wide/steve.png");
     private final HumanoidModel<InfectedPlayer> mainModel = this.getModel();
+    private final HumanoidModel<InfectedPlayer> technoSkin;
     private final HumanoidModel<InfectedPlayer> madnessModel;
+    public static final Map<InfPlayerSkins, ResourceLocation> MAIN_TEXTURES =
+            Util.make(Maps.newEnumMap(InfPlayerSkins.class), (p_114874_) -> {
+                p_114874_.put(InfPlayerSkins.STEVE,
+                        new ResourceLocation(Spore.MODID, "textures/entity/player/inf_player_steve.png"));
+                p_114874_.put(InfPlayerSkins.ALEX,
+                        new ResourceLocation(Spore.MODID, "textures/entity/player/inf_player_alex.png"));
+                p_114874_.put(InfPlayerSkins.EFE,
+                        new ResourceLocation(Spore.MODID, "textures/entity/player/inf_player_efe.png"));
+                p_114874_.put(InfPlayerSkins.MAKENA,
+                        new ResourceLocation(Spore.MODID, "textures/entity/player/inf_player_makena.png"));
+                p_114874_.put(InfPlayerSkins.SUNNY,
+                        new ResourceLocation(Spore.MODID, "textures/entity/player/inf_player_sunny.png"));
+                p_114874_.put(InfPlayerSkins.ZURI,
+                        new ResourceLocation(Spore.MODID, "textures/entity/player/inf_player_zuri.png"));
+            });
+    public static final Map<InfPlayerSkins, ResourceLocation> MADNESS_TEXTURES =
+            Util.make(Maps.newEnumMap(InfPlayerSkins.class), (p_114874_) -> {
+                p_114874_.put(InfPlayerSkins.STEVE,
+                        new ResourceLocation("minecraft:textures/entity/player/wide/steve.png"));
+                p_114874_.put(InfPlayerSkins.ALEX,
+                        new ResourceLocation("minecraft:textures/entity/player/wide/alex.png"));
+                p_114874_.put(InfPlayerSkins.EFE,
+                        new ResourceLocation("minecraft:textures/entity/player/wide/efe.png"));
+                p_114874_.put(InfPlayerSkins.MAKENA,
+                        new ResourceLocation("minecraft:textures/entity/player/wide/makena.png"));
+                p_114874_.put(InfPlayerSkins.SUNNY,
+                        new ResourceLocation("minecraft:textures/entity/player/wide/sunny.png"));
+                p_114874_.put(InfPlayerSkins.ZURI,
+                        new ResourceLocation("minecraft:textures/entity/player/wide/zuri.png"));
+            });
+
+    public static final Map<String,ResourceLocation> SPECIAL_SKINS =new HashMap<>(){{
+        put("Technoblade",new ResourceLocation(Spore.MODID,
+                "textures/entity/player/techno_skin.png"));
+    }};
 
     public InfectedPlayerRenderer(EntityRendererProvider.Context context) {
         super(context, new InfectedPlayerModel<>(context.bakeLayer(InfectedPlayerModel.LAYER_LOCATION)), 0.5f);
         this.madnessModel = new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER));
-
+        this.technoSkin = new InfectedTechnoModel<>(context.bakeLayer(InfectedTechnoModel.LAYER_LOCATION));
         this.addLayer(new HumanoidArmorLayer<>(this, new HumanoidArmorModel
                 (context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)),
                 new HumanoidArmorModel(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)), context.getModelManager()));
@@ -50,12 +88,18 @@ public class InfectedPlayerRenderer extends BaseInfectedRenderer<InfectedPlayer 
     @Override
     public ResourceLocation getTextureLocation(InfectedPlayer infectedPlayer) {
         if (isTheViewerMad(infectedPlayer)){
-            return DEFAULT_SKIN;
+            return MADNESS_TEXTURES.get(infectedPlayer.getVariant());
         }
-        if (Objects.equals(infectedPlayer.getCustomName(), Component.literal("Technoblade"))) {
-            return TECHNO;
+        if (infectedPlayer.hasCustomName()){
+            Component component = infectedPlayer.getCustomName();
+            if (component != null){
+                ResourceLocation location = SPECIAL_SKINS.get(component.toString());
+                if (location != null){
+                    return location;
+                }
+            }
         }
-        return TEXTURE;
+        return MAIN_TEXTURES.get(infectedPlayer.getVariant());
     }
 
     public boolean isTheViewerMad(InfectedPlayer infectedPlayer){
@@ -73,7 +117,7 @@ public class InfectedPlayerRenderer extends BaseInfectedRenderer<InfectedPlayer 
 
     @Override
     public void render(InfectedPlayer type, float value1, float value2, PoseStack stack, MultiBufferSource bufferSource, int light) {
-        this.model = isTheViewerMad(type) ? madnessModel : mainModel;
+        this.model = isTheViewerMad(type) ? madnessModel : Objects.equals(type.getCustomName(), Component.literal("Technoblade")) ? technoSkin : mainModel;
         super.render(type, value1, value2, stack, bufferSource, light);
     }
 }

@@ -10,11 +10,18 @@ import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.HasUsableSlot;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
 import com.Harbinger.Spore.Sentities.EvolvingInfected;
+import com.Harbinger.Spore.Sentities.VariantKeeper;
+import com.Harbinger.Spore.Sentities.Variants.HazmatVariant;
+import com.Harbinger.Spore.Sentities.Variants.InfPlayerSkins;
 import com.Harbinger.Spore.Sentities.Variants.ScamperVariants;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -48,8 +55,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-public class InfectedPlayer extends Infected implements RangedAttackMob , ArmedInfected, EvolvingInfected {
-
+public class InfectedPlayer extends Infected implements RangedAttackMob , ArmedInfected, EvolvingInfected, VariantKeeper {
+    private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(InfectedHazmat.class, EntityDataSerializers.INT);
     public InfectedPlayer(EntityType<? extends Monster> type, Level level) {
         super(type, level);
     }
@@ -107,6 +114,8 @@ public class InfectedPlayer extends Infected implements RangedAttackMob , ArmedI
         RandomSource randomsource = p_33282_.getRandom();
         this.populateDefaultEquipmentSlots(randomsource, p_33283_);
         this.populateDefaultEquipmentEnchantments(randomsource, p_33283_);
+        InfPlayerSkins variant = Util.getRandom(InfPlayerSkins.values(), this.random);
+        setVariant(variant);
         return super.finalizeSpawn(p_33282_, p_33283_, p_33284_, p_33285_, p_33286_);
     }
 
@@ -156,7 +165,21 @@ public class InfectedPlayer extends Infected implements RangedAttackMob , ArmedI
                 .add(Attributes.ATTACK_KNOCKBACK, 0.2);
 
     }
+    public void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(DATA_ID_TYPE_VARIANT, 0);
+    }
 
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putInt("Variant", this.getTypeVariant());
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        this.entityData.set(DATA_ID_TYPE_VARIANT, tag.getInt("Variant"));
+    }
     protected SoundEvent getAmbientSound() {
         return Ssounds.ADVENTURER_AMBIENT.get();
     }
@@ -269,5 +292,29 @@ public class InfectedPlayer extends Infected implements RangedAttackMob , ArmedI
             entity.setSecondsOnFire(10);
         }
         return super.doHurtTarget(entity);
+    }
+    private void setVariant(InfPlayerSkins variant) {
+        this.entityData.set(DATA_ID_TYPE_VARIANT, variant.getId() & 255);
+    }
+    public InfPlayerSkins getVariant() {
+        return InfPlayerSkins.byId(this.getTypeVariant() & 255);
+    }
+    @Override
+    public int getTypeVariant() {
+        return this.entityData.get(DATA_ID_TYPE_VARIANT);
+    }
+
+    @Override
+    public void setVariant(int i) {
+        if (i > InfPlayerSkins.values().length || i < 0){
+            this.entityData.set(DATA_ID_TYPE_VARIANT, 0);
+        }else {
+            this.entityData.set(DATA_ID_TYPE_VARIANT, i);
+        }
+    }
+
+    @Override
+    public int amountOfMutations() {
+        return InfPlayerSkins.values().length;
     }
 }
