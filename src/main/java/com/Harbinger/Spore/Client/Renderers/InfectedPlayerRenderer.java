@@ -72,7 +72,7 @@ public class InfectedPlayerRenderer extends BaseInfectedRenderer<InfectedPlayer 
     public static final Map<Component,ResourceLocation> SPECIAL_SKINS =new HashMap<>(){{
         put(Component.literal("Technoblade"),new ResourceLocation(Spore.MODID,
                 "textures/entity/player/techno_skin.png"));
-        put(Component.literal("Coda"),new ResourceLocation(Spore.MODID,
+        put(Component.literal("CODATOWER"),new ResourceLocation(Spore.MODID,
                 "textures/entity/player/inf_coda_skin.png"));
     }};
 
