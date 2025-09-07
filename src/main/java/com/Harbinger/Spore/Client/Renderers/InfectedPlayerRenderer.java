@@ -69,8 +69,8 @@ public class InfectedPlayerRenderer extends BaseInfectedRenderer<InfectedPlayer 
                         new ResourceLocation("minecraft:textures/entity/player/wide/zuri.png"));
             });
 
-    public static final Map<String,ResourceLocation> SPECIAL_SKINS =new HashMap<>(){{
-        put("Technoblade",new ResourceLocation(Spore.MODID,
+    public static final Map<Component,ResourceLocation> SPECIAL_SKINS =new HashMap<>(){{
+        put(Component.literal("Technoblade"),new ResourceLocation(Spore.MODID,
                 "textures/entity/player/techno_skin.png"));
     }};
 
@@ -90,13 +90,11 @@ public class InfectedPlayerRenderer extends BaseInfectedRenderer<InfectedPlayer 
         if (isTheViewerMad(infectedPlayer)){
             return MADNESS_TEXTURES.get(infectedPlayer.getVariant());
         }
-        if (infectedPlayer.hasCustomName()){
-            Component component = infectedPlayer.getCustomName();
-            if (component != null){
-                ResourceLocation location = SPECIAL_SKINS.get(component.toString());
-                if (location != null){
-                    return location;
-                }
+        Component component = infectedPlayer.getCustomName();
+        if (component != null){
+            ResourceLocation location = SPECIAL_SKINS.get(component);
+            if (location != null){
+                return location;
             }
         }
         return MAIN_TEXTURES.get(infectedPlayer.getVariant());
