@@ -583,7 +583,6 @@ public class SConfig {
             this.global_damage = builder.define("Global Damage Modifier",1.0);
             this.global_health = builder.define("Global Health Modifier",1.0);
             this.global_armor = builder.define("Global Armor Modifier",1.0);
-            this.calamity_chunk = builder.comment("Default true").define("Should a calamity load chunks while going to a signal?",true);
             this.weaktocold = builder.comment("Default true").define("Should the infected be weak to cold?",true);
             this.should_starve = builder.comment("Default true").define("Should the infected starve overtime?",true);
             this.costumes = builder.comment("Default true").define("Should certain mobs wear costumes on occasions?",true);
@@ -592,6 +591,7 @@ public class SConfig {
             this.hunger = builder.define("Hunger in seconds",300);
             this.teleport_hive = builder.comment("Default false").define("Move the hivemind to the surface once it forms?",false);
             this.damagecap = builder.comment("Default true").define("Should evolved and hyper have a damage cap on hard mode?",true);
+            this.calamity_chunk = builder.comment("Default true").define("Should a calamity load chunks?",true);
             builder.pop();
             builder.push("Targeting Tasks");
             this.at_mob = builder.comment("Default true").define("Should attack other mobs?",true);

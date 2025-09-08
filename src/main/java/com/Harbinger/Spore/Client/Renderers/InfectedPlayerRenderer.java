@@ -52,6 +52,12 @@ public class InfectedPlayerRenderer extends BaseInfectedRenderer<InfectedPlayer 
                         new ResourceLocation(Spore.MODID, "textures/entity/player/inf_player_sunny.png"));
                 p_114874_.put(InfPlayerSkins.ZURI,
                         new ResourceLocation(Spore.MODID, "textures/entity/player/inf_player_zuri.png"));
+                p_114874_.put(InfPlayerSkins.ARI,
+                        new ResourceLocation(Spore.MODID, "textures/entity/player/inf_player_ari.png"));
+                p_114874_.put(InfPlayerSkins.KAI,
+                        new ResourceLocation(Spore.MODID, "textures/entity/player/inf_player_kai.png"));
+                p_114874_.put(InfPlayerSkins.NO0R,
+                        new ResourceLocation(Spore.MODID, "textures/entity/player/inf_player_noor.png"));
             });
     public static final Map<InfPlayerSkins, ResourceLocation> MADNESS_TEXTURES =
             Util.make(Maps.newEnumMap(InfPlayerSkins.class), (p_114874_) -> {
@@ -67,6 +73,12 @@ public class InfectedPlayerRenderer extends BaseInfectedRenderer<InfectedPlayer 
                         new ResourceLocation("minecraft:textures/entity/player/wide/sunny.png"));
                 p_114874_.put(InfPlayerSkins.ZURI,
                         new ResourceLocation("minecraft:textures/entity/player/wide/zuri.png"));
+                p_114874_.put(InfPlayerSkins.ARI,
+                        new ResourceLocation("minecraft:textures/entity/player/wide/ari.png"));
+                p_114874_.put(InfPlayerSkins.KAI,
+                        new ResourceLocation("minecraft:textures/entity/player/wide/kai.png"));
+                p_114874_.put(InfPlayerSkins.NO0R,
+                        new ResourceLocation("minecraft:textures/entity/player/wide/noor.png"));
             });
 
     public static final Map<Component,ResourceLocation> SPECIAL_SKINS =new HashMap<>(){{
@@ -74,6 +86,8 @@ public class InfectedPlayerRenderer extends BaseInfectedRenderer<InfectedPlayer 
                 "textures/entity/player/techno_skin.png"));
         put(Component.literal("CODATOWER"),new ResourceLocation(Spore.MODID,
                 "textures/entity/player/inf_coda_skin.png"));
+        put(Component.literal("Flash62724"),new ResourceLocation(Spore.MODID,
+                "textures/entity/player/inf_player_slasher.png"));
     }};
 
     public InfectedPlayerRenderer(EntityRendererProvider.Context context) {

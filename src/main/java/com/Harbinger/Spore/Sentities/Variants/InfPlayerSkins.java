@@ -9,7 +9,10 @@ public enum InfPlayerSkins {
     EFE(2),
     MAKENA(3),
     SUNNY(4),
-    ZURI(5);
+    ZURI(5),
+    ARI(6),
+    KAI(7),
+    NO0R(8);
 
     private static final InfPlayerSkins[] BY_ID = Arrays.stream(values()).sorted(Comparator.
             comparingInt(InfPlayerSkins::getId)).toArray(InfPlayerSkins[]::new);
