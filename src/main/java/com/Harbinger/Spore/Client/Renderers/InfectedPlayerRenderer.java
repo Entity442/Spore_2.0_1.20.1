@@ -89,7 +89,7 @@ public class InfectedPlayerRenderer extends BaseInfectedRenderer<InfectedPlayer 
         put(Component.literal("Flash62724"),new ResourceLocation(Spore.MODID,
                 "textures/entity/player/inf_player_slasher.png"));
         put(Component.literal("TVGuy"),new ResourceLocation(Spore.MODID,
-                "textures/entity/player/inf_player_slasher.png"));
+                "textures/entity/player/inf_player_blura.png"));
     }};
 
     public InfectedPlayerRenderer(EntityRendererProvider.Context context) {
