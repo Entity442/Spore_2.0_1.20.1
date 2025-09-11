@@ -108,12 +108,10 @@ public class InfectedPlayerRenderer extends BaseInfectedRenderer<InfectedPlayer 
         if (isTheViewerMad(infectedPlayer)){
             return MADNESS_TEXTURES.get(infectedPlayer.getVariant());
         }
-        Component component = infectedPlayer.getCustomName();
-        if (component != null){
-            ResourceLocation location = SPECIAL_SKINS.get(component);
-            if (location != null){
-                return location;
-            }
+        Component component = infectedPlayer.getName();
+        ResourceLocation location = SPECIAL_SKINS.get(component);
+        if (location != null){
+            return location;
         }
         return MAIN_TEXTURES.get(infectedPlayer.getVariant());
     }
