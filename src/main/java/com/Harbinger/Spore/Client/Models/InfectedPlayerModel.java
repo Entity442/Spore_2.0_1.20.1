@@ -52,7 +52,7 @@ public class InfectedPlayerModel<T extends InfectedPlayer> extends HumanoidModel
 		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 14).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 6.0F, 4.0F, new CubeDeformation(0.0F))
 				.texOffs(0, 48).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 6.0F, 4.0F, new CubeDeformation(0.1F))
 				.texOffs(0, 24).addBox(-3.5F, 6.0F, -2.0F, 7.0F, 6.0F, 4.0F, new CubeDeformation(-0.05F))
-				.texOffs(24, 48).addBox(-3.5F, 6.0F, -2.0F, 7.0F, 6.0F, 4.0F, new CubeDeformation(0.05F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+				.texOffs(24, 52).addBox(-3.5F, 6.0F, -2.0F, 7.0F, 6.0F, 4.0F, new CubeDeformation(0.05F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition left_arm = partdefinition.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(45, 13).addBox(-1.0F, -2.0F, -1.5F, 4.0F, 6.0F, 3.0F, new CubeDeformation(0.0F))
 				.texOffs(48, 3).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 6.0F, 4.0F, new CubeDeformation(0.15F))

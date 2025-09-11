@@ -88,6 +88,8 @@ public class InfectedPlayerRenderer extends BaseInfectedRenderer<InfectedPlayer 
                 "textures/entity/player/inf_coda_skin.png"));
         put(Component.literal("Flash62724"),new ResourceLocation(Spore.MODID,
                 "textures/entity/player/inf_player_slasher.png"));
+        put(Component.literal("TVGuy"),new ResourceLocation(Spore.MODID,
+                "textures/entity/player/inf_player_slasher.png"));
     }};
 
     public InfectedPlayerRenderer(EntityRendererProvider.Context context) {
