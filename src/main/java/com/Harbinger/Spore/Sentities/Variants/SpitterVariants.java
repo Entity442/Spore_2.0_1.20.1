@@ -6,7 +6,9 @@ import java.util.Comparator;
 public enum SpitterVariants {
     DEFAULT(0,"default"),
     EXPLOSIVE(1,"spore.entity.variant.bomber"),
-    BILE(2,"spore.entity.variant.bile");
+    BILE(2,"spore.entity.variant.bile"),
+    DUAL(3,"spore.entity.variant.dual"),
+    SNIPER(4,"spore.entity.variant.sniper");
 
     private static final SpitterVariants[] BY_ID = Arrays.stream(values()).sorted(Comparator.
             comparingInt(SpitterVariants::getId)).toArray(SpitterVariants[]::new);

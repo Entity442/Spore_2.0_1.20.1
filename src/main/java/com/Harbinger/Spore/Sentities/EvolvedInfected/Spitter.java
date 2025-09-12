@@ -19,7 +19,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -44,7 +43,7 @@ public class Spitter extends EvolvedInfected implements RangedAttackMob, Variant
     @Override
     protected void registerGoals() {
 
-        this.goalSelector.addGoal(1, new RangedAttackGoal(this,1.1, getShootingPerVariant() , 16){
+        this.goalSelector.addGoal(1, new RangedAttackGoal(this,1.1, getShootingPerVariant() , getRangePerVariant()){
             @Override
             public boolean canUse() {
                 if (Spitter.this.getTypeVariant() == 0 && !switchy()){
@@ -84,6 +83,12 @@ public class Spitter extends EvolvedInfected implements RangedAttackMob, Variant
         }
         return 40;
     }
+    private int getRangePerVariant(){
+        if (getVariant() == SpitterVariants.SNIPER){
+            return 32;
+        }
+        return 16;
+    }
 
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -121,7 +126,17 @@ public class Spitter extends EvolvedInfected implements RangedAttackMob, Variant
                 bileProjectile.moveTo(this.getX(),this.getY()+1.5,this.getZ());
                 bileProjectile.shoot(dx, dy - bileProjectile.getY() + Math.hypot(dx, dz) * 0.05F, dz, 1f * 2, 12.0F);
                 level().addFreshEntity(bileProjectile);
-            }else {
+            }else if (this.getTypeVariant() == 3){
+                double ze = this.distanceToSqr(livingEntity);
+                if (ze < 32.0D) {
+                    Vomit.shoot(this, livingEntity,(float) (SConfig.SERVER.spit_damage_c.get() * SConfig.SERVER.global_damage.get()));
+                    Vomit.shoot(this, livingEntity,(float) (SConfig.SERVER.spit_damage_c.get() * SConfig.SERVER.global_damage.get()));
+                } else {
+                    AcidBall.shoot(this, livingEntity,(float) (SConfig.SERVER.spit_damage_l.get() * SConfig.SERVER.global_damage.get()));
+                    AcidBall.shoot(this, livingEntity,(float) (SConfig.SERVER.spit_damage_l.get() * SConfig.SERVER.global_damage.get()));
+                    this.playSound(SoundEvents.SLIME_JUMP, 1, 0.5f);
+                }
+            } else {
                 double ze = this.distanceToSqr(livingEntity);
                 if (ze < 32.0D) {
                     Vomit.shoot(this, livingEntity,(float) (SConfig.SERVER.spit_damage_c.get() * SConfig.SERVER.global_damage.get()));
