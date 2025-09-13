@@ -13,6 +13,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
 public class InfectedPlayerModel<T extends InfectedPlayer> extends HumanoidModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -72,7 +73,11 @@ public class InfectedPlayerModel<T extends InfectedPlayer> extends HumanoidModel
 
 		return LayerDefinition.create(meshdefinition, 128, 64);
 	}
-
+	@Override
+	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+		this.jaw.xRot = Mth.sin(ageInTicks/6)/7;
+	}
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
