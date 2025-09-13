@@ -20,14 +20,17 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
@@ -99,7 +102,23 @@ public class Slasher extends EvolvedInfected implements ArmorPersentageBypass, V
             livingEntity.hurtMarked = true;
             livingEntity.knockback((4f),  Mth.sin(this.getYRot() * ((float) Math.PI / 180F)), (double) (-Mth.cos(this.getYRot() * ((float) Math.PI / 180F))));
         }
+        if (this.getVariant() == SlasherVariants.GRABBER && entity instanceof LivingEntity livingEntity){
+            if (!level().isClientSide && Math.random() <0.15){
+                if (Math.random() < 0.5){
+                    dropItems(livingEntity.getMainHandItem(),livingEntity.getOnPos());
+                }else {
+                    dropItems(livingEntity.getOffhandItem(),livingEntity.getOnPos());
+                }
+            }
+        }
         return super.doHurtTarget(entity);
+    }
+    private void dropItems(ItemStack stack,BlockPos pos){
+        if (stack == ItemStack.EMPTY){
+            return;
+        }
+        ItemEntity entity = new ItemEntity(level(),pos.getX(),pos.getY(),pos.getZ(),stack);
+        level().addFreshEntity(entity);
     }
 
     public void defineSynchedData() {

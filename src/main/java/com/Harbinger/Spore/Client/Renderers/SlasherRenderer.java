@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Client.Renderers;
 
 
+import com.Harbinger.Spore.Client.Models.GrabberSlasherModel;
 import com.Harbinger.Spore.Client.Models.SlasherModel;
 import com.Harbinger.Spore.Client.Models.SmasherSlasherModel;
 import com.Harbinger.Spore.Client.Special.BaseInfectedRenderer;
@@ -23,6 +24,7 @@ import java.util.Map;
 public class SlasherRenderer <Type extends Slasher> extends BaseInfectedRenderer<Type , EntityModel<Type>> {
     private final EntityModel<Type> defaultModel = this.model;
     private final EntityModel<Type> smasher;
+    private final GrabberSlasherModel<Type> grabber;
     public static final Map<SlasherVariants, ResourceLocation> TEXTURE =
             Util.make(Maps.newEnumMap(SlasherVariants.class), (p_114874_) -> {
                 p_114874_.put(SlasherVariants.DEFAULT,
@@ -31,6 +33,8 @@ public class SlasherRenderer <Type extends Slasher> extends BaseInfectedRenderer
                         new ResourceLocation(Spore.MODID, "textures/entity/piercer.png"));
                 p_114874_.put(SlasherVariants.SMASHER,
                         new ResourceLocation(Spore.MODID, "textures/entity/smasher_slasher.png"));
+                p_114874_.put(SlasherVariants.GRABBER,
+                        new ResourceLocation(Spore.MODID, "textures/entity/grabber.png"));
             });
     private static final ResourceLocation EYES_TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/eyes/slasher.png");
@@ -38,11 +42,19 @@ public class SlasherRenderer <Type extends Slasher> extends BaseInfectedRenderer
     public SlasherRenderer(EntityRendererProvider.Context context) {
         super(context, new SlasherModel<>(context.bakeLayer(SlasherModel.LAYER_LOCATION)), 0.5f);
         smasher = new SmasherSlasherModel<>(context.bakeLayer(SmasherSlasherModel.LAYER_LOCATION));
+        grabber = new GrabberSlasherModel<>(context.bakeLayer(GrabberSlasherModel.LAYER_LOCATION));
+    }
+    private EntityModel<Type> getDefaultModel(int i){
+        return switch (i) {
+            case 2 -> smasher;
+            case 3 -> grabber;
+            default -> defaultModel;
+        };
     }
 
     @Override
     public void render(Type type, float value1, float value2, PoseStack stack, MultiBufferSource bufferSource, int light) {
-        this.model = type.getVariant() == SlasherVariants.SMASHER ? smasher : defaultModel;
+        this.model = getDefaultModel(type.getTypeVariant());
         super.render(type, value1, value2, stack, bufferSource, light);
     }
 
@@ -55,4 +67,5 @@ public class SlasherRenderer <Type extends Slasher> extends BaseInfectedRenderer
     public ResourceLocation eyeLayerTexture() {
         return EYES_TEXTURE;
     }
+
 }
