@@ -98,6 +98,10 @@ public class InfectedPlayerRenderer extends BaseInfectedRenderer<InfectedPlayer 
                 "textures/entity/player/inf_player_syrcrypt.png"));
         put(Component.literal("KaratFeng"),new ResourceLocation(Spore.MODID,
                 "textures/entity/player/inf_karat_skin.png"));
+        put(Component.literal("BigXplosion"),new ResourceLocation(Spore.MODID,
+                "textures/entity/player/inf_explosion_skin.png"));
+        put(Component.literal("Toasteroni"),new ResourceLocation(Spore.MODID,
+                "textures/entity/player/inf_player_toast.png"));
     }};
 
     public InfectedPlayerRenderer(EntityRendererProvider.Context context) {

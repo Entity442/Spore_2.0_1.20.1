@@ -20,6 +20,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -98,11 +99,18 @@ public class Spitter extends EvolvedInfected implements RangedAttackMob, Variant
                 .add(Attributes.ARMOR, SConfig.SERVER.spit_armor.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.FOLLOW_RANGE, 32)
                 .add(Attributes.ATTACK_KNOCKBACK, 1);
-
     }
 
-
-
+    @Override
+    public void onSyncedDataUpdated(EntityDataAccessor<?> accessor) {
+        super.onSyncedDataUpdated(accessor);
+        if (accessor.equals(DATA_ID_TYPE_VARIANT)){
+            AttributeInstance instance = this.getAttribute(Attributes.FOLLOW_RANGE);
+            if (instance != null){
+                instance.setBaseValue(this.getTypeVariant() == 4 ? 64 : 32);
+            }
+        }
+    }
 
     @Override
     public void performRangedAttack(LivingEntity livingEntity, float f) {
@@ -136,6 +144,8 @@ public class Spitter extends EvolvedInfected implements RangedAttackMob, Variant
                     AcidBall.shoot(this, livingEntity,(float) (SConfig.SERVER.spit_damage_l.get() * SConfig.SERVER.global_damage.get()));
                     this.playSound(SoundEvents.SLIME_JUMP, 1, 0.5f);
                 }
+            }else if (this.getTypeVariant() == 4){
+                Vomit.shoot(this, livingEntity,(float) (SConfig.SERVER.spit_damage_c.get() * SConfig.SERVER.global_damage.get()) * 2);
             } else {
                 double ze = this.distanceToSqr(livingEntity);
                 if (ze < 32.0D) {
