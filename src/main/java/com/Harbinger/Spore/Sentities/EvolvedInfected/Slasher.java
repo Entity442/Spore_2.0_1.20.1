@@ -105,20 +105,22 @@ public class Slasher extends EvolvedInfected implements ArmorPersentageBypass, V
         if (this.getVariant() == SlasherVariants.GRABBER && entity instanceof LivingEntity livingEntity){
             if (!level().isClientSide && Math.random() <0.15){
                 if (Math.random() < 0.5){
-                    dropItems(livingEntity.getMainHandItem(),livingEntity.getOnPos());
+                    dropItems(livingEntity,InteractionHand.MAIN_HAND,livingEntity.getOnPos());
                 }else {
-                    dropItems(livingEntity.getOffhandItem(),livingEntity.getOnPos());
+                    dropItems(livingEntity,InteractionHand.OFF_HAND,livingEntity.getOnPos());
                 }
             }
         }
         return super.doHurtTarget(entity);
     }
-    private void dropItems(ItemStack stack,BlockPos pos){
+    private void dropItems(LivingEntity living,InteractionHand hand,BlockPos pos){
+        ItemStack stack = living.getItemInHand(hand);
         if (stack == ItemStack.EMPTY){
             return;
         }
         ItemEntity entity = new ItemEntity(level(),pos.getX(),pos.getY(),pos.getZ(),stack);
         level().addFreshEntity(entity);
+        living.setItemInHand(hand,ItemStack.EMPTY);
     }
 
     public void defineSynchedData() {
