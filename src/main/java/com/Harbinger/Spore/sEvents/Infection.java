@@ -105,6 +105,7 @@ public class Infection {
                     setItemBySlot(player, slot, infectedPlayer);
                 }
             }
+            infectedPlayer.setSkin();
             infectedPlayer.moveTo(x, y, z);
             infectedPlayer.setCustomName(player.getName());
             level.addFreshEntity(infectedPlayer);

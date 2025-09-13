@@ -114,9 +114,12 @@ public class InfectedPlayer extends Infected implements RangedAttackMob , ArmedI
         RandomSource randomsource = p_33282_.getRandom();
         this.populateDefaultEquipmentSlots(randomsource, p_33283_);
         this.populateDefaultEquipmentEnchantments(randomsource, p_33283_);
+        setSkin();
+        return super.finalizeSpawn(p_33282_, p_33283_, p_33284_, p_33285_, p_33286_);
+    }
+    public void setSkin(){
         InfPlayerSkins variant = Util.getRandom(InfPlayerSkins.values(), this.random);
         setVariant(variant);
-        return super.finalizeSpawn(p_33282_, p_33283_, p_33284_, p_33285_, p_33286_);
     }
 
     public static void createItems(LivingEntity living,EquipmentSlot slot,List<? extends String> list){
