@@ -56,7 +56,7 @@ import java.util.Objects;
 import java.util.Random;
 
 public class InfectedPlayer extends Infected implements RangedAttackMob , ArmedInfected, EvolvingInfected, VariantKeeper {
-    private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(InfectedHazmat.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(InfectedPlayer.class, EntityDataSerializers.INT);
     public InfectedPlayer(EntityType<? extends Monster> type, Level level) {
         super(type, level);
     }

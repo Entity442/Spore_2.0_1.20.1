@@ -27,7 +27,6 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.RangedAttackMob;
@@ -103,7 +102,12 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
 
     public void addVariantGoals(){
         if (getTypeVariant() == 3){
-            this.goalSelector.addGoal(3,new ScatterShotRangedGoal(this,1.2,40,20,1,3));
+            this.goalSelector.addGoal(3,new ScatterShotRangedGoal(this,1.2,40,20,1,3){
+                @Override
+                public boolean canUse() {
+                    return super.canUse() && getTypeVariant() == 3;
+                }
+            });
         }
         if (getTypeVariant() == 1){
             this.goalSelector.addGoal(3, new PhayerGrabAndDropTargets(this));
@@ -181,7 +185,7 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
     public void travel(Vec3 vec) {
         if (this.isEffectiveAi() && !this.onGround()) {
             this.moveRelative(0.1F, vec);
-            this.move(MoverType.SELF, this.getDeltaMovement());
+            this.move(MoverType.SELF, this.getDeltaMovement().scale(this.isInWater() ? 0.1 : 0.75));
             this.setDeltaMovement(this.getDeltaMovement().scale(0.85D));
         } else {
             super.travel(vec);

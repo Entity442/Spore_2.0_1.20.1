@@ -1717,7 +1717,7 @@ public class SConfig {
                             "ButtonHatBoy", "Gistique", "BigXplosion", "Atomiclbomb", "Mad_Dog", "Ripley", "gregTheTyrant", "Joker_de_Coeur",
                             "xXFuryXx", "Nova69", "Belladonna","Entity","Keymind","Whisper","Helldwin", "ExeedingSky74", "Flash62724", "Hank_o", "JWT114",
                             "DawnsSlayers", "Dr_Pilot_MOO", "NexouuZ", "Mr_Door12323", "PedroHenrry", "TVGuy", "ThatGardener", "TheCaramelGuy", "TokenOni420",
-                            "lightigivhi", "CODATOWER", "mrlambert6", "SyrCrypt", "KaratFeng","Toasteroni") , o -> o instanceof String);
+                            "lightigivhi", "CODATOWER", "mrlambert6", "SyrCrypt", "KaratFeng","Toasteroni","UnmeiHa") , o -> o instanceof String);
             builder.comment("Items|chance of giving");
             this.player_h = builder.defineList("Head Slot",
                     Lists.newArrayList("minecraft:leather_helmet|50","minecraft:iron_helmet|20","minecraft:chainmail_helmet|20") , o -> o instanceof String);
