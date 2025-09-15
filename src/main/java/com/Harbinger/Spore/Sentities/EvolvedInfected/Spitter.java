@@ -47,7 +47,7 @@ public class Spitter extends EvolvedInfected implements RangedAttackMob, Variant
         this.goalSelector.addGoal(1, new RangedAttackGoal(this,1.1, getShootingPerVariant() , getRangePerVariant()){
             @Override
             public boolean canUse() {
-                if (Spitter.this.getTypeVariant() == 0 && !switchy()){
+                if ((Spitter.this.getTypeVariant() == 0 || Spitter.this.getTypeVariant() == 3) && !switchy()){
                     return false;
                 }
                 return super.canUse();
