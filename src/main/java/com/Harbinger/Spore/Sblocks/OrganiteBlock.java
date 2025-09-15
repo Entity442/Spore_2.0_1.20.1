@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Sblocks;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Sitems;
+import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import net.minecraft.core.BlockPos;
@@ -41,7 +42,7 @@ public class OrganiteBlock extends Block {
         AABB searchbox = AABB.ofSize(new Vec3(blockPos.getX(), blockPos.getY(), blockPos.getZ()), 35, 35, 35);
         List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, searchbox);
         for (Entity entity1 : entities) {
-            if (entity1 instanceof LivingEntity entity && !entity.hasEffect(Seffects.MYCELIUM.get()) && !(entity instanceof Infected || entity instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(entity.getEncodeId()) || entity.getItemBySlot(EquipmentSlot.HEAD).getItem() == Sitems.GAS_MASK.get())) {
+            if (entity1 instanceof LivingEntity entity && !entity.hasEffect(Seffects.MYCELIUM.get()) && !(entity instanceof Infected || entity instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(entity.getEncodeId()) || Utilities.helmetList().contains(entity.getItemBySlot(EquipmentSlot.HEAD).getItem()))) {
                 entity.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get() ,200,0));
                 entity.addEffect(new MobEffectInstance(Seffects.MARKER.get() ,400,0));
             }

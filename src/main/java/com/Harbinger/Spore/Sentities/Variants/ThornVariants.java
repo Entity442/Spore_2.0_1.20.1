@@ -5,7 +5,7 @@ import java.util.Comparator;
 
 public enum ThornVariants {
     DEFAULT(0,"default"),
-    TOXIC(1,"spore.entity.variant.toxic");
+    TOXIC(1,"spore.entity.variant.laced");
 
 
     private static final ThornVariants[] BY_ID = Arrays.stream(values()).sorted(Comparator.

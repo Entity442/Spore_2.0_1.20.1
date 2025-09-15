@@ -36,61 +36,65 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class Spitter extends EvolvedInfected implements RangedAttackMob, VariantKeeper {
-    private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(Spitter.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT =
+            SynchedEntityData.defineId(Spitter.class, EntityDataSerializers.INT);
+
     public Spitter(EntityType<? extends Monster> type, Level level) {
         super(type, level);
     }
 
     @Override
     protected void registerGoals() {
-
-        this.goalSelector.addGoal(1, new RangedAttackGoal(this,1.1, getShootingPerVariant() , getRangePerVariant()){
+        this.goalSelector.addGoal(1, new RangedAttackGoal(this, 1.1, getShootingPerVariant(), getRangePerVariant()) {
             @Override
             public boolean canUse() {
-                if ((Spitter.this.getTypeVariant() == 0 || Spitter.this.getTypeVariant() == 3) && !switchy()){
-                    return false;
-                }
-                return super.canUse();
-            }});
-
-        this.goalSelector.addGoal(3, new RangedAttackGoal(this,1.1, 5 , 5){
-            @Override
-            public boolean canUse() {
-                return super.canUse() && Spitter.this.getTypeVariant() == 0;
+                return switchyFar() && super.canUse();
             }
         });
+
+        this.goalSelector.addGoal(3, new RangedAttackGoal(this, 1.1, 5, 5) {
+            @Override
+            public boolean canUse() {
+                return switchyClose() && super.canUse();
+            }
+        });
+
         this.goalSelector.addGoal(4, new RandomStrollGoal(this, 0.8));
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
-
-
         super.registerGoals();
     }
+
     @Override
     public List<? extends String> getDropList() {
         return SConfig.DATAGEN.inf_spitter_loot.get();
     }
-    private boolean switchy() {
-        if (this.getTarget() != null){
+
+    private boolean switchyFar() {
+        if (this.getTarget() != null && (getTypeVariant() == 0 || getTypeVariant() == 3)){
             double ze = this.distanceToSqr(this.getTarget());
-            return !(ze < 32.0D);
+            return (ze > 32.0D);
         }
-        return true ;
+        return true;
     }
-    private int getShootingPerVariant(){
-        if (getVariant() == SpitterVariants.BILE){
-            return 50;
-        }if (getVariant() == SpitterVariants.EXPLOSIVE){
-            return 60;
+    private boolean switchyClose() {
+        if (this.getTarget() != null  && (getTypeVariant() == 0 || getTypeVariant() == 3)){
+            double ze = this.distanceToSqr(this.getTarget());
+            return (ze < 32.0D);
         }
-        return 40;
-    }
-    private int getRangePerVariant(){
-        if (getVariant() == SpitterVariants.SNIPER){
-            return 32;
-        }
-        return 16;
+        return false;
     }
 
+    private int getShootingPerVariant() {
+        return switch (getVariant()) {
+            case BILE -> 50;
+            case EXPLOSIVE -> 60;
+            default -> 40;
+        };
+    }
+
+    private int getRangePerVariant() {
+        return getVariant() == SpitterVariants.SNIPER ? 32 : 16;
+    }
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
@@ -104,57 +108,58 @@ public class Spitter extends EvolvedInfected implements RangedAttackMob, Variant
     @Override
     public void onSyncedDataUpdated(EntityDataAccessor<?> accessor) {
         super.onSyncedDataUpdated(accessor);
-        if (accessor.equals(DATA_ID_TYPE_VARIANT)){
+        if (accessor.equals(DATA_ID_TYPE_VARIANT)) {
             AttributeInstance instance = this.getAttribute(Attributes.FOLLOW_RANGE);
-            if (instance != null){
-                instance.setBaseValue(this.getTypeVariant() == 4 ? 64 : 32);
-            }
+            if (instance != null) instance.setBaseValue(this.getTypeVariant() == 4 ? 64 : 32);
         }
     }
 
     @Override
-    public void performRangedAttack(LivingEntity livingEntity, float f) {
-        if (!level().isClientSide){
-            if (this.getTypeVariant() == 1){
-                ThrownTumor tumor = new ThrownTumor(level(), this);
-                double dx = livingEntity.getX() - this.getX();
-                double dy = livingEntity.getY() + livingEntity.getEyeHeight() - 1;
-                double dz = livingEntity.getZ() - this.getZ();
-                tumor.setMobEffect(Seffects.CORROSION.get());
-                tumor.setExplode(Level.ExplosionInteraction.NONE);
-                tumor.moveTo(this.getX(),this.getY()+1.5,this.getZ());
-                tumor.shoot(dx, dy - tumor.getY() + Math.hypot(dx, dz) * 0.05F, dz, 1f * 2, 12.0F);
-                level().addFreshEntity(tumor);
-            }else if (this.getTypeVariant() == 2){
-                BileProjectile bileProjectile = new BileProjectile(level(),this,TARGET_SELECTOR);
-                double dx = livingEntity.getX() - this.getX();
-                double dy = livingEntity.getY() + livingEntity.getEyeHeight() - 1;
-                double dz = livingEntity.getZ() - this.getZ();
-                bileProjectile.setDamage((float) (SConfig.SERVER.spit_damage_l.get()*1f));
-                bileProjectile.moveTo(this.getX(),this.getY()+1.5,this.getZ());
-                bileProjectile.shoot(dx, dy - bileProjectile.getY() + Math.hypot(dx, dz) * 0.05F, dz, 1f * 2, 12.0F);
-                level().addFreshEntity(bileProjectile);
-            }else if (this.getTypeVariant() == 3){
-                double ze = this.distanceToSqr(livingEntity);
-                if (ze < 32.0D) {
-                    Vomit.shoot(this, livingEntity,(float) (SConfig.SERVER.spit_damage_c.get() * SConfig.SERVER.global_damage.get()));
-                    Vomit.shoot(this, livingEntity,(float) (SConfig.SERVER.spit_damage_c.get() * SConfig.SERVER.global_damage.get()));
-                } else {
-                    AcidBall.shoot(this, livingEntity,(float) (SConfig.SERVER.spit_damage_l.get() * SConfig.SERVER.global_damage.get()));
-                    AcidBall.shoot(this, livingEntity,(float) (SConfig.SERVER.spit_damage_l.get() * SConfig.SERVER.global_damage.get()));
-                    this.playSound(SoundEvents.SLIME_JUMP, 1, 0.5f);
-                }
-            }else if (this.getTypeVariant() == 4){
-                AcidBall.shoot(this, livingEntity,(float) (SConfig.SERVER.spit_damage_l.get() * SConfig.SERVER.global_damage.get()) * 2);
-            } else {
-                double ze = this.distanceToSqr(livingEntity);
-                if (ze < 32.0D) {
-                    Vomit.shoot(this, livingEntity,(float) (SConfig.SERVER.spit_damage_c.get() * SConfig.SERVER.global_damage.get()));
-                } else {
-                    AcidBall.shoot(this, livingEntity,(float) (SConfig.SERVER.spit_damage_l.get() * SConfig.SERVER.global_damage.get()));
-                    this.playSound(SoundEvents.SLIME_JUMP, 1, 0.5f);
-                }
-            }
+    public void performRangedAttack(LivingEntity target, float f) {
+        if (level().isClientSide) return;
+
+        double dx = target.getX() - this.getX();
+        double dy = target.getY() + target.getEyeHeight() - 1;
+        double dz = target.getZ() - this.getZ();
+        double dist = this.distanceToSqr(target);
+
+        switch (this.getTypeVariant()) {
+            case 1 -> shootTumor(dx, dy, dz);
+            case 2 -> shootBile(dx, dy, dz);
+            case 3 -> shootCloseOrFar(target, dist, true);
+            case 4 -> AcidBall.shoot(this, target,
+                    (float) (SConfig.SERVER.spit_damage_l.get() * SConfig.SERVER.global_damage.get()) * 2);
+            default -> shootCloseOrFar(target, dist, false);
+        }
+    }
+
+    private void shootTumor(double dx, double dy, double dz) {
+        ThrownTumor tumor = new ThrownTumor(level(), this);
+        tumor.setMobEffect(Seffects.CORROSION.get());
+        tumor.setExplode(Level.ExplosionInteraction.NONE);
+        tumor.moveTo(this.getX(), this.getY() + 1.5, this.getZ());
+        tumor.shoot(dx, dy - tumor.getY() + Math.hypot(dx, dz) * 0.05F, dz, 2f, 12.0F);
+        level().addFreshEntity(tumor);
+    }
+
+    private void shootBile(double dx, double dy, double dz) {
+        BileProjectile bile = new BileProjectile(level(), this, TARGET_SELECTOR);
+        bile.setDamage((float) (SConfig.SERVER.spit_damage_l.get() * SConfig.SERVER.global_damage.get()));
+        bile.moveTo(this.getX(), this.getY() + 1.5, this.getZ());
+        bile.shoot(dx, dy - bile.getY() + Math.hypot(dx, dz) * 0.05F, dz, 2f, 12.0F);
+        level().addFreshEntity(bile);
+    }
+
+    private void shootCloseOrFar(LivingEntity target, double dist, boolean doubleShot) {
+        if (dist < 32.0D) {
+            float dmg = (float) (SConfig.SERVER.spit_damage_c.get() * SConfig.SERVER.global_damage.get());
+            Vomit.shoot(this, target, dmg);
+            if (doubleShot) Vomit.shoot(this, target, dmg);
+        } else {
+            float dmg = (float) (SConfig.SERVER.spit_damage_l.get() * SConfig.SERVER.global_damage.get());
+            AcidBall.shoot(this, target, dmg);
+            if (doubleShot) AcidBall.shoot(this, target, dmg);
+            this.playSound(SoundEvents.SLIME_JUMP, 1, 0.5f);
         }
     }
 
@@ -186,18 +191,16 @@ public class Spitter extends EvolvedInfected implements RangedAttackMob, Variant
         return SoundEvents.ZOMBIE_STEP;
     }
 
-    protected void playStepSound(BlockPos p_34316_, BlockState p_34317_) {
+    protected void playStepSound(BlockPos pos, BlockState state) {
         this.playSound(this.getStepSound(), 0.15F, 1.0F);
     }
 
-
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_146746_, DifficultyInstance p_146747_,
-                                        MobSpawnType p_146748_, @Nullable SpawnGroupData p_146749_,
-                                        @Nullable CompoundTag p_146750_) {
-        SpitterVariants variant = Util.getRandom(SpitterVariants.values(),random);
-        setVariant(variant);
-        return super.finalizeSpawn(p_146746_, p_146747_, p_146748_, p_146749_, p_146750_);
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
+                                        MobSpawnType type, @Nullable SpawnGroupData group,
+                                        @Nullable CompoundTag tag) {
+        setVariant(Util.getRandom(SpitterVariants.values(), random));
+        return super.finalizeSpawn(level, difficulty, type, group, tag);
     }
 
     public SpitterVariants getVariant() {
@@ -207,13 +210,11 @@ public class Spitter extends EvolvedInfected implements RangedAttackMob, Variant
     public int getTypeVariant() {
         return this.entityData.get(DATA_ID_TYPE_VARIANT);
     }
+
     @Override
     public void setVariant(int i) {
-        if (i > SpitterVariants.values().length || i < 0){
-            this.entityData.set(DATA_ID_TYPE_VARIANT, 0);
-        }else {
-            this.entityData.set(DATA_ID_TYPE_VARIANT, i);
-        }
+        this.entityData.set(DATA_ID_TYPE_VARIANT,
+                (i >= 0 && i < SpitterVariants.values().length) ? i : 0);
     }
 
     @Override
@@ -227,17 +228,11 @@ public class Spitter extends EvolvedInfected implements RangedAttackMob, Variant
 
     @Override
     public String getMutation() {
-        if (getTypeVariant() != 0){
-            return this.getVariant().getName();
-        }
-        return super.getMutation();
+        return getTypeVariant() != 0 ? this.getVariant().getName() : super.getMutation();
     }
 
     @Override
     public boolean hasLineOfSight(Entity entity) {
-        if (entity.isInFluidType()){
-            return false;
-        }
-        return super.hasLineOfSight(entity);
+        return !entity.isInFluidType() && super.hasLineOfSight(entity);
     }
 }

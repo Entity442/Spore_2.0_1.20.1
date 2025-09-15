@@ -61,7 +61,7 @@ public class Scavenger extends EvolvedInfected implements FlyingInfected {
     public void travel(Vec3 vec) {
         if (this.isEffectiveAi() && !this.onGround()) {
             this.moveRelative(0.1F, vec);
-            this.move(MoverType.SELF, this.getDeltaMovement());
+            this.move(MoverType.SELF, this.getDeltaMovement().scale(isInWater() ? 0.2 : 1f));
             this.setDeltaMovement(this.getDeltaMovement().scale(0.85D));
         } else {
             super.travel(vec);
@@ -72,6 +72,9 @@ public class Scavenger extends EvolvedInfected implements FlyingInfected {
         LivingEntity living = this.getTarget();
         if (living == null){
             return false;
+        }
+        if (living.getHealth() <= living.getMaxHealth()/2){
+            return true;
         }
         List<Entity> infected = level().getEntities(this,living.getBoundingBox().inflate(3),entity -> {return entity instanceof Infected || entity instanceof UtilityEntity;
         });

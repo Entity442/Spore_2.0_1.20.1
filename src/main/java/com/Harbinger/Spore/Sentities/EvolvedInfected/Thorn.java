@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities.EvolvedInfected;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
@@ -78,6 +79,7 @@ public class Thorn extends EvolvedInfected implements VariantKeeper {
         if (source.getDirectEntity() instanceof LivingEntity livingEntity && livingEntity.distanceToSqr(this)<100D && !source.is(DamageTypes.THORNS)){
            if (this.getVariant() == ThornVariants.TOXIC){
                livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON,200,0));
+               livingEntity.addEffect(new MobEffectInstance(Seffects.CORROSION.get(),200,0));
            }
             livingEntity.hurt(this.level().damageSources().thorns(this),amount * 0.4f);
         }
