@@ -106,6 +106,8 @@ public class InfectedPlayerRenderer extends BaseInfectedRenderer<InfectedPlayer 
                 "textures/entity/player/dr_pilot_moo.png"));
         put(Component.literal("UnmeiHa"),new ResourceLocation(Spore.MODID,
                 "textures/entity/player/inf_player_nunny.png"));
+        put(Component.literal("AllToAshes"),new ResourceLocation(Spore.MODID,
+                "textures/entity/player/inf_player_alltoashes.png"));
     }};
 
     public InfectedPlayerRenderer(EntityRendererProvider.Context context) {

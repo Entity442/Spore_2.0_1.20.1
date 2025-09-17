@@ -75,14 +75,21 @@ public class Slasher extends EvolvedInfected implements ArmorPersentageBypass, V
         }
         return super.canDisableShield();
     }
-    public int getRanges(){return getVariant() == SlasherVariants.GRABBER ? 2 : 1;}
+    public double getRanges(){return getVariant() == SlasherVariants.GRABBER ? 1.5 : 1;}
+    public boolean pull(){
+        if (getVariant() == SlasherVariants.PIERCER || getVariant() == SlasherVariants.SMASHER){
+            return false;
+        }
+        LivingEntity living = this.getTarget();
+        return living != null && this.distanceToSqr(living) < 32 * getRanges() && this.distanceToSqr(living) > 16 * getRanges();
+    }
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(2, new AOEMeleeAttackGoal(this ,1.2,true, 1.2 ,3,livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
-        this.goalSelector.addGoal(1, new PullGoal(this, 32 * getRanges(), 16* getRanges()){
+        this.goalSelector.addGoal(1, new PullGoal(this, 32, 16){
             @Override
             public boolean canUse() {
-                return super.canUse() && (getVariant() == SlasherVariants.DEFAULT || getVariant() == SlasherVariants.GRABBER);
+                return pull();
             }
         });
         this.goalSelector.addGoal(3, new RandomStrollGoal(this, 0.8));
