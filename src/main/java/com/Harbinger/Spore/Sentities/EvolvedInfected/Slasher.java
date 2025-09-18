@@ -81,7 +81,7 @@ public class Slasher extends EvolvedInfected implements ArmorPersentageBypass, V
             return false;
         }
         LivingEntity living = this.getTarget();
-        return living != null && this.distanceToSqr(living) < 32 * getRanges() && this.distanceToSqr(living) > 16 * getRanges();
+        return living != null && this.distanceToSqr(living) < 32 * getRanges() && this.distanceToSqr(living) > 16 * getRanges() && hasLineOfSight(living);
     }
     @Override
     protected void registerGoals() {

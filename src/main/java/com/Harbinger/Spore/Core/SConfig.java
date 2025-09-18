@@ -723,7 +723,7 @@ public class SConfig {
             builder.pop();
 
             builder.push("Scavenger");
-            this.scavenger_hp = builder.comment("Default 40").defineInRange("Sets Scavenger Max health", 40, 1, Double.MAX_VALUE);
+            this.scavenger_hp = builder.comment("Default 25").defineInRange("Sets Scavenger Max health", 25, 1, Double.MAX_VALUE);
             this.scavenger_damage = builder.comment("Default 10").defineInRange("Sets Scavenger Damage", 7, 1, Double.MAX_VALUE);
             this.scavenger_armor = builder.comment("Default 4").defineInRange("Sets Scavenger Armor", 4, 1, Double.MAX_VALUE);
             builder.pop();
