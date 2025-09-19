@@ -296,10 +296,55 @@ public class lacedThornsModel<T extends LivingEntity> extends EntityModel<T> {
 
 		return LayerDefinition.create(meshdefinition, 16, 16);
 	}
-
+	private void animateSpike(T entity,ModelPart part,float value){
+		part.yScale =entity.hurtTime > 0 ? 2 : 1+value;
+	}
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+		float val1 = Mth.sin(ageInTicks/8)/8;
+		float val2 = Mth.cos(ageInTicks/7)/8;
+		float val3 = -Mth.sin(ageInTicks/7)/7;
+		///8335
+		animateSpike(entity,thorn2,val1);
+		animateSpike(entity,thorn3,val2);
+		animateSpike(entity,thorn4,val3);
+		animateSpike(entity,thorn5,val1);
+		animateSpike(entity,thorn6,val2);
+		animateSpike(entity,thorn7,val3);
+		animateSpike(entity,thorn8,val1);
+		animateSpike(entity,thorn9,val2);
+		animateSpike(entity,thorn10,val3);
+		animateSpike(entity,thorn11,val1);
+		animateSpike(entity,thorn12,val2);
+		animateSpike(entity,thorn13,val3);
+		animateSpike(entity,thorn14,val1);
+		animateSpike(entity,thorn15,val2);
+		animateSpike(entity,thorn16,val3);
+		animateSpike(entity,thorn17,val1);
+		animateSpike(entity,thorn18,val2);
+		animateSpike(entity,thorn19,val3);
+		animateSpike(entity,thorn20,val1);
+		animateSpike(entity,thorn21,val2);
+		animateSpike(entity,thorn22,val3);
+		animateSpike(entity,thorn23,val1);
+		animateSpike(entity,thorn24,val2);
+		animateSpike(entity,thorn25,val3);
+		animateSpike(entity,thorn26,val1);
+		animateSpike(entity,thorn27,val2);
+		animateSpike(entity,thorn28,val3);
+		animateSpike(entity,thorn29,val1);
+		animateSpike(entity,shortThorn2,val3);
+		animateSpike(entity,shortThorn3,val1);
+		animateSpike(entity,shortThorn4,val2);
+		animateSpike(entity,shortThorn5,val3);
+		animateSpike(entity,shortThorn6,val1);
+		animateSpike(entity,shortThorn7,val2);
+		animateSpike(entity,shortThorn8,val3);
+		animateSpike(entity,shortThorn9,val1);
+		animateSpike(entity,shortThorn10,val2);
+		animateSpike(entity,shortThorn11,val3);
+		animateSpike(entity,shortThorn12,val1);
+		animateSpike(entity,shortThorn13,val2);
 	}
 
 	@Override
