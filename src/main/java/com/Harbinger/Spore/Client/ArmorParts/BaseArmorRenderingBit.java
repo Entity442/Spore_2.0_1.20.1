@@ -69,6 +69,9 @@ public abstract class BaseArmorRenderingBit {
         return livingEntity.getItemBySlot(slot);
     }
     protected VertexConsumer consumer(MultiBufferSource source,CustomModelArmorData data, HumanoidModel<LivingEntity> model,LivingEntity livingEntity){
+        if (this instanceof EnchantingPart enchantingPart){
+            return ItemRenderer.getFoilBufferDirect(source, model.renderType(enchantingPart.getTexture()), false, stack(livingEntity).hasFoil());
+        }
         return ItemRenderer.getFoilBufferDirect(source, model.renderType(data.getTextureLocation()), false, stack(livingEntity).hasFoil());
     }
 
@@ -87,11 +90,20 @@ public abstract class BaseArmorRenderingBit {
             blue = 1f;
             green = 1f;
         }
-        if (itemStack.getItem() instanceof CustomModelArmorData armorData && itemStack.getItem().equals(item)){
-            VertexConsumer consumer = consumer(buffer,armorData,model,livingEntity);
-            applyTransformEx(poseStack,getPiece(model),this.x,this.y,this.z,this.expand,this.Xspin,this.Yspin,this.Zspin,() -> {
-                part.get().render(poseStack, consumer, light, OverlayTexture.NO_OVERLAY, red, green, blue, 1f);
-            });
+        if (this instanceof EnchantingPart enchantingPart){
+            if (itemStack.getEnchantmentLevel(enchantingPart.getEnchantment()) > 0){
+                VertexConsumer consumer = consumer(buffer,null,model,livingEntity);
+                applyTransformEx(poseStack,getPiece(model),this.x,this.y,this.z,this.expand,this.Xspin,this.Yspin,this.Zspin,() -> {
+                    part.get().render(poseStack, consumer, light, OverlayTexture.NO_OVERLAY, red, green, blue, 1f);
+                });
+            }
+        }else {
+            if (itemStack.getItem() instanceof CustomModelArmorData armorData && itemStack.getItem().equals(item)){
+                VertexConsumer consumer = consumer(buffer,armorData,model,livingEntity);
+                applyTransformEx(poseStack,getPiece(model),this.x,this.y,this.z,this.expand,this.Xspin,this.Yspin,this.Zspin,() -> {
+                    part.get().render(poseStack, consumer, light, OverlayTexture.NO_OVERLAY, red, green, blue, 1f);
+                });
+            }
         }
     }
     protected abstract ModelPart getPiece(HumanoidModel<LivingEntity> model);

@@ -171,6 +171,9 @@ public class ClientModEvents {
         event.registerLayerDefinition(DualSpitterModel.LAYER_LOCATION, DualSpitterModel::createBodyLayer);
         event.registerLayerDefinition(SniperSpitterModel.LAYER_LOCATION, SniperSpitterModel::createBodyLayer);
         event.registerLayerDefinition(GrabberSlasherModel.LAYER_LOCATION, GrabberSlasherModel::createBodyLayer);
+        event.registerLayerDefinition(RavenousJawModel.LAYER_LOCATION, RavenousJawModel::createBodyLayer);
+        event.registerLayerDefinition(lacedThornsModel.LAYER_LOCATION, lacedThornsModel::createBodyLayer);
+
 
         event.registerLayerDefinition(BombFunnelModel.LAYER_LOCATION, BombFunnelModel::createBodyLayer);
         event.registerLayerDefinition(MushroomExplosionTop.LAYER_LOCATION, MushroomExplosionTop::createBodyLayer);

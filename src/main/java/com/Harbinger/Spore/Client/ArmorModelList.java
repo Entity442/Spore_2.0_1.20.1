@@ -2,28 +2,18 @@ package com.Harbinger.Spore.Client;
 
 import com.Harbinger.Spore.Client.ArmorParts.*;
 import com.Harbinger.Spore.Client.Models.*;
+import com.Harbinger.Spore.Core.Senchantments;
 import com.Harbinger.Spore.Core.Sitems;
-import com.Harbinger.Spore.Sitems.PCI;
-import com.Harbinger.Spore.Spore;
-import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
 
 import java.util.ArrayList;
 import java.util.List;
 public class ArmorModelList {
     private static final ResourceLocation psi_glow = new ResourceLocation("spore:textures/item/pci_gl.png");
+    private static final ResourceLocation jaw_texture = new ResourceLocation("spore:textures/armor/ravenous_mouth.png");
+    private static final ResourceLocation laced_thorns_texture = new ResourceLocation("spore:textures/armor/laced_thorns.png");
     private static final fleshArmorModel<LivingEntity> livingEntityfleshArmorModel = new fleshArmorModel<>();
     private static final platedArmorModel<LivingEntity> plated = new platedArmorModel<>();
     private static final GasMaskModel<LivingEntity> gasMaskModel = new GasMaskModel<>();
@@ -31,6 +21,8 @@ public class ArmorModelList {
     private static final livingArmorMkModel<LivingEntity> livingUpArmor = new livingArmorMkModel<>();
     private static final PCI_Model<LivingEntity> pci = new PCI_Model<>();
     private static final PCI_ModelL<LivingEntity> pciL = new PCI_ModelL<>();
+    private static final RavenousJawModel<LivingEntity> jaw = new RavenousJawModel<>();
+    private static final lacedThornsModel<LivingEntity> lacedThornsModel = new lacedThornsModel<>();
 
     private static final PCIHandModelItem RIGHT_PCI = new PCIHandModelItem(InteractionHand.MAIN_HAND,pci,pci.PCIBODY,0.95f, -0.7f, -0.35f,1,-90,90,0,psi_glow);
     private static final PCIHandModelItem LEFT_PCI = new PCIHandModelItem(InteractionHand.OFF_HAND,pci,pci.PCIBODY,-1f, -0.7f, -0.35f,1,-90,90,0,psi_glow);
@@ -88,6 +80,15 @@ public class ArmorModelList {
     private static final RightPCIArmorPart PCI_RIGHT = new RightPCIArmorPart(() -> pci,() -> pci.PCIBODY,psi_glow);
     private static final LeftPCIArmorPart PCI_LEFT = new LeftPCIArmorPart(() -> pciL,() -> pciL.PCIBODY,psi_glow);
 
+    private static final HelmetArmorPartEnchant JAW_PART = new HelmetArmorPartEnchant(null,() ->jaw,() ->jaw.jaw,0f,0f,0,1f, Senchantments.VORACIOUS_MAW.get(),jaw_texture);
+    private static final HelmetArmorPartEnchant THORNS_HELMET_PART = new HelmetArmorPartEnchant(null,() ->lacedThornsModel,() ->lacedThornsModel.head,0f,0f,0,1f, Senchantments.SERRATED_THORNS.get(),laced_thorns_texture);
+    public static final RightArmArmorPartEnchant THORNS_RIGHT_ARM_PART = new RightArmArmorPartEnchant(null,() ->lacedThornsModel,() ->lacedThornsModel.rightDarm,0.3f,-0.125f,0,1f, Senchantments.SERRATED_THORNS.get(),laced_thorns_texture);
+    public static final LeftArmArmorPartEnchant THORNS_LEFT_ARM_PART =  new LeftArmArmorPartEnchant(null,() ->lacedThornsModel,() ->lacedThornsModel.leftDarm,-0.3f,-0.125f,0,1f, Senchantments.SERRATED_THORNS.get(),laced_thorns_texture);
+    public static final RightLegArmorPartEnchant THORNS_RIGHT_LEG_PART = new RightLegArmorPartEnchant(null,() ->lacedThornsModel,() ->lacedThornsModel.rightDleg,0.1f,-0.8f,0,1.01f, Senchantments.SERRATED_THORNS.get(),laced_thorns_texture);
+    public static final LeftLegArmorPartEnchant THORNS_LEFT_LEG_PART = new LeftLegArmorPartEnchant(null,() ->lacedThornsModel,() ->lacedThornsModel.leftDleg,-0.1f,-0.8f,0,1f, Senchantments.SERRATED_THORNS.get(),laced_thorns_texture);
+    public static final RightBootArmorPartEnchant THORNS_RIGHT_BOOT_PART = new RightBootArmorPartEnchant(null,() ->lacedThornsModel,() ->lacedThornsModel.rightDboot,0.1f,-0.8f,0,1.01f, Senchantments.SERRATED_THORNS.get(),laced_thorns_texture);
+    public static final LeftBootArmorPartEnchant THORNS_LEFT_BOOT_PART = new LeftBootArmorPartEnchant(null,() ->lacedThornsModel,() ->lacedThornsModel.leftDboot,-0.1f,-0.8f,0,1f, Senchantments.SERRATED_THORNS.get(),laced_thorns_texture);
+
     public static final List<BaseArmorRenderingBit> ARMOR_RENDERING_BITS = new ArrayList<>(){{
         add(LIVING_HELMET_PART);
         add(LIVING_CHEST_PART);
@@ -135,5 +136,14 @@ public class ArmorModelList {
         add(PCI_LEFT);
     }};
 
-
+    public static final List<EnchantingPart> ENCHANTING_RENDERING_BITS = new ArrayList<>(){{
+        add(JAW_PART);
+        add(THORNS_HELMET_PART);
+        add(THORNS_RIGHT_ARM_PART);
+        add(THORNS_LEFT_ARM_PART);
+        add(THORNS_RIGHT_LEG_PART);
+        add(THORNS_LEFT_LEG_PART);
+        add(THORNS_RIGHT_BOOT_PART);
+        add(THORNS_LEFT_BOOT_PART);
+    }};
 }
