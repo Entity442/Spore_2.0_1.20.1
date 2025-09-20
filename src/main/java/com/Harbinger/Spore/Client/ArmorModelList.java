@@ -6,7 +6,9 @@ import com.Harbinger.Spore.Core.Senchantments;
 import com.Harbinger.Spore.Core.Sitems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,14 +82,15 @@ public class ArmorModelList {
     private static final RightPCIArmorPart PCI_RIGHT = new RightPCIArmorPart(() -> pci,() -> pci.PCIBODY,psi_glow);
     private static final LeftPCIArmorPart PCI_LEFT = new LeftPCIArmorPart(() -> pciL,() -> pciL.PCIBODY,psi_glow);
 
-    private static final HelmetArmorPartEnchant JAW_PART = new HelmetArmorPartEnchant(null,() ->jaw,() ->jaw.jaw,0f,0f,0,1f, Senchantments.VORACIOUS_MAW.get(),jaw_texture);
-    private static final HelmetArmorPartEnchant THORNS_HELMET_PART = new HelmetArmorPartEnchant(null,() ->lacedThornsModel,() ->lacedThornsModel.head,0f,0f,0,1f, Senchantments.SERRATED_THORNS.get(),laced_thorns_texture);
-    public static final RightArmArmorPartEnchant THORNS_RIGHT_ARM_PART = new RightArmArmorPartEnchant(null,() ->lacedThornsModel,() ->lacedThornsModel.rightDarm,0.3f,-0.125f,0,1f, Senchantments.SERRATED_THORNS.get(),laced_thorns_texture);
-    public static final LeftArmArmorPartEnchant THORNS_LEFT_ARM_PART =  new LeftArmArmorPartEnchant(null,() ->lacedThornsModel,() ->lacedThornsModel.leftDarm,-0.3f,-0.125f,0,1f, Senchantments.SERRATED_THORNS.get(),laced_thorns_texture);
-    public static final RightLegArmorPartEnchant THORNS_RIGHT_LEG_PART = new RightLegArmorPartEnchant(null,() ->lacedThornsModel,() ->lacedThornsModel.rightDleg,0.1f,-0.8f,0,1.01f, Senchantments.SERRATED_THORNS.get(),laced_thorns_texture);
-    public static final LeftLegArmorPartEnchant THORNS_LEFT_LEG_PART = new LeftLegArmorPartEnchant(null,() ->lacedThornsModel,() ->lacedThornsModel.leftDleg,-0.1f,-0.8f,0,1f, Senchantments.SERRATED_THORNS.get(),laced_thorns_texture);
-    public static final RightBootArmorPartEnchant THORNS_RIGHT_BOOT_PART = new RightBootArmorPartEnchant(null,() ->lacedThornsModel,() ->lacedThornsModel.rightDboot,0.1f,-0.8f,0,1.01f, Senchantments.SERRATED_THORNS.get(),laced_thorns_texture);
-    public static final LeftBootArmorPartEnchant THORNS_LEFT_BOOT_PART = new LeftBootArmorPartEnchant(null,() ->lacedThornsModel,() ->lacedThornsModel.leftDboot,-0.1f,-0.8f,0,1f, Senchantments.SERRATED_THORNS.get(),laced_thorns_texture);
+    private static final List<Item> fleshBlackList = List.of(Sitems.LIVING_HELMET.get(),Sitems.LIVING_CHEST.get(),Sitems.LIVING_PANTS.get(),Sitems.LIVING_BOOTS.get());
+    private static final ArmorPartEnchant JAW_PART = new ArmorPartEnchant(EquipmentSlot.HEAD,() ->jaw,() ->jaw.jaw,0f,0f,0,1f, Senchantments.VORACIOUS_MAW.get(),jaw_texture,List.of());
+    private static final ArmorPartEnchant THORNS_HELMET_PART = new ArmorPartEnchant(EquipmentSlot.HEAD,() ->lacedThornsModel,() ->lacedThornsModel.head,0f,0f,0,1f, Senchantments.SERRATED_THORNS.get(),laced_thorns_texture,fleshBlackList);
+    public static final ArmorPartEnchant THORNS_RIGHT_ARM_PART = new ArmorPartEnchant(EquipmentSlot.CHEST,() ->lacedThornsModel,() ->lacedThornsModel.rightDarm,0.3f,-0.125f,0,1f, Senchantments.SERRATED_THORNS.get(),laced_thorns_texture,fleshBlackList);
+    public static final ArmorPartEnchant THORNS_LEFT_ARM_PART =  new ArmorPartEnchant(EquipmentSlot.CHEST,() ->lacedThornsModel,() ->lacedThornsModel.leftDarm,-0.3f,-0.125f,0,1f, Senchantments.SERRATED_THORNS.get(),laced_thorns_texture,fleshBlackList);
+    public static final ArmorPartEnchant THORNS_RIGHT_LEG_PART = new ArmorPartEnchant(EquipmentSlot.LEGS,() ->lacedThornsModel,() ->lacedThornsModel.rightDleg,0.1f,-0.8f,0,1.01f, Senchantments.SERRATED_THORNS.get(),laced_thorns_texture,fleshBlackList);
+    public static final ArmorPartEnchant THORNS_LEFT_LEG_PART = new ArmorPartEnchant(EquipmentSlot.LEGS,() ->lacedThornsModel,() ->lacedThornsModel.leftDleg,-0.1f,-0.8f,0,1f, Senchantments.SERRATED_THORNS.get(),laced_thorns_texture,fleshBlackList);
+    public static final ArmorPartEnchant THORNS_RIGHT_BOOT_PART = new ArmorPartEnchant(EquipmentSlot.FEET,() ->lacedThornsModel,() ->lacedThornsModel.rightDboot,0.1f,-0.8f,0,1.01f, Senchantments.SERRATED_THORNS.get(),laced_thorns_texture,fleshBlackList);
+    public static final ArmorPartEnchant THORNS_LEFT_BOOT_PART = new ArmorPartEnchant(EquipmentSlot.FEET,() ->lacedThornsModel,() ->lacedThornsModel.leftDboot,-0.1f,-0.8f,0,1f, Senchantments.SERRATED_THORNS.get(),laced_thorns_texture,fleshBlackList);
 
     public static final List<BaseArmorRenderingBit> ARMOR_RENDERING_BITS = new ArrayList<>(){{
         add(LIVING_HELMET_PART);

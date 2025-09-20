@@ -39,7 +39,7 @@ public class CustomArmorLayer<E extends  LivingEntity,M extends HumanoidModel<E>
             return;
         }
         for (EnchantingPart bit : parts){
-            if (bit instanceof BaseArmorRenderingBit armorRenderingBit){
+            if (bit instanceof BaseArmorRenderingBit armorRenderingBit && !bit.blacklistedItems().contains(armorRenderingBit.stack(entity).getItem())){
                 armorRenderingBit.tickMovement(entity,poseStack,(HumanoidModel<LivingEntity>)origin,light,buffer);
                 armorRenderingBit.model.get().setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks+entity.tickCount, netHeadYaw, headPitch);
             }

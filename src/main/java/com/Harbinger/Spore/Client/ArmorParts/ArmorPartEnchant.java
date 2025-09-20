@@ -9,21 +9,25 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
 
+import java.util.List;
 import java.util.function.Supplier;
 
-public class RightBootArmorPartEnchant extends BaseArmorRenderingBit implements EnchantingPart{
+public class ArmorPartEnchant extends BaseArmorRenderingBit implements EnchantingPart{
     private final Enchantment enchantment;
     private final ResourceLocation location;
-    public RightBootArmorPartEnchant(Item item, Supplier<EntityModel<LivingEntity>> model, Supplier<ModelPart> part, float x, float y, float z, float expand, Enchantment enchantment, ResourceLocation location) {
-        super(EquipmentSlot.FEET, item, model, part, x, y, z, expand);
+    private final List<Item> blacklist;
+    public ArmorPartEnchant(EquipmentSlot slot, Supplier<EntityModel<LivingEntity>> model, Supplier<ModelPart> part, float x, float y, float z, float expand, Enchantment enchantment, ResourceLocation location, List<Item> blacklist) {
+        super(slot, null, model, part, x, y, z, expand);
         this.enchantment = enchantment;
         this.location = location;
+        this.blacklist = blacklist;
     }
 
     @Override
     protected ModelPart getPiece(HumanoidModel<LivingEntity> model) {
-        return model.rightLeg;
+        return model.head;
     }
+
 
     @Override
     public Enchantment getEnchantment() {
@@ -33,5 +37,10 @@ public class RightBootArmorPartEnchant extends BaseArmorRenderingBit implements 
     @Override
     public ResourceLocation getTexture() {
         return location;
+    }
+
+    @Override
+    public List<Item> blacklistedItems() {
+        return blacklist;
     }
 }
