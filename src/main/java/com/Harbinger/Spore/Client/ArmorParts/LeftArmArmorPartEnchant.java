@@ -12,12 +12,12 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class ArmorPartEnchant extends BaseArmorRenderingBit implements EnchantingPart{
+public class LeftArmArmorPartEnchant extends BaseArmorRenderingBit implements EnchantingPart{
     private final Enchantment enchantment;
     private final ResourceLocation location;
     private final List<Item> blacklist;
-    public ArmorPartEnchant(EquipmentSlot slot, Supplier<EntityModel<LivingEntity>> model, Supplier<ModelPart> part, float x, float y, float z, float expand, Enchantment enchantment, ResourceLocation location, List<Item> blacklist) {
-        super(slot, null, model, part, x, y, z, expand);
+    public LeftArmArmorPartEnchant(Supplier<EntityModel<LivingEntity>> model, Supplier<ModelPart> part, float x, float y, float z, float expand, Enchantment enchantment, ResourceLocation location, List<Item> blacklist) {
+        super(EquipmentSlot.CHEST, null, model, part, x, y, z, expand);
         this.enchantment = enchantment;
         this.location = location;
         this.blacklist = blacklist;
@@ -25,9 +25,8 @@ public class ArmorPartEnchant extends BaseArmorRenderingBit implements Enchantin
 
     @Override
     protected ModelPart getPiece(HumanoidModel<LivingEntity> model) {
-        return model.head;
+        return model.leftArm;
     }
-
 
     @Override
     public Enchantment getEnchantment() {
