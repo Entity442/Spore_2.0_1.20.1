@@ -173,6 +173,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(GrabberSlasherModel.LAYER_LOCATION, GrabberSlasherModel::createBodyLayer);
         event.registerLayerDefinition(RavenousJawModel.LAYER_LOCATION, RavenousJawModel::createBodyLayer);
         event.registerLayerDefinition(lacedThornsModel.LAYER_LOCATION, lacedThornsModel::createBodyLayer);
+        event.registerLayerDefinition(MephiticModel.LAYER_LOCATION, MephiticModel::createBodyLayer);
 
 
         event.registerLayerDefinition(BombFunnelModel.LAYER_LOCATION, BombFunnelModel::createBodyLayer);
@@ -273,6 +274,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.INEBRIATER.get(), InebriatorRenderer::new);
         event.registerEntityRenderer(Sentities.SAUGLING.get(), SauglingRenderer::new);
         event.registerEntityRenderer(Sentities.CORPSE_PIECE.get(), CorpseRenderer::new);
+        event.registerEntityRenderer(Sentities.MEPHETIC.get(), MephticRenderer::new);
 
         event.registerBlockEntityRenderer(SblockEntities.OVERGROWN_SPAWNER.get(), new OvergrownSpawnerRenderer());
         event.registerBlockEntityRenderer(SblockEntities.BRAIN_REMNANTS.get(), new BrainRemnantsRenderer());

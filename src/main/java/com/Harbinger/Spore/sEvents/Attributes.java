@@ -93,6 +93,7 @@ public class Attributes {
         event.put(Sentities.PROTECTOR.get(), Protector.createAttributes().build());
         event.put(Sentities.INEBRIATER.get(), Inebriator.createAttributes().build());
         event.put(Sentities.SAUGLING.get(), Saugling.createAttributes().build());
+        event.put(Sentities.MEPHETIC.get(), Mephetic.createAttributes().build());
     }
 }
 
