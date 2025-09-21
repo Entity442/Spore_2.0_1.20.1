@@ -516,7 +516,8 @@ public class MephiticModel<T extends Mephetic> extends EntityModel<T> implements
 		this.Head.xRot = headPitch /  ( 90F / (float) Math.PI);
 		this.LowerJaw.xRot = Mth.sin(ageInTicks / 8) / 10;
 		this.HeadIntermediate.xRot = -this.LowerJaw.xRot;
-		animateTumor(tumor,Mth.sin(ageInTicks/6)/6);
+		animateTumor(tumor,Mth.sin(ageInTicks/8)/8);
+		animateTumor(Tumor18Group,-Mth.sin(ageInTicks/8)/8);
 		animateTumor(tumor1,-Mth.sin(-ageInTicks/7)/6);
 		animateTumor(tumor2,Mth.cos(ageInTicks/6)/7);
 		animateTumor(tumor3,Mth.sin(ageInTicks/7)/8);
