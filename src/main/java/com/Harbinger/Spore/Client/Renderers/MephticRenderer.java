@@ -34,6 +34,7 @@ public class MephticRenderer<Type extends Mephetic> extends BaseInfectedRenderer
         this.addLayer(new MepheticBottle(this));
         this.addLayer(new VolatileGlowingLayers<>(this));
         this.addLayer(new PotionLayer<>(this,context.getItemInHandRenderer()));
+        this.addLayer(new HeldDrink<>(this,context.getItemInHandRenderer()));
     }
 
     @Override
@@ -85,6 +86,29 @@ public class MephticRenderer<Type extends Mephetic> extends BaseInfectedRenderer
             this.getParentModel().armParts.forEach(part -> {part.translateAndRotate(poseStack);});
             poseStack.translate(-0.15+x,1+y,0);
             poseStack.scale(0.5F, 0.5F, 0.5F);
+            poseStack.mulPose(Axis.YP.rotationDegrees(270.0F));
+            itemInHandRenderer.renderItem(entity,stack, ItemDisplayContext.FIXED,true,poseStack,source,light);
+            poseStack.popPose();
+        }
+    }
+    static class HeldDrink <T extends Mephetic, M extends MephiticModel<T>> extends RenderLayer<T, M>{
+        private final ItemInHandRenderer itemInHandRenderer;
+        public HeldDrink(RenderLayerParent<T, M> parent, ItemInHandRenderer itemInHandRenderer) {
+            super(parent);
+            this.itemInHandRenderer = itemInHandRenderer;
+        }
+
+        @Override
+        public void render(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, T t, float v, float v1, float v2, float v3, float v4, float v5) {
+            renderItem(poseStack,t,multiBufferSource,i,t.getMainHandItem());
+        }
+
+        private void renderItem(PoseStack poseStack,T entity,MultiBufferSource source,int light,ItemStack stack){
+            poseStack.pushPose();
+            this.getParentModel().OffarmParts.forEach(part -> {part.translateAndRotate(poseStack);});
+            poseStack.translate(0.2,1.1,0);
+            poseStack.scale(0.5F, 0.5F, 0.5F);
+            poseStack.mulPose(Axis.XP.rotationDegrees(-90.0F));
             poseStack.mulPose(Axis.YP.rotationDegrees(270.0F));
             itemInHandRenderer.renderItem(entity,stack, ItemDisplayContext.FIXED,true,poseStack,source,light);
             poseStack.popPose();

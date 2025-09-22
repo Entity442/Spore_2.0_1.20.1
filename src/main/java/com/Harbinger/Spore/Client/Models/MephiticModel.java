@@ -71,6 +71,7 @@ public class MephiticModel<T extends Mephetic> extends EntityModel<T> implements
 	private final ModelPart tumor2;
 	private final ModelPart HeadFoliage;
 	public final List<ModelPart> armParts;
+	public final List<ModelPart> OffarmParts;
 	public MephiticModel(ModelPart root) {
 		this.Mephitic = root.getChild("Mephitic");
 		this.Torso = this.Mephitic.getChild("Torso");
@@ -124,6 +125,7 @@ public class MephiticModel<T extends Mephetic> extends EntityModel<T> implements
 		this.tumor2 = this.Tumors.getChild("tumor2");
 		this.HeadFoliage = this.UpperHead.getChild("HeadFoliage");
 		armParts = List.of(Mephitic,Arms,RightArm);
+		OffarmParts = List.of(Mephitic,Arms,LeftArm);
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -521,23 +523,29 @@ public class MephiticModel<T extends Mephetic> extends EntityModel<T> implements
 		animateTumor(tumor3,Mth.sin(ageInTicks/7)/8);
 		animateTumor(tumor4,Mth.cos(ageInTicks/7)/9);
 		animateTumor(Tumor5Group,Mth.cos(ageInTicks/7)/7);
-
+		float armAn = Mth.sin(ageInTicks/6)/6;
 		if (entity.getAttackAnimationTick() <= 0){
-			this.animateTentacleX(this.LeftArm, Mth.sin(ageInTicks/8)/10);
+			this.animateTentacleX(this.LeftArm, entity.isAggressive()? -1.5f + armAn : armAn);
 		}else{
 			int attackAnimationTick = entity.getAttackAnimationTick();
 			if (attackAnimationTick > 0) {
-				float swing = -2.0F + 1.5F * Mth.triangleWave((float)attackAnimationTick, 20.0F);
-				this.animateTentacleX(LeftArm,swing);
+                this.LeftArm.xRot = -2.0F + 1.5F * Mth.triangleWave((float)attackAnimationTick, 20.0F);
 			}
 		}
-		if (entity.getAttackAnimationTick() <= 0){
-			this.animateTentacleX(this.RightArm, -Mth.sin(ageInTicks/8)/10);
+		if (entity.getThrowAnimationTick() <= 0){
+			this.animateTentacleX(this.RightArm, entity.isAggressive()? -1.5f - armAn : armAn);
 		}else{
 			int throwAnimationTick = entity.getThrowAnimationTick();
 			if (throwAnimationTick > 0) {
-				float swing = 2.0F - 1.5F * Mth.triangleWave((float)throwAnimationTick, 20.0F);
-				this.animateTentacleX(RightArm,swing);
+                RightArm.xRot = 2.0F - 1.5F * Mth.triangleWave((float)throwAnimationTick, 20.0F);
+			}
+		}
+		if (entity.getMouthAnimationTick() <= 0){
+			this.animateTentacleX(this.HeadIntermediate,-this.LowerJaw.xRot);
+		}else{
+			int throwAnimationTick = entity.getMouthAnimationTick();
+			if (throwAnimationTick > 0) {
+				HeadIntermediate.xRot = 1.5F * Mth.triangleWave((float)throwAnimationTick, 20.0F);
 			}
 		}
 	}
