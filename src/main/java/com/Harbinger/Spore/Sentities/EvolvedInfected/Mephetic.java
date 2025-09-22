@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities.EvolvedInfected;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Spotion;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
@@ -58,7 +59,7 @@ public class Mephetic extends EvolvedInfected implements RangedAttackMob {
             @Override
             protected double getAttackReachSqr(LivingEntity entity) {
                 return 6.0 + entity.getBbWidth() * entity.getBbWidth();}});
-        this.goalSelector.addGoal(3, new UseItemGoal<>(this, PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_FIRE_RESISTANCE), SoundEvents.WITCH_DRINK, (p_35882_) -> {
+        this.goalSelector.addGoal(2, new UseItemGoal<>(this, PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_FIRE_RESISTANCE), SoundEvents.WITCH_DRINK, (p_35882_) -> {
             return this.isOnFire() && !this.hasEffect(MobEffects.FIRE_RESISTANCE) && SConfig.SERVER.use_potions.get();
         }));
         this.goalSelector.addGoal(3, new UseItemGoal<>(this, PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.WATER_BREATHING), SoundEvents.WITCH_DRINK, (p_35882_) -> {
@@ -93,6 +94,9 @@ public class Mephetic extends EvolvedInfected implements RangedAttackMob {
     public boolean doHurtTarget(Entity entity) {
         this.attackAnimationTick = 10;
         this.level().broadcastEntityEvent(this, (byte)4);
+        if (entity instanceof LivingEntity living){
+            living.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),200,1));
+        }
         return super.doHurtTarget(entity);
     }
 
@@ -124,21 +128,15 @@ public class Mephetic extends EvolvedInfected implements RangedAttackMob {
         }
         LivingEntity living = this.getTarget();
         if(ticksBeforeThrown >= 79){
-            if (living != null && hasLineOfSight(living) && living.distanceToSqr(this) > 20 && tryNotToHit(living)){
+            if (living != null && hasLineOfSight(living) && living.distanceToSqr(this) > 20){
                 throwPotions(living);
             }
         }
         if (tickCount % 200 == 0){
-            if (living != null && hasLineOfSight(living) && living.distanceToSqr(this) > 60 && tryNotToHit(living)){
+            if (living != null && hasLineOfSight(living) && living.distanceToSqr(this) > 60){
                 throwLingeringPotions(living);
             }
         }
-    }
-    private boolean tryNotToHit(LivingEntity living){
-        AABB aabb = living.getBoundingBox().inflate(2);
-        List<Entity> stuff = level().getEntities(this,aabb,entity -> {return entity instanceof InfectedEvoker || entity instanceof UtilityEntity;
-        });
-        return stuff.size() <3;
     }
     private Potion getAttackPotion(){
         Random rand = new Random();
@@ -273,8 +271,12 @@ public class Mephetic extends EvolvedInfected implements RangedAttackMob {
 
         public void stop() {
             if (!this.mob.getOffhandItem().equals(ItemStack.EMPTY)){
-                mob.addEffect(mob.getOffhandItem().equals(strength) ? new MobEffectInstance(MobEffects.DAMAGE_BOOST, 3600) :
-                        new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 3600)  );
+                if (PotionUtils.getPotion(mob.getOffhandItem()).equals(Potions.STRENGTH)){
+                    mob.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 3600));
+                }
+                if (PotionUtils.getPotion(mob.getOffhandItem()).equals(Potions.SWIFTNESS)){
+                    mob.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 3600));
+                }
             }
             this.mob.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
             this.mob.setItemSlot(EquipmentSlot.OFFHAND, ItemStack.EMPTY);
