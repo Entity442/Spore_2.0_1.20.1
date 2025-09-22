@@ -506,8 +506,6 @@ public class MephiticModel<T extends Mephetic> extends EntityModel<T> implements
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		this.animateTentacleX(this.RightArm, Mth.sin(ageInTicks/8)/10);
-		this.animateTentacleX(this.LeftArm, -Mth.sin(ageInTicks/8)/10);
 		this.RightLeg.xRot = Mth.cos(limbSwing * 0.8F) * 0.8F * limbSwingAmount;
 		this.LeftLeg.xRot = Mth.cos(limbSwing * 0.8F) * -0.8F * limbSwingAmount;
 		this.leftForLeg.xRot = this.LeftLeg.xRot < 0 ? -this.LeftLeg.xRot : 0;
@@ -523,6 +521,25 @@ public class MephiticModel<T extends Mephetic> extends EntityModel<T> implements
 		animateTumor(tumor3,Mth.sin(ageInTicks/7)/8);
 		animateTumor(tumor4,Mth.cos(ageInTicks/7)/9);
 		animateTumor(Tumor5Group,Mth.cos(ageInTicks/7)/7);
+
+		if (entity.getAttackAnimationTick() <= 0){
+			this.animateTentacleX(this.LeftArm, Mth.sin(ageInTicks/8)/10);
+		}else{
+			int attackAnimationTick = entity.getAttackAnimationTick();
+			if (attackAnimationTick > 0) {
+				float swing = -2.0F + 1.5F * Mth.triangleWave((float)attackAnimationTick, 20.0F);
+				this.animateTentacleX(LeftArm,swing);
+			}
+		}
+		if (entity.getAttackAnimationTick() <= 0){
+			this.animateTentacleX(this.RightArm, -Mth.sin(ageInTicks/8)/10);
+		}else{
+			int throwAnimationTick = entity.getThrowAnimationTick();
+			if (throwAnimationTick > 0) {
+				float swing = 2.0F - 1.5F * Mth.triangleWave((float)throwAnimationTick, 20.0F);
+				this.animateTentacleX(RightArm,swing);
+			}
+		}
 	}
 
 	@Override
