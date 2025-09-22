@@ -317,6 +317,11 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> vola_debuffs;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> vola_buffs;
 
+        public final ForgeConfigSpec.ConfigValue<Double> mep_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> mep_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> mep_armor;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> mep_potions;
+
         public final ForgeConfigSpec.ConfigValue<Double> mound_hp;
         public final ForgeConfigSpec.ConfigValue<Double> mound_armor;
         public final ForgeConfigSpec.ConfigValue<Integer> mound_cooldown;
@@ -1182,6 +1187,15 @@ public class SConfig {
                     Lists.newArrayList("minecraft:poison","minecraft:weakness","minecraft:hunger","spore:marker") , o -> o instanceof String);
             builder.pop();
 
+            builder.push("Mephetic");
+            this.mep_hp = builder.comment("Default 25").defineInRange("Sets Mephetic Max health", 25, 1, Double.MAX_VALUE);
+            this.mep_damage = builder.comment("Default 6").defineInRange("Sets Mephetic Damage", 6, 1, Double.MAX_VALUE);
+            this.mep_armor = builder.comment("Default 4").defineInRange("Sets Mephetic Armor", 4, 1, Double.MAX_VALUE);
+            this.mep_potions = builder.defineList("Potions that are used to attack others , NOT effects",
+                    Lists.newArrayList("minecraft:harming","minecraft:weakness","minecraft:poison","spore:mycelium_potion","spore:marker_potion" ) , o -> o instanceof String);
+
+            builder.pop();
+
             builder.push("Scamper");
             this.scamper_hp = builder.comment("Default 25").defineInRange("Sets Scamper Max health", 25, 1, Double.MAX_VALUE);
             this.scamper_damage = builder.comment("Default 6").defineInRange("Sets Scamper Damage", 6, 1, Double.MAX_VALUE);
@@ -1467,6 +1481,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_player_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_husk_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_volatile_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_mep_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> gastgaber_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sca_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_loot;
@@ -1593,6 +1608,9 @@ public class SConfig {
 
             this.inf_volatile_loot = builder.defineList("Volatile",
                     Lists.newArrayList("spore:mutated_fiber|70|1|5","spore:armor_fragment|80|2|6","spore:mutated_heart|10|1|1","spore:claw_fragment|80|6|9","spore:innards|50|1|1","spore:tumor|100|2|4") , o -> o instanceof String);
+            this.inf_mep_loot = builder.defineList("Mephetic",
+                    Lists.newArrayList("spore:mutated_fiber|70|1|5","spore:armor_fragment|80|2|6","spore:mutated_heart|10|1|1","spore:claw_fragment|80|6|9","spore:innards|50|1|1","spore:tumor|100|2|4") , o -> o instanceof String);
+
 
             this.jagd_loot = builder.defineList("Jagdhund",
                     Lists.newArrayList("spore:mutated_fiber|70|1|5","minecraft:bone|70|1|4","spore:armor_fragment|80|4|9","spore:mutated_heart|10|1|1","spore:claw_fragment|80|6|9") , o -> o instanceof String);

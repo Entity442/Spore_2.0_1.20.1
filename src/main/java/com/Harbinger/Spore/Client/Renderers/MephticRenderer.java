@@ -100,13 +100,14 @@ public class MephticRenderer<Type extends Mephetic> extends BaseInfectedRenderer
 
         @Override
         public void render(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, T t, float v, float v1, float v2, float v3, float v4, float v5) {
-            renderItem(poseStack,t,multiBufferSource,i,t.getMainHandItem());
+            renderItem(poseStack,t,multiBufferSource,i,t.getMainHandItem(),0);
+            renderItem(poseStack,t,multiBufferSource,i,t.getOffhandItem(),0.1f);
         }
 
-        private void renderItem(PoseStack poseStack,T entity,MultiBufferSource source,int light,ItemStack stack){
+        private void renderItem(PoseStack poseStack,T entity,MultiBufferSource source,int light,ItemStack stack,float offset){
             poseStack.pushPose();
             this.getParentModel().OffarmParts.forEach(part -> {part.translateAndRotate(poseStack);});
-            poseStack.translate(0.2,1.1,0);
+            poseStack.translate(0.2+offset,1.1,0);
             poseStack.scale(0.5F, 0.5F, 0.5F);
             poseStack.mulPose(Axis.XP.rotationDegrees(-90.0F));
             poseStack.mulPose(Axis.YP.rotationDegrees(270.0F));

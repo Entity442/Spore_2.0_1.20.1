@@ -1,19 +1,25 @@
 package com.Harbinger.Spore.Sentities.EvolvedInfected;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Spotion;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
+import com.Harbinger.Spore.Sentities.MovementControls.InfectedWallMovementControl;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.UseItemGoal;
+import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.projectile.ThrownPotion;
@@ -25,9 +31,12 @@ import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.registries.ForgeRegistries;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Mephetic extends EvolvedInfected implements RangedAttackMob {
     private final List<ItemStack> potions = new ArrayList<>();
@@ -37,6 +46,8 @@ public class Mephetic extends EvolvedInfected implements RangedAttackMob {
     private int ticksBeforeThrown;
     public Mephetic(EntityType<? extends Monster> type, Level level) {
         super(type, level);
+        this.navigation = new WallClimberNavigation(this,level);
+        this.moveControl = new InfectedWallMovementControl(this);
     }
     @Override
     protected void registerGoals() {
@@ -47,9 +58,10 @@ public class Mephetic extends EvolvedInfected implements RangedAttackMob {
         this.goalSelector.addGoal(4, new UseItemGoal<>(this, PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_FIRE_RESISTANCE), SoundEvents.WITCH_DRINK, (p_35882_) -> {
             return this.isOnFire() && !this.hasEffect(MobEffects.FIRE_RESISTANCE) && SConfig.SERVER.use_potions.get();
         }));
-        this.goalSelector.addGoal(4, new UseItemGoal<>(this, PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.HEALING), SoundEvents.WITCH_DRINK, (p_35882_) -> {
-            return this.getHealth() < getMaxHealth() && SConfig.SERVER.use_potions.get();
+        this.goalSelector.addGoal(4, new UseItemGoal<>(this, PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.WATER_BREATHING), SoundEvents.WITCH_DRINK, (p_35882_) -> {
+            return this.isInWater() && !this.hasEffect(MobEffects.WATER_BREATHING) && SConfig.SERVER.use_potions.get();
         }));
+        this.goalSelector.addGoal(4,new DrinkPotionGoal<>(this,SoundEvents.WITCH_DRINK));
         this.goalSelector.addGoal(4, new RandomStrollGoal(this, 0.8));
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         super.registerGoals();
@@ -57,7 +69,7 @@ public class Mephetic extends EvolvedInfected implements RangedAttackMob {
 
     @Override
     public List<? extends String> getDropList() {
-        return SConfig.DATAGEN.inf_volatile_loot.get();
+        return SConfig.DATAGEN.inf_mep_loot.get();
     }
     public void defineSynchedData() {
         super.defineSynchedData();
@@ -119,12 +131,31 @@ public class Mephetic extends EvolvedInfected implements RangedAttackMob {
             }
         }
     }
-
+    private Potion getAttackPotion(){
+        Random rand = new Random();
+        List<? extends String> ev = SConfig.SERVER.mep_potions.get();
+        int randomIndex = rand.nextInt(ev.size());
+        ResourceLocation randomElement1 = new ResourceLocation(ev.get(randomIndex));
+        Potion potion = ForgeRegistries.POTIONS.getValue(randomElement1);
+        LivingEntity living = this.getTarget();
+        if (living != null && living.getMobType().equals(MobType.UNDEAD)){
+            if (potion == null){
+                return Potions.HEALING;
+            }else {
+                if (potion.equals(Potions.HARMING)){
+                    return Potions.HEALING;
+                }
+                if (potion.equals(Potions.POISON)){
+                    return Spotion.MYCELIUM_POTION.get();
+                }
+            }
+        }
+        return potion == null ? Potions.HARMING : potion;
+    }
     public void loadPotions(){
         potions.clear();
         for (int i = 0; i<3; i++){
-            Potion potion = Math.random() < 0.5 ? Potions.HARMING : Potions.POISON;
-            potions.add(PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), potion));
+            potions.add(PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), getAttackPotion()));
         }
     }
     public void throwPotions(LivingEntity living){
@@ -141,19 +172,19 @@ public class Mephetic extends EvolvedInfected implements RangedAttackMob {
         this.mouthAnimationTick = 10;
         this.level().broadcastEntityEvent(this, (byte) 5);
         this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.WITCH_THROW, this.getSoundSource(), 1.0F, 0.8F + this.random.nextFloat() * 0.4F);
-        for(int i = 0;i<random.nextInt(1,5);i++){
-            lingeringPotionThrow(living,Potions.AWKWARD);
+        int u = random.nextInt(1,6);
+        for(int i = 0;i<u;i++){
+            lingeringPotionThrow(living,getAttackPotion());
         }
     }
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, SConfig.SERVER.vola_hp.get() * SConfig.SERVER.global_health.get())
+                .add(Attributes.MAX_HEALTH, SConfig.SERVER.mep_hp.get() * SConfig.SERVER.global_health.get())
                 .add(Attributes.MOVEMENT_SPEED, 0.25)
-                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.vola_damage.get() * SConfig.SERVER.global_damage.get())
-                .add(Attributes.ARMOR, SConfig.SERVER.vola_armor.get() * SConfig.SERVER.global_armor.get())
-                .add(Attributes.FOLLOW_RANGE, 32)
-                .add(Attributes.ATTACK_KNOCKBACK, 1);
+                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.mep_damage.get() * SConfig.SERVER.global_damage.get())
+                .add(Attributes.ARMOR, SConfig.SERVER.mep_armor.get() * SConfig.SERVER.global_armor.get())
+                .add(Attributes.FOLLOW_RANGE, 32);
 
     }
     public List<ItemStack> getPotions(){
@@ -201,5 +232,44 @@ public class Mephetic extends EvolvedInfected implements RangedAttackMob {
         thrownpotion.setXRot(thrownpotion.getXRot() - -20.0F);
         thrownpotion.shoot(d0, d1 + d3 * 0.4D, d2, 1F, 8.0F);
         this.level().addFreshEntity(thrownpotion);
+    }
+    public class DrinkPotionGoal<T extends Mob> extends Goal {
+        private final T mob;
+        private final ItemStack item = PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.HEALING);
+        private final ItemStack strength = PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.STRENGTH);
+        private final ItemStack speed = PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.SWIFTNESS);
+        @Nullable
+        private final SoundEvent finishUsingSound;
+
+        public DrinkPotionGoal(T p_25972_, @Nullable SoundEvent p_25974_) {
+            this.mob = p_25972_;
+            this.finishUsingSound = p_25974_;
+        }
+
+        public boolean canUse() {
+            return mob.getHealth() < mob.getMaxHealth();
+        }
+
+        public boolean canContinueToUse() {
+            return this.mob.isUsingItem();
+        }
+
+        public void start() {
+            this.mob.setItemSlot(EquipmentSlot.MAINHAND, this.item.copy());
+            this.mob.startUsingItem(InteractionHand.MAIN_HAND);
+            if (Math.random() < 0.3 ){
+                mob.setItemSlot(EquipmentSlot.OFFHAND, Math.random() < 0.5 ? strength.copy() : speed.copy());
+                mob.startUsingItem(InteractionHand.OFF_HAND);
+            }
+        }
+
+        public void stop() {
+            this.mob.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
+            Mephetic.this.setItemSlot(EquipmentSlot.OFFHAND, ItemStack.EMPTY);
+            if (this.finishUsingSound != null) {
+                this.mob.playSound(this.finishUsingSound, 1.0F, this.mob.getRandom().nextFloat() * 0.2F + 0.9F);
+            }
+
+        }
     }
 }
