@@ -385,7 +385,7 @@ public class MephiticModel<T extends Mephetic> extends EntityModel<T> implements
 		PartDefinition Head = Mephitic.addOrReplaceChild("Head", CubeListBuilder.create(), PartPose.offset(0.0F, -29.1F, -1.8F));
 
 		PartDefinition LowerJaw = Head.addOrReplaceChild("LowerJaw", CubeListBuilder.create().texOffs(32, 12).addBox(-4.0F, 0.0F, -4.2F, 8.0F, 1.0F, 6.0F, new CubeDeformation(0.0F))
-		.texOffs(64, 55).addBox(-4.0F, -2.0F, -4.1F, 8.0F, 2.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+				.texOffs(64, 55).addBox(-4.0F, -2.0F, -4.1F, 8.0F, 2.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition Tumor7_r1 = LowerJaw.addOrReplaceChild("Tumor7_r1", CubeListBuilder.create().texOffs(34, 67).addBox(-1.5F, -1.5F, -1.5F, 3.0F, 3.0F, 3.0F, new CubeDeformation(-0.4F)), PartPose.offsetAndRotation(-0.7467F, 2.0659F, 2.8347F, -0.2481F, -0.0844F, -0.1029F));
 
@@ -393,13 +393,13 @@ public class MephiticModel<T extends Mephetic> extends EntityModel<T> implements
 
 		PartDefinition PotionDribble_r1 = LowerJaw.addOrReplaceChild("PotionDribble_r1", CubeListBuilder.create().texOffs(64, 57).addBox(-4.0F, -1.0F, 0.0F, 8.0F, 2.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.1F, -4.3F, -0.0873F, 0.0F, 0.0F));
 
-		PartDefinition Tumor5Group = LowerJaw.addOrReplaceChild("Tumor5Group", CubeListBuilder.create(), PartPose.offset(0.0F, 29.1F, 1.8F));
+		PartDefinition Tumor5Group = LowerJaw.addOrReplaceChild("Tumor5Group", CubeListBuilder.create(), PartPose.offset(0.0F, -0.9F, 1.8F));
 
-		PartDefinition Drip3_r1 = Tumor5Group.addOrReplaceChild("Drip3_r1", CubeListBuilder.create().texOffs(36, 27).addBox(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0516F, -24.9F, 1.8725F, 0.0F, -0.0524F, 0.0F));
+		PartDefinition Drip3_r1 = Tumor5Group.addOrReplaceChild("Drip3_r1", CubeListBuilder.create().texOffs(36, 27).addBox(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0516F, 5.1F, 1.8725F, 0.0F, -0.0524F, 0.0F));
 
-		PartDefinition Faucet3_r1 = Tumor5Group.addOrReplaceChild("Faucet3_r1", CubeListBuilder.create().texOffs(96, 64).addBox(-1.0F, -0.5F, -0.5F, 2.0F, 1.0F, 1.0F, new CubeDeformation(-0.1F)), PartPose.offsetAndRotation(-3.0997F, -26.1825F, 1.9F, 0.0F, 0.0F, -1.6057F));
+		PartDefinition Faucet3_r1 = Tumor5Group.addOrReplaceChild("Faucet3_r1", CubeListBuilder.create().texOffs(96, 64).addBox(-1.0F, -0.5F, -0.5F, 2.0F, 1.0F, 1.0F, new CubeDeformation(-0.1F)), PartPose.offsetAndRotation(-3.0997F, 3.8175F, 1.9F, 0.0F, 0.0F, -1.6057F));
 
-		PartDefinition Tumor5_r1 = Tumor5Group.addOrReplaceChild("Tumor5_r1", CubeListBuilder.create().texOffs(34, 61).addBox(-1.5F, -1.5F, -1.5F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.3263F, -28.28F, 1.3712F, -0.2618F, 0.0F, 0.2182F));
+		PartDefinition Tumor5_r1 = Tumor5Group.addOrReplaceChild("Tumor5_r1", CubeListBuilder.create().texOffs(34, 61).addBox(-1.5F, -1.5F, -1.5F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.3263F, 1.72F, 1.3712F, -0.2618F, 0.0F, 0.2182F));
 
 		PartDefinition LowerFangs = LowerJaw.addOrReplaceChild("LowerFangs", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
@@ -416,13 +416,13 @@ public class MephiticModel<T extends Mephetic> extends EntityModel<T> implements
 		PartDefinition FangBase4_r1 = RightLowerFang.addOrReplaceChild("FangBase4_r1", CubeListBuilder.create().texOffs(84, 78).addBox(-1.0F, -2.0F, -2.0F, 2.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.3252F, 0.2793F, -0.0543F));
 
 		PartDefinition Potion = LowerJaw.addOrReplaceChild("Potion", CubeListBuilder.create().texOffs(1, 100).addBox(-1.9925F, 3.5943F, -1.1567F, 3.0F, 1.0F, 3.0F, new CubeDeformation(0.0F))
-		.texOffs(1, 106).addBox(-2.4925F, 0.5943F, -1.6567F, 4.0F, 3.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(5, 102).addBox(-0.9925F, -0.6557F, -0.1567F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.25F))
-		.texOffs(1, 100).addBox(-1.9925F, -1.9057F, -1.1567F, 3.0F, 1.0F, 3.0F, new CubeDeformation(0.0F))
-		.texOffs(18, 100).addBox(-1.4925F, -3.4057F, -0.6567F, 2.0F, 2.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(0.0599F, -0.2342F, -1.2032F, 0.8465F, 0.0249F, -0.0139F));
+				.texOffs(1, 106).addBox(-2.4925F, 0.5943F, -1.6567F, 4.0F, 3.0F, 4.0F, new CubeDeformation(0.0F))
+				.texOffs(5, 102).addBox(-0.9925F, -0.6557F, -0.1567F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.25F))
+				.texOffs(1, 100).addBox(-1.9925F, -1.9057F, -1.1567F, 3.0F, 1.0F, 3.0F, new CubeDeformation(0.0F))
+				.texOffs(18, 100).addBox(-1.4925F, -3.4057F, -0.6567F, 2.0F, 2.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(0.0599F, -0.2342F, -1.2032F, 0.8465F, 0.0249F, -0.0139F));
 
 		PartDefinition HeadIntermediate = Head.addOrReplaceChild("HeadIntermediate", CubeListBuilder.create().texOffs(14, 61).addBox(3.6F, -3.9F, -3.8F, 0.0F, 4.0F, 5.0F, new CubeDeformation(0.0F))
-		.texOffs(24, 61).addBox(-4.0F, -3.9F, -3.8F, 0.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+				.texOffs(24, 61).addBox(-4.0F, -3.9F, -3.8F, 0.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition Neck_r1 = HeadIntermediate.addOrReplaceChild("Neck_r1", CubeListBuilder.create().texOffs(56, 19).addBox(-4.25F, -3.261F, 0.9829F, 8.0F, 3.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.0F, -0.2F, -0.1309F, 0.0F, 0.0F));
 
@@ -455,7 +455,7 @@ public class MephiticModel<T extends Mephetic> extends EntityModel<T> implements
 		PartDefinition HatTopBit = HatTop.addOrReplaceChild("HatTopBit", CubeListBuilder.create().texOffs(20, 87).addBox(-0.6663F, -2.5979F, -4.2198F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.25F)), PartPose.offsetAndRotation(1.75F, -2.0F, 2.0F, -0.2094F, 0.0F, 0.1047F));
 
 		PartDefinition Nose = UpperHead.addOrReplaceChild("Nose", CubeListBuilder.create().texOffs(88, 18).addBox(-1.35F, -1.85F, -0.375F, 2.0F, 4.0F, 2.0F, new CubeDeformation(0.0F))
-		.texOffs(56, 10).addBox(-0.35F, 0.15F, -1.125F, 1.0F, 1.0F, 1.0F, new CubeDeformation(-0.25F)), PartPose.offsetAndRotation(0.25F, -4.086F, -5.2219F, -0.2705F, 0.0F, 0.0F));
+				.texOffs(56, 10).addBox(-0.35F, 0.15F, -1.125F, 1.0F, 1.0F, 1.0F, new CubeDeformation(-0.25F)), PartPose.offsetAndRotation(0.25F, -4.086F, -5.2219F, -0.2705F, 0.0F, 0.0F));
 
 		PartDefinition Tumors = UpperHead.addOrReplaceChild("Tumors", CubeListBuilder.create(), PartPose.offset(2.0F, -9.0F, 3.8F));
 
