@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -233,11 +234,12 @@ public class Mephetic extends EvolvedInfected implements RangedAttackMob {
         thrownpotion.shoot(d0, d1 + d3 * 0.4D, d2, 1F, 8.0F);
         this.level().addFreshEntity(thrownpotion);
     }
-    public class DrinkPotionGoal<T extends Mob> extends Goal {
+    public static class DrinkPotionGoal<T extends Mob> extends Goal {
         private final T mob;
         private final ItemStack item = PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.HEALING);
         private final ItemStack strength = PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.STRENGTH);
         private final ItemStack speed = PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.SWIFTNESS);
+        private final ItemStack stack = Math.random() < 0.5 ? strength.copy() : speed.copy();
         @Nullable
         private final SoundEvent finishUsingSound;
 
@@ -258,18 +260,20 @@ public class Mephetic extends EvolvedInfected implements RangedAttackMob {
             this.mob.setItemSlot(EquipmentSlot.MAINHAND, this.item.copy());
             this.mob.startUsingItem(InteractionHand.MAIN_HAND);
             if (Math.random() < 0.3 ){
-                mob.setItemSlot(EquipmentSlot.OFFHAND, Math.random() < 0.5 ? strength.copy() : speed.copy());
-                mob.startUsingItem(InteractionHand.OFF_HAND);
+                mob.setItemSlot(EquipmentSlot.OFFHAND, stack);
             }
         }
 
         public void stop() {
+            if (!this.mob.getOffhandItem().equals(ItemStack.EMPTY)){
+                mob.addEffect(stack.equals(strength) ? new MobEffectInstance(MobEffects.DAMAGE_BOOST, 3600) :
+                        new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 3600)  );
+            }
             this.mob.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
-            Mephetic.this.setItemSlot(EquipmentSlot.OFFHAND, ItemStack.EMPTY);
+            this.mob.setItemSlot(EquipmentSlot.OFFHAND, ItemStack.EMPTY);
             if (this.finishUsingSound != null) {
                 this.mob.playSound(this.finishUsingSound, 1.0F, this.mob.getRandom().nextFloat() * 0.2F + 0.9F);
             }
-
         }
     }
 }
