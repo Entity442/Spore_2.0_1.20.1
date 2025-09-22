@@ -5,6 +5,7 @@ import com.Harbinger.Spore.Core.Spotion;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
+import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.MovementControls.InfectedWallMovementControl;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -31,6 +32,7 @@ import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -56,10 +58,10 @@ public class Mephetic extends EvolvedInfected implements RangedAttackMob {
             @Override
             protected double getAttackReachSqr(LivingEntity entity) {
                 return 6.0 + entity.getBbWidth() * entity.getBbWidth();}});
-        this.goalSelector.addGoal(4, new UseItemGoal<>(this, PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_FIRE_RESISTANCE), SoundEvents.WITCH_DRINK, (p_35882_) -> {
+        this.goalSelector.addGoal(3, new UseItemGoal<>(this, PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_FIRE_RESISTANCE), SoundEvents.WITCH_DRINK, (p_35882_) -> {
             return this.isOnFire() && !this.hasEffect(MobEffects.FIRE_RESISTANCE) && SConfig.SERVER.use_potions.get();
         }));
-        this.goalSelector.addGoal(4, new UseItemGoal<>(this, PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.WATER_BREATHING), SoundEvents.WITCH_DRINK, (p_35882_) -> {
+        this.goalSelector.addGoal(3, new UseItemGoal<>(this, PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.WATER_BREATHING), SoundEvents.WITCH_DRINK, (p_35882_) -> {
             return this.isInWater() && !this.hasEffect(MobEffects.WATER_BREATHING) && SConfig.SERVER.use_potions.get();
         }));
         this.goalSelector.addGoal(4,new DrinkPotionGoal<>(this,SoundEvents.WITCH_DRINK));
@@ -122,15 +124,21 @@ public class Mephetic extends EvolvedInfected implements RangedAttackMob {
         }
         LivingEntity living = this.getTarget();
         if(ticksBeforeThrown >= 79){
-            if (living != null && hasLineOfSight(living) && living.distanceToSqr(this) > 20){
+            if (living != null && hasLineOfSight(living) && living.distanceToSqr(this) > 20 && tryNotToHit(living)){
                 throwPotions(living);
             }
         }
         if (tickCount % 200 == 0){
-            if (living != null && hasLineOfSight(living) && living.distanceToSqr(this) > 60){
+            if (living != null && hasLineOfSight(living) && living.distanceToSqr(this) > 60 && tryNotToHit(living)){
                 throwLingeringPotions(living);
             }
         }
+    }
+    private boolean tryNotToHit(LivingEntity living){
+        AABB aabb = living.getBoundingBox().inflate(2);
+        List<Entity> stuff = level().getEntities(this,aabb,entity -> {return entity instanceof InfectedEvoker || entity instanceof UtilityEntity;
+        });
+        return stuff.size() <3;
     }
     private Potion getAttackPotion(){
         Random rand = new Random();
@@ -239,7 +247,6 @@ public class Mephetic extends EvolvedInfected implements RangedAttackMob {
         private final ItemStack item = PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.HEALING);
         private final ItemStack strength = PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.STRENGTH);
         private final ItemStack speed = PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.SWIFTNESS);
-        private final ItemStack stack = Math.random() < 0.5 ? strength.copy() : speed.copy();
         @Nullable
         private final SoundEvent finishUsingSound;
 
@@ -259,14 +266,14 @@ public class Mephetic extends EvolvedInfected implements RangedAttackMob {
         public void start() {
             this.mob.setItemSlot(EquipmentSlot.MAINHAND, this.item.copy());
             this.mob.startUsingItem(InteractionHand.MAIN_HAND);
-            if (Math.random() < 0.3 ){
-                mob.setItemSlot(EquipmentSlot.OFFHAND, stack);
+            if (Math.random() < 0.2){
+                mob.setItemSlot(EquipmentSlot.OFFHAND, Math.random() < 0.5 ? strength.copy() : speed.copy());
             }
         }
 
         public void stop() {
             if (!this.mob.getOffhandItem().equals(ItemStack.EMPTY)){
-                mob.addEffect(stack.equals(strength) ? new MobEffectInstance(MobEffects.DAMAGE_BOOST, 3600) :
+                mob.addEffect(mob.getOffhandItem().equals(strength) ? new MobEffectInstance(MobEffects.DAMAGE_BOOST, 3600) :
                         new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 3600)  );
             }
             this.mob.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);

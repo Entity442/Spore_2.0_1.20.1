@@ -104,9 +104,9 @@ public class Sentities {
             () -> EntityType.Builder.of(Thorn::new, INFECTED).sized(0.6f, 1.9f)
                     .build(new ResourceLocation(Spore.MODID, "thorn").toString()));
 
-    public static final RegistryObject<EntityType<Mephetic>> MEPHETIC = SPORE_ENTITIES.register("mephetic",
+    public static final RegistryObject<EntityType<Mephetic>> MEPHETIC = SPORE_ENTITIES.register("mephitic",
             () -> EntityType.Builder.of(Mephetic::new, INFECTED).sized(0.6f, 2.2f)
-                    .build(new ResourceLocation(Spore.MODID, "mephetic").toString()));
+                    .build(new ResourceLocation(Spore.MODID, "mephitic").toString()));
 
     public static final RegistryObject<EntityType<Jagdhund>> JAGD = SPORE_ENTITIES.register("jagd",
             () -> EntityType.Builder.of(Jagdhund::new, INFECTED).sized(1.3f, 1.1f)
