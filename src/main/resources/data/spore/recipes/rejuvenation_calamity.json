@@ -2,6 +2,7 @@
   "type": "spore:assimilation",
   "entities": [
     { "entity": "spore:volatile", "entity_type": 0 },
+    { "entity": "spore:mephitic", "entity_type": 0 },
     { "entity": "spore:hevoker", "entity_type": 0 },
     { "entity": "spore:inf_witch", "entity_type": 0 }
   ],

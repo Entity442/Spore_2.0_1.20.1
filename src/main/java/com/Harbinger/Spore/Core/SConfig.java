@@ -662,7 +662,7 @@ public class SConfig {
                             "spore:brute") , o -> o instanceof String);
             this.wit_ev = builder.defineList("Infected Witch Evolutions",
                     Lists.newArrayList(
-                            "spore:volatile") , o -> o instanceof String);
+                            "spore:volatile","spore:mephitic") , o -> o instanceof String);
             this.husk_ev = builder.defineList("Infected Husk Evolutions",
                     Lists.newArrayList(
                             "spore:thorn",
@@ -814,7 +814,7 @@ public class SConfig {
             this.verwa_effect = builder.defineList("Verwahrung buffs",
                     Lists.newArrayList("minecraft:speed", "minecraft:strength", "minecraft:resistance", "minecraft:regeneration") , o -> o instanceof String);
             this.verwa_summons = builder.defineList("Verwahrung summons",
-                    Lists.newArrayList("spore:knight", "spore:griefer", "spore:braiomil", "spore:leaper", "spore:slasher", "spore:scavenger", "spore:bloater", "spore:inf_evoker", "spore:busser", "spore:volatile") , o -> o instanceof String);
+                    Lists.newArrayList("spore:knight", "spore:griefer", "spore:braiomil", "spore:leaper", "spore:slasher", "spore:scavenger", "spore:bloater", "spore:inf_evoker", "spore:busser", "spore:volatile","mephitic") , o -> o instanceof String);
             builder.pop();
 
             builder.push("Braurei");
@@ -841,13 +841,13 @@ public class SConfig {
 
             this.vigil_middle_wave = builder.comment("The mixed wave of infected a vigil can summon").defineList("Vigil mix wave",
                     Lists.newArrayList("spore:inf_human", "spore:inf_villager", "spore:inf_pillager", "spore:inf_wanderer",
-                            "spore:knight", "spore:griefer", "spore:thorn", "spore:nuclea", "spore:jagd", "spore:scavenger", "spore:bloater","spore:slasher", "spore:leaper", "spore:inf_evoker", "spore:spitter") , o -> o instanceof String);
+                            "spore:knight", "spore:griefer","spore:mephitic", "spore:thorn", "spore:nuclea", "spore:jagd", "spore:scavenger", "spore:bloater","spore:slasher", "spore:leaper", "spore:inf_evoker", "spore:spitter") , o -> o instanceof String);
 
             this.vigil_max_wave = builder.comment("The max wave of infected a vigil can summon").defineList("Vigil max wave",
                     Lists.newArrayList("spore:inf_vindicator", "spore:busser", "spore:inf_witch", "spore:brute",
                             "spore:knight", "spore:griefer", "spore:thorn", "spore:jagd", "spore:leaper", "spore:inf_evoker", "spore:spitter", "spore:stalker",
                             "spore:howler", "spore:braiomil", "spore:wendigo","spore:hevoker", "spore:scavenger", "spore:bloater","spore:ogre","spore:slasher", "spore:inquisitor", "spore:brot"
-                            , "spore:volatile", "spore:hvindicator") , o -> o instanceof String);
+                            , "spore:volatile","spore:mephitic", "spore:hvindicator") , o -> o instanceof String);
 
             builder.pop();
 
@@ -922,7 +922,7 @@ public class SConfig {
                     Lists.newArrayList("minecraft:blindness|600|0", "spore:mycelium_ef|600|1", "minecraft:slowness|600|1") , o -> o instanceof String);
             this.howit_summmons = builder.defineList("Mobs that may spawn out of its dropped bombs",
                     Lists.newArrayList("spore:inf_vindicator", "spore:busser", "spore:brute",
-                            "spore:knight", "spore:griefer", "spore:leaper", "spore:inf_evoker", "spore:spitter", "spore:stalker", "spore:scavenger", "spore:bloater", "spore:braiomil") , o -> o instanceof String);
+                            "spore:knight", "spore:griefer", "spore:leaper", "spore:inf_evoker","spore:mephitic", "spore:spitter", "spore:stalker", "spore:scavenger", "spore:bloater", "spore:braiomil") , o -> o instanceof String);
             builder.pop();
 
             builder.push("Brute");
@@ -1786,7 +1786,7 @@ public class SConfig {
             this.raid_level_2= builder.defineList("Raid level 2 spawns",
                     Lists.newArrayList("spore:inf_human","spore:howler","spore:inf_husk","spore:knight","spore:brute","spore:slasher","spore:inf_witch","spore:braiomil" , "spore:inf_villager","spore:jagd","spore:inf_pillager","spore:inf_player") , o -> o instanceof String);
             this.raid_level_3= builder.defineList("Raid level 3 spawns",
-                    Lists.newArrayList("spore:griefer","spore:howler","spore:nuclea","spore:thorn","spore:busser", "spore:scavenger", "spore:bloater","spore:knight","spore:brute","spore:slasher","spore:volatile","spore:braiomil" , "spore:leaper", "spore:spitter","spore:jagd","spore:inf_pillager","spore:stalker","spore:inf_vindicator","spore:inf_evoker") , o -> o instanceof String);
+                    Lists.newArrayList("spore:griefer","spore:howler","spore:mephitic","spore:nuclea","spore:thorn","spore:busser", "spore:scavenger", "spore:bloater","spore:knight","spore:brute","spore:slasher","spore:volatile","spore:braiomil" , "spore:leaper", "spore:spitter","spore:jagd","spore:inf_pillager","spore:stalker","spore:inf_vindicator","spore:inf_evoker") , o -> o instanceof String);
             this.special= builder.defineList("Special Spawns",
                     Lists.newArrayList("spore:brot","spore:saugling","spore:inquisitor","spore:hevoker","spore:gastgaber","spore:hvendicator","spore:biobloob" ,"spore:wendigo","spore:ogre" , "spore:specter","spore:plagued","spore:lacerator","spore:inf_construct") , o -> o instanceof String);
             this.drops= builder.defineList("Items that may drop at the end of the raid",
