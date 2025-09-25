@@ -1,0 +1,9 @@
+{
+  "type": "spore:injection",
+  "entity": "spore:griefer",
+  "entity_type": 4,
+  "output": {
+    "item": "spore:charred_syringe",
+    "count": 1
+  }
+}

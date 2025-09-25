@@ -94,9 +94,11 @@ public class Inquisitor extends Hyper {
     @Override
     public boolean hurt(DamageSource source, float amount) {
         AttributeInstance armor = this.getAttribute(Attributes.ARMOR);
+        float baseArmor = (float) (SConfig.SERVER.inquisitor_armor.get() * SConfig.SERVER.global_armor.get());
+        float maxPossibleArmor = baseArmor * 3;
         if (armor != null && this.getHealth() < this.getMaxHealth()){
-            double new_armor = (this.getMaxHealth()-this.getHealth())/2 + (SConfig.SERVER.inquisitor_armor.get() * SConfig.SERVER.global_armor.get());
-            armor.setBaseValue(new_armor);
+            double new_armor = (this.getMaxHealth()-this.getHealth())/2 + baseArmor;
+            armor.setBaseValue(new_armor > maxPossibleArmor ? maxPossibleArmor : new_armor);
         }
         return super.hurt(source, amount);
     }
