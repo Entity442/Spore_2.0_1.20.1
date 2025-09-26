@@ -12,14 +12,18 @@ import com.Harbinger.Spore.Sentities.Carrier;
 import com.Harbinger.Spore.Sentities.VariantKeeper;
 import com.Harbinger.Spore.Sentities.Variants.HowlerVariants;
 import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
@@ -39,6 +43,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
@@ -46,6 +51,7 @@ import java.util.List;
 
 public class Howler extends EvolvedInfected implements VariantKeeper, ArmorPersentageBypass {
     private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(Spitter.class, EntityDataSerializers.INT);
+    private static final List<String> sculkSummon = List.of("sculkhorde:sculk_mite", "sculkhorde:sculk_mite_aggressor");
     public Howler(EntityType<? extends Monster> type, Level level) {
         super(type, level);
     }
@@ -164,16 +170,14 @@ public class Howler extends EvolvedInfected implements VariantKeeper, ArmorPerse
 
         this.playSound(Ssounds.HOWLER_GROWL.get());
     }
-
-    public void SummonScream(LivingEntity caster) {
+    public void SummonScream(LivingEntity caster,boolean isSkulk) {
         ServerLevelAccessor levelAccessor = (ServerLevelAccessor) caster.level();
         Level level = caster.level();
 
         int dx = random.nextInt(-8, 9);
         int dz = random.nextInt(-8, 9);
         int dy = random.nextInt(0, 2);
-
-        List<? extends String> summonPool = SConfig.SERVER.howler_summon.get();
+        List<? extends String> summonPool = isSkulk && ModList.get().isLoaded("sculkhorde") ? sculkSummon : SConfig.SERVER.howler_summon.get();
         String chosen = summonPool.get(random.nextInt(summonPool.size()));
         ResourceLocation entityId = new ResourceLocation(chosen);
 
@@ -198,7 +202,9 @@ public class Howler extends EvolvedInfected implements VariantKeeper, ArmorPerse
         super.defineSynchedData();
         this.entityData.define(DATA_ID_TYPE_VARIANT, 0);
     }
-
+    public boolean dampensVibrations() {
+        return getVariant() == HowlerVariants.SONIC;
+    }
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt("Variant", this.getTypeVariant());
@@ -239,7 +245,7 @@ public class Howler extends EvolvedInfected implements VariantKeeper, ArmorPerse
 
         @Override
         public boolean canUse() {
-            return mob.getTarget() != null && mob.getVariant() == HowlerVariants.DEFAULT;
+            return mob.getTarget() != null && mob.getVariant() != HowlerVariants.BANSHEE;
         }
 
         @Override
@@ -248,7 +254,7 @@ public class Howler extends EvolvedInfected implements VariantKeeper, ArmorPerse
 
             LivingEntity target = mob.getTarget();
             if (target == null) return;
-
+            boolean isSkulk = this.mob.getVariant() == HowlerVariants.SONIC && SConfig.SERVER.skulk_target.get();
             mob.getLookControl().setLookAt(target, 10.0F, mob.getMaxHeadXRot());
             double dist = mob.distanceToSqr(target);
 
@@ -261,11 +267,44 @@ public class Howler extends EvolvedInfected implements VariantKeeper, ArmorPerse
                 } else {
                     int summons = random.nextInt(1, 3);
                     for (int i = 0; i < summons; i++) {
-                        SummonScream(mob);
+                        SummonScream(mob,isSkulk);
                     }
+                }
+                if (isSkulk){
+                    shootSonicBoom(target,(float)(SConfig.SERVER.how_damage.get() * SConfig.SERVER.global_damage.get()));
                 }
                 screamTimer = 120;
             }
+        }
+        public void shootSonicBoom(LivingEntity target, float damage) {
+            if (target == null || !target.isAlive()) return;
+            mob.level().playSound(
+                    null,
+                    mob.getX(), mob.getY(), mob.getZ(),
+                    SoundEvents.WARDEN_SONIC_BOOM,
+                    SoundSource.HOSTILE,
+                    3.0F,
+                    1.0F
+            );
+            if (mob.level() instanceof ServerLevel serverLevel) {
+                double dx = target.getX() - mob.getX();
+                double dy = target.getY(0.5D) - mob.getEyeY(); // aim at chest/eyes
+                double dz = target.getZ() - mob.getZ();
+                for (int i = 0; i < 10; i++) {
+                    double px = mob.getX() + dx * i / 10.0D;
+                    double py = mob.getEyeY() + dy * i / 10.0D;
+                    double pz = mob.getZ() + dz * i / 10.0D;
+                    serverLevel.sendParticles(ParticleTypes.SONIC_BOOM, px, py, pz, 1, 0, 0, 0, 0);
+                }
+            }
+            target.hurt(mob.damageSources().mobAttack(mob), damage);
+            Vec3 push = new Vec3(
+                    target.getX() - mob.getX(),
+                    target.getEyeY() - mob.getEyeY(),
+                    target.getZ() - mob.getZ()
+            ).normalize().scale(1.5D);
+
+            target.push(push.x, push.y * 0.5D, push.z);
         }
     }
 
