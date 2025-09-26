@@ -573,8 +573,8 @@ public class SConfig {
                     Lists.newArrayList("spore:proto","spore:reconstructor","spore:gastgaber","spore:specter","spore:inf_construct","spore:scamper") , o -> o instanceof String);
             builder.pop();
             builder.push("Compatibilities");
-            this.faw_target = builder.comment("Default false").define("Should there be a compatibility with FAW?",false);
-            this.skulk_target = builder.comment("Default false").define("Should there be a compatibility with Sculk Infection?",false);
+            this.faw_target = builder.comment("Default true").define("Should there be a compatibility with FAW?",true);
+            this.skulk_target = builder.comment("Default true").define("Should there be a compatibility with Sculk Infection?",true);
             builder.pop();
 
             builder.push("Griefing Parameters");

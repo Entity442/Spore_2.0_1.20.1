@@ -251,7 +251,6 @@ public class Howler extends EvolvedInfected implements VariantKeeper, ArmorPerse
         @Override
         public void tick() {
             if (screamTimer > 0) screamTimer--;
-
             LivingEntity target = mob.getTarget();
             if (target == null) return;
             boolean isSkulk = this.mob.getVariant() == HowlerVariants.SONIC && SConfig.SERVER.skulk_target.get();
@@ -270,7 +269,7 @@ public class Howler extends EvolvedInfected implements VariantKeeper, ArmorPerse
                         SummonScream(mob,isSkulk);
                     }
                 }
-                if (isSkulk){
+                if (this.mob.getVariant() == HowlerVariants.SONIC){
                     shootSonicBoom(target,(float)(SConfig.SERVER.how_damage.get() * SConfig.SERVER.global_damage.get()));
                 }
                 screamTimer = 120;
@@ -288,7 +287,7 @@ public class Howler extends EvolvedInfected implements VariantKeeper, ArmorPerse
             );
             if (mob.level() instanceof ServerLevel serverLevel) {
                 double dx = target.getX() - mob.getX();
-                double dy = target.getY(0.5D) - mob.getEyeY(); // aim at chest/eyes
+                double dy = target.getY(0.5D) - mob.getEyeY();
                 double dz = target.getZ() - mob.getZ();
                 for (int i = 0; i < 10; i++) {
                     double px = mob.getX() + dx * i / 10.0D;
