@@ -174,6 +174,8 @@ public class ClientModEvents {
         event.registerLayerDefinition(RavenousJawModel.LAYER_LOCATION, RavenousJawModel::createBodyLayer);
         event.registerLayerDefinition(lacedThornsModel.LAYER_LOCATION, lacedThornsModel::createBodyLayer);
         event.registerLayerDefinition(MephiticModel.LAYER_LOCATION, MephiticModel::createBodyLayer);
+        event.registerLayerDefinition(InfectedZombieVillager.LAYER_LOCATION, InfectedZombieVillager::createBodyLayer);
+        event.registerLayerDefinition(SculkHowlerModel.LAYER_LOCATION, SculkHowlerModel::createBodyLayer);
 
 
         event.registerLayerDefinition(BombFunnelModel.LAYER_LOCATION, BombFunnelModel::createBodyLayer);
@@ -245,6 +247,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.NUCLEA.get(), NucleaRenderer::new);
         event.registerEntityRenderer(Sentities.HEVOKER.get(), HevokerRenderer::new);
         event.registerEntityRenderer(Sentities.HVINDICATOR.get(), HyperVindicatorRenderer::new);
+        event.registerEntityRenderer(Sentities.INF_DISEASED_VILLAGER.get(), InfectedDiseasedVillagerRenderer::new);
 
         event.registerEntityRenderer(Sentities.ACID_BALL.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(Sentities.VOMIT_BALL.get(), VomitRenderer::new);

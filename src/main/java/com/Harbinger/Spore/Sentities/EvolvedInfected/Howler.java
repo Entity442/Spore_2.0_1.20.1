@@ -11,7 +11,6 @@ import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.Carrier;
 import com.Harbinger.Spore.Sentities.VariantKeeper;
 import com.Harbinger.Spore.Sentities.Variants.HowlerVariants;
-import com.Harbinger.Spore.Sentities.Variants.SlasherVariants;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -340,7 +339,8 @@ public class Howler extends EvolvedInfected implements VariantKeeper, ArmorPerse
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_146746_, DifficultyInstance p_146747_,
                                         MobSpawnType p_146748_, @Nullable SpawnGroupData p_146749_,
                                         @Nullable CompoundTag p_146750_) {
-        setVariant(Math.random() < 0.2f ? HowlerVariants.BANSHEE : HowlerVariants.DEFAULT);
+        HowlerVariants variant = Util.getRandom(HowlerVariants.values(), this.random);
+        setVariant(variant);
         return super.finalizeSpawn(p_146746_, p_146747_, p_146748_, p_146749_, p_146750_);
     }
 }

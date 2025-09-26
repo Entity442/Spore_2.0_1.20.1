@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Client.Renderers;
 
 import com.Harbinger.Spore.Client.Models.HowlerModel;
+import com.Harbinger.Spore.Client.Models.SculkHowlerModel;
 import com.Harbinger.Spore.Client.Models.bansheeHowlerModel;
 import com.Harbinger.Spore.Client.Special.BaseInfectedRenderer;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Howler;
@@ -23,6 +24,7 @@ import java.util.Map;
 public class HowlerRenderer<Type extends Howler> extends BaseInfectedRenderer<Type , EntityModel<Type>> {
     private final EntityModel<Type> defaultModel = this.getModel();
     private final EntityModel<Type> banshee;
+    private final EntityModel<Type> sculk;
     private static final ResourceLocation EYES_TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/eyes/howler.png");
     public static final Map<HowlerVariants, ResourceLocation> TEXTURE =
@@ -31,11 +33,14 @@ public class HowlerRenderer<Type extends Howler> extends BaseInfectedRenderer<Ty
                         new ResourceLocation(Spore.MODID, "textures/entity/howler.png"));
                 p_114874_.put(HowlerVariants.BANSHEE,
                         new ResourceLocation(Spore.MODID, "textures/entity/freaky_howler.png"));
+                p_114874_.put(HowlerVariants.SONIC,
+                        new ResourceLocation(Spore.MODID, "textures/entity/sculkhowler.png"));
             });
 
     public HowlerRenderer(EntityRendererProvider.Context context) {
         super(context, new HowlerModel<>(context.bakeLayer(HowlerModel.LAYER_LOCATION)), 0.5f);
         banshee = new bansheeHowlerModel<>(context.bakeLayer(bansheeHowlerModel.LAYER_LOCATION));
+        sculk = new SculkHowlerModel<>(context.bakeLayer(SculkHowlerModel.LAYER_LOCATION));
     }
 
     @Override
@@ -51,7 +56,7 @@ public class HowlerRenderer<Type extends Howler> extends BaseInfectedRenderer<Ty
 
     @Override
     public void render(Type type, float value1, float value2, PoseStack stack, MultiBufferSource bufferSource, int light) {
-        this.model = type.getVariant() == HowlerVariants.BANSHEE ? banshee : defaultModel;
+        this.model = type.getVariant() == HowlerVariants.BANSHEE ? banshee : type.getVariant() == HowlerVariants.SONIC ? sculk : defaultModel;
         super.render(type, value1, value2, stack, bufferSource, light);
     }
 }
