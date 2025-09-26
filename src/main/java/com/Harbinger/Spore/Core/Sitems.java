@@ -188,6 +188,8 @@ public class Sitems {
             () -> new SporeSpawnEgg(Sentities.INF_HUSK,-875608,SpawnEggType.INFECTED));
     public  static final RegistryObject<Item> INF_VILLAGER_SPAWNEGG = ITEMS.register("inf_villager_spawnegg",
             () -> new SporeSpawnEgg(Sentities.INF_VILLAGER,-6639718,SpawnEggType.INFECTED));
+    public  static final RegistryObject<Item> INF_DISEASED_VILLAGER_SPAWNEGG = ITEMS.register("inf_diseased_villager_spawnegg",
+            () -> new SporeSpawnEgg(Sentities.INF_DISEASED_VILLAGER,-6633211,SpawnEggType.INFECTED));
     public  static final RegistryObject<Item> INF_WITCH_SPAWNEGG = ITEMS.register("inf_witch_spawnegg",
             () -> new SporeSpawnEgg(Sentities.INF_WITCH,-8512718,SpawnEggType.INFECTED));
     public  static final RegistryObject<Item> INF_PILLAGER_SPAWNEGG = ITEMS.register("inf_pillager_spawnegg",

@@ -80,6 +80,10 @@ public class Sentities {
             () -> EntityType.Builder.of(InfectedVillager::new, INFECTED).sized(0.6f, 1.9f)
                     .build(new ResourceLocation(Spore.MODID, "inf_villager").toString()));
 
+    public static final RegistryObject<EntityType<InfectedVillager>> INF_DISEASED_VILLAGER = SPORE_ENTITIES.register("inf_diseased_villager",
+            () -> EntityType.Builder.of(InfectedVillager::new, INFECTED).sized(0.6f, 1.9f)
+                    .build(new ResourceLocation(Spore.MODID, "inf_diseased_villager").toString()));
+
     public static final RegistryObject<EntityType<InfectedWanderingTrader>> INF_WANDERER = SPORE_ENTITIES.register("inf_wanderer",
             () -> EntityType.Builder.of(InfectedWanderingTrader::new, INFECTED).sized(0.6f, 1.9f)
                     .build(new ResourceLocation(Spore.MODID, "inf_wanderer").toString()));

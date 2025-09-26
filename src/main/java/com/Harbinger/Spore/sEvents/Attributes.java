@@ -29,6 +29,7 @@ public class Attributes {
         event.put(Sentities.GRIEFER.get(), Griefer.createAttributes().build());
         event.put(Sentities.BRAIOMIL.get(), Braionmil.createAttributes().build());
         event.put(Sentities.INF_VILLAGER.get(), InfectedVillager.createAttributes().build());
+        event.put(Sentities.INF_DISEASED_VILLAGER.get(), InfectedVillager.createAttributes().build());
         event.put(Sentities.INF_WITCH.get(), InfectedWitch.createAttributes().build());
         event.put(Sentities.LEAPER.get(), Leaper.createAttributes().build());
         event.put(Sentities.SLASHER.get(), Slasher.createAttributes().build());
