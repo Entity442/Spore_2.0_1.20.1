@@ -53,12 +53,9 @@ public class Inquisitor extends Hyper {
     public void setBonusDamage(int value){
         entityData.set(DAMAGE_BONUS,value);
         AttributeInstance damage = this.getAttribute(Attributes.ATTACK_DAMAGE);
-        if (damage != null){
+        if (damage != null && damage.getValue() < SConfig.SERVER.inquisitor_damage.get()*2*SConfig.SERVER.global_damage.get()){
             double new_damage = (SConfig.SERVER.inquisitor_damage.get()*SConfig.SERVER.global_damage.get()) + (this.getBonusDamage()*0.5);
             damage.setBaseValue(new_damage);
-            if (new_damage > (SConfig.SERVER.inquisitor_damage.get()*2*SConfig.SERVER.global_damage.get())){
-                this.setBonusDamage(this.getBonusDamage()-1);
-            }
         }
     }
     public int getBonusDamage(){

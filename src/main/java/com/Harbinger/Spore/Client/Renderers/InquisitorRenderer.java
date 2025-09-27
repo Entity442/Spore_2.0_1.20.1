@@ -32,5 +32,4 @@ public class InquisitorRenderer<Type extends Inquisitor> extends BaseInfectedRen
         return EYE_TEXTURE;
     }
 
-
 }
