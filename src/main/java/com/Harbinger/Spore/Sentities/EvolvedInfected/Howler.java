@@ -296,7 +296,7 @@ public class Howler extends EvolvedInfected implements VariantKeeper, ArmorPerse
                     serverLevel.sendParticles(ParticleTypes.SONIC_BOOM, px, py, pz, 1, 0, 0, 0, 0);
                 }
             }
-            target.hurt(mob.damageSources().mobAttack(mob), damage);
+            target.hurt(mob.damageSources().sonicBoom(mob), damage);
             Vec3 push = new Vec3(
                     target.getX() - mob.getX(),
                     target.getEyeY() - mob.getEyeY(),
