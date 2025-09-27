@@ -170,14 +170,14 @@ public class Howler extends EvolvedInfected implements VariantKeeper, ArmorPerse
 
         this.playSound(Ssounds.HOWLER_GROWL.get());
     }
-    public void SummonScream(LivingEntity caster,boolean isSkulk) {
+    public void SummonScream(LivingEntity caster,boolean isSkulk,boolean sculkAround) {
         ServerLevelAccessor levelAccessor = (ServerLevelAccessor) caster.level();
         Level level = caster.level();
 
         int dx = random.nextInt(-8, 9);
         int dz = random.nextInt(-8, 9);
         int dy = random.nextInt(0, 2);
-        List<? extends String> summonPool = isSkulk && ModList.get().isLoaded("sculkhorde") ? sculkSummon : SConfig.SERVER.howler_summon.get();
+        List<? extends String> summonPool = isSkulk && sculkAround ? sculkSummon : SConfig.SERVER.howler_summon.get();
         String chosen = summonPool.get(random.nextInt(summonPool.size()));
         ResourceLocation entityId = new ResourceLocation(chosen);
 
@@ -264,9 +264,10 @@ public class Howler extends EvolvedInfected implements VariantKeeper, ArmorPerse
                     ScreamAOE(mob);
                     ScreamBuffInfected(mob);
                 } else {
-                    int summons = random.nextInt(1, 3);
+                    boolean skulk = ModList.get().isLoaded("sculkhorde");
+                    int summons =skulk ? random.nextInt(3, 9): random.nextInt(1, 3);
                     for (int i = 0; i < summons; i++) {
-                        SummonScream(mob,isSkulk);
+                        SummonScream(mob,isSkulk,skulk);
                     }
                 }
                 if (this.mob.getVariant() == HowlerVariants.SONIC){
