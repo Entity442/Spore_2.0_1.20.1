@@ -74,25 +74,24 @@ public class InfectedPlayer extends Infected implements RangedAttackMob , ArmedI
     public List<? extends String> getDropList() {
         return SConfig.DATAGEN.inf_player_loot.get();
     }
-    @Override
-    protected void registerGoals() {
 
+    @Override
+    protected void addRegularGoals() {
+        super.addRegularGoals();
         this.goalSelector.addGoal(3, new RangedBowAttackGoal<InfectedPlayer>(this,1.0D, 20, 15.0F){
             @Override
             public boolean canUse() {
                 return super.canUse() && InfectedPlayer.this.getTarget() != null && InfectedPlayer.this.distanceToSqr(InfectedPlayer.this.getTarget()) > 20;
             }
         });
-        this.goalSelector.addGoal(4, new LeapAtTargetGoal(this,0.3F));
+        this.goalSelector.addGoal(3, new LeapAtTargetGoal(this,0.3F));
         this.goalSelector.addGoal(4, new CustomMeleeAttackGoal(this, 1.5, false) {
             @Override
             protected double getAttackReachSqr(LivingEntity entity) {
                 return 3.0 + entity.getBbWidth() * entity.getBbWidth();
             }
         });
-
-        this.goalSelector.addGoal(4, new RandomStrollGoal(this, 0.8));
-        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(5, new RandomStrollGoal(this, 0.8));
         this.goalSelector.addGoal(4, new OpenDoorGoal(this, true) {
             @Override
             public void start() {
@@ -100,7 +99,6 @@ public class InfectedPlayer extends Infected implements RangedAttackMob , ArmedI
                 super.start();
             }
         });
-        super.registerGoals();
     }
 
     @Override
