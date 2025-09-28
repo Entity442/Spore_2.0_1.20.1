@@ -6,7 +6,6 @@ import com.Harbinger.Spore.Core.Senchantments;
 import com.Harbinger.Spore.Core.Sitems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 
@@ -25,14 +24,18 @@ public class ArmorModelList {
     private static final PCI_ModelL<LivingEntity> pciL = new PCI_ModelL<>();
     private static final RavenousJawModel<LivingEntity> jaw = new RavenousJawModel<>();
     private static final lacedThornsModel<LivingEntity> lacedThornsModel = new lacedThornsModel<>();
+    private static final SyringeGunModel<LivingEntity> syringeGunModel = new SyringeGunModel<>();
 
     private static final PCIHandModelItem RIGHT_PCI = new PCIHandModelItem(InteractionHand.MAIN_HAND,pci,pci.PCIBODY,0.95f, -0.7f, -0.35f,1,-90,90,0,psi_glow);
     private static final PCIHandModelItem LEFT_PCI = new PCIHandModelItem(InteractionHand.OFF_HAND,pci,pci.PCIBODY,-1f, -0.7f, -0.35f,1,-90,90,0,psi_glow);
+    private static final SyringeGunPart RIGHT_SYRINGE_GUN = new SyringeGunPart(InteractionHand.MAIN_HAND,syringeGunModel,syringeGunModel.syringeGun,0.95f, -0.2f, -1f,1f,0,90,90);
+    private static final SyringeGunPart LEFT_SYRINGE_GUN = new SyringeGunPart(InteractionHand.OFF_HAND,syringeGunModel,syringeGunModel.syringeGun,-1f, -0.7f, -0.35f,1f,-90,90,0);
 
     public static final List<ComplexHandModelItem> ITEM_RENDERING_BITS = new ArrayList<>(){{
         add(RIGHT_PCI);
         add(LEFT_PCI);
-
+        add(RIGHT_SYRINGE_GUN);
+        add(LEFT_SYRINGE_GUN);
     }};
 
 
@@ -81,6 +84,8 @@ public class ArmorModelList {
 
     private static final RightPCIArmorPart PCI_RIGHT = new RightPCIArmorPart(() -> pci,() -> pci.PCIBODY,psi_glow);
     private static final LeftPCIArmorPart PCI_LEFT = new LeftPCIArmorPart(() -> pciL,() -> pciL.PCIBODY,psi_glow);
+    private static final SyringeGunArmorPartRight SYRINGE_GUN_RIGHT = new SyringeGunArmorPartRight(() -> syringeGunModel,() -> syringeGunModel.syringeGun,-0.15f, -0.35f, -0.05f, 1f);
+    private static final SyringeGunArmorPartLeft SYRINGE_GUN_LEFT = new SyringeGunArmorPartLeft(() -> syringeGunModel,() -> syringeGunModel.syringeGun,0.15f, -0.35f, 0.05f, 1f);
 
     private static final List<Item> fleshBlackList = List.of(Sitems.LIVING_HELMET.get(),Sitems.LIVING_CHEST.get(),Sitems.LIVING_PANTS.get(),Sitems.LIVING_BOOTS.get());
     private static final HelmetArmorPartEnchant JAW_PART = new HelmetArmorPartEnchant(() ->jaw,() ->jaw.jaw,0f,0f,0,1f, Senchantments.VORACIOUS_MAW.get(),jaw_texture,List.of());
@@ -137,6 +142,8 @@ public class ArmorModelList {
 
         add(PCI_RIGHT);
         add(PCI_LEFT);
+        add(SYRINGE_GUN_LEFT);
+        add(SYRINGE_GUN_RIGHT);
     }};
 
     public static final List<EnchantingPart> ENCHANTING_RENDERING_BITS = new ArrayList<>(){{

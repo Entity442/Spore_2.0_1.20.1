@@ -176,6 +176,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(MephiticModel.LAYER_LOCATION, MephiticModel::createBodyLayer);
         event.registerLayerDefinition(InfectedZombieVillager.LAYER_LOCATION, InfectedZombieVillager::createBodyLayer);
         event.registerLayerDefinition(SculkHowlerModel.LAYER_LOCATION, SculkHowlerModel::createBodyLayer);
+        event.registerLayerDefinition(SyringeGunModel.LAYER_LOCATION, SyringeGunModel::createBodyLayer);
 
 
         event.registerLayerDefinition(BombFunnelModel.LAYER_LOCATION, BombFunnelModel::createBodyLayer);

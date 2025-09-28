@@ -527,6 +527,8 @@ public class Sitems {
             Reaver::new);
     public  static final RegistryObject<Item> PCI = ITEMS.register("pci",
             PCI::new);
+    public  static final RegistryObject<Item> SYRINGE_GUN = ITEMS.register("syringe_gun",
+            SyringeGun::new);
 
 
 
