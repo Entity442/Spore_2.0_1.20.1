@@ -85,8 +85,8 @@ public class ArmorModelList {
 
     private static final RightPCIArmorPart PCI_RIGHT = new RightPCIArmorPart(() -> pci,() -> pci.PCIBODY,psi_glow);
     private static final LeftPCIArmorPart PCI_LEFT = new LeftPCIArmorPart(() -> pciL,() -> pciL.PCIBODY,psi_glow);
-    private static final SyringeGunArmorPartRight SYRINGE_GUN_RIGHT = new SyringeGunArmorPartRight(() -> syringeGunModelArm,() -> syringeGunModelArm.syringeGun,0.2f, 0.5f, 0.1f, 0.4f);
-    private static final SyringeGunArmorPartLeft SYRINGE_GUN_LEFT = new SyringeGunArmorPartLeft(() -> syringeGunModelArm,() -> syringeGunModelArm.syringeGun,0.1f, 0.5f, 0.1f, 0.4f);
+    private static final SyringeGunArmorPartRight SYRINGE_GUN_RIGHT = new SyringeGunArmorPartRight(syringeGunModelArm,() -> syringeGunModelArm,() -> syringeGunModelArm.syringeGun,0.2f, 0.5f, 0.1f, 0.4f);
+    private static final SyringeGunArmorPartLeft SYRINGE_GUN_LEFT = new SyringeGunArmorPartLeft(syringeGunModelArm,() -> syringeGunModelArm,() -> syringeGunModelArm.syringeGun,0.1f, 0.5f, 0.1f, 0.4f);
 
     private static final List<Item> fleshBlackList = List.of(Sitems.LIVING_HELMET.get(),Sitems.LIVING_CHEST.get(),Sitems.LIVING_PANTS.get(),Sitems.LIVING_BOOTS.get());
     private static final HelmetArmorPartEnchant JAW_PART = new HelmetArmorPartEnchant(() ->jaw,() ->jaw.jaw,0f,0f,0,1f, Senchantments.VORACIOUS_MAW.get(),jaw_texture,List.of());

@@ -14,13 +14,21 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 
-public class SyringeGunModel<T extends LivingEntity> extends EntityModel<T> {
+public class SyringeGunModel<T extends LivingEntity> extends EntityModel<T> implements TentacledModel{
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "syringe_gun"), "main");
 	public final ModelPart syringeGun;
 	private final ModelPart power;
 	private final ModelPart devil_trigger;
-	private final ModelPart magazine;
+	public final ModelPart magazine;
+	public final ModelPart syringe;
+	private final ModelPart color;
+	public final ModelPart syringe2;
+	private final ModelPart color2;
+	public final ModelPart syringe3;
+	private final ModelPart color3;
+	public final ModelPart syringe4;
+	private final ModelPart color4;
 
 	public SyringeGunModel() {
 		ModelPart root = createBodyLayer().bakeRoot();
@@ -28,6 +36,14 @@ public class SyringeGunModel<T extends LivingEntity> extends EntityModel<T> {
 		this.power = this.syringeGun.getChild("power");
 		this.devil_trigger = this.syringeGun.getChild("devil_trigger");
 		this.magazine = this.syringeGun.getChild("magazine");
+		this.syringe = this.magazine.getChild("syringe");
+		this.color = this.syringe.getChild("color");
+		this.syringe2 = this.magazine.getChild("syringe2");
+		this.color2 = this.syringe2.getChild("color2");
+		this.syringe3 = this.magazine.getChild("syringe3");
+		this.color3 = this.syringe3.getChild("color3");
+		this.syringe4 = this.magazine.getChild("syringe4");
+		this.color4 = this.syringe4.getChild("color4");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -65,16 +81,52 @@ public class SyringeGunModel<T extends LivingEntity> extends EntityModel<T> {
 		PartDefinition magazine = syringeGun.addOrReplaceChild("magazine", CubeListBuilder.create().texOffs(78, 0).addBox(-5.0F, -5.0F, -2.0F, 10.0F, 10.0F, 4.0F, new CubeDeformation(0.0F))
 		.texOffs(0, 90).addBox(-5.5F, -5.5F, -1.5F, 11.0F, 11.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -5.0F, -0.25F, 0.0F, 0.0F, 0.7854F));
 
+		PartDefinition syringe = magazine.addOrReplaceChild("syringe", CubeListBuilder.create().texOffs(0, 11).addBox(-1.0F, -3.88F, -1.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(-0.1F))
+		.texOffs(8, 19).addBox(-0.5F, -7.25F, -0.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(-0.3F))
+		.texOffs(12, 13).addBox(-0.5F, -0.75F, -0.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(-0.3F))
+		.texOffs(0, 17).addBox(-2.0F, 0.0F, -1.0F, 4.0F, 0.0F, 2.0F, new CubeDeformation(0.0F))
+		.texOffs(8, 11).addBox(-1.0F, 2.98F, -1.0F, 2.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0F, -3.0F, 0.25F, 1.5708F, 0.0F, 0.0F));
+
+		PartDefinition color = syringe.addOrReplaceChild("color", CubeListBuilder.create().texOffs(0, 19).addBox(-1.0F, -3.85F, -1.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+
+		PartDefinition syringe2 = magazine.addOrReplaceChild("syringe2", CubeListBuilder.create().texOffs(0, 11).addBox(-1.0F, -3.88F, -1.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(-0.1F))
+		.texOffs(8, 19).addBox(-0.5F, -7.25F, -0.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(-0.3F))
+		.texOffs(12, 13).addBox(-0.5F, -0.75F, -0.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(-0.3F))
+		.texOffs(0, 17).addBox(-2.0F, 0.0F, -1.0F, 4.0F, 0.0F, 2.0F, new CubeDeformation(0.0F))
+		.texOffs(8, 11).addBox(-1.0F, 2.98F, -1.0F, 2.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, -3.0F, 0.25F, 1.5708F, 0.0F, 0.0F));
+
+		PartDefinition color2 = syringe2.addOrReplaceChild("color2", CubeListBuilder.create().texOffs(0, 19).addBox(-1.0F, -3.85F, -1.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+
+		PartDefinition syringe3 = magazine.addOrReplaceChild("syringe3", CubeListBuilder.create().texOffs(0, 11).addBox(-1.0F, -3.88F, -1.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(-0.1F))
+		.texOffs(8, 19).addBox(-0.5F, -7.25F, -0.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(-0.3F))
+		.texOffs(12, 13).addBox(-0.5F, -0.75F, -0.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(-0.3F))
+		.texOffs(0, 17).addBox(-2.0F, 0.0F, -1.0F, 4.0F, 0.0F, 2.0F, new CubeDeformation(0.0F))
+		.texOffs(8, 11).addBox(-1.0F, 2.98F, -1.0F, 2.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, 3.0F, 0.25F, 1.5708F, 0.0F, 0.0F));
+
+		PartDefinition color3 = syringe3.addOrReplaceChild("color3", CubeListBuilder.create().texOffs(0, 19).addBox(-1.0F, -3.85F, -1.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+
+		PartDefinition syringe4 = magazine.addOrReplaceChild("syringe4", CubeListBuilder.create().texOffs(0, 11).addBox(-1.0F, -3.88F, -1.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(-0.1F))
+		.texOffs(8, 19).addBox(-0.5F, -7.25F, -0.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(-0.3F))
+		.texOffs(12, 13).addBox(-0.5F, -0.75F, -0.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(-0.3F))
+		.texOffs(0, 17).addBox(-2.0F, 0.0F, -1.0F, 4.0F, 0.0F, 2.0F, new CubeDeformation(0.0F))
+		.texOffs(8, 11).addBox(-1.0F, 2.98F, -1.0F, 2.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0F, 3.0F, 0.25F, 1.5708F, 0.0F, 0.0F));
+
+		PartDefinition color4 = syringe4.addOrReplaceChild("color4", CubeListBuilder.create().texOffs(0, 19).addBox(-1.0F, -3.85F, -1.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+		this.animateTentacleZ(magazine,ageInTicks/10);
 	}
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+		syringe.visible = false;
+		syringe2.visible = false;
+		syringe3.visible = false;
+		syringe4.visible = false;
 		syringeGun.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 }
