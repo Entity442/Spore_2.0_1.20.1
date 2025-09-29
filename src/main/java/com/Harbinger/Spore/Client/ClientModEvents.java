@@ -9,46 +9,25 @@ import com.Harbinger.Spore.Client.Renderers.*;
 import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Particles.*;
 import com.Harbinger.Spore.Screens.*;
-import com.Harbinger.Spore.Sentities.Experiments.Saugling;
 import com.Harbinger.Spore.Sitems.Agents.AbstractSyringe;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeArmorData;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
-import com.Harbinger.Spore.Sitems.CustomModelArmorData;
 import com.Harbinger.Spore.Spore;
 import com.Harbinger.Spore.sEvents.SItemProperties;
-import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.*;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
-import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.*;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Mod.EventBusSubscriber(modid = Spore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientModEvents {
@@ -177,6 +156,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(InfectedZombieVillager.LAYER_LOCATION, InfectedZombieVillager::createBodyLayer);
         event.registerLayerDefinition(SculkHowlerModel.LAYER_LOCATION, SculkHowlerModel::createBodyLayer);
         event.registerLayerDefinition(SyringeGunModel.LAYER_LOCATION, SyringeGunModel::createBodyLayer);
+        event.registerLayerDefinition(SyringeGunModelArm.LAYER_LOCATION, SyringeGunModelArm::createBodyLayer);
 
 
         event.registerLayerDefinition(BombFunnelModel.LAYER_LOCATION, BombFunnelModel::createBodyLayer);

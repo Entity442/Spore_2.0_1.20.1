@@ -629,6 +629,9 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
         HohlMultipart[] parts = getHolfParts();
         if (parts == null) return;
         for (HohlMultipart part : parts) {
+            if (part == null){
+                return;
+            }
             MobEffectInstance existing = part.getEffect(instance.getEffect());
             if (existing == null || existing.getDuration() < instance.getDuration() - 5) {
                 part.addEffect(new MobEffectInstance(instance)); // copy to avoid shared timer
@@ -643,6 +646,9 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
             return;
         }else {
             for (HohlMultipart hohlMultipart : getHolfParts()){
+                if (hohlMultipart == null){
+                    return;
+                }
                 hohlMultipart.removeEffect(instance.getEffect());
             }
         }
