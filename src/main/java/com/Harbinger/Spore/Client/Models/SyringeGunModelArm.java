@@ -51,20 +51,20 @@ public class SyringeGunModelArm<T extends LivingEntity> extends EntityModel<T> i
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
 		PartDefinition syringeGun = partdefinition.addOrReplaceChild("syringeGun", CubeListBuilder.create().texOffs(90, 90).addBox(-3.0F, -12.0F, -13.0F, 4.0F, 3.0F, 9.0F, new CubeDeformation(0.0F))
-		.texOffs(72, 57).addBox(-3.0F, -14.0F, -4.0F, 4.0F, 5.0F, 13.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 74).addBox(-3.5F, -13.5F, -3.5F, 5.0F, 4.0F, 12.0F, new CubeDeformation(0.0F))
-		.texOffs(34, 74).addBox(-3.0F, -14.0F, -35.0F, 4.0F, 2.0F, 13.0F, new CubeDeformation(0.0F))
-		.texOffs(78, 14).addBox(-3.1F, -9.5F, -37.25F, 4.0F, 4.0F, 10.0F, new CubeDeformation(0.0F))
-		.texOffs(62, 90).addBox(-3.6F, -9.0F, -36.75F, 5.0F, 3.0F, 9.0F, new CubeDeformation(0.0F))
-		.texOffs(32, 89).addBox(-2.1F, -7.0F, -34.25F, 2.0F, 2.0F, 14.0F, new CubeDeformation(0.0F))
-		.texOffs(72, 38).addBox(-2.1F, -9.5F, -47.0F, 2.0F, 3.0F, 16.0F, new CubeDeformation(0.0F))
-		.texOffs(68, 75).addBox(-2.0F, -7.0F, -17.0F, 2.0F, 2.0F, 13.0F, new CubeDeformation(0.0F))
-		.texOffs(94, 28).addBox(-2.0F, -6.0F, -3.0F, 2.0F, 1.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(90, 102).addBox(-2.0F, -9.0F, 1.0F, 2.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
-		.texOffs(28, 90).addBox(-2.0F, -9.0F, -4.0F, 2.0F, 4.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(78, 35).addBox(-2.0F, -9.0F, -10.0F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 0).addBox(-2.0F, -15.0F, -31.0F, 2.0F, 1.0F, 37.0F, new CubeDeformation(0.0F))
-		.texOffs(78, 28).addBox(-2.0F, -13.0F, -10.0F, 2.0F, 1.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.0F, 2.0F, 0.0F, 1.5708F, 0.0F, 0.0F));
+				.texOffs(72, 57).addBox(-3.0F, -14.0F, -4.0F, 4.0F, 5.0F, 13.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 74).addBox(-3.5F, -13.5F, -3.5F, 5.0F, 4.0F, 12.0F, new CubeDeformation(0.0F))
+				.texOffs(34, 74).addBox(-3.0F, -14.0F, -35.0F, 4.0F, 2.0F, 13.0F, new CubeDeformation(0.0F))
+				.texOffs(78, 14).addBox(-3.1F, -9.5F, -37.25F, 4.0F, 4.0F, 10.0F, new CubeDeformation(0.0F))
+				.texOffs(62, 90).addBox(-3.6F, -9.0F, -36.75F, 5.0F, 3.0F, 9.0F, new CubeDeformation(0.0F))
+				.texOffs(32, 89).addBox(-2.1F, -7.0F, -34.25F, 2.0F, 2.0F, 14.0F, new CubeDeformation(0.0F))
+				.texOffs(72, 38).addBox(-2.1F, -9.5F, -47.0F, 2.0F, 3.0F, 16.0F, new CubeDeformation(0.0F))
+				.texOffs(68, 75).addBox(-2.0F, -7.0F, -17.0F, 2.0F, 2.0F, 13.0F, new CubeDeformation(0.0F))
+				.texOffs(94, 28).addBox(-2.0F, -6.0F, -3.0F, 2.0F, 1.0F, 4.0F, new CubeDeformation(0.0F))
+				.texOffs(90, 102).addBox(-2.0F, -9.0F, 1.0F, 2.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
+				.texOffs(28, 90).addBox(-2.0F, -9.0F, -4.0F, 2.0F, 4.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(78, 35).addBox(-2.0F, -9.0F, -10.0F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 0).addBox(-2.0F, -15.0F, -31.0F, 2.0F, 1.0F, 37.0F, new CubeDeformation(0.0F))
+				.texOffs(78, 28).addBox(-2.0F, -13.0F, -10.0F, 2.0F, 1.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.0F, 2.0F, 0.0F, 1.5708F, 0.0F, 0.0F));
 
 		PartDefinition cube_r1 = syringeGun.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(76, 102).addBox(-2.0F, -2.0F, -1.5F, 3.0F, 11.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, -4.75F, 3.25F, 0.7854F, 0.0F, 0.0F));
 
@@ -79,37 +79,37 @@ public class SyringeGunModelArm<T extends LivingEntity> extends EntityModel<T> i
 		PartDefinition devil_trigger = syringeGun.addOrReplaceChild("devil_trigger", CubeListBuilder.create().texOffs(28, 95).addBox(-1.0F, -1.0F, -2.5F, 0.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -8.0F, 0.5F));
 
 		PartDefinition magazine = syringeGun.addOrReplaceChild("magazine", CubeListBuilder.create().texOffs(78, 0).addBox(-5.0F, -5.0F, -2.0F, 10.0F, 10.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 90).addBox(-5.5F, -5.5F, -1.5F, 11.0F, 11.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, -6.0F, -17.25F, 0.0F, 0.0F, 0.7854F));
+				.texOffs(0, 90).addBox(-5.5F, -5.5F, -1.5F, 11.0F, 11.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, -6.0F, -18.25F, 0.0F, 0.0F, 0.7854F));
 
 		PartDefinition syringe = magazine.addOrReplaceChild("syringe", CubeListBuilder.create().texOffs(0, 11).addBox(-1.0F, -3.88F, -1.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(-0.1F))
-		.texOffs(8, 19).addBox(-0.5F, -7.25F, -0.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(-0.3F))
-		.texOffs(12, 13).addBox(-0.5F, -0.75F, -0.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(-0.3F))
-		.texOffs(0, 17).addBox(-2.0F, 0.0F, -1.0F, 4.0F, 0.0F, 2.0F, new CubeDeformation(0.0F))
-		.texOffs(8, 11).addBox(-1.0F, 2.98F, -1.0F, 2.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0F, -3.0F, 0.25F, 1.5708F, 0.0F, 0.0F));
+				.texOffs(8, 19).addBox(-0.5F, -7.25F, -0.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(-0.3F))
+				.texOffs(12, 13).addBox(-0.5F, -0.75F, -0.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(-0.3F))
+				.texOffs(0, 17).addBox(-2.0F, 0.0F, -1.0F, 4.0F, 0.0F, 2.0F, new CubeDeformation(0.0F))
+				.texOffs(8, 11).addBox(-1.0F, 2.98F, -1.0F, 2.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0F, -3.0F, 0.25F, 1.5708F, 0.0F, 0.0F));
 
 		PartDefinition color = syringe.addOrReplaceChild("color", CubeListBuilder.create().texOffs(0, 19).addBox(-1.0F, -3.85F, -1.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition syringe2 = magazine.addOrReplaceChild("syringe2", CubeListBuilder.create().texOffs(0, 11).addBox(-1.0F, -3.88F, -1.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(-0.1F))
-		.texOffs(8, 19).addBox(-0.5F, -7.25F, -0.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(-0.3F))
-		.texOffs(12, 13).addBox(-0.5F, -0.75F, -0.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(-0.3F))
-		.texOffs(0, 17).addBox(-2.0F, 0.0F, -1.0F, 4.0F, 0.0F, 2.0F, new CubeDeformation(0.0F))
-		.texOffs(8, 11).addBox(-1.0F, 2.98F, -1.0F, 2.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, -3.0F, 0.25F, 1.5708F, 0.0F, 0.0F));
+				.texOffs(8, 19).addBox(-0.5F, -7.25F, -0.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(-0.3F))
+				.texOffs(12, 13).addBox(-0.5F, -0.75F, -0.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(-0.3F))
+				.texOffs(0, 17).addBox(-2.0F, 0.0F, -1.0F, 4.0F, 0.0F, 2.0F, new CubeDeformation(0.0F))
+				.texOffs(8, 11).addBox(-1.0F, 2.98F, -1.0F, 2.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, -3.0F, 0.25F, 1.5708F, 0.0F, 0.0F));
 
 		PartDefinition color2 = syringe2.addOrReplaceChild("color2", CubeListBuilder.create().texOffs(0, 19).addBox(-1.0F, -3.85F, -1.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition syringe3 = magazine.addOrReplaceChild("syringe3", CubeListBuilder.create().texOffs(0, 11).addBox(-1.0F, -3.88F, -1.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(-0.1F))
-		.texOffs(8, 19).addBox(-0.5F, -7.25F, -0.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(-0.3F))
-		.texOffs(12, 13).addBox(-0.5F, -0.75F, -0.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(-0.3F))
-		.texOffs(0, 17).addBox(-2.0F, 0.0F, -1.0F, 4.0F, 0.0F, 2.0F, new CubeDeformation(0.0F))
-		.texOffs(8, 11).addBox(-1.0F, 2.98F, -1.0F, 2.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, 3.0F, 0.25F, 1.5708F, 0.0F, 0.0F));
+				.texOffs(8, 19).addBox(-0.5F, -7.25F, -0.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(-0.3F))
+				.texOffs(12, 13).addBox(-0.5F, -0.75F, -0.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(-0.3F))
+				.texOffs(0, 17).addBox(-2.0F, 0.0F, -1.0F, 4.0F, 0.0F, 2.0F, new CubeDeformation(0.0F))
+				.texOffs(8, 11).addBox(-1.0F, 2.98F, -1.0F, 2.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, 3.0F, 0.25F, 1.5708F, 0.0F, 0.0F));
 
 		PartDefinition color3 = syringe3.addOrReplaceChild("color3", CubeListBuilder.create().texOffs(0, 19).addBox(-1.0F, -3.85F, -1.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition syringe4 = magazine.addOrReplaceChild("syringe4", CubeListBuilder.create().texOffs(0, 11).addBox(-1.0F, -3.88F, -1.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(-0.1F))
-		.texOffs(8, 19).addBox(-0.5F, -7.25F, -0.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(-0.3F))
-		.texOffs(12, 13).addBox(-0.5F, -0.75F, -0.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(-0.3F))
-		.texOffs(0, 17).addBox(-2.0F, 0.0F, -1.0F, 4.0F, 0.0F, 2.0F, new CubeDeformation(0.0F))
-		.texOffs(8, 11).addBox(-1.0F, 2.98F, -1.0F, 2.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0F, 3.0F, 0.25F, 1.5708F, 0.0F, 0.0F));
+				.texOffs(8, 19).addBox(-0.5F, -7.25F, -0.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(-0.3F))
+				.texOffs(12, 13).addBox(-0.5F, -0.75F, -0.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(-0.3F))
+				.texOffs(0, 17).addBox(-2.0F, 0.0F, -1.0F, 4.0F, 0.0F, 2.0F, new CubeDeformation(0.0F))
+				.texOffs(8, 11).addBox(-1.0F, 2.98F, -1.0F, 2.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0F, 3.0F, 0.25F, 1.5708F, 0.0F, 0.0F));
 
 		PartDefinition color4 = syringe4.addOrReplaceChild("color4", CubeListBuilder.create().texOffs(0, 19).addBox(-1.0F, -3.85F, -1.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
