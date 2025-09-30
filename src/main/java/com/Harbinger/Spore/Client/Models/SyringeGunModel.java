@@ -123,10 +123,6 @@ public class SyringeGunModel<T extends LivingEntity> extends EntityModel<T> impl
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		syringe.visible = false;
-		syringe2.visible = false;
-		syringe3.visible = false;
-		syringe4.visible = false;
 		syringeGun.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 }
