@@ -333,7 +333,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
 
     @Override
     public boolean hasLineOfSight(Entity entity) {
-        if (canEntitySeeTheSky(entity) && canEntitySeeTheSky(this) || entity.distanceToSqr(this) < 200){
+        if (canEntitySeeTheSky(entity) || entity.distanceToSqr(this) < 200){
             return true;
         }else
             return super.hasLineOfSight(entity);
