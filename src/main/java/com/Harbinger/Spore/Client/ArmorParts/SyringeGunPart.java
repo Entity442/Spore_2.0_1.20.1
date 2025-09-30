@@ -33,15 +33,15 @@ public class SyringeGunPart extends ComplexHandModelItem{
         super.renderCustomHand(livingEntity, stack, partialTicks, light, bufferSource, poseStack, location);
         if (stack.getItem() instanceof SyringeGun syringeGun){
             applyTransformEx(poseStack,this.x,this.y,this.z,this.expand,this.Xspin,this.Yspin,this.Zspin,() ->{
-                handleColorRendering(parentModel.syringe, syringeGun.getClip().get(0), poseStack,bufferSource,light,location);
-                handleColorRendering(parentModel.syringe2, syringeGun.getClip().get(1), poseStack,bufferSource,light,location);
-                handleColorRendering(parentModel.syringe3, syringeGun.getClip().get(2), poseStack,bufferSource,light,location);
-                handleColorRendering(parentModel.syringe4, syringeGun.getClip().get(3), poseStack,bufferSource,light,location);
+                handleColorRendering(parentModel.syringe, syringeGun.getClip().get(0), poseStack,bufferSource,light);
+                handleColorRendering(parentModel.syringe2, syringeGun.getClip().get(1), poseStack,bufferSource,light);
+                handleColorRendering(parentModel.syringe3, syringeGun.getClip().get(2), poseStack,bufferSource,light);
+                handleColorRendering(parentModel.syringe4, syringeGun.getClip().get(3), poseStack,bufferSource,light);
             });
         }
     }
 
-    public void handleColorRendering(ModelPart syringe,int color,PoseStack stack,MultiBufferSource source,int light,ResourceLocation additionalTexture){
+    public void handleColorRendering(ModelPart syringe,int color,PoseStack stack,MultiBufferSource source,int light){
         if (color == 0){
             return;
         }
