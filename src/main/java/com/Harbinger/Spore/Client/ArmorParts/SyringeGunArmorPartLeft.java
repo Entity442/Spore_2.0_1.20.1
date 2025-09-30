@@ -2,9 +2,6 @@ package com.Harbinger.Spore.Client.ArmorParts;
 
 import com.Harbinger.Spore.Client.Models.SyringeGunModelArm;
 import com.Harbinger.Spore.Core.Sitems;
-import com.Harbinger.Spore.Sitems.Agents.ArmorSyringe;
-import com.Harbinger.Spore.Sitems.Agents.WeaponSyringe;
-import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsMutations;
 import com.Harbinger.Spore.Sitems.CustomModelArmorData;
 import com.Harbinger.Spore.Sitems.SyringeGun;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -43,7 +40,7 @@ public class SyringeGunArmorPartLeft extends BaseArmorRenderingBit{
     @Override
     public void tickMovement(LivingEntity livingEntity, PoseStack poseStack, HumanoidModel<LivingEntity> model, int light, MultiBufferSource buffer) {
         super.tickMovement(livingEntity, poseStack, model, light, buffer);
-        ItemStack stack = stack(livingEntity);
+        ItemStack stack = livingEntity.getOffhandItem();
         if (stack.getItem().equals(item) && stack.getItem() instanceof SyringeGun syringeGun){
             applyTransformEx(poseStack,getPiece(model),this.x,this.y,this.z,this.expand,this.Xspin,this.Yspin,this.Zspin,() -> {
                 handleColorRendering(parentModel.syringe, syringeGun.getClip().get(0), poseStack,buffer,light);

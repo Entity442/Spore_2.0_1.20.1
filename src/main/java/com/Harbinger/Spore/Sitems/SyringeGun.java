@@ -8,6 +8,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.IntTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -170,7 +171,7 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData {
         if (inHand && isReloading(stack)) {
             if (getReloadTimer(stack) > 0) setReloadTimer(stack, getReloadTimer(stack) - 1);
             else {
-                entity.playSound(SoundEvents.CROSSBOW_LOADING_START);
+                player.playNotifySound(SoundEvents.CROSSBOW_LOADING_START, SoundSource.AMBIENT,1,1);
                 reloadOne(stack, player);
                 setReloadTimer(stack, 10);
             }
@@ -224,7 +225,7 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData {
             removeMagazine(chamber);
             setCurrentChamber(gun, (chamber + 1) % 4);
             setShootCooldown(gun, 10);
-            player.playSound(SoundEvents.DISPENSER_DISPENSE);
+            player.playNotifySound(SoundEvents.DISPENSER_DISPENSE, SoundSource.AMBIENT,1,1);
             return true;
         }
         return false;
@@ -246,6 +247,7 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData {
         }
         startReload(gun);
         saveToNBT(gun);
+        player.startUsingItem(hand);
         return InteractionResultHolder.consume(gun);
     }
 }
