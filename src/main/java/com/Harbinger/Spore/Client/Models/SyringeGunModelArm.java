@@ -3,6 +3,9 @@ package com.Harbinger.Spore.Client.Models;// Made with Blockbench 4.12.6
 // Paste this class into your mod and generate all required imports
 
 
+import com.Harbinger.Spore.Client.AnimationTrackers.PCIAnimationTracker;
+import com.Harbinger.Spore.Client.AnimationTrackers.SGAnimationTracker;
+import com.Harbinger.Spore.Client.AnimationTrackers.SGReloadAnimationTracker;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -13,6 +16,7 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 
 public class SyringeGunModelArm<T extends LivingEntity> extends EntityModel<T> implements TentacledModel{
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -117,8 +121,13 @@ public class SyringeGunModelArm<T extends LivingEntity> extends EntityModel<T> i
 	}
 
 	@Override
-	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		this.animateTentacleZ(magazine,ageInTicks/10);
+	public void setupAnim(T entity, float magazinRotation, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		if (entity instanceof Player player){
+			float magazineRotation = SGReloadAnimationTracker.getCurrentRotation(player, 0f);
+			animateTentacleZ(magazine,magazineRotation * ((float) Math.PI / 180f));
+			float anim = SGAnimationTracker.getProgress(player, 0);
+			this.power.zScale = 1 + anim;
+		}
 	}
 
 	@Override

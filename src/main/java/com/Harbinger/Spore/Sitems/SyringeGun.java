@@ -1,5 +1,7 @@
 package com.Harbinger.Spore.Sitems;
 
+import com.Harbinger.Spore.Client.AnimationTrackers.SGAnimationTracker;
+import com.Harbinger.Spore.Client.AnimationTrackers.SGReloadAnimationTracker;
 import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.Sitems.Agents.ArmorSyringe;
 import com.Harbinger.Spore.Sitems.Agents.WeaponSyringe;
@@ -222,16 +224,30 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData {
                 Arrow arrow = new Arrow(level, player);
                 arrow.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 3.0F, 1.0F);
                 level.addFreshEntity(arrow);
+            }else {
+                SGAnimationTracker.trigger(player);
             }
             removeMagazine(chamber);
             setCurrentChamber(gun, (chamber + 1) % 4);
             setShootCooldown(gun, 10);
+            triggerMagazineRotation(gun, player, true);
             player.playNotifySound(SoundEvents.DISPENSER_DISPENSE, SoundSource.AMBIENT,1,1);
             return true;
+        }else {
+            player.playNotifySound(SoundEvents.LEVER_CLICK, SoundSource.AMBIENT,1,1);
+            setCurrentChamber(gun, (chamber + 1) % 4);
+            triggerMagazineRotation(gun, player, true);
         }
         return false;
     }
-
+    private void triggerMagazineRotation(ItemStack gun, Player player, boolean forward) {
+        if (player.level().isClientSide) {
+            SGReloadAnimationTracker.RotationDirection direction = forward ?
+                    SGReloadAnimationTracker.RotationDirection.FORWARD :
+                    SGReloadAnimationTracker.RotationDirection.BACKWARD;
+            SGReloadAnimationTracker.trigger90DegreeRotation(player, direction,10);
+        }
+    }
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack gun = player.getItemInHand(hand);

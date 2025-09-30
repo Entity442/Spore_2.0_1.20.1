@@ -1,6 +1,8 @@
 package com.Harbinger.Spore.Client;
 
 import com.Harbinger.Spore.Client.AnimationTrackers.PCIAnimationTracker;
+import com.Harbinger.Spore.Client.AnimationTrackers.SGAnimationTracker;
+import com.Harbinger.Spore.Client.AnimationTrackers.SGReloadAnimationTracker;
 import com.Harbinger.Spore.Client.ArmorParts.ComplexHandModelItem;
 import com.Harbinger.Spore.Sitems.CustomModelArmorData;
 import com.Harbinger.Spore.Spore;
@@ -19,6 +21,8 @@ public class SpecificClientEvents {
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             PCIAnimationTracker.tickAll();
+            SGAnimationTracker.tickAll();
+            SGReloadAnimationTracker.tickAll();
         }
     }
     @SubscribeEvent
