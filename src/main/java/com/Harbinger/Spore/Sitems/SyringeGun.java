@@ -45,7 +45,8 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData {
         super(new Properties().stacksTo(1));
     }
 
-    public List<Integer> getClip() {
+    public List<Integer> getClip(ItemStack stack) {
+        loadFromNBT(stack);
         return clip;
     }
 

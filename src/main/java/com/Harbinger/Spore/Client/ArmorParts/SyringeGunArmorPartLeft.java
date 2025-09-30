@@ -18,6 +18,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 public class SyringeGunArmorPartLeft extends BaseArmorRenderingBit{
@@ -42,11 +43,12 @@ public class SyringeGunArmorPartLeft extends BaseArmorRenderingBit{
         super.tickMovement(livingEntity, poseStack, model, light, buffer);
         ItemStack stack = livingEntity.getOffhandItem();
         if (stack.getItem().equals(item) && stack.getItem() instanceof SyringeGun syringeGun){
+            List<Integer> clipColors = syringeGun.getClip(stack);
             applyTransformEx(poseStack,getPiece(model),this.x,this.y,this.z,this.expand,this.Xspin,this.Yspin,this.Zspin,() -> {
-                handleColorRendering(parentModel.syringe, syringeGun.getClip().get(0), poseStack,buffer,light);
-                handleColorRendering(parentModel.syringe2, syringeGun.getClip().get(1), poseStack,buffer,light);
-                handleColorRendering(parentModel.syringe3, syringeGun.getClip().get(2), poseStack,buffer,light);
-                handleColorRendering(parentModel.syringe4, syringeGun.getClip().get(3), poseStack,buffer,light);
+                handleColorRendering(parentModel.syringe, clipColors.get(0), poseStack,buffer,light);
+                handleColorRendering(parentModel.syringe2, clipColors.get(1), poseStack,buffer,light);
+                handleColorRendering(parentModel.syringe3, clipColors.get(2), poseStack,buffer,light);
+                handleColorRendering(parentModel.syringe4, clipColors.get(3), poseStack,buffer,light);
             });
         }
     }
