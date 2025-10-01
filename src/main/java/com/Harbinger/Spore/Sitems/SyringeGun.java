@@ -7,6 +7,7 @@ import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.Sentities.Projectile.SyringeProjectile;
 import com.Harbinger.Spore.Sitems.Agents.ArmorSyringe;
 import com.Harbinger.Spore.Sitems.Agents.WeaponSyringe;
+import com.google.common.collect.ImmutableSet;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.IntTag;
@@ -21,6 +22,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.Vanishable;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.phys.Vec3;
@@ -240,7 +244,8 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanis
         ItemStack ammo = magazine.get(chamber);
         if (!ammo.isEmpty()) {
             if (!level.isClientSide) {
-                SyringeProjectile arrow = new SyringeProjectile(level,player,SConfig.SERVER.syringe_damage.get(),ammo);
+                float power = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SHARPNESS,gun) > 0 ? EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS,gun) * 0.5f + 1f : 0;
+                SyringeProjectile arrow = new SyringeProjectile(level,player,SConfig.SERVER.syringe_damage.get() + power,ammo);
                 Vec3 vec3 = (new Vec3(0.0D, 0.0D, hand == InteractionHand.MAIN_HAND ? 0.2 : -0.2)).yRot(-player.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
                 arrow.moveTo(player.position().add(vec3.x,1.4,vec3.z));
                 arrow.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 3.0F, 1.0F);
@@ -286,5 +291,10 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanis
         startReload(gun);
         saveToNBT(gun);
         return InteractionResultHolder.consume(gun);
+    }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+        return super.canApplyAtEnchantingTable(stack, enchantment) || ImmutableSet.of(Enchantments.POWER_ARROWS).contains(enchantment);
     }
 }
