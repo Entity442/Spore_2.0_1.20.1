@@ -301,6 +301,10 @@ public class Sentities {
             EntityType.Builder.of((EntityType<ThrownItemProjectile> p_33002_, Level level) -> new ThrownItemProjectile(level), MobCategory.MISC)
                     .setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(0.4f, 0.4f));
 
+    public static final RegistryObject<EntityType<SyringeProjectile>> THROWN_SYRINGE = register("thrown_syringe",
+            EntityType.Builder.of((EntityType<SyringeProjectile> p_33002_, Level level) -> new SyringeProjectile(level), MobCategory.MISC)
+                    .setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(0.4f, 0.4f));
+
     public static final RegistryObject<EntityType<ThrownSickle>> THROWN_SICKEL = register("thrown_sickle",
             EntityType.Builder.of((EntityType<ThrownSickle> p_33002_, Level level) -> new ThrownSickle(level), MobCategory.MISC)
                     .setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(0.4f, 0.4f));

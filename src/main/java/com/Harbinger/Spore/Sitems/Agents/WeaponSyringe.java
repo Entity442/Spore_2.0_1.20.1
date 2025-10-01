@@ -29,7 +29,7 @@ public class WeaponSyringe extends AbstractSyringe{
     }
 
     @Override
-    void useSyringe(ItemStack stack, LivingEntity living) {
+    public void useSyringe(ItemStack stack, LivingEntity living) {
         switch (mutations){
             case VAMPIRIC -> {living.heal(4); living.addEffect(new MobEffectInstance(MobEffects.REGENERATION,400 ,1));}
             case CALCIFIED -> {living.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE,600 ,0));}

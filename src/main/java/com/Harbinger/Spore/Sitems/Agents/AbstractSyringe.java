@@ -52,7 +52,7 @@ public abstract class AbstractSyringe extends BaseItem2 {
         super.releaseUsing(stack, level, living, value);
     }
 
-    abstract void useSyringe(ItemStack stack,LivingEntity living);
+    public abstract void useSyringe(ItemStack stack,LivingEntity living);
 
     protected void addMycelium(LivingEntity living){
         living.playSound(Ssounds.SYRINGE_INJECT.get(),1F,1F);

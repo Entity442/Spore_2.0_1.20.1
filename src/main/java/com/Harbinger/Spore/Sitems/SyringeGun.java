@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Sitems;
 import com.Harbinger.Spore.Client.AnimationTrackers.SGAnimationTracker;
 import com.Harbinger.Spore.Client.AnimationTrackers.SGReloadAnimationTracker;
 import com.Harbinger.Spore.Core.Sitems;
+import com.Harbinger.Spore.Sentities.Projectile.SyringeProjectile;
 import com.Harbinger.Spore.Sitems.Agents.ArmorSyringe;
 import com.Harbinger.Spore.Sitems.Agents.WeaponSyringe;
 import net.minecraft.nbt.CompoundTag;
@@ -232,7 +233,9 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData {
         ItemStack ammo = magazine.get(chamber);
         if (!ammo.isEmpty()) {
             if (!level.isClientSide) {
-                Arrow arrow = new Arrow(level, player);
+                SyringeProjectile arrow = new SyringeProjectile(level,player,5f,ammo);
+
+                arrow.moveTo(player.position().add(0,1.4,0));
                 arrow.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 3.0F, 1.0F);
                 level.addFreshEntity(arrow);
             }else {

@@ -157,6 +157,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(SculkHowlerModel.LAYER_LOCATION, SculkHowlerModel::createBodyLayer);
         event.registerLayerDefinition(SyringeGunModel.LAYER_LOCATION, SyringeGunModel::createBodyLayer);
         event.registerLayerDefinition(SyringeGunModelArm.LAYER_LOCATION, SyringeGunModelArm::createBodyLayer);
+        event.registerLayerDefinition(SyringeProjectileModel.LAYER_LOCATION, SyringeProjectileModel::createBodyLayer);
 
 
         event.registerLayerDefinition(BombFunnelModel.LAYER_LOCATION, BombFunnelModel::createBodyLayer);
@@ -259,6 +260,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.SAUGLING.get(), SauglingRenderer::new);
         event.registerEntityRenderer(Sentities.CORPSE_PIECE.get(), CorpseRenderer::new);
         event.registerEntityRenderer(Sentities.MEPHETIC.get(), MephticRenderer::new);
+        event.registerEntityRenderer(Sentities.THROWN_SYRINGE.get(), SyringeRenderer::new);
 
         event.registerBlockEntityRenderer(SblockEntities.OVERGROWN_SPAWNER.get(), new OvergrownSpawnerRenderer());
         event.registerBlockEntityRenderer(SblockEntities.BRAIN_REMNANTS.get(), new BrainRemnantsRenderer());

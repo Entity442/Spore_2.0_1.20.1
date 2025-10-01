@@ -31,7 +31,7 @@ public class ArmorSyringe extends AbstractSyringe{
     }
 
     @Override
-    void useSyringe(ItemStack stack, LivingEntity living) {
+    public void useSyringe(ItemStack stack, LivingEntity living) {
         switch (mutations){
             case REINFORCED -> {living.addEffect(new MobEffectInstance(MobEffects.ABSORPTION,200 ,1));}
             case SKELETAL -> {living.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE,400 ,1));}
