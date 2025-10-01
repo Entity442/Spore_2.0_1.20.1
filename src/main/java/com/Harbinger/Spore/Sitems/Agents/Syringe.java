@@ -20,7 +20,7 @@ import java.util.Optional;
 
 public class Syringe extends BaseItem2 {
     public Syringe() {
-        super(new Item.Properties().stacksTo(16));
+        super(new Item.Properties());
     }
 
     public Optional<InjectionRecipe> getRecipe(Level level, Entity entity){
