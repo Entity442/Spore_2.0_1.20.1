@@ -165,7 +165,7 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData {
 
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
-        if (level.isClientSide || !(entity instanceof Player player)) return;
+        if (!(entity instanceof Player player)) return;
 
         loadFromNBT(stack);
 
@@ -197,6 +197,9 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData {
                 if (!ammo.isEmpty()) {
                     ItemStack taken = ammo.split(1);
                     setMagazine(taken, i);
+                    if (player.level().isClientSide) {
+                        SGReloadAnimationTracker.triggerRotation(player,90,10);
+                    }
                 } else {
                     setReloading(gun, false);
                 }
@@ -230,22 +233,19 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData {
             removeMagazine(chamber);
             setCurrentChamber(gun, (chamber + 1) % 4);
             setShootCooldown(gun, 10);
-            triggerMagazineRotation(gun, player, true);
+            triggerMagazineRotation(gun, player);
             player.playNotifySound(SoundEvents.DISPENSER_DISPENSE, SoundSource.AMBIENT,1,1);
             return true;
         }else {
             player.playNotifySound(SoundEvents.LEVER_CLICK, SoundSource.AMBIENT,1,1);
             setCurrentChamber(gun, (chamber + 1) % 4);
-            triggerMagazineRotation(gun, player, true);
+            triggerMagazineRotation(gun, player);
         }
         return false;
     }
-    private void triggerMagazineRotation(ItemStack gun, Player player, boolean forward) {
+    private void triggerMagazineRotation(ItemStack gun, Player player) {
         if (player.level().isClientSide) {
-            SGReloadAnimationTracker.RotationDirection direction = forward ?
-                    SGReloadAnimationTracker.RotationDirection.FORWARD :
-                    SGReloadAnimationTracker.RotationDirection.BACKWARD;
-            SGReloadAnimationTracker.trigger90DegreeRotation(player, direction,10);
+            SGReloadAnimationTracker.triggerRotation(player,90,10);
         }
     }
     @Override

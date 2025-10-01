@@ -17,44 +17,20 @@ public class SGReloadAnimationTracker {
         public float targetRotation = 0f;  // Target rotation in degrees
         public int animationTicks;     // Animation duration
         public int maxAnimationTicks; // Total animation duration
-        public RotationDirection direction = RotationDirection.FORWARD;
 
-        public MagazineRotationState(float targetRot, int duration, RotationDirection dir) {
+        public MagazineRotationState(float targetRot, int duration) {
             this.targetRotation = targetRot;
             this.maxAnimationTicks = duration;
             this.animationTicks = duration;
-            this.direction = dir;
         }
     }
 
-    public enum RotationDirection {
-        FORWARD,
-        BACKWARD
-    }
-
-    public static void triggerRotation(Player player, float targetRotation, int duration, RotationDirection direction) {
+    public static void triggerRotation(Player player, float targetRotation, int duration) {
         UUID playerId = player.getUUID();
-        MagazineRotationState newState = new MagazineRotationState(targetRotation, duration, direction);
+        MagazineRotationState newState = new MagazineRotationState(targetRotation, duration);
         rotationStates.put(playerId, newState);
     }
 
-    public static void trigger90DegreeRotation(Player player, RotationDirection direction,int duration) {
-        UUID playerId = player.getUUID();
-        MagazineRotationState currentState = rotationStates.get(playerId);
-        float currentRot = currentState != null ? currentState.currentRotation : 0f;
-
-        float targetRotation;
-        if (direction == RotationDirection.FORWARD) {
-            targetRotation = (float) (Math.floor(currentRot / 90f) * 90f + 90f);
-        } else {
-            targetRotation = (float) (Math.ceil(currentRot / 90f) * 90f - 90f);
-        }
-
-        // Normalize to 0-360 range
-        targetRotation = (targetRotation % 360 + 360) % 360;
-
-        triggerRotation(player, targetRotation, duration, direction);
-    }
     public static float getCurrentRotation(Player player, float partialTicks) {
         MagazineRotationState state = rotationStates.get(player.getUUID());
         if (state == null || state.animationTicks <= 0) {
@@ -71,13 +47,6 @@ public class SGReloadAnimationTracker {
     }
 
     private static float getStartRotation(MagazineRotationState state) {
-        // Calculate the starting rotation based on direction
-        if (state.direction != RotationDirection.FORWARD) {
-            // For backward rotation, we might need to adjust if crossing 360/0 boundary
-            if (state.targetRotation > state.currentRotation) {
-                return state.currentRotation + 360f; // Go the long way around backward
-            }
-        }
         return state.currentRotation;
     }
 
