@@ -94,6 +94,7 @@
   "item.spore.reforged_biomass_a": "Airborne Reforged Biomass",
   "item.spore.reaver": "Reaver",
   "item.spore.pci": "PCI",
+  "item.spore.syringe_gun": "Syringe Gun",
   "item.spore.slice_of_heartpie": "Slice of a Heart Pie",
   "item.spore.organoid_soup": "Organoid Soup",
   "item.spore.frozen_decayed_biomass": "Frozen Decayed Biomass",
@@ -717,6 +718,10 @@
   "advancement.spore.biobloob.description" : "Encounter a Bioblob.",
   "advancement.spore.hohlfresser.title" : "Ol' Stumpy",
   "advancement.spore.hohlfresser.description" : "Encounter a Hohlfresser.",
+  "advancement.spore.inf_diseased_villager.title" : "Incurable",
+  "advancement.spore.inf_diseased_villager.description" : "Encounter an Infected Diseased Villager.",
+  "advancement.spore.mephitic.title" : "Beyond Detoxification",
+  "advancement.spore.mephitic.description" : "Encounter a Mephitic.",
 
   "spore.proto.message.0": "You're gonna need a bigger sword :P",
   "spore.proto.message.1": "Rage quit already you're done",

@@ -1,0 +1,40 @@
+{
+  "display": {
+    "icon": {
+      "item": "spore:inf_diseased_villager_spawnegg"
+    },
+    "title":{"translate": "advancement.spore.inf_diseased_villager.title"},
+    "description":{"translate": "advancement.spore.inf_diseased_villager.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
+  },
+
+  "parent": "spore:inf_mobs",
+  "criteria": {
+    "hurt_infected": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "entity": {
+          "type": "spore:inf_diseased_villager"
+        }
+      }
+    },
+    "hurt_by_infected": {
+      "trigger": "minecraft:entity_hurt_player",
+      "conditions": {
+        "damage": {
+          "source_entity": {
+            "type": "spore:inf_diseased_villager"
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "hurt_infected",
+      "hurt_by_infected"
+    ]
+  ]
+}

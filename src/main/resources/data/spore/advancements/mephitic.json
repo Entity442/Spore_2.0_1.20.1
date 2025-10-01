@@ -1,0 +1,40 @@
+{
+  "display": {
+    "icon": {
+      "item": "spore:meph_spawnegg"
+    },
+    "title":{"translate": "advancement.spore.mephitic.title"},
+    "description":{"translate": "advancement.spore.mephitic.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
+  },
+
+  "parent": "spore:inf_witch",
+  "criteria": {
+    "hurt_infected": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "entity": {
+          "type": "spore:mephitic"
+        }
+      }
+    },
+    "hurt_by_infected": {
+      "trigger": "minecraft:entity_hurt_player",
+      "conditions": {
+        "damage": {
+          "source_entity": {
+            "type": "spore:mephitic"
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "hurt_infected",
+      "hurt_by_infected"
+    ]
+  ]
+}

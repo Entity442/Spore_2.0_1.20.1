@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Client.AnimationTrackers.SGAnimationTracker;
 import com.Harbinger.Spore.Client.AnimationTrackers.SGReloadAnimationTracker;
+import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.Sentities.Projectile.SyringeProjectile;
 import com.Harbinger.Spore.Sitems.Agents.ArmorSyringe;
@@ -16,16 +17,17 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.Vanishable;
 import net.minecraft.world.level.Level;
 import net.minecraft.core.NonNullList;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-public class SyringeGun extends BaseItem2 implements CustomModelArmorData {
+public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanishable {
     private static final ResourceLocation TEXTURE = new ResourceLocation("spore:textures/item/syringe_gun.png");
 
     private final NonNullList<ItemStack> magazine = NonNullList.withSize(4, ItemStack.EMPTY);
@@ -45,7 +47,7 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData {
     );
 
     public SyringeGun() {
-        super(new Properties().stacksTo(1));
+        super(new Properties().stacksTo(1).durability(SConfig.SERVER.syringe_durability.get()));
     }
 
     public List<Integer> getClip(ItemStack stack) {
@@ -131,7 +133,10 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData {
             }
         }
     }
-
+    @Override
+    public boolean isValidRepairItem(ItemStack stack, ItemStack itemStack) {
+        return itemStack.is(Sitems.CIRCUIT_BOARD.get());
+    }
     private int getCurrentChamber(ItemStack gun) {
         return gun.getOrCreateTag().getInt("CurrentChamber");
     }
@@ -227,15 +232,15 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData {
         return ItemStack.EMPTY;
     }
 
-    public boolean shoot(ItemStack gun, Player player, Level level) {
+    public boolean shoot(ItemStack gun, Player player, Level level,InteractionHand hand) {
         if (getShootCooldown(gun) > 0) return false;
         int chamber = getCurrentChamber(gun);
         ItemStack ammo = magazine.get(chamber);
         if (!ammo.isEmpty()) {
             if (!level.isClientSide) {
-                SyringeProjectile arrow = new SyringeProjectile(level,player,5f,ammo);
-
-                arrow.moveTo(player.position().add(0,1.4,0));
+                SyringeProjectile arrow = new SyringeProjectile(level,player,SConfig.SERVER.syringe_damage.get(),ammo);
+                Vec3 vec3 = (new Vec3(0.0D, 0.0D, hand == InteractionHand.MAIN_HAND ? 0.2 : -0.2)).yRot(-player.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
+                arrow.moveTo(player.position().add(vec3.x,1.4,vec3.z));
                 arrow.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 3.0F, 1.0F);
                 level.addFreshEntity(arrow);
             }else {
@@ -271,7 +276,8 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData {
         if (getShootCooldown(gun) > 0){
             return InteractionResultHolder.fail(gun);
         }
-        if (shoot(gun, player, level)) {
+        if (shoot(gun, player, level,hand)) {
+            gun.hurt(1,player.getRandom(),null);
             saveToNBT(gun);
             return InteractionResultHolder.success(gun);
         }

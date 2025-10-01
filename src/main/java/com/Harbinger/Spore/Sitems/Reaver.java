@@ -53,7 +53,7 @@ public class Reaver extends SwordItem implements LootModifierWeapon {
 
             @Override
             public Ingredient getRepairIngredient() {
-                return Ingredient.of(Items.IRON_INGOT);
+                return Ingredient.of(Sitems.COMPOUND_PLATE.get());
             }
         }, 0, -1, new Properties());
         Sitems.TECHNOLOGICAL_ITEMS.add(this);

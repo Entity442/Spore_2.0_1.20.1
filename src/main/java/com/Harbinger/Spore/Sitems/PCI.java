@@ -41,6 +41,11 @@ public class PCI extends BaseItem2 implements CustomModelArmorData,Vanishable {
     }
 
     @Override
+    public boolean isValidRepairItem(ItemStack stack, ItemStack itemStack) {
+        return itemStack.is(Sitems.CIRCUIT_BOARD.get());
+    }
+
+    @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(Attributes.ATTACK_DAMAGE,new AttributeModifier(BONUS_DAMAGE_MODIFIER_UUID,"Tool modifier",SConfig.SERVER.pci_damage.get()-1, AttributeModifier.Operation.ADDITION));

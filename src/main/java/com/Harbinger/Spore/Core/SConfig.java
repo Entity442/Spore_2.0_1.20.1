@@ -397,6 +397,9 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Integer> saber_durability;
         public final ForgeConfigSpec.ConfigValue<Integer> saber_damage;
 
+        public final ForgeConfigSpec.ConfigValue<Integer> syringe_durability;
+        public final ForgeConfigSpec.ConfigValue<Integer> syringe_damage;
+
         public final ForgeConfigSpec.ConfigValue<Integer> pci_durability;
         public final ForgeConfigSpec.ConfigValue<Integer> pci_damage;
         public final ForgeConfigSpec.ConfigValue<Integer> pci_max_charge;
@@ -1349,6 +1352,10 @@ public class SConfig {
             this.pci_durability = builder.comment("Default 300").define("Durability",300);
             this.pci_damage = builder.comment("Default 6").defineInRange("Damage", 6, 1, Integer.MAX_VALUE);
             this.pci_max_charge = builder.comment("Default 25").define("Max charge",25);
+            builder.pop();
+            builder.push("Syringe Gun");
+            this.syringe_durability = builder.comment("Default 300").define("Durability",300);
+            this.syringe_damage = builder.comment("Default 5").defineInRange("Damage", 5, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.push("Scythe");
             this.scythe_durability = builder.comment("Default 750").define("Durability",750);
