@@ -224,6 +224,8 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanis
 
 
     private ItemStack findAmmo(Player player) {
+        if (player.getAbilities().instabuild)
+            return new ItemStack(Sitems.SYRINGE.get());
         ItemStack offhand = player.getOffhandItem();
         if (isValidAmmo(offhand)) return offhand;
         for (ItemStack invStack : player.getInventory().items) {
