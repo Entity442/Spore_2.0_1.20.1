@@ -33,7 +33,7 @@ import java.util.List;
 
 public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanishable {
     private static final ResourceLocation TEXTURE = new ResourceLocation("spore:textures/item/syringe_gun.png");
-
+    public String DATA = "data";
     private final NonNullList<ItemStack> magazine = NonNullList.withSize(4, ItemStack.EMPTY);
     private final NonNullList<Integer> clip = NonNullList.withSize(4, 0);
 
@@ -142,35 +142,43 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanis
         return itemStack.is(Sitems.CIRCUIT_BOARD.get());
     }
     private int getCurrentChamber(ItemStack gun) {
-        return gun.getOrCreateTag().getInt("CurrentChamber");
+        CompoundTag tag = gun.getOrCreateTagElement(DATA);
+        return tag.getInt("CurrentChamber");
     }
 
     private void setCurrentChamber(ItemStack gun, int value) {
-        gun.getOrCreateTag().putInt("CurrentChamber", value);
+        CompoundTag tag = gun.getOrCreateTagElement(DATA);
+        tag.putInt("CurrentChamber", value);
     }
 
     private int getReloadTimer(ItemStack gun) {
-        return gun.getOrCreateTag().getInt("ReloadTimer");
+        CompoundTag tag = gun.getOrCreateTagElement(DATA);
+        return tag.getInt("ReloadTimer");
     }
 
     private void setReloadTimer(ItemStack gun, int value) {
-        gun.getOrCreateTag().putInt("ReloadTimer", value);
+        CompoundTag tag = gun.getOrCreateTagElement(DATA);
+        tag.putInt("ReloadTimer", value);
     }
 
     private boolean isReloading(ItemStack gun) {
-        return gun.getOrCreateTag().getBoolean("Reloading");
+        CompoundTag tag = gun.getOrCreateTagElement(DATA);
+        return tag.getBoolean("Reloading");
     }
 
     private void setReloading(ItemStack gun, boolean value) {
-        gun.getOrCreateTag().putBoolean("Reloading", value);
+        CompoundTag tag = gun.getOrCreateTagElement(DATA);
+        tag.putBoolean("Reloading", value);
     }
 
     private int getShootCooldown(ItemStack gun) {
-        return gun.getOrCreateTag().getInt("ShootCooldown");
+        CompoundTag tag = gun.getOrCreateTagElement(DATA);
+        return tag.getInt("ShootCooldown");
     }
 
     private void setShootCooldown(ItemStack gun, int value) {
-        gun.getOrCreateTag().putInt("ShootCooldown", value);
+        CompoundTag tag = gun.getOrCreateTagElement(DATA);
+        tag.putInt("ShootCooldown", value);
     }
 
     @Override
@@ -244,7 +252,8 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanis
         ItemStack ammo = magazine.get(chamber);
         if (!ammo.isEmpty()) {
             if (!level.isClientSide) {
-                float power = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SHARPNESS,gun) > 0 ? EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS,gun) * 0.5f + 1f : 0;
+                float enchantment = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS,gun);
+                float power = enchantment > 0 ? enchantment * 0.5f + 1f : 0;
                 SyringeProjectile arrow = new SyringeProjectile(level,player,SConfig.SERVER.syringe_damage.get() + power,ammo);
                 Vec3 vec3 = (new Vec3(0.0D, 0.0D, hand == InteractionHand.MAIN_HAND ? 0.2 : -0.2)).yRot(-player.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
                 arrow.moveTo(player.position().add(vec3.x,1.4,vec3.z));
