@@ -180,8 +180,13 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData {
             }
         }
 
-        if (getShootCooldown(stack) > 0) setShootCooldown(stack, getShootCooldown(stack) - 1);
-
+        if (getShootCooldown(stack) > 0){
+            if (getShootCooldown(stack) == 5 && level.isClientSide){
+                int chamber = getCurrentChamber(stack);
+                SGReloadAnimationTracker.triggerRotationToChamber(player,chamber,10);
+            }
+            setShootCooldown(stack, getShootCooldown(stack) - 1);
+        }
         saveToNBT(stack);
     }
 
@@ -195,10 +200,12 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData {
             if (magazine.get(i).isEmpty()) {
                 ItemStack ammo = findAmmo(player);
                 if (!ammo.isEmpty()) {
-                    ItemStack taken = ammo.split(1);
-                    setMagazine(taken, i);
                     if (player.level().isClientSide) {
-                        SGReloadAnimationTracker.triggerRotation(player,90,10);
+                        SGReloadAnimationTracker.triggerRotationToChamber(player,i,10);
+                        player.playNotifySound(SoundEvents.CROSSBOW_LOADING_START, SoundSource.AMBIENT, 1, 1);
+                    } else {
+                        ItemStack taken = ammo.split(1);
+                        setMagazine(taken, i);
                     }
                 } else {
                     setReloading(gun, false);
@@ -208,6 +215,7 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData {
         }
         setReloading(gun, false);
     }
+
 
     private ItemStack findAmmo(Player player) {
         ItemStack offhand = player.getOffhandItem();
@@ -233,38 +241,39 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData {
             removeMagazine(chamber);
             setCurrentChamber(gun, (chamber + 1) % 4);
             setShootCooldown(gun, 10);
-            triggerMagazineRotation(gun, player);
             player.playNotifySound(SoundEvents.DISPENSER_DISPENSE, SoundSource.AMBIENT,1,1);
             return true;
         }else {
             player.playNotifySound(SoundEvents.LEVER_CLICK, SoundSource.AMBIENT,1,1);
             setCurrentChamber(gun, (chamber + 1) % 4);
-            triggerMagazineRotation(gun, player);
+            triggerMagazineRotation(chamber, player);
         }
         return false;
     }
-    private void triggerMagazineRotation(ItemStack gun, Player player) {
+    private void triggerMagazineRotation(int chamber, Player player) {
         if (player.level().isClientSide) {
-            SGReloadAnimationTracker.triggerRotation(player,90,10);
+            SGReloadAnimationTracker.triggerRotationToChamber(player,chamber,10);
         }
     }
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack gun = player.getItemInHand(hand);
+        player.startUsingItem(hand);
         loadFromNBT(gun);
         if (player.isShiftKeyDown()) {
             if (!isReloading(gun)) startReload(gun);
             saveToNBT(gun);
             return InteractionResultHolder.success(gun);
         }
-        if (getShootCooldown(gun) > 0) return InteractionResultHolder.fail(gun);
+        if (getShootCooldown(gun) > 0){
+            return InteractionResultHolder.fail(gun);
+        }
         if (shoot(gun, player, level)) {
             saveToNBT(gun);
             return InteractionResultHolder.success(gun);
         }
         startReload(gun);
         saveToNBT(gun);
-        player.startUsingItem(hand);
         return InteractionResultHolder.consume(gun);
     }
 }

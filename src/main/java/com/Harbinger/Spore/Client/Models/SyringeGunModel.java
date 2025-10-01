@@ -122,7 +122,7 @@ public class SyringeGunModel<T extends LivingEntity> extends EntityModel<T> impl
 	@Override
 	public void setupAnim(T entity, float magazinRotation, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		if (entity instanceof Player player){
-			float magazineRotation = SGReloadAnimationTracker.getCurrentRotation(player, 0f);
+			float magazineRotation = -SGReloadAnimationTracker.getCurrentRotation(player, 0f);
 			animateTentacleZ(magazine,magazineRotation * ((float) Math.PI / 180f));
 			float anim = SGAnimationTracker.getProgress(player, 0);
 			this.power.zScale = 1 + anim;
