@@ -11,31 +11,29 @@ import com.google.common.collect.ImmutableSet;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.IntTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.item.Vanishable;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanishable {
     private static final ResourceLocation TEXTURE = new ResourceLocation("spore:textures/item/syringe_gun.png");
-    public String DATA = "data";
-    private final NonNullList<ItemStack> magazine = NonNullList.withSize(4, ItemStack.EMPTY);
-    private final NonNullList<Integer> clip = NonNullList.withSize(4, 0);
+    private static final String DATA = "data";
 
     public static final List<Item> AMMO = List.of(
             Sitems.SYRINGE.get(),
@@ -52,11 +50,6 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanis
 
     public SyringeGun() {
         super(new Properties().stacksTo(1).durability(SConfig.SERVER.syringe_durability.get()));
-    }
-
-    public List<Integer> getClip(ItemStack stack) {
-        loadFromNBT(stack);
-        return clip;
     }
 
     @Override
@@ -78,27 +71,33 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanis
         return !stack.isEmpty() && AMMO.contains(stack.getItem());
     }
 
-    public void setMagazine(ItemStack stack, int slot) {
-        if (isValidAmmo(stack)) {
-            magazine.set(slot, stack.copy());
-            clip.set(slot, encodeColors(stack));
+    /** ---------------- MAGAZINE / CLIP ---------------- */
+
+    private NonNullList<ItemStack> getMagazine(ItemStack gun) {
+        NonNullList<ItemStack> magazine = NonNullList.withSize(4, ItemStack.EMPTY);
+        CompoundTag tag = gun.getOrCreateTag();
+        if (tag.contains("Magazines", 9)) {
+            ListTag magTag = tag.getList("Magazines", 10);
+            for (int i = 0; i < 4 && i < magTag.size(); i++) {
+                magazine.set(i, ItemStack.of(magTag.getCompound(i)));
+            }
         }
+        return magazine;
     }
 
-    public void removeMagazine(int slot) {
-        magazine.set(slot, ItemStack.EMPTY);
-        clip.set(slot, 0);
+    private NonNullList<Integer> getClip(ItemStack gun) {
+        NonNullList<Integer> clip = NonNullList.withSize(4, 0);
+        CompoundTag tag = gun.getOrCreateTag();
+        if (tag.contains("Clip", 9)) {
+            ListTag clipTag = tag.getList("Clip", 3);
+            for (int i = 0; i < 4 && i < clipTag.size(); i++) {
+                clip.set(i, ((IntTag) clipTag.get(i)).getAsInt());
+            }
+        }
+        return clip;
     }
 
-    private int encodeColors(ItemStack stack) {
-        if (stack.isEmpty()) return 0;
-        if (stack.getItem().equals(Sitems.SYRINGE.get())) return -1;
-        if (stack.getItem() instanceof WeaponSyringe w) return w.getColor();
-        if (stack.getItem() instanceof ArmorSyringe a) return a.getColor();
-        return 0;
-    }
-
-    private void saveToNBT(ItemStack gun) {
+    private void saveMagazineAndClip(ItemStack gun, NonNullList<ItemStack> magazine, NonNullList<Integer> clip) {
         CompoundTag tag = gun.getOrCreateTag();
 
         ListTag magTag = new ListTag();
@@ -116,31 +115,34 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanis
         tag.put("Clip", clipTag);
     }
 
-    private void loadFromNBT(ItemStack gun) {
-        CompoundTag tag = gun.getOrCreateTag();
-
-        if (tag.contains("Magazines", 9)) {
-            ListTag magTag = tag.getList("Magazines", 10);
-            for (int i = 0; i < 4; i++) {
-                if (i < magTag.size()) {
-                    magazine.set(i, ItemStack.of(magTag.getCompound(i)));
-                }
-            }
+    public void setMagazine(ItemStack gun, ItemStack ammo, int slot) {
+        NonNullList<ItemStack> magazine = getMagazine(gun);
+        NonNullList<Integer> clip = getClip(gun);
+        if (isValidAmmo(ammo)) {
+            magazine.set(slot, ammo.copy());
+            clip.set(slot, encodeColors(ammo));
         }
+        saveMagazineAndClip(gun, magazine, clip);
+    }
 
-        if (tag.contains("Clip", 9)) {
-            ListTag clipTag = tag.getList("Clip", 3);
-            for (int i = 0; i < 4; i++) {
-                if (i < clipTag.size()) {
-                    clip.set(i, ((IntTag) clipTag.get(i)).getAsInt());
-                }
-            }
-        }
+    public void removeMagazine(ItemStack gun, int slot) {
+        NonNullList<ItemStack> magazine = getMagazine(gun);
+        NonNullList<Integer> clip = getClip(gun);
+        magazine.set(slot, ItemStack.EMPTY);
+        clip.set(slot, 0);
+        saveMagazineAndClip(gun, magazine, clip);
     }
-    @Override
-    public boolean isValidRepairItem(ItemStack stack, ItemStack itemStack) {
-        return itemStack.is(Sitems.CIRCUIT_BOARD.get());
+
+    private int encodeColors(ItemStack stack) {
+        if (stack.isEmpty()) return 0;
+        if (stack.getItem().equals(Sitems.SYRINGE.get())) return -1;
+        if (stack.getItem() instanceof WeaponSyringe w) return w.getColor();
+        if (stack.getItem() instanceof ArmorSyringe a) return a.getColor();
+        return 0;
     }
+
+    /** ---------------- STATE HANDLING ---------------- */
+
     private int getCurrentChamber(ItemStack gun) {
         CompoundTag tag = gun.getOrCreateTagElement(DATA);
         return tag.getInt("CurrentChamber");
@@ -181,11 +183,11 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanis
         tag.putInt("ShootCooldown", value);
     }
 
+    /** ---------------- LOGIC ---------------- */
+
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
         if (!(entity instanceof Player player)) return;
-
-        loadFromNBT(stack);
 
         boolean inHand = player.getMainHandItem() == stack || player.getOffhandItem() == stack;
 
@@ -205,7 +207,6 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanis
             }
             setShootCooldown(stack, getShootCooldown(stack) - 1);
         }
-        saveToNBT(stack);
     }
 
     public void startReload(ItemStack stack) {
@@ -214,6 +215,7 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanis
     }
 
     private void reloadOne(ItemStack gun, Player player) {
+        NonNullList<ItemStack> magazine = getMagazine(gun);
         for (int i = 0; i < magazine.size(); i++) {
             if (magazine.get(i).isEmpty()) {
                 ItemStack ammo = findAmmo(player);
@@ -223,7 +225,7 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanis
                         player.playNotifySound(SoundEvents.CROSSBOW_LOADING_START, SoundSource.AMBIENT, 1, 1);
                     } else {
                         ItemStack taken = ammo.split(1);
-                        setMagazine(taken, i);
+                        setMagazine(gun, taken, i);
                     }
                 } else {
                     setReloading(gun, false);
@@ -234,76 +236,97 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanis
         setReloading(gun, false);
     }
 
-
     private ItemStack findAmmo(Player player) {
-        if (player.getAbilities().instabuild)
-            return new ItemStack(Sitems.SYRINGE.get());
         ItemStack offhand = player.getOffhandItem();
         if (isValidAmmo(offhand)) return offhand;
+        if (player.getAbilities().instabuild)
+            return new ItemStack(Sitems.SYRINGE.get());
         for (ItemStack invStack : player.getInventory().items) {
             if (isValidAmmo(invStack)) return invStack;
         }
         return ItemStack.EMPTY;
     }
 
-    public boolean shoot(ItemStack gun, Player player, Level level,InteractionHand hand) {
+    public boolean shoot(ItemStack gun, Player player, Level level, InteractionHand hand) {
         if (getShootCooldown(gun) > 0) return false;
+
+        NonNullList<ItemStack> magazine = getMagazine(gun);
         int chamber = getCurrentChamber(gun);
         ItemStack ammo = magazine.get(chamber);
+
         if (!ammo.isEmpty()) {
             if (!level.isClientSide) {
-                float enchantment = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS,gun);
-                float power = enchantment > 0 ? enchantment * 0.5f + 1f : 0;
-                SyringeProjectile arrow = new SyringeProjectile(level,player,SConfig.SERVER.syringe_damage.get() + power,ammo);
+                int enchantment = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS, gun);
+                float power = enchantment > 0 ? enchantment * 1.5f : 0;
+                SyringeProjectile arrow = new SyringeProjectile(level, player, SConfig.SERVER.syringe_damage.get() + power, ammo);
                 Vec3 vec3 = (new Vec3(0.0D, 0.0D, hand == InteractionHand.MAIN_HAND ? 0.2 : -0.2)).yRot(-player.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
                 arrow.moveTo(player.position().add(vec3.x,1.4,vec3.z));
                 arrow.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 3.0F, 1.0F);
                 level.addFreshEntity(arrow);
-            }else {
+            } else {
                 SGAnimationTracker.trigger(player);
             }
-            removeMagazine(chamber);
+            removeMagazine(gun, chamber);
             setCurrentChamber(gun, (chamber + 1) % 4);
             setShootCooldown(gun, 10);
             player.playNotifySound(SoundEvents.DISPENSER_DISPENSE, SoundSource.AMBIENT,1,1);
             return true;
-        }else {
+        } else {
             player.playNotifySound(SoundEvents.LEVER_CLICK, SoundSource.AMBIENT,1,1);
             setCurrentChamber(gun, (chamber + 1) % 4);
             triggerMagazineRotation(chamber, player);
         }
         return false;
     }
+
     private void triggerMagazineRotation(int chamber, Player player) {
         if (player.level().isClientSide) {
             SGReloadAnimationTracker.triggerRotationToChamber(player,chamber,10);
         }
     }
+
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack gun = player.getItemInHand(hand);
         player.startUsingItem(hand);
-        loadFromNBT(gun);
+
         if (player.isShiftKeyDown()) {
             if (!isReloading(gun)) startReload(gun);
-            saveToNBT(gun);
             return InteractionResultHolder.success(gun);
         }
-        if (getShootCooldown(gun) > 0){
+
+        if (getShootCooldown(gun) > 0 || isReloading(gun)) {
             return InteractionResultHolder.fail(gun);
         }
-        if (shoot(gun, player, level,hand)) {
-            gun.hurt(1,player.getRandom(),null);
-            saveToNBT(gun);
+
+        if (shoot(gun, player, level, hand)) {
+            gun.hurtAndBreak(1, player, (p_43296_) -> {
+                p_43296_.broadcastBreakEvent(hand);
+            });
             return InteractionResultHolder.success(gun);
         }
+
         startReload(gun);
-        saveToNBT(gun);
         return InteractionResultHolder.consume(gun);
     }
 
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
         return super.canApplyAtEnchantingTable(stack, enchantment) || ImmutableSet.of(Enchantments.POWER_ARROWS).contains(enchantment);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
+        super.appendHoverText(stack, level, list, flag);
+        for (ItemStack ammo : getMagazine(stack)) {
+            if (!ammo.isEmpty()) {
+                list.add(ammo.copy().getDisplayName());
+            }
+        }
+    }
+
+    @Override
+    public boolean isValidRepairItem(ItemStack stack, ItemStack itemStack) {
+        return itemStack.is(Sitems.CIRCUIT_BOARD.get());
     }
 }

@@ -62,7 +62,6 @@ public class SyringeProjectile extends AbstractArrow {
     }
     @Override
     protected void onHitEntity(EntityHitResult entityHitResult) {
-        super.onHitEntity(entityHitResult);
         Entity entity = entityHitResult.getEntity();
         if (entity instanceof LivingEntity living && !level().isClientSide){
             if (itemStack.getItem().equals(Sitems.SYRINGE.get())){
@@ -81,6 +80,7 @@ public class SyringeProjectile extends AbstractArrow {
                 syringe.useSyringe(itemStack,living);
                 this.playSound(Ssounds.SYRINGE_INJECT.get());
             }
+            living.hurt(level().damageSources().mobProjectile(this,(LivingEntity) getOwner()), (float) getBaseDamage());
         }
     }
 
