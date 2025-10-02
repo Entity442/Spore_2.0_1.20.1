@@ -63,7 +63,7 @@ public class SyringeProjectile extends AbstractArrow {
     @Override
     protected void onHitEntity(EntityHitResult entityHitResult) {
         Entity entity = entityHitResult.getEntity();
-        if (entity instanceof LivingEntity living && !level().isClientSide){
+        if (entity instanceof LivingEntity living && !level().isClientSide && canHitEntity(living)){
             if (itemStack.getItem().equals(Sitems.SYRINGE.get())){
                 Optional<InjectionRecipe> match = this.getRecipe(level(),living);
                 if (match.isPresent() && Math.random() < 0.5){
