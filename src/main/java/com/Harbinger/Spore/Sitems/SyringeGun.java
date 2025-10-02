@@ -85,7 +85,7 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanis
         return magazine;
     }
 
-    private NonNullList<Integer> getClip(ItemStack gun) {
+    public NonNullList<Integer> getClip(ItemStack gun) {
         NonNullList<Integer> clip = NonNullList.withSize(4, 0);
         CompoundTag tag = gun.getOrCreateTag();
         if (tag.contains("Clip", 9)) {

@@ -4,7 +4,13 @@ import com.Harbinger.Spore.Client.Models.InquisitorModel;
 import com.Harbinger.Spore.Client.Special.BaseInfectedRenderer;
 import com.Harbinger.Spore.Sentities.Hyper.Inquisitor;
 import com.Harbinger.Spore.Spore;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -19,6 +25,7 @@ public class InquisitorRenderer<Type extends Inquisitor> extends BaseInfectedRen
 
     public InquisitorRenderer(EntityRendererProvider.Context context) {
         super(context, new InquisitorModel<>(context.bakeLayer(InquisitorModel.LAYER_LOCATION)), 0.7f);
+        this.addLayer(new InquisitorBlood<>(this));
     }
 
     @Override
@@ -32,4 +39,21 @@ public class InquisitorRenderer<Type extends Inquisitor> extends BaseInfectedRen
         return EYE_TEXTURE;
     }
 
+    static class InquisitorBlood <T extends Inquisitor,M extends InquisitorModel<T>> extends RenderLayer<T, M> {
+        private static final int color = -3394816;
+        public InquisitorBlood(RenderLayerParent<T, M> p_117346_) {
+            super(p_117346_);
+        }
+
+        @Override
+        public void render(PoseStack matrixStack, MultiBufferSource buffer, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+            if (!entity.isInvisible() && entity.getBonusDamage() > 10){
+                float r = (float) (color >> 16 & 255) / 255.0F;
+                float g = (float) (color >> 8 & 255) / 255.0F;
+                float b = (float) (color & 255) / 255.0F;
+                VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityCutout(TEXTURE));
+                getParentModel().renderToBuffer(matrixStack, vertexConsumer, packedLight, 15728640, r, g, b, 0.2f);
+            }
+        }
+    }
 }
