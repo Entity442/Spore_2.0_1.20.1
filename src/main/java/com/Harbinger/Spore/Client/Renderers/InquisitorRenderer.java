@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -40,6 +41,8 @@ public class InquisitorRenderer<Type extends Inquisitor> extends BaseInfectedRen
     }
 
     static class InquisitorBlood <T extends Inquisitor,M extends InquisitorModel<T>> extends RenderLayer<T, M> {
+        private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
+                "textures/entity/inquisitor.png");
         private static final int color = -3394816;
         public InquisitorBlood(RenderLayerParent<T, M> p_117346_) {
             super(p_117346_);
@@ -51,8 +54,8 @@ public class InquisitorRenderer<Type extends Inquisitor> extends BaseInfectedRen
                 float r = (float) (color >> 16 & 255) / 255.0F;
                 float g = (float) (color >> 8 & 255) / 255.0F;
                 float b = (float) (color & 255) / 255.0F;
-                VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityCutout(TEXTURE));
-                getParentModel().renderToBuffer(matrixStack, vertexConsumer, packedLight, 15728640, r, g, b, 0.2f);
+                VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityTranslucent(TEXTURE));
+                getParentModel().renderToBuffer(matrixStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, r, g, b, 0.5f);
             }
         }
     }

@@ -8,6 +8,7 @@ import com.Harbinger.Spore.Sentities.Projectile.SyringeProjectile;
 import com.Harbinger.Spore.Sitems.Agents.ArmorSyringe;
 import com.Harbinger.Spore.Sitems.Agents.WeaponSyringe;
 import com.google.common.collect.ImmutableSet;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.IntTag;
@@ -18,7 +19,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -27,6 +28,7 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -59,7 +61,7 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanis
 
     @Override
     public UseAnim getUseAnimation(ItemStack stack) {
-        return UseAnim.BOW;
+        return UseAnim.NONE;
     }
 
     @Override
@@ -190,7 +192,6 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanis
         if (!(entity instanceof Player player)) return;
 
         boolean inHand = player.getMainHandItem() == stack || player.getOffhandItem() == stack;
-
         if (inHand && isReloading(stack)) {
             if (getReloadTimer(stack) > 0) setReloadTimer(stack, getReloadTimer(stack) - 1);
             else {
@@ -289,10 +290,9 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanis
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack gun = player.getItemInHand(hand);
         player.startUsingItem(hand);
-
         if (player.isShiftKeyDown()) {
             if (!isReloading(gun)) startReload(gun);
-            return InteractionResultHolder.success(gun);
+            return InteractionResultHolder.consume(gun);
         }
 
         if (getShootCooldown(gun) > 0 || isReloading(gun)) {
@@ -303,11 +303,11 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanis
             gun.hurtAndBreak(1, player, (p_43296_) -> {
                 p_43296_.broadcastBreakEvent(hand);
             });
-            return InteractionResultHolder.success(gun);
+            return InteractionResultHolder.consume(gun);
         }
 
         startReload(gun);
-        return InteractionResultHolder.consume(gun);
+        return InteractionResultHolder.fail(gun);
     }
 
     @Override
@@ -328,5 +328,19 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanis
     @Override
     public boolean isValidRepairItem(ItemStack stack, ItemStack itemStack) {
         return itemStack.is(Sitems.CIRCUIT_BOARD.get());
+    }
+
+    @Override
+    public void initializeClient(java.util.function.Consumer<net.minecraftforge.client.extensions.common.IClientItemExtensions> consumer) {
+        consumer.accept(new net.minecraftforge.client.extensions.common.IClientItemExtensions() {
+            @Override
+            public HumanoidModel.@Nullable ArmPose getArmPose(LivingEntity entityLiving, InteractionHand hand, ItemStack itemStack) {
+                ItemStack stack = entityLiving.getItemInHand(hand);
+                if (stack.equals(itemStack)){
+                    return HumanoidModel.ArmPose.CROSSBOW_HOLD;
+                }
+                return IClientItemExtensions.super.getArmPose(entityLiving, hand, itemStack);
+            }
+        });
     }
 }
