@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "spore:symbiotic_reagent",
+    "spore:cryogenic_reagent",
+    "spore:gastric_reagent",
+    "spore:corrosive_reagent",
+    "spore:serrated_reagent",
+    "spore:voracious_reagent"
+  ]
+}

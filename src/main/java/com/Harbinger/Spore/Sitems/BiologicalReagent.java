@@ -2,13 +2,18 @@ package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Core.Senchantments;
 import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.Screens.InjectionRecipeMenu;
+import com.Harbinger.Spore.Screens.InjectionRecipeScreen;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
@@ -32,7 +37,7 @@ public class BiologicalReagent extends BaseItem {
     public static final TagKey<Item> ALL_TYPES = ItemTags.create(new ResourceLocation(Spore.MODID,"enchantable_items"));
     public static final TagKey<Item> WEAPON_TYPES = ItemTags.create(new ResourceLocation(Spore.MODID,"enchantable_weapon_items"));
     public static final TagKey<Item> ARMOR_TYPES_TYPES = ItemTags.create(new ResourceLocation(Spore.MODID,"enchantable_armor_items"));
-
+    public AcceptedTypes getType(){return type;}
     @Override
     public boolean isFoil(ItemStack p_41453_) {
         return true;
@@ -91,6 +96,7 @@ public class BiologicalReagent extends BaseItem {
         list.add(Component.translatable("item.reagent.line1"));
         list.add(Component.translatable(getAppliedEnchantment().getDescriptionId()));
         list.add(Component.translatable("item.reagent.line2").withStyle(ChatFormatting.BLACK));
+        list.add(Component.translatable("universal_shift_rightclick"));
     }
 
     public enum AcceptedTypes{
@@ -104,5 +110,16 @@ public class BiologicalReagent extends BaseItem {
         public String getId(){
             return id;
         }
+    }
+
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+        if (player.isShiftKeyDown() && level.isClientSide){
+            InjectionRecipeMenu menu1 = new InjectionRecipeMenu(1, player.getInventory());
+            Minecraft.getInstance().setScreen(new InjectionRecipeScreen(menu1, player.getInventory(),
+                    Component.literal("")));
+        }
+        ItemStack stack = player.getItemInHand(hand);
+        return InteractionResultHolder.success(stack);
     }
 }
