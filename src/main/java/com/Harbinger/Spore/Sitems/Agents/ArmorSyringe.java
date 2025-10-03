@@ -54,6 +54,7 @@ public class ArmorSyringe extends AbstractSyringe{
         return false;
     }
 
+    public SporeArmorMutations getMutations(){return mutations;}
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level p_41422_, List<Component> components, TooltipFlag p_41424_) {
         super.appendHoverText(stack, p_41422_, components, p_41424_);

@@ -40,6 +40,7 @@ public class WeaponSyringe extends AbstractSyringe{
         stack.shrink(1);
         addMycelium(living);
     }
+    public SporeToolsMutations getMutations(){return mutations;}
 
     @Override
     public boolean overrideStackedOnOther(ItemStack stack, Slot slot, ClickAction clickAction, Player player) {

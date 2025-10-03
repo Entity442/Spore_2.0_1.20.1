@@ -285,6 +285,7 @@ public class ClientModEvents {
             MenuScreens.register(SMenu.CABINET_MENU.get(), CabinetScreen::new);
             MenuScreens.register(SMenu.GRAFTING_MENU.get(), GraftingScreen::new);
             MenuScreens.register(SMenu.GRAFTING_RECIPE_MENU.get(), GraftingRecipeScreen::new);
+            MenuScreens.register(SMenu.INJECTION_RECIPE_MENU.get(), InjectionRecipeScreen::new);
         });
 
     }

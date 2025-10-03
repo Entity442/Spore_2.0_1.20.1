@@ -3,7 +3,13 @@ package com.Harbinger.Spore.Sitems.Agents;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.Screens.InjectionRecipeMenu;
+import com.Harbinger.Spore.Screens.InjectionRecipeScreen;
+import com.Harbinger.Spore.Screens.SurgeryRecipeMenu;
+import com.Harbinger.Spore.Screens.SurgeryRecipeScreen;
 import com.Harbinger.Spore.Sitems.BaseItem2;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -13,8 +19,12 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public abstract class AbstractSyringe extends BaseItem2 {
     public AbstractSyringe() {
@@ -34,6 +44,14 @@ public abstract class AbstractSyringe extends BaseItem2 {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
+        if (player.isShiftKeyDown()){
+            if (level.isClientSide){
+                InjectionRecipeMenu menu1 = new InjectionRecipeMenu(1, player.getInventory());
+                Minecraft.getInstance().setScreen(new InjectionRecipeScreen(menu1, player.getInventory(),
+                        Component.literal("")));
+            }
+            return InteractionResultHolder.success(stack);
+        }
         player.startUsingItem(hand);
         return InteractionResultHolder.consume(stack);
     }
@@ -57,5 +75,11 @@ public abstract class AbstractSyringe extends BaseItem2 {
     protected void addMycelium(LivingEntity living){
         living.playSound(Ssounds.SYRINGE_INJECT.get(),1F,1F);
         living.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),300,0));
+    }
+
+    @Override
+    public void appendHoverText(ItemStack p_41421_, @Nullable Level p_41422_, List<Component> components, TooltipFlag p_41424_) {
+        super.appendHoverText(p_41421_, p_41422_, components, p_41424_);
+        components.add(Component.translatable("universal_shift_rightclick"));
     }
 }
