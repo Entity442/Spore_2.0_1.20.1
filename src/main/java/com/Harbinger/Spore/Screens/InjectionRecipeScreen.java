@@ -39,6 +39,8 @@ public class InjectionRecipeScreen extends AbstractContainerScreen<InjectionReci
     private int currentItemIndex = 0;
     private Button leftButton;
     private Button rightButton;
+    private Button leftDownButton;
+    private Button rightDownButton;
     private int getCurrentWeaponIndex = 0;
     private int getCurrentArmorIndex = 0;
     private int getCurrentItemIndex = 0;
@@ -72,6 +74,16 @@ public class InjectionRecipeScreen extends AbstractContainerScreen<InjectionReci
             }
         }
     }
+    private void changeReagent(int direction) {
+        if (!recipes.isEmpty()) {
+            getCurrentReagentIndex = (getCurrentReagentIndex + direction) % reagents.size();
+            getCurrentWeaponIndex = 0;
+            getCurrentArmorIndex = 0;
+            if (getCurrentReagentIndex < 0) {
+                getCurrentReagentIndex += reagents.size();
+            }
+        }
+    }
     @Override
     protected void init() {
         super.init();
@@ -86,6 +98,15 @@ public class InjectionRecipeScreen extends AbstractContainerScreen<InjectionReci
 
         this.rightButton = addRenderableWidget(Button.builder(Component.literal(">"), button -> changeRecipe(1))
                 .bounds(buttonX+10, buttonY, 20, 20)
+                .build()
+        );
+        this.leftDownButton = addRenderableWidget(Button.builder(Component.literal("<"), button -> changeReagent(-1))
+                .bounds(buttonX-10, buttonY + 110, 20, 20)
+                .build()
+        );
+
+        this.rightDownButton = addRenderableWidget(Button.builder(Component.literal(">"), button -> changeReagent(1))
+                .bounds(buttonX+10, buttonY + 110, 20, 20)
                 .build()
         );
     }
@@ -231,9 +252,6 @@ public class InjectionRecipeScreen extends AbstractContainerScreen<InjectionReci
                 getCurrentWeaponIndex = (getCurrentWeaponIndex + 1) % weaponItems.size();
                 getCurrentArmorIndex = (getCurrentArmorIndex + 1) % armorItems.size();
                 getCurrentItemIndex = (getCurrentItemIndex + 1) % allItems.size();
-            }
-            if (tickCounter % 100 == 0){
-                getCurrentReagentIndex = (getCurrentReagentIndex + 1) % reagents.size();
             }
         }
     }

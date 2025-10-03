@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Screens;
 
 import com.Harbinger.Spore.Recipes.GraftingRecipe;
+import com.Harbinger.Spore.SBlockEntities.SurgeryTableBlockEntity;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -78,9 +79,9 @@ public class GraftingRecipeScreen extends AbstractContainerScreen<GraftingRecipe
         renderTooltip(guiGraphics, mouseX, mouseY);
         GraftingRecipe recipe = recipes.get(currentItemIndex);
         if (recipe == null){return;}
-        renderFakeItem(font,guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(0)), leftPos +25, topPos +8);
-        renderFakeItem(font,guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(1)), leftPos +25, topPos +35);
-        renderFakeItem(font,guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(2)),leftPos +25, topPos +62);
+        renderFakeItem(font,guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(SurgeryTableBlockEntity.GRATING_ITEM_ONE)), leftPos +25, topPos +8);
+        renderFakeItem(font,guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(SurgeryTableBlockEntity.GRATING_INGREDIENT)), leftPos +25, topPos +35);
+        renderFakeItem(font,guiGraphics,getItemStackFromIngredient(recipe.getIngredients().get(SurgeryTableBlockEntity.GRATING_ITEM_TWO)),leftPos +25, topPos +62);
         ItemStack stack = recipe.getResultItem(null);
         renderFakeItem(font,guiGraphics,stack, leftPos +88, topPos +35);
     }
