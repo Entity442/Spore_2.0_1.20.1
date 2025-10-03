@@ -284,6 +284,7 @@ public class ClientModEvents {
             MenuScreens.register(SMenu.ASSIMILATION_MENU.get(), AssimilationScreen::new);
             MenuScreens.register(SMenu.CABINET_MENU.get(), CabinetScreen::new);
             MenuScreens.register(SMenu.GRAFTING_MENU.get(), GraftingScreen::new);
+            MenuScreens.register(SMenu.GRAFTING_RECIPE_MENU.get(), GraftingRecipeScreen::new);
         });
 
     }

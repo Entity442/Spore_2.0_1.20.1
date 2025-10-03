@@ -25,5 +25,6 @@ public class SMenu {
     public static final RegistryObject<MenuType<CDUMenu>> CDU_MENU = MENU.register("cdu_menu", () -> IForgeMenuType.create(CDUMenu::new));
     public static final RegistryObject<MenuType<CabinetMenu>> CABINET_MENU = MENU.register("cabinet_menu", () -> IForgeMenuType.create(CabinetMenu::new));
     public static final RegistryObject<MenuType<GraftingMenu>> GRAFTING_MENU = MENU.register("grafting_menu", () -> IForgeMenuType.create(GraftingMenu::new));
+    public static final RegistryObject<MenuType<GraftingRecipeMenu>> GRAFTING_RECIPE_MENU = MENU.register("grafting_recipe_menu", () -> IForgeMenuType.create(GraftingRecipeMenu::new));
 
 }

@@ -12,9 +12,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.fml.ModList;
 
 public class GraftingScreen extends AbstractContainerScreen<GraftingMenu> {
     private InvisibleButton invisibleButton;
+    private InvisibleButton invisibleButton2;
     private static final ResourceLocation TEXTURE =
             new ResourceLocation(Spore.MODID, "textures/gui/grafting_gui.png");
 
@@ -31,6 +33,17 @@ public class GraftingScreen extends AbstractContainerScreen<GraftingMenu> {
         this.titleLabelY = 10000;
         int buttonX = this.width / 2 - 50;
         int buttonY = this.height / 2 - 20;
+        if (!ModList.get().isLoaded("jei")){
+            this.invisibleButton2 = addRenderableWidget(new InvisibleButton(
+                    buttonX + 50, buttonY, 20, 20, Component.literal(""),
+                    button -> {
+                        if (Minecraft.getInstance().cameraEntity instanceof Player player) {
+                            GraftingRecipeMenu menu1 = new GraftingRecipeMenu(1, player.getInventory());
+                            Minecraft.getInstance().setScreen(new GraftingRecipeScreen(menu1, player.getInventory(),
+                                    Component.translatable("block.spore.surgery_table")));}
+
+                    },(btn) -> Component.literal("Go To Recipes")));
+        }
         this.invisibleButton = addRenderableWidget(new InvisibleButton(
                 buttonX + 110, buttonY-7, 20, 20, Component.literal(""),
                 button -> {
