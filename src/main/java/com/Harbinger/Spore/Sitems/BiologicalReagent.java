@@ -96,7 +96,7 @@ public class BiologicalReagent extends BaseItem {
         list.add(Component.translatable("item.reagent.line1"));
         list.add(Component.translatable(getAppliedEnchantment().getDescriptionId()));
         list.add(Component.translatable("item.reagent.line2").withStyle(ChatFormatting.BLACK));
-        list.add(Component.translatable("universal_shift_rightclick"));
+        list.add(Component.translatable("universal_shift_rightclick").withStyle(ChatFormatting.YELLOW));
     }
 
     public enum AcceptedTypes{

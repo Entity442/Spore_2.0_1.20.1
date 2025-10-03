@@ -6,6 +6,7 @@ import com.Harbinger.Spore.Recipes.InjectionRecipe;
 import com.Harbinger.Spore.Screens.InjectionRecipeMenu;
 import com.Harbinger.Spore.Screens.InjectionRecipeScreen;
 import com.Harbinger.Spore.Sitems.BaseItem2;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -74,6 +75,6 @@ public class Syringe extends BaseItem2 {
     @Override
     public void appendHoverText(ItemStack p_41421_, @Nullable Level p_41422_, List<Component> components, TooltipFlag p_41424_) {
         super.appendHoverText(p_41421_, p_41422_, components, p_41424_);
-        components.add(Component.translatable("universal_shift_rightclick"));
+        components.add(Component.translatable("universal_shift_rightclick").withStyle(ChatFormatting.YELLOW));
     }
 }
