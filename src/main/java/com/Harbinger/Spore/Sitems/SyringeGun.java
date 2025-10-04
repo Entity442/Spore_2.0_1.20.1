@@ -196,7 +196,7 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanis
         if (inHand && isReloading(stack)) {
             if (getReloadTimer(stack) > 0) setReloadTimer(stack, getReloadTimer(stack) - 1);
             else {
-                player.playNotifySound(Ssounds.SYRINGE_SPIN.get(), SoundSource.AMBIENT,1,1);
+                player.playNotifySound(Ssounds.SYRINGE_SPIN.get(), SoundSource.AMBIENT,0.5f,1);
                 reloadOne(stack, player);
                 setReloadTimer(stack, 10);
             }
@@ -224,7 +224,7 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanis
                 if (!ammo.isEmpty()) {
                     if (player.level().isClientSide) {
                         SGReloadAnimationTracker.triggerRotationToChamber(player,i,10);
-                        player.playNotifySound(Ssounds.SYRINGE_RELOAD.get(), SoundSource.AMBIENT, 1, 1);
+                        player.playNotifySound(Ssounds.SYRINGE_RELOAD.get(), SoundSource.AMBIENT, 0.5f, 1);
                     } else {
                         ItemStack taken = ammo.split(1);
                         setMagazine(gun, taken, i);
@@ -265,7 +265,7 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanis
                 arrow.moveTo(player.position().add(vec3.x,1.4,vec3.z));
                 arrow.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 3.0F, 1.0F);
                 level.addFreshEntity(arrow);
-                player.playNotifySound(Ssounds.SYRINGE_SHOOT.get(), SoundSource.AMBIENT,1,1);
+                player.playNotifySound(Ssounds.SYRINGE_SHOOT.get(), SoundSource.AMBIENT,0.5f,1);
             } else {
                 SGAnimationTracker.trigger(player);
             }
