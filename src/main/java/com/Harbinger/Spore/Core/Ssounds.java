@@ -231,6 +231,9 @@ public class Ssounds {
     public static final RegistryObject<SoundEvent> SYRINGE_SPIN = soundRegistry("syringe_spin");
 
     public static final RegistryObject<SoundEvent> SYRINGE_SHOOT = soundRegistry("syringe_shoot");
+
+    public static final RegistryObject<SoundEvent> SYRINGE_GUN_INJECT = soundRegistry("syringe_gun_inject");
+
     private Ssounds() {
     }
 }

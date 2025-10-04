@@ -666,6 +666,11 @@
   "sounds": [
     "spore:syringegun_shot"
   ]
+},"syringe_gun_inject" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:syringegun_inject"
+  ]
 },"tumoroid_explosion" :{
   "subtitle": "sounds.spore.tumor",
   "sounds": [

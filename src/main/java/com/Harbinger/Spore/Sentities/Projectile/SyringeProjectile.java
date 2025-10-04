@@ -79,7 +79,7 @@ public class SyringeProjectile extends AbstractArrow {
             }
             if (itemStack.getItem() instanceof AbstractSyringe syringe){
                 syringe.useSyringe(itemStack,living);
-                this.playSound(Ssounds.SYRINGE_INJECT.get());
+                this.playSound(Ssounds.SYRINGE_GUN_INJECT.get());
             }
             living.hurt(level().damageSources().mobProjectile(this,(LivingEntity) getOwner()), (float) getBaseDamage());
         }
@@ -98,7 +98,7 @@ public class SyringeProjectile extends AbstractArrow {
 
     @Override
     protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return Ssounds.SYRINGE_INJECT.get();
+        return Ssounds.SYRINGE_GUN_INJECT.get();
     }
 
 }

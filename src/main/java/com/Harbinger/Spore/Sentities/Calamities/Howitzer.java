@@ -31,6 +31,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffect;
@@ -144,7 +145,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
                 return (double)(f * 1.5F * f * 1.5F + entity.getBbWidth());
             }
         });
-        this.goalSelector.addGoal(4, new ScatterShotRangedGoal(this,1,80,64,1,5){
+        this.goalSelector.addGoal(4, new HowitzerRangedAttackGoal(this,1,80,64,1,5){
             @Override
             public boolean canUse() {
                 return !Howitzer.this.isInMeleeRange() && super.canUse();
@@ -158,7 +159,56 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
         this.goalSelector.addGoal(8,new SporeBurstSupport(this));
         this.goalSelector.addGoal(9,new RandomStrollGoal(this , 1));
     }
+    public static class HowitzerRangedAttackGoal extends ScatterShotRangedGoal {
+        public HowitzerRangedAttackGoal(RangedAttackMob mob, double speed, int interval, float range, int min, int max) {
+            super(mob, speed, interval, range, min, max);
+        }
+        private int getBurnable(LivingEntity target){
+            AABB aabb = target.getBoundingBox().inflate(4);
+            List<BlockPos> burnable_material = new ArrayList<>();
+            for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+                if (mob.level().getBlockState(blockpos).isFlammable(mob.level(),blockpos, Direction.UP)){
+                    burnable_material.add(blockpos);
+                }
+            }
+            return burnable_material.size();
+        }
 
+        @Override
+        public void tick() {
+            double d0 = this.mob.distanceToSqr(this.target.getX(), this.target.getY(), this.target.getZ());
+            boolean flag = this.mob.getSensing().hasLineOfSight(this.target);
+            if (flag) {
+                ++this.seeTime;
+            } else {
+                this.seeTime = 0;
+            }
+
+            if (!(d0 > (double)this.attackRadiusSqr) && this.seeTime >= 5) {
+                this.mob.getNavigation().stop();
+            } else {
+                this.mob.getNavigation().moveTo(this.target, this.speedModifier);
+            }
+
+            this.mob.getLookControl().setLookAt(this.target, 30.0F, 30.0F);
+            if (--this.attackTime == 0) {
+                if (!flag) {
+                    return;
+                }
+                RandomSource randomSource = RandomSource.create();
+                int shot = randomSource.nextInt(this.minShots,this.maxShots + getExtraShots());
+
+                float f = (float)Math.sqrt(d0) / this.attackRadius;
+                float f1 = getBurnable(target);
+                for (int i = 0; i<shot;++i){
+                    this.rangedAttackMob.performRangedAttack(this.target, f1);
+                }
+                this.attackTime = Mth.floor(f * (float)(attackInterval) + (float)this.attackInterval);
+            } else if (this.attackTime < 0) {
+                this.attackTime = Mth.floor(Mth.lerp(Math.sqrt(d0) / (double)this.attackRadius, (double)this.attackInterval, (double)this.attackInterval));
+            }
+        }
+    }
     @Override
     public void aiStep() {
         Vec3[] avec3 = new Vec3[this.subEntities.length];
@@ -436,20 +486,14 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
         }
         this.playSound(Ssounds.LANDING.get());
     }
-    private FleshBomb.BombType compareEntity(LivingEntity living){
+    private FleshBomb.BombType compareEntity(LivingEntity living,int burnable){
         AABB aabb = living.getBoundingBox().inflate(4);
         List<Entity> extra_targets = level().getEntities(living,aabb,entity -> {return entity instanceof LivingEntity livingEntity && TARGET_SELECTOR.test(livingEntity);});
-        List<BlockPos> burnable_material = new ArrayList<>();
-        for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
-            if (level().getBlockState(blockpos).isFlammable(level(),blockpos, Direction.UP)){
-                burnable_material.add(blockpos);
-            }
-        }
         if (this.isRadioactive() && this.hasNuke() && (living.getMaxHealth() >= 100 || living.getArmorValue() >= 20)){
             this.entityData.set(NUKE,0);
             return FleshBomb.BombType.NUCLEAR;
         }
-        if (burnable_material.size() > 8){
+        if (burnable > 8){
             return Math.random() < 0.3f ? FleshBomb.BombType.BILE : FleshBomb.BombType.FLAME;
         }
         if (SConfig.SERVER.corrosion.get().contains(living.getEncodeId())){
@@ -473,9 +517,9 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
     }
 
     @Override
-    public void performRangedAttack(LivingEntity entity, float p_33318_) {
+    public void performRangedAttack(LivingEntity entity, float val) {
         float damage = (float) (SConfig.SERVER.howit_ranged_damage.get() * SConfig.SERVER.global_damage.get());
-        FleshBomb bomb = new FleshBomb(level(),this,damage,compareEntity(entity),random.nextInt(4,7));
+        FleshBomb bomb = new FleshBomb(level(),this,damage,compareEntity(entity, (int) val),random.nextInt(4,7));
         bomb.setLivingEntityPredicate(TARGET_SELECTOR);
         bomb.setCarrier(Math.random() < 0.2f);
         bomb.setTarget(entity);
