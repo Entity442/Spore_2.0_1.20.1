@@ -651,6 +651,21 @@
   "sounds": [
     "spore:shield_bash"
   ]
+},"syringe_reload" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:syringegun_reload"
+  ]
+},"syringe_spin" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:syringegun_spin"
+  ]
+},"syringe_shoot" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:syringegun_shot"
+  ]
 },"tumoroid_explosion" :{
   "subtitle": "sounds.spore.tumor",
   "sounds": [

@@ -226,6 +226,11 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> CALAMITY_DEATH = soundRegistry("calamity_death");
 
+    public static final RegistryObject<SoundEvent> SYRINGE_RELOAD = soundRegistry("syringe_reload");
+
+    public static final RegistryObject<SoundEvent> SYRINGE_SPIN = soundRegistry("syringe_spin");
+
+    public static final RegistryObject<SoundEvent> SYRINGE_SHOOT = soundRegistry("syringe_shoot");
     private Ssounds() {
     }
 }
