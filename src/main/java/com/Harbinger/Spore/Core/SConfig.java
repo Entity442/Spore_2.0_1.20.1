@@ -402,6 +402,7 @@ public class SConfig {
 
         public final ForgeConfigSpec.ConfigValue<Integer> pci_durability;
         public final ForgeConfigSpec.ConfigValue<Integer> pci_damage;
+        public final ForgeConfigSpec.ConfigValue<Integer> pci_damage_multiplier;
         public final ForgeConfigSpec.ConfigValue<Integer> pci_max_charge;
 
         public final ForgeConfigSpec.ConfigValue<Integer> greatsword_durability;
@@ -1351,6 +1352,7 @@ public class SConfig {
             builder.push("PSI");
             this.pci_durability = builder.comment("Default 300").define("Durability",300);
             this.pci_damage = builder.comment("Default 6").defineInRange("Damage", 6, 1, Integer.MAX_VALUE);
+            this.pci_damage_multiplier = builder.comment("Default 3").defineInRange("Damage", 3, 1, Integer.MAX_VALUE);
             this.pci_max_charge = builder.comment("Default 25").define("Max charge",25);
             builder.pop();
             builder.push("Syringe Gun");
@@ -1540,6 +1542,7 @@ public class SConfig {
 
         public final ForgeConfigSpec.ConfigValue<Integer> biomass_lump_kills;
         public final ForgeConfigSpec.ConfigValue<Integer> hive_spawn_kills;
+        public final ForgeConfigSpec.ConfigValue<Integer> hive_generate;
 
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> block_infection;
 
@@ -1761,6 +1764,7 @@ public class SConfig {
             builder.push("Structure data");
             this.biomass_lump_kills = builder.comment("Default 5").defineInRange("Biomass Lump minimal kills", 5, 0, Integer.MAX_VALUE);
             this.hive_spawn_kills = builder.comment("Default 40").defineInRange("Reconstructed Mind Block kills", 40, 0, Integer.MAX_VALUE);
+            this.hive_generate = builder.comment("Default 300").defineInRange("Reconstructed Mind Distance from a proto hivemind", 300, 0, Integer.MAX_VALUE);
             this.spawner_range = builder.comment("Default 32").defineInRange("The range of the overgrown spawner", 32, 0, Integer.MAX_VALUE);
             this.outpost_range = builder.comment("Default 50").defineInRange("The range of the Outpost watcher", 50, 0, Integer.MAX_VALUE);
             builder.pop();

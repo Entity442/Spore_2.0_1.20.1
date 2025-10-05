@@ -42,6 +42,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -777,26 +778,35 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         return member + "_" + add;
     }
 
-    public static void teleportToSurface(Level level, Mob entity) {
-        if (level.canSeeSky(entity.blockPosition())){
-            return;
-        }
-        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(
-                Mth.floor(entity.getX()),
-                level.getMaxBuildHeight(),
-                Mth.floor(entity.getZ())
-        );
+    public static void teleportToSurface(ServerLevel level, Mob entity) {
+        BlockPos startPos = entity.blockPosition();
 
-        while (pos.getY() > level.getMinBuildHeight()) {
-            pos.move(Direction.DOWN);
-            BlockState state = level.getBlockState(pos);
-            BlockState stateAbove = level.getBlockState(pos.above());
-            if (state.isSolidRender(level, pos) && stateAbove.isAir()) {
-                entity.teleportTo(pos.getX() + 0.5D, pos.getY() + 1.01D, pos.getZ() + 0.5D);
+        if (level.canSeeSky(startPos)) return;
+
+        int surfaceY = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, startPos.getX(), startPos.getZ());
+        BlockPos surfacePos = new BlockPos(startPos.getX(), surfaceY, startPos.getZ());
+        if (level.canSeeSky(surfacePos)) {
+            BlockPos.MutableBlockPos checkPos = new BlockPos.MutableBlockPos(surfacePos.getX(), surfacePos.getY(), surfacePos.getZ());
+            for (int i = 0; i < 8; i++) {
+                BlockState below = level.getBlockState(checkPos.below());
+                BlockState current = level.getBlockState(checkPos);
+                if (below.isSolid() && current.isAir()) {
+                    entity.teleportTo(checkPos.getX() + 0.5D, checkPos.getY(), checkPos.getZ() + 0.5D);
+                    return;
+                }
+                checkPos.move(Direction.DOWN);
+            }
+        }
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(startPos.getX(), startPos.getY(), startPos.getZ());
+        while (pos.getY() < level.getMaxBuildHeight()) {
+            pos.move(Direction.UP);
+            if (level.canSeeSky(pos)) {
+                entity.teleportTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                 return;
             }
         }
     }
+
 
     @Override
     public void SpreadFoliageAndConvert(Level level, BlockState blockstate, BlockPos blockpos) {

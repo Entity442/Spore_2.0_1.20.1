@@ -101,7 +101,7 @@ public class HiveSpawn extends BaseEntityBlock implements SimpleWaterloggedBlock
     }
 
     boolean checkForOtherMinds(BlockPos blockPos,Level level){
-        int e = SConfig.SERVER.proto_range.get();
+        int e = SConfig.DATAGEN.hive_generate.get();
         AABB searchbox = AABB.ofSize(new Vec3(blockPos.getX(), blockPos.getY(), blockPos.getZ()), e, e, e);
         List<Proto> entities = level.getEntitiesOfClass(Proto.class, searchbox);
         for (Entity entity1 : entities) {
