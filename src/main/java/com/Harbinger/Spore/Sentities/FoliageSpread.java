@@ -74,6 +74,9 @@ public interface FoliageSpread {
             placeGroundFoliage(above,level,blockpos,blockstate);
         }
         if (Math.random() < 0.01){
+            placeCropsFoliage(level,blockpos,blockstate);
+        }
+        if (Math.random() < 0.01){
             placeWaterFoliage(above,level,blockpos,blockstate);
         }
         if (Math.random() < 0.01){
@@ -94,6 +97,11 @@ public interface FoliageSpread {
             BlockState block1 =  (ForgeRegistries.BLOCKS.tags().getTag(BlockTags.create(new ResourceLocation("spore:ground_foliage")))
                     .getRandomElement(RandomSource.create()).orElse(Sblocks.GROWTHS_BIG.get())).defaultBlockState();
             level.setBlock(blockpos.above(),block1,3);
+        }
+    }
+    default void placeCropsFoliage(Level level,BlockPos blockpos,BlockState blockstate){
+        if (blockstate.getBlock() instanceof CropBlock){
+            level.setBlock(blockpos.above(),Sblocks.ROTTEN_CROPS.get().defaultBlockState(),3);
         }
     }
     default void placeRottenBush(BlockState above,Level level,BlockPos blockpos,BlockState blockstate){

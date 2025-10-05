@@ -113,6 +113,7 @@ public class Sblocks {
             return 15;
         }
     });
+    public static final RegistryObject<Block> ROTTEN_CROPS = BLOCKS.register("rotten_crops", FungalCrops::new);
     public static final RegistryObject<Block> BIOMASS_LUMP = BLOCKS.register("biomass_lump", BiomassLump::new);
     public static final RegistryObject<Block> HIVE_SPAWN = BLOCKS.register("hive_spawn", HiveSpawn::new);
 

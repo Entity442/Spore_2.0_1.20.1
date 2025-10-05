@@ -590,6 +590,7 @@ public class Sitems {
     public static final RegistryObject<Item> ROTTEN_SCRAPS = block(Sblocks.ROTTEN_SCRAPS);
     public static final RegistryObject<Item> ROTTEN_BRANCH = block(Sblocks.ROTTEN_BRANCH);
     public static final RegistryObject<Item> ROTTEN_BUSH = block(Sblocks.ROTTEN_BUSH);
+    public static final RegistryObject<Item> ROTTEN_CROPS = block(Sblocks.ROTTEN_CROPS);
     public static final RegistryObject<Item> ROOTED_BIOMASS = block(Sblocks.ROOTED_BIOMASS);
     public static final RegistryObject<Item> BIOMASS_BLOCK = block(Sblocks.BIOMASS_BLOCK);
     public static final RegistryObject<Item> CALCIFIED_BIOMASS_BLOCK = block(Sblocks.CALCIFIED_BIOMASS_BLOCK);
