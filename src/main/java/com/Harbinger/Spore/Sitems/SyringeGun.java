@@ -194,9 +194,11 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanis
 
         boolean inHand = player.getMainHandItem() == stack || player.getOffhandItem() == stack;
         if (inHand && isReloading(stack)) {
+            if (getReloadTimer(stack) == 5){
+                player.playNotifySound(Ssounds.SYRINGE_SPIN.get(), SoundSource.AMBIENT,0.5f,1);
+            }
             if (getReloadTimer(stack) > 0) setReloadTimer(stack, getReloadTimer(stack) - 1);
             else {
-                player.playNotifySound(Ssounds.SYRINGE_SPIN.get(), SoundSource.AMBIENT,0.5f,1);
                 reloadOne(stack, player);
                 setReloadTimer(stack, 10);
             }
@@ -205,6 +207,7 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanis
         if (getShootCooldown(stack) > 0){
             if (getShootCooldown(stack) == 5 && level.isClientSide){
                 int chamber = getCurrentChamber(stack);
+                player.playNotifySound(Ssounds.SYRINGE_SPIN.get(), SoundSource.AMBIENT,0.5f,1);
                 SGReloadAnimationTracker.triggerRotationToChamber(player,chamber,10);
             }
             setShootCooldown(stack, getShootCooldown(stack) - 1);
