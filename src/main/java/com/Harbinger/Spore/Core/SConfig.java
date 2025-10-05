@@ -1352,7 +1352,7 @@ public class SConfig {
             builder.push("PSI");
             this.pci_durability = builder.comment("Default 300").define("Durability",300);
             this.pci_damage = builder.comment("Default 6").defineInRange("Damage", 6, 1, Integer.MAX_VALUE);
-            this.pci_damage_multiplier = builder.comment("Default 3").defineInRange("Damage", 3, 1, Integer.MAX_VALUE);
+            this.pci_damage_multiplier = builder.comment("Default 3").defineInRange("Damage Multiplier", 3, 1, Integer.MAX_VALUE);
             this.pci_max_charge = builder.comment("Default 25").define("Max charge",25);
             builder.pop();
             builder.push("Syringe Gun");
