@@ -2,11 +2,8 @@ package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Core.Senchantments;
 import com.Harbinger.Spore.Core.Ssounds;
-import com.Harbinger.Spore.Screens.InjectionRecipeMenu;
-import com.Harbinger.Spore.Screens.InjectionRecipeScreen;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
@@ -114,10 +111,10 @@ public class BiologicalReagent extends BaseItem {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        if (player.isShiftKeyDown() && level.isClientSide){
-            InjectionRecipeMenu menu1 = new InjectionRecipeMenu(1, player.getInventory());
-            Minecraft.getInstance().setScreen(new InjectionRecipeScreen(menu1, player.getInventory(),
-                    Component.literal("")));
+        if (player.isShiftKeyDown()){
+            if (level.isClientSide) {
+                com.Harbinger.Spore.Client.ClientModEvents.openInjectionScreen(player);
+            }
         }
         ItemStack stack = player.getItemInHand(hand);
         return InteractionResultHolder.success(stack);

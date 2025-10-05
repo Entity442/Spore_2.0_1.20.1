@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Sentities.Calamities;
 
+import com.Harbinger.Spore.Client.Renderers.HohlSegRenderer;
 import com.Harbinger.Spore.Core.SAttributes;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sitems;
@@ -10,10 +11,7 @@ import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.CalamityInfectedCommand;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SporeBurstSupport;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SummonScentInCombat;
 import com.Harbinger.Spore.Sentities.AI.FlyingWanderAround;
-import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
-import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
-import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
-import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
+import com.Harbinger.Spore.Sentities.BaseEntities.*;
 import com.Harbinger.Spore.Sentities.FlyingInfected;
 import com.Harbinger.Spore.Sentities.HitboxesForParts;
 import com.Harbinger.Spore.Sentities.Projectile.ThrownTumor;
@@ -121,7 +119,7 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
                 AABB aabb = this.getBoundingBox().inflate(8);
                 List<Entity> entities = level().getEntities(this,aabb);
                 for (Entity entity : entities){
-                    if (entity instanceof LivingEntity living && !(living instanceof Infected || living instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(living.getEncodeId()))){
+                    if (entity instanceof LivingEntity living && !(living instanceof Infected || living instanceof HohlMultipart || living instanceof UtilityEntity || SConfig.SERVER.blacklist.get().contains(living.getEncodeId()))){
                         living.setSecondsOnFire(5);
                     }
                 }

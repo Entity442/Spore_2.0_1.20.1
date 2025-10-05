@@ -3,15 +3,9 @@ package com.Harbinger.Spore.Sitems.Agents;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.Core.Ssounds;
-import com.Harbinger.Spore.Screens.InjectionRecipeMenu;
-import com.Harbinger.Spore.Screens.InjectionRecipeScreen;
-import com.Harbinger.Spore.Screens.SurgeryRecipeMenu;
-import com.Harbinger.Spore.Screens.SurgeryRecipeScreen;
 import com.Harbinger.Spore.Sitems.BaseItem2;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -46,10 +40,8 @@ public abstract class AbstractSyringe extends BaseItem2 {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (player.isShiftKeyDown()){
-            if (level.isClientSide){
-                InjectionRecipeMenu menu1 = new InjectionRecipeMenu(1, player.getInventory());
-                Minecraft.getInstance().setScreen(new InjectionRecipeScreen(menu1, player.getInventory(),
-                        Component.literal("")));
+            if (level.isClientSide) {
+                com.Harbinger.Spore.Client.ClientModEvents.openInjectionScreen(player);
             }
             return InteractionResultHolder.success(stack);
         }

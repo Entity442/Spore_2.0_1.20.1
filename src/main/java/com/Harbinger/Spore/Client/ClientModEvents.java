@@ -18,9 +18,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.entity.*;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.*;
@@ -370,5 +372,9 @@ public class ClientModEvents {
                 },item);
             }
         }
+    }
+    public static void openInjectionScreen(Player player) {
+        InjectionRecipeMenu menu = new InjectionRecipeMenu(1, player.getInventory());
+        Minecraft.getInstance().setScreen(new InjectionRecipeScreen(menu, player.getInventory(), Component.literal("")));
     }
 }

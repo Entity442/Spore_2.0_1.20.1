@@ -3,11 +3,8 @@ package com.Harbinger.Spore.Sitems.Agents;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Recipes.EntityContainer;
 import com.Harbinger.Spore.Recipes.InjectionRecipe;
-import com.Harbinger.Spore.Screens.InjectionRecipeMenu;
-import com.Harbinger.Spore.Screens.InjectionRecipeScreen;
 import com.Harbinger.Spore.Sitems.BaseItem2;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -45,10 +42,10 @@ public class Syringe extends BaseItem2 {
     }
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        if (player.isShiftKeyDown() && level.isClientSide){
-            InjectionRecipeMenu menu1 = new InjectionRecipeMenu(1, player.getInventory());
-            Minecraft.getInstance().setScreen(new InjectionRecipeScreen(menu1, player.getInventory(),
-                    Component.literal("")));
+        if (player.isShiftKeyDown()){
+            if (level.isClientSide) {
+                com.Harbinger.Spore.Client.ClientModEvents.openInjectionScreen(player);
+            }
         }
         ItemStack stack = player.getItemInHand(hand);
         return InteractionResultHolder.success(stack);
