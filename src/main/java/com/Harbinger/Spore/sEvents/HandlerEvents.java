@@ -722,7 +722,7 @@ public class HandlerEvents {
     @SubscribeEvent
     public static void DefenseBypass(LivingDamageEvent event) {
         Entity living = event.getSource().getEntity();
-        if (living instanceof Player player && !event.getEntity().getItemBySlot(EquipmentSlot.CHEST).equals(ItemStack.EMPTY)){
+        if (living instanceof Player player && event.getEntity().getItemBySlot(EquipmentSlot.CHEST).equals(ItemStack.EMPTY)){
             ItemStack weapon = player.getMainHandItem();
             if (weapon.getItem() instanceof PCI pci && pci.getCharge(weapon)>0 && !player.getCooldowns().isOnCooldown(pci)){
                 int damageMod = SConfig.SERVER.pci_damage_multiplier.get();
