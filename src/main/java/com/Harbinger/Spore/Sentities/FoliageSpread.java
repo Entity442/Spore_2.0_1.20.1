@@ -101,7 +101,7 @@ public interface FoliageSpread {
     }
     default void placeCropsFoliage(Level level,BlockPos blockpos,BlockState blockstate){
         if (blockstate.getBlock() instanceof CropBlock){
-            level.setBlock(blockpos.above(),Sblocks.ROTTEN_CROPS.get().defaultBlockState(),3);
+            level.setBlock(blockpos,Sblocks.ROTTEN_CROPS.get().defaultBlockState(),3);
         }
     }
     default void placeRottenBush(BlockState above,Level level,BlockPos blockpos,BlockState blockstate){
