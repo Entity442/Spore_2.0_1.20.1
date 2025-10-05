@@ -234,6 +234,7 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanis
                     }
                 } else {
                     setReloading(gun, false);
+                    break;
                 }
                 return;
             }
