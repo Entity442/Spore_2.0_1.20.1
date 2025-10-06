@@ -73,7 +73,7 @@ public interface FoliageSpread {
         if (Math.random() < 0.01){
             placeGroundFoliage(above,level,blockpos,blockstate);
         }
-        if (Math.random() < 0.01){
+        if (Math.random() < 0.1){
             placeCropsFoliage(level,blockpos,blockstate);
         }
         if (Math.random() < 0.01){
