@@ -42,8 +42,7 @@ public class InquisitorRenderer<Type extends Inquisitor> extends BaseInfectedRen
 
     static class InquisitorBlood <T extends Inquisitor,M extends InquisitorModel<T>> extends RenderLayer<T, M> {
         private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
-                "textures/entity/inquisitor.png");
-        private static final int color = -3394816;
+                "textures/entity/inquisitor_blood.png");
         public InquisitorBlood(RenderLayerParent<T, M> p_117346_) {
             super(p_117346_);
         }
@@ -51,11 +50,8 @@ public class InquisitorRenderer<Type extends Inquisitor> extends BaseInfectedRen
         @Override
         public void render(PoseStack matrixStack, MultiBufferSource buffer, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
             if (!entity.isInvisible() && entity.getBonusDamage() > 10){
-                float r = (float) (color >> 16 & 255) / 255.0F;
-                float g = (float) (color >> 8 & 255) / 255.0F;
-                float b = (float) (color & 255) / 255.0F;
                 VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityTranslucent(TEXTURE));
-                getParentModel().renderToBuffer(matrixStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, r, g, b, 0.5f);
+                getParentModel().renderToBuffer(matrixStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY,1f,1f,1f,1f);
             }
         }
     }
