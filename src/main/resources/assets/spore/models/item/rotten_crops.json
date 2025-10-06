@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "spore:block/moldy_crops"
+    "layer0": "spore:block/rotten_crop"
   }
 }
