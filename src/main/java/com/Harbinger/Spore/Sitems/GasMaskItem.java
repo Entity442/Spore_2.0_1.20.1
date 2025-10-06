@@ -40,7 +40,7 @@ public class GasMaskItem extends ArmorItem implements CustomModelArmorData{
 
             @Override
             public Ingredient getRepairIngredient() {
-                return null;
+                return Ingredient.EMPTY;
             }
 
             @Override
