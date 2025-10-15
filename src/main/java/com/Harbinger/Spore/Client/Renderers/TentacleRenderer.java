@@ -38,7 +38,6 @@ public class TentacleRenderer extends OrganoidMobRenderer<Tentacle, EntityModel<
 
         Vec3 prevPos = basePosition;
 
-        // Calculate total current length
         float totalCurrentLength = 0f;
         for (int i = 0; i < segments.length; i++) {
             TentaclePart currentSeg = segments[i];
@@ -46,20 +45,17 @@ public class TentacleRenderer extends OrganoidMobRenderer<Tentacle, EntityModel<
             totalCurrentLength += (float) currentPos.distanceTo(i == 0 ? basePosition : segments[i-1].position());
         }
 
-        // Desired total length
-        float desiredTotalLength = 5.0f; // Your fixed length here
+        float desiredTotalLength = 10.0f;
 
         for (int i = 0; i < segments.length; i++) {
             TentaclePart currentSeg = segments[i];
             Vec3 currentPos = currentSeg.position();
-
-            // Scale segment length to fit desired total length
             float segmentScale = desiredTotalLength / totalCurrentLength;
             Vec3 scaledDirection = currentPos.subtract(prevPos).scale(segmentScale);
             Vec3 scaledEnd = prevPos.add(scaledDirection);
 
             float thickness = calculateThickness(i, segments.length);
-            renderConnection(prevPos, scaledEnd, basePosition, thickness, stack, buffer,light);
+            renderConnection(prevPos, scaledEnd, basePosition, thickness, stack, buffer,i);
 
             prevPos = scaledEnd;
         }
@@ -70,14 +66,14 @@ public class TentacleRenderer extends OrganoidMobRenderer<Tentacle, EntityModel<
         return 0.3f * (1.0f - progress * 0.5f);
     }
 
-    private void renderConnection(Vec3 from, Vec3 to, Vec3 base, float thickness, PoseStack stack, MultiBufferSource buffer, int light) {
+    private void renderConnection(Vec3 from, Vec3 to, Vec3 base, float thickness, PoseStack stack, MultiBufferSource buffer, int val) {
         if (from == null || to == null) return;
 
         Vec3 relativeStart = from.subtract(base);
         Vec3 relativeEnd = to.subtract(base);
 
         Vec3 direction = relativeEnd.subtract(relativeStart);
-        float length = (float) direction.length();
+        float length = (float) direction.length() + (0.05f * val);
         if (length < 0.0001f) return;
 
         direction = direction.normalize();
@@ -87,7 +83,7 @@ public class TentacleRenderer extends OrganoidMobRenderer<Tentacle, EntityModel<
 
         stack.pushPose();
         {
-            stack.translate(relativeStart.x,relativeStart.y, relativeStart.z);
+            stack.translate(relativeStart.x+0.25,relativeStart.y, relativeStart.z+0.25);
             stack.mulPose(Axis.YP.rotation(yaw));
             stack.mulPose(Axis.XP.rotation(pitch));
 
