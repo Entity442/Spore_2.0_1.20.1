@@ -11,13 +11,14 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
-public class TentacleRenderer extends OrganoidMobRenderer<Tentacle, EntityModel<Tentacle>>{
+public class TentacleRenderer extends MobRenderer<Tentacle, EntityModel<Tentacle>> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/tentacle_base.png");
     private static final ResourceLocation TENTACLE_NOMOD = new ResourceLocation(Spore.MODID,
@@ -30,7 +31,8 @@ public class TentacleRenderer extends OrganoidMobRenderer<Tentacle, EntityModel<
     @Override
     public void render(Tentacle type, float value1, float value2, PoseStack stack, MultiBufferSource bufferSource, int value3) {
         super.render(type, value1, value2, stack, bufferSource, value3);
-        renderTentacle(stack, bufferSource, type.getSegments(), type.position(),value3);
+        renderTentacle(stack, bufferSource, type.getRightSegments(), type.position(),value3);
+        renderTentacle(stack, bufferSource, type.getLeftSegments(), type.position(),value3);
     }
 
     private void renderTentacle(PoseStack stack, MultiBufferSource buffer, TentaclePart[] segments, Vec3 basePosition, int light) {
