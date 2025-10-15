@@ -160,6 +160,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(SyringeGunModel.LAYER_LOCATION, SyringeGunModel::createBodyLayer);
         event.registerLayerDefinition(SyringeGunModelArm.LAYER_LOCATION, SyringeGunModelArm::createBodyLayer);
         event.registerLayerDefinition(SyringeProjectileModel.LAYER_LOCATION, SyringeProjectileModel::createBodyLayer);
+        event.registerLayerDefinition(SegmentBase.LAYER_LOCATION, SegmentBase::createBodyLayer);
 
 
         event.registerLayerDefinition(BombFunnelModel.LAYER_LOCATION, BombFunnelModel::createBodyLayer);

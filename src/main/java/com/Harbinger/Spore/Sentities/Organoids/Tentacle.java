@@ -3,7 +3,7 @@ package com.Harbinger.Spore.Sentities.Organoids;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
-import net.minecraft.core.Position;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -13,37 +13,34 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.entity.PartEntity;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Tentacle extends Organoid {
-    private final int SEGMENTS = 6;
-    private final List<TentaclePart> segments = new ArrayList<>();
+    private static final int SEGMENTS = 6;
     private Vec3 targetPosition;
     private float tentacleTime = 0;
-    private final PartEntity<?>[] partArray;
+    private final TentaclePart[] partArray;
     public Tentacle(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         targetPosition = this.position();
-        for (int i = 0; i < SEGMENTS; i++) {
-            segments.add(new TentaclePart(this,"segment"+i, new EntityDimensions(0.5f,0.5f,false),1.0f));
-        }
-        this.setId(ENTITY_COUNTER.getAndAdd(this.segments.size() + 1) + 1);
-        this.partArray = segments.toArray(new PartEntity<?>[0]);
+        TentaclePart part0 = new TentaclePart(this, "segment0", new EntityDimensions(0.5f, 0.5f, false), 1.0f);
+        TentaclePart part1 = new TentaclePart(this, "segment1", new EntityDimensions(0.5f, 0.5f, false), 1.0f);
+        TentaclePart part2 = new TentaclePart(this, "segment2", new EntityDimensions(0.5f, 0.5f, false), 1.0f);
+        TentaclePart part3 = new TentaclePart(this, "segment3", new EntityDimensions(0.5f, 0.5f, false), 1.0f);
+        TentaclePart part4 = new TentaclePart(this, "segment4", new EntityDimensions(0.5f, 0.5f, false), 1.0f);
+        TentaclePart part5 = new TentaclePart(this, "segment5", new EntityDimensions(0.5f, 0.5f, false), 1.0f);
+        this.partArray = new TentaclePart[]{part0, part1, part2, part3, part4, part5};
+        this.setId(ENTITY_COUNTER.getAndAdd(this.partArray.length + 1) + 1);
     }
     @Override
     public void setId(int p_20235_) {
         super.setId(p_20235_);
-        for (int i = 0; i < this.segments.size(); i++)
-            this.segments.get(i).setId(p_20235_ + i + 1);
+        for (int i = 0; i < this.partArray.length; i++)
+            this.partArray[i].setId(p_20235_ + i + 1);
     }
     public Vec3 getTargetPosition() {
         return targetPosition;
     }
-    public List<TentaclePart> getSegments(){return segments;}
+    public TentaclePart[] getSegments(){return partArray;}
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, SConfig.SERVER.mound_hp.get() * SConfig.SERVER.global_health.get())
@@ -57,10 +54,17 @@ public class Tentacle extends Organoid {
     public boolean isMultipartEntity() {
         return true;
     }
+    public void recreateFromPacket(ClientboundAddEntityPacket clientboundAddEntityPacket) {
+        super.recreateFromPacket(clientboundAddEntityPacket);
+        for(int i = 0; i < partArray.length; ++i) {
+            partArray[i].setId(i + clientboundAddEntityPacket.getId());
+        }
+
+    }
 
     @Override
-    public @Nullable PartEntity<?>[] getParts() {
-        return partArray;
+    public net.minecraftforge.entity.PartEntity<?>[] getParts() {
+        return this.partArray;
     }
 
     @Override
@@ -85,32 +89,32 @@ public class Tentacle extends Organoid {
     }
 
     private void applyIK() {
-        if (segments.isEmpty()) return;
-        segments.get(SEGMENTS - 1).smoothMove(targetPosition,tentacleTime,SEGMENTS - 1);
+        if (getSegments() == null) return;
+        partArray[SEGMENTS - 1].smoothMove(targetPosition,tentacleTime,SEGMENTS - 1);
 
         for (int i = SEGMENTS - 2; i >= 0; i--) {
-            Vec3 nextPos = segments.get(i + 1).position();
-            Vec3 currentPos = segments.get(i).position();
+            Vec3 nextPos = partArray[i + 1].position();
+            Vec3 currentPos = partArray[i].position();
 
             Vec3 direction = nextPos.subtract(currentPos).normalize();
-            Vec3 newPos = nextPos.subtract(direction.scale(segments.get(i).length));
+            Vec3 newPos = nextPos.subtract(direction.scale(partArray[i].length));
 
-            segments.get(i).smoothMove(newPos,tentacleTime,i);
+            partArray[i].smoothMove(newPos,tentacleTime,i);
         }
-        segments.get(0).smoothMove(this.position(),tentacleTime,0);
+        partArray[0].smoothMove(this.position(),tentacleTime,0);
         for (int i = 1; i < SEGMENTS; i++) {
-            Vec3 prevPos = segments.get(i - 1).position();
-            Vec3 currentPos = segments.get(i).position();
+            Vec3 prevPos = partArray[i - 1].position();
+            Vec3 currentPos = partArray[i].position();
 
             Vec3 direction = currentPos.subtract(prevPos).normalize();
-            Vec3 newPos = prevPos.add(direction.scale(segments.get(i).length));
+            Vec3 newPos = prevPos.add(direction.scale(partArray[i].length));
 
-            segments.get(i).smoothMove(newPos,tentacleTime,i);
+            partArray[i].smoothMove(newPos,tentacleTime,i);
         }
     }
 
     public boolean hurt(TentaclePart tentaclePart, DamageSource source, float amount) {
-        return this.hurt(source,amount);
+        return this.hurt(source,amount * 0.25f);
     }
 }
 

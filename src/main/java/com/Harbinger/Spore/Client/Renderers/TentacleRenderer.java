@@ -1,6 +1,6 @@
 package com.Harbinger.Spore.Client.Renderers;
 
-import com.Harbinger.Spore.Client.Models.TentacleSegmentModel;
+import com.Harbinger.Spore.Client.Models.SegmentBase;
 import com.Harbinger.Spore.Sentities.Organoids.Tentacle;
 import com.Harbinger.Spore.Sentities.Organoids.TentaclePart;
 import com.Harbinger.Spore.Spore;
@@ -17,18 +17,14 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
-import java.util.List;
-
 public class TentacleRenderer extends OrganoidMobRenderer<Tentacle, EntityModel<Tentacle>>{
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
-            "textures/entity/tentacle.png");
+            "textures/entity/tentacle_base.png");
     private static final ResourceLocation TENTACLE_NOMOD = new ResourceLocation(Spore.MODID,
             "textures/entity/tentacle_nom.png");
-    private static final ResourceLocation EMPTY = new ResourceLocation(Spore.MODID,
-            "textures/entity/empty.png");
 
     public TentacleRenderer(EntityRendererProvider.Context context) {
-        super(context, new TentacleSegmentModel<>(), 0.2f);
+        super(context, new SegmentBase<>(), 0.2f);
     }
 
     @Override
@@ -37,24 +33,24 @@ public class TentacleRenderer extends OrganoidMobRenderer<Tentacle, EntityModel<
         renderTentacle(stack, bufferSource, type.getSegments(), type.position(),value3);
     }
 
-    private void renderTentacle(PoseStack stack, MultiBufferSource buffer, List<TentaclePart> segments, Vec3 basePosition, int light) {
-        if (segments.isEmpty()) return;
+    private void renderTentacle(PoseStack stack, MultiBufferSource buffer, TentaclePart[] segments, Vec3 basePosition, int light) {
+        if (segments == null) return;
 
         Vec3 prevPos = basePosition;
 
         // Calculate total current length
         float totalCurrentLength = 0f;
-        for (int i = 0; i < segments.size(); i++) {
-            TentaclePart currentSeg = segments.get(i);
+        for (int i = 0; i < segments.length; i++) {
+            TentaclePart currentSeg = segments[i];
             Vec3 currentPos = currentSeg.position();
-            totalCurrentLength += (float) currentPos.distanceTo(i == 0 ? basePosition : segments.get(i-1).position());
+            totalCurrentLength += (float) currentPos.distanceTo(i == 0 ? basePosition : segments[i-1].position());
         }
 
         // Desired total length
         float desiredTotalLength = 5.0f; // Your fixed length here
 
-        for (int i = 0; i < segments.size(); i++) {
-            TentaclePart currentSeg = segments.get(i);
+        for (int i = 0; i < segments.length; i++) {
+            TentaclePart currentSeg = segments[i];
             Vec3 currentPos = currentSeg.position();
 
             // Scale segment length to fit desired total length
@@ -62,7 +58,7 @@ public class TentacleRenderer extends OrganoidMobRenderer<Tentacle, EntityModel<
             Vec3 scaledDirection = currentPos.subtract(prevPos).scale(segmentScale);
             Vec3 scaledEnd = prevPos.add(scaledDirection);
 
-            float thickness = calculateThickness(i, segments.size());
+            float thickness = calculateThickness(i, segments.length);
             renderConnection(prevPos, scaledEnd, basePosition, thickness, stack, buffer,light);
 
             prevPos = scaledEnd;
@@ -70,7 +66,6 @@ public class TentacleRenderer extends OrganoidMobRenderer<Tentacle, EntityModel<
     }
 
     private float calculateThickness(int segmentIndex, int totalSegments) {
-        // Taper from base (thicker) to tip (thinner)
         float progress = (float) segmentIndex / totalSegments;
         return 0.3f * (1.0f - progress * 0.5f);
     }
@@ -93,19 +88,13 @@ public class TentacleRenderer extends OrganoidMobRenderer<Tentacle, EntityModel<
         stack.pushPose();
         {
             stack.translate(relativeStart.x,relativeStart.y, relativeStart.z);
-            ///stack.mulPose(Axis.ZP.rotationDegrees(-180F));
-            ///stack.mulPose(Axis.XP.rotationDegrees(90f));
             stack.mulPose(Axis.YP.rotation(yaw));
             stack.mulPose(Axis.XP.rotation(pitch));
-            ///stack.scale(thickness, length, thickness);
 
             VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityTranslucent(TENTACLE_NOMOD));
-            ///this.getModel().renderToBuffer(stack, vertexConsumer, light, OverlayTexture.NO_OVERLAY, 1f, 1f, 1f, 1f);
             PoseStack.Pose pose = stack.last();
             Matrix4f matrix = pose.pose();
             Matrix3f normal = pose.normal();
-
-            // Use consistent thickness for seamless connections
             drawSeamlessConnection(vertexConsumer, matrix, normal,thickness, thickness,length, OverlayTexture.NO_OVERLAY, 15728880,1f, 1f, 1f, 1f);
         }
         stack.popPose();
@@ -236,6 +225,6 @@ public class TentacleRenderer extends OrganoidMobRenderer<Tentacle, EntityModel<
 
     @Override
     public ResourceLocation getTextureLocation(Tentacle tentacle) {
-        return EMPTY;
+        return TEXTURE;
     }
 }
