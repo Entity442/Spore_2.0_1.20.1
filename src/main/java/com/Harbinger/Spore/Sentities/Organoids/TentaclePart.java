@@ -7,7 +7,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.entity.PartEntity;
 
 public class TentaclePart extends PartEntity<Tentacle> {
@@ -16,9 +15,6 @@ public class TentaclePart extends PartEntity<Tentacle> {
     protected final EntityDimensions size;
     public final float length;
 
-    // We keep previous position to allow interpolation if needed later
-    private Vec3 prevPosition;
-
     public TentaclePart(Tentacle parent, String name, EntityDimensions size, float length) {
         super(parent);
         this.parent = parent;
@@ -26,7 +22,6 @@ public class TentaclePart extends PartEntity<Tentacle> {
         this.size = size;
         this.length = length;
         this.setPos(parent.getX(), parent.getY(), parent.getZ());
-        this.prevPosition = this.position();
         this.refreshDimensions();
     }
 
@@ -82,27 +77,5 @@ public class TentaclePart extends PartEntity<Tentacle> {
             return false;
         }
         return !this.isInvulnerableTo(source) && this.parent.hurt(this, source, amount);
-    }
-
-    public void smoothMove(Vec3 target, float time, int segmentIndex) {
-        this.prevPosition = this.position();
-
-        // Wave animation
-        float frequency = 0.25f;  // wave speed
-        float amplitude = 0.1f;   // wave height
-        float waveOffset = (float) Math.sin(time * frequency + segmentIndex * 0.5f) * amplitude;
-
-        Vec3 newPos = this.position().lerp(target, 0.2f)
-                .add(new Vec3(waveOffset, 0, waveOffset));
-
-        // This is crucial — sync entity with engine
-        this.setPos(newPos.x, newPos.y, newPos.z);
-    }
-    public Vec3 getPrevPosition() {
-        return prevPosition;
-    }
-
-    public void setPrevPosition(Vec3 pos) {
-        this.prevPosition = pos;
     }
 }

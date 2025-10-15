@@ -80,37 +80,56 @@ public class Tentacle extends Organoid {
         if (tickCount % 80 == 0){
             targetPosition = this.getTarget() == null ?  Utilities.generatePositionAway(this.position().add(0,5,0),6) : this.getTarget().position();
         }
-        applyIK();
     }
+    private void moveSegmentTowards(int index, Vec3 target, float time) {
+        float frequency = 0.25f;
+        float amplitude = 0.1f;
+        float waveOffset = (float) Math.sin(time * frequency + index * 0.5f) * amplitude;
 
-    @Override
-    public void moveTo(double x, double y, double z, float p_20111_, float p_20112_) {
-        super.moveTo(x, y, z, p_20111_, p_20112_);
+        Vec3 currentPos = partArray[index].position();
+        Vec3 newPos = currentPos.lerp(target, 0.2f)
+                .add(new Vec3(waveOffset, 0, waveOffset));
+        partArray[index].setPos(this.distanceToSqr(newPos) < 120 ? newPos : this.position());
     }
-
     private void applyIK() {
-        if (getSegments() == null) return;
-        partArray[SEGMENTS - 1].smoothMove(targetPosition,tentacleTime,SEGMENTS - 1);
+        if (partArray == null || partArray.length == 0) return;
+        Vec3[] avec3 = new Vec3[this.partArray.length];
+        for(int j = 0; j < this.partArray.length; ++j) {
+            avec3[j] = new Vec3(this.partArray[j].getX(), this.partArray[j].getY(), this.partArray[j].getZ());
+        }
+        moveSegmentTowards(SEGMENTS - 1, targetPosition, tentacleTime);
 
         for (int i = SEGMENTS - 2; i >= 0; i--) {
             Vec3 nextPos = partArray[i + 1].position();
             Vec3 currentPos = partArray[i].position();
-
             Vec3 direction = nextPos.subtract(currentPos).normalize();
             Vec3 newPos = nextPos.subtract(direction.scale(partArray[i].length));
-
-            partArray[i].smoothMove(newPos,tentacleTime,i);
+            moveSegmentTowards(i, newPos, tentacleTime);
         }
-        partArray[0].smoothMove(this.position(),tentacleTime,0);
+
+        moveSegmentTowards(0, this.position(), tentacleTime);
+
         for (int i = 1; i < SEGMENTS; i++) {
             Vec3 prevPos = partArray[i - 1].position();
             Vec3 currentPos = partArray[i].position();
-
             Vec3 direction = currentPos.subtract(prevPos).normalize();
             Vec3 newPos = prevPos.add(direction.scale(partArray[i].length));
-
-            partArray[i].smoothMove(newPos,tentacleTime,i);
+            moveSegmentTowards(i, newPos, tentacleTime);
         }
+        for(int l = 0; l < this.partArray.length; ++l) {
+            this.partArray[l].xo = avec3[l].x;
+            this.partArray[l].yo = avec3[l].y;
+            this.partArray[l].zo = avec3[l].z;
+            this.partArray[l].xOld = avec3[l].x;
+            this.partArray[l].yOld = avec3[l].y;
+            this.partArray[l].zOld = avec3[l].z;
+        }
+    }
+
+    @Override
+    public void aiStep() {
+        super.aiStep();
+        applyIK();
     }
 
     public boolean hurt(TentaclePart tentaclePart, DamageSource source, float amount) {
