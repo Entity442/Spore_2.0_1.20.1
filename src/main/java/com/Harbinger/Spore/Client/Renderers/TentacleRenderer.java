@@ -22,6 +22,8 @@ import java.util.List;
 public class TentacleRenderer extends OrganoidMobRenderer<Tentacle, EntityModel<Tentacle>>{
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/tentacle.png");
+    private static final ResourceLocation TENTACLE_NOMOD = new ResourceLocation(Spore.MODID,
+            "textures/entity/tentacle_nom.png");
     private static final ResourceLocation EMPTY = new ResourceLocation(Spore.MODID,
             "textures/entity/empty.png");
 
@@ -44,8 +46,8 @@ public class TentacleRenderer extends OrganoidMobRenderer<Tentacle, EntityModel<
         float totalCurrentLength = 0f;
         for (int i = 0; i < segments.size(); i++) {
             TentaclePart currentSeg = segments.get(i);
-            Vec3 currentPos = currentSeg.position;
-            totalCurrentLength += (float) currentPos.distanceTo(i == 0 ? basePosition : segments.get(i-1).position);
+            Vec3 currentPos = currentSeg.position();
+            totalCurrentLength += (float) currentPos.distanceTo(i == 0 ? basePosition : segments.get(i-1).position());
         }
 
         // Desired total length
@@ -53,7 +55,7 @@ public class TentacleRenderer extends OrganoidMobRenderer<Tentacle, EntityModel<
 
         for (int i = 0; i < segments.size(); i++) {
             TentaclePart currentSeg = segments.get(i);
-            Vec3 currentPos = currentSeg.position;
+            Vec3 currentPos = currentSeg.position();
 
             // Scale segment length to fit desired total length
             float segmentScale = desiredTotalLength / totalCurrentLength;
@@ -70,10 +72,10 @@ public class TentacleRenderer extends OrganoidMobRenderer<Tentacle, EntityModel<
     private float calculateThickness(int segmentIndex, int totalSegments) {
         // Taper from base (thicker) to tip (thinner)
         float progress = (float) segmentIndex / totalSegments;
-        return 0.75f * (1.0f - progress * 0.5f); // Reduce thickness by 50% from base to tip
+        return 0.3f * (1.0f - progress * 0.5f);
     }
 
-    private void renderConnection(Vec3 from, Vec3 to, Vec3 base, float thickness, PoseStack stack, MultiBufferSource buffer,int light) {
+    private void renderConnection(Vec3 from, Vec3 to, Vec3 base, float thickness, PoseStack stack, MultiBufferSource buffer, int light) {
         if (from == null || to == null) return;
 
         Vec3 relativeStart = from.subtract(base);
@@ -90,30 +92,21 @@ public class TentacleRenderer extends OrganoidMobRenderer<Tentacle, EntityModel<
 
         stack.pushPose();
         {
-            // Translate to the start point
-            stack.translate(relativeStart.x, relativeStart.y, relativeStart.z);
-            stack.mulPose(Axis.XP.rotationDegrees(90));
-            stack.mulPose(Axis.ZP.rotationDegrees(90));
-
-            // Rotate to align with the segment direction
+            stack.translate(relativeStart.x,relativeStart.y, relativeStart.z);
+            ///stack.mulPose(Axis.ZP.rotationDegrees(-180F));
+            ///stack.mulPose(Axis.XP.rotationDegrees(90f));
             stack.mulPose(Axis.YP.rotation(yaw));
             stack.mulPose(Axis.XP.rotation(pitch));
-            stack.scale(1f,length*1.5f,1f);
+            ///stack.scale(thickness, length, thickness);
 
-            VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityTranslucent(TEXTURE));
-            this.getModel().renderToBuffer(stack,vertexConsumer,light,OverlayTexture.NO_OVERLAY,1f,1f,1f,1f);
-            ///PoseStack.Pose pose = stack.last();
-            ///Matrix4f matrix = pose.pose();
-            ///Matrix3f normal = pose.normal();
+            VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityTranslucent(TENTACLE_NOMOD));
+            ///this.getModel().renderToBuffer(stack, vertexConsumer, light, OverlayTexture.NO_OVERLAY, 1f, 1f, 1f, 1f);
+            PoseStack.Pose pose = stack.last();
+            Matrix4f matrix = pose.pose();
+            Matrix3f normal = pose.normal();
 
             // Use consistent thickness for seamless connections
-            ///drawSeamlessConnection(
-                  ///  vertexConsumer, matrix, normal,
-                  ///  thickness, thickness,
-                  ///  length,
-                  ///  OverlayTexture.NO_OVERLAY, 15728880,
-                   /// 1f, 1f, 1f, 1f
-            ///);
+            drawSeamlessConnection(vertexConsumer, matrix, normal,thickness, thickness,length, OverlayTexture.NO_OVERLAY, 15728880,1f, 1f, 1f, 1f);
         }
         stack.popPose();
     }

@@ -28,9 +28,13 @@ public class TentacleSegmentModel<T extends Entity> extends EntityModel<T> {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 0).addBox(-1.5F, -10.0F, -1.5F, 3.0F, 10.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
+		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 7).addBox(-1.5F, -16.0F, -1.5F, 3.0F, 16.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-		return LayerDefinition.create(meshdefinition, 16, 16);
+		PartDefinition Fungus_r1 = body.addOrReplaceChild("Fungus_r1", CubeListBuilder.create().texOffs(0, 0).addBox(-1.5F, 1.0F, -3.5F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.5F, -11.55F, -1.45F, 0.3325F, -0.5755F, 0.0523F));
+
+		PartDefinition Fungus_r2 = body.addOrReplaceChild("Fungus_r2", CubeListBuilder.create().texOffs(0, 0).addBox(-1.5F, 1.0F, -3.5F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.5F, -3.55F, 0.55F, 0.3325F, 0.5154F, 0.0523F));
+
+		return LayerDefinition.create(meshdefinition, 32, 32);
 	}
 
 	@Override
