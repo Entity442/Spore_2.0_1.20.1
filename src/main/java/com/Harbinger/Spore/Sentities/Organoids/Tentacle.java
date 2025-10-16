@@ -134,7 +134,7 @@ public class Tentacle extends UtilityEntity {
     @Override
     public void aiStep() {
         super.aiStep();
-        if (tickCount % 10 == 0){
+        if (tickCount % 5 == 0){
             targetPositionFrontRight = findStableFooting(LEGS.RIGHT_FRONT, part2, lastFrontRight);
             targetPositionFrontLeft  = findStableFooting(LEGS.LEFT_FRONT, part5, lastFrontLeft);
             targetPositionBackRight  = findStableFooting(LEGS.RIGHT_BACK, part8, lastBackRight);
