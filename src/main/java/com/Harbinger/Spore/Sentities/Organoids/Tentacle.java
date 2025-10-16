@@ -59,18 +59,23 @@ public class Tentacle extends UtilityEntity {
         this.setId(baseId);
         setMaxUpStep(1f);
     }
-    private enum LEGS{
-        RIGHT_FRONT(new Vec3(-4.5,-0.5,2.5)),
-        LEFT_FRONT(new Vec3(-4.5,-0.5,-2.5)),
-        RIGHT_BACK(new Vec3(2.5,-0.5,2.5)),
-        LEFT_BACK(new Vec3(2.5,-0.5,-2.5));
+    public enum LEGS{
+        RIGHT_FRONT(new Vec3(2.0, 1, -2.5), new Vec3(4.5, 0, -6.5)),
+        LEFT_FRONT(new Vec3(-2.0, 1, -2.5), new Vec3(-4.5, 0, -6.5)),
+        RIGHT_BACK(new Vec3(1.0, 1, 1.5), new Vec3(2.5, 0, 2.5)),
+        LEFT_BACK(new Vec3(-1.0, 1, 1.5), new Vec3(-2.5, 0, 2.5));
+        private final Vec3 bodySet;
         private final Vec3 offset;
 
-        LEGS(Vec3 offset) {
+        LEGS(Vec3 bodySet, Vec3 offset) {
+            this.bodySet = bodySet;
             this.offset = offset;
         }
         public Vec3 getOffset(){
             return offset;
+        }
+        public Vec3 getBodySet(){
+            return bodySet;
         }
     }
 
@@ -151,15 +156,18 @@ public class Tentacle extends UtilityEntity {
         applyIK(partArrayBackLeft, targetPositionBackLeft,LEGS.LEFT_BACK,part11);
     }
 
-    private void applyIK(TentaclePart[] partArray, Vec3 targetPosition, LEGS legs,TentaclePart tip) {
+    private void applyIK(TentaclePart[] partArray, Vec3 targetPosition, LEGS legs, TentaclePart tip) {
         if (partArray == null || partArray.length == 0) return;
-        Vec3 defaultPosition = this.position().add((legs.offset).yRot(-this.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F)));
+
+        Vec3 defaultPosition = this.position().add((legs.getOffset()).yRot(-this.getYRot() * ((float)Math.PI / 180F)));
+        Vec3 positionOnBody = this.position().add((legs.getBodySet()).yRot(-this.getYRot() * ((float)Math.PI / 180F)));
+
         Vec3[] oldPositions = new Vec3[partArray.length];
         for (int j = 0; j < partArray.length; ++j) {
             oldPositions[j] = partArray[j].position();
         }
-        boolean tooFar = tip.distanceToSqr(defaultPosition) > 150;
 
+        boolean tooFar = tip.distanceToSqr(defaultPosition) > 150;
         Vec3 vec3 = targetPosition == null || tooFar ? defaultPosition : targetPosition;
 
         int midIndex = partArray.length / 2;
@@ -167,7 +175,7 @@ public class Tentacle extends UtilityEntity {
         double archHeight = stepping ? 0.35 : 0.15;
         double archSpread = partArray.length / 2.0;
 
-        moveSegmentTowards(partArray.length - 1, vec3, partArray,tooFar);
+        moveSegmentTowards(partArray.length - 1, vec3, partArray, tooFar);
 
         for (int i = partArray.length - 2; i >= 0; i--) {
             Vec3 nextPos = partArray[i + 1].position();
@@ -176,9 +184,13 @@ public class Tentacle extends UtilityEntity {
 
             double archFactor = Math.exp(-Math.pow((i - midIndex) / archSpread, 2));
             newPos = newPos.add(0, archFactor * archHeight, 0);
-            moveSegmentTowards(i, newPos, partArray,tooFar);
+            moveSegmentTowards(i, newPos, partArray, tooFar);
         }
 
+        // FIX: Attach base to positionOnBody
+        moveSegmentTowards(0, positionOnBody, partArray, tooFar);
+
+        // Forward pass - from base to tip
         for (int i = 1; i < partArray.length; i++) {
             Vec3 prevPos = partArray[i - 1].position();
             Vec3 direction = partArray[i].position().subtract(prevPos).normalize();
@@ -187,9 +199,10 @@ public class Tentacle extends UtilityEntity {
             double archFactor = Math.exp(-Math.pow((i - midIndex) / archSpread, 2));
             newPos = newPos.add(0, archFactor * archHeight, 0);
 
-            moveSegmentTowards(i, newPos, partArray,tooFar);
+            moveSegmentTowards(i, newPos, partArray, tooFar);
         }
 
+        // Update old positions
         for (int l = 0; l < partArray.length; ++l) {
             partArray[l].xo = oldPositions[l].x;
             partArray[l].yo = oldPositions[l].y;

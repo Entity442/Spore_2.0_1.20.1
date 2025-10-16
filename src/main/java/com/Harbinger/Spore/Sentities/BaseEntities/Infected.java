@@ -230,14 +230,13 @@ public class Infected extends Monster{
         if (!level().isClientSide && tickCount % 20 == 0) {
             applyColdWeaknessEffects();
             handleStarvationProgress();
-        }
+            if ((horizontalCollision || additionalBreakingTriggers()) && canGrief()) {
+                breakNearbyBlocks();
+            }
 
-        if ((horizontalCollision || additionalBreakingTriggers()) && canGrief()) {
-            breakNearbyBlocks();
-        }
-
-        if (horizontalCollision && isInWater()) {
-            jumpInFluid(ForgeMod.WATER_TYPE.get());
+            if (horizontalCollision && isInWater()) {
+                jumpInFluid(ForgeMod.WATER_TYPE.get());
+            }
         }
     }
     public boolean additionalBreakingTriggers(){

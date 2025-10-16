@@ -31,10 +31,13 @@ public class TentacleRenderer extends MobRenderer<Tentacle, EntityModel<Tentacle
     @Override
     public void render(Tentacle type, float value1, float value2, PoseStack stack, MultiBufferSource bufferSource, int value3) {
         super.render(type, value1, value2, stack, bufferSource, value3);
-        renderTentacle(stack, bufferSource, type.getRightSegments(), type.position());
-        renderTentacle(stack, bufferSource, type.getLeftSegments(), type.position());
-        renderTentacle(stack, bufferSource, type.getRightBackSegments(), type.position());
-        renderTentacle(stack, bufferSource, type.getLeftBackSegments(), type.position());
+        renderTentacle(stack, bufferSource, type.getRightSegments(), returnPosition(type, Tentacle.LEGS.RIGHT_FRONT));
+        renderTentacle(stack, bufferSource, type.getLeftSegments(), returnPosition(type, Tentacle.LEGS.LEFT_FRONT));
+        renderTentacle(stack, bufferSource, type.getRightBackSegments(), returnPosition(type, Tentacle.LEGS.RIGHT_BACK));
+        renderTentacle(stack, bufferSource, type.getLeftBackSegments(), returnPosition(type, Tentacle.LEGS.LEFT_BACK));
+    }
+    private Vec3 returnPosition(Tentacle type,Tentacle.LEGS legs){
+       return type.position().add((legs.getOffset().yRot(-type.getYRot() * ((float)Math.PI / 180F))));
     }
 
     private void renderTentacle(PoseStack stack, MultiBufferSource buffer, TentaclePart[] segments, Vec3 basePosition) {
@@ -49,7 +52,7 @@ public class TentacleRenderer extends MobRenderer<Tentacle, EntityModel<Tentacle
             totalCurrentLength += (float) currentPos.distanceTo(i == 0 ? basePosition : segments[i-1].position());
         }
 
-        float desiredTotalLength = 5.0f;
+        float desiredTotalLength = 3f;
 
         for (int i = 0; i < segments.length; i++) {
             TentaclePart currentSeg = segments[i];
@@ -87,7 +90,7 @@ public class TentacleRenderer extends MobRenderer<Tentacle, EntityModel<Tentacle
 
         stack.pushPose();
         {
-            stack.translate(relativeStart.x+0.25,relativeStart.y, relativeStart.z+0.25);
+            stack.translate(relativeStart.x,relativeStart.y, relativeStart.z);
             stack.mulPose(Axis.YP.rotation(yaw));
             stack.mulPose(Axis.XP.rotation(pitch));
 
