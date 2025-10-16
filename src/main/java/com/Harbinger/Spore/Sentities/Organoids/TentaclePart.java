@@ -47,7 +47,7 @@ public class TentaclePart extends PartEntity<Tentacle> {
 
     @Override
     public boolean canBeCollidedWith() {
-        return true;
+        return false;
     }
 
     @Override

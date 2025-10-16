@@ -31,11 +31,13 @@ public class TentacleRenderer extends MobRenderer<Tentacle, EntityModel<Tentacle
     @Override
     public void render(Tentacle type, float value1, float value2, PoseStack stack, MultiBufferSource bufferSource, int value3) {
         super.render(type, value1, value2, stack, bufferSource, value3);
-        renderTentacle(stack, bufferSource, type.getRightSegments(), type.position(),value3);
-        renderTentacle(stack, bufferSource, type.getLeftSegments(), type.position(),value3);
+        renderTentacle(stack, bufferSource, type.getRightSegments(), type.position());
+        renderTentacle(stack, bufferSource, type.getLeftSegments(), type.position());
+        renderTentacle(stack, bufferSource, type.getRightBackSegments(), type.position());
+        renderTentacle(stack, bufferSource, type.getLeftBackSegments(), type.position());
     }
 
-    private void renderTentacle(PoseStack stack, MultiBufferSource buffer, TentaclePart[] segments, Vec3 basePosition, int light) {
+    private void renderTentacle(PoseStack stack, MultiBufferSource buffer, TentaclePart[] segments, Vec3 basePosition) {
         if (segments == null) return;
 
         Vec3 prevPos = basePosition;
@@ -47,7 +49,7 @@ public class TentacleRenderer extends MobRenderer<Tentacle, EntityModel<Tentacle
             totalCurrentLength += (float) currentPos.distanceTo(i == 0 ? basePosition : segments[i-1].position());
         }
 
-        float desiredTotalLength = 10.0f;
+        float desiredTotalLength = 5.0f;
 
         for (int i = 0; i < segments.length; i++) {
             TentaclePart currentSeg = segments[i];

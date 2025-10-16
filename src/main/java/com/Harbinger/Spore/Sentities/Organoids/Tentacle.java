@@ -1,11 +1,9 @@
 package com.Harbinger.Spore.Sentities.Organoids;
 
 import com.Harbinger.Spore.Core.SConfig;
-import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
-import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -13,45 +11,67 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
 
 public class Tentacle extends UtilityEntity {
-    private Vec3 targetPosition;
-    private Vec3 targetPosition2;
-    private float tentacleTime = 0;
+    private Vec3 targetPositionFrontRight;
+    private Vec3 targetPositionFrontLeft;
+    private Vec3 targetPositionBackRight;
+    private Vec3 targetPositionBackLeft;
+    private Vec3 lastFrontRight;
+    private Vec3 lastFrontLeft;
+    private Vec3 lastBackRight;
+    private Vec3 lastBackLeft;
     private final TentaclePart[] partArrayRight;
     private final TentaclePart[] partArrayLeft;
+    private final TentaclePart[] partArrayBackRight;
+    private final TentaclePart[] partArrayBackLeft;
     private final TentaclePart[] completeArray;
+    private final TentaclePart part2;
+    private final TentaclePart part5;
+    private final TentaclePart part8;
+    private final TentaclePart part11;
     public Tentacle(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
 
-        // Initialize parts
         TentaclePart part0 = new TentaclePart(this, "segment0", new EntityDimensions(0.5f, 0.5f, false), 1.0f);
         TentaclePart part1 = new TentaclePart(this, "segment1", new EntityDimensions(0.5f, 0.5f, false), 1.0f);
-        TentaclePart part2 = new TentaclePart(this, "segment2", new EntityDimensions(0.5f, 0.5f, false), 1.0f);
+        part2 = new TentaclePart(this, "segment2", new EntityDimensions(0.5f, 0.5f, false), 1.0f);
         TentaclePart part3 = new TentaclePart(this, "segment3", new EntityDimensions(0.5f, 0.5f, false), 1.0f);
         TentaclePart part4 = new TentaclePart(this, "segment4", new EntityDimensions(0.5f, 0.5f, false), 1.0f);
-        TentaclePart part5 = new TentaclePart(this, "segment5", new EntityDimensions(0.5f, 0.5f, false), 1.0f);
-        this.partArrayRight = new TentaclePart[]{part0, part1, part2, part3, part4, part5};
-
+        part5 = new TentaclePart(this, "segment5", new EntityDimensions(0.5f, 0.5f, false), 1.0f);
+        this.partArrayRight = new TentaclePart[]{part0, part1, part2};
+        this.partArrayBackRight = new TentaclePart[]{part3, part4, part5};
         TentaclePart part6 = new TentaclePart(this, "segment6", new EntityDimensions(0.5f, 0.5f, false), 1.0f);
         TentaclePart part7 = new TentaclePart(this, "segment7", new EntityDimensions(0.5f, 0.5f, false), 1.0f);
-        TentaclePart part8 = new TentaclePart(this, "segment8", new EntityDimensions(0.5f, 0.5f, false), 1.0f);
+        part8 = new TentaclePart(this, "segment8", new EntityDimensions(0.5f, 0.5f, false), 1.0f);
         TentaclePart part9 = new TentaclePart(this, "segment9", new EntityDimensions(0.5f, 0.5f, false), 1.0f);
         TentaclePart part10 = new TentaclePart(this, "segment10", new EntityDimensions(0.5f, 0.5f, false), 1.0f);
-        TentaclePart part11 = new TentaclePart(this, "segment11", new EntityDimensions(0.5f, 0.5f, false), 1.0f);
-        this.partArrayLeft = new TentaclePart[]{part6, part7, part8, part9, part10, part11};
-
+        part11 = new TentaclePart(this, "segment11", new EntityDimensions(0.5f, 0.5f, false), 1.0f);
+        this.partArrayLeft = new TentaclePart[]{part6, part7, part8};
+        this.partArrayBackLeft = new TentaclePart[]{part9, part10, part11};
         this.completeArray = new TentaclePart[]{
                 part0, part1, part2, part3, part4, part5,
                 part6, part7, part8, part9, part10, part11
         };
 
-        // FIX: Proper ID assignment
         int baseId = ENTITY_COUNTER.getAndAdd(this.completeArray.length + 1);
         this.setId(baseId);
+        setMaxUpStep(1f);
+    }
+    private enum LEGS{
+        RIGHT_FRONT(new Vec3(-4.5,-0.5,2.5)),
+        LEFT_FRONT(new Vec3(-4.5,-0.5,-2.5)),
+        RIGHT_BACK(new Vec3(2.5,-0.5,2.5)),
+        LEFT_BACK(new Vec3(2.5,-0.5,-2.5));
+        private final Vec3 offset;
+
+        LEGS(Vec3 offset) {
+            this.offset = offset;
+        }
+        public Vec3 getOffset(){
+            return offset;
+        }
     }
 
     @Override
@@ -61,14 +81,10 @@ public class Tentacle extends UtilityEntity {
             this.completeArray[i].setId(entityId + i + 1);
         }
     }
-    public void setTargetPositionRight(Vec3 vec3) {
-        targetPosition = vec3;
-    }
-    public void setTargetPositionLeft(Vec3 vec3) {
-        targetPosition2 = vec3;
-    }
     public TentaclePart[] getRightSegments(){return partArrayRight;}
     public TentaclePart[] getLeftSegments(){return partArrayLeft;}
+    public TentaclePart[] getRightBackSegments(){return partArrayBackRight;}
+    public TentaclePart[] getLeftBackSegments(){return partArrayBackLeft;}
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
@@ -76,8 +92,7 @@ public class Tentacle extends UtilityEntity {
                 .add(Attributes.ARMOR, SConfig.SERVER.mound_armor.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.FOLLOW_RANGE, 32)
                 .add(Attributes.ATTACK_DAMAGE, 2)
-                .add(Attributes.MOVEMENT_SPEED, 0.1)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 1);
+                .add(Attributes.MOVEMENT_SPEED, 0.2);
 
     }
 
@@ -100,21 +115,11 @@ public class Tentacle extends UtilityEntity {
     @Override
     public void tick() {
         super.tick();
-        tentacleTime += 0.05f;
-        if(tickCount % 40 == 0){
-            setTargetPositionLeft(Utilities.generatePositionAway(this.position().add(0,6,0),6));
-            setTargetPositionRight(Utilities.generatePositionAway(this.position().add(0,6,0),6));
-        }
     }
-    private void moveSegmentTowards(int index, Vec3 target, float time,TentaclePart[] partArray) {
-        float frequency = 0.25f;
-        float amplitude = 0.1f;
-        float waveOffset = (float) Math.sin(time * frequency + index * 0.5f) * amplitude;
-
+    private void moveSegmentTowards(int index, Vec3 target,TentaclePart[] partArray,boolean far) {
         Vec3 currentPos = partArray[index].position();
-        Vec3 newPos = currentPos.lerp(target, 0.2f)
-                .add(new Vec3(waveOffset, 0, waveOffset));
-        partArray[index].setPos(this.distanceToSqr(newPos) < 120 ? newPos : this.position());
+        Vec3 newPos = currentPos.lerp(target, 0.25f);
+        partArray[index].setPos(far ? target : newPos);
     }
 
 
@@ -129,70 +134,63 @@ public class Tentacle extends UtilityEntity {
     @Override
     public void aiStep() {
         super.aiStep();
-        applyIK(partArrayRight, targetPosition);
-        applyIK(partArrayLeft, targetPosition2);
+        if (tickCount % 10 == 0){
+            targetPositionFrontRight = findStableFooting(LEGS.RIGHT_FRONT, part2, lastFrontRight);
+            targetPositionFrontLeft  = findStableFooting(LEGS.LEFT_FRONT, part5, lastFrontLeft);
+            targetPositionBackRight  = findStableFooting(LEGS.RIGHT_BACK, part8, lastBackRight);
+            targetPositionBackLeft   = findStableFooting(LEGS.LEFT_BACK, part11, lastBackLeft);
 
-        if (false){
-            // Calculate actual foot positions
-            Vec3 rightFootPos = this.position().add(
-                    (new Vec3(1.5, 0, -2.5)).yRot(-this.getYRot() * ((float)Math.PI / 180F))
-            );
-            Vec3 leftFootPos = this.position().add(
-                    (new Vec3(1.5, 0, 2.5)).yRot(-this.getYRot() * ((float)Math.PI / 180F))
-            );
-
-            if (targetPosition == null || targetPosition == Vec3.ZERO){
-                targetPosition = this.position();
-            }else {
-                if (targetPosition.distanceToSqr(rightFootPos) > 16){ // Reduced threshold
-                    Vec3 vec3 = processNextWalkPoint(new Vec3(2.5, 0, 0));
-                    if (vec3 != null){
-                        setTargetPositionRight(vec3);
-                    }
-                }
-            }if (targetPosition2 == null || targetPosition2 == Vec3.ZERO){
-                targetPosition2 = this.position();
-            }else {
-                if (targetPosition2.distanceToSqr(leftFootPos) > 16){
-                    Vec3 vec3 = processNextWalkPoint(new Vec3(-2.5, 0, 0));
-                    if (vec3 != null){
-                        setTargetPositionLeft(vec3);
-                    }
-                }
-            }
+            if (!targetPositionFrontRight.equals(lastFrontRight)) lastFrontRight = targetPositionFrontRight;
+            if (!targetPositionFrontLeft.equals(lastFrontLeft)) lastFrontLeft  = targetPositionFrontLeft;
+            if (!targetPositionBackRight.equals(lastBackRight)) lastBackRight  = targetPositionBackRight;
+            if (!targetPositionBackLeft.equals(lastBackLeft))  lastBackLeft   = targetPositionBackLeft;
         }
+        applyIK(partArrayRight, targetPositionFrontRight,LEGS.RIGHT_FRONT, part2);
+        applyIK(partArrayLeft, targetPositionFrontLeft,LEGS.LEFT_FRONT, part5);
+        applyIK(partArrayBackRight, targetPositionBackRight,LEGS.RIGHT_BACK,part8);
+        applyIK(partArrayBackLeft, targetPositionBackLeft,LEGS.LEFT_BACK,part11);
     }
 
-    private void applyIK(TentaclePart[] partArray, Vec3 targetPosition) {
-        if (partArray == null || partArray.length == 0 || targetPosition == null) return;
-
-        // Store old positions first
+    private void applyIK(TentaclePart[] partArray, Vec3 targetPosition, LEGS legs,TentaclePart tip) {
+        if (partArray == null || partArray.length == 0) return;
+        Vec3 defaultPosition = this.position().add((legs.offset).yRot(-this.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F)));
         Vec3[] oldPositions = new Vec3[partArray.length];
-        for(int j = 0; j < partArray.length; ++j) {
+        for (int j = 0; j < partArray.length; ++j) {
             oldPositions[j] = partArray[j].position();
         }
+        boolean tooFar = tip.distanceToSqr(defaultPosition) > 150;
 
-        // IK passes
-        moveSegmentTowards(partArray.length - 1, targetPosition, tentacleTime, partArray);
+        Vec3 vec3 = targetPosition == null || tooFar ? defaultPosition : targetPosition;
 
-        // Backward pass
+        int midIndex = partArray.length / 2;
+        boolean stepping = (targetPosition != null && !targetPosition.equals(oldPositions[partArray.length - 1]));
+        double archHeight = stepping ? 0.35 : 0.15;
+        double archSpread = partArray.length / 2.0;
+
+        moveSegmentTowards(partArray.length - 1, vec3, partArray,tooFar);
+
         for (int i = partArray.length - 2; i >= 0; i--) {
             Vec3 nextPos = partArray[i + 1].position();
             Vec3 direction = nextPos.subtract(partArray[i].position()).normalize();
             Vec3 newPos = nextPos.subtract(direction.scale(partArray[i].length));
-            moveSegmentTowards(i, newPos, tentacleTime, partArray);
+
+            double archFactor = Math.exp(-Math.pow((i - midIndex) / archSpread, 2));
+            newPos = newPos.add(0, archFactor * archHeight, 0);
+            moveSegmentTowards(i, newPos, partArray,tooFar);
         }
 
-        // Forward pass
         for (int i = 1; i < partArray.length; i++) {
             Vec3 prevPos = partArray[i - 1].position();
             Vec3 direction = partArray[i].position().subtract(prevPos).normalize();
             Vec3 newPos = prevPos.add(direction.scale(partArray[i].length));
-            moveSegmentTowards(i, newPos, tentacleTime, partArray);
+
+            double archFactor = Math.exp(-Math.pow((i - midIndex) / archSpread, 2));
+            newPos = newPos.add(0, archFactor * archHeight, 0);
+
+            moveSegmentTowards(i, newPos, partArray,tooFar);
         }
 
-        // Update old positions
-        for(int l = 0; l < partArray.length; ++l) {
+        for (int l = 0; l < partArray.length; ++l) {
             partArray[l].xo = oldPositions[l].x;
             partArray[l].yo = oldPositions[l].y;
             partArray[l].zo = oldPositions[l].z;
@@ -201,25 +199,35 @@ public class Tentacle extends UtilityEntity {
             partArray[l].zOld = oldPositions[l].z;
         }
     }
+    private Vec3 findStableFooting(LEGS leg, TentaclePart tip, Vec3 lastPosition) {
+        Vec3 legBasePos = this.position().add(
+                leg.getOffset().yRot(-this.getYRot() * ((float) Math.PI / 180F))
+        );
 
-    public @Nullable Vec3 processNextWalkPoint(Vec3 offset){
-        Vec3 worldOffset = offset.yRot(-this.getYRot() * ((float)Math.PI / 180F));
-        Vec3 searchPos = this.position().add(worldOffset);
+        if (lastPosition != null && legBasePos.distanceTo(lastPosition) < 4) {
+            return lastPosition;
+        }
 
-        AABB aabb = new AABB(searchPos.x-1, searchPos.y, searchPos.z-1,
-                searchPos.x+1, searchPos.y+2, searchPos.z+1);
+        double randX = (random.nextDouble() - 0.5);
+        double randZ = (random.nextDouble() - 0.5);
+        Vec3 randomizedBase = legBasePos.add(randX, 0, randZ);
 
-        // Look for walkable surface
-        for(BlockPos blockpos : BlockPos.betweenClosed(
-                Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ),
-                Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
-
-            if (level().getBlockState(blockpos).isSolidRender(level(), blockpos) &&
-                    level().getBlockState(blockpos.above()).isAir()) {
-                return new Vec3(blockpos.getX() + 0.5, blockpos.getY() + 1, blockpos.getZ() + 0.5);
+        BlockPos searchStart = new BlockPos(
+                (int) Math.floor(randomizedBase.x),
+                (int) Math.floor(tip.position().y + 2),
+                (int) Math.floor(randomizedBase.z)
+        );
+        for (int y = 0; y < 4; y++) {
+            BlockPos checkPos = searchStart.below(y);
+            if (level().getBlockState(checkPos).isSolidRender(level(),checkPos)) {
+                return new Vec3(
+                        checkPos.getX() + 0.5,
+                        checkPos.getY() - 0.5,
+                        checkPos.getZ() + 0.5
+                );
             }
         }
-        return null;
+        return lastPosition == null ? legBasePos : randomizedBase;
     }
 
     public boolean hurt(TentaclePart tentaclePart, DamageSource source, float amount) {
