@@ -14,6 +14,8 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
@@ -33,55 +35,56 @@ public class TentacleRenderer extends MobRenderer<Tentacle, EntityModel<Tentacle
         return 0.3f * (1.0f - progress * 0.5f);
     }
     @Override
-    public void render(Tentacle type, float value1, float value2, PoseStack stack, MultiBufferSource bufferSource, int value3) {
-        super.render(type, value1, value2, stack, bufferSource, value3);
-        renderTentacle(stack, bufferSource, type.getRightSegments(), Tentacle.LEGS.RIGHT_FRONT);
-        renderTentacle(stack, bufferSource, type.getLeftSegments(), Tentacle.LEGS.LEFT_FRONT);
-        renderTentacle(stack, bufferSource, type.getRightBackSegments(), Tentacle.LEGS.RIGHT_BACK);
-        renderTentacle(stack, bufferSource, type.getLeftBackSegments(), Tentacle.LEGS.LEFT_BACK);
+    public void render(Tentacle entity, float entityYaw, float partialTicks, PoseStack stack, MultiBufferSource buffer, int packedLight) {
+        super.render(entity, entityYaw, partialTicks, stack, buffer, packedLight);
+        Vec3 entityPos = entity.position();
+        stack.pushPose();
+        {
+            stack.translate(-entityPos.x, -entityPos.y, -entityPos.z);
+            renderTentacle(stack, buffer, entity.getRightSegments(), entity,partialTicks);
+            renderTentacle(stack, buffer, entity.getLeftSegments(), entity,partialTicks);
+            renderTentacle(stack, buffer, entity.getRightBackSegments(), entity,partialTicks);
+            renderTentacle(stack, buffer, entity.getLeftBackSegments(), entity,partialTicks);
+        }
+        stack.popPose();
     }
 
-    private void renderTentacle(PoseStack stack, MultiBufferSource buffer, TentaclePart[] segments, Tentacle.LEGS legData) {
-        if (segments == null || segments.length == 0) return;
+    private void renderTentacle(PoseStack stack, MultiBufferSource buffer, TentaclePart[] segments, LivingEntity parent, float partial) {
+        if (segments == null || segments.length < 2) return;
+        Entity entity = parent;
+        float hurtTime = parent.hurtTime - partial;
+        float flashIntensity = 0.0F;
 
-        // Get the base position relative to the entity
-        Vec3 basePosition = legData.getBodySet();
-
-        Vec3 prevPos = basePosition;
-
-        float totalCurrentLength = 0f;
-        for (int i = 0; i < segments.length; i++) {
-            TentaclePart currentSeg = segments[i];
-            Vec3 currentPos = getSegmentRelativePosition(currentSeg);
-            totalCurrentLength += (float) currentPos.distanceTo(i == 0 ? basePosition : getSegmentRelativePosition(segments[i-1]));
+        if (hurtTime > 0) {
+            flashIntensity = Math.min(hurtTime / 10.0F, 1.0F);
         }
-
-        float desiredTotalLength = 3f;
+        float red = 1.0F;
+        float green = 1.0F - flashIntensity * 0.5F;
+        float blue = 1.0F - flashIntensity * 0.5F;
 
         for (int i = 0; i < segments.length; i++) {
-            TentaclePart currentSeg = segments[i];
-            Vec3 currentPos = getSegmentRelativePosition(currentSeg);
-            float segmentScale = desiredTotalLength / totalCurrentLength;
-            Vec3 scaledDirection = currentPos.subtract(prevPos).scale(segmentScale);
-            Vec3 scaledEnd = prevPos.add(scaledDirection);
-
+            Entity currentPos = segments[i];
             float thickness = calculateThickness(i, segments.length);
-            renderConnection(prevPos, scaledEnd, thickness, stack, buffer, i);
+            renderConnection(entity, currentPos, thickness, stack, buffer, i,partial,red,green,blue);
 
-            prevPos = scaledEnd;
+            entity = currentPos;
         }
     }
+    public Vec3 processPosition(Entity entity, float partialTicks) {
+        Vec3 interpolatedPos = entity.getPosition(partialTicks);
+        double centerX = interpolatedPos.x;
+        double centerY = interpolatedPos.y + (entity.getBbHeight() / 2);
+        double centerZ = interpolatedPos.z;
 
-    private Vec3 getSegmentRelativePosition(TentaclePart segment) {
-        if (segment == null) return Vec3.ZERO;
-        return segment.position().subtract(((Tentacle)segment.getParent()).position());
+        return new Vec3(centerX, centerY, centerZ);
     }
 
-    private void renderConnection(Vec3 from, Vec3 to, float thickness, PoseStack stack, MultiBufferSource buffer, int val) {
+    private void renderConnection(Entity from, Entity to, float thickness, PoseStack stack, MultiBufferSource buffer,int index , float partial
+    ,float r,float g, float b) {
         if (from == null || to == null) return;
-
-        Vec3 direction = to.subtract(from);
-        float length = (float) direction.length();
+        Vec3 goingTo =processPosition(from,partial);
+        Vec3 direction = processPosition(to,partial).subtract(goingTo);
+        float length = (float) direction.length() + (0.05f * index);
         if (length < 0.0001f) return;
 
         direction = direction.normalize();
@@ -91,8 +94,7 @@ public class TentacleRenderer extends MobRenderer<Tentacle, EntityModel<Tentacle
 
         stack.pushPose();
         {
-            // Translate to the segment start position (relative to entity)
-            stack.translate(from.x, from.y, from.z);
+            stack.translate(goingTo.x, goingTo.y, goingTo.z);
             stack.mulPose(Axis.YP.rotation(yaw));
             stack.mulPose(Axis.XP.rotation(pitch));
 
@@ -100,7 +102,7 @@ public class TentacleRenderer extends MobRenderer<Tentacle, EntityModel<Tentacle
             PoseStack.Pose pose = stack.last();
             Matrix4f matrix = pose.pose();
             Matrix3f normal = pose.normal();
-            drawSeamlessConnection(vertexConsumer, matrix, normal, thickness, thickness, length, OverlayTexture.NO_OVERLAY, 15728880, 1f, 1f, 1f, 1f);
+            drawSeamlessConnection(vertexConsumer, matrix, normal, thickness, thickness, length, OverlayTexture.NO_OVERLAY, 15728880, r, g, b, 1f);
         }
         stack.popPose();
     }
