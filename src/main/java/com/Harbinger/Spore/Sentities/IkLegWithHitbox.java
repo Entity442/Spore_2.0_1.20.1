@@ -66,7 +66,7 @@ public class IkLegWithHitbox {
 
         int midIndex = hitBoxes.length / 2;
         boolean stepping = (sitPosition != null && !sitPosition.equals(oldPositions[hitBoxes.length - 1]));
-        double archHeight = stepping ? 1 : 0.15;
+        double archHeight = stepping ? 0.35 : 0.15;
         double archSpread = hitBoxes.length / 2.0;
 
         moveSegmentTowards(hitBoxes.length - 1, vec3, hitBoxes, tooFar);

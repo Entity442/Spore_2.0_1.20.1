@@ -61,10 +61,10 @@ public class Tentacle extends UtilityEntity {
         setMaxUpStep(1f);
     }
     public enum LEGS{
-        RIGHT_FRONT(new Vec3(0.5, 2, -0.5), new Vec3(2.5, -0.5, -2.5)),   // Front right
-        LEFT_FRONT(new Vec3(0.5, 2, 0.5), new Vec3(2.5, -0.5, 2.5)),  // Front left
-        RIGHT_BACK(new Vec3(-0.5, 2, -0.5), new Vec3(-2.5, -0.5, -2.5)),      // Back right
-        LEFT_BACK(new Vec3(-0.5, 2, 0.5), new Vec3(-2.5, -0.5, 2.5));     // Back left
+        RIGHT_FRONT(new Vec3(0.5, 1.5, -0.5), new Vec3(4.5, -0.5, -2.5)),   // Front right
+        LEFT_FRONT(new Vec3(0.5, 1.5, 0.5), new Vec3(4.5, -0.5, 2.5)),  // Front left
+        RIGHT_BACK(new Vec3(-0.5, 1.5, -0.5), new Vec3(-4.5, -0.5, -2.5)),      // Back right
+        LEFT_BACK(new Vec3(-0.5, 1.5, 0.5), new Vec3(-4.5, -0.5, 2.5));     // Back left
 
         private final Vec3 bodySet;
         private final Vec3 offset;
@@ -208,7 +208,7 @@ public class Tentacle extends UtilityEntity {
 
         int midIndex = partArray.length / 2;
         boolean stepping = (targetPosition != null && !targetPosition.equals(oldPositions[partArray.length - 1]));
-        double archHeight = stepping ? 1 : 0.15;
+        double archHeight = stepping ? 0.35 : 0.15;
         double archSpread = partArray.length / 2.0;
 
         moveSegmentTowards(partArray.length - 1, vec3, partArray, tooFar);
@@ -255,8 +255,8 @@ public class Tentacle extends UtilityEntity {
             return lastPosition;
         }
 
-        double randX = ((random.nextDouble() - 0.5) * 2) + legBasePos.x;
-        double randZ = ((random.nextDouble() - 0.5) * 2)  + legBasePos.z;
+        double randX = ((random.nextDouble() - 0.5) * 2);
+        double randZ = ((random.nextDouble() - 0.5) * 2);
         Vec3 randomizedBase = legBasePos.add(randX, 0, randZ);
 
         BlockPos searchStart = new BlockPos(
