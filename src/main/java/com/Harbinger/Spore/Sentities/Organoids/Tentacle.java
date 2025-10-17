@@ -61,10 +61,10 @@ public class Tentacle extends UtilityEntity {
         setMaxUpStep(1f);
     }
     public enum LEGS{
-        RIGHT_FRONT(new Vec3(1.5, 2, -1.5), new Vec3(3.5, -0.5, -3.5)),   // Front right
-        LEFT_FRONT(new Vec3(1.5, 2, 1.5), new Vec3(3.5, -0.5, 3.5)),  // Front left
-        RIGHT_BACK(new Vec3(-1.5, 2, -1.5), new Vec3(-3.5, -0.5, -3.5)),      // Back right
-        LEFT_BACK(new Vec3(-1.5, 2, 1.5), new Vec3(-3.5, -0.5, 3.5));     // Back left
+        RIGHT_FRONT(new Vec3(0.5, 2, -0.5), new Vec3(2.5, -0.5, -2.5)),   // Front right
+        LEFT_FRONT(new Vec3(0.5, 2, 0.5), new Vec3(2.5, -0.5, 2.5)),  // Front left
+        RIGHT_BACK(new Vec3(-0.5, 2, -0.5), new Vec3(-2.5, -0.5, -2.5)),      // Back right
+        LEFT_BACK(new Vec3(-0.5, 2, 0.5), new Vec3(-2.5, -0.5, 2.5));     // Back left
 
         private final Vec3 bodySet;
         private final Vec3 offset;
@@ -174,14 +174,14 @@ public class Tentacle extends UtilityEntity {
         applyIK(partArrayBackRight, targetPositionBackRight,LEGS.RIGHT_BACK,part8);
         applyIK(partArrayBackLeft, targetPositionBackLeft,LEGS.LEFT_BACK,part11);
 
-        ///spawnParticlesInPlaces(targetPositionFrontRight,LEGS.RIGHT_FRONT,false);
-        ///spawnParticlesInPlaces(targetPositionFrontLeft,LEGS.LEFT_FRONT,false);
-        ///spawnParticlesInPlaces(targetPositionBackRight,LEGS.RIGHT_BACK,false);
-        ///spawnParticlesInPlaces(targetPositionBackLeft,LEGS.LEFT_BACK,false);
-        ///spawnParticlesInPlaces(targetPositionFrontRight,LEGS.RIGHT_FRONT,true);
-        ///spawnParticlesInPlaces(targetPositionFrontLeft,LEGS.LEFT_FRONT,true);
-        ///spawnParticlesInPlaces(targetPositionBackRight,LEGS.RIGHT_BACK,true);
-        ///spawnParticlesInPlaces(targetPositionBackLeft,LEGS.LEFT_BACK,true);
+        spawnParticlesInPlaces(targetPositionFrontRight,LEGS.RIGHT_FRONT,false);
+        spawnParticlesInPlaces(targetPositionFrontLeft,LEGS.LEFT_FRONT,false);
+        spawnParticlesInPlaces(targetPositionBackRight,LEGS.RIGHT_BACK,false);
+        spawnParticlesInPlaces(targetPositionBackLeft,LEGS.LEFT_BACK,false);
+        spawnParticlesInPlaces(targetPositionFrontRight,LEGS.RIGHT_FRONT,true);
+        spawnParticlesInPlaces(targetPositionFrontLeft,LEGS.LEFT_FRONT,true);
+        spawnParticlesInPlaces(targetPositionBackRight,LEGS.RIGHT_BACK,true);
+        spawnParticlesInPlaces(targetPositionBackLeft,LEGS.LEFT_BACK,true);
     }
     private void spawnParticlesInPlaces(Vec3 vec3, LEGS legs,boolean fire){
         if (fire){
@@ -254,18 +254,17 @@ public class Tentacle extends UtilityEntity {
         if (lastPosition != null && legBasePos.distanceTo(lastPosition) < 4) {
             return lastPosition;
         }
-        double offsetX = (random.nextDouble() - 0.5) * 2;
-        double offsetZ = (random.nextDouble() - 0.5) * 2;
-        Vec3 randomizedBase = legBasePos.add(offsetX, 0, offsetZ);
+
+        double randX = ((random.nextDouble() - 0.5) * 2) + legBasePos.x;
+        double randZ = ((random.nextDouble() - 0.5) * 2)  + legBasePos.z;
+        Vec3 randomizedBase = legBasePos.add(randX, 0, randZ);
+
         BlockPos searchStart = new BlockPos(
                 (int) Math.floor(randomizedBase.x),
                 (int) Math.floor(tip.position().y + 2),
                 (int) Math.floor(randomizedBase.z)
         );
-        return returnGoodSpot(searchStart,legBasePos);
-    }
-    private Vec3 returnGoodSpot(BlockPos searchStart,Vec3 defaultPos){
-        for (int y = 0; y <= 3; y++) {
+        for (int y = 0; y < 4; y++) {
             BlockPos checkPos = searchStart.below(y);
             if (level().getBlockState(checkPos).isSolidRender(level(),checkPos)) {
                 return new Vec3(
@@ -275,7 +274,7 @@ public class Tentacle extends UtilityEntity {
                 );
             }
         }
-        return defaultPos;
+        return lastPosition == null ? legBasePos : randomizedBase;
     }
     public boolean hurt(TentaclePart tentaclePart, DamageSource source, float amount) {
         return this.hurt(source,amount * 0.25f);
