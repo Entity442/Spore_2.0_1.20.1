@@ -61,10 +61,10 @@ public class Tentacle extends UtilityEntity {
         setMaxUpStep(1f);
     }
     public enum LEGS{
-        RIGHT_FRONT(new Vec3(1.5, 2, -1.5), new Vec3(6.5, 0, -6.5)),   // Front right
-        LEFT_FRONT(new Vec3(1.5, 2, 1.5), new Vec3(6.5, 0, 6.5)),  // Front left
-        RIGHT_BACK(new Vec3(-1.5, 2, -1.5), new Vec3(-6.5, 0, -6.5)),      // Back right
-        LEFT_BACK(new Vec3(-1.5, 2, 1.5), new Vec3(-6.5, 0, 6.5));     // Back left
+        RIGHT_FRONT(new Vec3(1.5, 2, -1.5), new Vec3(3.5, -0.5, -3.5)),   // Front right
+        LEFT_FRONT(new Vec3(1.5, 2, 1.5), new Vec3(3.5, -0.5, 3.5)),  // Front left
+        RIGHT_BACK(new Vec3(-1.5, 2, -1.5), new Vec3(-3.5, -0.5, -3.5)),      // Back right
+        LEFT_BACK(new Vec3(-1.5, 2, 1.5), new Vec3(-3.5, -0.5, 3.5));     // Back left
 
         private final Vec3 bodySet;
         private final Vec3 offset;
@@ -100,7 +100,7 @@ public class Tentacle extends UtilityEntity {
                 .add(Attributes.ARMOR, SConfig.SERVER.mound_armor.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.FOLLOW_RANGE, 32)
                 .add(Attributes.ATTACK_DAMAGE, 2)
-                .add(Attributes.MOVEMENT_SPEED, 0.2);
+                .add(Attributes.MOVEMENT_SPEED, 0.3);
 
     }
     public Vec3 getLegBasePos(LEGS legs){
@@ -174,14 +174,14 @@ public class Tentacle extends UtilityEntity {
         applyIK(partArrayBackRight, targetPositionBackRight,LEGS.RIGHT_BACK,part8);
         applyIK(partArrayBackLeft, targetPositionBackLeft,LEGS.LEFT_BACK,part11);
 
-        spawnParticlesInPlaces(targetPositionFrontRight,LEGS.RIGHT_FRONT,false);
-        spawnParticlesInPlaces(targetPositionFrontLeft,LEGS.LEFT_FRONT,false);
-        spawnParticlesInPlaces(targetPositionBackRight,LEGS.RIGHT_BACK,false);
-        spawnParticlesInPlaces(targetPositionBackLeft,LEGS.LEFT_BACK,false);
-        spawnParticlesInPlaces(targetPositionFrontRight,LEGS.RIGHT_FRONT,true);
-        spawnParticlesInPlaces(targetPositionFrontLeft,LEGS.LEFT_FRONT,true);
-        spawnParticlesInPlaces(targetPositionBackRight,LEGS.RIGHT_BACK,true);
-        spawnParticlesInPlaces(targetPositionBackLeft,LEGS.LEFT_BACK,true);
+        ///spawnParticlesInPlaces(targetPositionFrontRight,LEGS.RIGHT_FRONT,false);
+        ///spawnParticlesInPlaces(targetPositionFrontLeft,LEGS.LEFT_FRONT,false);
+        ///spawnParticlesInPlaces(targetPositionBackRight,LEGS.RIGHT_BACK,false);
+        ///spawnParticlesInPlaces(targetPositionBackLeft,LEGS.LEFT_BACK,false);
+        ///spawnParticlesInPlaces(targetPositionFrontRight,LEGS.RIGHT_FRONT,true);
+        ///spawnParticlesInPlaces(targetPositionFrontLeft,LEGS.LEFT_FRONT,true);
+        ///spawnParticlesInPlaces(targetPositionBackRight,LEGS.RIGHT_BACK,true);
+        ///spawnParticlesInPlaces(targetPositionBackLeft,LEGS.LEFT_BACK,true);
     }
     private void spawnParticlesInPlaces(Vec3 vec3, LEGS legs,boolean fire){
         if (fire){
@@ -208,7 +208,7 @@ public class Tentacle extends UtilityEntity {
 
         int midIndex = partArray.length / 2;
         boolean stepping = (targetPosition != null && !targetPosition.equals(oldPositions[partArray.length - 1]));
-        double archHeight = stepping ? 0.35 : 0.15;
+        double archHeight = stepping ? 1 : 0.15;
         double archSpread = partArray.length / 2.0;
 
         moveSegmentTowards(partArray.length - 1, vec3, partArray, tooFar);
@@ -265,7 +265,7 @@ public class Tentacle extends UtilityEntity {
         return returnGoodSpot(searchStart,legBasePos);
     }
     private Vec3 returnGoodSpot(BlockPos searchStart,Vec3 defaultPos){
-        for (int y = -3; y <= 3; y++) {
+        for (int y = 0; y <= 3; y++) {
             BlockPos checkPos = searchStart.below(y);
             if (level().getBlockState(checkPos).isSolidRender(level(),checkPos)) {
                 return new Vec3(
