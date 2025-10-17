@@ -3,8 +3,8 @@ package com.Harbinger.Spore.Client.Models;// Made with Blockbench 5.0.1
 // Paste this class into your mod and generate all required imports
 
 
-import com.Harbinger.Spore.Client.Models.TentacledModel;
 import com.Harbinger.Spore.Sentities.Organoids.Tentacle;
+import com.Harbinger.Spore.Sentities.Organoids.TentaclePart;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -14,9 +14,12 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
-public class SegmentBase<T extends Tentacle> extends EntityModel<T> implements TentacledModel {
+import java.util.List;
+
+public class SegmentBase<T extends Tentacle> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "segmentbase"), "main");
 	private final ModelPart Biomass;
@@ -33,6 +36,22 @@ public class SegmentBase<T extends Tentacle> extends EntityModel<T> implements T
 	private final ModelPart Root1Details3;
 	private final ModelPart Root1Detail5;
 	private final ModelPart Root1Detail6;
+	private final ModelPart tentacleSeg1;
+	private final ModelPart offshoot1;
+	private final ModelPart offfshoot1;
+	private final ModelPart tentacleSeg2;
+	private final ModelPart offshoot2;
+	private final ModelPart offfshoot2;
+	private final ModelPart tentacleSeg3;
+	private final ModelPart offshoot3;
+	private final ModelPart offfshoot3;
+	private final ModelPart tentacleSeg4;
+	private final ModelPart offshoot4;
+	private final ModelPart offfshoot4;
+	private final ModelPart[] rightFrontTentacle;
+	private final ModelPart[] leftFrontTentacle;
+	private final ModelPart[] rightBackTentacle;
+	private final ModelPart[] leftBackTentacle;
 
 	public SegmentBase() {
 		ModelPart root = createBodyLayer().bakeRoot();
@@ -50,6 +69,22 @@ public class SegmentBase<T extends Tentacle> extends EntityModel<T> implements T
 		this.Root1Details3 = this.Root3.getChild("Root1Details3");
 		this.Root1Detail5 = this.Root1Details3.getChild("Root1Detail5");
 		this.Root1Detail6 = this.Root1Details3.getChild("Root1Detail6");
+		this.tentacleSeg1 = root.getChild("tentacleSeg1");
+		this.offshoot1 = this.tentacleSeg1.getChild("offshoot1");
+		this.offfshoot1 = this.offshoot1.getChild("offfshoot1");
+		this.tentacleSeg2 = root.getChild("tentacleSeg2");
+		this.offshoot2 = this.tentacleSeg2.getChild("offshoot2");
+		this.offfshoot2 = this.offshoot2.getChild("offfshoot2");
+		this.tentacleSeg3 = root.getChild("tentacleSeg3");
+		this.offshoot3 = this.tentacleSeg3.getChild("offshoot3");
+		this.offfshoot3 = this.offshoot3.getChild("offfshoot3");
+		this.tentacleSeg4 = root.getChild("tentacleSeg4");
+		this.offshoot4 = this.tentacleSeg4.getChild("offshoot4");
+		this.offfshoot4 = this.offshoot4.getChild("offfshoot4");
+		this.rightFrontTentacle = new ModelPart[]{tentacleSeg1, offshoot1, offfshoot1};
+		this.leftFrontTentacle = new ModelPart[]{tentacleSeg2, offshoot2, offfshoot2};
+		this.rightBackTentacle = new ModelPart[]{tentacleSeg3, offshoot3, offfshoot3};
+		this.leftBackTentacle = new ModelPart[]{tentacleSeg4, offshoot4, offfshoot4};
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -88,9 +123,9 @@ public class SegmentBase<T extends Tentacle> extends EntityModel<T> implements T
 
 		PartDefinition Root1Detail2 = Root1Details.addOrReplaceChild("Root1Detail2", CubeListBuilder.create(), PartPose.offset(0.0F, 0.25F, -0.5F));
 
-		PartDefinition Root2Detail2Seg2_r1 = Root1Detail2.addOrReplaceChild("Root2Detail2Seg2_r1", CubeListBuilder.create().texOffs(52, 0).addBox(-12.1372F, 9.1704F, 5.2504F, 4.0F, 2.0F, 2.0F, new CubeDeformation(-0.65F)), PartPose.offsetAndRotation(1.9366F, -9.6252F, 1.0786F, 0.206F, 0.4076F, -0.9762F));
+		PartDefinition Root2Detail2Seg2_r1 = Root1Detail2.addOrReplaceChild("Root2Detail2Seg2_r1", CubeListBuilder.create().texOffs(52, 0).addBox(-12.1372F, 9.1703F, 5.2504F, 4.0F, 2.0F, 2.0F, new CubeDeformation(-0.65F)), PartPose.offsetAndRotation(1.9366F, -9.6252F, 1.0786F, 0.206F, 0.4076F, -0.9762F));
 
-		PartDefinition Root1Detail2Seg1_r1 = Root1Detail2.addOrReplaceChild("Root1Detail2Seg1_r1", CubeListBuilder.create().texOffs(52, 0).addBox(-11.1641F, 9.1704F, 1.4283F, 4.0F, 2.0F, 2.0F, new CubeDeformation(-0.45F)), PartPose.offsetAndRotation(1.9366F, -9.6252F, 1.0786F, 0.27F, 0.7897F, -0.8648F));
+		PartDefinition Root1Detail2Seg1_r1 = Root1Detail2.addOrReplaceChild("Root1Detail2Seg1_r1", CubeListBuilder.create().texOffs(52, 0).addBox(-11.1641F, 9.1703F, 1.4283F, 4.0F, 2.0F, 2.0F, new CubeDeformation(-0.45F)), PartPose.offsetAndRotation(1.9366F, -9.6252F, 1.0786F, 0.27F, 0.7897F, -0.8648F));
 
 		PartDefinition Root1SmallDetails = Root1Details.addOrReplaceChild("Root1SmallDetails", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
@@ -120,9 +155,9 @@ public class SegmentBase<T extends Tentacle> extends EntityModel<T> implements T
 
 		PartDefinition Root1Detail4 = Root1Details2.addOrReplaceChild("Root1Detail4", CubeListBuilder.create(), PartPose.offset(-1.0F, -1.75F, -0.5F));
 
-		PartDefinition Root2Detail2Seg2_r2 = Root1Detail4.addOrReplaceChild("Root2Detail2Seg2_r2", CubeListBuilder.create().texOffs(52, 0).addBox(-12.1373F, 9.1704F, 5.2504F, 4.0F, 2.0F, 2.0F, new CubeDeformation(-0.65F)), PartPose.offsetAndRotation(1.9367F, -9.6252F, 1.0786F, 0.206F, 0.4076F, -0.9762F));
+		PartDefinition Root2Detail2Seg2_r2 = Root1Detail4.addOrReplaceChild("Root2Detail2Seg2_r2", CubeListBuilder.create().texOffs(52, 0).addBox(-12.1372F, 9.1703F, 5.2504F, 4.0F, 2.0F, 2.0F, new CubeDeformation(-0.65F)), PartPose.offsetAndRotation(1.9366F, -9.6252F, 1.0786F, 0.206F, 0.4076F, -0.9762F));
 
-		PartDefinition Root1Detail2Seg1_r2 = Root1Detail4.addOrReplaceChild("Root1Detail2Seg1_r2", CubeListBuilder.create().texOffs(52, 0).addBox(-11.1641F, 9.1704F, 1.4283F, 4.0F, 2.0F, 2.0F, new CubeDeformation(-0.45F)), PartPose.offsetAndRotation(1.9367F, -9.6252F, 1.0786F, 0.27F, 0.7897F, -0.8648F));
+		PartDefinition Root1Detail2Seg1_r2 = Root1Detail4.addOrReplaceChild("Root1Detail2Seg1_r2", CubeListBuilder.create().texOffs(52, 0).addBox(-11.1641F, 9.1703F, 1.4283F, 4.0F, 2.0F, 2.0F, new CubeDeformation(-0.45F)), PartPose.offsetAndRotation(1.9366F, -9.6252F, 1.0786F, 0.27F, 0.7897F, -0.8648F));
 
 		PartDefinition Root3 = partdefinition.addOrReplaceChild("Root3", CubeListBuilder.create(), PartPose.offsetAndRotation(1.1574F, 20.7406F, -0.4313F, 0.5236F, 2.7925F, 0.4363F));
 
@@ -144,19 +179,111 @@ public class SegmentBase<T extends Tentacle> extends EntityModel<T> implements T
 
 		PartDefinition Root1Detail6 = Root1Details3.addOrReplaceChild("Root1Detail6", CubeListBuilder.create(), PartPose.offset(-1.0F, -1.75F, -0.5F));
 
-		PartDefinition Root2Detail2Seg2_r3 = Root1Detail6.addOrReplaceChild("Root2Detail2Seg2_r3", CubeListBuilder.create().texOffs(52, 0).addBox(-12.1373F, 9.1704F, 5.2504F, 4.0F, 2.0F, 2.0F, new CubeDeformation(-0.65F)), PartPose.offsetAndRotation(1.9367F, -9.6252F, 1.0786F, 0.206F, 0.4076F, -0.9762F));
+		PartDefinition Root2Detail2Seg2_r3 = Root1Detail6.addOrReplaceChild("Root2Detail2Seg2_r3", CubeListBuilder.create().texOffs(52, 0).addBox(-12.1372F, 9.1703F, 5.2504F, 4.0F, 2.0F, 2.0F, new CubeDeformation(-0.65F)), PartPose.offsetAndRotation(1.9366F, -9.6252F, 1.0786F, 0.206F, 0.4076F, -0.9762F));
 
-		PartDefinition Root1Detail2Seg1_r3 = Root1Detail6.addOrReplaceChild("Root1Detail2Seg1_r3", CubeListBuilder.create().texOffs(52, 0).addBox(-11.1641F, 9.1704F, 1.4283F, 4.0F, 2.0F, 2.0F, new CubeDeformation(-0.45F)), PartPose.offsetAndRotation(1.9367F, -9.6252F, 1.0786F, 0.27F, 0.7897F, -0.8648F));
+		PartDefinition Root1Detail2Seg1_r3 = Root1Detail6.addOrReplaceChild("Root1Detail2Seg1_r3", CubeListBuilder.create().texOffs(52, 0).addBox(-11.1641F, 9.1703F, 1.4283F, 4.0F, 2.0F, 2.0F, new CubeDeformation(-0.45F)), PartPose.offsetAndRotation(1.9366F, -9.6252F, 1.0786F, 0.27F, 0.7897F, -0.8648F));
+
+		PartDefinition tentacleSeg1 = partdefinition.addOrReplaceChild("tentacleSeg1", CubeListBuilder.create().texOffs(0, 45).addBox(-1.5F, -16.0F, -1.5F, 3.0F, 16.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-6.0F, 24.0F, -6.0F));
+
+		PartDefinition Fungus_r1 = tentacleSeg1.addOrReplaceChild("Fungus_r1", CubeListBuilder.create().texOffs(0, 38).addBox(-1.5F, 1.0F, -3.5F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.5F, -11.55F, -1.45F, 0.3325F, -0.5755F, 0.0523F));
+
+		PartDefinition Fungus_r2 = tentacleSeg1.addOrReplaceChild("Fungus_r2", CubeListBuilder.create().texOffs(0, 38).addBox(-1.5F, 1.0F, -3.5F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.5F, -3.55F, 0.55F, 0.3325F, 0.5154F, 0.0523F));
+
+		PartDefinition offshoot1 = tentacleSeg1.addOrReplaceChild("offshoot1", CubeListBuilder.create().texOffs(0, 45).addBox(-1.5F, -16.0F, -1.5F, 3.0F, 16.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -16.0F, 0.0F));
+
+		PartDefinition offfshoot1 = offshoot1.addOrReplaceChild("offfshoot1", CubeListBuilder.create().texOffs(0, 45).addBox(-1.5F, -16.0F, -1.5F, 3.0F, 16.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -16.0F, 0.0F));
+
+		PartDefinition tentacleSeg2 = partdefinition.addOrReplaceChild("tentacleSeg2", CubeListBuilder.create().texOffs(0, 45).addBox(-1.5F, -16.0F, -1.5F, 3.0F, 16.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(7.0F, 24.0F, -6.0F));
+
+		PartDefinition Fungus_r3 = tentacleSeg2.addOrReplaceChild("Fungus_r3", CubeListBuilder.create().texOffs(0, 38).addBox(-1.5F, 1.0F, -3.5F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.5F, -11.55F, -1.45F, 0.3325F, -0.5755F, 0.0523F));
+
+		PartDefinition Fungus_r4 = tentacleSeg2.addOrReplaceChild("Fungus_r4", CubeListBuilder.create().texOffs(0, 38).addBox(-1.5F, 1.0F, -3.5F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.5F, -3.55F, 0.55F, 0.3325F, 0.5154F, 0.0523F));
+
+		PartDefinition offshoot2 = tentacleSeg2.addOrReplaceChild("offshoot2", CubeListBuilder.create().texOffs(0, 45).addBox(-1.5F, -16.0F, -1.5F, 3.0F, 16.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -16.0F, 0.0F));
+
+		PartDefinition offfshoot2 = offshoot2.addOrReplaceChild("offfshoot2", CubeListBuilder.create().texOffs(0, 45).addBox(-1.5F, -16.0F, -1.5F, 3.0F, 16.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -16.0F, 0.0F));
+
+		PartDefinition tentacleSeg3 = partdefinition.addOrReplaceChild("tentacleSeg3", CubeListBuilder.create().texOffs(0, 45).addBox(-1.5F, -16.0F, -1.5F, 3.0F, 16.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-6.0F, 24.0F, 7.0F));
+
+		PartDefinition Fungus_r5 = tentacleSeg3.addOrReplaceChild("Fungus_r5", CubeListBuilder.create().texOffs(0, 38).addBox(-1.5F, 1.0F, -3.5F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.5F, -11.55F, -1.45F, 0.3325F, -0.5755F, 0.0523F));
+
+		PartDefinition Fungus_r6 = tentacleSeg3.addOrReplaceChild("Fungus_r6", CubeListBuilder.create().texOffs(0, 38).addBox(-1.5F, 1.0F, -3.5F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.5F, -3.55F, 0.55F, 0.3325F, 0.5154F, 0.0523F));
+
+		PartDefinition offshoot3 = tentacleSeg3.addOrReplaceChild("offshoot3", CubeListBuilder.create().texOffs(0, 45).addBox(-1.5F, -16.0F, -1.5F, 3.0F, 16.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -16.0F, 0.0F));
+
+		PartDefinition offfshoot3 = offshoot3.addOrReplaceChild("offfshoot3", CubeListBuilder.create().texOffs(0, 45).addBox(-1.5F, -16.0F, -1.5F, 3.0F, 16.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -16.0F, 0.0F));
+
+		PartDefinition tentacleSeg4 = partdefinition.addOrReplaceChild("tentacleSeg4", CubeListBuilder.create().texOffs(0, 45).addBox(-1.5F, -16.0F, -1.5F, 3.0F, 16.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(7.0F, 24.0F, 6.0F));
+
+		PartDefinition Fungus_r7 = tentacleSeg4.addOrReplaceChild("Fungus_r7", CubeListBuilder.create().texOffs(0, 38).addBox(-1.5F, 1.0F, -3.5F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.5F, -11.55F, -1.45F, 0.3325F, -0.5755F, 0.0523F));
+
+		PartDefinition Fungus_r8 = tentacleSeg4.addOrReplaceChild("Fungus_r8", CubeListBuilder.create().texOffs(0, 38).addBox(-1.5F, 1.0F, -3.5F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.5F, -3.55F, 0.55F, 0.3325F, 0.5154F, 0.0523F));
+
+		PartDefinition offshoot4 = tentacleSeg4.addOrReplaceChild("offshoot4", CubeListBuilder.create().texOffs(0, 45).addBox(-1.5F, -16.0F, -1.5F, 3.0F, 16.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -16.0F, 0.0F));
+
+		PartDefinition offfshoot4 = offshoot4.addOrReplaceChild("offfshoot4", CubeListBuilder.create().texOffs(0, 45).addBox(-1.5F, -16.0F, -1.5F, 3.0F, 16.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -16.0F, 0.0F));
 
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
+	private enum data {
+		RIGHT_ARM(4, new Vec3(0.5, 1.5, -0.5)),
+		LEFT_ARM(4, new Vec3(-0.5, 1.5, -0.5)),
+		RIGHT_BACK_ARM(4, new Vec3(0.5, 1.5, 0.5)),
+		LEFT_BACK_ARM(4, new Vec3(-0.5, 1.5, 0.5));
+
+		private final int size;
+		private final Vec3 bodyOffset;
+
+		data(int size, Vec3 bodyOffset) {
+			this.size = size;
+			this.bodyOffset = bodyOffset;
+		}
+
+		public int getSize() {
+			return size;
+		}
+
+		public Vec3 getBodyOffset() {
+			return bodyOffset;
+		}
+	}
+
+	private void applyIKToModel(List<Vec3> ikSegments, ModelPart[] modelSegments, data tentacleData) {
+		if (ikSegments == null || modelSegments == null) return;
+		if (ikSegments.size() != tentacleData.getSize()) return;
+
+		for (int i = 0; i < tentacleData.getSize(); i++) {
+			Vec3 basePos = (i == 0)
+					? tentacleData.getBodyOffset()
+					: ikSegments.get(i - 1).subtract(ikSegments.get(0)); // relative direction from root
+
+			Vec3 targetPos = ikSegments.get(i).subtract(ikSegments.get(0));
+
+			// Vector between segment i and its base
+			Vec3 dir = targetPos.subtract(basePos).normalize();
+
+			float yaw = (float) Math.atan2(dir.x, dir.z);
+			float pitch = (float) -Math.asin(dir.y);
+
+			ModelPart part = modelSegments[i];
+
+			part.xRot = pitch;
+			part.yRot = yaw;
+			part.zRot = 0.0F;
+		}
+	}
+
 	@Override
-	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		this.animateTumor(Biomass, Mth.sin(ageInTicks/7)/8);
-		this.animateTentacleX(Root1,Mth.sin(ageInTicks/6)/9);
-		this.animateTentacleX(Root2,Mth.cos(ageInTicks/6)/8);
-		this.animateTentacleX(Root3,-Mth.sin(ageInTicks/7)/7);
+	public void setupAnim(@NotNull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		///List<Vec3> rightSegment = entity.getRightSegmentsPositions();
+		///List<Vec3> leftSegment = entity.getLeftSegmentsPositions();
+		///List<Vec3> rightBackSegment = entity.getRightBackSegmentsPositions();
+		///List<Vec3> leftBackSegment = entity.getLeftBackSegmentsPositions();
+		///applyIKToModel(rightSegment, rightFrontTentacle, data.RIGHT_ARM);
+		///applyIKToModel(leftSegment,  leftFrontTentacle,  data.LEFT_ARM);
+		///applyIKToModel(rightBackSegment,  rightBackTentacle,  data.RIGHT_BACK_ARM);
+		///applyIKToModel(leftBackSegment,   leftBackTentacle,   data.LEFT_BACK_ARM);
 	}
 
 	@Override
@@ -165,5 +292,9 @@ public class SegmentBase<T extends Tentacle> extends EntityModel<T> implements T
 		Root1.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		Root2.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		Root3.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		///tentacleSeg1.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		///tentacleSeg2.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		///tentacleSeg3.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		///tentacleSeg4.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 }
