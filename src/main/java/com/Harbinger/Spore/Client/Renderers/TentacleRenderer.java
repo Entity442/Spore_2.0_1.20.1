@@ -5,7 +5,6 @@ import com.Harbinger.Spore.Client.Models.TentacleSegmentModel;
 import com.Harbinger.Spore.Client.Models.TentacleSegmentModel2;
 import com.Harbinger.Spore.Client.Models.TentacleSegmentModel3;
 import com.Harbinger.Spore.Sentities.Organoids.Tentacle;
-import com.Harbinger.Spore.Sentities.Organoids.TentaclePart;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -54,7 +53,7 @@ public class TentacleRenderer extends MobRenderer<Tentacle, EntityModel<Tentacle
     @Override
     public void render(Tentacle entity, float entityYaw, float partialTicks, PoseStack stack, MultiBufferSource buffer, int packedLight) {
         super.render(entity, entityYaw, partialTicks, stack, buffer, packedLight);
-        Vec3 entityPos = entity.position();
+        Vec3 entityPos = entity.getPosition(partialTicks);
         stack.pushPose();
         {
             stack.translate(-entityPos.x, -entityPos.y, -entityPos.z);

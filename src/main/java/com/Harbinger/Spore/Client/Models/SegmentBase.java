@@ -3,7 +3,6 @@ package com.Harbinger.Spore.Client.Models;// Made with Blockbench 5.0.2
 // Paste this class into your mod and generate all required imports
 
 
-import com.Harbinger.Spore.Client.Models.TentacledModel;
 import com.Harbinger.Spore.Sentities.Organoids.Tentacle;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;

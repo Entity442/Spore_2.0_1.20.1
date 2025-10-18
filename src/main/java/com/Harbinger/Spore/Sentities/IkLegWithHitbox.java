@@ -7,24 +7,21 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.entity.PartEntity;
 
 public class IkLegWithHitbox {
-    private final PartEntity<?>[] hitBoxes;
     private final Vec3 defaultBodyOffset;
     private final Vec3 defaultLimbOffset;
-    private final Entity parent;
-    private final PartEntity<?> tip;
     private final float maxDistance;
     public final float length;
     private final RandomSource randomSource = RandomSource.create();
     private final int sitArea;
-    private Vec3 sitPosition;
-    private Vec3 lastSitPosition;
-
-    public IkLegWithHitbox(Entity parent, PartEntity<?>[] hitBoxes, PartEntity<?> tip, Vec3 defaultBodyOffset, Vec3 defaultLimbOffset, float maxDistance, float length, int sitArea) {
-        this.hitBoxes = hitBoxes;
+    private Vec3 sitPosition =  null;
+    private Vec3 lastSitPosition = null;
+    public IkLegWithHitbox(Vec3 defaultBodyOffset,
+                           Vec3 defaultLimbOffset,
+                           float maxDistance,
+                           float length,
+                           int sitArea) {
         this.defaultBodyOffset = defaultBodyOffset;
         this.defaultLimbOffset = defaultLimbOffset;
-        this.parent = parent;
-        this.tip = tip;
         this.maxDistance = maxDistance;
         this.length = length;
         this.sitArea = sitArea;
@@ -38,18 +35,15 @@ public class IkLegWithHitbox {
         return lastSitPosition;
     }
 
-    public Vec3 getDefaultBodyOffset() {
-        return defaultBodyOffset;
-    }
 
-    public Vec3 getLegBasePos(){
+    public Vec3 getLegBasePos(Entity parent){
         float yRotRad = -parent.getYRot() * ((float)Math.PI / 180F);
         double rotatedX = defaultLimbOffset.x * Math.cos(yRotRad) - defaultLimbOffset.z * Math.sin(yRotRad);
         double rotatedZ = defaultLimbOffset.x * Math.sin(yRotRad) + defaultLimbOffset.z * Math.cos(yRotRad);
         return parent.position().add(rotatedX, defaultLimbOffset.y, rotatedZ);
     }
 
-    public Vec3 getBodyBasePos(){
+    public Vec3 getBodyBasePos(Entity parent){
         float yRotRad = -parent.getYRot() * ((float)Math.PI / 180F);
         double rotatedX = defaultBodyOffset.x * Math.cos(yRotRad) - defaultBodyOffset.z * Math.sin(yRotRad);
         double rotatedZ = defaultBodyOffset.x * Math.sin(yRotRad) + defaultBodyOffset.z * Math.cos(yRotRad);
@@ -61,18 +55,12 @@ public class IkLegWithHitbox {
         Vec3 newPos = currentPos.lerp(target, 0.25f);
         partArray[index].setPos(far ? target : newPos);
     }
-
-    public PartEntity<?>[] getHitBoxes(){return hitBoxes;}
-    public void refreshLegStandingPoint(){
-        sitPosition = findStableFooting();
-        if (!sitPosition.equals(lastSitPosition)) lastSitPosition = sitPosition;
-    }
-    public void applyIK() {
+    public void applyIK(Entity parent,PartEntity<?>[] hitBoxes,PartEntity<?> tip) {
         if (hitBoxes == null || hitBoxes.length == 0) return;
-        Vec3 defaultPosition = getLegBasePos();
+        Vec3 defaultPosition = getLegBasePos(parent);
         Vec3[] oldPositions = new Vec3[hitBoxes.length];
         for (int j = 0; j < hitBoxes.length; ++j) {
-            oldPositions[j] = hitBoxes[j].position();
+            oldPositions[j] = hitBoxes[j].getPosition(parent.tickCount);
         }
         boolean tooFar = tip.distanceToSqr(defaultPosition) > maxDistance;
         Vec3 vec3 = sitPosition == null || tooFar ? defaultPosition : sitPosition;
@@ -93,9 +81,8 @@ public class IkLegWithHitbox {
             newPos = newPos.add(0, archFactor * archHeight, 0);
             moveSegmentTowards(i, newPos, hitBoxes, tooFar);
         }
-
-        Vec3 special = (getBodyBasePos()).yRot(-parent.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
-        hitBoxes[0].setPos(parent.getX() + special.x, parent.getY() + special.y, parent.getZ() + special.z);
+        Vec3 bodyBasePos = getBodyBasePos(parent);
+        hitBoxes[0].setPos(bodyBasePos.x, bodyBasePos.y, bodyBasePos.z);
 
         // Forward pass - from base to tip
         for (int i = 1; i < hitBoxes.length; i++) {
@@ -119,24 +106,33 @@ public class IkLegWithHitbox {
             hitBoxes[l].zOld = oldPositions[l].z;
         }
     }
-    private Vec3 findStableFooting() {
-        if (lastSitPosition != null && sitPosition.distanceTo(lastSitPosition) < sitArea) {
+    public void refreshLegStandingPoint(Entity parent,PartEntity<?> tip){
+        Vec3 legBase = getLegBasePos(parent);
+        sitPosition = findStableFooting(parent, legBase,tip);
+        if (!sitPosition.equals(lastSitPosition)) lastSitPosition = sitPosition;
+    }
+
+    private Vec3 findStableFooting(Entity parent, Vec3 legBase,PartEntity<?> tip) {
+        if (lastSitPosition != null && legBase.distanceTo(lastSitPosition) < sitArea) {
             return lastSitPosition;
         }
+
         double offsetX = (randomSource.nextDouble() - 0.5) * 2;
         double offsetZ = (randomSource.nextDouble() - 0.5) * 2;
-        Vec3 randomizedBase = sitPosition.add(offsetX, 0, offsetZ);
+        Vec3 randomizedBase = legBase.add(offsetX, 0, offsetZ);
+
         BlockPos searchStart = new BlockPos(
                 (int) Math.floor(randomizedBase.x),
                 (int) Math.floor(tip.position().y + 2),
                 (int) Math.floor(randomizedBase.z)
         );
-        return returnGoodSpot(searchStart,sitPosition);
+        return returnGoodSpot(searchStart, legBase, parent);
     }
-    private Vec3 returnGoodSpot(BlockPos searchStart,Vec3 defaultPos){
-        for (int y = 0; y <4; y++) {
+
+    private Vec3 returnGoodSpot(BlockPos searchStart, Vec3 defaultPos, Entity parent){
+        for (int y = 0; y < 4; y++) {
             BlockPos checkPos = searchStart.below(y);
-            if (parent.level().getBlockState(checkPos).isSolidRender(parent.level(),checkPos)) {
+            if (parent.level().getBlockState(checkPos).isSolidRender(parent.level(), checkPos)) {
                 return new Vec3(
                         checkPos.getX() + 0.5,
                         checkPos.getY() - 0.5,
