@@ -1,7 +1,5 @@
 package com.Harbinger.Spore.Sentities;
 
-import com.Harbinger.Spore.Sentities.Organoids.Tentacle;
-import com.Harbinger.Spore.Sentities.Organoids.TentaclePart;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -32,6 +30,18 @@ public class IkLegWithHitbox {
         this.sitArea = sitArea;
     }
 
+    public Vec3 getSitPosition() {
+        return sitPosition;
+    }
+
+    public Vec3 getLastSitPosition() {
+        return lastSitPosition;
+    }
+
+    public Vec3 getDefaultBodyOffset() {
+        return defaultBodyOffset;
+    }
+
     public Vec3 getLegBasePos(){
         float yRotRad = -parent.getYRot() * ((float)Math.PI / 180F);
         double rotatedX = defaultLimbOffset.x * Math.cos(yRotRad) - defaultLimbOffset.z * Math.sin(yRotRad);
@@ -53,7 +63,10 @@ public class IkLegWithHitbox {
     }
 
     public PartEntity<?>[] getHitBoxes(){return hitBoxes;}
-
+    public void refreshLegStandingPoint(){
+        sitPosition = findStableFooting();
+        if (!sitPosition.equals(lastSitPosition)) lastSitPosition = sitPosition;
+    }
     public void applyIK() {
         if (hitBoxes == null || hitBoxes.length == 0) return;
         Vec3 defaultPosition = getLegBasePos();

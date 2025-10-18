@@ -128,7 +128,6 @@ public class ClientModEvents {
         event.registerLayerDefinition(HevokerModelDead.LAYER_LOCATION, HevokerModelDead::createBodyLayer);
         event.registerLayerDefinition(DetasheHyperClaw.LAYER_LOCATION, DetasheHyperClaw::createBodyLayer);
         event.registerLayerDefinition(hVindicatorModel.LAYER_LOCATION, hVindicatorModel::createBodyLayer);
-        event.registerLayerDefinition(TentacleSegmentModel.LAYER_LOCATION, TentacleSegmentModel::createBodyLayer);
         event.registerLayerDefinition(ReconstructedMindModel.LAYER_LOCATION, ReconstructedMindModel::createBodyLayer);
         event.registerLayerDefinition(hohlfresserHeadModel.LAYER_LOCATION, hohlfresserHeadModel::createBodyLayer);
         event.registerLayerDefinition(WormSegmentModel.LAYER_LOCATION, WormSegmentModel::createBodyLayer);
@@ -161,6 +160,9 @@ public class ClientModEvents {
         event.registerLayerDefinition(SyringeGunModelArm.LAYER_LOCATION, SyringeGunModelArm::createBodyLayer);
         event.registerLayerDefinition(SyringeProjectileModel.LAYER_LOCATION, SyringeProjectileModel::createBodyLayer);
         event.registerLayerDefinition(SegmentBase.LAYER_LOCATION, SegmentBase::createBodyLayer);
+        event.registerLayerDefinition(TentacleSegmentModel.LAYER_LOCATION, TentacleSegmentModel::createBodyLayer);
+        event.registerLayerDefinition(TentacleSegmentModel2.LAYER_LOCATION, TentacleSegmentModel2::createBodyLayer);
+        event.registerLayerDefinition(TentacleSegmentModel3.LAYER_LOCATION, TentacleSegmentModel3::createBodyLayer);
 
 
         event.registerLayerDefinition(BombFunnelModel.LAYER_LOCATION, BombFunnelModel::createBodyLayer);
