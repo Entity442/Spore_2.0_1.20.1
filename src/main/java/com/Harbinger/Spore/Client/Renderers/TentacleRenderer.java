@@ -39,13 +39,13 @@ public class TentacleRenderer extends MobRenderer<Tentacle, EntityModel<Tentacle
     public EntityModel<Entity> getProperModel(int val){
         switch (val){
             case 1 -> {
-                return tentacleModel2;
+                return tentacleModel1;
             }
             case 2 -> {
                 return tentacleModel3;
             }
             default -> {
-                return tentacleModel1;
+                return tentacleModel2;
             }
         }
     }

@@ -61,10 +61,10 @@ public class Tentacle extends UtilityEntity {
         setMaxUpStep(1f);
     }
     public enum LEGS{
-        RIGHT_FRONT(new Vec3(1.5, 1.5, -1.5), new Vec3(4.5, -0.5, -2.5)),   // Front right
-        LEFT_FRONT(new Vec3(1.5, 1.5, 1.5), new Vec3(4.5, -0.5, 2.5)),  // Front left
-        RIGHT_BACK(new Vec3(-1.5, 1.5, -1.5), new Vec3(-4.5, -0.5, -2.5)),      // Back right
-        LEFT_BACK(new Vec3(-1.5, 1.5, 1.5), new Vec3(-4.5, -0.5, 2.5));     // Back left
+        RIGHT_FRONT(new Vec3(4.5, 2.5, -1.5), new Vec3(6, -0.5, -2)),   // Front right
+        LEFT_FRONT(new Vec3(4.5, 2.5, 1.5), new Vec3(6, -0.5, 2)),  // Front left
+        RIGHT_BACK(new Vec3(-4.5, 2.5, -1.5), new Vec3(-6, -0.5, -2)),      // Back right
+        LEFT_BACK(new Vec3(-4.5, 2.5, 1.5), new Vec3(-6, -0.5, 2));     // Back left
 
         private final Vec3 bodySet;
         private final Vec3 offset;
@@ -193,6 +193,8 @@ public class Tentacle extends UtilityEntity {
             }
         }
     }
+    private static final double MIN_CHAIN_LENGTH = 1.0;
+    private static final double MAX_CHAIN_LENGTH = 2.5;
 
     private void applyIK(TentaclePart[] partArray, Vec3 targetPosition, LEGS legs, TentaclePart tip) {
         if (partArray == null || partArray.length == 0) return;
@@ -205,7 +207,14 @@ public class Tentacle extends UtilityEntity {
         }
         boolean tooFar = tip.distanceToSqr(defaultPosition) > 100;
         Vec3 vec3 = targetPosition == null || tooFar ? defaultPosition : targetPosition;
-
+        double distance = defaultPosition.distanceTo(vec3);
+        if (distance > MAX_CHAIN_LENGTH) {
+            Vec3 dir = vec3.subtract(defaultPosition).normalize();
+            vec3 = defaultPosition.add(dir.scale(MAX_CHAIN_LENGTH));
+        } else if (distance < MIN_CHAIN_LENGTH && distance > 0.0001) {
+            Vec3 dir = vec3.subtract(defaultPosition).normalize();
+            vec3 = defaultPosition.add(dir.scale(MIN_CHAIN_LENGTH));
+        }
         int midIndex = partArray.length / 2;
         boolean stepping = (targetPosition != null && !targetPosition.equals(oldPositions[partArray.length - 1]));
         double archHeight = stepping ? 0.35 : 0.15;
@@ -251,22 +260,40 @@ public class Tentacle extends UtilityEntity {
     private Vec3 findStableFooting(LEGS legs, TentaclePart tip, Vec3 lastPosition) {
         Vec3 legBasePos = getLegBasePos(legs);
 
+        // Don't pick a new spot if the last one is still valid and close
         if (lastPosition != null && legBasePos.distanceTo(lastPosition) < 4) {
             return lastPosition;
         }
 
+        // 🧭 Random offset around base
         double randX = ((random.nextDouble() - 0.5) * 2);
         double randZ = ((random.nextDouble() - 0.5) * 2);
         Vec3 randomizedBase = legBasePos.add(randX, 0, randZ);
+
+        double entityWidth = this.getBbWidth(); // width from the bounding box
+        double minDistance = entityWidth * 1.2; // you can tweak this factor (0.5–0.8 works well)
+
+        Vec3 horizontalVec = new Vec3(
+                randomizedBase.x - legBasePos.x,
+                0,
+                randomizedBase.z - legBasePos.z
+        );
+
+        double horizontalDist = horizontalVec.length();
+        if (horizontalDist < minDistance && horizontalDist > 0.0001) {
+            Vec3 direction = horizontalVec.normalize();
+            randomizedBase = legBasePos.add(direction.scale(minDistance));
+        }
 
         BlockPos searchStart = new BlockPos(
                 (int) Math.floor(randomizedBase.x),
                 (int) Math.floor(tip.position().y + 2),
                 (int) Math.floor(randomizedBase.z)
         );
+
         for (int y = 0; y < 4; y++) {
             BlockPos checkPos = searchStart.below(y);
-            if (level().getBlockState(checkPos).isSolidRender(level(),checkPos)) {
+            if (level().getBlockState(checkPos).isSolidRender(level(), checkPos)) {
                 return new Vec3(
                         checkPos.getX() + 0.5,
                         checkPos.getY() - 0.5,
@@ -274,8 +301,11 @@ public class Tentacle extends UtilityEntity {
                 );
             }
         }
+
+        // If nothing found, fallback to last position or base
         return lastPosition == null ? legBasePos : randomizedBase;
     }
+
     public boolean hurt(TentaclePart tentaclePart, DamageSource source, float amount) {
         return this.hurt(source,amount * 0.25f);
     }
