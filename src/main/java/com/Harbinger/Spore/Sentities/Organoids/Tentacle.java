@@ -40,20 +40,20 @@ public class Tentacle extends UtilityEntity {
                 part0, part1, part2, part3, part4, part5,
                 part6, part7, part8, part9, part10, part11
         };
-        this.rightFrontHitbox = new IkLegWithHitbox(this,new TentaclePart[]{part0, part1, part2},LEGS.RIGHT_FRONT.getBodySet(),LEGS.RIGHT_FRONT.getOffset(),8,1,1.25f,0.5f,0.6f,40);
-        this.leftFrontHitbox = new IkLegWithHitbox(this,new TentaclePart[]{part3, part4, part5},LEGS.LEFT_FRONT.getBodySet(),LEGS.LEFT_FRONT.getOffset(),8,1,1.25f,0.5f,0.6f,40);
-        this.rightBackHitbox = new IkLegWithHitbox(this,new TentaclePart[]{part6, part7, part8},LEGS.RIGHT_BACK.getBodySet(),LEGS.RIGHT_BACK.getOffset(),8,1,1.25f,0.5f,0.6f,40);
-        this.leftBackHitbox = new IkLegWithHitbox(this,new TentaclePart[]{part9, part10, part11},LEGS.LEFT_BACK.getBodySet(),LEGS.LEFT_BACK.getOffset(),8,1,1.25f,0.5f,0.6f,40);
+        this.rightFrontHitbox = new IkLegWithHitbox(this,new TentaclePart[]{part0, part1, part2},LEGS.RIGHT_FRONT.getBodySet(),LEGS.RIGHT_FRONT.getOffset(),8,1,2f,0.5f);
+        this.leftFrontHitbox = new IkLegWithHitbox(this,new TentaclePart[]{part3, part4, part5},LEGS.LEFT_FRONT.getBodySet(),LEGS.LEFT_FRONT.getOffset(),8,1,2f,0.5f);
+        this.rightBackHitbox = new IkLegWithHitbox(this,new TentaclePart[]{part6, part7, part8},LEGS.RIGHT_BACK.getBodySet(),LEGS.RIGHT_BACK.getOffset(),8,1,2f,0.5f);
+        this.leftBackHitbox = new IkLegWithHitbox(this,new TentaclePart[]{part9, part10, part11},LEGS.LEFT_BACK.getBodySet(),LEGS.LEFT_BACK.getOffset(),8,1,2f,0.5f);
         this.IkLegs = new IkLegWithHitbox[]{rightFrontHitbox,leftFrontHitbox,rightBackHitbox,leftBackHitbox};
         int baseId = ENTITY_COUNTER.getAndAdd(this.completeArray.length + 1);
         this.setId(baseId);
         setMaxUpStep(1f);
     }
     public enum LEGS{
-        RIGHT_FRONT(new Vec3(0.5, 0.5, -0.5), new Vec3(3, -0.5, -3)),   // Front right
-        LEFT_FRONT(new Vec3(0.5, 0.5, 0.5), new Vec3(3, -0.5, 3)),  // Front left
-        RIGHT_BACK(new Vec3(-0.5, 0.5, -0.5), new Vec3(-3, -0.5, -3)),      // Back right
-        LEFT_BACK(new Vec3(-0.5, 0.5, 0.5), new Vec3(-3, -0.5, 3));     // Back left
+        RIGHT_FRONT(new Vec3(0.5, 1.5, -0.5), new Vec3(3, -0.5, -3)),   // Front right
+        LEFT_FRONT(new Vec3(0.5, 1.5, 0.5), new Vec3(3, -0.5, 3)),  // Front left
+        RIGHT_BACK(new Vec3(-0.5, 1.5, -0.5), new Vec3(-3, -0.5, -3)),      // Back right
+        LEFT_BACK(new Vec3(-0.5, 1.5, 0.5), new Vec3(-3, -0.5, 3));     // Back left
 
         private final Vec3 bodySet;
         private final Vec3 offset;
@@ -121,19 +121,9 @@ public class Tentacle extends UtilityEntity {
     @Override
     public void aiStep() {
         super.aiStep();
-        IkLegWithHitbox[] diagonalPair1 = new IkLegWithHitbox[]{IkLegs[0], IkLegs[2]}; // RF + LB
-        IkLegWithHitbox[] diagonalPair2 = new IkLegWithHitbox[]{IkLegs[1], IkLegs[3]}; // LF + RB
-        int stepInterval = 30;
-        int stepCycleTicks = 60;
-        if (tickCount % stepInterval == 0) {
-            if (tickCount % stepCycleTicks == 0){
-                for (IkLegWithHitbox leg : diagonalPair1){
-                    leg.refreshLegStandingPoint();
-                }
-            }else {
-                for (IkLegWithHitbox leg : diagonalPair2){
-                    leg.refreshLegStandingPoint();
-                }
+        if (tickCount % 20 == 0) {
+            for (IkLegWithHitbox leg : IkLegs) {
+                leg.refreshLegStandingPoint();
             }
         }
         for (IkLegWithHitbox leg : IkLegs) {

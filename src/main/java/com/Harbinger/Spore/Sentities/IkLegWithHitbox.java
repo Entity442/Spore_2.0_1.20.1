@@ -16,21 +16,15 @@ public class IkLegWithHitbox {
     private final Vec3 defaultLimbOffset;
     private final float maxDistance;
     public final float length;
-    private final float stepHeight;
     private final RandomSource randomSource = RandomSource.create();
-    private final int stepDurationTicks;
-    private int currentStepTicks = 0;
     private Vec3 sitPosition =  null;
     private Vec3 lastSitPosition = null;
-    private Vec3 stepStartPosition = null;
-    private Vec3 stepTargetPosition = null;
-    private boolean isStepping = false;
     public IkLegWithHitbox(Entity owner, PartEntity<?>[] entities, Vec3 defaultBodyOffset,
                            Vec3 defaultLimbOffset,
                            float maxDistance,
                            float length,
                            float maxLength,
-                           float minLength, float stepHeight, int stepDurationTicks) {
+                           float minLength) {
         this.owner = owner;
         this.entities = entities;
         this.defaultBodyOffset = defaultBodyOffset;
@@ -39,8 +33,6 @@ public class IkLegWithHitbox {
         this.length = length;
         this.maxLength = maxLength;
         this.minLength = minLength;
-        this.stepHeight = stepHeight;
-        this.stepDurationTicks = stepDurationTicks;
     }
 
     public Vec3 getSitPosition() {
@@ -79,74 +71,46 @@ public class IkLegWithHitbox {
     public void applyIK() {
         if (entities == null || entities.length == 0) return;
 
-        Vec3 defaultPosition = getLegBasePos();
+        // 🧮 Cache previous positions
         Vec3[] oldPositions = new Vec3[entities.length];
         for (int j = 0; j < entities.length; ++j) {
             oldPositions[j] = entities[j].position();
         }
-        boolean tooFar = entities[entities.length-1].distanceToSqr(defaultPosition) > maxDistance;
-        // Handle stepping animation
-        Vec3 targetPosition;
-        if (isStepping && stepStartPosition != null && stepTargetPosition != null) {
-            float progress = 1.0f - (float) currentStepTicks / stepDurationTicks;
-            targetPosition = calculateStepAnimation(stepStartPosition, stepTargetPosition, progress);
-        } else {
-            targetPosition = sitPosition == null || tooFar ? defaultPosition : sitPosition;
-        }
-        if (tooFar){
-            for (PartEntity<?> entity : entities) {
-                entity.setPos(defaultPosition);
-            }
+
+        Vec3 basePos = getDefaultBodyOffset();
+        Vec3 defaultTipPos = getLegBasePos();
+        boolean tooFar = entities[entities.length - 1].distanceToSqr(defaultTipPos) > 100;
+
+        if (sitPosition != null) {
+            sitPosition = applyLengthConstraints(defaultTipPos, sitPosition);
         }
 
-        // Apply length constraints
-        targetPosition = applyLengthConstraints(defaultPosition, targetPosition);
+        Vec3 targetPos = (sitPosition == null || tooFar) ? defaultTipPos : sitPosition;
+        targetPos = applyLengthConstraints(defaultTipPos, targetPos);
 
-        // Update step timer
-        if (currentStepTicks > 0) {
-            currentStepTicks--;
-            if (currentStepTicks <= 0) {
-                isStepping = false;
-                stepStartPosition = null;
-                stepTargetPosition = null;
-            }
-        }
+        entities[0].setPos(basePos.x, basePos.y, basePos.z);
 
-        // Calculate arch height based on step progress
-        int midIndex = entities.length / 2;
-        double archHeight = calculateStepArchHeight();
-        double archSpread = entities.length / 2.0;
+        // ✨ Backward pass (tip → base)
+        Vec3 tipTarget = targetPos;
+        moveSegmentTowards(entities.length - 1, tipTarget, tooFar);
 
-        // IK passes
-        moveSegmentTowards(entities.length - 1, targetPosition, false);
-
-        // Backward pass
         for (int i = entities.length - 2; i >= 0; i--) {
             Vec3 nextPos = entities[i + 1].position();
-            Vec3 direction = nextPos.subtract(entities[i].position()).normalize();
-            Vec3 newPos = nextPos.subtract(direction.scale(length));
-
-            double archFactor = Math.exp(-Math.pow((i - midIndex) / archSpread, 2));
-            newPos = newPos.add(0, archFactor * archHeight, 0);
-            moveSegmentTowards(i, newPos, false);
+            Vec3 dir = entities[i].position().subtract(nextPos).normalize();
+            Vec3 solvedPos = nextPos.add(dir.scale(length));
+            moveSegmentTowards(i, solvedPos, tooFar);
         }
 
-        // Set base position
-        Vec3 bodyWorldPos = getDefaultBodyOffset();
-        entities[0].setPos(bodyWorldPos.x, bodyWorldPos.y, bodyWorldPos.z);
-
-        // Forward pass
+        // 🦴 Forward pass (base → tip)
+        entities[0].setPos(basePos.x, basePos.y, basePos.z);
         for (int i = 1; i < entities.length; i++) {
             Vec3 prevPos = entities[i - 1].position();
-            Vec3 direction = entities[i].position().subtract(prevPos).normalize();
-            Vec3 newPos = prevPos.add(direction.scale(length));
-
-            double archFactor = Math.exp(-Math.pow((i - midIndex) / archSpread, 2));
-            newPos = newPos.add(0, archFactor * archHeight, 0);
-            moveSegmentTowards(i, newPos, false);
+            Vec3 dir = entities[i].position().subtract(prevPos).normalize();
+            Vec3 solvedPos = prevPos.add(dir.scale(length));
+            moveSegmentTowards(i, solvedPos, tooFar);
         }
 
-        // Update old positions
+        // 🧭 Update old positions to maintain smooth rendering interpolation
         for (int l = 0; l < entities.length; ++l) {
             entities[l].xo = oldPositions[l].x;
             entities[l].yo = oldPositions[l].y;
@@ -157,56 +121,10 @@ public class IkLegWithHitbox {
         }
     }
 
-    public void refreshLegStandingPoint() {
-        Vec3 newSitPosition = findStableFooting(entities[entities.length-1]);
-        if (lastSitPosition != sitPosition && !isStepping && shouldStartNewStep(newSitPosition)){
-            startStepAnimation(newSitPosition);
-        }
+
+    public void refreshLegStandingPoint(){
         sitPosition = findStableFooting(entities[entities.length-1]);
-        if (!sitPosition.equals(lastSitPosition)) {
-            lastSitPosition = sitPosition;
-        }
-    }
-
-    private boolean shouldStartNewStep(Vec3 newPosition) {
-        if (lastSitPosition == null) return true;
-
-        double distance = newPosition.distanceTo(lastSitPosition);
-        double minStepDistance = maxDistance * 0.3;
-
-        return distance > minStepDistance;
-    }
-
-    private void startStepAnimation(Vec3 targetPosition) {
-        if (entities.length == 0) return;
-
-        stepStartPosition = entities[entities.length - 1].position();
-        stepTargetPosition = targetPosition;
-        isStepping = true;
-        currentStepTicks = stepDurationTicks;
-    }
-
-    private Vec3 calculateStepAnimation(Vec3 start, Vec3 end, float progress) {
-        // Smooth step curve (ease-in-out)
-        float easedProgress = smoothStep(progress);
-
-        // Linear interpolation for position
-        Vec3 linearPos = start.add(end.subtract(start).scale(easedProgress));
-
-        double archHeight = stepHeight * Math.sin(progress * Math.PI);
-
-        return linearPos.add(0, archHeight, 0);
-    }
-
-    private float smoothStep(float x) {
-        return x * x * (3 - 2 * x);
-    }
-
-    private double calculateStepArchHeight() {
-        if (!isStepping) return 0;
-
-        float progress = 1.0f - (float) currentStepTicks / stepDurationTicks;
-        return stepHeight * Math.sin(progress * Math.PI);
+        if (!sitPosition.equals(lastSitPosition)) lastSitPosition = sitPosition;
     }
 
     private Vec3 applyLengthConstraints(Vec3 basePos, Vec3 targetPos) {
@@ -222,15 +140,6 @@ public class IkLegWithHitbox {
 
         return targetPos;
     }
-    public boolean isStepping() {
-        return isStepping;
-    }
-
-    public float getStepProgress() {
-        if (!isStepping) return 0;
-        return 1.0f - (float) currentStepTicks / stepDurationTicks;
-    }
-
     private Vec3 findStableFooting(PartEntity<?> tip) {
         Level level = owner.level();
         Vec3 legBasePos = getLegBasePos();
