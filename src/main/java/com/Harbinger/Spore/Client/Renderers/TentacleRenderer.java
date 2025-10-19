@@ -118,7 +118,7 @@ public class TentacleRenderer extends MobRenderer<Tentacle, EntityModel<Tentacle
                 EntityModel<Entity> model = getProperModel(index);
                 stack.mulPose(Axis.XP.rotationDegrees(90));
                 stack.translate(0,-length/2,0);
-                stack.scale(1,length,1);
+                stack.scale(1,length*1.05f,1);
                 model.setupAnim(from,0,0,from.tickCount + partial,0,0);
                 model.renderToBuffer(stack,consumer,15728880,OverlayTexture.NO_OVERLAY, r, g, b, 1f);
             }

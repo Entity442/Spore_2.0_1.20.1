@@ -3,32 +3,52 @@ package com.Harbinger.Spore.Sentities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.entity.PartEntity;
 
 public class IkLegWithHitbox {
+    private final Entity owner;
+    private final PartEntity<?>[] entities;
+    private final float maxLength;
+    private final float minLength;
     private final Vec3 defaultBodyOffset;
     private final Vec3 defaultLimbOffset;
     private final float maxDistance;
     public final float length;
+    private final float stepHeight;
     private final RandomSource randomSource = RandomSource.create();
-    private final int sitArea;
+    private final int stepDurationTicks;
+    private int currentStepTicks = 0;
     private Vec3 sitPosition =  null;
     private Vec3 lastSitPosition = null;
-    public IkLegWithHitbox(Vec3 defaultBodyOffset,
+    private Vec3 stepStartPosition = null;
+    private Vec3 stepTargetPosition = null;
+    private boolean isStepping = false;
+    public IkLegWithHitbox(Entity owner, PartEntity<?>[] entities, Vec3 defaultBodyOffset,
                            Vec3 defaultLimbOffset,
                            float maxDistance,
                            float length,
-                           int sitArea) {
+                           float maxLength,
+                           float minLength, float stepHeight, int stepDurationTicks) {
+        this.owner = owner;
+        this.entities = entities;
         this.defaultBodyOffset = defaultBodyOffset;
         this.defaultLimbOffset = defaultLimbOffset;
         this.maxDistance = maxDistance;
         this.length = length;
-        this.sitArea = sitArea;
+        this.maxLength = maxLength;
+        this.minLength = minLength;
+        this.stepHeight = stepHeight;
+        this.stepDurationTicks = stepDurationTicks;
     }
 
     public Vec3 getSitPosition() {
         return sitPosition;
+    }
+
+    public PartEntity<?>[] getEntities() {
+        return entities;
     }
 
     public Vec3 getLastSitPosition() {
@@ -36,103 +56,222 @@ public class IkLegWithHitbox {
     }
 
 
-    public Vec3 getLegBasePos(Entity parent){
-        float yRotRad = -parent.getYRot() * ((float)Math.PI / 180F);
+    public Vec3 getLegBasePos(){
+        float yRotRad = -owner.getYRot() * ((float)Math.PI / 180F);
         double rotatedX = defaultLimbOffset.x * Math.cos(yRotRad) - defaultLimbOffset.z * Math.sin(yRotRad);
         double rotatedZ = defaultLimbOffset.x * Math.sin(yRotRad) + defaultLimbOffset.z * Math.cos(yRotRad);
-        return parent.position().add(rotatedX, defaultLimbOffset.y, rotatedZ);
+        return owner.position().add(rotatedX, defaultLimbOffset.y, rotatedZ);
     }
 
-    public Vec3 getBodyBasePos(Entity parent){
-        float yRotRad = -parent.getYRot() * ((float)Math.PI / 180F);
+    public Vec3 getDefaultBodyOffset(){
+        float yRotRad = -owner.getYRot() * ((float)Math.PI / 180F);
         double rotatedX = defaultBodyOffset.x * Math.cos(yRotRad) - defaultBodyOffset.z * Math.sin(yRotRad);
         double rotatedZ = defaultBodyOffset.x * Math.sin(yRotRad) + defaultBodyOffset.z * Math.cos(yRotRad);
-        return parent.position().add(rotatedX, defaultBodyOffset.y, rotatedZ);
+        return owner.position().add(rotatedX, defaultBodyOffset.y, rotatedZ);
     }
 
-    public void moveSegmentTowards(int index, Vec3 target, PartEntity<?>[] partArray, boolean far) {
-        Vec3 currentPos = partArray[index].position();
+    private void moveSegmentTowards(int index, Vec3 target,boolean far) {
+        Vec3 currentPos = entities[index].position();
         Vec3 newPos = currentPos.lerp(target, 0.25f);
-        partArray[index].setPos(far ? target : newPos);
+        entities[index].setPos(far ? target : newPos);
     }
-    public void applyIK(Entity parent,PartEntity<?>[] hitBoxes,PartEntity<?> tip) {
-        if (hitBoxes == null || hitBoxes.length == 0) return;
-        Vec3 defaultPosition = getLegBasePos(parent);
-        Vec3[] oldPositions = new Vec3[hitBoxes.length];
-        for (int j = 0; j < hitBoxes.length; ++j) {
-            oldPositions[j] = hitBoxes[j].getPosition(parent.tickCount);
+
+    public void applyIK() {
+        if (entities == null || entities.length == 0) return;
+
+        Vec3 defaultPosition = getLegBasePos();
+        Vec3[] oldPositions = new Vec3[entities.length];
+        for (int j = 0; j < entities.length; ++j) {
+            oldPositions[j] = entities[j].position();
         }
-        boolean tooFar = tip.distanceToSqr(defaultPosition) > maxDistance;
-        Vec3 vec3 = sitPosition == null || tooFar ? defaultPosition : sitPosition;
+        boolean tooFar = entities[entities.length-1].distanceToSqr(defaultPosition) > maxDistance;
+        // Handle stepping animation
+        Vec3 targetPosition;
+        if (isStepping && stepStartPosition != null && stepTargetPosition != null) {
+            float progress = 1.0f - (float) currentStepTicks / stepDurationTicks;
+            targetPosition = calculateStepAnimation(stepStartPosition, stepTargetPosition, progress);
+        } else {
+            targetPosition = sitPosition == null || tooFar ? defaultPosition : sitPosition;
+        }
+        if (tooFar){
+            for (PartEntity<?> entity : entities) {
+                entity.setPos(defaultPosition);
+            }
+        }
 
-        int midIndex = hitBoxes.length / 2;
-        boolean stepping = (sitPosition != null && !sitPosition.equals(oldPositions[hitBoxes.length - 1]));
-        double archHeight = stepping ? 0.35 : 0.15;
-        double archSpread = hitBoxes.length / 2.0;
+        // Apply length constraints
+        targetPosition = applyLengthConstraints(defaultPosition, targetPosition);
 
-        moveSegmentTowards(hitBoxes.length - 1, vec3, hitBoxes, tooFar);
+        // Update step timer
+        if (currentStepTicks > 0) {
+            currentStepTicks--;
+            if (currentStepTicks <= 0) {
+                isStepping = false;
+                stepStartPosition = null;
+                stepTargetPosition = null;
+            }
+        }
 
-        for (int i = hitBoxes.length - 2; i >= 0; i--) {
-            Vec3 nextPos = hitBoxes[i + 1].position();
-            Vec3 direction = nextPos.subtract(hitBoxes[i].position()).normalize();
+        // Calculate arch height based on step progress
+        int midIndex = entities.length / 2;
+        double archHeight = calculateStepArchHeight();
+        double archSpread = entities.length / 2.0;
+
+        // IK passes
+        moveSegmentTowards(entities.length - 1, targetPosition, false);
+
+        // Backward pass
+        for (int i = entities.length - 2; i >= 0; i--) {
+            Vec3 nextPos = entities[i + 1].position();
+            Vec3 direction = nextPos.subtract(entities[i].position()).normalize();
             Vec3 newPos = nextPos.subtract(direction.scale(length));
 
             double archFactor = Math.exp(-Math.pow((i - midIndex) / archSpread, 2));
             newPos = newPos.add(0, archFactor * archHeight, 0);
-            moveSegmentTowards(i, newPos, hitBoxes, tooFar);
+            moveSegmentTowards(i, newPos, false);
         }
-        Vec3 bodyBasePos = getBodyBasePos(parent);
-        hitBoxes[0].setPos(bodyBasePos.x, bodyBasePos.y, bodyBasePos.z);
 
-        // Forward pass - from base to tip
-        for (int i = 1; i < hitBoxes.length; i++) {
-            Vec3 prevPos = hitBoxes[i - 1].position();
-            Vec3 direction = hitBoxes[i].position().subtract(prevPos).normalize();
+        // Set base position
+        Vec3 bodyWorldPos = getDefaultBodyOffset();
+        entities[0].setPos(bodyWorldPos.x, bodyWorldPos.y, bodyWorldPos.z);
+
+        // Forward pass
+        for (int i = 1; i < entities.length; i++) {
+            Vec3 prevPos = entities[i - 1].position();
+            Vec3 direction = entities[i].position().subtract(prevPos).normalize();
             Vec3 newPos = prevPos.add(direction.scale(length));
 
             double archFactor = Math.exp(-Math.pow((i - midIndex) / archSpread, 2));
             newPos = newPos.add(0, archFactor * archHeight, 0);
-
-            moveSegmentTowards(i, newPos, hitBoxes, tooFar);
+            moveSegmentTowards(i, newPos, false);
         }
 
         // Update old positions
-        for (int l = 0; l < hitBoxes.length; ++l) {
-            hitBoxes[l].xo = oldPositions[l].x;
-            hitBoxes[l].yo = oldPositions[l].y;
-            hitBoxes[l].zo = oldPositions[l].z;
-            hitBoxes[l].xOld = oldPositions[l].x;
-            hitBoxes[l].yOld = oldPositions[l].y;
-            hitBoxes[l].zOld = oldPositions[l].z;
+        for (int l = 0; l < entities.length; ++l) {
+            entities[l].xo = oldPositions[l].x;
+            entities[l].yo = oldPositions[l].y;
+            entities[l].zo = oldPositions[l].z;
+            entities[l].xOld = oldPositions[l].x;
+            entities[l].yOld = oldPositions[l].y;
+            entities[l].zOld = oldPositions[l].z;
         }
     }
-    public void refreshLegStandingPoint(Entity parent,PartEntity<?> tip){
-        Vec3 legBase = getLegBasePos(parent);
-        sitPosition = findStableFooting(parent, legBase,tip);
-        if (!sitPosition.equals(lastSitPosition)) lastSitPosition = sitPosition;
+
+    public void refreshLegStandingPoint() {
+        Vec3 newSitPosition = findStableFooting(entities[entities.length-1]);
+        if (lastSitPosition != sitPosition && !isStepping && shouldStartNewStep(newSitPosition)){
+            startStepAnimation(newSitPosition);
+        }
+        sitPosition = findStableFooting(entities[entities.length-1]);
+        if (!sitPosition.equals(lastSitPosition)) {
+            lastSitPosition = sitPosition;
+        }
     }
 
-    private Vec3 findStableFooting(Entity parent, Vec3 legBase,PartEntity<?> tip) {
-        if (lastSitPosition != null && legBase.distanceTo(lastSitPosition) < sitArea) {
+    private boolean shouldStartNewStep(Vec3 newPosition) {
+        if (lastSitPosition == null) return true;
+
+        double distance = newPosition.distanceTo(lastSitPosition);
+        double minStepDistance = maxDistance * 0.3;
+
+        return distance > minStepDistance;
+    }
+
+    private void startStepAnimation(Vec3 targetPosition) {
+        if (entities.length == 0) return;
+
+        stepStartPosition = entities[entities.length - 1].position();
+        stepTargetPosition = targetPosition;
+        isStepping = true;
+        currentStepTicks = stepDurationTicks;
+    }
+
+    private Vec3 calculateStepAnimation(Vec3 start, Vec3 end, float progress) {
+        // Smooth step curve (ease-in-out)
+        float easedProgress = smoothStep(progress);
+
+        // Linear interpolation for position
+        Vec3 linearPos = start.add(end.subtract(start).scale(easedProgress));
+
+        double archHeight = stepHeight * Math.sin(progress * Math.PI);
+
+        return linearPos.add(0, archHeight, 0);
+    }
+
+    private float smoothStep(float x) {
+        return x * x * (3 - 2 * x);
+    }
+
+    private double calculateStepArchHeight() {
+        if (!isStepping) return 0;
+
+        float progress = 1.0f - (float) currentStepTicks / stepDurationTicks;
+        return stepHeight * Math.sin(progress * Math.PI);
+    }
+
+    private Vec3 applyLengthConstraints(Vec3 basePos, Vec3 targetPos) {
+        double distance = basePos.distanceTo(targetPos);
+
+        if (distance > maxLength) {
+            Vec3 dir = targetPos.subtract(basePos).normalize();
+            return basePos.add(dir.scale(maxLength));
+        } else if (distance < minLength && distance > 0.0001) {
+            Vec3 dir = targetPos.subtract(basePos).normalize();
+            return basePos.add(dir.scale(minLength));
+        }
+
+        return targetPos;
+    }
+    public boolean isStepping() {
+        return isStepping;
+    }
+
+    public float getStepProgress() {
+        if (!isStepping) return 0;
+        return 1.0f - (float) currentStepTicks / stepDurationTicks;
+    }
+
+    private Vec3 findStableFooting(PartEntity<?> tip) {
+        Level level = owner.level();
+        Vec3 legBasePos = getLegBasePos();
+        if (level.isClientSide){
+            return legBasePos;
+        }
+
+        // Don't pick a new spot if the last one is still valid and close
+        if (lastSitPosition != null && legBasePos.distanceTo(lastSitPosition) < maxDistance) {
             return lastSitPosition;
         }
 
-        double offsetX = (randomSource.nextDouble() - 0.5) * 2;
-        double offsetZ = (randomSource.nextDouble() - 0.5) * 2;
-        Vec3 randomizedBase = legBase.add(offsetX, 0, offsetZ);
+        // 🧭 Random offset around base
+        double randX = ((randomSource.nextDouble() - 0.5) * 2);
+        double randZ = ((randomSource.nextDouble() - 0.5) * 2);
+        Vec3 randomizedBase = legBasePos.add(randX, 0, randZ);
+
+        double entityWidth = owner.getBbWidth(); // width from the bounding box
+        double minDistance = entityWidth * 1.2; // you can tweak this factor (0.5–0.8 works well)
+
+        Vec3 horizontalVec = new Vec3(
+                randomizedBase.x - legBasePos.x,
+                0,
+                randomizedBase.z - legBasePos.z
+        );
+
+        double horizontalDist = horizontalVec.length();
+        if (horizontalDist < minDistance && horizontalDist > 0.0001) {
+            Vec3 direction = horizontalVec.normalize();
+            randomizedBase = legBasePos.add(direction.scale(minDistance));
+        }
 
         BlockPos searchStart = new BlockPos(
                 (int) Math.floor(randomizedBase.x),
                 (int) Math.floor(tip.position().y + 2),
                 (int) Math.floor(randomizedBase.z)
         );
-        return returnGoodSpot(searchStart, legBase, parent);
-    }
 
-    private Vec3 returnGoodSpot(BlockPos searchStart, Vec3 defaultPos, Entity parent){
         for (int y = 0; y < 4; y++) {
             BlockPos checkPos = searchStart.below(y);
-            if (parent.level().getBlockState(checkPos).isSolidRender(parent.level(), checkPos)) {
+            if (owner.level().getBlockState(checkPos).isSolidRender(owner.level(), checkPos)) {
                 return new Vec3(
                         checkPos.getX() + 0.5,
                         checkPos.getY() - 0.5,
@@ -140,6 +279,8 @@ public class IkLegWithHitbox {
                 );
             }
         }
-        return defaultPos;
+
+        // If nothing found, fallback to last position or base
+        return lastSitPosition == null ? legBasePos : randomizedBase;
     }
 }
