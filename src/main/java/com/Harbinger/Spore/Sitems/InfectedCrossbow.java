@@ -1,9 +1,6 @@
 package com.Harbinger.Spore.Sitems;
 
-import com.Harbinger.Spore.Core.SConfig;
-import com.Harbinger.Spore.Core.Seffects;
-import com.Harbinger.Spore.Core.Senchantments;
-import com.Harbinger.Spore.Core.Sitems;
+import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Fluids.BileLiquid;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsMutations;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeWeaponData;
@@ -27,12 +24,16 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.monster.CrossbowAttackMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.entity.projectile.FireworkRocketEntity;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.inventory.ClickAction;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -470,6 +471,33 @@ public class InfectedCrossbow extends CrossbowItem implements SporeWeaponData {
             return damage + (damage * value);
         }
         return damage;
+    }
+
+    @Override
+    public boolean overrideOtherStackedOnMe(ItemStack stack, ItemStack itemStack, Slot slot, ClickAction clickAction, Player player, SlotAccess slotAccess) {
+        if (clickAction == ClickAction.SECONDARY && stack.getEnchantmentLevel(Senchantments.VORACIOUS_MAW.get()) > 0 && stack.getDamageValue() > 0){
+            if (!itemStack.isEdible()){
+                return false;
+            }
+            FoodProperties properties = itemStack.getItem().getFoodProperties(itemStack,null);
+            if (properties != null && properties.isMeat()){
+                stack.setDamageValue(getDamage(stack)-50);
+                itemStack.shrink(1);
+                player.playNotifySound(SoundEvents.GENERIC_EAT, SoundSource.AMBIENT, 1f, 1f);
+                return true;
+            }
+        }
+        boolean shouldOverride = clickAction == ClickAction.SECONDARY
+                && itemStack.getItem() == Sitems.SYRINGE.get()
+                && getVariant(stack) != SporeToolsMutations.DEFAULT;
+
+        if (shouldOverride) {
+            this.setVariant(SporeToolsMutations.DEFAULT, stack);
+            itemStack.shrink(1);
+            player.playNotifySound(Ssounds.SYRINGE_SUCK.get(), SoundSource.AMBIENT, 1f, 1f);
+        }
+
+        return shouldOverride;
     }
 }
 

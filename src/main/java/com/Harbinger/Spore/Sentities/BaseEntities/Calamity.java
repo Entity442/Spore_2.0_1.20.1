@@ -48,6 +48,7 @@ import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
@@ -478,6 +479,10 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
             if (this.infected.getSearchArea() != BlockPos.ZERO && this.infected.getSearchArea().distToCenterSqr(this.infected.position()) < 20.0) {
                 infected.setSearchArea(BlockPos.ZERO);
                 infected.SummonMound(infected);
+                ChunkPos chunk = infected.chunkPosition();
+                UUID ownerId = infected.getUUID();
+                String id = "calamity_" + ownerId + "_" + chunk.toString();
+                ChunkLoaderHelper.removeRequest(id);
             }
         }
 

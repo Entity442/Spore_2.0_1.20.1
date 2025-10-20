@@ -519,49 +519,76 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
     @Override
     public void die(DamageSource source) {
         super.die(source);
-        if (this.level() instanceof ServerLevel serverLevel){
-            double x0 = this.getX() - (random.nextFloat() - 0.1) * 1.2D;
-            double y0 = this.getY() + (random.nextFloat() - 0.25) * 1.25D * 5;
-            double z0 = this.getZ() + (random.nextFloat() - 0.1) * 1.2D;
-            serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x0, y0, z0, 4, 0, 0, 0, 1);
+        if (this.level() instanceof ServerLevel serverLevel) {
+            spawnDeathParticles(serverLevel);
+            cleanupChunkLoading();
         }
-        AABB aabb = this.getBoundingBox().inflate(2.5);
-        for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
-            BlockState blockState = level().getBlockState(blockpos);
-            BlockState above = level().getBlockState(blockpos.above());
-            if (!level().isClientSide() && blockState.isSolidRender(level(), blockpos) && !above.isSolidRender(level(), blockpos)) {
-
-                if (Math.random() < 0.9) {
-                    if (Math.random() < 0.7) {
-                        level().setBlock(blockpos.above(), Sblocks.MYCELIUM_VEINS.get().defaultBlockState(), 2);
-                    }
-                    if (Math.random() < 0.3) {
-                        level().setBlock(blockpos.above(), Sblocks.BIOMASS_BLOCK.get().defaultBlockState(), 2);
-                    }
-                    if (Math.random() < 0.1) {
-                        level().setBlock(blockpos.above(), Sblocks.ROOTED_BIOMASS.get().defaultBlockState(), 2);
-                    }
-                    if (Math.random() < 0.15) {
-                        level().setBlock(blockpos, Sblocks.BRAIN_REMNANTS.get().defaultBlockState(), 2);
-                    }
-                }
-            }
-        }
+        spreadBlocksAroundDeath();
+        affectNearbyEntities();
         this.discard();
-        AABB searchbox = AABB.ofSize(new Vec3(this.getX(), this.getY(), this.getZ()), 300, 200, 300);
-        List<Entity> entities = this.level().getEntities(this, searchbox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
-        entityData.set(HOSTS,0);
-        for (Entity en : entities) {
-            if (en instanceof Infected infected){
-                if (infected.getLinked()){
-                    infected.addEffect(new MobEffectInstance(MobEffects.WITHER,400,1));
+    }
+
+    private void spawnDeathParticles(ServerLevel level) {
+        double x = this.getX() - (random.nextFloat() - 0.1) * 1.2D;
+        double y = this.getY() + (random.nextFloat() - 0.25) * 1.25D * 5;
+        double z = this.getZ() + (random.nextFloat() - 0.1) * 1.2D;
+        level.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x, y, z, 4, 0, 0, 0, 1);
+    }
+
+    private void cleanupChunkLoading() {
+        ChunkPos chunk = this.chunkPosition();
+        String requestId = "hivemind_" + this.getUUID() + "_" + chunk;
+        ChunkLoaderHelper.removeRequest(requestId);
+    }
+
+    private void spreadBlocksAroundDeath() {
+        AABB area = this.getBoundingBox().inflate(2.5);
+
+        BlockPos.betweenClosed(
+                Mth.floor(area.minX), Mth.floor(area.minY), Mth.floor(area.minZ),
+                Mth.floor(area.maxX), Mth.floor(area.maxY), Mth.floor(area.maxZ)
+        ).forEach(this::trySpreadBlockAt);
+    }
+
+    private void trySpreadBlockAt(BlockPos pos) {
+        BlockState ground = level().getBlockState(pos);
+        BlockState above = level().getBlockState(pos.above());
+
+        if (!level().isClientSide() && ground.isSolidRender(level(), pos) && !above.isSolidRender(level(), pos)) {
+            double chance = Math.random();
+            if (chance < 0.9) {
+                if (Math.random() < 0.7) {
+                    level().setBlock(pos.above(), Sblocks.MYCELIUM_VEINS.get().defaultBlockState(), 2);
+                }
+                if (Math.random() < 0.3) {
+                    level().setBlock(pos.above(), Sblocks.BIOMASS_BLOCK.get().defaultBlockState(), 2);
+                }
+                if (Math.random() < 0.1) {
+                    level().setBlock(pos.above(), Sblocks.ROOTED_BIOMASS.get().defaultBlockState(), 2);
+                }
+                if (Math.random() < 0.15) {
+                    level().setBlock(pos, Sblocks.BRAIN_REMNANTS.get().defaultBlockState(), 2);
                 }
             }
-            if (en instanceof Calamity calamity){
+        }
+    }
+    private void affectNearbyEntities() {
+        AABB searchBox = AABB.ofSize(new Vec3(getX(), getY(), getZ()), 300, 200, 300);
+        List<Entity> nearbyEntities = this.level().getEntities(this, searchBox, EntitySelector.NO_CREATIVE_OR_SPECTATOR);
+
+        entityData.set(HOSTS, 0);
+
+        for (Entity entity : nearbyEntities) {
+            if (entity instanceof Infected infected && infected.getLinked()) {
+                infected.addEffect(new MobEffectInstance(MobEffects.WITHER, 400, 1));
+            }
+
+            if (entity instanceof Calamity calamity) {
                 calamity.setSearchArea(this.getOnPos());
             }
         }
     }
+
 
     public void setSignal(@Nullable Signal signal) {
         this.signal = signal;
