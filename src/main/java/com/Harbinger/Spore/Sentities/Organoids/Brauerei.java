@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Spotion;
 import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.ScatterShotRangedGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
@@ -201,7 +202,7 @@ public class Brauerei extends Organoid implements RangedAttackMob, VariantKeeper
     protected void spreadDeBuffs(LivingEntity entity, MobEffect effect){
         awardHivemind();
         AABB aabb = entity.getBoundingBox().inflate(32);
-        List<Entity> entities = entity.level().getEntities(entity,aabb,living ->{return living instanceof LivingEntity livingEntity && TARGET_SELECTOR.test(livingEntity);});
+        List<Entity> entities = entity.level().getEntities(entity,aabb,living ->{return living instanceof LivingEntity livingEntity && TARGET_SELECTOR.test(livingEntity) && !Utilities.helmetList().contains(livingEntity.getItemBySlot(EquipmentSlot.HEAD).getItem());});
         for (Entity testEntity : entities){
             if (testEntity instanceof LivingEntity living){
                 int level = entity.level().getDifficulty() == Difficulty.HARD ? 1 : 0;
