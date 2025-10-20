@@ -665,14 +665,13 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
 
     public void loadChunks(){
         if (SConfig.SERVER.proto_chunk.get() && this.level() instanceof ServerLevel serverLevel) {
-            SectionPos sectionPos = SectionPos.of(this);
-            ChunkPos chunk = sectionPos.chunk();
+            ChunkPos chunk = this.chunkPosition();
             UUID ownerId = this.getUUID();
             String id = "hivemind_" + ownerId + "_" + chunk.toString();
             ChunkLoadRequest request = new ChunkLoadRequest(
                     serverLevel.dimension(),
                     new ChunkPos[]{chunk},
-                    0,
+                    1,
                     id,
                     20 * 60 * 10,
                     ownerId
