@@ -658,29 +658,38 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         if (serverLevelAccessor instanceof ServerLevel serverLevel && SConfig.SERVER.teleport_hive.get()) {
             teleportToSurface(serverLevel, this);
         }
-        this.loadChunks();
         this.entityData.set(NODE,this.getOnPos());
         return super.finalizeSpawn(serverLevelAccessor, p_33283_, p_33284_, p_33285_, p_33286_);
     }
 
     public void loadChunks(){
         if (SConfig.SERVER.proto_chunk.get() && this.level() instanceof ServerLevel serverLevel) {
-            ChunkPos chunk = this.chunkPosition();
-            UUID ownerId = this.getUUID();
-            String id = "hivemind_" + ownerId + "_" + chunk.toString();
-            ChunkLoadRequest request = new ChunkLoadRequest(
-                    serverLevel.dimension(),
-                    new ChunkPos[]{chunk},
-                    1,
-                    id,
-                    20 * 60 * 10,
-                    ownerId
-            );
-            if (ChunkLoaderHelper.ACTIVE_REQUESTS.containsValue(request)){
-                return;
-            }
-            ChunkLoaderHelper.addRequest(request);
+            serverLevel.getServer().execute(() -> {
+                ChunkPos chunk = this.chunkPosition();
+                UUID ownerId = this.getUUID();
+                String id = "hivemind_" + ownerId + "_" + chunk.toString();
+
+                ChunkLoadRequest request = new ChunkLoadRequest(
+                        serverLevel.dimension(),
+                        new ChunkPos[]{chunk},
+                        1,
+                        id,
+                        20 * 60 * 10,
+                        ownerId
+                );
+
+                if (ChunkLoaderHelper.ACTIVE_REQUESTS.containsValue(request)){
+                    return;
+                }
+                ChunkLoaderHelper.addRequest(request);
+            });
         }
+    }
+
+    @Override
+    public void onAddedToWorld() {
+        super.onAddedToWorld();
+        loadChunks();
     }
 
     @Override

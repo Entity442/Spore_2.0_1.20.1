@@ -21,7 +21,7 @@ public class ChunkLoadRequest {
     private final String requestID;
     private final long tickAmount;
     private long ticksUntilExpiration;
-    private final UUID ownerUUID;                 // 👈 NEW
+    private final UUID ownerUUID;
     private final net.minecraft.resources.ResourceKey<Level> dimension;
 
     public ChunkLoadRequest(
@@ -30,7 +30,7 @@ public class ChunkLoadRequest {
             int priority,
             String requestID,
             long ticksUntilExpiration,
-            UUID ownerUUID)                       // 👈 NEW
+            UUID ownerUUID)
     {
         this.chunkPositionsToLoad = chunkPositionsToLoad;
         this.priority = priority;
