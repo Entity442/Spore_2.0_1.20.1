@@ -476,7 +476,7 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
             if (this.infected.getSearchArea() != BlockPos.ZERO && shouldRecalculatePath()) {
                 this.moveMobToBlock();
             }
-            if (this.infected.getSearchArea() != BlockPos.ZERO && this.infected.getSearchArea().distToCenterSqr(this.infected.position()) < 20.0) {
+            if (this.infected.getSearchArea() != BlockPos.ZERO && this.infected.getSearchArea().distToCenterSqr(this.infected.position()) < 80.0) {
                 infected.setSearchArea(BlockPos.ZERO);
                 infected.SummonMound(infected);
                 ChunkPos chunk = infected.chunkPosition();
