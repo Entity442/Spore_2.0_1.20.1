@@ -659,7 +659,7 @@ public class HandlerEvents {
                             new ChunkPos[]{chunk},
                             0,
                             id,
-                            20 * 60,
+                            20 * 30,
                             ownerId
                     );
                     ChunkLoaderHelper.addRequest(request);
