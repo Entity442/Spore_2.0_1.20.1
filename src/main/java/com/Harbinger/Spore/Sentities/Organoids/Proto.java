@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities.Organoids;
 
 import com.Harbinger.Spore.Core.*;
+import com.Harbinger.Spore.ExtremelySusThings.ChunkLoadRequest;
 import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sblocks.CDUBlock;
@@ -39,6 +40,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
@@ -520,10 +522,6 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
             double y0 = this.getY() + (random.nextFloat() - 0.25) * 1.25D * 5;
             double z0 = this.getZ() + (random.nextFloat() - 0.1) * 1.2D;
             serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x0, y0, z0, 4, 0, 0, 0, 1);
-            if (SConfig.SERVER.proto_chunk.get()) {
-                BlockPos pos = new BlockPos((int) this.getX(), (int) this.getY(), (int) this.getZ());
-                ChunkLoaderHelper.unloadChunksInRadius(serverLevel, pos, serverLevel.getChunk(pos).getPos().x, serverLevel.getChunk(pos).getPos().z, 5);
-            }
         }
         AABB aabb = this.getBoundingBox().inflate(2.5);
         for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
@@ -666,7 +664,18 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
     public void loadChunks(){
         if (SConfig.SERVER.proto_chunk.get() && this.level() instanceof ServerLevel serverLevel) {
             BlockPos pos = new BlockPos(this.getBlockX(),this.getBlockY(),this.getBlockZ());
-            ChunkLoaderHelper.forceLoadChunk(serverLevel, pos, this.level().getChunk(pos).getPos().x, this.level().getChunk(pos).getPos().z, true);
+            ChunkPos chunk = new ChunkPos(pos.getX(), pos.getY());
+            UUID ownerId = this.getUUID();
+            String id = "hivemind_" + ownerId + "_" + chunk.toString();
+            ChunkLoadRequest request = new ChunkLoadRequest(
+                    this.level().dimension(),
+                    new ChunkPos[]{chunk},
+                    0,
+                    id,
+                    20 * 60 * 10,
+                    ownerId
+            );
+            ChunkLoaderHelper.addRequest(request);
         }
     }
 

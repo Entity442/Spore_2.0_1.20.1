@@ -2,6 +2,7 @@ package com.Harbinger.Spore.sEvents;
 
 import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Damage.SdamageTypes;
+import com.Harbinger.Spore.ExtremelySusThings.ChunkLoadRequest;
 import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
 import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
@@ -49,6 +50,7 @@ import net.minecraft.world.entity.projectile.Snowball;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -63,6 +65,7 @@ import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -79,6 +82,9 @@ public class HandlerEvents {
 
     @SubscribeEvent
     public static void onServerTick(TickEvent.ServerTickEvent event) {
+        if (event.phase == TickEvent.Phase.END) {
+            ChunkLoaderHelper.tick();
+        }
         if (event.phase != TickEvent.Phase.END) return;
         tickCounter++;
         if (tickCounter >= CHECK_INTERVAL) {
@@ -141,6 +147,18 @@ public class HandlerEvents {
             }
         }
         System.out.println("Despawned " + despawns + " mobs in level: " + level.dimension().location());
+    }
+    @SubscribeEvent
+    public static void onWorldLoad(LevelEvent.Load event) {
+        if (event.getLevel() instanceof ServerLevel level) {
+            SporeSavedData data = SporeSavedData.get(level);
+            for (ChunkLoadRequest request : data.getRequests()) {
+                ChunkLoaderHelper.ACTIVE_REQUESTS.put(request.getRequestID(), request);
+                for (ChunkPos pos : request.getChunkPositionsToLoad()) {
+                    ChunkLoaderHelper.forceChunk(level, pos);
+                }
+            }
+        }
     }
     @SubscribeEvent
     public static void onLivingSpawned(EntityJoinLevelEvent event) {
@@ -312,6 +330,12 @@ public class HandlerEvents {
                         SporeSavedData data = SporeSavedData.getDataLocation(world);
                         int numberofprotos = data.getAmountOfHiveminds();
                         player.displayClientMessage(Component.literal("There are "+numberofprotos + " proto hiveminds in this dimension"),false);
+                        for (ChunkLoadRequest request : data.getRequests()){
+                            String id = request.getRequestID();
+                            long getDefaultTicks = request.getTickAmount();
+                            long ticks = request.getTicksUntilExpiration();
+                            player.displayClientMessage(Component.literal("Loaded chunk "+id + " "+ticks +"/"+getDefaultTicks),false);
+                        }
                     }
                     return 1;
                 }).requires(s -> s.hasPermission(1)));
@@ -628,10 +652,18 @@ public class HandlerEvents {
             if (SConfig.SERVER.calamity_chunk.get() && event.didChunkChange() && OldChunk != NewChunk){
                 BlockPos position = new BlockPos((int)calamity.getX(),(int)calamity.getY(),(int)calamity.getZ());
                 if (NewChunk != null){
-                    ChunkLoaderHelper.forceLoadChunk(level,position, NewChunk.x(), NewChunk.z(), true);
-                }
-                if (OldChunk != null){
-                    ChunkLoaderHelper.unloadChunk(level,position,OldChunk.x(), OldChunk.z(), true);
+                    ChunkPos chunk = new ChunkPos(position.getX(), position.getY());
+                    UUID ownerId = calamity.getUUID();
+                    String id = "calamity_" + ownerId + "_" + chunk.toString();
+                    ChunkLoadRequest request = new ChunkLoadRequest(
+                            level.dimension(),
+                            new ChunkPos[]{chunk},
+                            0,
+                            id,
+                            20 * 60,
+                            ownerId
+                    );
+                    ChunkLoaderHelper.addRequest(request);
                 }
             }
         }
@@ -641,20 +673,20 @@ public class HandlerEvents {
             if (event.didChunkChange() && OldChunk != NewChunk){
                 BlockPos position = new BlockPos((int)proto.getX(),(int)proto.getY(),(int)proto.getZ());
                 if (NewChunk != null){
-                    ChunkLoaderHelper.forceLoadChunk(level,position, NewChunk.x(), NewChunk.z(), true);
-                }
-                if (OldChunk != null){
-                    ChunkLoaderHelper.unloadChunk(level,position,OldChunk.x(), OldChunk.z(), true);
+                    ChunkPos chunk = new ChunkPos(position.getX(), position.getY());
+                    UUID ownerId = proto.getUUID();
+                    String id = "hivemind_" + ownerId + "_" + chunk.toString();
+                    ChunkLoadRequest request = new ChunkLoadRequest(
+                            level.dimension(),
+                            new ChunkPos[]{chunk},
+                            0,
+                            id,
+                            20 * 60 * 10,
+                            ownerId
+                    );
+                    ChunkLoaderHelper.addRequest(request);
                 }
             }
-        }
-    }
-    @SubscribeEvent
-    public static void UnloadAround(EntityLeaveLevelEvent event){
-        if (SConfig.SERVER.calamity_chunk.get() && event.getEntity() instanceof Calamity calamity && calamity.level() instanceof ServerLevel level){
-            BlockPos position = new BlockPos((int)calamity.getX(),(int)calamity.getY(),(int)calamity.getZ());
-            SectionPos chunk = SectionPos.of(position);
-            ChunkLoaderHelper.unloadChunk(level,position, chunk.x(), chunk.z(), true);
         }
     }
     @SubscribeEvent

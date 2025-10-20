@@ -1,60 +1,66 @@
 package com.Harbinger.Spore.ExtremelySusThings;
 
-import com.Harbinger.Spore.Spore;
-import net.minecraft.core.BlockPos;
+import com.Harbinger.Spore.Core.SticketType;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraftforge.common.world.ForgeChunkManager;
+import net.minecraft.world.level.ChunkPos;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class ChunkLoaderHelper {
-    public static void forceLoadChunk(ServerLevel world, BlockPos owner, int chunkX, int chunkZ, boolean tickingWithoutPlayer) {
-        ForgeChunkManager.forceChunk(world, Spore.MODID, owner, chunkX, chunkZ, true, true);
+    public static final Map<String, ChunkLoadRequest> ACTIVE_REQUESTS = new HashMap<>();
+
+    public static void addRequest(ChunkLoadRequest request) {
+        ACTIVE_REQUESTS.put(request.getRequestID(), request);
+        ServerLevel level = request.getDimension();
+        SporeSavedData data = SporeSavedData.getDataLocation(level);
+        for (ChunkPos pos : request.getChunkPositionsToLoad()) {
+            ChunkLoaderHelper.forceChunk(level, pos);
+        }
+        data.addRequest(request);
     }
 
-    public static void forceLoadChunksInRadius(ServerLevel world, BlockPos owner, int chunkOriginX, int chunkOriginZ, int radius)
-    {
-        /*
-        If radius is 3, this is what the area of chunk loading will look like.
-            ooooooo
-            ooo*ooo
-            ooooooo
-        This means that the length of any side is (CHUNK_LOAD_RADIUS * 2) + 1.
-         */
-
-        int startChunkX = chunkOriginX - radius;
-        int startChunkZ = chunkOriginZ - radius;
-
-        for(int xOffset = 0; xOffset < (radius * 2) + 1; xOffset++)
-        {
-            for(int zOffset = 0; zOffset < (radius * 2) + 1; zOffset++)
-            {
-                forceLoadChunk(world, owner, startChunkX + xOffset, startChunkZ + zOffset, true);
+    public static void removeRequest(String requestId) {
+        ChunkLoadRequest request = ACTIVE_REQUESTS.remove(requestId);
+        if (request != null) {
+            ServerLevel level = request.getDimension();
+            SporeSavedData data = SporeSavedData.getDataLocation(level);
+            for (ChunkPos pos : request.getChunkPositionsToLoad()) {
+                ChunkLoaderHelper.unforceChunk(level, pos);
             }
+            data.removeRequest(requestId);
         }
     }
 
-    public static void unloadChunk(ServerLevel world, BlockPos owner, int chunkX, int chunkZ, boolean tickingWithoutPlayer) {
-        ForgeChunkManager.forceChunk(world, Spore.MODID, owner, chunkX, chunkZ, false, false);
-    }
+    public static void tick() {
+        Iterator<Map.Entry<String, ChunkLoadRequest>> iterator = ACTIVE_REQUESTS.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, ChunkLoadRequest> entry = iterator.next();
+            ChunkLoadRequest request = entry.getValue();
 
-    public static void unloadChunksInRadius(ServerLevel world, BlockPos owner, int chunkOriginX, int chunkOriginZ, int radius)
-    {
-        /*
-        If radius is 3, this is what the area of chunk loading will look like.
-            ooooooo
-            ooo*ooo
-            ooooooo
-        This means that the length of any side is (CHUNK_LOAD_RADIUS * 2) + 1.
-         */
-
-        int startChunkX = chunkOriginX - radius;
-        int startChunkZ = chunkOriginZ - radius;
-
-        for(int xOffset = 0; xOffset < (radius * 2) + 1; xOffset++)
-        {
-            for(int zOffset = 0; zOffset < (radius * 2) + 1; zOffset++)
-            {
-                unloadChunk(world, owner, startChunkX + xOffset, startChunkZ + zOffset, true);
+            request.decrementTicksUntilExpiration(1);
+            if (request.isExpired() && request.refreshIfOwnerStillPresent(request.getTickAmount())) {
+                removeRequest(request.getRequestID());
+                iterator.remove();
             }
         }
+    }
+    public static void forceChunk(ServerLevel level, ChunkPos pos) {
+        level.getChunkSource().addRegionTicket(
+                SticketType.SPORE_CHUNK_LOADER,
+                pos,
+                2,
+                pos
+        );
+    }
+
+    public static void unforceChunk(ServerLevel level, ChunkPos pos) {
+        level.getChunkSource().removeRegionTicket(
+                SticketType.SPORE_CHUNK_LOADER,
+                pos,
+                2,
+                pos
+        );
     }
 }

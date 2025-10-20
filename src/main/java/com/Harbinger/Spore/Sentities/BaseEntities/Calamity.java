@@ -476,10 +476,6 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
                 this.moveMobToBlock();
             }
             if (this.infected.getSearchArea() != BlockPos.ZERO && this.infected.getSearchArea().distToCenterSqr(this.infected.position()) < 20.0) {
-                if(infected.level() instanceof ServerLevel serverLevel){
-                    SectionPos pos = SectionPos.of(infected.getSearchArea());
-                    ChunkLoaderHelper.unloadChunk(serverLevel,infected.getSearchArea(),pos.x(),pos.z(),true);
-                }
                 infected.setSearchArea(BlockPos.ZERO);
                 infected.SummonMound(infected);
             }
