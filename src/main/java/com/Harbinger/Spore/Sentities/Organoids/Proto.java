@@ -262,6 +262,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         if (!level().isClientSide){
             if (this.tickCount % 6000 == 0 && SConfig.SERVER.mound_foliage.get() && this.entityData.get(NODE) != BlockPos.ZERO){
                 SpreadInfection(level(),SConfig.SERVER.mound_range_age4.get() * 2,this.entityData.get(NODE));
+                loadChunks();
             }
             if (this.tickCount % 200 == 0 && SConfig.SERVER.proto_casing.get()){
                 generateCasing();
@@ -676,6 +677,9 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
                     20 * 60 * 10,
                     ownerId
             );
+            if (ChunkLoaderHelper.ACTIVE_REQUESTS.containsValue(request)){
+                return;
+            }
             ChunkLoaderHelper.addRequest(request);
         }
     }
