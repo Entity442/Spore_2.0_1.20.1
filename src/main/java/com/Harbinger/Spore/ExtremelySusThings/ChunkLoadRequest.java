@@ -79,6 +79,9 @@ public class ChunkLoadRequest {
     public long getTicksUntilExpiration() {
         return ticksUntilExpiration;
     }
+    private void setTicksUntilExpiration(long value){
+        ticksUntilExpiration = value;
+    }
 
     public boolean isHigherPriorityThan(ChunkLoadRequest other) {
         return priority < other.priority;
@@ -154,6 +157,7 @@ public class ChunkLoadRequest {
         tag.putString("RequestID", requestID);
         tag.putInt("Priority", priority);
         tag.putLong("TicksUntilExpiration", ticksUntilExpiration);
+        tag.putLong("StartTickValue", tickAmount);
         if (ownerUUID != null) tag.putUUID("OwnerUUID", ownerUUID);
         tag.putString("Dimension", dimension.location().toString());
 
@@ -172,6 +176,7 @@ public class ChunkLoadRequest {
         String requestID = tag.getString("RequestID");
         int priority = tag.getInt("Priority");
         long ticksUntilExpiration = tag.getLong("TicksUntilExpiration");
+        long startTicks = tag.getLong("StartTickValue");
         UUID ownerUUID = tag.hasUUID("OwnerUUID") ? tag.getUUID("OwnerUUID") : null;
 
         ResourceKey<Level> dimKey = ResourceKey.create(
@@ -185,7 +190,8 @@ public class ChunkLoadRequest {
             CompoundTag c = chunksList.getCompound(i);
             positions[i] = new ChunkPos(c.getInt("X"), c.getInt("Z"));
         }
-
-        return new ChunkLoadRequest(dimKey, positions, priority, requestID, ticksUntilExpiration, ownerUUID);
+        ChunkLoadRequest request = new ChunkLoadRequest(dimKey, positions, priority, requestID, startTicks, ownerUUID);
+        request.setTicksUntilExpiration(ticksUntilExpiration);
+        return request;
     }
 }

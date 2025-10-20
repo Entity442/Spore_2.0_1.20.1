@@ -17,6 +17,7 @@ import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
 import com.Harbinger.Spore.Sentities.VariantKeeper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.SectionPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.*;
 import net.minecraft.network.chat.Component;
@@ -663,12 +664,12 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
 
     public void loadChunks(){
         if (SConfig.SERVER.proto_chunk.get() && this.level() instanceof ServerLevel serverLevel) {
-            BlockPos pos = new BlockPos(this.getBlockX(),this.getBlockY(),this.getBlockZ());
-            ChunkPos chunk = new ChunkPos(pos.getX(), pos.getY());
+            SectionPos sectionPos = SectionPos.of(this);
+            ChunkPos chunk = sectionPos.chunk();
             UUID ownerId = this.getUUID();
             String id = "hivemind_" + ownerId + "_" + chunk.toString();
             ChunkLoadRequest request = new ChunkLoadRequest(
-                    this.level().dimension(),
+                    serverLevel.dimension(),
                     new ChunkPos[]{chunk},
                     0,
                     id,

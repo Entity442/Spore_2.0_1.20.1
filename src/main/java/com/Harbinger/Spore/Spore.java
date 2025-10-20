@@ -54,6 +54,7 @@ public class Spore
         Spaintings.register(modEventBus);
         SblockEntities.register(modEventBus);
         SAttributes.register(modEventBus);
+        SticketType.init();
         SporePacketHandler.registerPackets();
         final DeferredRegister<Codec<? extends BiomeModifier>> biomeModifiers =
                 DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, Spore.MODID);

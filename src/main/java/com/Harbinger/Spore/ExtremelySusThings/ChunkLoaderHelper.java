@@ -4,13 +4,10 @@ import com.Harbinger.Spore.Core.SticketType;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class ChunkLoaderHelper {
     public static final Map<String, ChunkLoadRequest> ACTIVE_REQUESTS = new HashMap<>();
-
     public static void addRequest(ChunkLoadRequest request) {
         ACTIVE_REQUESTS.put(request.getRequestID(), request);
         ServerLevel level = request.getDimension();
@@ -34,16 +31,17 @@ public class ChunkLoaderHelper {
     }
 
     public static void tick() {
-        Iterator<Map.Entry<String, ChunkLoadRequest>> iterator = ACTIVE_REQUESTS.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<String, ChunkLoadRequest> entry = iterator.next();
+        List<String> toRemove = new ArrayList<>();
+        for (Map.Entry<String, ChunkLoadRequest> entry : ACTIVE_REQUESTS.entrySet()) {
             ChunkLoadRequest request = entry.getValue();
 
             request.decrementTicksUntilExpiration(1);
-            if (request.isExpired() && request.refreshIfOwnerStillPresent(request.getTickAmount())) {
-                removeRequest(request.getRequestID());
-                iterator.remove();
+            if (request.isExpired() && !request.refreshIfOwnerStillPresent(request.getTickAmount())) {
+                toRemove.add(request.getRequestID());
             }
+        }
+        for (String id : toRemove) {
+            removeRequest(id);
         }
     }
     public static void forceChunk(ServerLevel level, ChunkPos pos) {

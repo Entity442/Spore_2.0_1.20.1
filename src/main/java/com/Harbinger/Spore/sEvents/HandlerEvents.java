@@ -650,9 +650,8 @@ public class HandlerEvents {
             SectionPos OldChunk = event.getOldPos();
             SectionPos NewChunk = event.getNewPos();
             if (SConfig.SERVER.calamity_chunk.get() && event.didChunkChange() && OldChunk != NewChunk){
-                BlockPos position = new BlockPos((int)calamity.getX(),(int)calamity.getY(),(int)calamity.getZ());
                 if (NewChunk != null){
-                    ChunkPos chunk = new ChunkPos(position.getX(), position.getY());
+                    ChunkPos chunk = NewChunk.chunk();
                     UUID ownerId = calamity.getUUID();
                     String id = "calamity_" + ownerId + "_" + chunk.toString();
                     ChunkLoadRequest request = new ChunkLoadRequest(
@@ -671,9 +670,8 @@ public class HandlerEvents {
             SectionPos OldChunk = event.getOldPos();
             SectionPos NewChunk = event.getNewPos();
             if (event.didChunkChange() && OldChunk != NewChunk){
-                BlockPos position = new BlockPos((int)proto.getX(),(int)proto.getY(),(int)proto.getZ());
                 if (NewChunk != null){
-                    ChunkPos chunk = new ChunkPos(position.getX(), position.getY());
+                    ChunkPos chunk = NewChunk.chunk();
                     UUID ownerId = proto.getUUID();
                     String id = "hivemind_" + ownerId + "_" + chunk.toString();
                     ChunkLoadRequest request = new ChunkLoadRequest(
