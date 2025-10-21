@@ -1377,7 +1377,7 @@ public class SConfig {
             builder.pop();
             builder.push("Mace");
             this.mace_durability = builder.comment("Default 600").define("Durability",600);
-            this.mace_damage = builder.comment("Default 11").defineInRange("Damage", 11, 1, Integer.MAX_VALUE);
+            this.mace_damage = builder.comment("Default 14").defineInRange("Damage", 14, 1, Integer.MAX_VALUE);
             builder.pop();
             builder.pop();
             builder.push("Living Upgraded Chestplate");

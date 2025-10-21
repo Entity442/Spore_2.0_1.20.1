@@ -139,9 +139,7 @@ public class CorpseEntity extends Entity {
                 }
             }
             if (inventory.isEmpty()) {
-                if (Math.random() < 0.2f){
-                    summonItem(HitboxesForParts.byId(getCorpseType()).getCalamityType().getStack());
-                }
+                summonItem(HitboxesForParts.byId(getCorpseType()).getCalamityType().getStack());
                 this.discard();
             }
         }

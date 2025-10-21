@@ -12,11 +12,11 @@
     {"slot": 10,
       "item": "spore:mutated_fiber" },
     {"slot": 11,
-      "item": "spore:claw" },
+      "item": "spore:fleshy_claw" },
     {"slot": 12,
       "item": "spore:mutated_fiber" },
     {"slot": 13,
-      "item": "spore:claw" },
+      "item": "spore:fleshy_claw" },
     {"slot": 14,
       "item": "spore:claw" }
   ],
