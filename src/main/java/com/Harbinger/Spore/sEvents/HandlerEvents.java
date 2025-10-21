@@ -650,8 +650,8 @@ public class HandlerEvents {
         if (event.getEntity() instanceof Calamity calamity && calamity.level() instanceof ServerLevel level && calamity.getSearchArea() != BlockPos.ZERO){
             SectionPos OldChunk = event.getOldPos();
             SectionPos NewChunk = event.getNewPos();
-            if (SConfig.SERVER.calamity_chunk.get() && event.didChunkChange() && OldChunk != NewChunk){
-                if (NewChunk != null){
+            if (SConfig.SERVER.calamity_chunk.get() && event.didChunkChange() && OldChunk != NewChunk ){
+                if (NewChunk != null  && calamity.getSearchArea() != BlockPos.ZERO){
                     ChunkPos chunk = NewChunk.chunk();
                     UUID ownerId = calamity.getUUID();
                     String id = "calamity_" + ownerId + "_" + chunk.toString();

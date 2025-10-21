@@ -304,8 +304,15 @@ public class Womb extends Organoid implements MenuProvider {
 
         Mob spawnedEntity = (Mob) entityType.create(level());
         if (spawnedEntity == null) return;
-
-        spawnedEntity.setPos(entity.getX(), entity.getY(), entity.getZ());
+        Vec3 origin = new Vec3(this.getLocation().getX(),this.getLocation().getY(),this.getLocation().getZ());
+        Vec3 current = this.position();
+        double maxDistance = 200.0;
+        if (origin.distanceTo(current) > maxDistance) {
+            Vec3 newPos = Utilities.generatePositionAway(origin, 100);
+            spawnedEntity.teleportRelative(newPos.x, newPos.y, newPos.z);
+        }else {
+            spawnedEntity.setPos(entity.getX(), entity.getY(), entity.getZ());
+        }
         if (spawnedEntity instanceof Calamity calamity) {
             calamity.setSearchArea(this.getLocation());
 
@@ -332,11 +339,6 @@ public class Womb extends Organoid implements MenuProvider {
             double y0 = this.getY() + (random.nextFloat() - 0.25) * 0.15D * 5;
             double z0 = this.getZ() + (random.nextFloat() - 0.1) * 0.1D;
             serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x0, y0, z0, 2, 0, 0, 0, 1);
-            Vec3 vec3 = new Vec3(this.getLocation().getX(),this.getLocation().getY(),this.getLocation().getZ());
-            if (vec3.distanceToSqr(new Vec3(this.position().x,this.getLocation().getY(),this.position().z)) > 40000){
-                Vec3 vec4 = Utilities.generatePositionAway(vec3,100);
-                spawnedEntity.randomTeleport(vec4.x,vec4.y,vec4.z,false);
-            }
             spawnedEntity.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.MOB_SUMMONED, null, null);
         }
         level().addFreshEntity(spawnedEntity);
