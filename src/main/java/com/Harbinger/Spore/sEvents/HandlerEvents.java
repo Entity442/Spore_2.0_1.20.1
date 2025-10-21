@@ -329,6 +329,7 @@ public class HandlerEvents {
                     if (entity instanceof Player player){
                         SporeSavedData data = SporeSavedData.getDataLocation(world);
                         int numberofprotos = data.getAmountOfHiveminds();
+                        player.displayClientMessage(Component.literal("........................................"),false);
                         player.displayClientMessage(Component.literal("There are "+numberofprotos + " proto hiveminds in this dimension"),false);
                         for (ChunkLoadRequest request : data.getRequests()){
                             String id = request.getRequestID();

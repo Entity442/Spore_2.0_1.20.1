@@ -17,6 +17,7 @@ public class InfectedDiseasedVillager extends InfectedVillager{
     public boolean doHurtTarget(Entity entity) {
         if (entity instanceof LivingEntity living){
             living.addEffect(new MobEffectInstance(MobEffects.POISON,200,0));
+            living.addEffect(new MobEffectInstance(MobEffects.CONFUSION,200,0));
         }
         return super.doHurtTarget(entity);
     }
