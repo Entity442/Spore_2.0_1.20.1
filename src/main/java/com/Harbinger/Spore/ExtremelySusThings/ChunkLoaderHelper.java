@@ -7,7 +7,7 @@ import net.minecraft.world.level.ChunkPos;
 import java.util.*;
 
 public class ChunkLoaderHelper {
-    public static final Map<String, ChunkLoadRequest> ACTIVE_REQUESTS = new HashMap<>();
+    public static final Map<String, ChunkLoadRequest> ACTIVE_REQUESTS =  new HashMap<>();
     public static void addRequest(ChunkLoadRequest request) {
         ACTIVE_REQUESTS.put(request.getRequestID(), request);
         ServerLevel level = request.getDimension();
