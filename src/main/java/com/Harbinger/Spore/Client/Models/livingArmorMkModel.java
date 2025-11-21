@@ -161,7 +161,7 @@ public class livingArmorMkModel<T extends LivingEntity> extends EntityModel<T> i
 
 		PartDefinition left_wing = leftJoint.addOrReplaceChild("left_wing", CubeListBuilder.create().texOffs(0, 78).addBox(-7.25F, -1.0F, -1.0F, 17.0F, 14.0F, 1.0F, new CubeDeformation(-1.0F)), PartPose.offsetAndRotation(6.75F, 2.0F, -0.25F, -3.1416F, 0.0F, -2.7925F));
 
-		PartDefinition left_for_wing = left_wing.addOrReplaceChild("left_for_wing", CubeListBuilder.create().texOffs(17, 108).addBox(-12.25F, -7.0F, 0.01F, 17.0F, 20.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(5.0F, 12.0F, -1.0F));
+		PartDefinition left_for_wing = left_wing.addOrReplaceChild("left_for_wing", CubeListBuilder.create().texOffs(35, 108).addBox(-12.25F, -7.0F, 0.01F, 17.0F, 20.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(5.0F, 12.0F, -1.0F));
 
 		PartDefinition rightJoint = body.addOrReplaceChild("rightJoint", CubeListBuilder.create(), PartPose.offsetAndRotation(5.0F, -3.0F, 3.5F, 0.0436F, 0.0F, 0.0F));
 
@@ -172,9 +172,9 @@ public class livingArmorMkModel<T extends LivingEntity> extends EntityModel<T> i
 		PartDefinition rightArm = partdefinition.addOrReplaceChild("rightArm", CubeListBuilder.create().texOffs(24, 16).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(1.11F))
 				.texOffs(88, 22).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(1.0F)), PartPose.offset(-5.0F, 2.0F, 0.0F));
 
-		PartDefinition cube_r23 = rightArm.addOrReplaceChild("cube_r23", CubeListBuilder.create().texOffs(30, 62).addBox(0.0F, -5.0F, -1.0F, 0.0F, 5.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0F, 10.0F, 0.8F, 0.0F, 1.5708F, -3.1416F));
+		PartDefinition cube_r23 = rightArm.addOrReplaceChild("cube_r23", CubeListBuilder.create().texOffs(30, 62).addBox(0.0F, -5.0F, -1.0F, 0.0F, 5.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.0F, 10.0F, 0.8F, 0.0F, -1.5708F, -3.1416F));
 
-		PartDefinition cube_r24 = rightArm.addOrReplaceChild("cube_r24", CubeListBuilder.create().texOffs(62, 30).addBox(0.0F, -5.0F, -1.0F, 0.0F, 5.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0F, 10.0F, -1.2F, 0.0F, 1.5708F, -3.1416F));
+		PartDefinition cube_r24 = rightArm.addOrReplaceChild("cube_r24", CubeListBuilder.create().texOffs(62, 30).addBox(0.0F, -5.0F, -1.0F, 0.0F, 5.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.0F, 10.0F, -1.2F, 0.0F, -1.5708F, -3.1416F));
 
 		PartDefinition right_arm_r1 = rightArm.addOrReplaceChild("right_arm_r1", CubeListBuilder.create().texOffs(14, 50).addBox(-2.0F, -4.0F, -2.0F, 4.0F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.8F, 1.0F, 0.0F, 0.0F, 0.0F, -0.48F));
 

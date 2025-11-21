@@ -50,7 +50,7 @@ public class platedArmorModel<T extends LivingEntity> extends EntityModel<T> {
 
 		PartDefinition cube_r3 = leftBoot.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(46, 52).addBox(0.1F, -3.0F, -1.0F, 0.0F, 3.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, 13.0F, -6.0F, 0.1745F, 0.2618F, 0.0F));
 
-		PartDefinition rightBoot = partdefinition.addOrReplaceChild("rightBoot", CubeListBuilder.create().texOffs(40, 22).addBox(-1.9F, 7.0F, -2.0F, 4.0F, 5.0F, 4.0F, new CubeDeformation(1.01F)), PartPose.offset(-2.1F, 12.0F, 0.0F));
+		PartDefinition rightBoot = partdefinition.addOrReplaceChild("rightBoot", CubeListBuilder.create().texOffs(40, 22).addBox(-1.9F, 7.0F, -2.0F, 4.0F, 5.0F, 4.0F, new CubeDeformation(1.02F)), PartPose.offset(-2.1F, 12.0F, 0.0F));
 
 		PartDefinition cube_r4 = rightBoot.addOrReplaceChild("cube_r4", CubeListBuilder.create().texOffs(56, 22).addBox(0.0F, -2.0F, -1.0F, 0.0F, 3.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 12.0F, 3.0F, -0.1745F, 0.0F, 0.0F));
 
@@ -62,7 +62,7 @@ public class platedArmorModel<T extends LivingEntity> extends EntityModel<T> {
 
 		PartDefinition cube_r7 = leftLeg.addOrReplaceChild("cube_r7", CubeListBuilder.create().texOffs(52, 6).addBox(0.0F, -0.25F, -1.0F, 4.0F, 7.0F, 1.0F, new CubeDeformation(0.6F)), PartPose.offsetAndRotation(-2.0F, -0.5F, 3.25F, -0.1309F, 0.0F, 0.0F));
 
-		PartDefinition cube_r8 = leftLeg.addOrReplaceChild("cube_r8", CubeListBuilder.create().texOffs(40, 60).addBox(0.0F, 1.75F, -1.0F, 4.0F, 4.0F, 1.0F, new CubeDeformation(0.6F)), PartPose.offsetAndRotation(-2.0F, 0.5F, -1.75F, 0.0436F, 0.0F, 0.0F));
+		PartDefinition cube_r8 = leftLeg.addOrReplaceChild("cube_r8", CubeListBuilder.create().texOffs(40, 60).addBox(0.0F, 1.75F, -1.0F, 4.0F, 4.0F, 1.0F, new CubeDeformation(0.61F)), PartPose.offsetAndRotation(-2.0F, 0.5F, -1.75F, 0.0436F, 0.0F, 0.0F));
 
 		PartDefinition rightLeg = partdefinition.addOrReplaceChild("rightLeg", CubeListBuilder.create().texOffs(16, 39).addBox(-2.1F, -1.0F, -2.0F, 4.0F, 7.0F, 4.0F, new CubeDeformation(0.6F)), PartPose.offset(-2.0F, 12.0F, 0.0F));
 
@@ -88,9 +88,9 @@ public class platedArmorModel<T extends LivingEntity> extends EntityModel<T> {
 
 		PartDefinition rightArm = partdefinition.addOrReplaceChild("rightArm", CubeListBuilder.create().texOffs(24, 16).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(1.01F)), PartPose.offset(-5.0F, 2.0F, 0.0F));
 
-		PartDefinition cube_r17 = rightArm.addOrReplaceChild("cube_r17", CubeListBuilder.create().texOffs(62, 30).addBox(0.0F, -5.0F, -1.0F, 0.0F, 5.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0F, 9.0F, -1.2F, 0.0F, 1.5708F, -3.1416F));
+		PartDefinition cube_r17 = rightArm.addOrReplaceChild("cube_r17", CubeListBuilder.create().texOffs(62, 30).addBox(0.0F, -5.0F, -1.0F, 0.0F, 5.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.0F, 9.0F, -1.2F, 0.0F, -1.5708F, -3.1416F));
 
-		PartDefinition cube_r18 = rightArm.addOrReplaceChild("cube_r18", CubeListBuilder.create().texOffs(30, 62).addBox(0.0F, -5.0F, -1.0F, 0.0F, 5.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0F, 9.0F, 0.8F, 0.0F, 1.5708F, -3.1416F));
+		PartDefinition cube_r18 = rightArm.addOrReplaceChild("cube_r18", CubeListBuilder.create().texOffs(30, 62).addBox(0.0F, -5.0F, -1.0F, 0.0F, 5.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.0F, 9.0F, 0.8F, 0.0F, -1.5708F, -3.1416F));
 
 		PartDefinition right_arm_r1 = rightArm.addOrReplaceChild("right_arm_r1", CubeListBuilder.create().texOffs(14, 50).addBox(-2.0F, -4.0F, -2.0F, 4.0F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.8F, 1.0F, 0.0F, 0.0F, 0.0F, -0.48F));
 
