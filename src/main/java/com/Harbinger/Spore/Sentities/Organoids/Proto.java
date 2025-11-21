@@ -101,7 +101,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
     private int isVariantKeeper(String s){
         ResourceLocation location = new ResourceLocation(s);
         Entity entity = ForgeRegistries.ENTITY_TYPES.getValue(location).create(level());
-        return entity instanceof VariantKeeper keeper ? this.getRandom().nextInt(keeper.amountOfMutations()-1) : -1;
+        return entity instanceof VariantKeeper keeper ? this.getRandom().nextInt(keeper.amountOfMutations()) : -1;
     }
 
     @Nullable
