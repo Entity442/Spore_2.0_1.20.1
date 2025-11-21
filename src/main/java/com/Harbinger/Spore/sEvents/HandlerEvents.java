@@ -19,6 +19,7 @@ import com.Harbinger.Spore.Sentities.EvolvedInfected.Protector;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
 import com.Harbinger.Spore.Sentities.HitboxesForParts;
 import com.Harbinger.Spore.Sentities.Organoids.*;
+import com.Harbinger.Spore.Sentities.Projectile.*;
 import com.Harbinger.Spore.Sentities.Utility.*;
 import com.Harbinger.Spore.Sitems.BaseWeapons.*;
 import com.Harbinger.Spore.Sitems.PCI;
@@ -46,6 +47,7 @@ import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.Snowball;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -66,7 +68,6 @@ import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.event.level.LevelEvent;
-import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -100,21 +101,27 @@ public class HandlerEvents {
 
     private static void cleanUpMobs(ServerLevel level) {
         List<Infected> infected = new ArrayList<>();
+        List<Projectile> projectileExcess = new ArrayList<>();
         List<EvolvedInfected> evolved = new ArrayList<>();
         List<Hyper> hyper = new ArrayList<>();
         List<Organoid> organoid = new ArrayList<>();
         List<ScentEntity> scent = new ArrayList<>();
 
         for (Entity entity : level.getAllEntities()) {
-            if (entity instanceof LivingEntity living &&
-                    !SConfig.SERVER.despawn_blacklist.get().contains(living.getEncodeId()) &&
-                    !living.hasCustomName()) {
+            if (!SConfig.SERVER.despawn_blacklist.get().contains(entity.getEncodeId()) &&
+                    !entity.hasCustomName()) {
 
-                if (living instanceof Organoid o) organoid.add(o);
-                else if (living instanceof EvolvedInfected e) evolved.add(e);
-                else if (living instanceof Hyper h) hyper.add(h);
-                else if (living instanceof ScentEntity s) scent.add(s);
-                else if (living instanceof Infected i) infected.add(i);
+                if (entity instanceof Organoid o) organoid.add(o);
+                else if (entity instanceof EvolvedInfected e) evolved.add(e);
+                else if (entity instanceof Hyper h) hyper.add(h);
+                else if (entity instanceof ScentEntity s) scent.add(s);
+                else if (entity instanceof Infected i) infected.add(i);
+                else if (entity instanceof AcidBall i) projectileExcess.add(i);
+                else if (entity instanceof BileProjectile i) projectileExcess.add(i);
+                else if (entity instanceof StingerProjectile i) projectileExcess.add(i);
+                else if (entity instanceof Vomit i) projectileExcess.add(i);
+                else if (entity instanceof FleshBomb i) projectileExcess.add(i);
+
             }
         }
 
@@ -123,9 +130,10 @@ public class HandlerEvents {
         despawnExcess(level, hyper, SConfig.SERVER.max_hyper_cap.get());
         despawnExcess(level, organoid, SConfig.SERVER.max_organoid_cap.get());
         despawnExcess(level, scent, SConfig.SERVER.max_scent_cap.get());
+        despawnExcess(level, projectileExcess, 100);
     }
 
-    private static <T extends LivingEntity> void despawnExcess(ServerLevel level, List<T> entities, int cap) {
+    private static <T extends Entity> void despawnExcess(ServerLevel level, List<T> entities, int cap) {
         if (entities.size() <= cap) return;
         int toRemove = entities.size() - cap;
         int despawns = 0;
@@ -138,7 +146,7 @@ public class HandlerEvents {
                 despawns++;
             }
         } else {
-            entities.sort(Comparator.comparingDouble((LivingEntity e) ->
+            entities.sort(Comparator.comparingDouble((Entity e) ->
                     level.getNearestPlayer(e, -1) != null ? e.distanceToSqr(Objects.requireNonNull(level.getNearestPlayer(e, -1))) : Double.MAX_VALUE).reversed());
             for (int i = 0; i < toRemove; i++) {
                 T entity = entities.get(i);
@@ -166,8 +174,8 @@ public class HandlerEvents {
             if (event.getEntity() instanceof Protector protector){
                 SporeSavedData.addProtector(protector);
             }
-            if (event.getEntity() instanceof Proto && event.getLevel() instanceof ServerLevel serverLevel){
-                SporeSavedData.addHivemind(serverLevel);
+            if (event.getEntity() instanceof Proto proto && event.getLevel() instanceof ServerLevel){
+                SporeSavedData.addProto(proto);
             }
             if (event.getEntity() instanceof PathfinderMob mob){
 
@@ -209,7 +217,7 @@ public class HandlerEvents {
     }
 
     @SubscribeEvent
-    public static  void Command(RegisterCommandsEvent event){
+    public static void Command(RegisterCommandsEvent event){
         event.getDispatcher().register(Commands.literal(Spore.MODID+":set_area")
         .executes(arguments -> {
             ServerLevel world = arguments.getSource().getLevel();
@@ -537,16 +545,6 @@ public class HandlerEvents {
     }
 
     @SubscribeEvent
-    public static void onServerStart(ServerStartedEvent event){
-        ServerLevel level  = event.getServer().overworld();
-        SporeSavedData data = SporeSavedData.getDataLocation(level);
-        if (data != null){
-            SporeSavedData.StartupData(level);
-            SporeSavedData.resetHive(level);
-        }
-    }
-
-    @SubscribeEvent
     public static void SpawnPlacement(SpawnPlacementRegisterEvent event){
         for (RegistryObject<EntityType<?>> type : Sentities.SPORE_ENTITIES.getEntries()){
             EntityType<?> entityType = type.get();
@@ -726,8 +724,8 @@ public class HandlerEvents {
         if (event.getEntity() instanceof Protector protector){
             SporeSavedData.removeProtector(protector);
         }
-        if (event.getEntity() instanceof Proto && event.getLevel() instanceof ServerLevel level){
-            SporeSavedData.removeHivemind(level);
+        if (event.getEntity() instanceof Proto proto && event.getLevel() instanceof ServerLevel){
+            SporeSavedData.removeProto(proto);
         }
     }
 

@@ -3,6 +3,7 @@ package com.Harbinger.Spore.sEvents;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Sentities;
+import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Hyper;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
@@ -157,11 +158,16 @@ public class Infection {
     }
 
     private static void callProto(Entity entity) {
-        AABB box = entity.getBoundingBox().inflate(SConfig.SERVER.proto_range.get());
-        List<Proto> protos = entity.level().getEntitiesOfClass(Proto.class, box, EntitySelector.NO_CREATIVE_OR_SPECTATOR);
+        if (!(entity.level() instanceof ServerLevel)){
+            return;
+        }
+        List<Proto> protos = SporeSavedData.getHiveminds();
         if (!protos.isEmpty()) {
-            Proto selected = protos.get(RandomSource.create().nextInt(protos.size()));
-            selected.setSignal(new Signal(true, BlockPos.containing(entity.position())));
+            for (Proto proto : protos){
+                if (proto.distanceTo(entity) <= SConfig.SERVER.proto_range.get()){
+                    proto.setSignal(new Signal(true, BlockPos.containing(entity.position())));
+                    break;
+                }}
         }
     }
 

@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.ExtremelySusThings;
 
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Protector;
+import com.Harbinger.Spore.Sentities.Organoids.Proto;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -12,8 +13,8 @@ import java.util.*;
 public class SporeSavedData extends SavedData {
     public static final Map<String, ChunkLoadRequest> activeRequests = new HashMap<>();
     public static final String NAME = Spore.MODID +"_world_data";
-    private int amountOfHiveminds;
     private static final List<Protector> protectorList = new ArrayList<>();
+    private static final List<Proto> protos = new ArrayList<>();
     public static void addProtector(Protector protector){
         protectorList.add(protector);
     }
@@ -23,39 +24,22 @@ public class SporeSavedData extends SavedData {
     public static List<Protector> protectorList(){
         return protectorList;
     }
+    public static void addProto(Proto protector){
+        protos.add(protector);
+    }
+    public static void removeProto(Proto protector){
+        protos.remove(protector);
+    }
+    public static List<Proto> getHiveminds(){
+        return protos;
+    }
 
     public SporeSavedData() {
         super();
     }
 
-    public static void addHivemind(ServerLevel level){
-        SporeSavedData data = level.getDataStorage().computeIfAbsent(
-                SporeSavedData::load
-                ,SporeSavedData::new
-                ,NAME);
-        data.amountOfHiveminds++;
-        data.setDirty();
-    }
-    public static void resetHive(ServerLevel level){
-        SporeSavedData data = level.getDataStorage().computeIfAbsent(
-                SporeSavedData::load
-                ,SporeSavedData::new
-                ,NAME);
-        data.amountOfHiveminds = 0;
-        data.setDirty();
-    }
-    public static void removeHivemind(ServerLevel level){
-        SporeSavedData data = level.getDataStorage().computeIfAbsent(
-                SporeSavedData::load
-                ,SporeSavedData::new
-                ,NAME);
-        if (data.amountOfHiveminds > 0){
-            data.amountOfHiveminds--;
-        }
-        data.setDirty();
-    }
     public int getAmountOfHiveminds(){
-        return amountOfHiveminds;
+        return protos.size();
     }
 
     public static void StartupData(ServerLevel level){
@@ -94,9 +78,6 @@ public class SporeSavedData extends SavedData {
 
     public static SporeSavedData load(CompoundTag tag){
         SporeSavedData data = new SporeSavedData();
-        if (tag.contains("number_hiveminds",99)){
-            data.amountOfHiveminds = tag.getInt("number_hiveminds");
-        }
         if (tag.contains("ChunkRequests", 9)) { // 9 = ListTag
             var list = tag.getList("ChunkRequests", 10);
             for (int i = 0; i < list.size(); i++) {
@@ -110,7 +91,6 @@ public class SporeSavedData extends SavedData {
 
     @Override
     public @NotNull CompoundTag save(@NotNull CompoundTag tag) {
-        tag.putInt("number_hiveminds",amountOfHiveminds);
         var listTag = new net.minecraft.nbt.ListTag();
         for (ChunkLoadRequest request : activeRequests.values()) {
             listTag.add(request.serializeNBT());
