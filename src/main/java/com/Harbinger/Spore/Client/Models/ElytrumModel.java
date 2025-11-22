@@ -45,19 +45,17 @@ public class ElytrumModel<T extends LivingEntity> extends EntityModel<T> {
 
 		PartDefinition leftJoint = body.addOrReplaceChild("leftJoint", CubeListBuilder.create(), PartPose.offset(-5.0F, -3.0F, 3.0F));
 
-		PartDefinition left_wing = leftJoint.addOrReplaceChild("left_wing", CubeListBuilder.create().texOffs(28, 0).addBox(-7.25F, -1.0F, -1.01F, 17.0F, 14.0F, 1.0F, new CubeDeformation(-1.0F)), PartPose.offsetAndRotation(6.75F, 2.0F, -0.25F, -3.1416F, 0.0F, -2.7925F));
+		PartDefinition left_wing = leftJoint.addOrReplaceChild("left_wing", CubeListBuilder.create().texOffs(28, 64).addBox(-7.25F, -1.0F, -1.01F, 17.0F, 14.0F, 1.0F, new CubeDeformation(-1.0F)), PartPose.offsetAndRotation(6.75F, 2.0F, -0.25F, -3.1416F, 0.0F, -2.7925F));
 
-		PartDefinition left_for_wing = left_wing.addOrReplaceChild("left_for_wing", CubeListBuilder.create(), PartPose.offset(5.0F, 12.0F, -1.0F));
-
-		PartDefinition left_wing_r1 = left_for_wing.addOrReplaceChild("left_wing_r1", CubeListBuilder.create().texOffs(0, 46).addBox(-8.5F, -18.0F, 0.0F, 17.0F, 18.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.75F, 13.0F, 0.0F, 0.0F, 3.1416F, 0.0F));
+		PartDefinition left_for_wing = left_wing.addOrReplaceChild("left_for_wing", CubeListBuilder.create().texOffs(47, 110).addBox(-12.25F, -5.0F, 0.0F, 17.0F, 18.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(5.0F, 12.0F, -1.0F));
 
 		PartDefinition rightJoint = body.addOrReplaceChild("rightJoint", CubeListBuilder.create(), PartPose.offset(5.0F, -3.0F, 3.0F));
 
-		PartDefinition right_wing = rightJoint.addOrReplaceChild("right_wing", CubeListBuilder.create().texOffs(0, 31).addBox(-9.75F, -1.0F, -0.95F, 17.0F, 14.0F, 1.0F, new CubeDeformation(-1.0F)), PartPose.offsetAndRotation(-6.75F, 2.0F, -0.25F, -3.1416F, 0.0F, 2.7925F));
+		PartDefinition right_wing = rightJoint.addOrReplaceChild("right_wing", CubeListBuilder.create().texOffs(0, 95).addBox(-9.75F, -1.0F, -0.95F, 17.0F, 14.0F, 1.0F, new CubeDeformation(-1.0F)), PartPose.offsetAndRotation(-6.75F, 2.0F, -0.25F, -3.1416F, 0.0F, 2.7925F));
 
-		PartDefinition right_for_wing = right_wing.addOrReplaceChild("right_for_wing", CubeListBuilder.create().texOffs(0, 46).addBox(-4.25F, -5.0F, 0.06F, 17.0F, 18.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(-5.5F, 12.0F, -1.0F));
+		PartDefinition right_for_wing = right_wing.addOrReplaceChild("right_for_wing", CubeListBuilder.create().texOffs(1, 110).addBox(-4.25F, -5.0F, 0.06F, 17.0F, 18.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(-5.5F, 12.0F, -1.0F));
 
-		return LayerDefinition.create(meshdefinition, 64, 64);
+		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
 	public void animatedElytra(T entity,ModelPart rightWing,ModelPart leftWing){
 		float f = 0.2617994F;

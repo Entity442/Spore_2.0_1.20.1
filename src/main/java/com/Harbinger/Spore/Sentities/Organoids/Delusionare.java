@@ -7,6 +7,9 @@ import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
 import com.Harbinger.Spore.Sentities.Utility.Illusion;
+import com.Harbinger.Spore.Sentities.VariantKeeper;
+import com.Harbinger.Spore.Sentities.Variants.DelusionerVariants;
+import net.minecraft.Util;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -15,6 +18,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -24,12 +28,15 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Delusionare extends Organoid {
+public class Delusionare extends Organoid implements VariantKeeper {
+    private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(Delusionare.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> SPELL_TIME = SynchedEntityData.defineId(Delusionare.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> SPELL_ID = SynchedEntityData.defineId(Delusionare.class, EntityDataSerializers.INT);
     public Delusionare(EntityType<? extends PathfinderMob> type, Level level) {
@@ -50,6 +57,7 @@ public class Delusionare extends Organoid {
         super.addAdditionalSaveData(tag);
         tag.putInt("spell_timer",entityData.get(SPELL_TIME));
         tag.putInt("spell_id",entityData.get(SPELL_ID));
+        tag.putInt("Variant",this.getTypeVariant());
     }
 
     @Override
@@ -57,6 +65,7 @@ public class Delusionare extends Organoid {
         super.readAdditionalSaveData(tag);
         entityData.set(SPELL_TIME, tag.getInt("spell_timer"));
         entityData.set(SPELL_ID, tag.getInt("spell_id"));
+        entityData.set(DATA_ID_TYPE_VARIANT, tag.getInt("Variant"));
     }
     @Override
     protected void defineSynchedData() {
@@ -284,5 +293,41 @@ public class Delusionare extends Organoid {
             return false;
         }
         return super.hurt(p_21016_, p_21017_);
+    }
+
+    @Override
+    public @Nullable SpawnGroupData finalizeSpawn(ServerLevelAccessor p_33282_, DifficultyInstance p_33283_, MobSpawnType p_33284_, @Nullable SpawnGroupData p_33285_, @Nullable CompoundTag p_33286_) {
+        DelusionerVariants variant = Util.getRandom(DelusionerVariants.values(), this.random);
+        setVariant(variant);
+        return super.finalizeSpawn(p_33282_, p_33283_, p_33284_, p_33285_, p_33286_);
+    }
+
+    public DelusionerVariants getVariant() {
+        return DelusionerVariants.byId(this.getTypeVariant() & 255);
+    }
+
+    public int getTypeVariant() {
+        return this.entityData.get(DATA_ID_TYPE_VARIANT);
+    }
+    @Override
+    public void setVariant(int i) {
+        this.entityData.set(DATA_ID_TYPE_VARIANT,i > DelusionerVariants.values().length || i < 0 ? 0 : i);
+    }
+
+    @Override
+    public int amountOfMutations() {
+        return DelusionerVariants.values().length;
+    }
+
+    private void setVariant(DelusionerVariants variant) {
+        this.entityData.set(DATA_ID_TYPE_VARIANT, variant.getId() & 255);
+    }
+
+    @Override
+    public String getMutation() {
+        if (getTypeVariant() != 0){
+            return this.getVariant().getName();
+        }
+        return super.getMutation();
     }
 }

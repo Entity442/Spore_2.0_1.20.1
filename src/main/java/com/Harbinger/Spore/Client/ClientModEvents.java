@@ -163,6 +163,9 @@ public class ClientModEvents {
         event.registerLayerDefinition(TentacleSegmentModel.LAYER_LOCATION, TentacleSegmentModel::createBodyLayer);
         event.registerLayerDefinition(TentacleSegmentModel2.LAYER_LOCATION, TentacleSegmentModel2::createBodyLayer);
         event.registerLayerDefinition(TentacleSegmentModel3.LAYER_LOCATION, TentacleSegmentModel3::createBodyLayer);
+        event.registerLayerDefinition(DelusionerEnchanterModel.LAYER_LOCATION, DelusionerEnchanterModel::createBodyLayer);
+        event.registerLayerDefinition(SprayUsurperModel.LAYER_LOCATION, SprayUsurperModel::createBodyLayer);
+        event.registerLayerDefinition(BurstUsurperModel.LAYER_LOCATION, BurstUsurperModel::createBodyLayer);
 
 
         event.registerLayerDefinition(BombFunnelModel.LAYER_LOCATION, BombFunnelModel::createBodyLayer);
@@ -266,6 +269,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.CORPSE_PIECE.get(), CorpseRenderer::new);
         event.registerEntityRenderer(Sentities.MEPHETIC.get(), MephticRenderer::new);
         event.registerEntityRenderer(Sentities.THROWN_SYRINGE.get(), SyringeRenderer::new);
+        event.registerEntityRenderer(Sentities.USURPER_VOMIT_BALL.get(), UsurperVomitRenderer::new);
 
         event.registerBlockEntityRenderer(SblockEntities.OVERGROWN_SPAWNER.get(), new OvergrownSpawnerRenderer());
         event.registerBlockEntityRenderer(SblockEntities.BRAIN_REMNANTS.get(), new BrainRemnantsRenderer());

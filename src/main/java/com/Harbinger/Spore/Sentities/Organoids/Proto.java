@@ -323,6 +323,9 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         ResourceLocation location = new ResourceLocation(id[0]);
         int variant = Integer.parseInt(id[1]);
         Entity entity = ForgeRegistries.ENTITY_TYPES.getValue(location).create(level());
+        if (entity == null){
+            entity = new Mound(Sentities.MOUND.get(), level());
+        }
         if (entity instanceof VariantKeeper keeper && variant > 0){
             keeper.setVariant(variant);
         }
