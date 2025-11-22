@@ -72,6 +72,7 @@ public class Delusionare extends Organoid implements VariantKeeper {
         super.defineSynchedData();
         this.entityData.define(SPELL_TIME,0);
         this.entityData.define(SPELL_ID,0);
+        this.entityData.define(DATA_ID_TYPE_VARIANT,0);
     }
     public int getSpellById(){
         return entityData.get(SPELL_ID);
