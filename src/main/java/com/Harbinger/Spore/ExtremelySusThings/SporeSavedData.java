@@ -42,13 +42,6 @@ public class SporeSavedData extends SavedData {
         return protos.size();
     }
 
-    public static void StartupData(ServerLevel level){
-        SporeSavedData data = level.getDataStorage().computeIfAbsent(
-                SporeSavedData::load
-                ,SporeSavedData::new
-                ,NAME);
-        data.setDirty();
-    }
 
     public static SporeSavedData getDataLocation(ServerLevel level){
         return level.getDataStorage().get(SporeSavedData::load,NAME);

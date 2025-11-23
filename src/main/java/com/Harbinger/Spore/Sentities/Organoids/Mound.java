@@ -316,9 +316,11 @@ public class Mound extends Organoid implements FoliageSpread {
                 return;
             } else
             {
-            AABB searchbox = this.getBoundingBox().inflate(SConfig.SERVER.proto_range.get());
-            List<Proto> entities = this.level().getEntitiesOfClass(Proto.class,searchbox , EntitySelector.NO_CREATIVE_OR_SPECTATOR);
-            for (Proto proto : entities) {
+                List<Proto> protos = SporeSavedData.getHiveminds();
+                if (protos.isEmpty()){
+                    return;
+                }
+            for (Proto proto : protos) {
                 int y = source.getDirectEntity() != null ? (int)  source.getDirectEntity().getY() :(int)  this.getY();
                 proto.setSignal(new Signal(true,this.getOnPos()));
                 break;
