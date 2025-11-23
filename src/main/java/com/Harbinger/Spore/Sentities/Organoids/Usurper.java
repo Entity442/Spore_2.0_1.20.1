@@ -18,6 +18,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -25,6 +26,7 @@ import net.minecraft.world.entity.ai.goal.RangedAttackGoal;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -216,5 +218,20 @@ public class Usurper extends Organoid implements RangedAttackMob , VariantKeeper
             return this.getVariant().getName();
         }
         return super.getMutation();
+    }
+
+    @Override
+    public void onSyncedDataUpdated(@NotNull EntityDataAccessor<?> dataValues) {
+        super.onSyncedDataUpdated(dataValues);
+        if (DATA_ID_TYPE_VARIANT.equals(dataValues)){
+            AttributeInstance range = this.getAttribute(Attributes.FOLLOW_RANGE);
+            if (range != null){
+                if (getVariant() == UsurperVariants.SPRAY){
+                    range.setBaseValue(8);
+                }else {
+                    range.setBaseValue(64);
+                }
+            }
+        }
     }
 }

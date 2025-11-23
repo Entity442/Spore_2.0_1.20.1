@@ -235,10 +235,7 @@ public class Delusionare extends Organoid implements VariantKeeper {
                 level().addFreshEntity(illusion);
             }
         }
-        if (value == Spells.CAST_ARROWS.getId()){
-            if (!hasLineOfSight(entity)){
-                return;
-            }
+        if (value == Spells.CAST_ARROWS.getId() && hasLineOfSight(entity)){
             for (int i = 0;i<this.random.nextInt(3,7);i++){
                 int randomX = this.random.nextInt(-4,4);
                 int randomZ =this.random.nextInt(-4,4);
