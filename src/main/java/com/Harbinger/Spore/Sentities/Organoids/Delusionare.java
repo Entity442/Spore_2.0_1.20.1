@@ -337,7 +337,7 @@ public class Delusionare extends Organoid implements VariantKeeper {
                             }
                         }
                     }else {
-                        living.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE,12000,random.nextInt(3),false,false,false));
+                        living.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE,12000,random.nextInt(2),false,false,false));
                     }
                 }
             }
