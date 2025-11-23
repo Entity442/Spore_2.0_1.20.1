@@ -4,8 +4,10 @@ import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.Sentities.ArmedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
+import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.Utility.Illusion;
 import com.Harbinger.Spore.Sentities.VariantKeeper;
 import com.Harbinger.Spore.Sentities.Variants.DelusionerVariants;
@@ -27,18 +29,28 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.entity.projectile.SmallFireball;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Delusionare extends Organoid implements VariantKeeper {
     private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(Delusionare.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> SPELL_TIME = SynchedEntityData.defineId(Delusionare.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> SPELL_ID = SynchedEntityData.defineId(Delusionare.class, EntityDataSerializers.INT);
+    private static final List<Enchantment> protectionEnchants = List.of(Enchantments.ALL_DAMAGE_PROTECTION,Enchantments.PROJECTILE_PROTECTION,Enchantments.BLAST_PROTECTION,Enchantments.FIRE_PROTECTION);
+    private static final List<Enchantment> speed = List.of(Enchantments.SWIFT_SNEAK,Enchantments.FALL_PROTECTION,Enchantments.DEPTH_STRIDER);
     public Delusionare(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
     }
@@ -211,6 +223,7 @@ public class Delusionare extends Organoid implements VariantKeeper {
         if (entity == null){
             return;
         }
+        if (this.getVariant() == DelusionerVariants.DEFAULT){
         if (value == Spells.SUMMON_ILLUSION.getId()){
             for (int i = 0;i<this.random.nextInt(2,5);i++){
                 Illusion illusion = new Illusion(Sentities.ILLUSION.get(),this.level());
@@ -223,6 +236,9 @@ public class Delusionare extends Organoid implements VariantKeeper {
             }
         }
         if (value == Spells.CAST_ARROWS.getId()){
+            if (!hasLineOfSight(entity)){
+                return;
+            }
             for (int i = 0;i<this.random.nextInt(3,7);i++){
                 int randomX = this.random.nextInt(-4,4);
                 int randomZ =this.random.nextInt(-4,4);
@@ -262,6 +278,90 @@ public class Delusionare extends Organoid implements VariantKeeper {
                 }
             }
         }
+        }else {
+        if (value == Spells.CAST_FIREBALL.getId()) {
+            int amount = random.nextInt(1, 4);
+            for (int i = 0; i < amount; i++) {
+                Vec3 look = this.getLookAngle();
+                Vec3 spawnPos = this.position()
+                        .add(look.scale(0.5))
+                        .add(0, 1.2, 0);
+                SmallFireball fireball = new SmallFireball(
+                        level(),
+                        this,
+                        0, 0, 0
+                );
+                fireball.setPos(spawnPos.x, spawnPos.y, spawnPos.z);
+                double dx = entity.getX() - spawnPos.x;
+                double dy = entity.getY(0.33D) - spawnPos.y;
+                double dz = entity.getZ() - spawnPos.z;
+                float accuracy = (float)(14 - level().getDifficulty().getId() * 4);
+                dx += random.nextGaussian() * 0.15;
+                dy += random.nextGaussian() * 0.15;
+                dz += random.nextGaussian() * 0.15;
+                fireball.shoot(dx, dy, dz, 1.6F, accuracy);
+                level().addFreshEntity(fireball);
+            }
+        }
+        if (value == Spells.CAST_LIGHTING.getId()){
+            if (!hasLineOfSight(entity)){
+                return;
+            }
+            LightningBolt bolt = new LightningBolt(EntityType.LIGHTNING_BOLT,level());
+            AABB aabb = entity.getBoundingBox().inflate(4);
+            List<Entity> entities = level().getEntities(entity,aabb,e -> {return e instanceof PowerableMob powerableMob && !powerableMob.isPowered();});
+            if (entities.isEmpty()){
+                double randomX = (this.random.nextDouble() - this.random.nextDouble()) * 4;
+                double randomZ = (this.random.nextDouble() - this.random.nextDouble()) * 4;
+                Vec3 vec3 = entity.position().add(randomX,0,randomZ);
+                bolt.moveTo(vec3);
+            }else {
+                Entity powerMob = entities.get(random.nextInt(entities.size()));
+                bolt.moveTo(powerMob.position());
+            }
+            level().addFreshEntity(bolt);
+        }
+        if (value == Spells.CAST_PROTECTION.getId()){
+            AABB aabb = this.getBoundingBox().inflate(8);
+            List<Entity> entities = level().getEntities(this,aabb);
+            for (Entity mob : entities){
+                if (mob instanceof LivingEntity living  && living instanceof Infected){
+                    if (living instanceof ArmedInfected){
+                        for (EquipmentSlot slot : EquipmentSlot.values()){
+                            Enchantment enchantment = protectionEnchants.get(random.nextInt(protectionEnchants.size()));
+                            ItemStack stack = living.getItemBySlot(slot);
+                            if (stack.getItem() instanceof ArmorItem){
+                                Map<Enchantment, Integer> enchants = EnchantmentHelper.getEnchantments(stack);
+                                enchants.put(enchantment, enchantment.getMaxLevel());
+                                EnchantmentHelper.setEnchantments(enchants, stack);
+                            }
+                        }
+                    }else {
+                        living.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE,12000,random.nextInt(3),false,false,false));
+                    }
+                }
+            }
+        }
+        if (value == Spells.CAST_ENDURANCE.getId()){
+            AABB aabb = this.getBoundingBox().inflate(8);
+            List<Entity> entities = level().getEntities(this,aabb);
+            for (Entity mob : entities){
+                if (mob instanceof LivingEntity living && living instanceof Infected){
+                    if (living instanceof ArmedInfected){
+                        Enchantment enchantment = speed.get(random.nextInt(speed.size()));
+                        ItemStack stack = living.getItemBySlot(EquipmentSlot.FEET);
+                        if (stack.getItem() instanceof ArmorItem){
+                            Map<Enchantment, Integer> enchants = EnchantmentHelper.getEnchantments(stack);
+                            enchants.put(enchantment, enchantment.getMaxLevel());
+                            EnchantmentHelper.setEnchantments(enchants, stack);
+                        }
+                    }else {
+                        living.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,6000,random.nextInt(3),false,false,false));
+                    }
+                }
+            }
+        }
+        }
         awardHivemind();
     }
 
@@ -269,7 +369,11 @@ public class Delusionare extends Organoid implements VariantKeeper {
         SUMMON_ILLUSION(0),
         CAST_ARROWS(1),
         CAST_INVISIBILITY(2),
-        CAST_TELEPORTATION(3);
+        CAST_TELEPORTATION(3),
+        CAST_FIREBALL(0),
+        CAST_LIGHTING(1),
+        CAST_PROTECTION(2),
+        CAST_ENDURANCE(3);
         private final int id;
         Spells(int id) {
             this.id = id;

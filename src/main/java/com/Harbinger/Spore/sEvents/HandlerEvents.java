@@ -121,6 +121,7 @@ public class HandlerEvents {
                 else if (entity instanceof StingerProjectile i) projectileExcess.add(i);
                 else if (entity instanceof Vomit i) projectileExcess.add(i);
                 else if (entity instanceof FleshBomb i) projectileExcess.add(i);
+                else if (entity instanceof VomitUsurperBall i) projectileExcess.add(i);
 
             }
         }
