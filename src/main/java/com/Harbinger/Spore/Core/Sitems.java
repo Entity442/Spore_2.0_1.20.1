@@ -247,6 +247,8 @@ public class Sitems {
 
     public  static final RegistryObject<Item> INEBRIATER_SPAWNEGG = ITEMS.register("inebriater_spawnegg",
             () -> new SporeSpawnEgg(Sentities.INEBRIATER,-412435818,SpawnEggType.EVOLVED));
+    public  static final RegistryObject<Item> CHEMIST_SPAWNEGG = ITEMS.register("chemist_spawnegg",
+            () -> new SporeSpawnEgg(Sentities.CHEMIST,-455964234,SpawnEggType.EVOLVED));
 
     public  static final RegistryObject<Item> THORN_SPAWNEGG = ITEMS.register("thorn_spawnegg",
             () -> new SporeSpawnEgg(Sentities.THORN,-1243545,SpawnEggType.EVOLVED));
@@ -257,6 +259,8 @@ public class Sitems {
 
     public  static final RegistryObject<Item> BLOATER_SPAWNEGG = ITEMS.register("bloater_spawnegg",
             () -> new SporeSpawnEgg(Sentities.BLOATER,-6834952,SpawnEggType.EVOLVED));
+    public  static final RegistryObject<Item> NAIAD_SPAWNEGG = ITEMS.register("naiad_spawnegg",
+            () -> new SporeSpawnEgg(Sentities.NAIAD,-336457645,SpawnEggType.EVOLVED));
 
     public  static final RegistryObject<Item> NUCLEA_SPAWNEGG = ITEMS.register("nuclea_spawnegg",
             () -> new SporeSpawnEgg(Sentities.NUCLEA,-265262544,SpawnEggType.EVOLVED));

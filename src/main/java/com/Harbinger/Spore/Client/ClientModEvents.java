@@ -166,6 +166,8 @@ public class ClientModEvents {
         event.registerLayerDefinition(DelusionerEnchanterModel.LAYER_LOCATION, DelusionerEnchanterModel::createBodyLayer);
         event.registerLayerDefinition(SprayUsurperModel.LAYER_LOCATION, SprayUsurperModel::createBodyLayer);
         event.registerLayerDefinition(BurstUsurperModel.LAYER_LOCATION, BurstUsurperModel::createBodyLayer);
+        event.registerLayerDefinition(NaiadModel.LAYER_LOCATION, NaiadModel::createBodyLayer);
+        event.registerLayerDefinition(ChemistModel.LAYER_LOCATION, ChemistModel::createBodyLayer);
 
 
         event.registerLayerDefinition(BombFunnelModel.LAYER_LOCATION, BombFunnelModel::createBodyLayer);
@@ -270,6 +272,8 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.MEPHETIC.get(), MephticRenderer::new);
         event.registerEntityRenderer(Sentities.THROWN_SYRINGE.get(), SyringeRenderer::new);
         event.registerEntityRenderer(Sentities.USURPER_VOMIT_BALL.get(), UsurperVomitRenderer::new);
+        event.registerEntityRenderer(Sentities.NAIAD.get(), NaiadRenderer::new);
+        event.registerEntityRenderer(Sentities.CHEMIST.get(), ChemistRenderer::new);
 
         event.registerBlockEntityRenderer(SblockEntities.OVERGROWN_SPAWNER.get(), new OvergrownSpawnerRenderer());
         event.registerBlockEntityRenderer(SblockEntities.BRAIN_REMNANTS.get(), new BrainRemnantsRenderer());

@@ -294,6 +294,16 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> scavenger_damage;
         public final ForgeConfigSpec.ConfigValue<Double> scavenger_armor;
 
+        public final ForgeConfigSpec.ConfigValue<Double> naiad_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> naiad_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> naiad_armor;
+
+        public final ForgeConfigSpec.ConfigValue<Double> chemist_armor;
+        public final ForgeConfigSpec.ConfigValue<Double> chemist_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> chemist_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> chemist_explosion;
+        public final ForgeConfigSpec.ConfigValue<Boolean> chemist_explosion_on;
+
         public final ForgeConfigSpec.ConfigValue<Double> plagued_hp;
         public final ForgeConfigSpec.ConfigValue<Double> plagued_damage;
         public final ForgeConfigSpec.ConfigValue<Double> plagued_armor;
@@ -673,7 +683,7 @@ public class SConfig {
                             "spore:jagd","spore:scavenger") , o -> o instanceof String);
             this.drowned_ev = builder.defineList("Infected Drowned Evolutions",
                     Lists.newArrayList(
-                            "spore:bloater") , o -> o instanceof String);
+                            "spore:bloater","spore:naiad") , o -> o instanceof String);
             this.player_ev = builder.defineList("Infected Adventurer Evolutions",
                     Lists.newArrayList(
                             "spore:nuclea","spore:protector") , o -> o instanceof String);
@@ -1063,6 +1073,12 @@ public class SConfig {
             this.specter_armor = builder.comment("Default 8").defineInRange("Sets Specter Armor", 8, 0, Double.MAX_VALUE);
             builder.pop();
 
+            builder.push("Naiad");
+            this.naiad_hp = builder.comment("Default 35").defineInRange("Sets Knight Max health", 35, 1, Double.MAX_VALUE);
+            this.naiad_damage = builder.comment("Default 6").defineInRange("Sets Knight Damage", 6, 1, Double.MAX_VALUE);
+            this.naiad_armor = builder.comment("Default 3").defineInRange("Sets Knight Armor", 3, 1, Double.MAX_VALUE);
+            builder.pop();
+
             builder.push("Plagued");
             this.plagued_hp = builder.comment("Default 15").defineInRange("Sets Plagued Max health", 15, 1, Double.MAX_VALUE);
             this.plagued_damage = builder.comment("Default 5").defineInRange("Sets Plagued Damage", 5, 1, Double.MAX_VALUE);
@@ -1239,6 +1255,13 @@ public class SConfig {
             this.griefer_damage = builder.comment("Default 5").defineInRange("Sets Griefer Damage", 5, 1, Double.MAX_VALUE);
             this.explosion = builder.comment("Default 2").define("Explosion Radius",2);
             this.explosion_on = builder.comment("Default true").define("Should explosion break blocks ?",true);
+            builder.pop();
+            builder.push("Chemist");
+            this.chemist_armor = builder.comment("Default 3").defineInRange("Sets Griefer Armor", 3, 1, Double.MAX_VALUE);
+            this.chemist_hp = builder.comment("Default 30").defineInRange("Sets Griefer Max health", 30, 1, Double.MAX_VALUE);
+            this.chemist_damage = builder.comment("Default 7").defineInRange("Sets Griefer Damage", 7, 1, Double.MAX_VALUE);
+            this.chemist_explosion = builder.comment("Default 2.5").define("Explosion Radius",2.5);
+            this.chemist_explosion_on = builder.comment("Default true").define("Should explosion break blocks ?",true);
             builder.pop();
             builder.pop();
 
@@ -1530,6 +1553,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> hindicator_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_protector_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inebriater_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> chemist_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> saugling_loot;
 
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> name;
@@ -1650,6 +1674,8 @@ public class SConfig {
                     Lists.newArrayList("spore:mutated_fiber|800|1|3","spore:mutated_heart|10|1|1","spore:tumor|100|4|8") , o -> o instanceof String);
             this.saugling_loot = builder.defineList("Saugling",
                     Lists.newArrayList("spore:mutated_fiber|20|1|3","spore:mutated_heart|10|1|1","spore:tumor|20|1|1") , o -> o instanceof String);
+            this.chemist_loot = builder.defineList("Chemist",
+                    Lists.newArrayList("spore:mutated_fiber|800|1|3","spore:mutated_heart|10|1|1","spore:tumor|100|4|8") , o -> o instanceof String);
 
 
             this.sca_loot = builder.defineList("Scamper",

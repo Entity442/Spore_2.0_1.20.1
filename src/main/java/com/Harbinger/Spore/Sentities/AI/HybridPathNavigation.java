@@ -57,8 +57,9 @@ public class HybridPathNavigation extends GroundPathNavigation {
             }
 
         }
-        if(mob.tickCount % 10 == 0 && mob.getTarget() != null && isInLiquid()){
-            UnderWaterLeaps(mob.getTarget());
+        LivingEntity living =mob.getTarget();
+        if(living != null && mob.isInFluidType()){
+            UnderWaterLeaps(living);
         }
     }
 
@@ -66,7 +67,7 @@ public class HybridPathNavigation extends GroundPathNavigation {
         Vec3 vec3 = this.mob.getDeltaMovement();
         Vec3 vec31 = new Vec3(target.getX() - this.mob.getX(), target.getY() - this.mob.getY(), target.getZ() - this.mob.getZ());
         if (vec31.lengthSqr() > 1.0E-7D) {
-            vec31 = vec31.normalize().scale(0.5D).add(vec3.scale(0.3D));
+            vec31 = vec31.normalize().scale(0.25D).add(vec3.scale(0.01D));
         }
         this.mob.setDeltaMovement(vec31.x, vec31.y, vec31.z);
     }

@@ -26,6 +26,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.function.Supplier;
+
 public class Sentities {
     public static DeferredRegister<EntityType<?>> SPORE_ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES,
             Spore.MODID);
@@ -212,6 +214,14 @@ public class Sentities {
     public static final RegistryObject<EntityType<InfectedDrowned>> INF_DROWNED = SPORE_ENTITIES.register("inf_drowned",
             () -> EntityType.Builder.of(InfectedDrowned::new, INFECTED).sized(0.6f, 2f)
                     .build(new ResourceLocation(Spore.MODID, "inf_drowned").toString()));
+
+    public static final RegistryObject<EntityType<Chemist>> CHEMIST = SPORE_ENTITIES.register("chemist",
+            () -> EntityType.Builder.of(Chemist::new, INFECTED).sized(0.6f, 1.8f)
+                    .build(new ResourceLocation(Spore.MODID, "chemist").toString()));
+
+    public static final RegistryObject<EntityType<Naiad>> NAIAD = SPORE_ENTITIES.register("naiad",
+            () -> EntityType.Builder.of(Naiad::new, INFECTED).sized(1.25f, 0.75f)
+                    .build(new ResourceLocation(Spore.MODID, "naiad").toString()));
 
     public static final RegistryObject<EntityType<Vigil>> VIGIL = SPORE_ENTITIES.register("vigil",
             () -> EntityType.Builder.of(Vigil::new, ORGANOID).sized(1f, 3f)
