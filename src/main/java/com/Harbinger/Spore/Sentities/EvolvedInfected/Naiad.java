@@ -57,7 +57,6 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
 
     @Override
     protected void addRegularGoals() {
-        this.goalSelector.addGoal(0, new FindWaterTerritoryGoal(this));
         super.addRegularGoals();
         this.goalSelector.addGoal(3, new BreakBoatsGoal(this,1.2));
         this.goalSelector.addGoal(4, new CustomMeleeAttackGoal(this, 1, false) {
@@ -65,6 +64,7 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
             protected double getAttackReachSqr(LivingEntity entity) {
                 return 4.0 + entity.getBbWidth() * entity.getBbWidth();}});
         this.goalSelector.addGoal(6, new RandomStrollGoal(this, 0.8));
+        this.goalSelector.addGoal(5, new FindWaterTerritoryGoal(this));
     }
 
     @Override
@@ -436,28 +436,26 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
                     mob.setYya(dy > 0 ? (float)speed : (float)-speed);
                 }
             }
-
-            if (hasWanted() && mob.isEyeInFluidType(mob.getEyeInFluidType())) {
+            if (mob.getTarget() == null && mob.tickCount % 20 == 0){
+            if (mob instanceof Naiad naiad && !naiad.getTerritory().equals(BlockPos.ZERO) && mob.isEyeInFluidType(mob.getEyeInFluidType())) {
                 Vec3 motion = mob.getDeltaMovement();
+                BlockPos pos = naiad.getTerritory();
                 Vec3 target = new Vec3(
-                        getWantedX() - mob.getX(),
-                        getWantedY() - mob.getY(),
-                        getWantedZ() - mob.getZ()
+                        pos.getX() - mob.getX(),
+                        pos.getY() - mob.getY(),
+                        pos.getZ() - mob.getZ()
                 );
 
                 if (target.lengthSqr() > 1e-7) {
                     target = target.normalize().scale(0.1).add(motion.scale(0.9));
                 }
-                mob.setDeltaMovement(target);
-
-                mob.getLookControl().setLookAt(getWantedX(), getWantedY(), getWantedZ(), 30F, 30F);
+                if (pos.distToCenterSqr(naiad.position()) > 200){
+                    mob.setDeltaMovement(target);
+                    mob.getLookControl().setLookAt(target.x, target.y, target.z, 30F, 30F);
+                }
+            }
             }
 
-            // Rise gently if below territory level
-            if (!hasWanted() && mob instanceof Naiad naiad
-                    && naiad.getTerritory().getY() - 2 > mob.getY()) {
-                mob.setDeltaMovement(mob.getDeltaMovement().add(0, 0.01, 0));
-            }
         }
     }
 
