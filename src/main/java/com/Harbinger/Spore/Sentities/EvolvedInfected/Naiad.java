@@ -159,6 +159,7 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
     public boolean doHurtTarget(Entity entity) {
         if (entity.isInFluidType()){
             if (entity instanceof LivingEntity living){
+                living.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),  600, 0), this);
                 living.addEffect(new MobEffectInstance(Seffects.MARKER.get(),200,1));
             }
             entity.setDeltaMovement(getDeltaMovement().add(0f,-1f,0));
