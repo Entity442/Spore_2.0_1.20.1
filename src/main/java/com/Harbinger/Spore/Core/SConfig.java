@@ -1500,6 +1500,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_evoker_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_braio_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_knight_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> naiad_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_griefer_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_leap_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_spitter_loot;
@@ -1662,6 +1663,9 @@ public class SConfig {
                     Lists.newArrayList("spore:mutated_fiber|80|3|12","spore:fang|50|1|2","spore:mutated_heart|25|1|1","spore:armor_fragment|80|3|8","spore:tumor|100|1|3") , o -> o instanceof String);
             this.inf_protector_loot = builder.defineList("Protector",
                     Lists.newArrayList("spore:mutated_fiber|80|3|12","spore:mutated_heart|25|1|1","spore:armor_fragment|80|3|8","spore:shield_fragment|100|1|4") , o -> o instanceof String);
+
+            this.naiad_loot = builder.defineList("Naiad",
+                    Lists.newArrayList("spore:mutated_fiber|70|1|5","minecraft:copper_ingot|15|1|1","spore:armor_fragment|80|1|3","spore:mutated_heart|10|1|1","spore:claw_fragment|80|6|9") , o -> o instanceof String);
 
 
             this.gastgaber_loot = builder.defineList("Gastgaber",
