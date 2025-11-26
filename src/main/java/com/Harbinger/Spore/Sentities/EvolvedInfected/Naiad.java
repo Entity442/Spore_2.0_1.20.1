@@ -57,16 +57,14 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
 
     @Override
     protected void addRegularGoals() {
+        this.goalSelector.addGoal(0, new FindWaterTerritoryGoal(this));
         super.addRegularGoals();
         this.goalSelector.addGoal(3, new BreakBoatsGoal(this,1.2));
-        this.goalSelector.addGoal(3, new CustomMeleeAttackGoal(this, 1, false) {
+        this.goalSelector.addGoal(4, new CustomMeleeAttackGoal(this, 1, false) {
             @Override
             protected double getAttackReachSqr(LivingEntity entity) {
                 return 4.0 + entity.getBbWidth() * entity.getBbWidth();}});
-
-        this.goalSelector.addGoal(4, new RandomStrollGoal(this, 0.8));
-        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(6, new FindWaterTerritoryGoal(this));
+        this.goalSelector.addGoal(6, new RandomStrollGoal(this, 0.8));
     }
 
     @Override
@@ -185,7 +183,7 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
     public static class FindWaterTerritoryGoal extends Goal {
         private final Naiad naiad;
         private BlockPos targetPos;
-        private int cooldown = 0;
+        public int tryTicks;
 
         public FindWaterTerritoryGoal(Naiad naiad) {
             this.naiad = naiad;
@@ -194,30 +192,15 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
 
         @Override
         public boolean canUse() {
-            if (cooldown > 0) {
-                cooldown--;
-                return false;
-            }
-
             BlockPos territory = naiad.getTerritory();
-            if (territory.equals(BlockPos.ZERO)) {
-                return true;
-            }
-
-            double distanceSqr = territory.distToCenterSqr(naiad.position());
-            if (distanceSqr > 400) {
-                cooldown = 40;
-                return true;
-            }
-
-            return false;
+            return territory.equals(BlockPos.ZERO) || territory.distToCenterSqr(naiad.position()) > 20;
         }
 
         @Override
         public void start() {
             Level level = naiad.level();
             BlockPos currentTerritory = naiad.getTerritory();
-
+            this.tryTicks = 0;
             if (currentTerritory.equals(BlockPos.ZERO)) {
                 // Find new territory
                 targetPos = findNearestWaterBiome(level, naiad.blockPosition());
@@ -228,23 +211,34 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
                 // Use existing territory
                 targetPos = currentTerritory;
             }
+            moveToBlock();
+        }
+        public void moveToBlock(){
+            naiad.getNavigation().moveTo(targetPos.getX(), targetPos.getY(), targetPos.getZ(), 1.0);
+        }
 
-            if (targetPos != null) {
-                naiad.getNavigation().moveTo(targetPos.getX(), targetPos.getY(), targetPos.getZ(), 1.0);
+        @Override
+        public void tick() {
+            super.tick();
+            ++this.tryTicks;
+            if (this.naiad.getTerritory() != BlockPos.ZERO && shouldRecalculatePath()) {
+                this.moveToBlock();
             }
         }
 
         @Override
         public boolean canContinueToUse() {
             return targetPos != null &&
-                    !naiad.getNavigation().isDone() &&
                     targetPos.distToCenterSqr(naiad.position()) > 9;
         }
+        public boolean shouldRecalculatePath() {
+            return this.tryTicks % 40 == 0;
+        }
+
 
         @Override
-        public void stop() {
-            targetPos = null;
-            naiad.getNavigation().stop();
+        public boolean requiresUpdateEveryTick() {
+            return true;
         }
 
         private BlockPos findNearestWaterBiome(Level level, BlockPos origin) {
@@ -416,6 +410,10 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
 
         @Override
         public void tick() {
+            if (!mob.isInWater()) {
+                super.tick();
+                return;
+            }
             if (this.operation == MoveControl.Operation.MOVE_TO) {
 
                 this.operation = MoveControl.Operation.WAIT;
@@ -424,12 +422,10 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
                 double dy = this.wantedY - mob.getY();
                 double dz = this.wantedZ - mob.getZ();
 
-                double horizontalDist = Math.sqrt(dx * dx + dz * dz);
 
                 // Look toward target
                 float targetYaw = (float)(Mth.atan2(dz, dx) * 180F / Math.PI) - 90F;
-                mob.setYRot(rotlerp(mob.getYRot(), targetYaw, 10.0F));
-                mob.setYHeadRot(mob.getYRot());
+                mob.setYRot(rotlerp(mob.getYRot(), -targetYaw, 10.0F));
 
                 // Speed modifier
                 double speed = this.speedModifier * mob.getAttributeValue(Attributes.MOVEMENT_SPEED);

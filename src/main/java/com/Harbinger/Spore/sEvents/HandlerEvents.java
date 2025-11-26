@@ -15,6 +15,7 @@ import com.Harbinger.Spore.Sentities.Calamities.Gazenbrecher;
 import com.Harbinger.Spore.Sentities.Calamities.Hinderburg;
 import com.Harbinger.Spore.Sentities.Calamities.Hohlfresser;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
+import com.Harbinger.Spore.Sentities.EvolvedInfected.Naiad;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Protector;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
 import com.Harbinger.Spore.Sentities.HitboxesForParts;
@@ -387,6 +388,9 @@ public class HandlerEvents {
                                 }
                                 if (infected instanceof Hyper scamper){
                                     player.displayClientMessage(Component.literal("get nest location ? " + scamper.getNestLocation()),false);
+                                }
+                                if (infected instanceof Naiad scamper){
+                                    player.displayClientMessage(Component.literal("get nest location ? " + scamper.getTerritory()),false);
                                 }
                                 if (infected instanceof GastGeber geber){
                                         player.displayClientMessage(Component.literal("RootTimer ? " + geber.getTimeRooted()),false);
