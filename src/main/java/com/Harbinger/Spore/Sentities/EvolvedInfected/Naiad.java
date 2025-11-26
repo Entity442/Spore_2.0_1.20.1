@@ -9,6 +9,7 @@ import com.Harbinger.Spore.Sentities.AI.HurtTargetGoal;
 import com.Harbinger.Spore.Sentities.AI.HybridPathNavigation;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
+import com.Harbinger.Spore.Sentities.MovementControls.WaterXlandMovement;
 import com.Harbinger.Spore.Sentities.WaterInfected;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -27,6 +28,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -57,13 +59,13 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
     @Override
     protected void addRegularGoals() {
         super.addRegularGoals();
+        this.goalSelector.addGoal(3, new BreakBoatsGoal(this,1.2));
         this.goalSelector.addGoal(3, new CustomMeleeAttackGoal(this, 1, false) {
             @Override
             protected double getAttackReachSqr(LivingEntity entity) {
                 return 4.0 + entity.getBbWidth() * entity.getBbWidth();}});
 
         this.goalSelector.addGoal(4, new RandomStrollGoal(this, 0.8));
-        this.goalSelector.addGoal(4, new BreakBoatsGoal(this,1.2));
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(6, new FindWaterTerritoryGoal(this));
     }
@@ -298,16 +300,12 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
 
         @Override
         public boolean canUse() {
-            if (naiad.getTarget() != null) return false;
-
-            // Find nearby boats
             List<Boat> boats = naiad.level().getEntitiesOfClass(Boat.class,
                     naiad.getBoundingBox().inflate(16,32,16),
                     boat -> boat != null && !boat.isRemoved());
 
             if (boats.isEmpty()) return false;
 
-            // Find the closest boat
             Boat closestBoat = null;
             double closestDistance = Double.MAX_VALUE;
 
@@ -339,22 +337,13 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
         public boolean canContinueToUse() {
             return targetBoat != null &&
                     !targetBoat.isRemoved() &&
-                    naiad.distanceToSqr(targetBoat) <= 256.0 &&
-                    naiad.getTarget() == null;
+                    naiad.distanceToSqr(targetBoat) <= 256.0;
         }
 
         @Override
         public void tick() {
             if (targetBoat == null || targetBoat.isRemoved()) {
                 return;
-            }
-            if (targetBoat.getY()-0.5 > naiad.getY() && naiad.isEyeInFluidType(naiad.getEyeInFluidType())){
-                Vec3 vec3 = this.naiad.getDeltaMovement();
-                Vec3 vec31 = new Vec3(targetBoat.getX() - this.naiad.getX(), targetBoat.getY() - this.naiad.getY(), targetBoat.getZ() - this.naiad.getZ());
-                if (vec31.lengthSqr() > 1.0E-7D) {
-                    vec31 = vec31.normalize().scale(0.5D).add(vec3.scale(0.01D));
-                }
-                this.naiad.setDeltaMovement(vec31.x, vec31.y, vec31.z);
             }
 
             naiad.getLookControl().setLookAt(targetBoat, 30.0F, 30.0F);
@@ -415,30 +404,35 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
         return super.hasLineOfSight(entity);
     }
 
-    private static class NaiadSwimControl extends SmoothSwimmingMoveControl{
+    private static class NaiadSwimControl extends MoveControl {
 
         public NaiadSwimControl(Mob mob) {
-            super(mob, 85, 10, 0.02F, 0.1F, false);
+            super(mob);
         }
-
         @Override
         public void tick() {
-            if (mob.isInWater()){
-                super.tick();
-            }else {
-                if (this.operation == Operation.MOVE_TO) {
-                    this.operation = Operation.WAIT;
-                    double d0 = this.wantedX - this.mob.getX();
-                    double d1 = this.wantedY - this.mob.getY();
-                    double d2 = this.wantedZ - this.mob.getZ();
-                    double d4 = Math.sqrt(d0 * d0 + d2 * d2);
-                    float f = (float)(Mth.atan2(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
-                    this.mob.setYRot(this.rotlerp(this.mob.getYRot(), f, 90.0F));
-                    float f1 = (float)(this.speedModifier * this.mob.getAttributeValue(Attributes.MOVEMENT_SPEED));
-                    if (Math.abs(d1) > (double)1.0E-5F || Math.abs(d4) > (double)1.0E-5F) {
-                        this.mob.setYya(d1 > 0.0D ? f1 : -f1);
-                    }
+            super.tick();
+            if (this.operation == MoveControl.Operation.MOVE_TO) {
+                this.operation = MoveControl.Operation.WAIT;
+                double d0 = this.wantedX - this.mob.getX();
+                double d1 = this.wantedY - this.mob.getY();
+                double d2 = this.wantedZ - this.mob.getZ();
+                double d4 = Math.sqrt(d0 * d0 + d2 * d2);
+                float f = (float)(Mth.atan2(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
+                this.mob.setYRot(this.rotlerp(this.mob.getYRot(), f, 90.0F));
+                float f1 = (float)(this.speedModifier * this.mob.getAttributeValue(Attributes.MOVEMENT_SPEED));
+
+                if (Math.abs(d1) > (double)1.0E-5F || Math.abs(d4) > (double)1.0E-5F) {
+                    this.mob.setYya(d1 > 0.0D ? f1 : -f1);
                 }
+            }
+            if (hasWanted() && mob.isEyeInFluidType(mob.getEyeInFluidType())){
+                Vec3 vec3 = this.mob.getDeltaMovement();
+                Vec3 vec31 = new Vec3(getWantedX() - this.mob.getX(), getWantedY() - this.mob.getY(), getWantedZ() - this.mob.getZ());
+                if (vec31.lengthSqr() > 1.0E-7D) {
+                    vec31 = vec31.normalize().scale(0.5D).add(vec3.scale(0.01D));
+                }
+                this.mob.setDeltaMovement(vec31.x, vec31.y, vec31.z);
             }
         }
     }

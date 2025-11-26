@@ -9,7 +9,7 @@ import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.phys.Vec3;
 
 public class WaterXlandMovement extends MoveControl {
-    private final Mob mob;
+    public final Mob mob;
     public WaterXlandMovement(Mob mob) {
         super(mob);
         this.mob = mob;

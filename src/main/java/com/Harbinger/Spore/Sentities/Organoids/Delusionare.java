@@ -50,7 +50,7 @@ public class Delusionare extends Organoid implements VariantKeeper {
     private static final EntityDataAccessor<Integer> SPELL_TIME = SynchedEntityData.defineId(Delusionare.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> SPELL_ID = SynchedEntityData.defineId(Delusionare.class, EntityDataSerializers.INT);
     private static final List<Enchantment> protectionEnchants = List.of(Enchantments.ALL_DAMAGE_PROTECTION,Enchantments.PROJECTILE_PROTECTION,Enchantments.BLAST_PROTECTION,Enchantments.FIRE_PROTECTION);
-    private static final List<Enchantment> speed = List.of(Enchantments.SWIFT_SNEAK,Enchantments.FALL_PROTECTION,Enchantments.DEPTH_STRIDER);
+    private static final List<Enchantment> speed = List.of(Enchantments.FROST_WALKER,Enchantments.FALL_PROTECTION,Enchantments.DEPTH_STRIDER);
     public Delusionare(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
     }
@@ -305,7 +305,7 @@ public class Delusionare extends Organoid implements VariantKeeper {
                 return;
             }
             LightningBolt bolt = new LightningBolt(EntityType.LIGHTNING_BOLT,level());
-            AABB aabb = entity.getBoundingBox().inflate(4);
+            AABB aabb = entity.getBoundingBox().inflate(8);
             List<Entity> entities = level().getEntities(entity,aabb,e -> {return e instanceof PowerableMob powerableMob && !powerableMob.isPowered();});
             if (entities.isEmpty()){
                 double randomX = (this.random.nextDouble() - this.random.nextDouble()) * 4;
