@@ -193,7 +193,7 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
         @Override
         public boolean canUse() {
             BlockPos territory = naiad.getTerritory();
-            return territory.equals(BlockPos.ZERO) || territory.distToCenterSqr(naiad.position()) > 20;
+            return territory.equals(BlockPos.ZERO) || territory.distToCenterSqr(naiad.position()) > 400;
         }
 
         @Override
@@ -221,8 +221,24 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
         public void tick() {
             super.tick();
             ++this.tryTicks;
-            if (this.naiad.getTerritory() != BlockPos.ZERO && shouldRecalculatePath()) {
-                this.moveToBlock();
+            if (naiad.isInWater()){
+                Vec3 motion = naiad.getDeltaMovement();
+                BlockPos pos = naiad.getTerritory();
+                Vec3 target = new Vec3(
+                        pos.getX() - naiad.getX(),
+                        pos.getY() - naiad.getY(),
+                        pos.getZ() - naiad.getZ()
+                );
+
+                if (target.lengthSqr() > 1e-7) {
+                    target = target.normalize().scale(0.1).add(motion.scale(0.9));
+                }
+                naiad.setDeltaMovement(target);
+                naiad.getLookControl().setLookAt(target.x, target.y, target.z, 30F, 30F);
+            }else {
+                if (this.naiad.getTerritory() != BlockPos.ZERO && shouldRecalculatePath()) {
+                    this.moveToBlock();
+                }
             }
         }
 
@@ -435,25 +451,6 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
                 if (Math.abs(dy) > 1e-4) {
                     mob.setYya(dy > 0 ? (float)speed : (float)-speed);
                 }
-            }
-            if (mob.getTarget() == null && mob.tickCount % 20 == 0){
-            if (mob instanceof Naiad naiad && !naiad.getTerritory().equals(BlockPos.ZERO) && mob.isEyeInFluidType(mob.getEyeInFluidType())) {
-                Vec3 motion = mob.getDeltaMovement();
-                BlockPos pos = naiad.getTerritory();
-                Vec3 target = new Vec3(
-                        pos.getX() - mob.getX(),
-                        pos.getY() - mob.getY(),
-                        pos.getZ() - mob.getZ()
-                );
-
-                if (target.lengthSqr() > 1e-7) {
-                    target = target.normalize().scale(0.1).add(motion.scale(0.9));
-                }
-                if (pos.distToCenterSqr(naiad.position()) > 200){
-                    mob.setDeltaMovement(target);
-                    mob.getLookControl().setLookAt(target.x, target.y, target.z, 30F, 30F);
-                }
-            }
             }
 
         }
