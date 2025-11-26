@@ -53,7 +53,6 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
         super(p_33002_, p_33003_);
         this.moveControl = new NaiadSwimControl(this);
         this.navigation = new HybridPathNavigation(this,this.level());
-        this.lookControl = new SmoothSwimmingLookControl(this, 10);
     }
 
     @Override
@@ -345,7 +344,14 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
             if (targetBoat == null || targetBoat.isRemoved()) {
                 return;
             }
-
+            if (naiad.isEyeInFluidType(naiad.getEyeInFluidType())){
+                Vec3 vec3 = this.naiad.getDeltaMovement();
+                Vec3 vec31 = new Vec3(targetBoat.getX() - this.naiad.getX(), targetBoat.getY() - this.naiad.getY(), targetBoat.getZ() - this.naiad.getZ());
+                if (vec31.lengthSqr() > 1.0E-7D) {
+                    vec31 = vec31.normalize().scale(0.5D).add(vec3.scale(0.01D));
+                }
+                this.naiad.setDeltaMovement(vec31.x, vec31.y, vec31.z);
+            }
             naiad.getLookControl().setLookAt(targetBoat, 30.0F, 30.0F);
 
             double distance = naiad.distanceToSqr(targetBoat);
@@ -371,7 +377,6 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
         private void breakBoat() {
             if (targetBoat != null && !targetBoat.isRemoved()) {
                 Level level = naiad.level();
-
                 if (level instanceof ServerLevel serverLevel) {
                     serverLevel.sendParticles(ParticleTypes.SPLASH,
                             targetBoat.getX(), targetBoat.getY() + 0.5, targetBoat.getZ(),
@@ -405,35 +410,59 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
     }
 
     private static class NaiadSwimControl extends MoveControl {
-
         public NaiadSwimControl(Mob mob) {
             super(mob);
         }
+
         @Override
         public void tick() {
-            super.tick();
             if (this.operation == MoveControl.Operation.MOVE_TO) {
-                this.operation = MoveControl.Operation.WAIT;
-                double d0 = this.wantedX - this.mob.getX();
-                double d1 = this.wantedY - this.mob.getY();
-                double d2 = this.wantedZ - this.mob.getZ();
-                double d4 = Math.sqrt(d0 * d0 + d2 * d2);
-                float f = (float)(Mth.atan2(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
-                this.mob.setYRot(this.rotlerp(this.mob.getYRot(), f, 90.0F));
-                float f1 = (float)(this.speedModifier * this.mob.getAttributeValue(Attributes.MOVEMENT_SPEED));
 
-                if (Math.abs(d1) > (double)1.0E-5F || Math.abs(d4) > (double)1.0E-5F) {
-                    this.mob.setYya(d1 > 0.0D ? f1 : -f1);
+                this.operation = MoveControl.Operation.WAIT;
+
+                double dx = this.wantedX - mob.getX();
+                double dy = this.wantedY - mob.getY();
+                double dz = this.wantedZ - mob.getZ();
+
+                double horizontalDist = Math.sqrt(dx * dx + dz * dz);
+
+                // Look toward target
+                float targetYaw = (float)(Mth.atan2(dz, dx) * 180F / Math.PI) - 90F;
+                mob.setYRot(rotlerp(mob.getYRot(), targetYaw, 10.0F));
+                mob.setYHeadRot(mob.getYRot());
+
+                // Speed modifier
+                double speed = this.speedModifier * mob.getAttributeValue(Attributes.MOVEMENT_SPEED);
+
+                mob.setZza((float) speed);
+
+                if (Math.abs(dy) > 1e-4) {
+                    mob.setYya(dy > 0 ? (float)speed : (float)-speed);
                 }
             }
-            if (hasWanted() && mob.isEyeInFluidType(mob.getEyeInFluidType())){
-                Vec3 vec3 = this.mob.getDeltaMovement();
-                Vec3 vec31 = new Vec3(getWantedX() - this.mob.getX(), getWantedY() - this.mob.getY(), getWantedZ() - this.mob.getZ());
-                if (vec31.lengthSqr() > 1.0E-7D) {
-                    vec31 = vec31.normalize().scale(0.5D).add(vec3.scale(0.01D));
+
+            if (hasWanted() && mob.isEyeInFluidType(mob.getEyeInFluidType())) {
+                Vec3 motion = mob.getDeltaMovement();
+                Vec3 target = new Vec3(
+                        getWantedX() - mob.getX(),
+                        getWantedY() - mob.getY(),
+                        getWantedZ() - mob.getZ()
+                );
+
+                if (target.lengthSqr() > 1e-7) {
+                    target = target.normalize().scale(0.1).add(motion.scale(0.9));
                 }
-                this.mob.setDeltaMovement(vec31.x, vec31.y, vec31.z);
+                mob.setDeltaMovement(target);
+
+                mob.getLookControl().setLookAt(getWantedX(), getWantedY(), getWantedZ(), 30F, 30F);
+            }
+
+            // Rise gently if below territory level
+            if (!hasWanted() && mob instanceof Naiad naiad
+                    && naiad.getTerritory().getY() - 2 > mob.getY()) {
+                mob.setDeltaMovement(mob.getDeltaMovement().add(0, 0.01, 0));
             }
         }
     }
+
 }
