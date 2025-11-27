@@ -114,7 +114,7 @@ public class NaiadModel<T extends Naiad> extends EntityModel<T> implements Tenta
 		PartDefinition UpperChest = ActualTorso.addOrReplaceChild("UpperChest", CubeListBuilder.create().texOffs(28, 28).addBox(-4.4944F, -6.399F, -3.1147F, 9.0F, 7.0F, 5.0F, new CubeDeformation(0.1F)), PartPose.offset(-0.0056F, -8.601F, 2.1147F));
 
 		PartDefinition ActualBra_r1 = UpperChest.addOrReplaceChild("ActualBra_r1", CubeListBuilder.create().texOffs(29, 32).addBox(-4.0F, -1.0F, -0.8999F, 8.0F, 4.0F, 3.0F, new CubeDeformation(0.1F))
-		.texOffs(3, 29).addBox(-4.0F, -1.0F, -0.8999F, 8.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -5.25F, -2.25F, -0.0873F, 0.0F, 0.0F));
+				.texOffs(3, 29).addBox(-4.0F, -1.0F, -0.8999F, 8.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -5.25F, -2.25F, -0.0873F, 0.0F, 0.0F));
 
 		PartDefinition GillFoliage4_r1 = UpperChest.addOrReplaceChild("GillFoliage4_r1", CubeListBuilder.create().texOffs(44, 97).addBox(-1.0F, 0.0F, -2.0F, 0.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.4056F, 1.801F, -3.2146F, 1.9846F, -0.7941F, 1.5625F));
 
@@ -178,19 +178,19 @@ public class NaiadModel<T extends Naiad> extends EntityModel<T> implements Tenta
 
 		PartDefinition WaistTumor7_r1 = WaistTumorGroup3.addOrReplaceChild("WaistTumor7_r1", CubeListBuilder.create().texOffs(58, 10).addBox(-1.0F, -4.0F, -3.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(-0.8F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -3.0632F, -0.1234F, -0.7572F));
 
-		PartDefinition WaistTumorGroup4 = WaistTumors.addOrReplaceChild("WaistTumorGroup4", CubeListBuilder.create(), PartPose.offset(1.7F, -17.7F, -2.3F));
+		PartDefinition WaistTumorGroup4 = WaistTumors.addOrReplaceChild("WaistTumorGroup4", CubeListBuilder.create(), PartPose.offset(-3.3F, -17.7F, -0.3F));
 
-		PartDefinition WaistTumor12_r1 = WaistTumorGroup4.addOrReplaceChild("WaistTumor12_r1", CubeListBuilder.create().texOffs(64, 65).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(-0.8F)), PartPose.offsetAndRotation(-1.7769F, 0.8314F, 2.2395F, 2.5914F, 0.0563F, -0.9983F));
+		PartDefinition WaistTumor12_r1 = WaistTumorGroup4.addOrReplaceChild("WaistTumor12_r1", CubeListBuilder.create().texOffs(64, 65).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(-0.8F)), PartPose.offsetAndRotation(3.2231F, 0.8314F, 0.2395F, 2.5914F, 0.0563F, -0.9983F));
 
-		PartDefinition WaistTumor11_r1 = WaistTumorGroup4.addOrReplaceChild("WaistTumor11_r1", CubeListBuilder.create().texOffs(50, 40).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(-0.6F)), PartPose.offsetAndRotation(-3.9768F, 1.4314F, 2.4395F, 2.7886F, 1.1065F, -0.8371F));
+		PartDefinition WaistTumor11_r1 = WaistTumorGroup4.addOrReplaceChild("WaistTumor11_r1", CubeListBuilder.create().texOffs(50, 40).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(-0.6F)), PartPose.offsetAndRotation(1.0231F, 1.4314F, 0.4395F, 2.7886F, 1.1065F, -0.8371F));
 
-		PartDefinition WaistTumor10_r1 = WaistTumorGroup4.addOrReplaceChild("WaistTumor10_r1", CubeListBuilder.create().texOffs(48, 65).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(-0.7F)), PartPose.offsetAndRotation(-5.4768F, 0.8314F, 1.0395F, 2.5914F, 0.0563F, -0.9983F));
+		PartDefinition WaistTumor10_r1 = WaistTumorGroup4.addOrReplaceChild("WaistTumor10_r1", CubeListBuilder.create().texOffs(48, 65).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(-0.7F)), PartPose.offsetAndRotation(-0.4769F, 0.8314F, -0.9605F, 2.5914F, 0.0563F, -0.9983F));
 
 		PartDefinition Head = Torso.addOrReplaceChild("Head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -7.9F, -6.3F, 8.0F, 6.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(20, 48).addBox(-4.0F, -1.9F, -2.3F, 8.0F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -12.1F, -1.7F, -0.9599F, 0.0F, 0.0F));
+				.texOffs(20, 48).addBox(-4.0F, -1.9F, -2.3F, 8.0F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -12.1F, -1.7F, -0.9599F, 0.0F, 0.0F));
 
 		PartDefinition Ear2_r1 = Head.addOrReplaceChild("Ear2_r1", CubeListBuilder.create().texOffs(42, 73).addBox(0.0F, -4.5F, -2.0F, 0.0F, 7.0F, 5.0F, new CubeDeformation(0.0F))
-		.texOffs(42, 73).addBox(-8.2F, -4.5F, -2.0F, 0.0F, 7.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.1F, -7.4F, 0.8F, -0.1047F, 0.0F, 0.0F));
+				.texOffs(42, 73).addBox(-8.2F, -4.5F, -2.0F, 0.0F, 7.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.1F, -7.4F, 0.8F, -0.1047F, 0.0F, 0.0F));
 
 		PartDefinition LowerJaw = Head.addOrReplaceChild("LowerJaw", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -0.6278F, -2.1397F, -0.0873F, 0.0F, 0.0F));
 
@@ -218,7 +218,7 @@ public class NaiadModel<T extends Naiad> extends EntityModel<T> implements Tenta
 
 		PartDefinition Arms = Torso.addOrReplaceChild("Arms", CubeListBuilder.create(), PartPose.offset(0.0F, -11.0F, -2.0F));
 
-		PartDefinition RightArm = Arms.addOrReplaceChild("RightArm", CubeListBuilder.create(), PartPose.offsetAndRotation(-4.6F, 0.1F, 0.1F, -1.8762F, 0.2443F, -0.1896F));
+		PartDefinition RightArm = Arms.addOrReplaceChild("RightArm", CubeListBuilder.create(), PartPose.offsetAndRotation(-4.6F, 0.1F, 0.1F, -1.8326F, 0.2007F, -0.1896F));
 
 		PartDefinition RightArmTop = RightArm.addOrReplaceChild("RightArmTop", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
@@ -247,8 +247,8 @@ public class NaiadModel<T extends Naiad> extends EntityModel<T> implements Tenta
 		PartDefinition LeftArmTop_r1 = LeftArmTop.addOrReplaceChild("LeftArmTop_r1", CubeListBuilder.create().texOffs(80, 64).addBox(-2.0F, -2.0F, -1.0F, 3.0F, 6.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.9F, 0.9F, -0.2F, 0.0F, 0.0F, -0.0873F));
 
 		PartDefinition Shell = LeftArmTop.addOrReplaceChild("Shell", CubeListBuilder.create().texOffs(44, 48).addBox(-3.2F, -3.0F, -5.0F, 4.0F, 3.0F, 6.0F, new CubeDeformation(-0.2F))
-		.texOffs(52, 73).addBox(-4.8F, -3.0F, -5.0F, 2.0F, 3.0F, 5.0F, new CubeDeformation(-0.2F))
-		.texOffs(77, 9).addBox(-4.8F, -3.0F, -5.0F, 2.0F, 3.0F, 5.0F, new CubeDeformation(-0.1F)), PartPose.offsetAndRotation(-0.7F, -0.1F, -1.7F, 2.9979F, -0.0445F, -2.5475F));
+				.texOffs(52, 73).addBox(-4.8F, -3.0F, -5.0F, 2.0F, 3.0F, 5.0F, new CubeDeformation(-0.2F))
+				.texOffs(77, 9).addBox(-4.8F, -3.0F, -5.0F, 2.0F, 3.0F, 5.0F, new CubeDeformation(-0.1F)), PartPose.offsetAndRotation(-0.7F, -0.1F, -1.7F, 2.9979F, -0.0445F, -2.5475F));
 
 		PartDefinition LeftArmBottom = LeftArm.addOrReplaceChild("LeftArmBottom", CubeListBuilder.create(), PartPose.offset(1.8F, 4.9F, 0.2F));
 
@@ -270,7 +270,7 @@ public class NaiadModel<T extends Naiad> extends EntityModel<T> implements Tenta
 
 		PartDefinition TailBase_r1 = TailBase.addOrReplaceChild("TailBase_r1", CubeListBuilder.create().texOffs(26, 40).addBox(-4.0F, -2.0F, 0.0F, 8.0F, 4.0F, 4.0F, new CubeDeformation(0.2F)), PartPose.offsetAndRotation(0.0F, -14.2F, -3.4F, 0.3578F, 0.0F, 0.0F));
 
-		PartDefinition Tendril3 = TailBase.addOrReplaceChild("Tendril3", CubeListBuilder.create(), PartPose.offsetAndRotation(-3.0F, -17.0F, -1.0F, -0.2777F, -0.5666F, -0.0517F));
+		PartDefinition Tendril3 = TailBase.addOrReplaceChild("Tendril3", CubeListBuilder.create(), PartPose.offsetAndRotation(-3.0F, -17.0F, -1.0F, -0.1031F, -0.6103F, -0.0081F));
 
 		PartDefinition TendrilEnd_r1 = Tendril3.addOrReplaceChild("TendrilEnd_r1", CubeListBuilder.create().texOffs(24, 99).addBox(-0.5F, -4.0F, -0.5F, 1.0F, 8.0F, 1.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-2.4F, 1.2F, 8.1F, 1.7256F, -0.343F, 0.0315F));
 
@@ -284,9 +284,9 @@ public class NaiadModel<T extends Naiad> extends EntityModel<T> implements Tenta
 
 		PartDefinition TailBaseMid_r1 = TailMid.addOrReplaceChild("TailBaseMid_r1", CubeListBuilder.create().texOffs(34, 19).addBox(-4.0F, -2.0F, 0.0F, 8.0F, 5.0F, 4.0F, new CubeDeformation(-0.1F)), PartPose.offsetAndRotation(0.0F, -10.5F, -1.9F, 0.4887F, 0.0F, 0.0F));
 
-		PartDefinition TailTumor2 = TailMid.addOrReplaceChild("TailTumor2", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 2.3F));
+		PartDefinition TailTumor2 = TailMid.addOrReplaceChild("TailTumor2", CubeListBuilder.create(), PartPose.offset(-3.0F, -8.0F, 0.3F));
 
-		PartDefinition TailTumor2_r1 = TailTumor2.addOrReplaceChild("TailTumor2_r1", CubeListBuilder.create().texOffs(0, 73).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(-1.0F)), PartPose.offsetAndRotation(-3.1871F, -8.988F, -2.9395F, -2.2598F, -0.1768F, -0.3978F));
+		PartDefinition TailTumor2_r1 = TailTumor2.addOrReplaceChild("TailTumor2_r1", CubeListBuilder.create().texOffs(0, 73).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(-1.0F)), PartPose.offsetAndRotation(-0.1871F, -0.988F, -0.9395F, -2.2598F, -0.1768F, -0.3978F));
 
 		PartDefinition Tendril1 = TailMid.addOrReplaceChild("Tendril1", CubeListBuilder.create(), PartPose.offsetAndRotation(3.0F, -13.0F, 1.0F, -0.4363F, 0.7854F, 0.0F));
 
@@ -306,15 +306,15 @@ public class NaiadModel<T extends Naiad> extends EntityModel<T> implements Tenta
 
 		PartDefinition TailMid2 = Tail.addOrReplaceChild("TailMid2", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 8.0F, 2.2F, -0.2618F, 0.0F, 0.0F));
 
-		PartDefinition TailTendril2_r1 = TailMid2.addOrReplaceChild("TailTendril2_r1", CubeListBuilder.create().texOffs(58, 23).addBox(-1.0F, -3.0F, -2.0F, 0.0F, 8.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.5F, -1.9F, 3.8F, 1.0037F, -0.0525F, -0.0226F));
+		PartDefinition TailTendril2_r1 = TailMid2.addOrReplaceChild("TailTendril2_r1", CubeListBuilder.create().texOffs(82, 12).addBox(-1.0F, -3.0F, -2.0F, 0.0F, 8.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.5F, -1.9F, 3.8F, 1.0037F, -0.0525F, -0.0226F));
 
 		PartDefinition TailMid2Fin_r1 = TailMid2.addOrReplaceChild("TailMid2Fin_r1", CubeListBuilder.create().texOffs(88, 73).addBox(-1.0F, -3.0F, -2.0F, 0.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, -0.6F, 5.7F, 0.7147F, 0.0114F, -0.0237F));
 
 		PartDefinition TailBaseMid2_r1 = TailMid2.addOrReplaceChild("TailBaseMid2_r1", CubeListBuilder.create().texOffs(32, 0).addBox(-4.0F, -0.1384F, -2.5562F, 8.0F, 6.0F, 4.0F, new CubeDeformation(-0.3F)), PartPose.offsetAndRotation(0.0F, -2.5F, 0.8F, 0.6196F, 0.0F, 0.0F));
 
-		PartDefinition TailTumor3 = TailMid2.addOrReplaceChild("TailTumor3", CubeListBuilder.create(), PartPose.offset(0.0F, 8.0F, 2.3F));
+		PartDefinition TailTumor3 = TailMid2.addOrReplaceChild("TailTumor3", CubeListBuilder.create(), PartPose.offset(1.0F, -2.0F, 2.3F));
 
-		PartDefinition TailTumor3_r1 = TailTumor3.addOrReplaceChild("TailTumor3_r1", CubeListBuilder.create().texOffs(72, 0).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(-1.0F)), PartPose.offsetAndRotation(1.2129F, -9.288F, 0.6605F, -2.2598F, -0.1768F, -0.3978F));
+		PartDefinition TailTumor3_r1 = TailTumor3.addOrReplaceChild("TailTumor3_r1", CubeListBuilder.create().texOffs(72, 0).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(-1.0F)), PartPose.offsetAndRotation(0.2129F, 0.712F, 0.6605F, -2.2598F, -0.1768F, -0.3978F));
 
 		PartDefinition Fin = TailMid2.addOrReplaceChild("Fin", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 3.0F, 2.0F, -0.6109F, 0.0F, 0.0F));
 
@@ -359,6 +359,7 @@ public class NaiadModel<T extends Naiad> extends EntityModel<T> implements Tenta
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		this.Naiad.getAllParts().forEach(ModelPart::resetPose);
 		float v3 = Mth.sin(ageInTicks/7)/6;
 		float v2 = Mth.cos(ageInTicks/6)/7;
 		float v4 = Mth.cos(ageInTicks/8)/8;
@@ -375,6 +376,7 @@ public class NaiadModel<T extends Naiad> extends EntityModel<T> implements Tenta
 		animateTentacleZ(Tendril1,v2);
 		animateTentacleZ(Tendril2,-v2);
 		animateTentacleZ(Tendril3,v3);
+		animateTentacleX(LowerJaw,v4+0.2f);
 		if (!(limbSwingAmount > -0.15F && limbSwingAmount < 0.15F)){
 			if (entity.isInWater()){
 				float xRotArm = Mth.clampedLerp(-1.0471976F, -0.2617994F, (Mth.sin(-limbSwing) + 1.0F) / 2.0F);

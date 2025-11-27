@@ -184,7 +184,6 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
 
         public FindWaterTerritoryGoal(Naiad naiad) {
             this.naiad = naiad;
-            this.setFlags(EnumSet.of(Flag.MOVE));
         }
 
         @Override
@@ -208,7 +207,9 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
                 // Use existing territory
                 targetPos = currentTerritory;
             }
-            moveToBlock();
+            if (targetPos != null){
+                moveToBlock();
+            }
         }
         public void moveToBlock(){
             naiad.getNavigation().moveTo(targetPos.getX(), targetPos.getY(), targetPos.getZ(), 1.0);
@@ -228,12 +229,12 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
                 );
 
                 if (target.lengthSqr() > 1e-7) {
-                    target = target.normalize().scale(0.1).add(motion.scale(0.9));
+                    target = target.normalize().scale(0.1).add(motion.scale(0.45));
                 }
                 naiad.setDeltaMovement(target);
                 naiad.getLookControl().setLookAt(target.x, target.y, target.z, 30F, 30F);
             }else {
-                if (this.naiad.getTerritory() != BlockPos.ZERO && shouldRecalculatePath()) {
+                if (this.naiad.getTerritory() != BlockPos.ZERO && targetPos != null && shouldRecalculatePath()) {
                     this.moveToBlock();
                 }
             }
@@ -355,7 +356,7 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
                 Vec3 vec3 = this.naiad.getDeltaMovement();
                 Vec3 vec31 = new Vec3(targetBoat.getX() - this.naiad.getX(), targetBoat.getY() - this.naiad.getY(), targetBoat.getZ() - this.naiad.getZ());
                 if (vec31.lengthSqr() > 1.0E-7D) {
-                    vec31 = vec31.normalize().scale(0.5D).add(vec3.scale(0.01D));
+                    vec31 = vec31.normalize().scale(0.25D).add(vec3.scale(0.01D));
                 }
                 this.naiad.setDeltaMovement(vec31.x, vec31.y, vec31.z);
             }
@@ -452,5 +453,40 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
 
         }
     }
+    @Override
+    public void tick() {
+        super.tick();
 
+        Vec3 vec3 = this.getDeltaMovement();
+
+        if (vec3.horizontalDistanceSqr() > 2.5E-7F) {
+            double dx = vec3.x;
+            double dy = vec3.y;
+            double dz = vec3.z;
+
+            double horizontal = Math.sqrt(dx * dx + dz * dz);
+
+            float yaw = (float)(Mth.atan2(dz, dx) * (180F / Math.PI)) - 90F;
+
+            float pitch = (float)(Mth.atan2(dy, horizontal) * (180F / Math.PI));
+
+            this.setYRot(yaw);
+            this.setXRot(pitch);
+
+            this.yBodyRot = lerpRotation(this.yRotO, this.getYRot());
+        }
+    }
+
+
+    protected static float lerpRotation(float currentRotation, float targetRotation) {
+        while(targetRotation - currentRotation < -180.0F) {
+            currentRotation -= 360.0F;
+        }
+
+        while(targetRotation - currentRotation >= 180.0F) {
+            currentRotation += 360.0F;
+        }
+
+        return Mth.lerp(0.2F, currentRotation, targetRotation);
+    }
 }
