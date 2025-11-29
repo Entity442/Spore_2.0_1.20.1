@@ -252,6 +252,7 @@ public class Naiad extends EvolvedInfected implements WaterInfected, VariantKeep
             return territory.equals(BlockPos.ZERO) || territory.distToCenterSqr(naiad.position()) > 400;
         }
 
+
         @Override
         public void start() {
             Level level = naiad.level();
@@ -302,9 +303,12 @@ public class Naiad extends EvolvedInfected implements WaterInfected, VariantKeep
 
         @Override
         public boolean canContinueToUse() {
-            return targetPos != null &&
-                    targetPos.distToCenterSqr(naiad.position()) > 9;
+            return targetPos != null
+                    && naiad.aggroTicks <= 0
+                    && naiad.getTarget() == null
+                    && targetPos.distToCenterSqr(naiad.position()) > 9;
         }
+
         public boolean shouldRecalculatePath() {
             return this.tryTicks % 40 == 0;
         }
@@ -523,13 +527,13 @@ public class Naiad extends EvolvedInfected implements WaterInfected, VariantKeep
     @Override
     public void tick() {
         super.tick();
-        if (this.getTarget() != null) {
+        LivingEntity target = this.getTarget();
+        if (target != null) {
             aggroTicks = 300;
         } else if (aggroTicks > 0) {
             aggroTicks--;
         }
         if (isInWater()){
-            LivingEntity target = this.getTarget();
             Vec3 vec3 = target == null ? this.getDeltaMovement() : target.position();
 
             if (vec3.horizontalDistanceSqr() > 2.5E-7F) {
