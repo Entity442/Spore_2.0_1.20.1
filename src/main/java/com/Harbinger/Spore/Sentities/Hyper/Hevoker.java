@@ -182,7 +182,7 @@ public class Hevoker extends Hyper {
         }
         if (living != null && canSee(living)){
             double ze = this.distanceToSqr(living);
-            return (ze > 200.0D) && (ze < 600.0D) && entityData.get(HAS_ARM);
+            return (ze > 200.0D) && (ze < 600.0D) && entityData.get(HAS_ARM)  && tickCount % 5 == 0;
         }
         return false;
     }
@@ -219,6 +219,12 @@ public class Hevoker extends Hyper {
             @Override
             public boolean canUse() {
                 return switchy();
+            }
+
+            @Override
+            public void start() {
+                super.start();
+                this.mob.playSound(Ssounds.HEXEN_SUCK.get());
             }
         });
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this){
@@ -402,5 +408,6 @@ public class Hevoker extends Hyper {
             }
             this.swing(InteractionHand.MAIN_HAND);
         }
+        playSound(Ssounds.HEXEN_BLOW.get());
     }
 }

@@ -91,6 +91,12 @@ public class Slasher extends EvolvedInfected implements ArmorPersentageBypass, V
             public boolean canUse() {
                 return pull();
             }
+
+            @Override
+            public void start() {
+                super.start();
+                mob.playSound(Ssounds.SLASHER_PULL.get());
+            }
         });
         this.goalSelector.addGoal(3, new RandomStrollGoal(this, 0.8));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
@@ -117,6 +123,7 @@ public class Slasher extends EvolvedInfected implements ArmorPersentageBypass, V
                 }
             }
         }
+        this.playSound(Ssounds.SLASHER_STAB.get());
         return super.doHurtTarget(entity);
     }
     private void dropItems(LivingEntity living,InteractionHand hand,BlockPos pos){

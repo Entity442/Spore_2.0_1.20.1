@@ -8,6 +8,7 @@ import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -27,6 +28,7 @@ import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.ForgeEventFactory;
 import org.jetbrains.annotations.Nullable;
 
@@ -73,6 +75,23 @@ public class Chemist extends EvolvedInfected{
     public void handleEntityEvent(byte value) {
         if (value == 4) {
             this.attackAnimationTick = 10;
+            if (level().isClientSide) {
+                Vec3 forward = this.getLookAngle().normalize().scale(1);
+                double px = this.getX() + forward.x;
+                double py = this.getEyeY()-0.25;
+                double pz = this.getZ() + forward.z;
+                for (int i = 0; i < 8; i++) {
+                    level().addParticle(
+                            ParticleTypes.FLAME,
+                            px+random.nextDouble() - random.nextDouble(),
+                            py,
+                            pz+random.nextDouble() - random.nextDouble(),
+                            0,
+                            0.05d,
+                            0
+                    );
+                }
+            }
         } else {
             super.handleEntityEvent(value);
         }
@@ -95,11 +114,11 @@ public class Chemist extends EvolvedInfected{
     public void tick() {
         super.tick();
         if (getBlowTime() > 0){
+            this.level().addParticle(ParticleTypes.SMOKE,this.getX(),this.getY()+1,this.getZ(),0,0.1,0);
             tickExplosion();
         }
         if (getBlowTime() > 60){
             explodeChemist();
-            this.discard();
         }
     }
     @Override
@@ -116,6 +135,7 @@ public class Chemist extends EvolvedInfected{
                     Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
             serverLevel.explode(this, this.getX(), this.getY(), this.getZ(), (float) (SConfig.SERVER.chemist_explosion.get() * 1f), explosion$blockinteraction);
             Utilities.convertBlocks(serverLevel,this,this.getOnPos(),7, Blocks.FIRE.defaultBlockState());
+            this.discard();
         }
     }
     @Override
@@ -141,9 +161,12 @@ public class Chemist extends EvolvedInfected{
     }
 
     private void tickExplosion(){
+        if (level().isClientSide){
+            return;
+        }
         this.setBlowTime(this.getBlowTime()+1);
         if (getBlowTime() == 1){
-            this.playSound(SoundEvents.CREEPER_PRIMED);
+            this.playSound(Ssounds.CHEMIST_FUSE.get());
         }
     }
 

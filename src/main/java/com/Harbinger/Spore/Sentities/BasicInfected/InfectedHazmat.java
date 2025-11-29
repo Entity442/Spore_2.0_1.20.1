@@ -137,9 +137,10 @@ public class InfectedHazmat extends Infected implements VariantKeeper , Evolving
         super.tick();
         if (this.getVariant() == HazmatVariant.TANK){
             if(this.getBlowTime() == 1){
-                this.playSound(SoundEvents.TNT_PRIMED);
+                this.playSound(Ssounds.SCIENTIST_FUSE.get());
             }
             if (this.getBlowTime() > 0){
+                this.level().addParticle(ParticleTypes.SMOKE,this.getX(),this.getY()+1,this.getZ(),0,0.1,0);
                 tickExplosion();
             }
             if (this.getBlowTime() >= 60){

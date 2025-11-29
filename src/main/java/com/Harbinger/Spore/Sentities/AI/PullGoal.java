@@ -10,7 +10,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.EnumSet;
 
 public class PullGoal extends Goal {
-    private final Mob mob;
+    protected final Mob mob;
     private final double range;
     private final double range_min;
 

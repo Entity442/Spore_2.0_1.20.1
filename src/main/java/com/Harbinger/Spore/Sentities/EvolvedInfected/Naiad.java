@@ -4,12 +4,16 @@ import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Damage.SdamageTypes;
+import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.HurtTargetGoal;
 import com.Harbinger.Spore.Sentities.AI.HybridPathNavigation;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
+import com.Harbinger.Spore.Sentities.VariantKeeper;
+import com.Harbinger.Spore.Sentities.Variants.NaiadVariants;
 import com.Harbinger.Spore.Sentities.WaterInfected;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -22,9 +26,11 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
@@ -36,19 +42,25 @@ import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fluids.FluidType;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class Naiad extends EvolvedInfected implements WaterInfected {
+public class Naiad extends EvolvedInfected implements WaterInfected, VariantKeeper {
     public static final EntityDataAccessor<BlockPos> TERRITORY = SynchedEntityData.defineId(Naiad.class, EntityDataSerializers.BLOCK_POS);
+    private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(Naiad.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> TRIDENT_CHARGE = SynchedEntityData.defineId(Naiad.class, EntityDataSerializers.INT);
+    public int aggroTicks;
     public Naiad(EntityType<? extends EvolvedInfected> p_33002_, Level p_33003_) {
         super(p_33002_, p_33003_);
         this.moveControl = new NaiadSwimControl(this);
         this.navigation = new HybridPathNavigation(this,this.level());
+        setMaxUpStep(1);
     }
 
     @Override
@@ -58,9 +70,14 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
         this.goalSelector.addGoal(4, new CustomMeleeAttackGoal(this, 1, false) {
             @Override
             protected double getAttackReachSqr(LivingEntity entity) {
-                return 4.0 + entity.getBbWidth() * entity.getBbWidth();}});
-        this.goalSelector.addGoal(6, new RandomStrollGoal(this, 0.8));
+                return 5.0 + entity.getBbWidth() * entity.getBbWidth();}});
         this.goalSelector.addGoal(5, new FindWaterTerritoryGoal(this));
+        this.goalSelector.addGoal(6, new RandomStrollGoal(this, 0.8){
+            @Override
+            protected @Nullable Vec3 getPosition() {
+                return Utilities.generatePositionAway(mob.position(),16);
+            }
+        });
     }
 
     @Override
@@ -91,6 +108,8 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(TERRITORY,BlockPos.ZERO);
+        this.entityData.define(DATA_ID_TYPE_VARIANT,0);
+        this.entityData.define(TRIDENT_CHARGE,0);
     }
 
     @Override
@@ -99,6 +118,7 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
         tag.putInt("TerritoryX",entityData.get(TERRITORY).getX());
         tag.putInt("TerritoryY",entityData.get(TERRITORY).getY());
         tag.putInt("TerritoryZ",entityData.get(TERRITORY).getZ());
+        tag.putInt("Variant", this.getTypeVariant());
     }
 
     @Override
@@ -108,6 +128,7 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
         int tY = tag.getInt("TerritoryY");
         int tZ = tag.getInt("TerritoryZ");
         entityData.set(TERRITORY,new BlockPos(tX,tY,tZ));
+        this.entityData.set(DATA_ID_TYPE_VARIANT, tag.getInt("Variant"));
     }
     public BlockPos getTerritory(){
         return entityData.get(TERRITORY);
@@ -148,7 +169,7 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
                 .add(Attributes.MOVEMENT_SPEED, 0.15)
                 .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.naiad_damage.get() * SConfig.SERVER.global_damage.get())
                 .add(Attributes.ARMOR, SConfig.SERVER.naiad_armor.get() * SConfig.SERVER.global_armor.get())
-                .add(Attributes.FOLLOW_RANGE, 32);
+                .add(Attributes.FOLLOW_RANGE, 48);
     }
 
     @Override
@@ -177,6 +198,42 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
     protected void playStepSound(BlockPos p_34316_, BlockState p_34317_) {
         this.playSound(this.getStepSound(), 0.15F, 1.0F);
     }
+
+    @Override
+    public @Nullable SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance p_21435_, MobSpawnType p_21436_, @Nullable SpawnGroupData p_21437_, @Nullable CompoundTag p_21438_) {
+        NaiadVariants variant = Util.getRandom(NaiadVariants.values(), this.random);
+        setVariant(variant);
+        return super.finalizeSpawn(serverLevelAccessor, p_21435_, p_21436_, p_21437_, p_21438_);
+    }
+
+    public NaiadVariants getVariant() {
+        return NaiadVariants.byId(this.getTypeVariant() & 255);
+    }
+
+    public int getTypeVariant() {
+        return this.entityData.get(DATA_ID_TYPE_VARIANT);
+    }
+    @Override
+    public void setVariant(int i) {
+        this.entityData.set(DATA_ID_TYPE_VARIANT,i > NaiadVariants.values().length || i < 0 ? 0 : i);
+    }
+
+    @Override
+    public int amountOfMutations() {
+        return NaiadVariants.values().length;
+    }
+
+    private void setVariant(NaiadVariants variant) {
+        this.entityData.set(DATA_ID_TYPE_VARIANT, variant.getId() & 255);
+    }
+    @Override
+    public String getMutation() {
+        if (getTypeVariant() != 0){
+            return this.getVariant().getName();
+        }
+        return super.getMutation();
+    }
+
     public static class FindWaterTerritoryGoal extends Goal {
         private final Naiad naiad;
         private BlockPos targetPos;
@@ -188,6 +245,9 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
 
         @Override
         public boolean canUse() {
+            if (naiad.aggroTicks > 0 || naiad.getTarget() != null){
+                return false;
+            }
             BlockPos territory = naiad.getTerritory();
             return territory.equals(BlockPos.ZERO) || territory.distToCenterSqr(naiad.position()) > 400;
         }
@@ -414,6 +474,13 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
         if (entity instanceof LivingEntity living && living.isInWater() && living.getHealth() < living.getMaxHealth()){
             return true;
         }
+        AttributeInstance instance = this.getAttribute(Attributes.FOLLOW_RANGE);
+        if (instance != null){
+            double value = instance.getValue()/2;
+            if (entity.distanceTo(this) > value){
+                return false;
+            }
+        }
         return super.hasLineOfSight(entity);
     }
 
@@ -456,24 +523,31 @@ public class Naiad extends EvolvedInfected implements WaterInfected {
     @Override
     public void tick() {
         super.tick();
+        if (this.getTarget() != null) {
+            aggroTicks = 300;
+        } else if (aggroTicks > 0) {
+            aggroTicks--;
+        }
+        if (isInWater()){
+            LivingEntity target = this.getTarget();
+            Vec3 vec3 = target == null ? this.getDeltaMovement() : target.position();
 
-        Vec3 vec3 = this.getDeltaMovement();
+            if (vec3.horizontalDistanceSqr() > 2.5E-7F) {
+                double dx = vec3.x;
+                double dy = vec3.y;
+                double dz = vec3.z;
 
-        if (vec3.horizontalDistanceSqr() > 2.5E-7F) {
-            double dx = vec3.x;
-            double dy = vec3.y;
-            double dz = vec3.z;
+                double horizontal = Math.sqrt(dx * dx + dz * dz);
 
-            double horizontal = Math.sqrt(dx * dx + dz * dz);
+                float yaw = (float)(Mth.atan2(dz, dx) * (180F / Math.PI)) - 90F;
 
-            float yaw = (float)(Mth.atan2(dz, dx) * (180F / Math.PI)) - 90F;
+                float pitch = (float)(Mth.atan2(dy, horizontal) * (180F / Math.PI));
 
-            float pitch = (float)(Mth.atan2(dy, horizontal) * (180F / Math.PI));
+                this.setYRot(yaw);
+                this.setXRot(pitch);
 
-            this.setYRot(yaw);
-            this.setXRot(pitch);
-
-            this.yBodyRot = lerpRotation(this.yRotO, this.getYRot());
+                this.yBodyRot = lerpRotation(this.yRotO, this.getYRot());
+            }
         }
     }
 

@@ -11,7 +11,6 @@ import com.Harbinger.Spore.Sentities.Hyper.Hevoker;
 import com.Harbinger.Spore.Sentities.Utility.InfEvoClaw;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -20,7 +19,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
@@ -30,7 +28,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.npc.InventoryCarrier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -43,12 +40,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-public class InfectedEvoker extends EvolvedInfected implements InventoryCarrier, EvolvingInfected {
+public class InfectedEvoker extends EvolvedInfected implements EvolvingInfected {
     private static final EntityDataAccessor<Boolean> HAS_ARM = SynchedEntityData.defineId(InfectedEvoker.class, EntityDataSerializers.BOOLEAN);
     public InfectedEvoker(EntityType<? extends Monster> type, Level level) {
         super(type, level);
     }
-    private final SimpleContainer inventory = new SimpleContainer(5);
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
@@ -91,37 +87,13 @@ public class InfectedEvoker extends EvolvedInfected implements InventoryCarrier,
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putBoolean("arm",entityData.get(HAS_ARM));
-        ListTag listtag = new ListTag();
-
-        for(int i = 0; i < this.inventory.getContainerSize(); ++i) {
-            ItemStack itemstack = this.inventory.getItem(i);
-            if (!itemstack.isEmpty()) {
-                listtag.add(itemstack.save(new CompoundTag()));
-            }
-        }
-
-        tag.put("Inventory", listtag);
     }
 
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         entityData.set(HAS_ARM ,tag.getBoolean("arm"));
-        ListTag listtag = tag.getList("Inventory", 10);
-
-        for(int i = 0; i < listtag.size(); ++i) {
-            ItemStack itemstack = ItemStack.of(listtag.getCompound(i));
-            if (!itemstack.isEmpty()) {
-                this.inventory.addItem(itemstack);
-            }
-        }
-
-        this.setCanPickUpLoot(false);
     }
 
-    @Override
-    public SimpleContainer getInventory() {
-        return this.inventory;
-    }
     protected void populateDefaultEquipmentSlots(RandomSource p_219059_, DifficultyInstance p_219060_) {
             this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.TOTEM_OF_UNDYING));
     }
@@ -132,10 +104,6 @@ public class InfectedEvoker extends EvolvedInfected implements InventoryCarrier,
         return super.finalizeSpawn(p_33282_, p_33283_, p_33284_, p_33285_, p_33286_);
     }
 
-    public SlotAccess getSlot(int p_149743_) {
-        int i = p_149743_ - 300;
-        return i >= 0 && i < this.inventory.getContainerSize() ? SlotAccess.forContainer(this.inventory, i) : super.getSlot(p_149743_);
-    }
 
     protected SoundEvent getAmbientSound() {
         return Ssounds.INF_EVOKER_GROWL.get();
@@ -172,6 +140,12 @@ public class InfectedEvoker extends EvolvedInfected implements InventoryCarrier,
             public boolean canUse() {
                 return switchy();
             }
+
+            @Override
+            public void start() {
+                super.start();
+                this.mob.playSound(Ssounds.EVOKER_SUCK.get());
+            }
         });
 
 
@@ -183,7 +157,7 @@ public class InfectedEvoker extends EvolvedInfected implements InventoryCarrier,
     private boolean switchy() {
         if (this.getTarget() != null){
             double ze = this.distanceToSqr(this.getTarget());
-            return (ze > 200.0D) && (ze < 600.0D) && entityData.get(HAS_ARM);
+            return (ze > 200.0D) && (ze < 600.0D) && entityData.get(HAS_ARM) && tickCount % 5 == 0;
         }
         return false;
     }

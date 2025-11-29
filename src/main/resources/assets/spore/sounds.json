@@ -29,7 +29,68 @@
     "spore:slash",
     "spore:slash2"
   ]
-},"calamity_death" :{
+},
+  "scientist_fuse" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:scientist_fuse"
+    ]
+  },
+  "chemist_fuse" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:chemist_fuse"
+    ]
+  },
+  "evoker_suck" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:evoker_suck",
+      "spore:evoker_suck_2",
+      "spore:evoker_suck_3"
+    ]
+  },
+  "hexen_suck" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:hexen_suck",
+      "spore:hexen_suck_2",
+      "spore:hexen_suck_3"
+    ]
+  },
+  "hexen_blow" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:hexen_blow",
+      "spore:hexen_blow_2",
+      "spore:hexen_blow_3"
+    ]
+  },
+  "slasher_pull" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:slasher_pull"
+    ]
+  },
+  "slasher_stab" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:slasher_stab"
+    ]
+  },
+  "specter_cloak" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:specter_cloak"
+    ]
+  },
+  "specter_uncloak" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:specter_uncloak"
+    ]
+  },
+  "calamity_death" :{
   "subtitle": "sounds.spore.damage",
   "sounds": [
     "spore:calamity_death"

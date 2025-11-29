@@ -167,6 +167,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(SprayUsurperModel.LAYER_LOCATION, SprayUsurperModel::createBodyLayer);
         event.registerLayerDefinition(BurstUsurperModel.LAYER_LOCATION, BurstUsurperModel::createBodyLayer);
         event.registerLayerDefinition(NaiadModel.LAYER_LOCATION, NaiadModel::createBodyLayer);
+        event.registerLayerDefinition(NaiadTritonModel.LAYER_LOCATION, NaiadTritonModel::createBodyLayer);
         event.registerLayerDefinition(ChemistModel.LAYER_LOCATION, ChemistModel::createBodyLayer);
 
 

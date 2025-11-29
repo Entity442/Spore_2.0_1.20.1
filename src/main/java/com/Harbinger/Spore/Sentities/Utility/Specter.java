@@ -284,6 +284,13 @@ public class Specter extends UtilityEntity implements Enemy, ArmorPersentageBypa
         return SoundEvents.ZOMBIE_STEP;
     }
 
+    @Override
+    public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor) {
+        if (INVISIBLE.equals(dataAccessor)) {
+            playSound(isInvisible() ? Ssounds.SPECTER_CLOAK.get() : Ssounds.SPECTER_UNCLOAK.get());
+        }
+        super.onSyncedDataUpdated(dataAccessor);
+    }
 
     @Override
     public boolean hasLineOfSight(Entity entity) {

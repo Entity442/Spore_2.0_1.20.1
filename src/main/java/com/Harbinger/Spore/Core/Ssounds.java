@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Core;
 
 import com.Harbinger.Spore.Spore;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -233,6 +234,24 @@ public class Ssounds {
     public static final RegistryObject<SoundEvent> SYRINGE_SHOOT = soundRegistry("syringe_shoot");
 
     public static final RegistryObject<SoundEvent> SYRINGE_GUN_INJECT = soundRegistry("syringe_gun_inject");
+
+    public static final RegistryObject<SoundEvent> SCIENTIST_FUSE = soundRegistry("scientist_fuse");
+
+    public static final RegistryObject<SoundEvent> CHEMIST_FUSE = soundRegistry("chemist_fuse");
+
+    public static final RegistryObject<SoundEvent> EVOKER_SUCK = soundRegistry("evoker_suck");
+
+    public static final RegistryObject<SoundEvent> HEXEN_SUCK = soundRegistry("hexen_suck");
+
+    public static final RegistryObject<SoundEvent> HEXEN_BLOW = soundRegistry("hexen_blow");
+
+    public static final RegistryObject<SoundEvent> SLASHER_PULL = soundRegistry("slasher_pull");
+
+    public static final RegistryObject<SoundEvent> SLASHER_STAB = soundRegistry("slasher_stab");
+
+    public static final RegistryObject<SoundEvent> SPECTER_CLOAK = soundRegistry("specter_cloak");
+
+    public static final RegistryObject<SoundEvent> SPECTER_UNCLOAK = soundRegistry("specter_uncloak");
 
     private Ssounds() {
     }
