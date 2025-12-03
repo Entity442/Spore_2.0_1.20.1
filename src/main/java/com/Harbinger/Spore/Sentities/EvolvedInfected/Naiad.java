@@ -55,7 +55,9 @@ public class Naiad extends EvolvedInfected implements WaterInfected, VariantKeep
     public static final EntityDataAccessor<BlockPos> TERRITORY = SynchedEntityData.defineId(Naiad.class, EntityDataSerializers.BLOCK_POS);
     private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(Naiad.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> TRIDENT_CHARGE = SynchedEntityData.defineId(Naiad.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> CHARGE_TICKS = SynchedEntityData.defineId(Naiad.class, EntityDataSerializers.INT);
     public int aggroTicks;
+    private Vec3 chargeTarget;
     public Naiad(EntityType<? extends EvolvedInfected> p_33002_, Level p_33003_) {
         super(p_33002_, p_33003_);
         this.moveControl = new NaiadSwimControl(this);
@@ -110,6 +112,7 @@ public class Naiad extends EvolvedInfected implements WaterInfected, VariantKeep
         this.entityData.define(TERRITORY,BlockPos.ZERO);
         this.entityData.define(DATA_ID_TYPE_VARIANT,0);
         this.entityData.define(TRIDENT_CHARGE,0);
+        this.entityData.define(CHARGE_TICKS,0);
     }
 
     @Override
@@ -142,14 +145,31 @@ public class Naiad extends EvolvedInfected implements WaterInfected, VariantKeep
         return false;
     }
 
-    public void travel(Vec3 p_32858_) {
+    public void travel(Vec3 input) {
+        if (isCharging()) {
+            this.move(MoverType.SELF, this.getDeltaMovement());
+            return;
+        }
+
         if (this.isEffectiveAi() && this.isInFluidType()) {
-            this.moveRelative(0.1F, p_32858_);
+            this.moveRelative(0.1F, input);
             this.move(MoverType.SELF, this.getDeltaMovement());
             this.setDeltaMovement(this.getDeltaMovement().scale(0.85D));
         } else {
-            super.travel(p_32858_);
+            super.travel(input);
         }
+    }
+    public int getTridentCharge(){
+        return entityData.get(TRIDENT_CHARGE);
+    }
+    public void setTridentCharge(int value){
+        entityData.set(TRIDENT_CHARGE,value);
+    }
+    public void tickCharge(){
+        entityData.set(TRIDENT_CHARGE,entityData.get(TRIDENT_CHARGE)+1);
+    }
+    public boolean isCharging(){
+        return entityData.get(CHARGE_TICKS) > 0;
     }
 
     @Override
@@ -533,7 +553,13 @@ public class Naiad extends EvolvedInfected implements WaterInfected, VariantKeep
         } else if (aggroTicks > 0) {
             aggroTicks--;
         }
+        if (!isCharging() && getTridentCharge() < 200 && getVariant() == NaiadVariants.TRITON){
+            tickCharge();
+        }
         if (isInWater()){
+            if (isCharging() && chargeTarget != null) {
+                performChargeMovement();
+            }
             Vec3 vec3 = target == null ? this.getDeltaMovement() : target.position();
 
             if (vec3.horizontalDistanceSqr() > 2.5E-7F) {
@@ -566,5 +592,132 @@ public class Naiad extends EvolvedInfected implements WaterInfected, VariantKeep
         }
 
         return Mth.lerp(0.2F, currentRotation, targetRotation);
+    }
+    private void performChargeMovement() {
+        if (!(this.level() instanceof ServerLevel serverLevel)) return;
+
+        if (chargeTarget == null || !isCharging()) {
+            stopCharge();
+            return;
+        }
+
+        Vec3 currentPos = this.position();
+        Vec3 direction = chargeTarget.subtract(currentPos);
+
+        if (direction.lengthSqr() < 1e-7) {
+            stopCharge();
+            return;
+        }
+
+        direction = direction.normalize();
+
+        Vec3 currentMotion = this.getDeltaMovement();
+
+        Vec3 boost = direction.scale(1.5)
+                .add(currentMotion.scale(0.25));
+
+        this.setDeltaMovement(boost);
+
+        // particles
+        if (this.tickCount % 2 == 0) {
+            serverLevel.sendParticles(ParticleTypes.BUBBLE,
+                    this.getX(), this.getY(), this.getZ(),
+                    3, 0.3, 0.3, 0.3, 0.02);
+            serverLevel.sendParticles(ParticleTypes.BUBBLE_POP,
+                    this.getX(), this.getY(), this.getZ(),
+                    2, 0.2, 0.2, 0.2, 0.01);
+        }
+
+        // Collision detection
+        List<Entity> entities = level().getEntities(this, this.getBoundingBox().inflate(1.5));
+        for (Entity entity : entities) {
+            if (entity == this) continue;
+
+            float damage = (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + 4;
+            entity.hurt(this.level().damageSources().trident(this, this), damage);
+            entity.setDeltaMovement(direction.scale(1.5));
+
+            stopCharge();
+            return;
+        }
+
+        // Tick down timer
+        int t = entityData.get(CHARGE_TICKS) - 1;
+        entityData.set(CHARGE_TICKS, t);
+
+        if (t <= 0) {
+            stopCharge();
+        }
+    }
+
+    public void startCharge() {
+        LivingEntity target = getTarget();
+        if (target != null && isInWater()) {
+
+            entityData.set(CHARGE_TICKS, 40);
+            this.chargeTarget = target.position();
+
+            this.playSound(SoundEvents.TRIDENT_RIPTIDE_3, 1.0F, 1.0F);
+
+            // Initial burst
+            Vec3 direction = target.position().subtract(this.position()).normalize();
+            this.setDeltaMovement(direction.scale(1.2));
+
+            setTridentCharge(0);
+        }
+    }
+
+
+    public void stopCharge() {
+        entityData.set(CHARGE_TICKS, 0);
+        this.chargeTarget = null;
+
+        Vec3 reduced = this.getDeltaMovement().scale(0.3);
+        this.setDeltaMovement(reduced);
+
+    }
+
+    private static class NaiadChargeGoal extends Goal {
+        private final Naiad naiad;
+        private int cooldown;
+
+        private NaiadChargeGoal(Naiad naiad) {
+            this.naiad = naiad;
+            this.cooldown = 0;
+        }
+
+        @Override
+        public boolean canUse() {
+            if (cooldown > 0) {
+                cooldown--;
+                return false;
+            }
+
+            LivingEntity target = naiad.getTarget();
+            return naiad.getVariant() == NaiadVariants.TRITON
+                    && naiad.getTridentCharge() >= 200
+                    && target != null
+                    && target.isAlive()
+                    && naiad.isInWater()
+                    && naiad.distanceToSqr(target) > 4.0
+                    && naiad.distanceToSqr(target) < 256.0
+                    && naiad.hasLineOfSight(target);
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return false;
+        }
+
+        @Override
+        public void start() {
+            naiad.startCharge();
+            cooldown = 100;
+        }
+
+        @Override
+        public boolean requiresUpdateEveryTick() {
+            return false;
+        }
     }
 }
