@@ -68,6 +68,7 @@ public class Naiad extends EvolvedInfected implements WaterInfected, VariantKeep
     @Override
     protected void addRegularGoals() {
         super.addRegularGoals();
+        this.goalSelector.addGoal(1, new NaiadChargeGoal(this));
         this.goalSelector.addGoal(3, new BreakBoatsGoal(this,1.2));
         this.goalSelector.addGoal(4, new CustomMeleeAttackGoal(this, 1, false) {
             @Override
