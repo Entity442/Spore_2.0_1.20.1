@@ -219,6 +219,10 @@ public class Sentities {
             () -> EntityType.Builder.of(Chemist::new, INFECTED).sized(0.6f, 1.8f)
                     .build(new ResourceLocation(Spore.MODID, "chemist").toString()));
 
+    public static final RegistryObject<EntityType<Vanguard>> VANGUARD = SPORE_ENTITIES.register("vanguard",
+            () -> EntityType.Builder.of(Vanguard::new, INFECTED).sized(0.8f, 2.5f)
+                    .build(new ResourceLocation(Spore.MODID, "vanguard").toString()));
+
     public static final RegistryObject<EntityType<Naiad>> NAIAD = SPORE_ENTITIES.register("naiad",
             () -> EntityType.Builder.of(Naiad::new, INFECTED).sized(1.25f, 0.75f)
                     .build(new ResourceLocation(Spore.MODID, "naiad").toString()));
