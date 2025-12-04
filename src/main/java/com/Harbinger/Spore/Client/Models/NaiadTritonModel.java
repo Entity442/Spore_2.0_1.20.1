@@ -286,7 +286,7 @@ public class NaiadTritonModel<T extends Naiad> extends EntityModel<T> implements
 
 		PartDefinition TridetTumor1_r1 = ArmTumors.addOrReplaceChild("TridetTumor1_r1", CubeListBuilder.create().texOffs(16, 72).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(-1.2F)), PartPose.offsetAndRotation(-0.3667F, 0.0F, -0.2333F, 1.7878F, -0.5484F, -0.4378F));
 
-		PartDefinition Tail = Naiad.addOrReplaceChild("Tail", CubeListBuilder.create(), PartPose.offset(0.0F, 5.0F, 0.0F));
+		PartDefinition Tail = Naiad.addOrReplaceChild("Tail", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 7.0F, 0.0F, 0.1309F, 0.0F, 0.0F));
 
 		PartDefinition TailTop = Tail.addOrReplaceChild("TailTop", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
@@ -300,53 +300,53 @@ public class NaiadTritonModel<T extends Naiad> extends EntityModel<T> implements
 
 		PartDefinition TailBase_r1 = TailBase.addOrReplaceChild("TailBase_r1", CubeListBuilder.create().texOffs(26, 40).addBox(-4.0F, -2.0F, 0.0F, 8.0F, 4.0F, 4.0F, new CubeDeformation(0.2F)), PartPose.offsetAndRotation(0.0F, -14.2F, -3.4F, 0.3578F, 0.0F, 0.0F));
 
-		PartDefinition Tendril3 = TailBase.addOrReplaceChild("Tendril3", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
+		PartDefinition Tendril3 = TailBase.addOrReplaceChild("Tendril3", CubeListBuilder.create(), PartPose.offsetAndRotation(-3.0F, -17.0F, -1.0F, -0.1031F, -0.6103F, -0.0081F));
 
-		PartDefinition TendrilEnd_r1 = Tendril3.addOrReplaceChild("TendrilEnd_r1", CubeListBuilder.create().texOffs(24, 99).addBox(-0.5F, -4.0F, -0.5F, 1.0F, 8.0F, 1.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-5.4F, -15.8F, 7.1F, 1.7256F, -0.343F, 0.0315F));
+		PartDefinition TendrilEnd_r1 = Tendril3.addOrReplaceChild("TendrilEnd_r1", CubeListBuilder.create().texOffs(24, 99).addBox(-0.5F, -4.0F, -0.5F, 1.0F, 8.0F, 1.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-2.4F, 1.2F, 8.1F, 1.7256F, -0.343F, 0.0315F));
 
-		PartDefinition TendrilBase_r1 = Tendril3.addOrReplaceChild("TendrilBase_r1", CubeListBuilder.create().texOffs(92, 90).addBox(-1.0F, -6.0F, -1.0F, 2.0F, 6.0F, 2.0F, new CubeDeformation(-0.4F)), PartPose.offsetAndRotation(-4.4F, -15.1F, 4.3F, 1.1551F, -0.2518F, 0.0879F));
+		PartDefinition TendrilBase_r1 = Tendril3.addOrReplaceChild("TendrilBase_r1", CubeListBuilder.create().texOffs(92, 90).addBox(-0.9493F, -0.543F, -0.8648F, 2.0F, 6.0F, 2.0F, new CubeDeformation(-0.4F)), PartPose.offsetAndRotation(0.0F, -0.1F, 0.3F, 1.1551F, -0.2518F, 0.0879F));
 
 		PartDefinition TailMid = TailTop.addOrReplaceChild("TailMid", CubeListBuilder.create(), PartPose.offset(0.0F, 16.0F, 2.2F));
 
-		PartDefinition TailTendril1_r1 = TailMid.addOrReplaceChild("TailTendril1_r1", CubeListBuilder.create().texOffs(82, 12).addBox(-1.0F, -3.0F, -2.0F, 0.0F, 8.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.7F, -11.7F, 4.3F, 1.1521F, -0.0525F, -0.0226F));
+		PartDefinition TailTendril1_r1 = TailMid.addOrReplaceChild("TailTendril1_r1", CubeListBuilder.create().texOffs(82, 12).addBox(-1.0F, -3.0F, -2.0F, 0.0F, 8.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.7F, -11.7F, 3.3F, 0.6285F, -0.0525F, -0.0226F));
 
 		PartDefinition TailMidFin_r1 = TailMid.addOrReplaceChild("TailMidFin_r1", CubeListBuilder.create().texOffs(10, 89).addBox(-1.0F, -3.0F, -2.0F, 0.0F, 5.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, -12.3F, 3.7F, 0.4896F, 0.0641F, 0.0222F));
 
 		PartDefinition TailBaseMid_r1 = TailMid.addOrReplaceChild("TailBaseMid_r1", CubeListBuilder.create().texOffs(34, 19).addBox(-4.0F, -2.0F, 0.0F, 8.0F, 5.0F, 4.0F, new CubeDeformation(-0.1F)), PartPose.offsetAndRotation(0.0F, -10.5F, -1.9F, 0.4887F, 0.0F, 0.0F));
 
-		PartDefinition TailTumor2 = TailMid.addOrReplaceChild("TailTumor2", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 2.3F));
+		PartDefinition TailTumor2 = TailMid.addOrReplaceChild("TailTumor2", CubeListBuilder.create(), PartPose.offset(-3.0F, -8.0F, 0.3F));
 
-		PartDefinition TailTumor2_r1 = TailTumor2.addOrReplaceChild("TailTumor2_r1", CubeListBuilder.create().texOffs(0, 73).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(-1.0F)), PartPose.offsetAndRotation(-3.1871F, -8.988F, -2.9395F, -2.2598F, -0.1768F, -0.3978F));
+		PartDefinition TailTumor2_r1 = TailTumor2.addOrReplaceChild("TailTumor2_r1", CubeListBuilder.create().texOffs(0, 73).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(-1.0F)), PartPose.offsetAndRotation(-0.1871F, -0.988F, -0.9395F, -2.2598F, -0.1768F, -0.3978F));
 
-		PartDefinition Tendril1 = TailMid.addOrReplaceChild("Tendril1", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
+		PartDefinition Tendril1 = TailMid.addOrReplaceChild("Tendril1", CubeListBuilder.create(), PartPose.offsetAndRotation(3.0F, -13.0F, 1.0F, -0.4363F, 0.7854F, 0.0F));
 
-		PartDefinition TendrilEnd_r2 = Tendril1.addOrReplaceChild("TendrilEnd_r2", CubeListBuilder.create().texOffs(52, 99).addBox(-0.5F, -4.0F, -0.5F, 1.0F, 8.0F, 1.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(5.3F, -11.0F, 8.1F, 1.5858F, 0.3027F, 0.0411F));
+		PartDefinition TendrilEnd_r2 = Tendril1.addOrReplaceChild("TendrilEnd_r2", CubeListBuilder.create().texOffs(52, 99).addBox(-0.4407F, -0.8383F, -0.5063F, 1.0F, 8.0F, 1.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(1.3F, 2.0F, 4.1F, 1.5858F, 0.3027F, 0.0411F));
 
-		PartDefinition TendrilBase_r2 = Tendril1.addOrReplaceChild("TendrilBase_r2", CubeListBuilder.create().texOffs(84, 94).addBox(-1.0F, -6.0F, -1.0F, 2.0F, 6.0F, 2.0F, new CubeDeformation(-0.4F)), PartPose.offsetAndRotation(4.5F, -10.8F, 5.4F, 1.116F, 0.276F, -0.1325F));
+		PartDefinition TendrilBase_r2 = Tendril1.addOrReplaceChild("TendrilBase_r2", CubeListBuilder.create().texOffs(84, 94).addBox(-0.7094F, -0.2707F, -0.6995F, 2.0F, 6.0F, 2.0F, new CubeDeformation(-0.4F)), PartPose.offsetAndRotation(-0.5F, 0.2F, -0.6F, 1.116F, 0.276F, -0.1325F));
 
-		PartDefinition Tendril2 = TailMid.addOrReplaceChild("Tendril2", CubeListBuilder.create(), PartPose.offset(5.3F, -11.0F, 8.1F));
+		PartDefinition Tendril2 = TailMid.addOrReplaceChild("Tendril2", CubeListBuilder.create(), PartPose.offsetAndRotation(-3.7F, -10.5F, 1.6F, 0.0F, -0.8727F, 0.0F));
 
-		PartDefinition TendrilEnd_r3 = Tendril2.addOrReplaceChild("TendrilEnd_r3", CubeListBuilder.create().texOffs(70, 85).addBox(-0.5F, -4.0F, -0.5F, 1.0F, 8.0F, 1.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-10.8F, 2.8F, 0.2F, 1.5795F, -0.1877F, 0.0561F));
+		PartDefinition TendrilEnd_r3 = Tendril2.addOrReplaceChild("TendrilEnd_r3", CubeListBuilder.create().texOffs(70, 85).addBox(-0.4403F, -1.0528F, -0.5258F, 1.0F, 8.0F, 1.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-1.3F, 2.3F, 3.7F, 1.5795F, -0.1877F, 0.0561F));
 
-		PartDefinition TendrilBase_r3 = Tendril2.addOrReplaceChild("TendrilBase_r3", CubeListBuilder.create().texOffs(28, 97).addBox(-1.0F, -6.0F, -1.0F, 2.0F, 6.0F, 2.0F, new CubeDeformation(-0.4F)), PartPose.offsetAndRotation(-10.4F, 3.1F, -2.8F, 0.8852F, -0.3542F, 0.1733F));
+		PartDefinition TendrilBase_r3 = Tendril2.addOrReplaceChild("TendrilBase_r3", CubeListBuilder.create().texOffs(28, 97).addBox(-0.8135F, -0.0394F, -1.6603F, 2.0F, 6.0F, 2.0F, new CubeDeformation(-0.4F)), PartPose.offsetAndRotation(0.6F, -1.4F, -0.3F, 0.8852F, -0.3542F, 0.1733F));
 
 		PartDefinition TailTumor1 = TailTop.addOrReplaceChild("TailTumor1", CubeListBuilder.create(), PartPose.offset(0.0F, 16.0F, 4.5F));
 
 		PartDefinition TailTumor1_r1 = TailTumor1.addOrReplaceChild("TailTumor1_r1", CubeListBuilder.create().texOffs(36, 57).addBox(-1.0F, -4.0F, -3.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(-0.7F)), PartPose.offsetAndRotation(2.9F, -11.9F, -2.2F, 1.1972F, 0.2605F, -0.4636F));
 
-		PartDefinition TailMid2 = Tail.addOrReplaceChild("TailMid2", CubeListBuilder.create(), PartPose.offset(0.0F, 8.0F, 2.2F));
+		PartDefinition TailMid2 = Tail.addOrReplaceChild("TailMid2", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 8.0F, 2.2F, -0.2618F, 0.0F, 0.0F));
 
 		PartDefinition TailTendril2_r1 = TailMid2.addOrReplaceChild("TailTendril2_r1", CubeListBuilder.create().texOffs(82, 12).addBox(-1.0F, -3.0F, -2.0F, 0.0F, 8.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.5F, -1.9F, 3.8F, 1.0037F, -0.0525F, -0.0226F));
 
 		PartDefinition TailMid2Fin_r1 = TailMid2.addOrReplaceChild("TailMid2Fin_r1", CubeListBuilder.create().texOffs(88, 73).addBox(-1.0F, -3.0F, -2.0F, 0.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, -0.6F, 5.7F, 0.7147F, 0.0114F, -0.0237F));
 
-		PartDefinition TailBaseMid2_r1 = TailMid2.addOrReplaceChild("TailBaseMid2_r1", CubeListBuilder.create().texOffs(32, 0).addBox(-4.0F, -2.0F, 0.0F, 8.0F, 6.0F, 4.0F, new CubeDeformation(-0.3F)), PartPose.offsetAndRotation(0.0F, 0.5F, -0.2F, 0.6196F, 0.0F, 0.0F));
+		PartDefinition TailBaseMid2_r1 = TailMid2.addOrReplaceChild("TailBaseMid2_r1", CubeListBuilder.create().texOffs(32, 0).addBox(-4.0F, -0.1384F, -2.5562F, 8.0F, 6.0F, 4.0F, new CubeDeformation(-0.3F)), PartPose.offsetAndRotation(0.0F, -2.5F, 0.8F, 0.6196F, 0.0F, 0.0F));
 
-		PartDefinition TailTumor3 = TailMid2.addOrReplaceChild("TailTumor3", CubeListBuilder.create(), PartPose.offset(1.0F, -1.0F, 2.3F));
+		PartDefinition TailTumor3 = TailMid2.addOrReplaceChild("TailTumor3", CubeListBuilder.create(), PartPose.offset(1.0F, -2.0F, 2.3F));
 
-		PartDefinition TailTumor3_r1 = TailTumor3.addOrReplaceChild("TailTumor3_r1", CubeListBuilder.create().texOffs(72, 0).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(-1.0F)), PartPose.offsetAndRotation(0.2129F, -0.288F, 0.6605F, -2.2598F, -0.1768F, -0.3978F));
+		PartDefinition TailTumor3_r1 = TailTumor3.addOrReplaceChild("TailTumor3_r1", CubeListBuilder.create().texOffs(72, 0).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(-1.0F)), PartPose.offsetAndRotation(0.2129F, 0.712F, 0.6605F, -2.2598F, -0.1768F, -0.3978F));
 
-		PartDefinition Fin = TailMid2.addOrReplaceChild("Fin", CubeListBuilder.create(), PartPose.offset(0.0F, 3.0F, 2.0F));
+		PartDefinition Fin = TailMid2.addOrReplaceChild("Fin", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 3.0F, 2.0F, -0.6109F, 0.0F, 0.0F));
 
 		PartDefinition TailEndFin2_r1 = Fin.addOrReplaceChild("TailEndFin2_r1", CubeListBuilder.create().texOffs(78, 94).addBox(-1.0F, -3.0F, -2.0F, 0.0F, 7.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.1F, 0.3F, 10.6F, 1.639F, 0.0331F, -0.0256F));
 
