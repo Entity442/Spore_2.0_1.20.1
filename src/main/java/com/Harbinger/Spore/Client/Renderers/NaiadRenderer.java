@@ -40,6 +40,13 @@ public class NaiadRenderer<Type extends Naiad> extends BaseInfectedRenderer<Type
 
 
     @Override
+    protected void scale(Type type, PoseStack poseStack, float p_115316_) {
+        float value =  type.getVariant() == NaiadVariants.TRITON ? 1.2f : 1;
+        poseStack.scale(value,value,value);
+        super.scale(type, poseStack, p_115316_);
+    }
+
+    @Override
     public ResourceLocation getTextureLocation(Type entity) {
         return entity.getVariant() == NaiadVariants.TRITON ? NAIAD_TRITON : TEXTURE;
     }
