@@ -2,31 +2,37 @@ package com.Harbinger.Spore.Sentities.BasicInfected;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
+import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.ArmedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.EvolvingInfected;
+import com.Harbinger.Spore.Sentities.Utility.Vanguard;
+import com.Harbinger.Spore.Sentities.VariantKeeper;
+import com.Harbinger.Spore.Sentities.Variants.InfPillagerSkins;
 import com.Harbinger.Spore.Sentities.Variants.ScamperVariants;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RangedCrossbowAttackGoal;
 import net.minecraft.world.entity.monster.CrossbowAttackMob;
-import net.minecraft.world.entity.npc.InventoryCarrier;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ProjectileWeaponItem;
@@ -36,10 +42,9 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class InfectedPillager extends Infected implements CrossbowAttackMob , EvolvingInfected, ArmedInfected {
+public class InfectedPillager extends Infected implements CrossbowAttackMob , EvolvingInfected, ArmedInfected , VariantKeeper {
     private static final EntityDataAccessor<Boolean> IS_CHARGING_CROSSBOW = SynchedEntityData.defineId(InfectedPillager.class, EntityDataSerializers.BOOLEAN);
-    private final SimpleContainer inventory = new SimpleContainer(5);
-
+    private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(InfectedPillager.class, EntityDataSerializers.INT);
     public InfectedPillager(EntityType<? extends Infected> type, Level level) {
         super(type, level);
     }
@@ -65,6 +70,7 @@ public class InfectedPillager extends Infected implements CrossbowAttackMob , Ev
     public void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(IS_CHARGING_CROSSBOW, false);
+        this.entityData.define(DATA_ID_TYPE_VARIANT, 0);
     }
     @Override
     public List<? extends String> getDropList() {
@@ -103,32 +109,14 @@ public class InfectedPillager extends Infected implements CrossbowAttackMob , Ev
         this.noActionTime = 0;
     }
 
-    public void addAdditionalSaveData(CompoundTag p_33300_) {
-        super.addAdditionalSaveData(p_33300_);
-        ListTag listtag = new ListTag();
-
-        for(int i = 0; i < this.inventory.getContainerSize(); ++i) {
-            ItemStack itemstack = this.inventory.getItem(i);
-            if (!itemstack.isEmpty()) {
-                listtag.add(itemstack.save(new CompoundTag()));
-            }
-        }
-
-        p_33300_.put("Inventory", listtag);
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putInt("Variant", this.getTypeVariant());
     }
 
-    public void readAdditionalSaveData(CompoundTag p_33291_) {
-        super.readAdditionalSaveData(p_33291_);
-        ListTag listtag = p_33291_.getList("Inventory", 10);
-
-        for(int i = 0; i < listtag.size(); ++i) {
-            ItemStack itemstack = ItemStack.of(listtag.getCompound(i));
-            if (!itemstack.isEmpty()) {
-                this.inventory.addItem(itemstack);
-            }
-        }
-
-        this.setCanPickUpLoot(true);
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        this.entityData.set(DATA_ID_TYPE_VARIANT, tag.getInt("Variant"));
     }
 
     protected void populateDefaultEquipmentSlots(RandomSource p_219059_, DifficultyInstance p_219060_) {
@@ -140,13 +128,25 @@ public class InfectedPillager extends Infected implements CrossbowAttackMob , Ev
         }
     }
 
-    public SimpleContainer getInventory() {
-        return this.inventory;
+
+    public void performRangedAttack(LivingEntity target, float distanceFactor) {
+        ItemStack itemstack = this.getProjectile(this.getItemInHand(ProjectileUtil.getWeaponHoldingHand(this, item -> item instanceof net.minecraft.world.item.BowItem)));
+        AbstractArrow abstractarrow = this.getArrow(itemstack, distanceFactor);
+        if (this.getMainHandItem().getItem() instanceof net.minecraft.world.item.BowItem)
+            abstractarrow = ((net.minecraft.world.item.BowItem)this.getMainHandItem().getItem()).customArrow(abstractarrow);
+        double d0 = target.getX() - this.getX();
+        double d1 = target.getY(0.3333333333333333D) - abstractarrow.getY();
+        double d2 = target.getZ() - this.getZ();
+        double d3 = Math.sqrt(d0 * d0 + d2 * d2);
+        if(abstractarrow instanceof Arrow arrow){
+            arrow.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(), 600));
+        }
+        abstractarrow.shoot(d0, d1 + d3 * (double)0.2F, d2, 1.6F, (float)(14 - this.level().getDifficulty().getId() * 4));
+        this.playSound(SoundEvents.CROSSBOW_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+        this.level().addFreshEntity(abstractarrow);
     }
-
-
-    public void performRangedAttack(LivingEntity p_33272_, float p_33273_) {
-        this.performCrossbowAttack(this, 1.6F);
+    protected AbstractArrow getArrow(ItemStack p_32156_, float p_32157_) {
+        return ProjectileUtil.getMobArrow(this, p_32156_, p_32157_);
     }
 
 
@@ -155,14 +155,11 @@ public class InfectedPillager extends Infected implements CrossbowAttackMob , Ev
         RandomSource randomsource = p_33282_.getRandom();
         this.populateDefaultEquipmentSlots(randomsource, p_33283_);
         this.populateDefaultEquipmentEnchantments(randomsource, p_33283_);
+        setVariant(Math.random() < 0.2 ? InfPillagerSkins.CAPTAIN : InfPillagerSkins.DEFAULT);
         return super.finalizeSpawn(p_33282_, p_33283_, p_33284_, p_33285_, p_33286_);
     }
 
 
-    public SlotAccess getSlot(int p_149743_) {
-        int i = p_149743_ - 300;
-        return i >= 0 && i < this.inventory.getContainerSize() ? SlotAccess.forContainer(this.inventory, i) : super.getSlot(p_149743_);
-    }
 
     protected SoundEvent getAmbientSound() {
         return Ssounds.INF_PILLAGER_AMBIENT.get();
@@ -192,5 +189,45 @@ public class InfectedPillager extends Infected implements CrossbowAttackMob , Ev
     @Override
     public String origin() {
         return "minecraft:pillager";
+    }
+    @Override
+    public void Evolve(Infected livingEntity, List<? extends String> value, ScamperVariants variants) {
+        if (this.getLinked() && this.getVariant() == InfPillagerSkins.CAPTAIN){
+            Vanguard vanguard = new Vanguard(Sentities.VANGUARD.get(),level());
+            vanguard.setKills(this.getKills() + this.getEvoPoints());
+            vanguard.setCustomName(this.getCustomName());
+            vanguard.moveTo(this.getX(),this.getY(),this.getZ());
+            if (level() instanceof ServerLevel serverLevel){
+                DifficultyInstance instance = livingEntity.level().getCurrentDifficultyAt(new BlockPos((int) livingEntity.getX(),(int)  livingEntity.getY(),(int)  livingEntity.getZ()));
+                vanguard.finalizeSpawn(serverLevel, instance, MobSpawnType.CONVERSION, null,null);
+                double x0 = livingEntity.getX() - (random.nextFloat() - 0.1) * 0.1D;
+                double y0 = livingEntity.getY() + (random.nextFloat() - 0.25) * 0.15D * 5;
+                double z0 = livingEntity.getZ() + (random.nextFloat() - 0.1) * 0.1D;
+                serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x0, y0, z0, 2, 0, 0, 0, 1);
+            }
+            level().addFreshEntity(vanguard);
+            this.discard();
+        }else{
+            EvolvingInfected.super.Evolve(livingEntity, value, variants);
+        }
+    }
+    private void setVariant(InfPillagerSkins variant) {
+        this.entityData.set(DATA_ID_TYPE_VARIANT, variant.getId() & 255);
+    }
+    public InfPillagerSkins getVariant() {
+        return InfPillagerSkins.byId(this.getTypeVariant() & 255);
+    }
+    @Override
+    public int getTypeVariant() {
+        return this.entityData.get(DATA_ID_TYPE_VARIANT);
+    }
+
+    @Override
+    public void setVariant(int i) {
+        this.entityData.set(DATA_ID_TYPE_VARIANT,i > InfPillagerSkins.values().length || i < 0 ? 0 : i);
+    }
+    @Override
+    public int amountOfMutations() {
+        return InfPillagerSkins.values().length;
     }
 }

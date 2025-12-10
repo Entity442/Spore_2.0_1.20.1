@@ -12,7 +12,6 @@ import com.Harbinger.Spore.Sentities.ArmorPersentageBypass;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.ChunkLoaderMob;
-import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -30,6 +29,7 @@ import net.minecraft.tags.StructureTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -46,7 +46,6 @@ import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -64,7 +63,6 @@ import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -114,7 +112,7 @@ public class Vanguard extends UtilityEntity implements CrossbowAttackMob, Enemy 
         return super.calculateFallDamage(p_21237_, p_21238_) - 15;
     }
     protected SoundEvent getAmbientSound() {
-        return isInvisible() ? null : Ssounds.VANGUARD_AMBIENT.get();
+        return Ssounds.VANGUARD_AMBIENT.get();
     }
 
     protected SoundEvent getHurtSound(DamageSource p_34327_) {
@@ -271,7 +269,7 @@ public class Vanguard extends UtilityEntity implements CrossbowAttackMob, Enemy 
 
     @Override
     public void shootCrossbowProjectile(LivingEntity livingEntity, ItemStack itemStack, Projectile projectile, float v) {
-        this.performCrossbowAttack(this, 3.2f);
+        this.shootCrossbowProjectile(this, livingEntity, projectile, v, 3.2f);
     }
 
     @Override
@@ -483,8 +481,7 @@ public class Vanguard extends UtilityEntity implements CrossbowAttackMob, Enemy 
         }
     }
 
-    public static class VanguardRangedCrossbowAttackGoal<T extends Mob & CrossbowAttackMob> extends Goal {
-
+    public static class VanguardRangedCrossbowAttackGoal<T extends Vanguard> extends Goal {
         private final T mob;
         private CrossbowState state = CrossbowState.UNCHARGED;
         private final float attackRadiusSqr;
@@ -522,10 +519,6 @@ public class Vanguard extends UtilityEntity implements CrossbowAttackMob, Enemy 
             return true;
         }
 
-        // =====================================================
-        // PROJECTILE CREATION
-        // =====================================================
-
         private ItemStack createExplosiveRocket() {
             fireworks = true;
 
@@ -557,10 +550,6 @@ public class Vanguard extends UtilityEntity implements CrossbowAttackMob, Enemy 
             return PotionUtils.setPotion(new ItemStack(Items.TIPPED_ARROW), Spotion.MYCELIUM_POTION.get());
         }
 
-        // =====================================================
-        // CHARGED PROJECTILE NBT (Vanilla helper is private)
-        // =====================================================
-
         private static void addChargedProjectile(ItemStack crossbow, ItemStack projectile) {
             CompoundTag tag = crossbow.getOrCreateTag();
             ListTag list;
@@ -578,35 +567,28 @@ public class Vanguard extends UtilityEntity implements CrossbowAttackMob, Enemy 
             tag.put("ChargedProjectiles", list);
         }
 
-        private static boolean isCrossbowEmpty(ItemStack crossbow) {
-            return !crossbow.getOrCreateTag().contains("ChargedProjectiles");
-        }
-
-        // =====================================================
-        // TICK LOGIC
-        // =====================================================
 
         @Override
         public void tick() {
-            LivingEntity target = this.mob.getTarget();
+            LivingEntity target = mob.getTarget();
+            boolean hasLOS = target != null && mob.getSensing().hasLineOfSight(target);
+            double dist = target == null ? 0 : mob.distanceToSqr(target);
 
-            boolean hasLOS = target != null && this.mob.getSensing().hasLineOfSight(target);
-            double dist = target == null ? 0 : this.mob.distanceToSqr(target);
+            ItemStack crossbow = mob.getMainHandItem();
+            if (!(crossbow.getItem() instanceof CrossbowItem)) return;
 
-            ItemStack bow = mob.getItemInHand(
-                    ProjectileUtil.getWeaponHoldingHand(mob, i -> i instanceof CrossbowItem));
-
-            if (isCrossbowEmpty(bow) && state == CrossbowState.UNCHARGED) {
-                state = CrossbowState.CHARGING;
-                mob.startUsingItem(ProjectileUtil.getWeaponHoldingHand(mob, i -> i instanceof CrossbowItem));
+            CompoundTag tag = crossbow.getOrCreateTag();
+            if (CrossbowItem.isCharged(crossbow) && state == CrossbowState.UNCHARGED) {
+                state = CrossbowState.CHARGED;
+                attackDelay = 5;
             }
-
             switch (state) {
 
                 case UNCHARGED -> {
-                    if (isCrossbowEmpty(bow)) {
-                        mob.startUsingItem(ProjectileUtil.getWeaponHoldingHand(mob, i -> i instanceof CrossbowItem));
+                    if (!CrossbowItem.isCharged(crossbow)) {
+                        mob.startUsingItem(InteractionHand.MAIN_HAND);
                         state = CrossbowState.CHARGING;
+                        mob.setChargingCrossbow(true);
                     }
                 }
 
@@ -617,16 +599,19 @@ public class Vanguard extends UtilityEntity implements CrossbowAttackMob, Enemy 
                     }
 
                     int useTicks = mob.getTicksUsingItem();
-                    ItemStack using = mob.getUseItem();
+                    if (useTicks >= CrossbowItem.getChargeDuration(crossbow)) {
 
-                    if (useTicks >= CrossbowItem.getChargeDuration(using)) {
+                        // Load projectile
+                        ItemStack projectile = Math.random() < 0.2 ?
+                                createExplosiveRocket() : getArrow();
+                        addChargedProjectile(crossbow, projectile);
+
+                        // IMPORTANT: vanilla-required boolean
+                        CrossbowItem.setCharged(crossbow,true);
+
                         mob.releaseUsingItem();
-
-                        ItemStack projectile = Math.random() <= 0.2f ? createExplosiveRocket() : getArrow();
-                        addChargedProjectile(bow, projectile);
-
                         state = CrossbowState.CHARGED;
-                        attackDelay = 6;
+                        attackDelay = 5;
                     }
                 }
 
@@ -634,27 +619,34 @@ public class Vanguard extends UtilityEntity implements CrossbowAttackMob, Enemy 
                     if (--attackDelay <= 0) {
                         state = CrossbowState.READY_TO_ATTACK;
                     }
+                    mob.setChargingCrossbow(false);
                 }
 
                 case READY_TO_ATTACK -> {
-                    if (hasLOS && dist != 0 && dist <= attackRadiusSqr) {
+                    if (target != null && hasLOS && dist <= attackRadiusSqr) {
                         mob.performRangedAttack(target, 1.0F);
-
-                        mob.playSound(
-                                fireworks ?
-                                        Ssounds.VANGUARD_FIREWORKS.get() :
-                                        Ssounds.VANGUARD_SHOOT.get()
+                        mob.playSound(fireworks ?
+                                Ssounds.VANGUARD_FIREWORKS.get() :
+                                Ssounds.VANGUARD_SHOOT.get()
                         );
 
+                        // mark crossbow as discharged
+                        CrossbowItem.setCharged(crossbow,false);
+                        tag.remove("ChargedProjectiles");
+
+                        // IMMEDIATELY reload
                         state = CrossbowState.UNCHARGED;
                     }
                 }
-
             }
         }
 
+
         enum CrossbowState {
-            UNCHARGED, CHARGING, CHARGED, READY_TO_ATTACK
+            UNCHARGED,
+            CHARGING,
+            CHARGED,
+            READY_TO_ATTACK
         }
     }
 
