@@ -5,16 +5,13 @@ import com.Harbinger.Spore.ExtremelySusThings.ChunkLoadRequest;
 import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sblocks.CDUBlock;
+import com.Harbinger.Spore.Sentities.*;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.NeuralProcessing.ProtoAIs.ProtoTargeting;
 import com.Harbinger.Spore.Sentities.BaseEntities.*;
-import com.Harbinger.Spore.Sentities.CasingGenerator;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
-import com.Harbinger.Spore.Sentities.FoliageSpread;
-import com.Harbinger.Spore.Sentities.Signal;
 import com.Harbinger.Spore.Sentities.Utility.GastGeber;
 import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
-import com.Harbinger.Spore.Sentities.VariantKeeper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.SectionPos;
@@ -54,7 +51,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
+public class Proto extends Organoid implements CasingGenerator, FoliageSpread, ChunkLoaderMob {
     private static final EntityDataAccessor<Integer> HOSTS = SynchedEntityData.defineId(Proto.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> BIOMASS = SynchedEntityData.defineId(Proto.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<BlockPos> NODE = SynchedEntityData.defineId(Proto.class, EntityDataSerializers.BLOCK_POS);
@@ -866,5 +863,21 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread {
         if (blockstate.getBlock().equals(Sblocks.CDU.get())){
             CDUBlock.replaceCDU(blockpos,level);
         }
+    }
+
+    @Override
+    public String getChunkId() {
+        UUID ownerId = this.getUUID();
+        return "hivemind_" + ownerId + "_";
+    }
+
+    @Override
+    public boolean shouldLoadChunk() {
+        return SConfig.SERVER.proto_chunk.get();
+    }
+
+    @Override
+    public int chunkLifeTicks() {
+        return 20 * 60 * 10;
     }
 }

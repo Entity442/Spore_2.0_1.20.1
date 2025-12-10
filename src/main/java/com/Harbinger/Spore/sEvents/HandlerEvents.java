@@ -15,6 +15,7 @@ import com.Harbinger.Spore.Sentities.Calamities.Gazenbrecher;
 import com.Harbinger.Spore.Sentities.Calamities.Hinderburg;
 import com.Harbinger.Spore.Sentities.Calamities.Hohlfresser;
 import com.Harbinger.Spore.Sentities.Calamities.Sieger;
+import com.Harbinger.Spore.Sentities.ChunkLoaderMob;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Naiad;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Protector;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
@@ -650,44 +651,22 @@ public class HandlerEvents {
 
     @SubscribeEvent
     public static void LoadCalamity(EntityEvent.EnteringSection event){
-        if (event.getEntity() instanceof Calamity calamity && calamity.level() instanceof ServerLevel level && calamity.getSearchArea() != BlockPos.ZERO){
+        Entity entity = event.getEntity();
+        if (entity instanceof ChunkLoaderMob mob && entity.level() instanceof ServerLevel serverLevel){
             SectionPos OldChunk = event.getOldPos();
             SectionPos NewChunk = event.getNewPos();
-            if (SConfig.SERVER.calamity_chunk.get() && event.didChunkChange() && OldChunk != NewChunk ){
-                if (NewChunk != null  && calamity.getSearchArea() != BlockPos.ZERO){
-                    ChunkPos chunk = NewChunk.chunk();
-                    UUID ownerId = calamity.getUUID();
-                    String id = "calamity_" + ownerId + "_" + chunk.toString();
-                    ChunkLoadRequest request = new ChunkLoadRequest(
-                            level.dimension(),
-                            new ChunkPos[]{chunk},
-                            0,
-                            id,
-                            20 * 30,
-                            ownerId
-                    );
-                    ChunkLoaderHelper.addRequest(request);
-                }
-            }
-        }
-        if (event.getEntity() instanceof Proto proto && proto.level() instanceof ServerLevel level && SConfig.SERVER.proto_chunk.get()){
-            SectionPos OldChunk = event.getOldPos();
-            SectionPos NewChunk = event.getNewPos();
-            if (event.didChunkChange() && OldChunk != NewChunk){
-                if (NewChunk != null){
-                    ChunkPos chunk = NewChunk.chunk();
-                    UUID ownerId = proto.getUUID();
-                    String id = "hivemind_" + ownerId + "_" + chunk.toString();
-                    ChunkLoadRequest request = new ChunkLoadRequest(
-                            level.dimension(),
-                            new ChunkPos[]{chunk},
-                            0,
-                            id,
-                            20 * 60 * 10,
-                            ownerId
-                    );
-                    ChunkLoaderHelper.addRequest(request);
-                }
+            if (mob.shouldLoadChunk() && event.didChunkChange() && OldChunk != NewChunk){
+                ChunkPos chunk = NewChunk.chunk();
+                String id = mob.getChunkId() + chunk.toString();
+                ChunkLoadRequest request = new ChunkLoadRequest(
+                        serverLevel.dimension(),
+                        new ChunkPos[]{chunk},
+                        0,
+                        id,
+                        mob.chunkLifeTicks(),
+                        entity.getUUID()
+                );
+                ChunkLoaderHelper.addRequest(request);
             }
         }
     }

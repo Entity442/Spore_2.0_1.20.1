@@ -5,6 +5,7 @@ import com.Harbinger.Spore.Sentities.Utility.Vanguard;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -12,6 +13,10 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.Vec3;
+
+import java.util.List;
 
 public class VanguardModel<T extends Vanguard> extends EntityModel<T> implements TentacledModel{
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -100,6 +105,8 @@ public class VanguardModel<T extends Vanguard> extends EntityModel<T> implements
 	private final ModelPart LeftLegBottomTumors;
 	private final ModelPart LeftLegBottomOvergrownTumors;
 	private final ModelPart LeftLegBottomFoliage;
+	public final List<ModelPart> partList;
+	public final List<ModelPart> pouchPartList;
 
 	public VanguardModel(ModelPart root) {
 		this.Vanguard = root.getChild("Vanguard");
@@ -186,6 +193,8 @@ public class VanguardModel<T extends Vanguard> extends EntityModel<T> implements
 		this.LeftLegBottomTumors = this.LeftLegBloatage.getChild("LeftLegBottomTumors");
 		this.LeftLegBottomOvergrownTumors = this.LeftLegBloatage.getChild("LeftLegBottomOvergrownTumors");
 		this.LeftLegBottomFoliage = this.LeftLegBottom.getChild("LeftLegBottomFoliage");
+		partList = List.of(Vanguard,TorsoPivot,Arms,RightArm,RightArmBottom);
+		pouchPartList = List.of(Vanguard,TorsoPivot,Torso,BackDetails,BackTendrils,Tendril3Pouch,Seg2Tendril3,Seg3Tendril3,FireworkPouch);
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -597,50 +606,80 @@ public class VanguardModel<T extends Vanguard> extends EntityModel<T> implements
 		this.Vanguard.getAllParts().forEach(ModelPart::resetPose);
 		float val1 = Mth.cos(ageInTicks/7)/8;
 		float val2 = Mth.sin(ageInTicks/6)/6;
-		float val3 = -Mth.cos(ageInTicks/7)/8;
+		float val3 = -Mth.cos(ageInTicks/6)/7;
 		float val4 = -Mth.sin(ageInTicks/6)/7;
+		float val5 = Mth.sin(ageInTicks/5)/8;
+		float val6 = Mth.cos(ageInTicks/5)/5;
+		float val7 = -Mth.sin(ageInTicks/6)/5;
 		Head.xRot = headPitch /  ( 90F / (float) Math.PI);
 		Head.yRot = netHeadYaw / (180F / (float) Math.PI);
+		this.animateTentacleZ(Banner,Mth.sin(ageInTicks/10)/10);
 		this.LeftLeg.xRot = Mth.cos(limbSwing * 0.6F) * 0.6F * limbSwingAmount;
 		this.RightLeg.xRot = Mth.cos(limbSwing * 0.6F) * 0.6F * -limbSwingAmount;
 		this.LeftLegBottom.xRot = this.LeftLeg.xRot < 0 ? -this.LeftLeg.xRot : 0;
 		this.RightLegBottom.xRot = this.RightLeg.xRot < 0 ? -this.RightLeg.xRot : 0;
-		this.LowerJaw.xRot = Mth.sin(ageInTicks/10)/10;
+		this.LowerJaw.xRot = Mth.sin(ageInTicks/6)/10;
 		this.LowerJaw.yRot = Mth.cos(ageInTicks/7)/7;
-		this.RightArm.xRot = val1;
+		this.RightArm.xRot =entity.isChargingCrossbow() ?  -0.75f + (headPitch /  ( 90F / (float) Math.PI)) : val1;
 		this.RightArmBottom.xRot = this.RightArm.xRot < 0 ? this.RightArm.xRot : 0;
-		this.LeftBladeArm.xRot = -val1;
+		this.RightArmBottom.yRot = entity.isChargingCrossbow() ? -0.5f : 0;
+		int attackAnimationTick = entity.getAttackAnimationTick();
+		if (attackAnimationTick > 0) {
+			float swing = -2.0F + 1.5F * Mth.triangleWave((float)attackAnimationTick, 20.0F);
+			this.animateTentacleX(LeftBladeArm,swing);
+		}else {
+			this.LeftBladeArm.xRot = val3;
+		}
 		animateTentacleX(LT1,val2);
-		animateTentacleX(LT1Seg2,val2);
+		animateTentacleZ(LT1Seg2,val5);
 		animateTentacleZ(LT2,val3);
-		animateTentacleZ(LT2Seg2,val3);
+		animateTentacleX(LT2Seg2,val5);
 		animateTentacleY(LT3,val4);
-		animateTentacleY(LT3Seg2,val4);
+		animateTentacleX(LT3Seg2,val5);
 		this.animateTumor(BackTumorCluster1,val3);
 		this.animateTumor(BackTumorCluster2,val1);
 		animateTentacleY(Tendril1,val4);
 		animateTentacleZ(Seg2Tendril1,val3);
-		animateTentacleZ(Seg3Tendril1,val2);
+		animateTentacleX(Seg2Tendril1,val1);
+		animateTentacleZ(Seg3Tendril1,val6);
 		animateTentacleY(Tendril2,val3);
 		animateTentacleZ(Seg2Tendril2,val4);
-		animateTentacleZ(Seg3Tendril2,val2);
+		animateTentacleZ(Seg3Tendril2,val6);
 		animateTentacleZ(Tendril4Eye,val3);
 		animateTentacleY(Seg2Tendril4,val4);
-		animateTentacleY(Seg3Tendril4,val2);
-		this.animateTumor(EyeTumors,val4);
+		animateTentacleX(Seg2Tendril4,-val4);
+		animateTentacleY(Seg3Tendril4,val6);
+		this.animateTumor(EyeTumors,val6);
 		animateTentacleY(VigilEye,val3);
 		animateTentacleZ(Tendril3Pouch,val3);
 		animateTentacleZ(Seg2Tendril3,val2);
-		animateTentacleZ(Seg3Tendril3,val4);
+		animateTentacleZ(Seg3Tendril3,val7);
 		float pounch = Tendril3Pouch.zRot + Seg2Tendril3.zRot + Seg3Tendril3.zRot;
 		animateTentacleZ(FireworkPouch,-pounch * 1.5f);
 		this.animateTumor(HeadTumorCluster1,val4);
-		this.animateTumor(HeadTumorCluster2,-val4);
-		this.animateTumor(LeftLegBloatage,val3);
+		this.animateTumor(HeadTumorCluster2,-val7);
+		this.animateTumor(LeftLegBloatage,val7);
+		animatePupil(entity,Minecraft.getInstance().cameraEntity,pupil);
 	}
-
+	private void animatePupil(T block, Entity entity, ModelPart part){
+		if (entity != null) {
+			Vec3 vec3 = entity.getEyePosition(0.0F);
+			Vec3 vec31 = new Vec3(block.getX(),block.getY()+1.75,block.getZ());
+			double d0 = vec3.y - vec31.y;
+			if (d0 > 0.0D) {
+				part.y = part.getInitialPose().y -0.5F;
+			} else {
+				part.y =part.getInitialPose().y + 0.5F;
+			}
+			Vec3 vec32 = vec31;
+			vec32 = new Vec3(vec32.x, 0.0D, vec32.z);
+			Vec3 vec33 = (new Vec3(vec31.x - vec3.x, 0.0D, vec31.z - vec3.z)).normalize().yRot(((float)Math.PI / 2F));
+			double d1 = vec32.dot(vec33);
+			part.x =part.getInitialPose().x + Mth.sqrt((float)Math.abs(d1)) * 0.01F * (float)Math.signum(d1);
+		}
+	}
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		Vanguard.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float r,float g,float b,float alpha) {
+		Vanguard.render(poseStack, vertexConsumer, packedLight, packedOverlay,r,g,b, alpha);
 	}
 }

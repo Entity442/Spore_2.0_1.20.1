@@ -10,6 +10,7 @@ import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SporeBurstSupport;
 import com.Harbinger.Spore.Sentities.AI.CalamityPathNavigation;
 import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.ArmorPersentageBypass;
+import com.Harbinger.Spore.Sentities.ChunkLoaderMob;
 import com.Harbinger.Spore.Sentities.EvolvingInfected;
 import com.Harbinger.Spore.Sentities.HitboxesForParts;
 import com.Harbinger.Spore.Sentities.MovementControls.CalamityMovementControl;
@@ -67,7 +68,7 @@ import java.util.*;
 
 import static com.Harbinger.Spore.ExtremelySusThings.Utilities.biomass;
 
-public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageBypass {
+public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageBypass, ChunkLoaderMob {
     public static final EntityDataAccessor<Integer> KILLS = SynchedEntityData.defineId(Calamity.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Integer> MUTATION = SynchedEntityData.defineId(Calamity.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<BlockPos> SEARCH_AREA = SynchedEntityData.defineId(Calamity.class, EntityDataSerializers.BLOCK_POS);
@@ -431,6 +432,22 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
         }
         AttributeInstance attack = this.getAttribute(Attributes.ATTACK_DAMAGE);
         return attack == null ? value : (float) (attack.getValue() * (0.2f + extra));
+    }
+
+    @Override
+    public String getChunkId() {
+        UUID ownerId = this.getUUID();
+        return "calamity_" + ownerId + "_";
+    }
+
+    @Override
+    public boolean shouldLoadChunk() {
+        return SConfig.SERVER.calamity_chunk.get() && this.getSearchArea() != BlockPos.ZERO;
+    }
+
+    @Override
+    public int chunkLifeTicks() {
+        return 20 * 30;
     }
 
     public static class GoToLocation extends Goal {

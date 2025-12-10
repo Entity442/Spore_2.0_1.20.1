@@ -90,6 +90,13 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> inf_vin_damage;
         public final ForgeConfigSpec.ConfigValue<Double> inf_vin_armor;
 
+        public final ForgeConfigSpec.ConfigValue<Double> vanguard_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> vanguard_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> vanguard_armor;
+        public final ForgeConfigSpec.ConfigValue<Integer> vanguard_raid_size;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> vanguard_members;
+        public final ForgeConfigSpec.ConfigValue<Boolean> vanguard_chunk_load;
+
         public final ForgeConfigSpec.ConfigValue<Double> wendigo_hp;
         public final ForgeConfigSpec.ConfigValue<Double> wendigo_damage;
         public final ForgeConfigSpec.ConfigValue<Double> wendigo_armor;
@@ -1073,6 +1080,16 @@ public class SConfig {
             this.specter_armor = builder.comment("Default 8").defineInRange("Sets Specter Armor", 8, 0, Double.MAX_VALUE);
             builder.pop();
 
+            builder.push("Vanguard");
+            this.vanguard_hp = builder.comment("Default 110").defineInRange("Sets Vanguard Max health", 110, 1, Double.MAX_VALUE);
+            this.vanguard_damage = builder.comment("Default 12").defineInRange("Sets Vanguard Damage", 12, 1, Double.MAX_VALUE);
+            this.vanguard_armor = builder.comment("Default 8").defineInRange("Sets Vanguard Armor", 8, 0, Double.MAX_VALUE);
+            this.vanguard_raid_size = builder.comment("Default 8").defineInRange("Sets The size of the Vanguard raid", 8, 2, Integer.MAX_VALUE);
+            this.vanguard_members = builder.defineList("Raid Mobs , mob_id|value",
+                    Lists.newArrayList("spore:inf_pillager|60","spore:inf_witch|30","spore:inf_vindicator|40","spore:inf_evoker|50","spore:stalker|20","spore:brute|20","spore:volatile|20","spore:mephitic|20") , o -> o instanceof String);
+            this.vanguard_chunk_load = builder.comment("Should a Vanguard load chunks on its way towards a village ?").define("Default true",true);
+            builder.pop();
+
             builder.push("Naiad");
             this.naiad_hp = builder.comment("Default 35").defineInRange("Sets Naiad Max health", 35, 1, Double.MAX_VALUE);
             this.naiad_damage = builder.comment("Default 6").defineInRange("Sets Naiad Damage", 6, 1, Double.MAX_VALUE);
@@ -1556,6 +1573,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inebriater_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> chemist_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> saugling_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> vanguard_loot;
 
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> name;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> player_h;
@@ -1672,6 +1690,8 @@ public class SConfig {
                     Lists.newArrayList("spore:mutated_fiber|80|5|12","spore:armor_fragment|80|2|6","spore:mutated_heart|10|1|3","spore:claw_fragment|80|6|9","spore:innards|50|1|2","spore:tumor|100|4|8","spore:tendons|60|3|7") , o -> o instanceof String);
             this.specter_loot = builder.defineList("Specter",
                     Lists.newArrayList("spore:mutated_fiber|80|5|17","spore:fang|50|1|2","spore:armor_fragment|80|2|9","spore:mutated_heart|10|1|3","spore:claw_fragment|80|6|9","spore:innards|50|1|2","spore:tumor|100|4|8","spore:tendons|60|3|7") , o -> o instanceof String);
+            this.vanguard_loot = builder.defineList("Vanguard",
+                    Lists.newArrayList("spore:mutated_fiber|80|5|17","minecraft:emerald_block|50|1|2","spore:armor_fragment|80|2|9","spore:mutated_heart|10|1|3","spore:claw_fragment|80|6|9","spore:innards|50|1|2","spore:tumor|100|4|8","spore:tendons|60|3|7","minecraft:arrow|60|3|7") , o -> o instanceof String);
             this.construct_loot = builder.defineList("Construct",
                     Lists.newArrayList("spore:mutated_fiber|80|5|17","spore:mutated_heart|10|1|3","spore:innards|50|1|2","spore:tumor|100|4|8","spore:tendons|60|3|7") , o -> o instanceof String);
             this.inebriater_loot = builder.defineList("Inebriater",

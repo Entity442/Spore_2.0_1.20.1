@@ -42,6 +42,48 @@
       "spore:chemist_fuse"
     ]
   },
+  "vanguard_ambient" :{
+  "subtitle": "sounds.spore.growl",
+  "sounds": [
+    "spore:vanguard_ambient",
+    "spore:vanguard_ambient_2",
+    "spore:vanguard_ambient_3"
+  ]
+},"vanguard_slash" :{
+  "subtitle": "sounds.spore.growl",
+  "sounds": [
+    "spore:vanguard_slash",
+    "spore:vanguard_slash_2",
+    "spore:vanguard_slash_3"
+  ]
+},"vanguard_shoot" :{
+  "subtitle": "sounds.spore.growl",
+  "sounds": [
+    "spore:vanguard_shoot",
+    "spore:vanguard_shoot_2",
+    "spore:vanguard_shoot_3"
+  ]
+},"vanguard_fireworks" :{
+  "subtitle": "sounds.spore.growl",
+  "sounds": [
+    "spore:vanguard_fireworks"
+  ]
+},"vanguard_grief" :{
+  "subtitle": "sounds.spore.growl",
+  "sounds": [
+    "spore:vanguard_grief"
+  ]
+},"vanguard_call" :{
+  "subtitle": "sounds.spore.growl",
+  "sounds": [
+    "spore:vanguard_call"
+  ]
+},"vanguard_raid" :{
+  "subtitle": "sounds.spore.growl",
+  "sounds": [
+    "spore:vanguard_raid"
+  ]
+},
   "evoker_suck" :{
     "subtitle": "sounds.spore.growl",
     "sounds": [

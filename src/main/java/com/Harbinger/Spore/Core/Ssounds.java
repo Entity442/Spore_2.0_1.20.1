@@ -253,6 +253,19 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> SPECTER_UNCLOAK = soundRegistry("specter_uncloak");
 
+    public static final RegistryObject<SoundEvent> VANGUARD_AMBIENT = soundRegistry("vanguard_ambient");
+
+    public static final RegistryObject<SoundEvent> VANGUARD_SLASH = soundRegistry("vanguard_slash");
+
+    public static final RegistryObject<SoundEvent> VANGUARD_SHOOT = soundRegistry("vanguard_shoot");
+
+    public static final RegistryObject<SoundEvent> VANGUARD_FIREWORKS = soundRegistry("vanguard_fireworks");
+
+    public static final RegistryObject<SoundEvent> VANGUARD_GRIEF = soundRegistry("vanguard_grief");
+
+    public static final RegistryObject<SoundEvent> VANGUARD_CALL = soundRegistry("vanguard_call");
+
+    public static final RegistryObject<SoundEvent> VANGUARD_RAID = soundRegistry("vanguard_raid");
     private Ssounds() {
     }
 }
