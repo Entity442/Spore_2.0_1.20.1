@@ -36,10 +36,8 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class InfectedPillager extends Infected implements CrossbowAttackMob , InventoryCarrier , EvolvingInfected, ArmedInfected {
+public class InfectedPillager extends Infected implements CrossbowAttackMob , EvolvingInfected, ArmedInfected {
     private static final EntityDataAccessor<Boolean> IS_CHARGING_CROSSBOW = SynchedEntityData.defineId(InfectedPillager.class, EntityDataSerializers.BOOLEAN);
-    private static final int INVENTORY_SIZE = 5;
-    private static final int SLOT_OFFSET = 300;
     private final SimpleContainer inventory = new SimpleContainer(5);
 
     public InfectedPillager(EntityType<? extends Infected> type, Level level) {

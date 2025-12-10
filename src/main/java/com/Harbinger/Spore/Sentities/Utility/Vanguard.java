@@ -271,7 +271,7 @@ public class Vanguard extends UtilityEntity implements CrossbowAttackMob, Enemy 
 
     @Override
     public void shootCrossbowProjectile(LivingEntity livingEntity, ItemStack itemStack, Projectile projectile, float v) {
-
+        this.performCrossbowAttack(this, 3.2f);
     }
 
     @Override
@@ -522,66 +522,92 @@ public class Vanguard extends UtilityEntity implements CrossbowAttackMob, Enemy 
             return true;
         }
 
+        // =====================================================
+        // PROJECTILE CREATION
+        // =====================================================
+
         private ItemStack createExplosiveRocket() {
             fireworks = true;
 
             ItemStack rocket = new ItemStack(Items.FIREWORK_ROCKET);
-            CompoundTag tag = rocket.getOrCreateTagElement("Fireworks");
-            tag.putByte("Flight", (byte) 1);
+            CompoundTag fw = rocket.getOrCreateTagElement("Fireworks");
+            fw.putByte("Flight", (byte) 1);
 
-            ListTag explosions = new ListTag();
-
-            explosions.add(makeExplosionNBT(0, new int[]{3887386}, new int[]{4312372}));
-            explosions.add(makeExplosionNBT(1, new int[]{15435844}, new int[]{14602026}));
-            explosions.add(makeExplosionNBT(4, new int[]{2437522}, new int[]{2651799}));
-
-            tag.put("Explosions", explosions);
+            ListTag list = new ListTag();
+            list.add(makeExplosionNBT(0, new int[]{3887386}, new int[]{4312372}));
+            list.add(makeExplosionNBT(1, new int[]{15435844}, new int[]{14602026}));
+            list.add(makeExplosionNBT(4, new int[]{2437522}, new int[]{2651799}));
+            fw.put("Explosions", list);
 
             return rocket;
         }
 
         private CompoundTag makeExplosionNBT(int shape, int[] colors, int[] fades) {
-            CompoundTag nbt = new CompoundTag();
-            nbt.putByte("Type", (byte) shape);
-            nbt.putIntArray("Colors", colors);
-            nbt.putIntArray("FadeColors", fades);
-            nbt.putBoolean("Trail", true);
-            nbt.putBoolean("Flicker", true);
-            return nbt;
+            CompoundTag n = new CompoundTag();
+            n.putByte("Type", (byte) shape);
+            n.putIntArray("Colors", colors);
+            n.putIntArray("FadeColors", fades);
+            n.putBoolean("Trail", true);
+            n.putBoolean("Flicker", true);
+            return n;
         }
 
         private ItemStack getArrow() {
             fireworks = false;
             return PotionUtils.setPotion(new ItemStack(Items.TIPPED_ARROW), Spotion.MYCELIUM_POTION.get());
         }
-        private static void addChargedProjectile(ItemStack stack, ItemStack itemStack) {
-            CompoundTag compoundtag = stack.getOrCreateTag();
-            ListTag listtag;
-            if (compoundtag.contains("ChargedProjectiles", 9)) {
-                listtag = compoundtag.getList("ChargedProjectiles", 10);
+
+        // =====================================================
+        // CHARGED PROJECTILE NBT (Vanilla helper is private)
+        // =====================================================
+
+        private static void addChargedProjectile(ItemStack crossbow, ItemStack projectile) {
+            CompoundTag tag = crossbow.getOrCreateTag();
+            ListTag list;
+
+            if (tag.contains("ChargedProjectiles", 9)) {
+                list = tag.getList("ChargedProjectiles", 10);
             } else {
-                listtag = new ListTag();
+                list = new ListTag();
             }
 
-            CompoundTag compoundtag1 = new CompoundTag();
-            itemStack.save(compoundtag1);
-            listtag.add(compoundtag1);
-            compoundtag.put("ChargedProjectiles", listtag);
+            CompoundTag projTag = new CompoundTag();
+            projectile.save(projTag);
+            list.add(projTag);
+
+            tag.put("ChargedProjectiles", list);
         }
+
+        private static boolean isCrossbowEmpty(ItemStack crossbow) {
+            return !crossbow.getOrCreateTag().contains("ChargedProjectiles");
+        }
+
+        // =====================================================
+        // TICK LOGIC
+        // =====================================================
+
         @Override
         public void tick() {
-            LivingEntity target = mob.getTarget();
-            if (target == null) return;
+            LivingEntity target = this.mob.getTarget();
 
-            boolean hasLOS = mob.getSensing().hasLineOfSight(target);
-            double dist = mob.distanceToSqr(target);
+            boolean hasLOS = target != null && this.mob.getSensing().hasLineOfSight(target);
+            double dist = target == null ? 0 : this.mob.distanceToSqr(target);
+
+            ItemStack bow = mob.getItemInHand(
+                    ProjectileUtil.getWeaponHoldingHand(mob, i -> i instanceof CrossbowItem));
+
+            if (isCrossbowEmpty(bow) && state == CrossbowState.UNCHARGED) {
+                state = CrossbowState.CHARGING;
+                mob.startUsingItem(ProjectileUtil.getWeaponHoldingHand(mob, i -> i instanceof CrossbowItem));
+            }
 
             switch (state) {
 
                 case UNCHARGED -> {
-                    // Begin charging
-                    mob.startUsingItem(ProjectileUtil.getWeaponHoldingHand(mob, i -> i instanceof CrossbowItem));
-                    state = CrossbowState.CHARGING;
+                    if (isCrossbowEmpty(bow)) {
+                        mob.startUsingItem(ProjectileUtil.getWeaponHoldingHand(mob, i -> i instanceof CrossbowItem));
+                        state = CrossbowState.CHARGING;
+                    }
                 }
 
                 case CHARGING -> {
@@ -591,19 +617,16 @@ public class Vanguard extends UtilityEntity implements CrossbowAttackMob, Enemy 
                     }
 
                     int useTicks = mob.getTicksUsingItem();
-                    ItemStack charging = mob.getUseItem();
+                    ItemStack using = mob.getUseItem();
 
-                    if (useTicks >= CrossbowItem.getChargeDuration(charging)) {
+                    if (useTicks >= CrossbowItem.getChargeDuration(using)) {
                         mob.releaseUsingItem();
-
-                        // Load projectile into crossbow NBT
-                        ItemStack bow = mob.getItemInHand(
-                                ProjectileUtil.getWeaponHoldingHand(mob, i -> i instanceof CrossbowItem));
 
                         ItemStack projectile = Math.random() <= 0.2f ? createExplosiveRocket() : getArrow();
                         addChargedProjectile(bow, projectile);
+
                         state = CrossbowState.CHARGED;
-                        attackDelay = 10;
+                        attackDelay = 6;
                     }
                 }
 
@@ -614,16 +637,19 @@ public class Vanguard extends UtilityEntity implements CrossbowAttackMob, Enemy 
                 }
 
                 case READY_TO_ATTACK -> {
-                    if (hasLOS && dist <= attackRadiusSqr) {
+                    if (hasLOS && dist != 0 && dist <= attackRadiusSqr) {
                         mob.performRangedAttack(target, 1.0F);
+
                         mob.playSound(
                                 fireworks ?
                                         Ssounds.VANGUARD_FIREWORKS.get() :
                                         Ssounds.VANGUARD_SHOOT.get()
                         );
+
                         state = CrossbowState.UNCHARGED;
                     }
                 }
+
             }
         }
 
@@ -631,6 +657,7 @@ public class Vanguard extends UtilityEntity implements CrossbowAttackMob, Enemy 
             UNCHARGED, CHARGING, CHARGED, READY_TO_ATTACK
         }
     }
+
 
     public int getVanguardRaid(){
         return entityData.get(RAID_TIME_OUT);
