@@ -270,6 +270,9 @@ public class Sitems {
     public  static final RegistryObject<Item> SCENT_SPAWNEGG = ITEMS.register("scent_spawnegg",
             () -> new SporeSpawnEgg(Sentities.SCENT,-1,SpawnEggType.UNKNOWN));
 
+    public  static final RegistryObject<Item> BAIRN = ITEMS.register("bairn_spawnegg",
+            () -> new SporeSpawnEgg(Sentities.BAIRN,-2433455,SpawnEggType.UNKNOWN));
+
     public  static final RegistryObject<Item> ILLUSION_SPAWNEGG = ITEMS.register("illusion_spawnegg",
             () -> new SporeSpawnEgg(Sentities.ILLUSION,-1,SpawnEggType.UNKNOWN));
 

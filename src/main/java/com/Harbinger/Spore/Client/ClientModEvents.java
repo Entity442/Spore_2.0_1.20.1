@@ -172,6 +172,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(TridentNaiadCharge.LAYER_LOCATION, TridentNaiadCharge::createBodyLayer);
         event.registerLayerDefinition(VanguardModel.LAYER_LOCATION, VanguardModel::createBodyLayer);
         event.registerLayerDefinition(InfectedPillagerCaptainModel.LAYER_LOCATION, InfectedPillagerCaptainModel::createBodyLayer);
+        event.registerLayerDefinition(BairnModel.LAYER_LOCATION, BairnModel::createBodyLayer);
 
 
         event.registerLayerDefinition(BombFunnelModel.LAYER_LOCATION, BombFunnelModel::createBodyLayer);
@@ -279,6 +280,8 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.NAIAD.get(), NaiadRenderer::new);
         event.registerEntityRenderer(Sentities.CHEMIST.get(), ChemistRenderer::new);
         event.registerEntityRenderer(Sentities.VANGUARD.get(), VanguardRenderer::new);
+        event.registerEntityRenderer(Sentities.BAIRN.get(), BairnRenderer::new);
+
 
         event.registerBlockEntityRenderer(SblockEntities.OVERGROWN_SPAWNER.get(), new OvergrownSpawnerRenderer());
         event.registerBlockEntityRenderer(SblockEntities.BRAIN_REMNANTS.get(), new BrainRemnantsRenderer());

@@ -7,6 +7,7 @@ import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Hyper;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
+import com.Harbinger.Spore.Sentities.BasicInfected.Bairn;
 import com.Harbinger.Spore.Sentities.BasicInfected.InfectedPlayer;
 import com.Harbinger.Spore.Sentities.Hyper.Hvindicator;
 import com.Harbinger.Spore.Sentities.Organoids.Proto;
@@ -14,6 +15,7 @@ import com.Harbinger.Spore.Sentities.Signal;
 import com.Harbinger.Spore.Sentities.Utility.GastGeber;
 import com.Harbinger.Spore.Sentities.Utility.InfestedConstruct;
 import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
+import com.Harbinger.Spore.Sentities.Variants.BairnSkins;
 import com.Harbinger.Spore.Sitems.BaseWeapons.DeathRewardingWeapon;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -23,6 +25,11 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.monster.Drowned;
+import net.minecraft.world.entity.monster.Husk;
+import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.monster.ZombieVillager;
+import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -115,6 +122,9 @@ public class Infection {
         // === General conversion based on config map ===
         if (entity.hasEffect(Seffects.MYCELIUM.get()) && !(entity instanceof Player)) {
             if (level instanceof ServerLevel serverLevel) {
+                if (tryToMakeChild(entity,serverLevel)){
+                    return;
+                }
                 for (String entry : SConfig.SERVER.inf_human_conv.get()) {
                     String[] parts = entry.split("\\|");
                     if (parts.length < 2) continue;
@@ -156,7 +166,33 @@ public class Infection {
         giveRewards(event.getSource().getEntity(), entity);
         awardHivemind(event.getSource().getEntity(), entity);
     }
-
+    public static boolean tryToMakeChild(LivingEntity living,ServerLevel serverLevel){
+        if (!living.isBaby()){
+            return false;
+        }
+        BairnSkins skin = null;
+        if (living instanceof Villager){
+            skin = BairnSkins.VILLAGER;
+        }else if (living instanceof Husk){
+            skin = BairnSkins.HUSK;
+        }else if (living instanceof Drowned){
+            skin = BairnSkins.DROWNED;
+        }else if (living instanceof ZombieVillager){
+            skin = BairnSkins.ZOMBIE_VILLAGER;
+        }else if (living instanceof Zombie){
+            skin = BairnSkins.ZOMBIE;
+        }
+        if (skin != null){
+            Bairn bairn = new Bairn(Sentities.BAIRN.get(),living.level());
+            bairn.setCustomName(living.getCustomName());
+            bairn.setPos(living.position());
+            bairn.setVariant(skin.getId());
+            serverLevel.addFreshEntity(bairn);
+            living.discard();
+            return true;
+        }
+        return false;
+    }
     private static void callProto(Entity entity) {
         if (!(entity.level() instanceof ServerLevel)){
             return;
