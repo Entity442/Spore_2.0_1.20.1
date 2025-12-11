@@ -79,7 +79,12 @@ public class HyperClaw extends UtilityEntity {
     protected SoundEvent getDeathSound() {
         return Ssounds.INF_DAMAGE.get();
     }
-
+    @Override
+    protected void positionRider(Entity entity, MoveFunction callback) {
+        super.positionRider(entity, callback);
+        Vec3 vec3 = (new Vec3(-0.1D, 0.D, 0.0D)).yRot(-this.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
+        entity.setPos(this.getX() + vec3.x, this.getY() + 0.6,this.getZ()+ vec3.z);
+    }
     @Override
     public boolean doHurtTarget(Entity entity) {
         if (entity instanceof LivingEntity living){
