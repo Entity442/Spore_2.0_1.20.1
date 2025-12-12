@@ -230,6 +230,7 @@ public class Vanguard extends UtilityEntity implements CrossbowAttackMob, Enemy 
     public @Nullable SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType p_21436_, @Nullable SpawnGroupData p_21437_, @Nullable CompoundTag p_21438_) {
         if (level instanceof ServerLevel serverLevel){
             locateVillageOnSpawn(serverLevel);
+            teleportToSurface(serverLevel,this);
         }
         this.populateDefaultEquipmentSlots(this.random, difficulty);
         return super.finalizeSpawn(level, difficulty, p_21436_, p_21437_, p_21438_);
@@ -847,5 +848,24 @@ public class Vanguard extends UtilityEntity implements CrossbowAttackMob, Enemy 
 
         this.setVillage(Objects.requireNonNullElse(foundVillage, BlockPos.ZERO));
     }
+    public void teleportToSurface(Level level, Mob entity) {
+        if (level.canSeeSky(entity.blockPosition())){
+            return;
+        }
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(
+                Mth.floor(entity.getX()),
+                level.getMaxBuildHeight(),
+                Mth.floor(entity.getZ())
+        );
 
+        while (pos.getY() > level.getMinBuildHeight()) {
+            pos.move(Direction.DOWN);
+            BlockState state = level.getBlockState(pos);
+            BlockState stateAbove = level.getBlockState(pos.above());
+            if (state.isSolidRender(level, pos) && stateAbove.isAir()) {
+                entity.teleportTo(pos.getX() + 0.5D, pos.getY() + 1.01D, pos.getZ() + 0.5D);
+                return;
+            }
+        }
+    }
 }

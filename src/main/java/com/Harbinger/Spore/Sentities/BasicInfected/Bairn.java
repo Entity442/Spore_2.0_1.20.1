@@ -24,10 +24,14 @@ import net.minecraft.world.Container;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
+import net.minecraft.world.entity.ai.util.GoalUtils;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
@@ -41,7 +45,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fluids.FluidType;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
@@ -71,7 +74,14 @@ public class Bairn extends Infected implements VariantKeeper {
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         super.registerGoals();
     }
-
+    protected void customServerAiStep() {
+        if (!this.isNoAi() && GoalUtils.hasGroundPathNavigation(this) && SConfig.SERVER.higher_thinking.get()) {
+            if (getVariant() == BairnSkins.VILLAGER || getVariant() == BairnSkins.ZOMBIE_VILLAGER){
+                ((GroundPathNavigation)this.getNavigation()).setCanOpenDoors(true);
+            }
+        }
+        super.customServerAiStep();
+    }
     @Override
     protected void addRegularGoals() {
         this.goalSelector.addGoal(3,new LocalTargettingGoal(this));
@@ -79,7 +89,7 @@ public class Bairn extends Infected implements VariantKeeper {
         this.goalSelector.addGoal(3, new OpenDoorGoal(this, true) {
             @Override
             public boolean canUse() {
-                return super.canUse() && getVariant() == BairnSkins.VILLAGER;
+                return super.canUse() && (getVariant() == BairnSkins.VILLAGER || getVariant() == BairnSkins.ZOMBIE_VILLAGER);
             }
             @Override
             public void start() {
@@ -326,7 +336,13 @@ public class Bairn extends Infected implements VariantKeeper {
         }
         return true;
     }
-
+    @Override
+    public boolean doHurtTarget(Entity entity) {
+        if (entity instanceof LivingEntity living && getVariant() == BairnSkins.HUSK){
+            living.addEffect(new MobEffectInstance(MobEffects.HUNGER,1200,0));
+        }
+        return super.doHurtTarget(entity);
+    }
     @Override
     public void tick() {
         super.tick();
