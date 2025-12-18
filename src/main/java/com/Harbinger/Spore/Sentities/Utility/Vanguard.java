@@ -78,6 +78,7 @@ public class Vanguard extends UtilityEntity implements CrossbowAttackMob, Enemy 
     public Vanguard(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         this.navigation = new WallClimberNavigation(this,level);
+        this.setMaxUpStep(1.0F);
     }
 
     public static AttributeSupplier.Builder createAttributes() {

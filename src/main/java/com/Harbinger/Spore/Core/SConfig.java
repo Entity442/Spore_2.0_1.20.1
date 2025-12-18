@@ -839,7 +839,7 @@ public class SConfig {
             this.verwa_effect = builder.defineList("Verwahrung buffs",
                     Lists.newArrayList("minecraft:speed", "minecraft:strength", "minecraft:resistance", "minecraft:regeneration") , o -> o instanceof String);
             this.verwa_summons = builder.defineList("Verwahrung summons",
-                    Lists.newArrayList("spore:knight", "spore:griefer", "spore:braiomil", "spore:leaper", "spore:slasher", "spore:scavenger", "spore:bloater", "spore:inf_evoker", "spore:busser", "spore:volatile","mephitic") , o -> o instanceof String);
+                    Lists.newArrayList("spore:knight", "spore:griefer", "spore:braiomil", "spore:leaper", "spore:slasher", "spore:scavenger", "spore:bloater", "spore:inf_evoker", "spore:busser", "spore:volatile","spore:mephitic") , o -> o instanceof String);
             builder.pop();
 
             builder.push("Braurei");
@@ -947,7 +947,7 @@ public class SConfig {
                     Lists.newArrayList("minecraft:blindness|600|0", "spore:mycelium_ef|600|1", "minecraft:slowness|600|1") , o -> o instanceof String);
             this.howit_summmons = builder.defineList("Mobs that may spawn out of its dropped bombs",
                     Lists.newArrayList("spore:inf_vindicator", "spore:busser", "spore:brute",
-                            "spore:knight", "spore:griefer", "spore:leaper", "spore:inf_evoker","spore:mephitic", "spore:spitter", "spore:stalker", "spore:scavenger", "spore:bloater", "spore:braiomil") , o -> o instanceof String);
+                            "spore:knight", "spore:griefer", "spore:leaper", "spore:naiad", "spore:inf_evoker","spore:mephitic", "spore:spitter", "spore:stalker", "spore:scavenger", "spore:bloater", "spore:braiomil") , o -> o instanceof String);
             builder.pop();
 
             builder.push("Brute");
