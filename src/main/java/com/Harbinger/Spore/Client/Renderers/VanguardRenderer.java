@@ -52,6 +52,8 @@ public class VanguardRenderer<Type extends Vanguard> extends BaseInfectedRendere
     private static class VanguardCrossbowHold<T extends Vanguard, M extends VanguardModel<T>> extends RenderLayer<T, M> {
         private final ItemInHandRenderer itemInHandRenderer;
         private static final ItemStack itemStack = new ItemStack(Items.FIREWORK_ROCKET);
+        private static final ItemStack FLINT = new ItemStack(Items.FLINT_AND_STEEL);
+        private static final ItemStack HORN = new ItemStack(Items.GOAT_HORN);
         public VanguardCrossbowHold(RenderLayerParent<T, M> renderLayerParent, ItemInHandRenderer itemInHandRenderer) {
             super(renderLayerParent);
             this.itemInHandRenderer = itemInHandRenderer;
@@ -93,6 +95,22 @@ public class VanguardRenderer<Type extends Vanguard> extends BaseInfectedRendere
             poseStack.mulPose(Axis.ZP.rotationDegrees(180.0F));
             poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
             itemInHandRenderer.renderItem(t,itemStack, ItemDisplayContext.THIRD_PERSON_LEFT_HAND,true,poseStack,multiBufferSource,i);
+            poseStack.popPose();
+            poseStack.pushPose();
+            for(ModelPart part : getParentModel().torsoPartList){
+                part.translateAndRotate(poseStack);
+            }
+            poseStack.scale(1.25f, 1.25f, 1.25f);
+            poseStack.mulPose(Axis.YP.rotationDegrees(90));
+            poseStack.mulPose(Axis.ZP.rotationDegrees(180.0F));
+            poseStack.pushPose();
+            poseStack.translate(0, -0.1, 0.25);
+            itemInHandRenderer.renderItem(t,FLINT, ItemDisplayContext.THIRD_PERSON_LEFT_HAND,true,poseStack,multiBufferSource,i);
+            poseStack.popPose();
+            poseStack.pushPose();
+            poseStack.translate(0, -0.1, -0.35);
+            itemInHandRenderer.renderItem(t,HORN, ItemDisplayContext.THIRD_PERSON_LEFT_HAND,true,poseStack,multiBufferSource,i);
+            poseStack.popPose();
             poseStack.popPose();
         }
     }

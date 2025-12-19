@@ -107,6 +107,7 @@ public class VanguardModel<T extends Vanguard> extends EntityModel<T> implements
 	private final ModelPart LeftLegBottomFoliage;
 	public final List<ModelPart> partList;
 	public final List<ModelPart> pouchPartList;
+	public final List<ModelPart> torsoPartList;
 
 	public VanguardModel(ModelPart root) {
 		this.Vanguard = root.getChild("Vanguard");
@@ -195,6 +196,7 @@ public class VanguardModel<T extends Vanguard> extends EntityModel<T> implements
 		this.LeftLegBottomFoliage = this.LeftLegBottom.getChild("LeftLegBottomFoliage");
 		partList = List.of(Vanguard,TorsoPivot,Arms,RightArm,RightArmBottom);
 		pouchPartList = List.of(Vanguard,TorsoPivot,Torso,BackDetails,BackTendrils,Tendril3Pouch,Seg2Tendril3,Seg3Tendril3,FireworkPouch);
+		torsoPartList = List.of(Vanguard,TorsoPivot,Torso,TorsoBase);
 	}
 
 	public static LayerDefinition createBodyLayer() {
