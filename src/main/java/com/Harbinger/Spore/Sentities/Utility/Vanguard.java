@@ -697,6 +697,8 @@ public class Vanguard extends UtilityEntity implements CrossbowAttackMob, Enemy 
                 if (mob instanceof Infected infected){
                     infected.setSearchPos(this.getOnPos());
                     infected.setFollowPartner(this);
+                    infected.setTarget(this.getTarget());
+                    infected.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,200,0));
                 }
                 accessor.addFreshEntity(mob);
             }}

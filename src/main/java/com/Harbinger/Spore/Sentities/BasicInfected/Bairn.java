@@ -341,6 +341,10 @@ public class Bairn extends Infected implements VariantKeeper {
         if (entity instanceof LivingEntity living && getVariant() == BairnSkins.HUSK){
             living.addEffect(new MobEffectInstance(MobEffects.HUNGER,1200,0));
         }
+        if (entity instanceof LivingEntity living && getVariant() == BairnSkins.ZOMBIE_VILLAGER){
+            living.addEffect(new MobEffectInstance(MobEffects.POISON,200,0));
+            living.addEffect(new MobEffectInstance(MobEffects.CONFUSION,200,0));
+        }
         return super.doHurtTarget(entity);
     }
     @Override
