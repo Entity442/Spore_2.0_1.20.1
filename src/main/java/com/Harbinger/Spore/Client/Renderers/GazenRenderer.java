@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Client.Renderers;
 
+import com.Harbinger.Spore.Client.Layers.WaterCalamityCamo;
 import com.Harbinger.Spore.Client.Models.GazenbrecherModel;
 import com.Harbinger.Spore.Client.Special.CalamityRenderer;
 import com.Harbinger.Spore.Sentities.Calamities.Gazenbrecher;
@@ -21,7 +22,7 @@ public class GazenRenderer<Type extends Gazenbrecher> extends CalamityRenderer<T
 
     public GazenRenderer(EntityRendererProvider.Context context) {
         super(context, new GazenbrecherModel<>(context.bakeLayer(GazenbrecherModel.LAYER_LOCATION)), 4f);
-
+        this.addLayer(new WaterCalamityCamo<>(this));
     }
 
     @Override
