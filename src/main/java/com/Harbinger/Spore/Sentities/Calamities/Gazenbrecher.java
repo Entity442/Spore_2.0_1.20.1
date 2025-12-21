@@ -13,6 +13,7 @@ import com.Harbinger.Spore.Sentities.HitboxesForParts;
 import com.Harbinger.Spore.Sentities.Projectile.BileProjectile;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
 import com.Harbinger.Spore.Sentities.WaterInfected;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -94,6 +95,12 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
     @Override
     public void tick() {
         super.tick();
+        if (tickCount % 1200 == 0 && getSearchArea() == BlockPos.ZERO && !isOcean(level().getBiome(this.getOnPos()))){
+            BlockPos pos = findOcean(level(),this.getOnPos());
+            if (pos != null){
+                setSearchArea(pos);
+            }
+        }
         if (this.getHealth() >= this.getMaxHealth() && this.getTongueHp() < this.getMaxTongueHp()){
             if (this.tickCount % 40 == 0){
                 this.setTongueHp(this.getTongueHp() +1);

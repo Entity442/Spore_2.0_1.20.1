@@ -359,6 +359,12 @@ public class Grakensenker extends Calamity implements TrueCalamity, WaterInfecte
     @Override
     public void tick() {
         super.tick();
+        if (tickCount % 1200 == 0 && getSearchArea() == BlockPos.ZERO && !isOcean(level().getBiome(this.getOnPos()))){
+            BlockPos pos = findOcean(level(),this.getOnPos());
+            if (pos != null){
+                setSearchArea(pos);
+            }
+        }
         updateHeight();
         handleVortexBehavior();
         if (getVortexTimeOut() > 0) {
