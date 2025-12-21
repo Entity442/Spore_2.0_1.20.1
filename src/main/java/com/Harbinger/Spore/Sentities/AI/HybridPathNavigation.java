@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Sentities.AI;
 
+import com.Harbinger.Spore.Sentities.Calamities.Grakensenker;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -64,6 +65,9 @@ public class HybridPathNavigation extends GroundPathNavigation {
     }
 
     public void UnderWaterLeaps(LivingEntity target){
+        if (mob instanceof Grakensenker grakensenker && grakensenker.hasVortex()){
+            return;
+        }
         Vec3 vec3 = this.mob.getDeltaMovement();
         Vec3 vec31 = new Vec3(target.getX() - this.mob.getX(), target.getY() - this.mob.getY(), target.getZ() - this.mob.getZ());
         if (vec31.lengthSqr() > 1.0E-7D) {

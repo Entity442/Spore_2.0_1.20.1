@@ -173,6 +173,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(VanguardModel.LAYER_LOCATION, VanguardModel::createBodyLayer);
         event.registerLayerDefinition(InfectedPillagerCaptainModel.LAYER_LOCATION, InfectedPillagerCaptainModel::createBodyLayer);
         event.registerLayerDefinition(BairnModel.LAYER_LOCATION, BairnModel::createBodyLayer);
+        event.registerLayerDefinition(GrakensenkerModel.LAYER_LOCATION, GrakensenkerModel::createBodyLayer);
 
 
         event.registerLayerDefinition(BombFunnelModel.LAYER_LOCATION, BombFunnelModel::createBodyLayer);
@@ -281,6 +282,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.CHEMIST.get(), ChemistRenderer::new);
         event.registerEntityRenderer(Sentities.VANGUARD.get(), VanguardRenderer::new);
         event.registerEntityRenderer(Sentities.BAIRN.get(), BairnRenderer::new);
+        event.registerEntityRenderer(Sentities.KRAKEN.get(), KrakenRenderer::new);
 
 
         event.registerBlockEntityRenderer(SblockEntities.OVERGROWN_SPAWNER.get(), new OvergrownSpawnerRenderer());

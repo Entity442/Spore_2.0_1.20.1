@@ -21,6 +21,7 @@ public class CalamityPartsHandeling {
     private static final HohlfresserSeg2Model<?> worm_seg2Model = new HohlfresserSeg2Model<>();
     private static final HohlfresserSeg3Model<?> worm_seg3Model = new HohlfresserSeg3Model<>();
     private static final hohlfresserTailModel<?> worm_tailModel = new hohlfresserTailModel<>();
+    private static final GrakensenkerModel<?> grakensenkerModel = new GrakensenkerModel<>();
     private static final ResourceLocation DEFAULT_SIEGER = new ResourceLocation(Spore.MODID,"textures/entity/sieger.png");
     private static final ResourceLocation ADAPTED_SIEGER = new ResourceLocation(Spore.MODID,"textures/entity/war_sieger.png");
     private static final ResourceLocation DEFAULT_GAZEN = new ResourceLocation(Spore.MODID,"textures/entity/gazen.png");
@@ -33,6 +34,7 @@ public class CalamityPartsHandeling {
     private static final ResourceLocation HOHL_SEG  = new ResourceLocation(Spore.MODID,"textures/entity/hohl/hohl_seg1.png");
     private static final ResourceLocation HOHL_SHARP_SEG  = new ResourceLocation(Spore.MODID,"textures/entity/hohl/hohl_seg2.png");
     private static final ResourceLocation HOHL_ORGAN_SEG  = new ResourceLocation(Spore.MODID,"textures/entity/hohl/hohl_seg3.png");
+    private static final ResourceLocation GRAKEN  = new ResourceLocation(Spore.MODID,"textures/entity/graken.png");
     public record Part(int id, List<ModelPart> parts,float x, float y,float z,float xRot, float yRot,float zRot, ResourceLocation location,ResourceLocation adapted_location){}
 
     public static final Part SIEGER_BODY = new Part(0,List.of(siegerModel.mainbody,siegerModel.mainbody2),0,0,0,0,0,0,DEFAULT_SIEGER,ADAPTED_SIEGER);
@@ -71,6 +73,10 @@ public class CalamityPartsHandeling {
     public static final Part HOHL_SEG3 = new Part(29,List.of(worm_seg3Model.hohl_seg),0,0.5f,0,0,0,0,HOHL_ORGAN_SEG,HOHL_ORGAN_SEG);
     public static final Part HOHL_TAIL = new Part(30,List.of(worm_tailModel.tail),0,0,0.5f,0,0,0,HOHL_SEG,HOHL_SEG);
 
+    public static final Part GRAKEN_BODY = new Part(31,List.of(grakensenkerModel.body2,grakensenkerModel.FrontSeg2CorpseDetails,grakensenkerModel.CenterCorpseDetails6,grakensenkerModel.CenterCorpseDetails3),3,2f,1.5f,0,0,0,GRAKEN,GRAKEN);
+    public static final Part GRAKEN_BACK_MAW = new Part(32,List.of(grakensenkerModel.head),-1.5f,-2.5f,0,0,0,0,GRAKEN,GRAKEN);
+    public static final Part GRAKEN_FRONT_MAW = new Part(33,List.of(grakensenkerModel.FrontJaw),-1,0,0,0,0,0,GRAKEN,GRAKEN);
+    public static final Part GRAKEN_HINGE = new Part(34,List.of(grakensenkerModel.BackBodyMouthProtection),6,-6,0,0,0,0,GRAKEN,GRAKEN);
     public static Part getPart(int value){
         return getParts.stream().filter(p -> p.id == value).findFirst().orElse(SIEGER_BODY);
     }
@@ -111,5 +117,10 @@ public class CalamityPartsHandeling {
         add(HOHL_SEG2);
         add(HOHL_SEG3);
         add(HOHL_TAIL);
+
+        add(GRAKEN_BODY);
+        add(GRAKEN_BACK_MAW);
+        add(GRAKEN_FRONT_MAW);
+        add(GRAKEN_HINGE);
     }};
 }

@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.SBlockEntities.BiomassLumpEntity;
+import com.Harbinger.Spore.SBlockEntities.ContainerBlockEntity;
 import com.Harbinger.Spore.SBlockEntities.HiveSpawnBlockEntity;
 import com.Harbinger.Spore.SBlockEntities.LivingStructureBlocks;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
@@ -292,6 +293,9 @@ public class InfectionTendril extends UtilityEntity {
     }
 
     private boolean isChestWithFood(Container container){
+        if (container instanceof ContainerBlockEntity){
+            return false;
+        }
         return container.hasAnyMatching((ItemStack::isEdible));
     }
 

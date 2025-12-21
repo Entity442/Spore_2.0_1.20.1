@@ -351,6 +351,8 @@ public class Sitems {
     public  static final RegistryObject<Item> HOHLFRESSER_SPAWNEGG = ITEMS.register("hohlfresser_spawnegg",
             () -> new SporeSpawnEgg(Sentities.HOHLFRESSER,76414394,SpawnEggType.CALAMITY));
 
+    public  static final RegistryObject<Item> KRAKEN_SPAWNEGG = ITEMS.register("kraken_spawnegg",
+            () -> new SporeSpawnEgg(Sentities.KRAKEN,214325443,SpawnEggType.CALAMITY));
 
     public  static final RegistryObject<Item> ACID = ITEMS.register("acid",
             () -> new Item( new Item.Properties()));

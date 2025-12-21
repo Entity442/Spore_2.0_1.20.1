@@ -285,6 +285,13 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> gazen_buffs;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> gazen_debuffs;
 
+        public final ForgeConfigSpec.ConfigValue<Double> graken_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> graken_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> graken_armor;
+        public final ForgeConfigSpec.ConfigValue<Double> graken_dpsr;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> graken_buffs;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> graken_debuffs;
+
         public final ForgeConfigSpec.ConfigValue<Double> hinden_hp;
         public final ForgeConfigSpec.ConfigValue<Double> hinden_damage;
         public final ForgeConfigSpec.ConfigValue<Double> hinden_armor;
@@ -919,6 +926,19 @@ public class SConfig {
                     Lists.newArrayList("minecraft:darkness|600|0", "spore:mycelium_ef|600|1", "minecraft:hunger|600|1") , o -> o instanceof String);
             builder.pop();
 
+            builder.push("Grakensenker");
+            this.graken_hp = builder.comment("Default 400").defineInRange("Sets Grakensenker Max health", 400, 1, Double.MAX_VALUE);
+            this.graken_damage = builder.comment("Default 15").defineInRange("Sets Grakensenker Damage", 15, 1, Double.MAX_VALUE);
+            this.graken_armor = builder.comment("Default 15").defineInRange("Sets Grakensenker Armor", 15, 1, Double.MAX_VALUE);
+            this.graken_dpsr = builder.comment("Default 100").defineInRange("Sets Grakensenker Damage Cap , set to 0 to disable", 100, 0, Double.MAX_VALUE);
+
+            this.graken_buffs = builder.comment("Default values: minecraft:strength|600|0, minecraft:conduit_power|600|0, minecraft:resistance|600|1").defineList("Gazenbreacher buffs",
+                    Lists.newArrayList("minecraft:strength|600|0", "minecraft:conduit_power|600|0", "minecraft:resistance|600|1") , o -> o instanceof String);
+
+            this.graken_debuffs = builder.comment("Default values: minecraft:darkness|600|0, spore:mycelium|600|1, minecraft:mining_fatigue|600|0").defineList("Gazenbreacher debuffs",
+                    Lists.newArrayList("minecraft:darkness|600|0", "spore:mycelium_ef|600|1", "minecraft:mining_fatigue|600|0") , o -> o instanceof String);
+            builder.pop();
+
             builder.push("Hindenburg");
             this.hinden_hp = builder.comment("Default 400").defineInRange("Sets Hindenburg Max health", 400, 1, Double.MAX_VALUE);
             this.hinden_damage = builder.comment("Default 15").defineInRange("Sets Hindenburg Danage", 15, 1, Double.MAX_VALUE);
@@ -1023,7 +1043,7 @@ public class SConfig {
             this.reconstructor_air = builder.defineList("Mobs that are summoned for air support",
                     Lists.newArrayList("spore:hindenburg","spore:howitzer" ) , o -> o instanceof String);
             this.reconstructor_water = builder.defineList("Mobs that are summoned for water support",
-                    Lists.newArrayList("spore:gazenbreacher" ) , o -> o instanceof String);
+                    Lists.newArrayList("spore:gazenbreacher","spore:kraken" ) , o -> o instanceof String);
             this.reconstructor_underground = builder.defineList("Mobs that are summoned for underground support",
                     Lists.newArrayList("spore:hohlfresser" ) , o -> o instanceof String);
             builder.pop();
@@ -1542,6 +1562,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_husk_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_volatile_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_mep_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> graken_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> gastgaber_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sca_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_loot;
@@ -1729,6 +1750,9 @@ public class SConfig {
 
 
             this.gazen_loot = builder.defineList("Gazenbrecher",
+                    Lists.newArrayList("spore:mutated_fiber|100|33|75","spore:armor_fragment|100|15|38","spore:mutated_heart|70|3|7","spore:cerebrum|70|4|9","spore:spine_fragment|56|7|15") , o -> o instanceof String);
+
+            this.graken_loot = builder.defineList("Graken",
                     Lists.newArrayList("spore:mutated_fiber|100|33|75","spore:armor_fragment|100|15|38","spore:mutated_heart|70|3|7","spore:cerebrum|70|4|9","spore:spine_fragment|56|7|15") , o -> o instanceof String);
 
             this.hindie_loot = builder.defineList("Hindenburg",

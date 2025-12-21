@@ -1,0 +1,9 @@
+{
+  "type": "spore:injection",
+  "entity": "spore:naiad",
+  "entity_type": 1,
+  "output": {
+    "item": "spore:drowned_syringe",
+    "count": 1
+  }
+}
