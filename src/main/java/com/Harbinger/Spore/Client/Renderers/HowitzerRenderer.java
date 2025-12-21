@@ -30,7 +30,7 @@ public class HowitzerRenderer<Type extends Howitzer> extends CalamityRenderer<Ty
 
 
     public HowitzerRenderer(EntityRendererProvider.Context context) {
-        super(context, new HowitzerModel<>(context.bakeLayer(HowitzerModel.LAYER_LOCATION)), 4f);
+        super(context, new HowitzerModel<>(), 4f);
         this.addLayer(new HowitzerNeonGreenLayer<>(this));
         this.addLayer(new HowitzerEmissiveLayer<>(this));
     }

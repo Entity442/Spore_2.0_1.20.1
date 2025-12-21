@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Client.Models;// Made with Blockbench 4.10.4
 // Paste this class into your mod and generate all required imports
 
 
+import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Sentities.Calamities.Howitzer;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -14,6 +15,8 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+
+import java.time.LocalDate;
 
 public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -74,65 +77,15 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 	private final ModelPart LeftArmTendril2;
 	private final ModelPart LeftArmTendril3;
 	private final ModelPart LeftArmTendril4;
-
-	public HowitzerModel(ModelPart root) {
-		this.Howi = root.getChild("Howi");
-		this.Maw = Howi.getChild("Maw");
-		this.Jaw1 = Maw.getChild("jaw1");
-		this.Jaw2 = Maw.getChild("jaw2");
-		this.Jaw3 = Maw.getChild("jaw3");
-		this.Tongue = Maw.getChild("Tongue");
-		this.Tongue2 = Tongue.getChild("TongueSeg2");
-		this.Tongue3 = Tongue2.getChild("TongueSeg3");
-		this.Tongue4 = Tongue3.getChild("TongueSeg4");
-		this.Tongue5 = Tongue4.getChild("TongueSplit1");
-		this.Tongue6 = Tongue4.getChild("TongueSplit2");
-		this.Tumor1 = Howi.getChild("BileSacs").getChild("BallSac1");
-		this.Tumor2 = Howi.getChild("BileSacs").getChild("BallSac2");
-		this.Tumor3 = Howi.getChild("BileSacs").getChild("BallSac3");
-		this.Tumor4 = Howi.getChild("BileSacs").getChild("BallSac4");
-		this.Tumor5 = Howi.getChild("BileSacs").getChild("BallSac5");
-		this.Tumor6 = Howi.getChild("BileSacs").getChild("BallSac6");
-		this.Tumor7 = Howi.getChild("BileSacs").getChild("MajorBallSack");
-		this.CononCluster1 = Howi.getChild("CannonClusters").getChild("Cluster1");
-		this.CononCluster2 = Howi.getChild("CannonClusters").getChild("Cluster2");
-		this.CononCluster3 = Howi.getChild("CannonClusters").getChild("Cluster3");
-		this.CononCluster4 = Howi.getChild("CannonClusters").getChild("FailedCannon");
-		this.Cannon1 = this.CononCluster1.getChild("C1C1");
-		this.Cannon2 = this.CononCluster1.getChild("C1C2");
-		this.Cannon3 = this.CononCluster1.getChild("C1C3");
-		this.Cannon4 = this.CononCluster2.getChild("C2C1");
-		this.Cannon5 = this.CononCluster2.getChild("C2C2");
-		this.Cannon6 = this.CononCluster2.getChild("C2C3");
-		this.Cannon7 = this.CononCluster3.getChild("C3C1");
-		this.Cannon8 = this.CononCluster3.getChild("C3C2");
-		this.Cannon9 = this.CononCluster3.getChild("C3C3");
-		this.CannonFlower = this.CononCluster4.getChild("FailedCannonFlower");
-		this.CannonHead = Cannon7.getChild("C3C1Top").getChild("ThisIsSporeSlasher");
-		this.Tentacle1 = Howi.getChild("BodyRoots").getChild("Root1");
-		this.Tentacle2 = Howi.getChild("BodyRoots").getChild("Root2");
-		this.Tentacle3 = Howi.getChild("BodyRoots").getChild("Root3");
-		this.Tentacle4 = Howi.getChild("BodyRoots").getChild("Root4");
-		this.Tentacle5 = Howi.getChild("BodyRoots").getChild("Root5");
-		this.LeftLeg = Howi.getChild("Legs").getChild("LeftLegJoint");
-		this.LeftLegTentacle = this.LeftLeg.getChild("LeftLeg").getChild("LeftLeg2").getChild("Tendril9");
-		this.RightLeg = Howi.getChild("Legs").getChild("RightLegJoint");
-		this.RightForLeg = RightLeg.getChild("RightLeg").getChild("RightLeg3");
-		this.RightLegTentacle1 = RightLeg.getChild("RightLeg").getChild("Tendril8");
-		this.RightLegTentacle2 = RightForLeg.getChild("RightLeg2").getChild("Tendril5");
-		this.RightLegTentacle3 = RightForLeg.getChild("RightLeg2").getChild("Tendril6");
-		this.RightLegTentacle4 = RightForLeg.getChild("RightLeg2").getChild("Tendril7");
-		this.RightArm = Howi.getChild("Arms").getChild("RightArmJoint");
-		this.RightForArm = RightArm.getChild("RightArm").getChild("RightArmSeg2");
-		this.RightForForArm = RightForArm.getChild("RightArmSeg3");
-		this.LeftArm = Howi.getChild("Arms").getChild("LeftArmJoint");
-		this.LeftForArm = LeftArm.getChild("LeftArm").getChild("LeftArmSeg2");
-		this.LeftForForArm = LeftForArm.getChild("LeftArmSeg3");
-		this.LeftArmTendril1 = LeftForForArm.getChild("Tendril1");
-		this.LeftArmTendril2 = LeftForForArm.getChild("Tendril2");
-		this.LeftArmTendril3 = LeftForForArm.getChild("LeftArmSeg4").getChild("Tendril3");
-		this.LeftArmTendril4 = LeftForForArm.getChild("LeftArmSeg4").getChild("Tendril4");
-	}
+	private final ModelPart Jolly1;
+	private final ModelPart Jolly2;
+	private final ModelPart Jolly3;
+	private final ModelPart Jolly4;
+	private final ModelPart Jolly5;
+	private final ModelPart Jolly6;
+	private final ModelPart Jolly7;
+	protected final LocalDate localdate = LocalDate.now();
+	protected final int j = localdate.getMonth().getValue();
 	public HowitzerModel() {
 		ModelPart root = createBodyLayer().bakeRoot();
 		this.Howi = root.getChild("Howi");
@@ -191,8 +144,17 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		this.LeftArmTendril2 = LeftForForArm.getChild("Tendril2");
 		this.LeftArmTendril3 = LeftForForArm.getChild("LeftArmSeg4").getChild("Tendril3");
 		this.LeftArmTendril4 = LeftForForArm.getChild("LeftArmSeg4").getChild("Tendril4");
+		this.Jolly1 = Howi.getChild("Maw").getChild("Tree");
+		this.Jolly2 = Howi.getChild("CannonClusters").getChild("Cluster3").getChild("C3C1").getChild("C3C1Top").getChild("ThisIsSporeSlasher").getChild("CommanderHat");
+		this.Jolly3 = Howi.getChild("CannonClusters").getChild("Cluster3").getChild("C3C2").getChild("BilePresent1");
+		this.Jolly4 = Howi.getChild("CannonClusters").getChild("Cluster2").getChild("C2C1").getChild("Present1");
+		this.Jolly5 = Howi.getChild("CannonClusters").getChild("Cluster2").getChild("C2C2").getChild("IncendiaryPresent1");
+		this.Jolly6 = Howi.getChild("CannonClusters").getChild("Cluster1").getChild("C1C1").getChild("CorrosivePresent1");
+		this.Jolly7 = Howi.getChild("CannonClusters").getChild("Cluster1").getChild("C1C2").getChild("Present2");
 	}
-
+	boolean isJollyTime(){
+		return (j == 12 && SConfig.SERVER.costumes.get()) || SConfig.SERVER.costumes_active.get();
+	}
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
@@ -218,7 +180,7 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		PartDefinition TorsoBase_r1 = Body33.addOrReplaceChild("TorsoBase_r1", CubeListBuilder.create().texOffs(257, 330).addBox(-3.25F, -1.0F, -3.5F, 6.0F, 3.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.376F, 1.0111F, 1.8956F, -0.1286F, -0.4614F, 0.5318F));
 
 		PartDefinition TorsoTop_r1 = Body33.addOrReplaceChild("TorsoTop_r1", CubeListBuilder.create().texOffs(257, 330).addBox(-6.0F, -3.5F, -4.0F, 6.0F, 4.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(257, 330).addBox(-14.0F, -5.5F, -4.0F, 7.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.4072F, 1.6966F, 0.4934F, -0.0177F, -0.4775F, 0.2877F));
+				.texOffs(257, 330).addBox(-14.0F, -5.5F, -4.0F, 7.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.4072F, 1.6966F, 0.4934F, -0.0177F, -0.4775F, 0.2877F));
 
 		PartDefinition Jaw_r1 = Body33.addOrReplaceChild("Jaw_r1", CubeListBuilder.create().texOffs(257, 330).addBox(-0.752F, -4.9611F, -3.8866F, 1.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.7147F, -0.3831F, -2.47F, -0.1692F, -0.2135F, 0.7249F));
 
@@ -377,7 +339,7 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		PartDefinition TorsoBase_r13 = Body46.addOrReplaceChild("TorsoBase_r13", CubeListBuilder.create().texOffs(257, 331).addBox(-3.25F, -1.0F, -3.5F, 6.0F, 3.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0912F, -1.28F, 3.724F, 0.1286F, 0.4614F, 0.5318F));
 
 		PartDefinition TorsoTop_r11 = Body46.addOrReplaceChild("TorsoTop_r11", CubeListBuilder.create().texOffs(257, 331).addBox(-6.0F, -3.5F, -4.0F, 6.0F, 4.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(257, 331).addBox(-14.0F, -5.5F, -4.0F, 7.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.06F, -0.5945F, 5.1262F, 0.0177F, 0.4775F, 0.2877F));
+				.texOffs(257, 331).addBox(-14.0F, -5.5F, -4.0F, 7.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.06F, -0.5945F, 5.1262F, 0.0177F, 0.4775F, 0.2877F));
 
 		PartDefinition Jaw_r2 = Body46.addOrReplaceChild("Jaw_r2", CubeListBuilder.create().texOffs(257, 331).addBox(-0.752F, -4.9611F, -4.1134F, 1.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-10.1819F, -2.6742F, 8.0896F, 0.1692F, 0.2135F, 0.7249F));
 
@@ -426,7 +388,7 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		PartDefinition TorsoTop_r15 = Body50.addOrReplaceChild("TorsoTop_r15", CubeListBuilder.create().texOffs(257, 331).addBox(-0.1415F, -2.3037F, 1.0213F, 9.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.1991F, 4.1416F, 6.3927F, -0.0148F, -0.4858F, 1.3101F));
 
 		PartDefinition TorsoTop_r16 = Body50.addOrReplaceChild("TorsoTop_r16", CubeListBuilder.create().texOffs(257, 331).addBox(4.0F, -2.75F, -4.0F, 6.0F, 5.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(257, 331).addBox(-4.0F, -4.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0F, 2.0F, 3.0F, -0.0283F, -0.1085F, 0.4234F));
+				.texOffs(257, 331).addBox(-4.0F, -4.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0F, 2.0F, 3.0F, -0.0283F, -0.1085F, 0.4234F));
 
 		PartDefinition Body51 = MainBodyBodies.addOrReplaceChild("Body51", CubeListBuilder.create(), PartPose.offsetAndRotation(21.3099F, -24.0013F, -28.5803F, -0.9762F, 0.3446F, -1.2993F));
 
@@ -475,7 +437,7 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		PartDefinition TorsoBase_r19 = Body31.addOrReplaceChild("TorsoBase_r19", CubeListBuilder.create().texOffs(255, 326).addBox(-3.25F, -2.0F, -3.5F, 6.0F, 3.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.376F, -1.0111F, -1.8956F, -0.1286F, 0.4614F, -0.5318F));
 
 		PartDefinition TorsoBottom_r7 = Body31.addOrReplaceChild("TorsoBottom_r7", CubeListBuilder.create().texOffs(255, 326).addBox(-6.0F, -0.5F, -4.0F, 6.0F, 4.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(255, 326).addBox(-14.0F, -2.5F, -4.0F, 7.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.4072F, -1.6966F, -0.4934F, -0.0177F, 0.4775F, -0.2877F));
+				.texOffs(255, 326).addBox(-14.0F, -2.5F, -4.0F, 7.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.4072F, -1.6966F, -0.4934F, -0.0177F, 0.4775F, -0.2877F));
 
 		PartDefinition Jaw_r3 = Body31.addOrReplaceChild("Jaw_r3", CubeListBuilder.create().texOffs(255, 326).addBox(-0.752F, -3.0389F, -4.1134F, 1.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.7147F, 0.3831F, 2.47F, -0.1692F, 0.2135F, -0.7249F));
 
@@ -572,7 +534,7 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		PartDefinition TorsoBase_r20 = Body28.addOrReplaceChild("TorsoBase_r20", CubeListBuilder.create().texOffs(255, 326).addBox(-3.25F, -1.0F, -3.5F, 6.0F, 3.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.5849F, 0.864F, 2.0376F, -0.1286F, -0.4614F, 0.5318F));
 
 		PartDefinition TorsoTop_r19 = Body28.addOrReplaceChild("TorsoTop_r19", CubeListBuilder.create().texOffs(255, 326).addBox(-6.0F, -3.5F, -4.0F, 6.0F, 4.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(255, 326).addBox(-14.0F, -5.5F, -4.0F, 7.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.6161F, 1.5495F, 0.6353F, -0.0177F, -0.4775F, 0.2877F));
+				.texOffs(255, 326).addBox(-14.0F, -5.5F, -4.0F, 7.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.6161F, 1.5495F, 0.6353F, -0.0177F, -0.4775F, 0.2877F));
 
 		PartDefinition Jaw_r6 = Body28.addOrReplaceChild("Jaw_r6", CubeListBuilder.create().texOffs(255, 326).addBox(-0.752F, -4.9611F, -3.8866F, 1.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.5058F, -0.5302F, -2.3281F, -0.1692F, -0.2135F, 0.7249F));
 
@@ -809,12 +771,12 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		PartDefinition BottomTorso_r3 = RightFinger4.addOrReplaceChild("BottomTorso_r3", CubeListBuilder.create().texOffs(437, 75).addBox(-3.4246F, -3.7816F, -0.922F, 5.0F, 7.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.119F, 0.1903F, 1.3227F, 0.0617F, -0.3561F, -0.1119F));
 
 		PartDefinition RightFingerHead4 = RightFinger4.addOrReplaceChild("RightFingerHead4", CubeListBuilder.create().texOffs(437, 75).addBox(-1.5F, -4.0F, -0.25F, 7.0F, 8.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(437, 75).addBox(-2.5F, -4.0F, 4.75F, 1.0F, 8.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.4019F, -1.0F, 3.884F, 0.0F, -1.0472F, 0.0F));
+				.texOffs(437, 75).addBox(-2.5F, -4.0F, 4.75F, 1.0F, 8.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.4019F, -1.0F, 3.884F, 0.0F, -1.0472F, 0.0F));
 
 		PartDefinition Body26 = RightArmSeg4.addOrReplaceChild("Body26", CubeListBuilder.create(), PartPose.offsetAndRotation(-8.2105F, -10.8969F, 7.3088F, -2.0944F, -0.829F, 1.5708F));
 
 		PartDefinition TorsoBase_r28 = Body26.addOrReplaceChild("TorsoBase_r28", CubeListBuilder.create().texOffs(255, 326).addBox(-9.761F, -0.3912F, -3.9958F, 6.0F, 3.0F, 7.0F, new CubeDeformation(0.0F))
-		.texOffs(255, 326).addBox(-3.761F, -1.1412F, -4.4958F, 6.0F, 4.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -1.0F, 0.0F, 0.6977F, 0.1321F, -0.6429F));
+				.texOffs(255, 326).addBox(-3.761F, -1.1412F, -4.4958F, 6.0F, 4.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -1.0F, 0.0F, 0.6977F, 0.1321F, -0.6429F));
 
 		PartDefinition Jaw_r7 = Body26.addOrReplaceChild("Jaw_r7", CubeListBuilder.create().texOffs(255, 326).addBox(0.0412F, -4.0001F, -1.4988F, 8.0F, 8.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.5F, 2.15F, -0.3F, 1.4305F, -0.0998F, 0.3135F));
 
@@ -843,7 +805,7 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		PartDefinition TorsoBase_r30 = Body1.addOrReplaceChild("TorsoBase_r30", CubeListBuilder.create().texOffs(256, 326).addBox(-3.25F, -1.0F, -3.5F, 6.0F, 3.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.376F, 1.0111F, 1.8956F, -0.1286F, -0.4614F, 0.5318F));
 
 		PartDefinition TorsoTop_r31 = Body1.addOrReplaceChild("TorsoTop_r31", CubeListBuilder.create().texOffs(256, 326).addBox(-6.0F, -3.5F, -4.0F, 6.0F, 4.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(256, 326).addBox(-14.0F, -5.5F, -4.0F, 7.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.4072F, 1.6966F, 0.4934F, -0.0177F, -0.4775F, 0.2877F));
+				.texOffs(256, 326).addBox(-14.0F, -5.5F, -4.0F, 7.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.4072F, 1.6966F, 0.4934F, -0.0177F, -0.4775F, 0.2877F));
 
 		PartDefinition Jaw_r8 = Body1.addOrReplaceChild("Jaw_r8", CubeListBuilder.create().texOffs(256, 326).addBox(-0.752F, -4.9611F, -3.8866F, 1.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.7147F, -0.3831F, -2.47F, -0.1692F, -0.2135F, 0.7249F));
 
@@ -1078,7 +1040,7 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		PartDefinition Cluster1 = CannonClusters.addOrReplaceChild("Cluster1", CubeListBuilder.create(), PartPose.offsetAndRotation(-23.5902F, 17.9314F, 20.9466F, -0.1745F, 0.0F, -0.4363F));
 
 		PartDefinition C1C1 = Cluster1.addOrReplaceChild("C1C1", CubeListBuilder.create().texOffs(256, 290).addBox(-12.0F, -1.5F, -12.0F, 24.0F, 10.0F, 24.0F, new CubeDeformation(0.0F))
-		.texOffs(74, 316).addBox(-9.0F, -27.5F, -9.0F, 18.0F, 26.0F, 18.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.838F, -2.4254F, -11.2635F, 0.1745F, -0.3491F, 0.0F));
+				.texOffs(74, 316).addBox(-9.0F, -27.5F, -9.0F, 18.0F, 26.0F, 18.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.838F, -2.4254F, -11.2635F, 0.1745F, -0.3491F, 0.0F));
 
 		PartDefinition Top_r1 = C1C1.addOrReplaceChild("Top_r1", CubeListBuilder.create().texOffs(371, 95).addBox(-8.0F, -26.5F, -8.0F, 16.0F, 28.0F, 16.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -26.0F, 0.0F, 0.0F, 0.0F, 0.3491F));
 
@@ -1095,16 +1057,16 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		PartDefinition Teeth = C1C1Top.addOrReplaceChild("Teeth", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition Teeth_r1 = Teeth.addOrReplaceChild("Teeth_r1", CubeListBuilder.create().texOffs(22, 279).addBox(-5.0F, -11.0F, 5.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F))
-		.texOffs(22, 279).addBox(-5.0F, -11.0F, -6.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 1.5708F, -0.9163F, -1.5708F));
+				.texOffs(22, 279).addBox(-5.0F, -11.0F, -6.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 1.5708F, -0.9163F, -1.5708F));
 
 		PartDefinition Teeth_r2 = Teeth.addOrReplaceChild("Teeth_r2", CubeListBuilder.create().texOffs(22, 279).mirror().addBox(3.0F, -11.0F, -6.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(22, 279).mirror().addBox(3.0F, -11.0F, 5.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -1.5708F, -0.9163F, 1.5708F));
+				.texOffs(22, 279).mirror().addBox(3.0F, -11.0F, 5.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -1.5708F, -0.9163F, 1.5708F));
 
 		PartDefinition Teeth_r3 = Teeth.addOrReplaceChild("Teeth_r3", CubeListBuilder.create().texOffs(22, 279).mirror().addBox(3.0F, -9.0F, -6.0F, 2.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(22, 279).mirror().addBox(3.0F, -9.0F, 5.0F, 2.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.6545F));
+				.texOffs(22, 279).mirror().addBox(3.0F, -9.0F, 5.0F, 2.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.6545F));
 
 		PartDefinition Teeth_r4 = Teeth.addOrReplaceChild("Teeth_r4", CubeListBuilder.create().texOffs(22, 279).addBox(-5.0F, -12.0F, 5.0F, 2.0F, 7.0F, 0.0F, new CubeDeformation(0.0F))
-		.texOffs(22, 279).addBox(-5.0F, -12.0F, -6.0F, 2.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.6545F));
+				.texOffs(22, 279).addBox(-5.0F, -12.0F, -6.0F, 2.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.6545F));
 
 		PartDefinition CannonBody4 = C1C1.addOrReplaceChild("CannonBody4", CubeListBuilder.create().texOffs(367, 130).addBox(-1.0F, -3.0F, -2.0F, 7.0F, 3.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.5317F, -36.0502F, 4.3169F, 0.0F, 0.0F, -1.1345F));
 
@@ -1123,10 +1085,21 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		PartDefinition TorsoTop_r45 = CannonBody5.addOrReplaceChild("TorsoTop_r45", CubeListBuilder.create().texOffs(371, 129).addBox(-0.1415F, -2.3037F, 1.0213F, 9.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0048F, -1.187F, 1.0061F, -0.0148F, -0.4858F, 1.3101F));
 
 		PartDefinition TorsoTop_r46 = CannonBody5.addOrReplaceChild("TorsoTop_r46", CubeListBuilder.create().texOffs(371, 129).addBox(4.0F, -2.75F, -4.0F, 6.0F, 5.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(371, 129).addBox(-4.0F, -4.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.2039F, -3.3286F, -2.3866F, -0.0283F, -0.1085F, 0.4234F));
+				.texOffs(371, 129).addBox(-4.0F, -4.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.2039F, -3.3286F, -2.3866F, -0.0283F, -0.1085F, 0.4234F));
+
+		PartDefinition CorrosivePresent1 = C1C1.addOrReplaceChild("CorrosivePresent1", CubeListBuilder.create().texOffs(820, 261).addBox(-8.0F, -0.3349F, -9.2188F, 16.0F, 16.0F, 16.0F, new CubeDeformation(0.0F))
+				.texOffs(819, 269).addBox(-2.0F, -2.3349F, -3.2188F, 4.0F, 2.0F, 4.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(13.7522F, -65.1712F, 1.2857F, 0.0F, 0.0F, 0.2618F));
+
+		PartDefinition SmallRibbon_r1 = CorrosivePresent1.addOrReplaceChild("SmallRibbon_r1", CubeListBuilder.create().texOffs(871, 266).addBox(-3.0F, 0.0F, 0.0F, 3.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.8349F, -0.2188F, -0.0436F, -0.3927F, 0.0F));
+
+		PartDefinition SmallRibbon_r2 = CorrosivePresent1.addOrReplaceChild("SmallRibbon_r2", CubeListBuilder.create().texOffs(864, 266).addBox(0.0F, 0.0F, 0.0F, 3.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.8349F, -0.2188F, -0.0436F, 0.3927F, 0.0F));
+
+		PartDefinition Ribbon_r1 = CorrosivePresent1.addOrReplaceChild("Ribbon_r1", CubeListBuilder.create().texOffs(815, 261).addBox(-6.0F, -1.0F, -2.0F, 6.0F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, -1.3349F, -1.2188F, 0.0F, 0.0F, 0.3927F));
+
+		PartDefinition Ribbon_r2 = CorrosivePresent1.addOrReplaceChild("Ribbon_r2", CubeListBuilder.create().texOffs(815, 261).addBox(0.0F, -1.0F, -2.0F, 6.0F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, -1.3349F, -1.2188F, 0.0F, 0.0F, -0.3927F));
 
 		PartDefinition C1C2 = Cluster1.addOrReplaceChild("C1C2", CubeListBuilder.create().texOffs(256, 290).addBox(-12.0F, -2.8179F, -12.0283F, 24.0F, 10.0F, 24.0F, new CubeDeformation(0.0F))
-		.texOffs(74, 316).addBox(-9.0F, -21.8179F, -9.0283F, 18.0F, 19.0F, 18.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.162F, 0.5746F, 3.7365F, 0.0F, 2.0508F, 0.0F));
+				.texOffs(74, 316).addBox(-9.0F, -21.8179F, -9.0283F, 18.0F, 19.0F, 18.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.162F, 0.5746F, 3.7365F, 0.0F, 2.0508F, 0.0F));
 
 		PartDefinition Top_r2 = C1C2.addOrReplaceChild("Top_r2", CubeListBuilder.create().texOffs(371, 95).addBox(-8.0F, -18.0F, -8.0F, 16.0F, 23.0F, 16.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -21.8179F, -0.0283F, 0.6109F, 0.0F, 0.0F));
 
@@ -1143,16 +1116,16 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		PartDefinition Teeth2 = C1C2Top.addOrReplaceChild("Teeth2", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition Teeth_r5 = Teeth2.addOrReplaceChild("Teeth_r5", CubeListBuilder.create().texOffs(22, 279).addBox(-5.0F, -11.0F, 5.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F))
-		.texOffs(22, 279).addBox(-5.0F, -11.0F, -6.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 1.5708F, -0.9163F, -1.5708F));
+				.texOffs(22, 279).addBox(-5.0F, -11.0F, -6.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 1.5708F, -0.9163F, -1.5708F));
 
 		PartDefinition Teeth_r6 = Teeth2.addOrReplaceChild("Teeth_r6", CubeListBuilder.create().texOffs(22, 279).mirror().addBox(3.0F, -11.0F, -6.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(22, 279).mirror().addBox(3.0F, -11.0F, 5.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -1.5708F, -0.9163F, 1.5708F));
+				.texOffs(22, 279).mirror().addBox(3.0F, -11.0F, 5.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -1.5708F, -0.9163F, 1.5708F));
 
 		PartDefinition Teeth_r7 = Teeth2.addOrReplaceChild("Teeth_r7", CubeListBuilder.create().texOffs(22, 279).mirror().addBox(3.0F, -9.0F, -6.0F, 2.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(22, 279).mirror().addBox(3.0F, -9.0F, 5.0F, 2.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.6545F));
+				.texOffs(22, 279).mirror().addBox(3.0F, -9.0F, 5.0F, 2.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.6545F));
 
 		PartDefinition Teeth_r8 = Teeth2.addOrReplaceChild("Teeth_r8", CubeListBuilder.create().texOffs(22, 279).addBox(-5.0F, -12.0F, 5.0F, 2.0F, 7.0F, 0.0F, new CubeDeformation(0.0F))
-		.texOffs(22, 279).addBox(-5.0F, -12.0F, -6.0F, 2.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.6545F));
+				.texOffs(22, 279).addBox(-5.0F, -12.0F, -6.0F, 2.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.6545F));
 
 		PartDefinition CannonBady2 = C1C2.addOrReplaceChild("CannonBady2", CubeListBuilder.create(), PartPose.offsetAndRotation(7.8155F, -24.473F, 5.7286F, -0.1449F, -0.2709F, -1.7F));
 
@@ -1166,8 +1139,19 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 
 		PartDefinition Head_r38 = CannonBady2.addOrReplaceChild("Head_r38", CubeListBuilder.create().texOffs(367, 129).addBox(-3.5F, -3.25F, -3.5F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.1049F, 3.9697F, -7.46F, 1.2101F, -0.0972F, 0.2852F));
 
+		PartDefinition Present2 = C1C2.addOrReplaceChild("Present2", CubeListBuilder.create().texOffs(960, 224).addBox(-8.0F, -0.3349F, -9.2188F, 16.0F, 16.0F, 16.0F, new CubeDeformation(0.0F))
+				.texOffs(959, 232).addBox(-2.0F, -2.3349F, -3.2188F, 4.0F, 2.0F, 4.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(0.7522F, -52.1712F, -18.4643F, 0.6109F, 0.0F, 0.0F));
+
+		PartDefinition SmallRibbon_r3 = Present2.addOrReplaceChild("SmallRibbon_r3", CubeListBuilder.create().texOffs(1011, 229).addBox(-3.0F, 0.0F, 0.0F, 3.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.8349F, -0.2188F, -0.0436F, -0.3927F, 0.0F));
+
+		PartDefinition SmallRibbon_r4 = Present2.addOrReplaceChild("SmallRibbon_r4", CubeListBuilder.create().texOffs(1004, 229).addBox(0.0F, 0.0F, 0.0F, 3.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.8349F, -0.2188F, -0.0436F, 0.3927F, 0.0F));
+
+		PartDefinition Ribbon_r3 = Present2.addOrReplaceChild("Ribbon_r3", CubeListBuilder.create().texOffs(955, 224).addBox(-6.0F, -1.0F, -2.0F, 6.0F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, -1.3349F, -1.2188F, 0.0F, 0.0F, 0.3927F));
+
+		PartDefinition Ribbon_r4 = Present2.addOrReplaceChild("Ribbon_r4", CubeListBuilder.create().texOffs(955, 224).addBox(0.0F, -1.0F, -2.0F, 6.0F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, -1.3349F, -1.2188F, 0.0F, 0.0F, -0.3927F));
+
 		PartDefinition C1C3 = Cluster1.addOrReplaceChild("C1C3", CubeListBuilder.create().texOffs(256, 290).addBox(-12.0F, -2.5F, -12.0F, 24.0F, 10.0F, 24.0F, new CubeDeformation(0.0F))
-		.texOffs(82, 320).addBox(-7.0F, -21.5F, -7.0F, 14.0F, 19.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(8.8481F, 0.0427F, 6.4569F, 0.0F, -1.2217F, 0.3927F));
+				.texOffs(82, 320).addBox(-7.0F, -21.5F, -7.0F, 14.0F, 19.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(8.8481F, 0.0427F, 6.4569F, 0.0F, -1.2217F, 0.3927F));
 
 		PartDefinition Top_r3 = C1C3.addOrReplaceChild("Top_r3", CubeListBuilder.create().texOffs(0, 131).addBox(-6.0F, -18.0F, -6.0F, 12.0F, 22.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -21.5F, 0.0F, 0.0F, 0.0F, 0.5672F));
 
@@ -1184,21 +1168,21 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		PartDefinition Teeth3 = C1C3Top.addOrReplaceChild("Teeth3", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition Teeth_r9 = Teeth3.addOrReplaceChild("Teeth_r9", CubeListBuilder.create().texOffs(22, 279).addBox(-4.4703F, -8.8315F, 3.1313F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F))
-		.texOffs(22, 279).addBox(-4.4703F, -8.8315F, -3.8687F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 1.5708F, -0.9163F, -1.5708F));
+				.texOffs(22, 279).addBox(-4.4703F, -8.8315F, -3.8687F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 1.5708F, -0.9163F, -1.5708F));
 
 		PartDefinition Teeth_r10 = Teeth3.addOrReplaceChild("Teeth_r10", CubeListBuilder.create().texOffs(22, 279).mirror().addBox(1.6383F, -9.2632F, -4.3595F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(22, 279).mirror().addBox(1.6383F, -9.2632F, 3.6405F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -1.5708F, -0.9163F, 1.5708F));
+				.texOffs(22, 279).mirror().addBox(1.6383F, -9.2632F, 3.6405F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -1.5708F, -0.9163F, 1.5708F));
 
 		PartDefinition Teeth_r11 = Teeth3.addOrReplaceChild("Teeth_r11", CubeListBuilder.create().texOffs(22, 279).mirror().addBox(2.2239F, -6.96F, -6.486F, 2.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(22, 279).mirror().addBox(2.2239F, -6.96F, 0.514F, 2.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 2.0F, 0.0F, 0.0F, 0.6545F));
+				.texOffs(22, 279).mirror().addBox(2.2239F, -6.96F, 0.514F, 2.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 2.0F, 0.0F, 0.0F, 0.6545F));
 
 		PartDefinition Teeth_r12 = Teeth3.addOrReplaceChild("Teeth_r12", CubeListBuilder.create().texOffs(22, 279).addBox(-3.8327F, -10.0949F, 5.0886F, 2.0F, 7.0F, 0.0F, new CubeDeformation(0.0F))
-		.texOffs(22, 279).addBox(-3.8327F, -10.0949F, -1.9114F, 2.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -2.0F, 0.0F, 0.0F, -0.6545F));
+				.texOffs(22, 279).addBox(-3.8327F, -10.0949F, -1.9114F, 2.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -2.0F, 0.0F, 0.0F, -0.6545F));
 
 		PartDefinition Cluster2 = CannonClusters.addOrReplaceChild("Cluster2", CubeListBuilder.create(), PartPose.offsetAndRotation(22.5416F, 11.3301F, 14.5908F, -0.0761F, 0.7736F, 0.3473F));
 
 		PartDefinition C2C1 = Cluster2.addOrReplaceChild("C2C1", CubeListBuilder.create().texOffs(252, 288).addBox(-12.0F, -1.5F, -14.0F, 26.0F, 10.0F, 26.0F, new CubeDeformation(0.0F))
-		.texOffs(70, 314).addBox(-9.0F, -32.5F, -11.0F, 20.0F, 31.0F, 20.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.9151F, 0.5291F, -10.0679F, 0.0F, -0.7317F, 0.0F));
+				.texOffs(70, 314).addBox(-9.0F, -32.5F, -11.0F, 20.0F, 31.0F, 20.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.9151F, 0.5291F, -10.0679F, 0.0F, -0.7317F, 0.0F));
 
 		PartDefinition Top_r4 = C2C1.addOrReplaceChild("Top_r4", CubeListBuilder.create().texOffs(367, 93).addBox(-9.0F, -30.0F, -9.0F, 18.0F, 34.0F, 18.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, -32.5F, -1.0F, 0.0F, 0.0F, -0.3491F));
 
@@ -1247,7 +1231,7 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		PartDefinition TorsoTop_r48 = CannonBody2.addOrReplaceChild("TorsoTop_r48", CubeListBuilder.create().texOffs(371, 128).addBox(-0.1415F, -2.3037F, 1.0213F, 9.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.1991F, 4.1416F, 6.3927F, -0.0148F, -0.4858F, 1.3101F));
 
 		PartDefinition TorsoTop_r49 = CannonBody2.addOrReplaceChild("TorsoTop_r49", CubeListBuilder.create().texOffs(371, 128).addBox(4.0F, -2.75F, -4.0F, 6.0F, 5.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(371, 128).addBox(-4.0F, -4.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0F, 2.0F, 3.0F, -0.0283F, -0.1085F, 0.4234F));
+				.texOffs(371, 128).addBox(-4.0F, -4.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0F, 2.0F, 3.0F, -0.0283F, -0.1085F, 0.4234F));
 
 		PartDefinition CannonBody7 = C2C1.addOrReplaceChild("CannonBody7", CubeListBuilder.create(), PartPose.offsetAndRotation(1.3735F, -22.2799F, -11.1652F, 1.8978F, 0.0947F, 2.4905F));
 
@@ -1259,8 +1243,19 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 
 		PartDefinition Head_r40 = CannonBody7.addOrReplaceChild("Head_r40", CubeListBuilder.create().texOffs(368, 129).addBox(-3.5F, -4.75F, -3.5F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.1049F, -3.9697F, -7.46F, -1.2101F, -0.0972F, -0.2852F));
 
+		PartDefinition Present1 = C2C1.addOrReplaceChild("Present1", CubeListBuilder.create().texOffs(960, 224).addBox(-8.0F, -0.3349F, -9.2188F, 16.0F, 16.0F, 16.0F, new CubeDeformation(0.0F))
+				.texOffs(959, 232).addBox(-2.0F, -2.3349F, -3.2188F, 4.0F, 2.0F, 4.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(-12.6265F, -76.5243F, 0.696F, 0.0F, -0.1309F, -0.0873F));
+
+		PartDefinition SmallRibbon_r5 = Present1.addOrReplaceChild("SmallRibbon_r5", CubeListBuilder.create().texOffs(1011, 229).addBox(-3.0F, 0.0F, 0.0F, 3.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.8349F, -0.2188F, -0.0436F, -0.3927F, 0.0F));
+
+		PartDefinition SmallRibbon_r6 = Present1.addOrReplaceChild("SmallRibbon_r6", CubeListBuilder.create().texOffs(1004, 229).addBox(0.0F, 0.0F, 0.0F, 3.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.8349F, -0.2188F, -0.0436F, 0.3927F, 0.0F));
+
+		PartDefinition Ribbon_r5 = Present1.addOrReplaceChild("Ribbon_r5", CubeListBuilder.create().texOffs(955, 224).addBox(-6.0F, -1.0F, -2.0F, 6.0F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, -1.3349F, -1.2188F, 0.0F, 0.0F, 0.3927F));
+
+		PartDefinition Ribbon_r6 = Present1.addOrReplaceChild("Ribbon_r6", CubeListBuilder.create().texOffs(955, 224).addBox(0.0F, -1.0F, -2.0F, 6.0F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, -1.3349F, -1.2188F, 0.0F, 0.0F, -0.3927F));
+
 		PartDefinition C2C2 = Cluster2.addOrReplaceChild("C2C2", CubeListBuilder.create().texOffs(256, 290).addBox(-12.0F, -9.5F, -12.0F, 24.0F, 10.0F, 24.0F, new CubeDeformation(0.0F))
-		.texOffs(74, 316).addBox(-9.0F, -28.5F, -9.0F, 18.0F, 19.0F, 18.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.838F, 0.5746F, 8.7365F, 0.0F, -1.4835F, 0.0F));
+				.texOffs(74, 316).addBox(-9.0F, -28.5F, -9.0F, 18.0F, 19.0F, 18.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.838F, 0.5746F, 8.7365F, 0.0F, -1.4835F, 0.0F));
 
 		PartDefinition Top_r5 = C2C2.addOrReplaceChild("Top_r5", CubeListBuilder.create().texOffs(372, 95).addBox(-8.0F, -18.0F, -8.0F, 16.0F, 22.0F, 16.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -28.5F, 0.0F, 0.0F, 0.0F, 0.48F));
 
@@ -1287,19 +1282,30 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		PartDefinition Teeth5 = C2C2Top.addOrReplaceChild("Teeth5", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition Teeth_r21 = Teeth5.addOrReplaceChild("Teeth_r21", CubeListBuilder.create().texOffs(22, 279).addBox(-5.0F, -11.0F, 5.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F))
-		.texOffs(22, 279).addBox(-5.0F, -11.0F, -6.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 1.5708F, -0.9163F, -1.5708F));
+				.texOffs(22, 279).addBox(-5.0F, -11.0F, -6.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 1.5708F, -0.9163F, -1.5708F));
 
 		PartDefinition Teeth_r22 = Teeth5.addOrReplaceChild("Teeth_r22", CubeListBuilder.create().texOffs(22, 279).mirror().addBox(3.0F, -11.0F, -6.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(22, 279).mirror().addBox(3.0F, -11.0F, 5.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -1.5708F, -0.9163F, 1.5708F));
+				.texOffs(22, 279).mirror().addBox(3.0F, -11.0F, 5.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -1.5708F, -0.9163F, 1.5708F));
 
 		PartDefinition Teeth_r23 = Teeth5.addOrReplaceChild("Teeth_r23", CubeListBuilder.create().texOffs(22, 279).mirror().addBox(3.0F, -9.0F, -6.0F, 2.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(22, 279).mirror().addBox(3.0F, -9.0F, 5.0F, 2.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.6545F));
+				.texOffs(22, 279).mirror().addBox(3.0F, -9.0F, 5.0F, 2.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.6545F));
 
 		PartDefinition Teeth_r24 = Teeth5.addOrReplaceChild("Teeth_r24", CubeListBuilder.create().texOffs(22, 279).addBox(-5.0F, -12.0F, 5.0F, 2.0F, 7.0F, 0.0F, new CubeDeformation(0.0F))
-		.texOffs(22, 279).addBox(-5.0F, -12.0F, -6.0F, 2.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.6545F));
+				.texOffs(22, 279).addBox(-5.0F, -12.0F, -6.0F, 2.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.6545F));
+
+		PartDefinition IncendiaryPresent1 = C2C2.addOrReplaceChild("IncendiaryPresent1", CubeListBuilder.create().texOffs(820, 224).addBox(-8.0F, -0.3349F, -9.2188F, 16.0F, 16.0F, 16.0F, new CubeDeformation(0.0F))
+				.texOffs(819, 232).addBox(-2.0F, -2.3349F, -3.2188F, 4.0F, 2.0F, 4.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(14.6204F, -55.5698F, -1.1084F, 0.0981F, -0.19F, 0.5154F));
+
+		PartDefinition SmallRibbon_r7 = IncendiaryPresent1.addOrReplaceChild("SmallRibbon_r7", CubeListBuilder.create().texOffs(871, 229).addBox(-3.0F, 0.0F, 0.0F, 3.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.8349F, -0.2188F, -0.0436F, -0.3927F, 0.0F));
+
+		PartDefinition SmallRibbon_r8 = IncendiaryPresent1.addOrReplaceChild("SmallRibbon_r8", CubeListBuilder.create().texOffs(864, 229).addBox(0.0F, 0.0F, 0.0F, 3.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.8349F, -0.2188F, -0.0436F, 0.3927F, 0.0F));
+
+		PartDefinition Ribbon_r7 = IncendiaryPresent1.addOrReplaceChild("Ribbon_r7", CubeListBuilder.create().texOffs(815, 224).addBox(-6.0F, -1.0F, -2.0F, 6.0F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, -1.3349F, -1.2188F, 0.0F, 0.0F, 0.3927F));
+
+		PartDefinition Ribbon_r8 = IncendiaryPresent1.addOrReplaceChild("Ribbon_r8", CubeListBuilder.create().texOffs(815, 224).addBox(0.0F, -1.0F, -2.0F, 6.0F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, -1.3349F, -1.2188F, 0.0F, 0.0F, -0.3927F));
 
 		PartDefinition C2C3 = Cluster2.addOrReplaceChild("C2C3", CubeListBuilder.create().texOffs(256, 290).addBox(-12.0F, -0.5F, -12.0F, 24.0F, 10.0F, 24.0F, new CubeDeformation(0.0F))
-		.texOffs(82, 320).addBox(-7.0F, -19.5F, -7.0F, 14.0F, 19.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(13.8309F, -2.4715F, -3.5541F, 0.0F, 1.2654F, 0.0F));
+				.texOffs(82, 320).addBox(-7.0F, -19.5F, -7.0F, 14.0F, 19.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(13.8309F, -2.4715F, -3.5541F, 0.0F, 1.2654F, 0.0F));
 
 		PartDefinition Top_r6 = C2C3.addOrReplaceChild("Top_r6", CubeListBuilder.create().texOffs(0, 131).addBox(-6.0F, -18.0F, -6.0F, 12.0F, 22.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -19.5F, 0.0F, -0.6545F, 0.0F, 0.0F));
 
@@ -1316,21 +1322,21 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		PartDefinition Teeth6 = C2C3Top.addOrReplaceChild("Teeth6", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition Teeth_r25 = Teeth6.addOrReplaceChild("Teeth_r25", CubeListBuilder.create().texOffs(22, 279).addBox(-4.4703F, -8.8315F, 3.1313F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F))
-		.texOffs(22, 279).addBox(-4.4703F, -8.8315F, -3.8687F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 1.5708F, -0.9163F, -1.5708F));
+				.texOffs(22, 279).addBox(-4.4703F, -8.8315F, -3.8687F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 1.5708F, -0.9163F, -1.5708F));
 
 		PartDefinition Teeth_r26 = Teeth6.addOrReplaceChild("Teeth_r26", CubeListBuilder.create().texOffs(22, 279).mirror().addBox(1.6383F, -9.2632F, -4.3595F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(22, 279).mirror().addBox(1.6383F, -9.2632F, 3.6405F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -1.5708F, -0.9163F, 1.5708F));
+				.texOffs(22, 279).mirror().addBox(1.6383F, -9.2632F, 3.6405F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -1.5708F, -0.9163F, 1.5708F));
 
 		PartDefinition Teeth_r27 = Teeth6.addOrReplaceChild("Teeth_r27", CubeListBuilder.create().texOffs(22, 279).mirror().addBox(2.2239F, -6.96F, -6.486F, 2.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(22, 279).mirror().addBox(2.2239F, -6.96F, 0.514F, 2.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 2.0F, 0.0F, 0.0F, 0.6545F));
+				.texOffs(22, 279).mirror().addBox(2.2239F, -6.96F, 0.514F, 2.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 2.0F, 0.0F, 0.0F, 0.6545F));
 
 		PartDefinition Teeth_r28 = Teeth6.addOrReplaceChild("Teeth_r28", CubeListBuilder.create().texOffs(22, 279).addBox(-3.8327F, -10.0949F, 5.0886F, 2.0F, 7.0F, 0.0F, new CubeDeformation(0.0F))
-		.texOffs(22, 279).addBox(-3.8327F, -10.0949F, -1.9114F, 2.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -2.0F, 0.0F, 0.0F, -0.6545F));
+				.texOffs(22, 279).addBox(-3.8327F, -10.0949F, -1.9114F, 2.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -2.0F, 0.0F, 0.0F, -0.6545F));
 
 		PartDefinition Cluster3 = CannonClusters.addOrReplaceChild("Cluster3", CubeListBuilder.create(), PartPose.offsetAndRotation(-8.8486F, 22.1205F, -18.5623F, 2.4402F, 1.2755F, 2.3687F));
 
 		PartDefinition C3C1 = Cluster3.addOrReplaceChild("C3C1", CubeListBuilder.create().texOffs(256, 290).addBox(-12.0F, -1.5F, -12.0F, 24.0F, 10.0F, 24.0F, new CubeDeformation(0.0F))
-		.texOffs(74, 316).addBox(-9.0F, -27.5F, -9.0F, 18.0F, 26.0F, 18.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.838F, -2.4254F, -11.2635F, -0.0988F, -0.3591F, -0.0924F));
+				.texOffs(74, 316).addBox(-9.0F, -27.5F, -9.0F, 18.0F, 26.0F, 18.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.838F, -2.4254F, -11.2635F, -0.0988F, -0.3591F, -0.0924F));
 
 		PartDefinition Top_r7 = C3C1.addOrReplaceChild("Top_r7", CubeListBuilder.create().texOffs(371, 95).addBox(-8.0F, -24.5F, -8.0F, 16.0F, 25.0F, 16.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -28.0F, 0.0F, 0.2618F, 0.0F, 0.0F));
 
@@ -1347,16 +1353,16 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		PartDefinition Teeth7 = C3C1Top.addOrReplaceChild("Teeth7", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition Teeth_r29 = Teeth7.addOrReplaceChild("Teeth_r29", CubeListBuilder.create().texOffs(22, 279).addBox(-5.0F, -11.0F, 5.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F))
-		.texOffs(22, 279).addBox(-5.0F, -11.0F, -6.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 1.5708F, -0.9163F, -1.5708F));
+				.texOffs(22, 279).addBox(-5.0F, -11.0F, -6.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 1.5708F, -0.9163F, -1.5708F));
 
 		PartDefinition Teeth_r30 = Teeth7.addOrReplaceChild("Teeth_r30", CubeListBuilder.create().texOffs(22, 279).mirror().addBox(3.0F, -11.0F, -6.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(22, 279).mirror().addBox(3.0F, -11.0F, 5.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -1.5708F, -0.9163F, 1.5708F));
+				.texOffs(22, 279).mirror().addBox(3.0F, -11.0F, 5.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -1.5708F, -0.9163F, 1.5708F));
 
 		PartDefinition Teeth_r31 = Teeth7.addOrReplaceChild("Teeth_r31", CubeListBuilder.create().texOffs(22, 279).mirror().addBox(3.0F, -9.0F, -6.0F, 2.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(22, 279).mirror().addBox(3.0F, -9.0F, 5.0F, 2.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.6545F));
+				.texOffs(22, 279).mirror().addBox(3.0F, -9.0F, 5.0F, 2.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.6545F));
 
 		PartDefinition Teeth_r32 = Teeth7.addOrReplaceChild("Teeth_r32", CubeListBuilder.create().texOffs(22, 279).addBox(-5.0F, -12.0F, 5.0F, 2.0F, 7.0F, 0.0F, new CubeDeformation(0.0F))
-		.texOffs(22, 279).addBox(-5.0F, -12.0F, -6.0F, 2.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.6545F));
+				.texOffs(22, 279).addBox(-5.0F, -12.0F, -6.0F, 2.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.6545F));
 
 		PartDefinition ThisIsSporeSlasher = C3C1Top.addOrReplaceChild("ThisIsSporeSlasher", CubeListBuilder.create().texOffs(551, 461).addBox(-2.5F, -1.0F, -3.5F, 5.0F, 2.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
@@ -1370,6 +1376,17 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 
 		PartDefinition UpperTorso_r1 = ThisIsSporeSlasher.addOrReplaceChild("UpperTorso_r1", CubeListBuilder.create().texOffs(495, 104).addBox(-3.0F, -6.0F, -4.0F, 6.0F, 6.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.3927F));
 
+		PartDefinition CommanderHat = ThisIsSporeSlasher.addOrReplaceChild("CommanderHat", CubeListBuilder.create(), PartPose.offsetAndRotation(2.0106F, -10.8468F, -1.8783F, 0.3927F, 0.0F, 0.0F));
+
+		PartDefinition Hat4_r1 = CommanderHat.addOrReplaceChild("Hat4_r1", CubeListBuilder.create().texOffs(920, 49).addBox(-3.0F, -4.0F, -3.0F, 7.0F, 6.0F, 7.0F, new CubeDeformation(-0.8F))
+				.texOffs(850, 151).addBox(-3.0F, -2.0F, -3.0F, 7.0F, 7.0F, 7.0F, new CubeDeformation(-0.9F)), PartPose.offsetAndRotation(-6.0154F, -5.9028F, 0.6803F, -0.0927F, -0.1415F, -1.2365F));
+
+		PartDefinition Hat2_r1 = CommanderHat.addOrReplaceChild("Hat2_r1", CubeListBuilder.create().texOffs(912, 146).addBox(-4.0F, -4.5F, 4.0F, 8.0F, 4.0F, 9.0F, new CubeDeformation(-0.4F)), PartPose.offsetAndRotation(-1.0933F, -3.6728F, -8.1192F, -0.1438F, -0.0892F, -0.8003F));
+
+		PartDefinition Hat1_r1 = CommanderHat.addOrReplaceChild("Hat1_r1", CubeListBuilder.create().texOffs(880, 119).addBox(-4.0F, -3.5F, 4.0F, 8.0F, 3.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.1067F, -2.3728F, -9.6192F, -0.1522F, -0.0738F, -0.6964F));
+
+		PartDefinition HatBase_r1 = CommanderHat.addOrReplaceChild("HatBase_r1", CubeListBuilder.create().texOffs(900, 17).addBox(-4.0F, -0.5F, 4.0F, 8.0F, 1.0F, 11.0F, new CubeDeformation(0.4F)), PartPose.offsetAndRotation(0.1067F, -2.3728F, -9.6192F, -0.1558F, -0.0657F, -0.6446F));
+
 		PartDefinition CannonBody6 = C3C1.addOrReplaceChild("CannonBody6", CubeListBuilder.create(), PartPose.offsetAndRotation(-3.3488F, -32.568F, -11.049F, 1.8626F, 0.4136F, 1.8118F));
 
 		PartDefinition TorsoBase_r50 = CannonBody6.addOrReplaceChild("TorsoBase_r50", CubeListBuilder.create().texOffs(367, 129).addBox(-3.0F, -2.5F, -4.0F, 6.0F, 3.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(5.8836F, 8.6026F, 3.8552F, -0.2616F, 0.0113F, 1.0893F));
@@ -1377,12 +1394,23 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		PartDefinition TorsoTop_r52 = CannonBody6.addOrReplaceChild("TorsoTop_r52", CubeListBuilder.create().texOffs(367, 129).addBox(-0.1415F, -2.3037F, 1.0213F, 9.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.1991F, 4.1416F, 6.3927F, -0.0148F, -0.4858F, 1.3101F));
 
 		PartDefinition TorsoTop_r53 = CannonBody6.addOrReplaceChild("TorsoTop_r53", CubeListBuilder.create().texOffs(367, 129).addBox(4.0F, -2.75F, -4.0F, 6.0F, 5.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(367, 129).addBox(-4.0F, -4.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0F, 2.0F, 3.0F, -0.0283F, -0.1085F, 0.4234F));
+				.texOffs(367, 129).addBox(-4.0F, -4.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0F, 2.0F, 3.0F, -0.0283F, -0.1085F, 0.4234F));
 
 		PartDefinition C3C2 = Cluster3.addOrReplaceChild("C3C2", CubeListBuilder.create().texOffs(256, 289).addBox(-12.0F, -3.5F, -12.0F, 24.0F, 10.0F, 24.0F, new CubeDeformation(0.0F))
-		.texOffs(74, 316).addBox(-9.0F, -22.5F, -9.0F, 18.0F, 19.0F, 18.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(8.6687F, 0.3489F, -1.2536F, 0.0F, -0.9079F, 0.637F));
+				.texOffs(74, 316).addBox(-9.0F, -22.5F, -9.0F, 18.0F, 19.0F, 18.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(8.6687F, 0.3489F, -1.2536F, 0.0F, -0.9079F, 0.637F));
 
 		PartDefinition Top_r8 = C3C2.addOrReplaceChild("Top_r8", CubeListBuilder.create().texOffs(371, 95).addBox(-8.0F, -18.0F, -8.0F, 16.0F, 23.0F, 16.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -22.5F, 0.0F, -0.48F, 0.0F, 0.0F));
+
+		PartDefinition BilePresent1 = C3C2.addOrReplaceChild("BilePresent1", CubeListBuilder.create().texOffs(890, 224).addBox(-8.0F, -0.3349F, -9.2188F, 16.0F, 16.0F, 16.0F, new CubeDeformation(0.0F))
+				.texOffs(889, 232).addBox(-2.0F, -2.3349F, -3.2188F, 4.0F, 2.0F, 4.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(-0.8201F, -51.1344F, 16.0348F, -0.5559F, 0.6405F, -0.3972F));
+
+		PartDefinition SmallRibbon_r9 = BilePresent1.addOrReplaceChild("SmallRibbon_r9", CubeListBuilder.create().texOffs(941, 229).addBox(-3.0F, 0.0F, 0.0F, 3.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.8349F, -0.2188F, -0.0436F, -0.3927F, 0.0F));
+
+		PartDefinition SmallRibbon_r10 = BilePresent1.addOrReplaceChild("SmallRibbon_r10", CubeListBuilder.create().texOffs(934, 229).addBox(0.0F, 0.0F, 0.0F, 3.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.8349F, -0.2188F, -0.0436F, 0.3927F, 0.0F));
+
+		PartDefinition Ribbon_r9 = BilePresent1.addOrReplaceChild("Ribbon_r9", CubeListBuilder.create().texOffs(885, 224).addBox(-6.0F, -1.0F, -2.0F, 6.0F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, -1.3349F, -1.2188F, 0.0F, 0.0F, 0.3927F));
+
+		PartDefinition Ribbon_r10 = BilePresent1.addOrReplaceChild("Ribbon_r10", CubeListBuilder.create().texOffs(885, 224).addBox(0.0F, -1.0F, -2.0F, 6.0F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, -1.3349F, -1.2188F, 0.0F, 0.0F, -0.3927F));
 
 		PartDefinition C3C2Top = C3C2.addOrReplaceChild("C3C2Top", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -38.0698F, 8.1712F, -0.48F, 0.0F, 0.0F));
 
@@ -1397,16 +1425,16 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		PartDefinition Teeth8 = C3C2Top.addOrReplaceChild("Teeth8", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition Teeth_r33 = Teeth8.addOrReplaceChild("Teeth_r33", CubeListBuilder.create().texOffs(22, 280).addBox(-5.0F, -11.0F, 5.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F))
-		.texOffs(22, 280).addBox(-5.0F, -11.0F, -6.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 1.5708F, -0.9163F, -1.5708F));
+				.texOffs(22, 280).addBox(-5.0F, -11.0F, -6.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 1.5708F, -0.9163F, -1.5708F));
 
 		PartDefinition Teeth_r34 = Teeth8.addOrReplaceChild("Teeth_r34", CubeListBuilder.create().texOffs(22, 280).mirror().addBox(3.0F, -11.0F, -6.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(22, 280).mirror().addBox(3.0F, -11.0F, 5.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -1.5708F, -0.9163F, 1.5708F));
+				.texOffs(22, 280).mirror().addBox(3.0F, -11.0F, 5.0F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -1.5708F, -0.9163F, 1.5708F));
 
 		PartDefinition Teeth_r35 = Teeth8.addOrReplaceChild("Teeth_r35", CubeListBuilder.create().texOffs(22, 280).mirror().addBox(3.0F, -9.0F, -6.0F, 2.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(22, 280).mirror().addBox(3.0F, -9.0F, 5.0F, 2.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.6545F));
+				.texOffs(22, 280).mirror().addBox(3.0F, -9.0F, 5.0F, 2.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.6545F));
 
 		PartDefinition Teeth_r36 = Teeth8.addOrReplaceChild("Teeth_r36", CubeListBuilder.create().texOffs(22, 280).addBox(-5.0F, -12.0F, 5.0F, 2.0F, 7.0F, 0.0F, new CubeDeformation(0.0F))
-		.texOffs(22, 280).addBox(-5.0F, -12.0F, -6.0F, 2.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.6545F));
+				.texOffs(22, 280).addBox(-5.0F, -12.0F, -6.0F, 2.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.6545F));
 
 		PartDefinition CannonBody8 = C3C2.addOrReplaceChild("CannonBody8", CubeListBuilder.create(), PartPose.offsetAndRotation(4.4991F, -31.1825F, -5.8739F, 1.5741F, 0.3118F, 0.6301F));
 
@@ -1425,7 +1453,7 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		PartDefinition Head_r42 = CannonBody8.addOrReplaceChild("Head_r42", CubeListBuilder.create().texOffs(385, 130).addBox(-3.5F, -4.75F, -2.5F, 8.0F, 8.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.1049F, -3.9697F, -7.46F, -1.4988F, 0.6701F, 0.0532F));
 
 		PartDefinition C3C3 = Cluster3.addOrReplaceChild("C3C3", CubeListBuilder.create().texOffs(256, 290).addBox(-12.0F, -6.5F, -12.0F, 24.0F, 10.0F, 24.0F, new CubeDeformation(0.0F))
-		.texOffs(82, 320).addBox(-7.0F, -25.5F, -7.0F, 14.0F, 19.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.468F, -3.995F, 3.1119F, -0.3927F, 0.0F, 0.0F));
+				.texOffs(82, 320).addBox(-7.0F, -25.5F, -7.0F, 14.0F, 19.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.468F, -3.995F, 3.1119F, -0.3927F, 0.0F, 0.0F));
 
 		PartDefinition Top_r9 = C3C3.addOrReplaceChild("Top_r9", CubeListBuilder.create().texOffs(0, 131).addBox(-6.0F, -19.0F, -6.0F, 12.0F, 21.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -24.5F, 0.0F, -0.4363F, 0.0F, 0.0F));
 
@@ -1442,20 +1470,20 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		PartDefinition Teeth9 = C3C3Top.addOrReplaceChild("Teeth9", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition Teeth_r37 = Teeth9.addOrReplaceChild("Teeth_r37", CubeListBuilder.create().texOffs(22, 279).addBox(-4.4703F, -8.8315F, 3.1313F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F))
-		.texOffs(22, 279).addBox(-4.4703F, -8.8315F, -3.8687F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 1.5708F, -0.9163F, -1.5708F));
+				.texOffs(22, 279).addBox(-4.4703F, -8.8315F, -3.8687F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 1.5708F, -0.9163F, -1.5708F));
 
 		PartDefinition Teeth_r38 = Teeth9.addOrReplaceChild("Teeth_r38", CubeListBuilder.create().texOffs(22, 279).mirror().addBox(1.6383F, -9.2632F, -4.3595F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(22, 279).mirror().addBox(1.6383F, -9.2632F, 3.6405F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -1.5708F, -0.9163F, 1.5708F));
+				.texOffs(22, 279).mirror().addBox(1.6383F, -9.2632F, 3.6405F, 2.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -1.5708F, -0.9163F, 1.5708F));
 
 		PartDefinition Teeth_r39 = Teeth9.addOrReplaceChild("Teeth_r39", CubeListBuilder.create().texOffs(22, 279).mirror().addBox(2.2239F, -6.96F, -6.486F, 2.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(22, 279).mirror().addBox(2.2239F, -6.96F, 0.514F, 2.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 2.0F, 0.0F, 0.0F, 0.6545F));
+				.texOffs(22, 279).mirror().addBox(2.2239F, -6.96F, 0.514F, 2.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 2.0F, 0.0F, 0.0F, 0.6545F));
 
 		PartDefinition Teeth_r40 = Teeth9.addOrReplaceChild("Teeth_r40", CubeListBuilder.create().texOffs(22, 279).addBox(-3.8327F, -10.0949F, 5.0886F, 2.0F, 7.0F, 0.0F, new CubeDeformation(0.0F))
-		.texOffs(22, 279).addBox(-3.8327F, -10.0949F, -1.9114F, 2.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -2.0F, 0.0F, 0.0F, -0.6545F));
+				.texOffs(22, 279).addBox(-3.8327F, -10.0949F, -1.9114F, 2.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -2.0F, 0.0F, 0.0F, -0.6545F));
 
 		PartDefinition FailedCannon = CannonClusters.addOrReplaceChild("FailedCannon", CubeListBuilder.create().texOffs(264, 294).addBox(-10.0F, -0.75F, -10.0F, 20.0F, 6.0F, 20.0F, new CubeDeformation(0.0F))
-		.texOffs(82, 320).addBox(-7.0F, -23.75F, -7.0F, 14.0F, 23.0F, 14.0F, new CubeDeformation(0.0F))
-		.texOffs(367, 126).addBox(-6.0F, -32.75F, -5.0F, 12.0F, 9.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(15.7701F, 5.1092F, 31.5228F, -0.5804F, 0.0F, 0.3288F));
+				.texOffs(82, 320).addBox(-7.0F, -23.75F, -7.0F, 14.0F, 23.0F, 14.0F, new CubeDeformation(0.0F))
+				.texOffs(367, 126).addBox(-6.0F, -32.75F, -5.0F, 12.0F, 9.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(15.7701F, 5.1092F, 31.5228F, -0.5804F, 0.0F, 0.3288F));
 
 		PartDefinition FailedCannonFlower = FailedCannon.addOrReplaceChild("FailedCannonFlower", CubeListBuilder.create().texOffs(6, 133).addBox(1.0F, -3.5F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-6.6265F, -29.1357F, 0.6361F, 0.2502F, 0.0779F, -0.2956F));
 
@@ -1573,7 +1601,7 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 
 		PartDefinition Center_r1 = Maw.addOrReplaceChild("Center_r1", CubeListBuilder.create().texOffs(286, 125).addBox(-17.0F, -4.0F, -15.0F, 28.0F, 12.0F, 25.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -2.0F, 8.0F, 0.0F, -0.6981F, 0.0F));
 
-		PartDefinition Tongue = Maw.addOrReplaceChild("Tongue", CubeListBuilder.create().texOffs(368, 245).addBox(-5.0F, -10.0F, -3.0F, 10.0F, 12.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -6.0F, 6.0F, 0.2618F, 0.0F, 0.0F));
+		PartDefinition Tongue = Maw.addOrReplaceChild("Tongue", CubeListBuilder.create().texOffs(368, 245).addBox(-5.0F, -10.0F, -3.0F, 10.0F, 12.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -6.0F, 6.0F));
 
 		PartDefinition TongueSeg2 = Tongue.addOrReplaceChild("TongueSeg2", CubeListBuilder.create().texOffs(456, 506).addBox(-4.0F, -8.0F, -2.0F, 9.0F, 9.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, -10.0F, 0.0F, 0.2618F, 0.0F, 0.0F));
 
@@ -1581,9 +1609,9 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 
 		PartDefinition TongueSeg4 = TongueSeg3.addOrReplaceChild("TongueSeg4", CubeListBuilder.create().texOffs(0, 0).addBox(-2.0F, -10.0F, 0.0F, 6.0F, 11.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, -6.0F, -0.5F, -0.6109F, 0.0F, 0.0F));
 
-		PartDefinition TongueSplit1 = TongueSeg4.addOrReplaceChild("TongueSplit1", CubeListBuilder.create().texOffs(16, 279).addBox(-0.5F, -7.5F, -0.5F, 2.0F, 9.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.0F, -9.5F, 0.75F, 0.5236F, 0.0F, 0.0F));
+		PartDefinition TongueSplit1 = TongueSeg4.addOrReplaceChild("TongueSplit1", CubeListBuilder.create().texOffs(16, 279).addBox(-0.5F, -7.5F, -0.5F, 2.0F, 9.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.0F, -9.5F, 0.75F, 0.4363F, 0.0F, 0.0F));
 
-		PartDefinition TongueSplit2 = TongueSeg4.addOrReplaceChild("TongueSplit2", CubeListBuilder.create().texOffs(0, 279).addBox(-1.5F, -7.5F, -0.25F, 3.0F, 9.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -9.5F, 1.0F, -0.5672F, 0.0F, 0.0F));
+		PartDefinition TongueSplit2 = TongueSeg4.addOrReplaceChild("TongueSplit2", CubeListBuilder.create().texOffs(0, 279).addBox(-1.5F, -7.5F, -0.25F, 3.0F, 9.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -9.5F, 1.0F, -1.0908F, 0.0F, 0.0F));
 
 		PartDefinition MawInnerTeeth = Maw.addOrReplaceChild("MawInnerTeeth", CubeListBuilder.create(), PartPose.offset(0.0F, -2.0F, 8.0F));
 
@@ -1606,7 +1634,7 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		PartDefinition Teeth_r47 = MawLip1.addOrReplaceChild("Teeth_r47", CubeListBuilder.create().texOffs(256, 125).addBox(-13.0F, -1.0F, -1.0F, 17.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -10.75F, 3.0F, 0.7854F, 0.0F, 0.1309F));
 
 		PartDefinition MawLip1Seg2 = MawLip1.addOrReplaceChild("MawLip1Seg2", CubeListBuilder.create().texOffs(460, 291).addBox(-6.0F, -11.5F, -2.0F, 14.0F, 12.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(557, 433).addBox(-14.0F, -6.5F, -1.0F, 8.0F, 7.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.0F, -14.5F, 0.0F, -0.5672F, 0.0F, 0.0F));
+				.texOffs(557, 433).addBox(-14.0F, -6.5F, -1.0F, 8.0F, 7.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.0F, -14.5F, 0.0F, -0.5672F, 0.0F, 0.0F));
 
 		PartDefinition Teeth_r48 = MawLip1Seg2.addOrReplaceChild("Teeth_r48", CubeListBuilder.create().texOffs(397, 33).addBox(0.0F, -4.0F, 0.0F, 0.0F, 8.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0F, -7.25F, 2.0F, 0.0F, 0.0F, 0.7854F));
 
@@ -1625,7 +1653,7 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		PartDefinition Teeth_r52 = MawLip2.addOrReplaceChild("Teeth_r52", CubeListBuilder.create().texOffs(258, 125).addBox(-4.0F, -1.0F, -1.0F, 17.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -11.0F, 3.5F, 0.7854F, 0.0F, -0.1309F));
 
 		PartDefinition MawLip2Seg2 = MawLip2.addOrReplaceChild("MawLip2Seg2", CubeListBuilder.create().texOffs(460, 291).addBox(-6.0F, -10.5F, -2.0F, 14.0F, 11.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(557, 433).addBox(-14.0F, -8.5F, -1.0F, 8.0F, 9.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.0F, -14.5F, 0.0F, -0.5672F, 0.0F, 0.0F));
+				.texOffs(557, 433).addBox(-14.0F, -8.5F, -1.0F, 8.0F, 9.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.0F, -14.5F, 0.0F, -0.5672F, 0.0F, 0.0F));
 
 		PartDefinition Teeth_r53 = MawLip2Seg2.addOrReplaceChild("Teeth_r53", CubeListBuilder.create().texOffs(397, 33).addBox(0.0F, -4.0F, 0.0F, 0.0F, 8.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.0F, -6.5F, 1.75F, 0.0F, 0.0F, -0.7854F));
 
@@ -1644,7 +1672,7 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		PartDefinition Teeth_r57 = MawLip3.addOrReplaceChild("Teeth_r57", CubeListBuilder.create().texOffs(254, 125).addBox(-12.0F, 0.0F, -1.0F, 24.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.065F, -9.7189F, -2.887F, 2.6616F, 0.0F, -2.9671F));
 
 		PartDefinition MawLip3Seg2 = MawLip3.addOrReplaceChild("MawLip3Seg2", CubeListBuilder.create().texOffs(460, 291).addBox(-6.0F, -12.5F, -2.0F, 14.0F, 13.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(557, 433).addBox(-14.0F, -6.5F, -1.0F, 8.0F, 7.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.0F, -14.5F, 0.0F, 0.5672F, 0.0F, 0.0F));
+				.texOffs(557, 433).addBox(-14.0F, -6.5F, -1.0F, 8.0F, 7.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.0F, -14.5F, 0.0F, 0.5672F, 0.0F, 0.0F));
 
 		PartDefinition Teeth_r58 = MawLip3Seg2.addOrReplaceChild("Teeth_r58", CubeListBuilder.create().texOffs(397, 33).mirror().addBox(-3.9139F, -5.5113F, -1.0076F, 0.0F, 11.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(1.9139F, -6.9887F, -2.9924F, -3.1416F, 0.0F, -3.1416F));
 
@@ -1653,6 +1681,242 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 		PartDefinition Teeth_r60 = MawLip3Seg2.addOrReplaceChild("Teeth_r60", CubeListBuilder.create().texOffs(397, 33).mirror().addBox(0.0F, -5.5F, -1.0F, 0.0F, 11.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-2.0F, -6.9773F, -3.0F, -3.1262F, 0.1739F, 0.2195F));
 
 		PartDefinition MawLip3Seg3 = MawLip3Seg2.addOrReplaceChild("MawLip3Seg3", CubeListBuilder.create().texOffs(556, 376).addBox(-4.0F, -6.5F, -1.5F, 8.0F, 7.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, -12.067F, 0.25F, 0.5236F, 0.0F, 0.0F));
+
+		PartDefinition Tree = Maw.addOrReplaceChild("Tree", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -5.0F, 3.0F, 0.0F, 0.0F, 0.0349F));
+
+		PartDefinition MainTree = Tree.addOrReplaceChild("MainTree", CubeListBuilder.create().texOffs(844, 82).addBox(-10.6F, -167.6F, -1.7F, 9.0F, 60.0F, 9.0F, new CubeDeformation(0.0F))
+				.texOffs(768, 0).addBox(-22.6F, -133.6F, -13.7F, 33.0F, 11.0F, 33.0F, new CubeDeformation(0.0F))
+				.texOffs(768, 44).addBox(-19.6F, -144.6F, -10.7F, 27.0F, 11.0F, 27.0F, new CubeDeformation(0.0F))
+				.texOffs(768, 82).addBox(-15.6F, -155.6F, -6.7F, 19.0F, 11.0F, 19.0F, new CubeDeformation(0.0F))
+				.texOffs(876, 44).addBox(-11.6F, -168.6F, -2.7F, 11.0F, 13.0F, 11.0F, new CubeDeformation(0.0F))
+				.texOffs(818, 112).addBox(-6.6F, -210.6F, 2.3F, 1.0F, 45.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(812, 112).addBox(-6.1F, -207.6F, 3.3F, 0.0F, 42.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(6.0F, 109.0F, -3.0F));
+
+		PartDefinition Decorations = Tree.addOrReplaceChild("Decorations", CubeListBuilder.create(), PartPose.offset(6.0F, 109.0F, -3.0F));
+
+		PartDefinition TreeLightStrands = Decorations.addOrReplaceChild("TreeLightStrands", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
+
+		PartDefinition Lights1 = TreeLightStrands.addOrReplaceChild("Lights1", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
+
+		PartDefinition LightStrand8_r1 = Lights1.addOrReplaceChild("LightStrand8_r1", CubeListBuilder.create().texOffs(932, 199).addBox(-1.0F, -13.0F, -1.0F, 2.0F, 13.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-26.9F, -128.5F, -8.4F, 2.2889F, -0.6351F, -0.4715F));
+
+		PartDefinition LightStrand7_r1 = Lights1.addOrReplaceChild("LightStrand7_r1", CubeListBuilder.create().texOffs(900, 186).addBox(-1.0F, -15.0F, -1.0F, 2.0F, 15.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-21.1F, -138.7F, 1.7F, 2.4299F, -0.1404F, 0.6296F));
+
+		PartDefinition LightStrand6_r1 = Lights1.addOrReplaceChild("LightStrand6_r1", CubeListBuilder.create().texOffs(964, 198).addBox(-1.0F, -13.0F, -1.0F, 2.0F, 13.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-19.7F, -143.5F, 13.8F, 1.9014F, -0.1061F, 0.6695F));
+
+		PartDefinition LightStrand5_r1 = Lights1.addOrReplaceChild("LightStrand5_r1", CubeListBuilder.create().texOffs(962, 16).addBox(-1.0F, -13.0F, -1.0F, 2.0F, 13.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-10.3F, -151.1F, 15.1F, 2.9997F, 0.4372F, 0.8659F));
+
+		PartDefinition LightStrand4_r1 = Lights1.addOrReplaceChild("LightStrand4_r1", CubeListBuilder.create().texOffs(800, 182).addBox(-1.0F, -17.0F, -1.0F, 2.0F, 17.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(3.4F, -157.7F, 8.1F, -2.6073F, 0.5906F, 1.4279F));
+
+		PartDefinition LightStrand3_r1 = Lights1.addOrReplaceChild("LightStrand3_r1", CubeListBuilder.create().texOffs(792, 182).addBox(-1.0F, -17.0F, -1.0F, 2.0F, 17.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(4.5F, -150.0F, -7.5F, -1.5608F, -0.4741F, 1.4174F));
+
+		PartDefinition LightStrand2_r1 = Lights1.addOrReplaceChild("LightStrand2_r1", CubeListBuilder.create().texOffs(948, 80).addBox(-1.0F, -17.0F, -1.0F, 2.0F, 17.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-8.2F, -139.0F, -11.3F, -0.2742F, -0.4262F, 0.9544F));
+
+		PartDefinition LightStrand1_r1 = Lights1.addOrReplaceChild("LightStrand1_r1", CubeListBuilder.create().texOffs(828, 185).addBox(-1.0F, -17.0F, -1.0F, 2.0F, 17.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-17.5F, -124.2F, -15.3F, -0.2294F, -0.1132F, 0.6144F));
+
+		PartDefinition Lights2 = TreeLightStrands.addOrReplaceChild("Lights2", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0126F, -141.5124F, 6.3547F, 0.0F, 3.1416F, 0.0F));
+
+		PartDefinition LightStrand9_r1 = Lights2.addOrReplaceChild("LightStrand9_r1", CubeListBuilder.create().texOffs(956, 199).addBox(-1.0F, -13.0F, -1.0F, 2.0F, 13.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-14.8126F, 13.0124F, -7.8547F, 2.2889F, -0.6351F, -0.4715F));
+
+		PartDefinition LightStrand8_r2 = Lights2.addOrReplaceChild("LightStrand8_r2", CubeListBuilder.create().texOffs(908, 186).addBox(-1.0F, -15.0F, -1.0F, 2.0F, 15.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-9.0126F, 2.8124F, 2.2453F, 2.4299F, -0.1404F, 0.6296F));
+
+		PartDefinition LightStrand7_r2 = Lights2.addOrReplaceChild("LightStrand7_r2", CubeListBuilder.create().texOffs(948, 199).addBox(-1.0F, -13.0F, -1.0F, 2.0F, 13.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-7.6126F, -1.9876F, 14.3453F, 1.9014F, -0.1061F, 0.6695F));
+
+		PartDefinition LightStrand6_r2 = Lights2.addOrReplaceChild("LightStrand6_r2", CubeListBuilder.create().texOffs(940, 199).addBox(-1.0F, -13.0F, -1.0F, 2.0F, 13.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(1.7874F, -9.5876F, 15.6453F, 2.9997F, 0.4372F, 0.8659F));
+
+		PartDefinition LightStrand5_r2 = Lights2.addOrReplaceChild("LightStrand5_r2", CubeListBuilder.create().texOffs(844, 183).addBox(-1.0F, -17.0F, -1.0F, 2.0F, 17.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(15.4874F, -16.1876F, 8.6453F, -2.6073F, 0.5906F, 1.4279F));
+
+		PartDefinition LightStrand4_r2 = Lights2.addOrReplaceChild("LightStrand4_r2", CubeListBuilder.create().texOffs(834, 131).addBox(-1.0F, -17.0F, -1.0F, 2.0F, 17.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(16.5874F, -8.4876F, -6.9547F, -1.5608F, -0.4741F, 1.4174F));
+
+		PartDefinition LightStrand3_r2 = Lights2.addOrReplaceChild("LightStrand3_r2", CubeListBuilder.create().texOffs(808, 182).addBox(-1.0F, -17.0F, -1.0F, 2.0F, 17.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(3.8874F, 2.5124F, -10.7547F, -0.2742F, -0.4262F, 0.9544F));
+
+		PartDefinition LightStrand2_r2 = Lights2.addOrReplaceChild("LightStrand2_r2", CubeListBuilder.create().texOffs(836, 185).addBox(-1.0F, -17.0F, -1.0F, 2.0F, 17.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-5.4126F, 17.3124F, -14.7547F, -0.2294F, -0.1132F, 0.6144F));
+
+		PartDefinition Lights3 = TreeLightStrands.addOrReplaceChild("Lights3", CubeListBuilder.create(), PartPose.offsetAndRotation(-2.2874F, -141.5124F, -2.6453F, 0.0F, -1.5708F, 0.0F));
+
+		PartDefinition LightStrand10_r1 = Lights3.addOrReplaceChild("LightStrand10_r1", CubeListBuilder.create().texOffs(784, 200).addBox(-1.0F, -13.0F, -1.0F, 2.0F, 13.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-14.8126F, 13.0124F, -7.8547F, 2.2889F, -0.6351F, -0.4715F));
+
+		PartDefinition LightStrand9_r2 = Lights3.addOrReplaceChild("LightStrand9_r2", CubeListBuilder.create().texOffs(916, 186).addBox(-1.0F, -15.0F, -1.0F, 2.0F, 15.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-9.0126F, 2.8124F, 2.2453F, 2.4299F, -0.1404F, 0.6296F));
+
+		PartDefinition LightStrand8_r3 = Lights3.addOrReplaceChild("LightStrand8_r3", CubeListBuilder.create().texOffs(776, 200).addBox(-1.0F, -13.0F, -1.0F, 2.0F, 13.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-7.6126F, -1.9876F, 14.3453F, 1.9014F, -0.1061F, 0.6695F));
+
+		PartDefinition LightStrand7_r3 = Lights3.addOrReplaceChild("LightStrand7_r3", CubeListBuilder.create().texOffs(768, 200).addBox(-1.0F, -13.0F, -1.0F, 2.0F, 13.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(1.7874F, -9.5876F, 15.6453F, 2.9997F, 0.4372F, 0.8659F));
+
+		PartDefinition LightStrand6_r3 = Lights3.addOrReplaceChild("LightStrand6_r3", CubeListBuilder.create().texOffs(868, 183).addBox(-1.0F, -17.0F, -1.0F, 2.0F, 17.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(15.4874F, -16.1876F, 8.6453F, -2.6073F, 0.5906F, 1.4279F));
+
+		PartDefinition LightStrand5_r3 = Lights3.addOrReplaceChild("LightStrand5_r3", CubeListBuilder.create().texOffs(860, 183).addBox(-1.0F, -17.0F, -1.0F, 2.0F, 17.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(16.5874F, -8.4876F, -6.9547F, -1.5608F, -0.4741F, 1.4174F));
+
+		PartDefinition LightStrand4_r3 = Lights3.addOrReplaceChild("LightStrand4_r3", CubeListBuilder.create().texOffs(852, 183).addBox(-1.0F, -17.0F, -1.0F, 2.0F, 17.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(3.8874F, 2.5124F, -10.7547F, -0.2742F, -0.4262F, 0.9544F));
+
+		PartDefinition LightStrand3_r3 = Lights3.addOrReplaceChild("LightStrand3_r3", CubeListBuilder.create().texOffs(954, 99).addBox(-1.0F, -17.0F, -1.0F, 2.0F, 17.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-5.4126F, 17.3124F, -14.7547F, -0.2294F, -0.1132F, 0.6144F));
+
+		PartDefinition Lights4 = TreeLightStrands.addOrReplaceChild("Lights4", CubeListBuilder.create(), PartPose.offsetAndRotation(-9.2874F, -141.5124F, 7.3547F, 0.0F, 1.5708F, 0.0F));
+
+		PartDefinition LightStrand11_r1 = Lights4.addOrReplaceChild("LightStrand11_r1", CubeListBuilder.create().texOffs(968, 113).addBox(-1.0F, -13.0F, -1.0F, 2.0F, 13.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-14.8126F, 13.0124F, -7.8547F, 2.2889F, -0.6351F, -0.4715F));
+
+		PartDefinition LightStrand10_r2 = Lights4.addOrReplaceChild("LightStrand10_r2", CubeListBuilder.create().texOffs(924, 186).addBox(-1.0F, -15.0F, -1.0F, 2.0F, 15.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-9.0126F, 2.8124F, 2.2453F, 2.4299F, -0.1404F, 0.6296F));
+
+		PartDefinition LightStrand9_r3 = Lights4.addOrReplaceChild("LightStrand9_r3", CubeListBuilder.create().texOffs(808, 201).addBox(-1.0F, -13.0F, -1.0F, 2.0F, 13.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-7.6126F, -1.9876F, 14.3453F, 1.9014F, -0.1061F, 0.6695F));
+
+		PartDefinition LightStrand8_r4 = Lights4.addOrReplaceChild("LightStrand8_r4", CubeListBuilder.create().texOffs(816, 200).addBox(-1.0F, -13.0F, -1.0F, 2.0F, 13.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(1.7874F, -9.5876F, 15.6453F, 2.9997F, 0.4372F, 0.8659F));
+
+		PartDefinition LightStrand7_r4 = Lights4.addOrReplaceChild("LightStrand7_r4", CubeListBuilder.create().texOffs(952, 40).addBox(-1.0F, -17.0F, -1.0F, 2.0F, 17.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(15.4874F, -16.1876F, 8.6453F, -2.6073F, 0.5906F, 1.4279F));
+
+		PartDefinition LightStrand6_r4 = Lights4.addOrReplaceChild("LightStrand6_r4", CubeListBuilder.create().texOffs(884, 183).addBox(-1.0F, -17.0F, -1.0F, 2.0F, 17.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(16.5874F, -8.4876F, -6.9547F, -1.5608F, -0.4741F, 1.4174F));
+
+		PartDefinition LightStrand5_r4 = Lights4.addOrReplaceChild("LightStrand5_r4", CubeListBuilder.create().texOffs(876, 183).addBox(-1.0F, -17.0F, -1.0F, 2.0F, 17.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(3.8874F, 2.5124F, -10.7547F, -0.2742F, -0.4262F, 0.9544F));
+
+		PartDefinition LightStrand4_r4 = Lights4.addOrReplaceChild("LightStrand4_r4", CubeListBuilder.create().texOffs(892, 186).addBox(-1.0F, -17.0F, -1.0F, 2.0F, 17.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-5.4126F, 17.3124F, -14.7547F, -0.2294F, -0.1132F, 0.6144F));
+
+		PartDefinition TreeLightBulbs = Decorations.addOrReplaceChild("TreeLightBulbs", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
+
+		PartDefinition Bulb1 = TreeLightBulbs.addOrReplaceChild("Bulb1", CubeListBuilder.create().texOffs(948, 59).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
+				.texOffs(966, 167).addBox(-2.0F, -3.7F, -2.0F, 4.0F, 3.0F, 4.0F, new CubeDeformation(-0.3F))
+				.texOffs(950, 175).addBox(-1.0F, -4.4F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-24.4F, -134.0F, -2.9F, 0.0F, -0.1745F, -1.0036F));
+
+		PartDefinition Bulb2 = TreeLightBulbs.addOrReplaceChild("Bulb2", CubeListBuilder.create().texOffs(954, 126).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
+				.texOffs(792, 201).addBox(-2.0F, -3.7F, -2.0F, 4.0F, 3.0F, 4.0F, new CubeDeformation(-0.3F))
+				.texOffs(954, 129).addBox(-1.0F, -4.4F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-18.8F, -145.6F, 14.0F, -0.5813F, 0.0819F, -0.705F));
+
+		PartDefinition Bulb3 = TreeLightBulbs.addOrReplaceChild("Bulb3", CubeListBuilder.create().texOffs(932, 186).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
+				.texOffs(970, 16).addBox(-2.0F, -3.7F, -2.0F, 4.0F, 3.0F, 4.0F, new CubeDeformation(-0.3F))
+				.texOffs(960, 56).addBox(-1.0F, -4.4F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.3F, -157.6F, 7.9F, 0.0209F, -0.2713F, 0.2648F));
+
+		PartDefinition Bulb4 = TreeLightBulbs.addOrReplaceChild("Bulb4", CubeListBuilder.create().texOffs(962, 128).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
+				.texOffs(970, 23).addBox(-2.0F, -3.7F, -2.0F, 4.0F, 3.0F, 4.0F, new CubeDeformation(-0.3F))
+				.texOffs(970, 163).addBox(-1.0F, -4.4F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.8F, -145.3F, -10.0F, 1.0195F, 0.1805F, -0.0025F));
+
+		PartDefinition Bulb5 = TreeLightBulbs.addOrReplaceChild("Bulb5", CubeListBuilder.create().texOffs(976, 44).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
+				.texOffs(972, 56).addBox(-2.0F, -3.7F, -2.0F, 4.0F, 3.0F, 4.0F, new CubeDeformation(-0.3F))
+				.texOffs(976, 47).addBox(-1.0F, -4.4F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-15.8F, -126.5F, -15.1F, 1.2373F, -0.1762F, 0.2192F));
+
+		PartDefinition Bulb6 = TreeLightBulbs.addOrReplaceChild("Bulb6", CubeListBuilder.create().texOffs(902, 163).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
+				.texOffs(962, 106).addBox(-2.0F, -3.7F, -2.0F, 4.0F, 3.0F, 4.0F, new CubeDeformation(-0.3F))
+				.texOffs(868, 165).addBox(-1.0F, -4.4F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-15.1F, -150.9F, -9.6F, 1.3817F, -0.0606F, 0.1792F));
+
+		PartDefinition Bulb7 = TreeLightBulbs.addOrReplaceChild("Bulb7", CubeListBuilder.create().texOffs(972, 87).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
+				.texOffs(824, 204).addBox(-2.0F, -3.7F, -2.0F, 4.0F, 3.0F, 4.0F, new CubeDeformation(-0.3F))
+				.texOffs(972, 90).addBox(-1.0F, -4.4F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.9F, -129.0F, -17.1F, 1.0035F, 0.1499F, 0.5013F));
+
+		PartDefinition Bulb8 = TreeLightBulbs.addOrReplaceChild("Bulb8", CubeListBuilder.create().texOffs(972, 93).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
+				.texOffs(844, 202).addBox(-2.0F, -3.7F, -2.0F, 4.0F, 3.0F, 4.0F, new CubeDeformation(-0.3F))
+				.texOffs(972, 96).addBox(-1.0F, -4.4F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-6.8F, -138.6F, -11.6F, 1.9111F, 0.1499F, 0.5013F));
+
+		PartDefinition Bulb9 = TreeLightBulbs.addOrReplaceChild("Bulb9", CubeListBuilder.create().texOffs(972, 198).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
+				.texOffs(872, 202).addBox(-2.0F, -3.7F, -2.0F, 4.0F, 3.0F, 4.0F, new CubeDeformation(-0.3F))
+				.texOffs(972, 201).addBox(-1.0F, -4.4F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(10.0F, -134.8F, -0.9F, -2.2845F, -1.3321F, -2.5493F));
+
+		PartDefinition Bulb10 = TreeLightBulbs.addOrReplaceChild("Bulb10", CubeListBuilder.create().texOffs(936, 80).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
+				.texOffs(962, 31).addBox(-2.0F, -3.7F, -2.0F, 4.0F, 3.0F, 4.0F, new CubeDeformation(-0.3F))
+				.texOffs(868, 168).addBox(-1.0F, -4.4F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(14.4F, -128.4F, 14.1F, -1.7172F, -1.3321F, -2.5493F));
+
+		PartDefinition Bulb11 = TreeLightBulbs.addOrReplaceChild("Bulb11", CubeListBuilder.create().texOffs(972, 204).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
+				.texOffs(970, 128).addBox(-2.0F, -3.7F, -2.0F, 4.0F, 3.0F, 4.0F, new CubeDeformation(-0.3F))
+				.texOffs(888, 205).addBox(-1.0F, -4.4F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(6.2F, -147.1F, 10.6F, -1.979F, -1.3321F, -2.5493F));
+
+		PartDefinition Bulb12 = TreeLightBulbs.addOrReplaceChild("Bulb12", CubeListBuilder.create().texOffs(974, 0).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
+				.texOffs(970, 135).addBox(-2.0F, -3.7F, -2.0F, 4.0F, 3.0F, 4.0F, new CubeDeformation(-0.3F))
+				.texOffs(974, 3).addBox(-1.0F, -4.4F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.8F, -151.8F, -3.8F, 2.2167F, -1.3113F, -0.3585F));
+
+		PartDefinition Bulb13 = TreeLightBulbs.addOrReplaceChild("Bulb13", CubeListBuilder.create().texOffs(868, 171).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
+				.texOffs(970, 142).addBox(-2.0F, -3.7F, -2.0F, 4.0F, 3.0F, 4.0F, new CubeDeformation(-0.3F))
+				.texOffs(894, 175).addBox(-1.0F, -4.4F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-8.8F, -156.1F, 13.4F, -1.2471F, -0.1202F, -2.8516F));
+
+		PartDefinition Bulb14 = TreeLightBulbs.addOrReplaceChild("Bulb14", CubeListBuilder.create().texOffs(912, 40).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
+				.texOffs(962, 99).addBox(-2.0F, -3.7F, -2.0F, 4.0F, 3.0F, 4.0F, new CubeDeformation(-0.3F))
+				.texOffs(812, 158).addBox(-1.0F, -4.4F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.1F, -141.8F, 16.1F, -1.3867F, -0.1202F, -2.8516F));
+
+		PartDefinition Bulb15 = TreeLightBulbs.addOrReplaceChild("Bulb15", CubeListBuilder.create().texOffs(974, 174).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
+				.texOffs(964, 191).addBox(-2.0F, -3.7F, -2.0F, 4.0F, 3.0F, 4.0F, new CubeDeformation(-0.3F))
+				.texOffs(974, 177).addBox(-1.0F, -4.4F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-14.1F, -130.8F, 21.2F, -1.3625F, -0.497F, -2.9297F));
+
+		PartDefinition Bulb16 = TreeLightBulbs.addOrReplaceChild("Bulb16", CubeListBuilder.create().texOffs(974, 180).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
+				.texOffs(970, 149).addBox(-2.0F, -3.7F, -2.0F, 4.0F, 3.0F, 4.0F, new CubeDeformation(-0.3F))
+				.texOffs(974, 183).addBox(-1.0F, -4.4F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.9F, -125.8F, 21.3F, -1.1648F, 0.2315F, -2.7857F));
+
+		PartDefinition Bulb17 = TreeLightBulbs.addOrReplaceChild("Bulb17", CubeListBuilder.create().texOffs(974, 186).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
+				.texOffs(970, 156).addBox(-2.0F, -3.7F, -2.0F, 4.0F, 3.0F, 4.0F, new CubeDeformation(-0.3F))
+				.texOffs(972, 207).addBox(-1.0F, -4.4F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-24.2F, -125.8F, 11.9F, 0.9832F, 1.1275F, -0.812F));
+
+		PartDefinition Bulb18 = TreeLightBulbs.addOrReplaceChild("Bulb18", CubeListBuilder.create().texOffs(792, 208).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
+				.texOffs(900, 203).addBox(-2.0F, -3.7F, -2.0F, 4.0F, 3.0F, 4.0F, new CubeDeformation(-0.3F))
+				.texOffs(800, 208).addBox(-1.0F, -4.4F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-21.2F, -140.1F, 5.9F, -0.0473F, 1.4107F, -2.1054F));
+
+		PartDefinition Bulb19 = TreeLightBulbs.addOrReplaceChild("Bulb19", CubeListBuilder.create().texOffs(976, 38).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
+				.texOffs(916, 203).addBox(-2.0F, -3.7F, -2.0F, 4.0F, 3.0F, 4.0F, new CubeDeformation(-0.3F))
+				.texOffs(976, 41).addBox(-1.0F, -4.4F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-16.3F, -156.5F, -1.3F, 1.2849F, 1.2005F, 0.0806F));
+
+		PartDefinition Ornaments = Decorations.addOrReplaceChild("Ornaments", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
+
+		PartDefinition OrnamentBall15_r1 = Ornaments.addOrReplaceChild("OrnamentBall15_r1", CubeListBuilder.create().texOffs(960, 48).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.1F, -127.4F, -15.0F, 0.0F, 1.3352F, 0.0F));
+
+		PartDefinition OrnamentBall14_r1 = Ornaments.addOrReplaceChild("OrnamentBall14_r1", CubeListBuilder.create().texOffs(960, 40).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-8.1F, -148.4F, -8.0F, 0.0F, -0.1484F, 0.0F));
+
+		PartDefinition OrnamentBall13_r1 = Ornaments.addOrReplaceChild("OrnamentBall13_r1", CubeListBuilder.create().texOffs(948, 191).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.1F, -157.4F, -2.3F, 0.0F, -0.5847F, 0.0F));
+
+		PartDefinition OrnamentBall12_r1 = Ornaments.addOrReplaceChild("OrnamentBall12_r1", CubeListBuilder.create().texOffs(962, 8).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.1F, -160.4F, 8.7F, 0.0F, -0.5847F, 0.0F));
+
+		PartDefinition OrnamentBall11_r1 = Ornaments.addOrReplaceChild("OrnamentBall11_r1", CubeListBuilder.create().texOffs(932, 191).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-7.1F, -126.4F, 19.7F, 0.0F, 0.0698F, 0.0F));
+
+		PartDefinition OrnamentBall10_r1 = Ornaments.addOrReplaceChild("OrnamentBall10_r1", CubeListBuilder.create().texOffs(958, 183).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.1F, -144.4F, 15.7F, 0.0F, 0.4625F, 0.0F));
+
+		PartDefinition OrnamentBall9_r1 = Ornaments.addOrReplaceChild("OrnamentBall9_r1", CubeListBuilder.create().texOffs(958, 175).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-12.1F, -163.4F, 4.7F, 0.0F, 0.4625F, 0.0F));
+
+		PartDefinition OrnamentBall8_r1 = Ornaments.addOrReplaceChild("OrnamentBall8_r1", CubeListBuilder.create().texOffs(958, 0).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-20.7F, -137.4F, 11.7F, 0.0F, -0.1047F, 0.0F));
+
+		PartDefinition OrnamentBall7_r1 = Ornaments.addOrReplaceChild("OrnamentBall7_r1", CubeListBuilder.create().texOffs(956, 91).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-22.7F, -127.4F, 0.7F, 0.0F, 0.3316F, 0.0F));
+
+		PartDefinition OrnamentBall6_r1 = Ornaments.addOrReplaceChild("OrnamentBall6_r1", CubeListBuilder.create().texOffs(956, 83).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-19.7F, -141.4F, -10.3F, 0.0F, 0.8552F, 0.0F));
+
+		PartDefinition OrnamentBall5_r1 = Ornaments.addOrReplaceChild("OrnamentBall5_r1", CubeListBuilder.create().texOffs(956, 75).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(7.3F, -135.4F, -10.3F, 0.0F, 0.8552F, 0.0F));
+
+		PartDefinition OrnamentBall4_r1 = Ornaments.addOrReplaceChild("OrnamentBall4_r1", CubeListBuilder.create().texOffs(956, 67).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(10.5F, -123.5F, 4.7F, 0.0F, 0.4712F, 0.0F));
+
+		PartDefinition OrnamentBall3_r1 = Ornaments.addOrReplaceChild("OrnamentBall3_r1", CubeListBuilder.create().texOffs(956, 59).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(8.9F, -133.2F, 18.4F, 0.0F, -0.1047F, 0.0F));
+
+		PartDefinition OrnamentBall2_r1 = Ornaments.addOrReplaceChild("OrnamentBall2_r1", CubeListBuilder.create().texOffs(952, 118).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(6.3F, -144.1F, 0.3F, 0.0F, 0.3665F, 0.0F));
+
+		PartDefinition OrnamentBall1_r1 = Ornaments.addOrReplaceChild("OrnamentBall1_r1", CubeListBuilder.create().texOffs(950, 167).addBox(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.9F, -152.9F, 9.5F, 0.0F, -0.1745F, 0.0F));
+
+		PartDefinition ImpaledStarBody = Decorations.addOrReplaceChild("ImpaledStarBody", CubeListBuilder.create().texOffs(820, 165).addBox(-2.5F, -1.0F, -3.5F, 5.0F, 5.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.9106F, -186.7533F, 3.2783F, 0.0F, 0.5585F, 0.0F));
+
+		PartDefinition Leg_r50 = ImpaledStarBody.addOrReplaceChild("Leg_r50", CubeListBuilder.create().texOffs(818, 177).addBox(-1.0F, -2.0F, -3.0F, 9.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.2614F, 3.9728F, 2.7189F, -0.0443F, -0.3754F, 1.5672F));
+
+		PartDefinition Leg_r51 = ImpaledStarBody.addOrReplaceChild("Leg_r51", CubeListBuilder.create().texOffs(944, 159).addBox(-1.0F, -2.0F, -3.0F, 9.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.2614F, 4.9728F, -1.1811F, -0.032F, 0.4781F, 1.5037F));
+
+		PartDefinition Arm_r95 = ImpaledStarBody.addOrReplaceChild("Arm_r95", CubeListBuilder.create().texOffs(868, 175).addBox(-1.0F, -2.0F, -3.0F, 9.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0386F, -3.6272F, -2.8811F, -0.1501F, 0.982F, -1.504F));
+
+		PartDefinition Arm_r96 = ImpaledStarBody.addOrReplaceChild("Arm_r96", CubeListBuilder.create().texOffs(792, 174).addBox(-1.0F, -2.0F, 0.0F, 9.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.2F, -4.7F, 2.6F, 0.2155F, -0.9098F, -1.6029F));
+
+		PartDefinition Jaw_r10 = ImpaledStarBody.addOrReplaceChild("Jaw_r10", CubeListBuilder.create().texOffs(920, 40).addBox(0.0F, 0.5F, -6.0F, 8.0F, 1.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.9F, -7.5F, 2.0F, 0.0491F, -0.0552F, 0.1188F));
+
+		PartDefinition Head_r43 = ImpaledStarBody.addOrReplaceChild("Head_r43", CubeListBuilder.create().texOffs(768, 146).addBox(0.0F, -6.5F, -6.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.1F, -7.2F, 2.4F, 0.2383F, 0.1897F, -0.4244F));
+
+		PartDefinition UpperTorso_r2 = ImpaledStarBody.addOrReplaceChild("UpperTorso_r2", CubeListBuilder.create().texOffs(822, 151).addBox(-3.0F, -6.0F, -4.0F, 6.0F, 6.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0873F));
+
+		PartDefinition Spike1 = ImpaledStarBody.addOrReplaceChild("Spike1", CubeListBuilder.create(), PartPose.offset(1.3332F, -7.3029F, -10.1226F));
+
+		PartDefinition WOODEN_SPIKE_MINISKETCHY_r1 = Spike1.addOrReplaceChild("WOODEN_SPIKE_MINISKETCHY_r1", CubeListBuilder.create().texOffs(822, 150).addBox(11.0F, 1.0F, -2.0F, 4.0F, 0.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0947F, 2.7757F, 7.2415F, -0.1501F, 0.982F, -1.504F));
+
+		PartDefinition WOODEN_SPIKE_MINISKETCHY_r2 = Spike1.addOrReplaceChild("WOODEN_SPIKE_MINISKETCHY_r2", CubeListBuilder.create().texOffs(900, 40).addBox(7.0F, 0.0F, -2.0F, 5.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5947F, 2.9757F, 7.2415F, -0.1501F, 0.982F, -1.504F));
+
+		PartDefinition Spike2 = ImpaledStarBody.addOrReplaceChild("Spike2", CubeListBuilder.create(), PartPose.offsetAndRotation(-0.4668F, -7.8029F, 9.8774F, -1.8116F, -0.1928F, 0.1347F));
+
+		PartDefinition WOODEN_SPIKE_MINISKETCHY_r3 = Spike2.addOrReplaceChild("WOODEN_SPIKE_MINISKETCHY_r3", CubeListBuilder.create().texOffs(832, 150).addBox(11.0F, 1.0F, -2.0F, 4.0F, 0.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0947F, 2.7757F, 7.2415F, -0.1501F, 0.982F, -1.504F));
+
+		PartDefinition WOODEN_SPIKE_MINISKETCHY_r4 = Spike2.addOrReplaceChild("WOODEN_SPIKE_MINISKETCHY_r4", CubeListBuilder.create().texOffs(900, 42).addBox(7.0F, 0.0F, -2.0F, 5.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5947F, 2.9757F, 7.2415F, -0.1501F, 0.982F, -1.504F));
+
+		PartDefinition Spike3 = ImpaledStarBody.addOrReplaceChild("Spike3", CubeListBuilder.create(), PartPose.offsetAndRotation(-0.4668F, 12.0971F, 4.6774F, 2.4943F, 0.058F, 0.1213F));
+
+		PartDefinition WOODEN_SPIKE_MINISKETCHY_r5 = Spike3.addOrReplaceChild("WOODEN_SPIKE_MINISKETCHY_r5", CubeListBuilder.create().texOffs(918, 132).addBox(11.0F, 1.0F, -2.0F, 4.0F, 0.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0947F, 2.7757F, 7.2415F, -0.1501F, 0.982F, -1.504F));
+
+		PartDefinition WOODEN_SPIKE_MINISKETCHY_r6 = Spike3.addOrReplaceChild("WOODEN_SPIKE_MINISKETCHY_r6", CubeListBuilder.create().texOffs(822, 148).addBox(7.0F, 0.0F, -2.0F, 5.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5947F, 2.9757F, 7.2415F, -0.1501F, 0.982F, -1.504F));
+
+		PartDefinition Spike4 = ImpaledStarBody.addOrReplaceChild("Spike4", CubeListBuilder.create(), PartPose.offsetAndRotation(0.6332F, 11.6971F, -5.9226F, 1.6085F, 0.0673F, -0.0884F));
+
+		PartDefinition WOODEN_SPIKE_MINISKETCHY_r7 = Spike4.addOrReplaceChild("WOODEN_SPIKE_MINISKETCHY_r7", CubeListBuilder.create().texOffs(924, 82).addBox(11.0F, 1.0F, -2.0F, 4.0F, 0.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0947F, 2.7757F, 7.2415F, -0.1501F, 0.982F, -1.504F));
+
+		PartDefinition WOODEN_SPIKE_MINISKETCHY_r8 = Spike4.addOrReplaceChild("WOODEN_SPIKE_MINISKETCHY_r8", CubeListBuilder.create().texOffs(924, 80).addBox(7.0F, 0.0F, -2.0F, 5.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5947F, 2.9757F, 7.2415F, -0.1501F, 0.982F, -1.504F));
 
 		PartDefinition BodyRoots = Howi.addOrReplaceChild("BodyRoots", CubeListBuilder.create(), PartPose.offset(0.0F, -32.0F, 0.0F));
 
@@ -1818,11 +2082,18 @@ public class HowitzerModel<T extends Howitzer> extends EntityModel<T> {
 			this.LeftForArm.xRot = 0;
 			this.LeftForForArm.xRot = 0;
 		}
-
+		boolean jolly= isJollyTime();
+		Jolly1.visible = jolly;
+		Jolly2.visible = jolly;
+		Jolly3.visible = jolly;
+		Jolly4.visible = jolly;
+		Jolly5.visible = jolly;
+		Jolly6.visible = jolly;
+		Jolly7.visible = jolly;
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		Howi.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float r, float g, float b, float alpha) {
+		Howi.render(poseStack, vertexConsumer, packedLight, packedOverlay,r,g,b, alpha);
 	}
 }
