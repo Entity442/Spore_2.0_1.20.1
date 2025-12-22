@@ -22,6 +22,8 @@ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
@@ -355,6 +357,23 @@ public class Grakensenker extends Calamity implements TrueCalamity, WaterInfecte
                 entityData.set(LEFT_ARM_ENTITY, -1);
             }
         }
+    }
+    protected SoundEvent getDeathSound() {
+        return Ssounds.INF_DAMAGE.get();
+    }
+
+    protected SoundEvent getStepSound() {
+        if (this.onGround()){
+            return SoundEvents.RAVAGER_STEP;
+        }
+        return SoundEvents.GENERIC_SWIM;
+    }
+
+    protected SoundEvent getAmbientSound() {
+        if (this.getTarget() != null && this.distanceToSqr(this.getTarget()) > 200){
+            return null;
+        }
+        return Ssounds.KRAKEN_GROWL.get();
     }
     @Override
     public void tick() {

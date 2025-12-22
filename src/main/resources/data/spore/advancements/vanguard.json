@@ -1,0 +1,40 @@
+{
+  "display": {
+    "icon": {
+      "item": "spore:vanguard_spawnegg"
+    },
+    "title":{"translate": "advancement.spore.vanguard.title"},
+    "description":{"translate": "advancement.spore.vanguard.description"},
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+
+  "parent": "spore:inf_pillager",
+  "criteria": {
+    "hurt_infected": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "entity": {
+          "type": "spore:vanguard"
+        }
+      }
+    },
+    "hurt_by_infected": {
+      "trigger": "minecraft:entity_hurt_player",
+      "conditions": {
+        "damage": {
+          "source_entity": {
+            "type": "spore:vanguard"
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "hurt_infected",
+      "hurt_by_infected"
+    ]
+  ]
+}

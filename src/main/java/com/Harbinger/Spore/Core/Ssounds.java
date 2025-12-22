@@ -266,6 +266,8 @@ public class Ssounds {
     public static final RegistryObject<SoundEvent> VANGUARD_CALL = soundRegistry("vanguard_call");
 
     public static final RegistryObject<SoundEvent> VANGUARD_RAID = soundRegistry("vanguard_raid");
+
+    public static final RegistryObject<SoundEvent> KRAKEN_GROWL = soundRegistry("kraken_growl");
     private Ssounds() {
     }
 }

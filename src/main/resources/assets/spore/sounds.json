@@ -36,6 +36,13 @@
       "spore:scientist_fuse"
     ]
   },
+  "kraken_growl" :{
+  "subtitle": "sounds.spore.growl",
+  "sounds": [
+    "spore:kraken_growl1",
+    "spore:kraken_growl2"
+  ]
+},
   "chemist_fuse" :{
     "subtitle": "sounds.spore.growl",
     "sounds": [

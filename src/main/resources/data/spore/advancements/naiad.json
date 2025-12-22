@@ -1,0 +1,40 @@
+{
+  "display": {
+    "icon": {
+      "item": "spore:naiad_spawnegg"
+    },
+    "title":{"translate": "advancement.spore.naiad.title"},
+    "description":{"translate": "advancement.spore.naiad.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
+  },
+  "parent": "spore:inf_drowned",
+  "criteria": {
+    "hurt_infected": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "entity": {
+          "type": "spore:naiad"
+        }
+      }
+    },
+    "hurt_by_infected": {
+      "trigger": "minecraft:entity_hurt_player",
+      "conditions": {
+        "damage": {
+          "source_entity": {
+            "type": "spore:naiad"
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "hurt_infected",
+      "hurt_by_infected"
+    ]
+  ],
+  "announce_to_chat": false
+}
