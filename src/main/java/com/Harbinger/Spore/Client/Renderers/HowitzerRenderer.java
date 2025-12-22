@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Client.Renderers;
 
 import com.Harbinger.Spore.Client.Layers.HowitzerEmissiveLayer;
+import com.Harbinger.Spore.Client.Layers.HowitzerLightsLayer;
 import com.Harbinger.Spore.Client.Layers.SporeRenderTypes;
 import com.Harbinger.Spore.Client.Models.HowitzerModel;
 import com.Harbinger.Spore.Client.Special.CalamityRenderer;
@@ -33,6 +34,7 @@ public class HowitzerRenderer<Type extends Howitzer> extends CalamityRenderer<Ty
         super(context, new HowitzerModel<>(), 4f);
         this.addLayer(new HowitzerNeonGreenLayer<>(this));
         this.addLayer(new HowitzerEmissiveLayer<>(this));
+        this.addLayer(new HowitzerLightsLayer<>(this));
     }
 
     @Override
