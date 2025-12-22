@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class SporeConversionReloadListener extends SimpleJsonResourceReloadListener {
     public SporeConversionReloadListener() {
-        super(new Gson(), "spore_conversion");
+        super(new Gson(), "spore_block_conversion");
     }
     @Override
     protected void apply(

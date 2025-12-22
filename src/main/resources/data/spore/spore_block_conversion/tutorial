@@ -1,0 +1,3 @@
+The general format needs to be json and to contain files like this:
+"minecraft:grass_block": "minecraft:mycelium" or
+"#minecraft:stone": "minecraft:mycelium"

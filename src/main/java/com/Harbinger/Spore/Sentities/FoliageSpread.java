@@ -67,11 +67,13 @@ public interface FoliageSpread {
         if (Math.random() < 0.1 && blockstate.isSolidRender(level,blockpos)
                 && (nordT || southT || westT || eastT || aboveT || belowT)){
             convertBlocks(blockstate,level,blockpos);
-            convertFromJson(level,blockstate,blockpos);
         }
         if (Math.random() < 0.2){
             convertWood(level,blockstate,blockpos);
             placeRottenBush(above,level,blockpos,blockstate);
+        }
+        if (Math.random() < 0.1){
+            convertFromJson(level,blockstate,blockpos);
         }
         if (Math.random() < 0.01){
             placeGroundFoliage(above,level,blockpos,blockstate);
