@@ -3,6 +3,7 @@ package com.Harbinger.Spore.sEvents;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Sentities;
+import com.Harbinger.Spore.ExtremelySusThings.CustomJsonReader.SporeMobConversionData;
 import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Hyper;
@@ -148,7 +149,22 @@ public class Infection {
                         }
                     }
                 }
-
+                EntityType<?> JsonMob = SporeMobConversionData.getResult(entity.getType());
+                if (JsonMob != null) {
+                    Entity result = JsonMob.create(serverLevel);
+                    if (result != null) {
+                        result.setCustomName(entity.getCustomName());
+                        result.setPos(entity.position());
+                        if (result instanceof Mob mob) {
+                            mob.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(entity.blockPosition()), MobSpawnType.CONVERSION, null, null);
+                        }
+                        if (result instanceof Infected converted) {
+                            converted.setOrigin(entity.getEncodeId());
+                        }
+                        serverLevel.addFreshEntity(result);
+                        entity.discard();
+                    }
+                }
                 if (entity instanceof IronGolem golem && Math.random() < SConfig.SERVER.machine_infestation.get() / 100f) {
                     InfestedConstruct construct = new InfestedConstruct(Sentities.INF_CONSTRUCT.get(), serverLevel);
                     construct.setPos(golem.position());
