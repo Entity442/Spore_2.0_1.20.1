@@ -9,6 +9,7 @@ import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Hyper;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BasicInfected.Bairn;
+import com.Harbinger.Spore.Sentities.BasicInfected.InfectedPillager;
 import com.Harbinger.Spore.Sentities.BasicInfected.InfectedPlayer;
 import com.Harbinger.Spore.Sentities.Hyper.Hvindicator;
 import com.Harbinger.Spore.Sentities.Organoids.Proto;
@@ -17,6 +18,7 @@ import com.Harbinger.Spore.Sentities.Utility.GastGeber;
 import com.Harbinger.Spore.Sentities.Utility.InfestedConstruct;
 import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
 import com.Harbinger.Spore.Sentities.Variants.BairnSkins;
+import com.Harbinger.Spore.Sentities.Variants.InfPillagerSkins;
 import com.Harbinger.Spore.Sitems.BaseWeapons.DeathRewardingWeapon;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -26,10 +28,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.IronGolem;
-import net.minecraft.world.entity.monster.Drowned;
-import net.minecraft.world.entity.monster.Husk;
-import net.minecraft.world.entity.monster.Zombie;
-import net.minecraft.world.entity.monster.ZombieVillager;
+import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -142,6 +141,9 @@ public class Infection {
                             }
                             if (result instanceof Infected converted) {
                                 converted.setOrigin(entity.getEncodeId());
+                            }
+                            if (entity instanceof Pillager pillager && pillager.isPatrolLeader() && result instanceof InfectedPillager infectedPillager){
+                                infectedPillager.setVariant(InfPillagerSkins.CAPTAIN.getId());
                             }
                             serverLevel.addFreshEntity(result);
                             entity.discard();
