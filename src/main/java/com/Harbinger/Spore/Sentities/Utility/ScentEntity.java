@@ -199,19 +199,18 @@ public class ScentEntity extends UtilityEntity {
                 waveentity.finalizeSpawn(world, level.getCurrentDifficultyAt(new BlockPos((int) entity.getX(),(int)  entity.getY(),(int)  entity.getZ())), MobSpawnType.NATURAL, null, null);
                 if (this.getOvercharged()){
                     List<? extends String> buffer = SConfig.SERVER.scent_effects_buff.get();
-                    if(waveentity instanceof Infected infected){
+                    int randomInt = random.nextInt(buffer.size());
+                        if(waveentity instanceof Infected infected){
                         int k = SConfig.SERVER.scent_kills.get();
                         infected.setKills(random.nextInt(k ,k+3));
                         infected.setEvoPoints(random.nextInt(k ,k+3));
                         infected.setEvolution(SConfig.SERVER.evolution_age_human.get()/2);
                         infected.setLinked(true);
                     }
-                    for (int l = 0; l < 1; ++l) {
-                        ResourceLocation randomElement2 = new ResourceLocation(buffer.get(randomIndex));
-                        MobEffect randomElement3 = ForgeRegistries.MOB_EFFECTS.getValue(randomElement2);
-                        assert randomElement3 != null;
-                        waveentity.addEffect(new MobEffectInstance(randomElement3,3600,0));
-                    }
+                    ResourceLocation randomElement2 = new ResourceLocation(buffer.get(randomInt));
+                    MobEffect randomElement3 = ForgeRegistries.MOB_EFFECTS.getValue(randomElement2);
+                    assert randomElement3 != null;
+                    waveentity.addEffect(new MobEffectInstance(randomElement3,3600,0));
                 }
                 level.addFreshEntity(waveentity);
             }
