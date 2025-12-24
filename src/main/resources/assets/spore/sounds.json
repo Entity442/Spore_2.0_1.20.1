@@ -36,6 +36,14 @@
       "spore:scientist_fuse"
     ]
   },
+  "bairn" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:bairn_ambient1",
+      "spore:bairn_ambient2",
+      "spore:bairn_ambient3"
+    ]
+  },
   "kraken_growl" :{
   "subtitle": "sounds.spore.growl",
   "sounds": [

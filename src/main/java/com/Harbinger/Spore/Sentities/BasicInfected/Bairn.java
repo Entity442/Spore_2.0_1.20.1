@@ -176,7 +176,7 @@ public class Bairn extends Infected implements VariantKeeper {
     }
 
     protected SoundEvent getAmbientSound() {
-        return Ssounds.INF_GROWL.get();
+        return Ssounds.BAIRN.get();
     }
 
     protected SoundEvent getHurtSound(DamageSource p_34327_) {
