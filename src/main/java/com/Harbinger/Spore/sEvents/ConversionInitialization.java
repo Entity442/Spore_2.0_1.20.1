@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.sEvents;
 
+import com.Harbinger.Spore.ExtremelySusThings.CustomJsonReader.SporeCduConversionReloadListener;
 import com.Harbinger.Spore.ExtremelySusThings.CustomJsonReader.SporeConversionReloadListener;
 import com.Harbinger.Spore.ExtremelySusThings.CustomJsonReader.SporeMobConversionReloadListener;
 import com.Harbinger.Spore.Spore;
@@ -13,5 +14,6 @@ public class ConversionInitialization {
     public static void onRegisterReloadListeners(AddReloadListenerEvent event) {
         event.addListener(new SporeConversionReloadListener());
         event.addListener(new SporeMobConversionReloadListener());
+        event.addListener(new SporeCduConversionReloadListener());
     }
 }
