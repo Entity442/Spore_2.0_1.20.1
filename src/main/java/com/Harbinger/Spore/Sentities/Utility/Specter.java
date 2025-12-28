@@ -410,7 +410,7 @@ public class Specter extends UtilityEntity implements Enemy, ArmorPersentageBypa
 
     public boolean interactBlock(BlockPos blockPos, Level level) {
         BlockState state = level.getBlockState(blockPos);
-        if (biomass().contains(state)){
+        if (state.is(biomass)){
             return level.setBlock(blockPos, Sblocks.MEMBRANE_BLOCK.get().defaultBlockState(), 3);
         }
         return level.destroyBlock(blockPos, false, this);

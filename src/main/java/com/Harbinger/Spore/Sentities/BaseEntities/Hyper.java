@@ -69,7 +69,7 @@ public class Hyper extends Infected{
     @Override
     public boolean blockBreakingParameter(BlockState blockstate, BlockPos blockpos) {
         float value = blockstate.getDestroySpeed(this.level(),blockpos);
-        return this.tickCount % 20 == 0 && ((value > 0 && value <= getBreaking()) || biomass().contains(blockstate));
+        return this.tickCount % 20 == 0 && ((value > 0 && value <= getBreaking()) || blockstate.is(biomass));
     }
     @Override
     protected boolean canRide(Entity entity) {

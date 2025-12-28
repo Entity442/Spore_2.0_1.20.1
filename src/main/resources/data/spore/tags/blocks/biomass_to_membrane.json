@@ -1,0 +1,11 @@
+{
+  "values": [
+    "spore:rooted_biomass",
+    "spore:biomass_block",
+    "spore:sicken_biomass_block",
+    "spore:gastric_biomass_block",
+    "spore:calcified_biomass_block",
+    "spore:fungal_shell",
+    "spore:rooted_mycelium"
+  ]
+}

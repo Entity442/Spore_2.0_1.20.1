@@ -356,7 +356,7 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
         boolean flag = false;
         for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
             BlockState blockstate = this.level().getBlockState(blockpos);
-            if (biomass().contains(blockstate)){
+            if (blockstate.is(biomass)){
                 flag = this.level().setBlock(blockpos, Sblocks.MEMBRANE_BLOCK.get().defaultBlockState(), 3) || flag;
                 breakCounter = 0;
             }else{

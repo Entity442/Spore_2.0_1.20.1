@@ -22,7 +22,7 @@ public class EvolvedInfected extends Infected {
 
     @Override
     public boolean blockBreakingParameter(BlockState blockstate, BlockPos blockpos) {
-        return super.blockBreakingParameter(blockstate, blockpos) || biomass().contains(blockstate);
+        return super.blockBreakingParameter(blockstate, blockpos) || blockstate.is(biomass);
     }
 
     @Override

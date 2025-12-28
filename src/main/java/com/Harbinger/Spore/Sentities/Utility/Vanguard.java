@@ -238,8 +238,8 @@ public class Vanguard extends UtilityEntity implements CrossbowAttackMob, Enemy 
         return super.finalizeSpawn(level, difficulty, p_21436_, p_21437_, p_21438_);
     }
 
-    private void griefBlocks(LivingEntity livingEntity){
-        AABB aabb = (livingEntity != null && livingEntity.getY() > this.getY()) ? this.getBoundingBox().inflate(-0.2D,0.5D,-0.2D).move(0,0.5,0) : this.getBoundingBox().inflate(0.5D).move(0,0.5,0);
+    private void griefBlocks(){
+        AABB aabb = this.getBoundingBox().inflate(0.5D).move(0,0.5,0);
         for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
             BlockState blockstate = this.level().getBlockState(blockpos);
             if (blockBreakingParameter(blockstate,blockpos)) {
@@ -257,7 +257,7 @@ public class Vanguard extends UtilityEntity implements CrossbowAttackMob, Enemy 
 
     public boolean interactBlock(BlockPos blockPos, Level level) {
         BlockState state = level.getBlockState(blockPos);
-        if (biomass().contains(state)){
+        if (state.is(biomass)){
             return level.setBlock(blockPos, Sblocks.MEMBRANE_BLOCK.get().defaultBlockState(), 3);
         }
         return level.destroyBlock(blockPos, false, this);
@@ -290,7 +290,7 @@ public class Vanguard extends UtilityEntity implements CrossbowAttackMob, Enemy 
     public void tick() {
         super.tick();
         if (tickCount % 40 == 0 && horizontalCollision && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)){
-            griefBlocks(this.getTarget());
+            griefBlocks();
         }
         if (tickCount % 20 == 0 && this.getHealth() < this.getMaxHealth() && !hasEffect(MobEffects.REGENERATION) && entityData.get(KILLS) > 0){
             this.addEffect(new MobEffectInstance(MobEffects.REGENERATION,400,0));
