@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Client.Renderers;
 
 
+import com.Harbinger.Spore.Client.Layers.BairnEyeLayer;
 import com.Harbinger.Spore.Client.Models.BairnModel;
 import com.Harbinger.Spore.Sentities.BasicInfected.Bairn;
 import com.Harbinger.Spore.Sentities.Variants.BairnSkins;
@@ -34,6 +35,7 @@ public class BairnRenderer extends MobRenderer<Bairn, EntityModel<Bairn>> {
 
     public BairnRenderer(EntityRendererProvider.Context context) {
         super(context, new BairnModel<>(context.bakeLayer(BairnModel.LAYER_LOCATION)), 0.5f);
+        this.addLayer(new BairnEyeLayer<>(this));
     }
 
     @Override

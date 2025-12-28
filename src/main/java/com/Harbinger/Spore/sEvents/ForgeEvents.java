@@ -50,5 +50,4 @@ public class ForgeEvents {
             event.setPitch(event.getPitch() + shakeY);
         }
     }
-
 }

@@ -26,7 +26,7 @@ public class SporeMobConversionReloadListener extends SimpleJsonResourceReloadLi
             @NotNull ResourceManager resourceManager,
             @NotNull ProfilerFiller profiler
     ) {
-        SporeConversionData.clear();
+        SporeMobConversionData.clear();
 
         for (JsonElement element : jsons.values()) {
             JsonObject obj = element.getAsJsonObject();
