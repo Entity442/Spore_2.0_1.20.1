@@ -27,7 +27,7 @@ public interface WaterInfected {
                     if (level.isLoaded(pos)) {
                         var biome = level.getBiome(pos);
                         if (isOcean(biome)) {
-                            return pos;
+                            return new BlockPos(pos.getX(),63,pos.getZ());
                         }
                     }
                 }
