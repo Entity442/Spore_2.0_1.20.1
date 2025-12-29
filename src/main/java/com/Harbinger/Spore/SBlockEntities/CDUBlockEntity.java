@@ -116,7 +116,7 @@ public class CDUBlockEntity extends BlockEntity implements MenuProvider {
                 convertFromJson(level,state,blockpos);
             }
             if (Math.random() < 0.1){
-                if (state.is(Utilities.biomass)){
+                if (state.is(Utilities.biomass) || state.is(Sblocks.MEMBRANE_BLOCK.get())){
                     level.setBlock(blockpos,Sblocks.FROST_BURNED_BIOMASS.get().defaultBlockState(),3);
                 }
                 if (state == Sblocks.BILE.get().defaultBlockState()){
