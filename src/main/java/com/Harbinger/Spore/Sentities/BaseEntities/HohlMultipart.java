@@ -45,6 +45,7 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
     private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(HohlMultipart.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> IS_TAIL = SynchedEntityData.defineId(HohlMultipart.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> PARENT_ID = SynchedEntityData.defineId(HohlMultipart.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> ADAPTED = SynchedEntityData.defineId(HohlMultipart.class, EntityDataSerializers.BOOLEAN);
     private float spin = 0f;
     public HohlMultipart(EntityType<? extends LivingEntity> p_20966_, Level p_20967_) {
         super(p_20966_, p_20967_);
@@ -71,6 +72,7 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
         this.entityData.define(COLOR, 0);
         this.entityData.define(IS_TAIL, false);
         this.entityData.define(PARENT_ID,-1);
+        this.entityData.define(ADAPTED, false);
     }
     public Entity getChild() {
         UUID id = getChildId();
@@ -321,6 +323,7 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
         tag.putInt("variant",entityData.get(VARIANT));
         tag.putInt("color",entityData.get(COLOR));
         tag.putBoolean("tail",entityData.get(IS_TAIL));
+        tag.putBoolean("adapted",entityData.get(ADAPTED));
     }
 
     @Override
@@ -332,8 +335,12 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
         entityData.set(VARIANT,tag.getInt("variant"));
         entityData.set(COLOR,tag.getInt("color"));
         entityData.set(IS_TAIL,tag.getBoolean("tail"));
+        entityData.set(ADAPTED,tag.getBoolean("adapted"));
     }
 
+    public void setAdapted(boolean val){
+        entityData.set(ADAPTED,val);
+    }
     public void setSize(float val){
         entityData.set(SIZE,val);
     }
@@ -346,7 +353,9 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
     public void setIsTail(boolean val){
         entityData.set(IS_TAIL,val);
     }
-
+    public boolean isAdapted(){
+        return entityData.get(ADAPTED);
+    }
     public float getSize(){
         return entityData.get(SIZE);
     }

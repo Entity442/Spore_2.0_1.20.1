@@ -26,6 +26,8 @@ public class IkKrakenLeg {
     protected Vec3 sitPosition =  null;
     protected Vec3 lastSitPosition = null;
     protected int stepUpTicks = 0;
+    protected Vec3 lastOwnerPosition = Vec3.ZERO;
+    protected Vec3 ownerMovementDelta = Vec3.ZERO;
     public IkKrakenLeg(Grakensenker owner, int amount, Vec3 defaultBodyOffset,
                        Vec3 defaultLimbOffset,Vec3 underWaterOffset,
                        float maxDistance) {
@@ -149,14 +151,48 @@ public class IkKrakenLeg {
         return owner.getDeltaMovement().lengthSqr() > 0.005;
     }
 
+    protected void updateOwnerMovementDelta() {
+        Vec3 currentOwnerPos = owner.position();
+        ownerMovementDelta = currentOwnerPos.subtract(lastOwnerPosition);
+        lastOwnerPosition = currentOwnerPos;
+    }
 
+    protected void applyEntityMovementToLegs() {
+        if (ownerMovementDelta.lengthSqr() < 0.0001) {
+            return;
+        }
+
+        if (owner.isInDeepWater()) {
+            // In water, apply movement with drag effect - tips move less than base
+            for (int i = 0; i < entities.length; i++) {
+                float dragFactor = 0.3f + (i * 0.1f); // Base moves more, tips drag
+                dragFactor = Math.min(dragFactor, 1.0f);
+                Vec3 draggedMovement = ownerMovementDelta.scale(dragFactor);
+                entities[i] = entities[i].add(draggedMovement);
+            }
+        } else {
+            // On land, move all segments equally
+            for (int i = 0; i < entities.length-1; i++) {
+                entities[i] = entities[i].add(ownerMovementDelta);
+            }
+        }
+
+        // Adjust sit positions
+        if (sitPosition != null) {
+            sitPosition = sitPosition.add(ownerMovementDelta);
+        }
+        if (lastSitPosition != null) {
+            lastSitPosition = lastSitPosition.add(ownerMovementDelta);
+        }
+    }
     public void applyIK() {
         if (entities == null || entities.length == 0) return;
 
         Vec3 basePos = getBodyOffset();
         Vec3 defaultTipPos = sitPosition == null ? getLegBasePos() : sitPosition;
         boolean tooFar = entities[entities.length - 1].distanceToSqr(defaultTipPos) > 225;
-
+        updateOwnerMovementDelta();
+        applyEntityMovementToLegs();
         moveTipTowards(defaultTipPos);
 
         for (int i = entities.length - 2; i >= 0; i--) {

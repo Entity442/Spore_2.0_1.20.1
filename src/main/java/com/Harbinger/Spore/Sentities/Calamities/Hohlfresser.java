@@ -43,7 +43,6 @@ import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -71,9 +70,9 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
     private HohlMultipart[] parts = null;
     public final float[] ringBuffer = new float[64];
     public int ringBufferIndex = -1;
-    public float prevWormAngle;
     private int ticksUnder;
     private static final Map<BlockState, Integer> cache = new WeakHashMap<>();
+    private int[] segments = new int[10];
     public Hohlfresser(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         this.setMaxUpStep(2F);
@@ -108,7 +107,32 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
     public boolean isPushable() {
         return false;
     }
-
+    @Override
+    public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
+        super.onSyncedDataUpdated(key);
+        if (ORES.equals(key)){
+            if (getOres() > 50 && getKills() > 50){
+                entityData.set(ADAPTED,true);
+            }
+        }
+        if (ADAPTED.equals(key)){
+            refreshDimensions();
+            AttributeInstance health = this.getAttribute(Attributes.MAX_HEALTH);
+            AttributeInstance armor = this.getAttribute(Attributes.ARMOR);
+            AttributeInstance damage = this.getAttribute(Attributes.ATTACK_DAMAGE);
+            if (getAdaptation()){
+                if (health != null){
+                    health.setBaseValue(health.getValue()*2);
+                }
+                if (armor != null){
+                    armor.setBaseValue(armor.getValue()*1.5);
+                }
+                if (damage != null){
+                    damage.setBaseValue(damage.getValue()*1.25);
+                }
+            }
+        }
+    }
     @Override
     public boolean canBeCollidedWith() {
         return false;
@@ -131,6 +155,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
         if (getChildId() != null) {
             tag.putUUID("ChildUUID", getChildId());
         }
+        tag.putIntArray("segmentIds",segments);
     }
     public boolean isInWall(LivingEntity mob){
         float f = mob.getBbWidth() * 0.8F;
@@ -150,14 +175,35 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
         if (tag.hasUUID("ChildUUID")) {
             setChildId(tag.getUUID("ChildUUID"));
         }
+        segments = tag.getIntArray("segmentIds");
     }
 
     @Override
-    public void setDefaultAdaptation(ServerLevelAccessor level) {
-        super.setDefaultAdaptation(level);
-        entityData.set(ADAPTED, true);
+    public void ActivateAdaptation() {
+        entityData.set(ADAPTED,true);
     }
 
+    @Override
+    public boolean getAdaptation() {
+        return entityData.get(ADAPTED);
+    }
+
+    @Override
+    public EntityDimensions getDimensions(Pose p_21047_) {
+        float adapted = getAdaptation() ? 2 : 1;
+        return super.getDimensions(p_21047_).scale(adapted);
+    }
+    @Override
+    public void remove(Entity.RemovalReason reason) {
+        if (!this.level().isClientSide) {
+            if (parts != null){
+                for (HohlMultipart hohlMultipart : parts){
+                    hohlMultipart.discard();
+                }
+            }
+        }
+        super.remove(reason);
+    }
     @Override
     protected void grief(AABB aabb) {
         if (!isUnderground() && tickCount % 20 == 0){
@@ -182,7 +228,15 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
         entityData.set(UNDERGROUND, val);
         this.noPhysics = val;
     }
-
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        if (getAdaptation()){
+            if (source.is(DamageTypes.LAVA) || source.is(DamageTypes.IN_FIRE) || source.is(DamageTypes.ON_FIRE)){
+                amount = amount/2;
+            }
+        }
+        return super.hurt(source, amount);
+    }
     @Override
     public boolean hurt(CalamityMultipart calamityMultipart, DamageSource source, float value) {
         return this.hurt(source, value);
@@ -247,101 +301,182 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
         }
         return null;
     }
-    private int getSegments(){return 5;}
-
-    private boolean shouldReplaceParts() {
-        if (parts == null || parts[0] == null)
-            return true;
-
-        for (int i = 0; i < getSegments(); i++) {
-            if (parts[i] == null) {
-                return true;
-            }
-        }
-        return false;
-    }
+    private int getSegments(){return getAdaptation() ? 10 : 5;}
 
     public void tick() {
         super.tick();
-        prevWormAngle = this.getWormAngle();
-        if (this.yRotO - this.getYRot() > 0.05F) {
-            this.setWormAngle(this.getWormAngle() + 15);
-        } else if (this.yRotO - this.getYRot() < -0.05F) {
-            this.setWormAngle(this.getWormAngle() - 15);
-        } else if (this.getWormAngle() > 0) {
-            this.setWormAngle(Math.max(this.getWormAngle() - 20, 0));
-        } else if (this.getWormAngle() < 0) {
-            this.setWormAngle(Math.min(this.getWormAngle() + 20, 0));
-        }
-        if (entityData.get(VULNERABLE) > 0){
-            entityData.set(VULNERABLE,entityData.get(VULNERABLE)-1);
+
+        // Handle vulnerability cooldown
+        if (entityData.get(VULNERABLE) > 0) {
+            entityData.set(VULNERABLE, entityData.get(VULNERABLE) - 1);
         }
 
+        // Server-side logic only
         if (!this.level().isClientSide) {
+            // First, ensure our parts array is properly initialized from existing children
+            if (shouldReplaceParts()) {
+                rebuildPartsArray();
+            }
+            if (tickCount % 20 == 0 && parts != null && getAdaptation()){
+                refreshDimensions();
+                float size = 1.2f;
+                for(int i = 0;i<parts.length;i++){
+                    size = size - 0.05f;
+                    HohlMultipart hohlMultipart = parts[i];
+                    boolean isTail = i == parts.length-1;
+                    hohlMultipart.setAdapted(this.getAdaptation());
+                    hohlMultipart.setSize(size * 1.4f);
+                    hohlMultipart.setIsTail(isTail);
+                }
+            }
+
+            // Only create ALL segments if we have no child at all
             final Entity child = getChild();
             if (child == null) {
-                float size = 1;
-                LivingEntity partParent = this;
-                parts = new HohlMultipart[getSegments()];
-                for (int i = 0; i < getSegments(); i++) {
-                    size = size - 0.1f;
-                    HohlMultipart part = new HohlMultipart(Sentities.HOHLFRESSER_SEG.get(), this.level());
-                    part.setPos(this.getX(),this.getY(),this.getZ());
-                    part.setParent(partParent);
-                    part.setSize(size);
-                    part.setColor(this.getMutationColor());
-                    part.setVariant();
-                    part.setIsTail(i == getSegments()-1);
-                    if (partParent == this) {
-                        this.setChildId(part.getUUID());
-                        this.entityData.set(CHILD_ID, part.getId());
-                    }
-                    if (partParent instanceof HohlMultipart partIndex) {
-                        partIndex.setChildId(part.getUUID());
-                    }
-                    partParent = part;
-                    level().addFreshEntity(part);
-                    parts[i] = part;
-                }
+                createSegments();
             }
-            if (shouldReplaceParts() && this.getChild() instanceof HohlMultipart) {
-                parts = new HohlMultipart[getSegments()];
-                parts[0] = (HohlMultipart) this.getChild();
-                this.entityData.set(CHILD_ID, parts[0].getId());
-                int i = 1;
-                while (i < parts.length && parts[i - 1].getChild() instanceof HohlMultipart) {
-                    parts[i] = (HohlMultipart) parts[i - 1].getChild();
-                    i++;
-                }
-            }
-            Vec3 prev = this.position();
-            float xRot = this.getXRot();
-            for (int i = 0; i < getSegments(); i++) {
-                if (this.parts[i] != null) {
-                    final float yaw = getYawForPart(i); // or just use head YRot
-                    prev = parts[i].tickMultipartPosition(
-                            this.getId(), prev, xRot, this.getYRot(), yaw, true
-                    );
-                    xRot = parts[i].getXRot();
-                }
-            }
+
+            // Update segment positions
+            updateSegmentPositions();
         }
+
+        // Handle underground behavior
         if (isUnderground()) {
             handleUnearthing();
         }
-        if (tickCount % 20 == 0){
+
+        // Periodic dig-in check
+        if (tickCount % 20 == 0) {
             handleDigIn();
         }
-        if (ticksUnder > 0){ticksUnder--;}
-        if (tickCount % 20 == 0 && isMoving() && isUnderground() && this.getTarget() != null){
+
+        // Update underground timer
+        if (ticksUnder > 0) {
+            ticksUnder--;
+        }
+
+        // Periodically crumble blocks when moving underground with a target
+        if (tickCount % 20 == 0 && isMoving() && isUnderground() && this.getTarget() != null) {
             tryAndCrumbleBlocks();
         }
-        if (tickCount % 80 == 0 && isUnderground() && isInWall(this)){
+
+        // Play digging sound periodically when underground and in wall
+        if (tickCount % 80 == 0 && isUnderground() && isInWall(this)) {
             this.playSound(Ssounds.WORM_DIGGING.get());
         }
-        if (tickCount % 10 == 0){
+
+        // Handle shooting
+        if (tickCount % 10 == 0) {
             handleShooting();
         }
+    }
+
+    // Helper methods used in tick()
+    private void rebuildPartsArray() {
+        parts = new HohlMultipart[getSegments()];
+
+        // Rebuild from the first child if it exists
+        if (this.getChild() instanceof HohlMultipart firstChild) {
+            parts[0] = firstChild;
+            this.entityData.set(CHILD_ID, parts[0].getId());
+
+            int i = 1;
+            HohlMultipart current = firstChild;
+            while (i < parts.length && current.getChild() instanceof HohlMultipart nextChild) {
+                parts[i] = nextChild;
+                current = nextChild;
+                i++;
+            }
+
+            // If we didn't get enough segments, create the missing ones
+            if (i < parts.length) {
+                createMissingSegments(i, current);
+            }
+        }
+    }
+
+    private void createSegments() {
+        float size = 1;
+        LivingEntity partParent = this;
+        parts = new HohlMultipart[getSegments()];
+        for (int i = 0; i < getSegments(); i++) {
+            int var = segments == null || segments.length < getSegments() ? random.nextInt(3) : segments[i];
+            size = size - 0.1f;
+            HohlMultipart part = new HohlMultipart(Sentities.HOHLFRESSER_SEG.get(), this.level());
+            part.setPos(this.getX(), this.getY(), this.getZ());
+            part.setParent(partParent);
+            part.setSize(size);
+            part.setColor(this.getMutationColor());
+            part.setVariant(var);
+            part.setIsTail(i == getSegments() - 1);
+
+            if (partParent == this) {
+                this.setChildId(part.getUUID());
+                this.entityData.set(CHILD_ID, part.getId());
+            }
+            if (partParent instanceof HohlMultipart partIndex) {
+                partIndex.setChildId(part.getUUID());
+            }
+
+            partParent = part;
+            level().addFreshEntity(part);
+            parts[i] = part;
+        }
+    }
+
+    private void createMissingSegments(int startIndex, LivingEntity lastParent) {
+        float size = lastParent instanceof HohlMultipart hm ? hm.getSize() - 0.1f : 0.9f;
+
+        for (int i = startIndex; i < parts.length; i++) {
+            int var = segments == null || segments.length < getSegments() ? random.nextInt(3) : segments[i];
+            size = size - (getAdaptation() ? 0.05f : 0.1f);
+            HohlMultipart part = new HohlMultipart(Sentities.HOHLFRESSER_SEG.get(), this.level());
+            part.setPos(lastParent.getX(), lastParent.getY(), lastParent.getZ());
+            part.setParent(lastParent);
+            part.setSize(size);
+            part.setColor(this.getMutationColor());
+            part.setVariant(var);
+            part.setIsTail(i == parts.length - 1);
+
+            if (lastParent instanceof HohlMultipart partIndex) {
+                partIndex.setChildId(part.getUUID());
+            }
+
+            lastParent = part;
+            level().addFreshEntity(part);
+            parts[i] = part;
+        }
+    }
+
+    private void updateSegmentPositions() {
+        Vec3 prev = this.position();
+        float xRot = this.getXRot();
+
+        for (int i = 0; i < getSegments(); i++) {
+            if (this.parts[i] != null) {
+                final float yaw = getYawForPart(i);
+                prev = parts[i].tickMultipartPosition(
+                        this.getId(), prev, xRot, this.getYRot(), yaw, true
+                );
+                xRot = parts[i].getXRot();
+            }
+        }
+    }
+
+    private boolean shouldReplaceParts() {
+        // If parts array is null or wrong size
+        if (parts == null || parts.length != getSegments()) {
+            return true;
+        }
+
+        // Check if any segment is null or dead
+        for (HohlMultipart part : parts) {
+            if (part == null || !part.isAlive()) {
+                return true;
+            }
+        }
+
+        return false;
     }
     void handleShooting(){
         LivingEntity living = this.getTarget();
@@ -700,10 +835,8 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
                 if (direction.lengthSqr() > 1.0E-7D) {
                     direction.normalize();
                 }
-                if (jump(mob,target)){
-                    direction.add(new Vec3(0,0.3,0));
-                }
-                mob.setDeltaMovement(direction.scale(speed));
+                direction.scale(speed);
+                mob.setDeltaMovement(direction.x,0.3,direction.z);
             }
             chargeTimer = 0;
         }

@@ -42,28 +42,47 @@ public class HohlSegRenderer<Type extends HohlMultipart> extends LivingEntityRen
                 p_114874_.put(HohlMultipart.SegmentVariants.ORGAN,
                         new ResourceLocation(Spore.MODID, "textures/entity/hohl/hohl_seg3.png"));
             });
+    public static final Map<HohlMultipart.SegmentVariants, ResourceLocation> ADA_TEXTURE =
+            Util.make(Maps.newEnumMap(HohlMultipart.SegmentVariants.class), (p_114874_) -> {
+                p_114874_.put(HohlMultipart.SegmentVariants.DEFAULT,
+                        new ResourceLocation(Spore.MODID, "textures/entity/hohl/adaptedwormsegment1.png"));
+                p_114874_.put(HohlMultipart.SegmentVariants.MELEE,
+                        new ResourceLocation(Spore.MODID, "textures/entity/hohl/adaptedwormsegment2.png"));
+                p_114874_.put(HohlMultipart.SegmentVariants.ORGAN,
+                        new ResourceLocation(Spore.MODID, "textures/entity/hohl/adaptedwormsegment3.png"));
+            });
     private static final ResourceLocation INNARDS = new ResourceLocation(Spore.MODID,
             "textures/entity/worm_innards.png");
     private static final ResourceLocation TAIL = new ResourceLocation(Spore.MODID,
             "textures/entity/hohl/hohl_seg1.png");
+    private static final ResourceLocation ADA_TAIL =  new ResourceLocation(Spore.MODID,
+            "textures/entity/hohl/adaptedwormtail.png");
 
     private final EntityModel<Type> mainSegment = this.getModel();
+    private final EntityModel<Type> adamainSegment;
     private final EntityModel<Type> meleeSegment;
+    private final EntityModel<Type> adameleeSegment;
     private final EntityModel<Type> organSegment;
+    private final EntityModel<Type> adaorganSegment;
     private final EntityModel<Type> tailModel;
+    private final EntityModel<Type> adatailModel;
 
     public HohlSegRenderer(EntityRendererProvider.Context context) {
         super(context, new HohlfresserSeg1Model<>(context.bakeLayer(HohlfresserSeg1Model.LAYER_LOCATION)), 4f);
         meleeSegment = new HohlfresserSeg2Model<>(context.bakeLayer(HohlfresserSeg2Model.LAYER_LOCATION));
         organSegment = new HohlfresserSeg3Model<>(context.bakeLayer(HohlfresserSeg3Model.LAYER_LOCATION));
         tailModel = new hohlfresserTailModel<>(context.bakeLayer(hohlfresserTailModel.LAYER_LOCATION));
+        adamainSegment = new adaptedwormsegment1<>();
+        adameleeSegment = new adaptedwormsegment2<>();
+        adaorganSegment = new adaptedwormsegment3<>();
+        adatailModel = new adaptedwormtail<>();
         this.addLayer(new HohlColors<>(this));
         this.addLayer(new HohlEmmisive<>(this));
     }
 
     @Override
     public ResourceLocation getTextureLocation(Type entity) {
-        return entity.isTail() ? TAIL :  TEXTURE.get(entity.getSegmentVariant());
+        return entity.isTail() ? entity.isAdapted() ? ADA_TAIL : TAIL : entity.isAdapted() ? ADA_TEXTURE.get(entity.getSegmentVariant()) : TEXTURE.get(entity.getSegmentVariant());
     }
 
     @Override
@@ -75,30 +94,37 @@ public class HohlSegRenderer<Type extends HohlMultipart> extends LivingEntityRen
     public EntityModel<Type> getSegmentModel(Type type){
         switch (type.getSegmentVariant()){
             case MELEE -> {
-                return meleeSegment;
+                return type.isAdapted() ? adameleeSegment :  meleeSegment;
             }
             case ORGAN -> {
-                return organSegment;
+                return type.isAdapted() ? adaorganSegment :  organSegment;
             }
         }
-        return mainSegment;
+        return  type.isAdapted() ? adamainSegment : mainSegment;
     }
 
     @Override
     public void render(Type type, float val1, float val2, PoseStack stack, MultiBufferSource source, int light) {
-        model = type.isTail() ? tailModel : getSegmentModel(type);
+        model = type.isTail() ? type.isAdapted() ? adatailModel : tailModel : getSegmentModel(type);
         super.render(type, val1, val2, stack, source, light);
-        if (type.isInvisible()){
-            return;
-        }
+        Vec3 direction = null;
         ClientLevel level = Minecraft.getInstance().level;
         int i = type.getParentIntId();
-        if (level != null && i != -1){
+        if (level != null && i != -1 && !type.isInvisible()){
             Entity parent = level.getEntity(i);
             if (parent != null){
                 renderConnection(type,parent,stack,source,val2);
+                direction = parent.getPosition(val2).subtract(type.getPosition(val2));
+                direction = direction.normalize();
             }
         }
+        stack.pushPose();
+        if (direction != null){
+            float pitch = (float) -Math.asin(direction.y);
+            stack.mulPose(Axis.XP.rotation(pitch));
+        }
+        super.render(type, val1, val2, stack, source, light);
+        stack.popPose();
     }
 
     @Override
@@ -126,9 +152,10 @@ public class HohlSegRenderer<Type extends HohlMultipart> extends LivingEntityRen
     }
     private void renderConnection(Type parent, Entity to, PoseStack stack,
                                   MultiBufferSource buffer, float partialTick) {
+        boolean adapted = parent.isAdapted();
         float i = to instanceof HohlMultipart hohlMultipart ? hohlMultipart.getSize() : to instanceof Hohlfresser ? 1.2f : 0f;
-        Vec3 start = parent.getPosition(partialTick).add(0, (parent.getBbHeight() * 0.3f * parent.getSize()),0);
-        Vec3 end = to.getPosition(partialTick).add(0, (to.getBbHeight() * 0.45f * i),0);
+        Vec3 start = parent.getPosition(partialTick).add(0, (parent.getBbHeight() * (adapted ? 0.6 : 0.3f) * parent.getSize()),0);
+        Vec3 end = to.getPosition(partialTick).add(0, (to.getBbHeight() * (adapted ? 0.7 : 0.45f)* i),0);
 
         Vec3 direction = end.subtract(start);
         float length = (float)direction.length();
@@ -153,7 +180,7 @@ public class HohlSegRenderer<Type extends HohlMultipart> extends LivingEntityRen
         stack.pushPose();
         {
             Vec3 vec3 = parent.position().subtract(parent.position()).scale(-1);
-            stack.translate(vec3.x, vec3.y+1, vec3.z);
+            stack.translate(vec3.x, vec3.y+ (adapted ? 2 : 1), vec3.z);
             stack.mulPose(Axis.YP.rotation(yaw));
             stack.mulPose(Axis.XP.rotation(pitch));
             float inf = 0.6f;
