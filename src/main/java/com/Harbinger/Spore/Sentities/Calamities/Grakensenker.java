@@ -82,14 +82,14 @@ public class Grakensenker extends Calamity implements TrueCalamity, WaterInfecte
         this.Body2 = new CalamityMultipart(this, "body2", 3F, 3F);
         this.RightHand = new CalamityMultipart(this, "right", 1.5F, 1.5F);
         this.LeftHand = new CalamityMultipart(this, "left", 1.5F, 1.5F);
-        BackRightTentacle = new IkKrakenLeg(this,7,GrakenLegsModifiers.BACK_RIGHT_TENTACLE.bodySet, GrakenLegsModifiers.BACK_RIGHT_TENTACLE.offset, GrakenLegsModifiers.BACK_RIGHT_TENTACLE.underwaterOffset, 4);
-        BackLeftTentacle = new IkKrakenLeg(this,7,GrakenLegsModifiers.BACK_LEFT_TENTACLE.bodySet, GrakenLegsModifiers.BACK_LEFT_TENTACLE.offset, GrakenLegsModifiers.BACK_LEFT_TENTACLE.underwaterOffset, 4);
-        MiddleRightTentacle = new IkKrakenLeg(this,7,GrakenLegsModifiers.MIDDLE_RIGHT_TENTACLE.bodySet, GrakenLegsModifiers.MIDDLE_RIGHT_TENTACLE.offset, GrakenLegsModifiers.MIDDLE_RIGHT_TENTACLE.underwaterOffset, 6);
-        MiddleLeftTentacle = new IkKrakenLeg(this,7,GrakenLegsModifiers.MIDDLE_LEFT_TENTACLE.bodySet, GrakenLegsModifiers.MIDDLE_LEFT_TENTACLE.offset, GrakenLegsModifiers.MIDDLE_LEFT_TENTACLE.underwaterOffset, 6);
-        FrontRightTentacle = new IkKrakenLeg(this,10,GrakenLegsModifiers.FRONT_RIGHT_TENTACLE.bodySet, GrakenLegsModifiers.FRONT_RIGHT_TENTACLE.offset, GrakenLegsModifiers.FRONT_RIGHT_TENTACLE.underwaterOffset, 8);
-        FrontLeftTentacle = new IkKrakenLeg(this,10,GrakenLegsModifiers.FRONT_LEFT_TENTACLE.bodySet, GrakenLegsModifiers.FRONT_LEFT_TENTACLE.offset, GrakenLegsModifiers.FRONT_LEFT_TENTACLE.underwaterOffset, 8);
-        RightArmTentacle = new IkKrakenArm(this,16,GrakenLegsModifiers.RIGHT_ARM.bodySet, GrakenLegsModifiers.RIGHT_ARM.offset, GrakenLegsModifiers.RIGHT_ARM.underwaterOffset, 4,true);
-        LeftArmTentacle = new IkKrakenArm(this,16,GrakenLegsModifiers.LEFT_ARM.bodySet, GrakenLegsModifiers.LEFT_ARM.offset, GrakenLegsModifiers.LEFT_ARM.underwaterOffset, 4,false);
+        BackRightTentacle = new IkKrakenLeg(this,7,GrakenLegsModifiers.BACK_RIGHT_TENTACLE.bodySet, GrakenLegsModifiers.BACK_RIGHT_TENTACLE.offset, 4);
+        BackLeftTentacle = new IkKrakenLeg(this,7,GrakenLegsModifiers.BACK_LEFT_TENTACLE.bodySet, GrakenLegsModifiers.BACK_LEFT_TENTACLE.offset,  4);
+        MiddleRightTentacle = new IkKrakenLeg(this,7,GrakenLegsModifiers.MIDDLE_RIGHT_TENTACLE.bodySet, GrakenLegsModifiers.MIDDLE_RIGHT_TENTACLE.offset,  6);
+        MiddleLeftTentacle = new IkKrakenLeg(this,7,GrakenLegsModifiers.MIDDLE_LEFT_TENTACLE.bodySet, GrakenLegsModifiers.MIDDLE_LEFT_TENTACLE.offset, 6);
+        FrontRightTentacle = new IkKrakenLeg(this,10,GrakenLegsModifiers.FRONT_RIGHT_TENTACLE.bodySet, GrakenLegsModifiers.FRONT_RIGHT_TENTACLE.offset, 8);
+        FrontLeftTentacle = new IkKrakenLeg(this,10,GrakenLegsModifiers.FRONT_LEFT_TENTACLE.bodySet, GrakenLegsModifiers.FRONT_LEFT_TENTACLE.offset,  8);
+        RightArmTentacle = new IkKrakenArm(this,16,GrakenLegsModifiers.RIGHT_ARM.bodySet, GrakenLegsModifiers.RIGHT_ARM.offset, 4,true);
+        LeftArmTentacle = new IkKrakenArm(this,16,GrakenLegsModifiers.LEFT_ARM.bodySet, GrakenLegsModifiers.LEFT_ARM.offset,  4,false);
         VortexFunnel = new IkVortexFunnel(this);
         TickTentacles = new IkKrakenLeg[]{BackRightTentacle,BackLeftTentacle,MiddleRightTentacle,MiddleLeftTentacle,FrontRightTentacle,FrontLeftTentacle,RightArmTentacle,LeftArmTentacle,VortexFunnel};
         this.subEntities = new CalamityMultipart[]{ this.Body,this.Body2, this.RightHand,this.LeftHand};
@@ -629,6 +629,12 @@ public class Grakensenker extends Calamity implements TrueCalamity, WaterInfecte
         }
         if (SEARCH_AREA.equals(dataAccessor)){
             if (getSearchArea() != BlockPos.ZERO){
+                setVortexTimeout(1200);
+                setVortexVector(BlockPos.ZERO);
+            }
+        }
+        if (WATER_TICKS.equals(dataAccessor)){
+            if (hasVortex() && !isInDeepWater()){
                 setVortexTimeout(1200);
                 setVortexVector(BlockPos.ZERO);
             }

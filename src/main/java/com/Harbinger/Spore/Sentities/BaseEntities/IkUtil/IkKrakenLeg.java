@@ -17,19 +17,19 @@ public class IkKrakenLeg {
     protected int[] segmentVar;
     protected final Vec3 defaultBodyOffset;
     protected final Vec3 defaultLimbOffset;
-    protected final Vec3 underwaterLimbOffset;
     protected final float maxDistance;
     protected final float[] wiggleTimers;
     protected final float[] wiggleSpeeds;
     protected final float[] wiggleAmplitudes;
     protected final float[] wiggleOffsets;
+    protected final Vec3[] segmentVelocities;
     protected Vec3 sitPosition =  null;
     protected Vec3 lastSitPosition = null;
     protected int stepUpTicks = 0;
     protected Vec3 lastOwnerPosition = Vec3.ZERO;
     protected Vec3 ownerMovementDelta = Vec3.ZERO;
     public IkKrakenLeg(Grakensenker owner, int amount, Vec3 defaultBodyOffset,
-                       Vec3 defaultLimbOffset,Vec3 underWaterOffset,
+                       Vec3 defaultLimbOffset,
                        float maxDistance) {
         this.owner = owner;
         this.entities = new Vec3[amount];
@@ -38,6 +38,7 @@ public class IkKrakenLeg {
         this.wiggleSpeeds = new float[amount];
         this.wiggleAmplitudes = new float[amount];
         this.wiggleOffsets = new float[amount];
+        this.segmentVelocities = new Vec3[amount];
         for(int i = 0;i<amount;i++){
             entities[i] = new Vec3(0,0,0);
             segmentVar[i] = randomSource.nextInt(12);
@@ -45,10 +46,10 @@ public class IkKrakenLeg {
             wiggleAmplitudes[i] = 0.02f + randomSource.nextFloat() * getWiggleAmplitude();
             wiggleOffsets[i] = randomSource.nextFloat() * (float)Math.PI * 2;
             wiggleTimers[i] = randomSource.nextFloat() * 100;
+            segmentVelocities[i] = new Vec3(0, 0, 0);
         }
         this.defaultBodyOffset = defaultBodyOffset;
         this.defaultLimbOffset = defaultLimbOffset;
-        this.underwaterLimbOffset = underWaterOffset;
         this.maxDistance = maxDistance;
     }
     public float getWiggleSpeed(){
@@ -121,10 +122,6 @@ public class IkKrakenLeg {
         Vec3 pivot = owner.position().add(0, owner.getExtendedHeight(), 0);
         return pivot.add(applyYaw(defaultBodyOffset));
     }
-    public Vec3 getUnderwaterLegOffset() {
-        Vec3 pivot = owner.position().add(0, owner.getExtendedHeight(), 0);
-        return pivot.add(applyYaw(underwaterLimbOffset));
-    }
 
     protected void moveSegmentTowards(int index, Vec3 target,boolean far) {
         Vec3 currentPos = entities[index];
@@ -134,18 +131,7 @@ public class IkKrakenLeg {
     protected void moveTipTowards(Vec3 target) {
         int tip = entities.length - 1;
         Vec3 currentPos = entities[tip];
-        if (owner.isInDeepWater()){
-            entities[tip] = currentPos.lerp(getUnderwaterLegOffset(), 0.35f);
-            return;
-        }
-        float jumpVal = 3.5f;
-        boolean val = stepUpTicks > 0 && isOwnerMoving();
-        entities[tip] = currentPos.lerp(target.add(0,val ? jumpVal : -1,0), 0.15f);
-        if (val){
-            for (int i = 1; i < entities.length-1; i++) {
-                entities[tip] = currentPos.lerp(target.add(0, jumpVal,0), 0.05f);
-            }
-        }
+        entities[tip] = currentPos.lerp(target, 0.15f);
     }
     protected boolean isOwnerMoving(){
         return owner.getDeltaMovement().lengthSqr() > 0.005;
@@ -158,43 +144,58 @@ public class IkKrakenLeg {
     }
 
     protected void applyEntityMovementToLegs() {
-        if (ownerMovementDelta.lengthSqr() < 0.0001) {
+        boolean inWater = owner.isInDeepWater();
+        if (ownerMovementDelta.lengthSqr() < 0.00001){
+            if (inWater){
+                Vec3 defaultTipPos = getLegBasePos();
+                int tip = entities.length - 1;
+                Vec3 currentPos = entities[tip];
+                entities[tip] = currentPos.lerp(defaultTipPos, 0.1f);
+            }
             return;
         }
 
-        if (owner.isInDeepWater()) {
-            // In water, apply movement with drag effect - tips move less than base
-            for (int i = 0; i < entities.length; i++) {
-                float dragFactor = 0.3f + (i * 0.1f); // Base moves more, tips drag
-                dragFactor = Math.min(dragFactor, 1.0f);
-                Vec3 draggedMovement = ownerMovementDelta.scale(dragFactor);
-                entities[i] = entities[i].add(draggedMovement);
-            }
-        } else {
-            // On land, move all segments equally
-            for (int i = 0; i < entities.length-1; i++) {
-                entities[i] = entities[i].add(ownerMovementDelta);
-            }
+        int last = entities.length - 1;
+        int val = inWater ? 0 : 1;
+
+        for (int i = 0; i < entities.length-val; i++) {
+            float t = (float) i / last;
+            float followStrength = Mth.lerp(t, 0.5f, 0.05f);
+            float drag = inWater
+                    ? Mth.lerp(t, 0.90f, 0.65f)
+                    : Mth.lerp(t, 0.90f, 0.1f);
+
+            segmentVelocities[i] = segmentVelocities[i]
+                    .add(ownerMovementDelta.scale(followStrength));
+
+            segmentVelocities[i] = segmentVelocities[i].scale(drag);
+
+            entities[i] = entities[i].add(segmentVelocities[i]);
         }
 
-        // Adjust sit positions
-        if (sitPosition != null) {
-            sitPosition = sitPosition.add(ownerMovementDelta);
-        }
-        if (lastSitPosition != null) {
-            lastSitPosition = lastSitPosition.add(ownerMovementDelta);
-        }
+        if (sitPosition != null) sitPosition = sitPosition.add(ownerMovementDelta);
+        if (lastSitPosition != null) lastSitPosition = lastSitPosition.add(ownerMovementDelta);
     }
+
     public void applyIK() {
         if (entities == null || entities.length == 0) return;
 
         Vec3 basePos = getBodyOffset();
         Vec3 defaultTipPos = sitPosition == null ? getLegBasePos() : sitPosition;
-        boolean tooFar = entities[entities.length - 1].distanceToSqr(defaultTipPos) > 225;
         updateOwnerMovementDelta();
         applyEntityMovementToLegs();
-        moveTipTowards(defaultTipPos);
-
+        if (!owner.isInDeepWater()){
+            float jumpVal = 1.5f;
+            boolean val = stepUpTicks > 0 && isOwnerMoving();
+            if (val){
+                for (int i = 1; i < entities.length; i++) {
+                    Vec3 vec3 = entities[i];
+                    entities[i] = vec3.lerp(vec3.add(0,jumpVal,0), 0.05f);
+                }
+            }else {
+                moveTipTowards(defaultTipPos);
+            }
+        }
         for (int i = entities.length - 2; i >= 0; i--) {
             Vec3 nextPos = entities[i + 1];
             Vec3 dir = entities[i].subtract(nextPos);
@@ -207,7 +208,7 @@ public class IkKrakenLeg {
             }
 
             Vec3 solvedPos = nextPos.add(dir);
-            moveSegmentTowards(i, solvedPos, tooFar);
+            moveSegmentTowards(i, solvedPos, entities[i+1].distanceTo(entities[i]) > 5);
         }
         entities[0] = basePos;
 
@@ -223,7 +224,7 @@ public class IkKrakenLeg {
             }
 
             Vec3 solvedPos = prevPos.add(dir);
-            moveSegmentTowards(i, solvedPos, tooFar);
+            moveSegmentTowards(i, solvedPos, entities[i-1].distanceTo(entities[i]) > 5);
         }
         applyIdleWiggle();
         updateWiggleTimers();

@@ -26,8 +26,8 @@ public class IkKrakenArm extends IkKrakenLeg {
     private final Vec3 RightWaterVec = new Vec3(8, 4.5, -6);
     private final Vec3 LeftWaterVec = new Vec3(8, 4.5, 6);
     private static final Vector3f nullVec = new Vector3f(0);
-    public IkKrakenArm(Grakensenker owner, int amount, Vec3 defaultBodyOffset, Vec3 defaultLimbOffset,Vec3 underwater, float maxDistance, boolean rightArm) {
-        super(owner, amount, defaultBodyOffset, defaultLimbOffset,underwater, maxDistance);
+    public IkKrakenArm(Grakensenker owner, int amount, Vec3 defaultBodyOffset, Vec3 defaultLimbOffset, float maxDistance, boolean rightArm) {
+        super(owner, amount, defaultBodyOffset, defaultLimbOffset, maxDistance);
         this.rightArm = rightArm;
     }
 
@@ -48,11 +48,11 @@ public class IkKrakenArm extends IkKrakenLeg {
         Vector3f vector3f = rightArm ? owner.getRightArm() : owner.getLeftArm();
         if (owner.level().isClientSide){
             sitPosition = vector3f == nullVec || hitValues > 0 ? getLegBasePos() : new Vec3(vector3f).add(0, 1, 0);
-            sitPosition = full  ? owner.isInDeepWater() ? getUnderwaterLegOffset() : getMouthPosition() : sitPosition;
+            sitPosition = full  ? getMouthPosition() : sitPosition;
             lastSitPosition = sitPosition;
         }else {
             sitPosition = this.target == null || hitValues > 0 ? getLegBasePos() : this.target.position().add(0, 1, 0);
-            sitPosition = full  ? owner.isInDeepWater() ? getUnderwaterLegOffset() : getMouthPosition() : sitPosition;
+            sitPosition = full  ? getMouthPosition() : sitPosition;
             lastSitPosition = sitPosition;
             if (owner.tickCount % 10 == 0 && hitValues <= 0 && !full){
                 setTarget();
@@ -128,9 +128,11 @@ public class IkKrakenArm extends IkKrakenLeg {
     @Override
     public void applyIK() {
         super.applyIK();
-        moveMidSegmentTowards(entities.length/4,getMidSecPivot());
-        moveMidSegmentTowards(entities.length/2,getMidSecPivot2());
-        moveMidSegmentWaterTowards(entities.length/4,getMidSecPivot3());
+        if (!owner.isInDeepWater()){
+            moveMidSegmentTowards(entities.length/4,getMidSecPivot());
+            moveMidSegmentTowards(entities.length/2,getMidSecPivot2());
+            moveMidSegmentWaterTowards(entities.length/4,getMidSecPivot3());
+        }
         float x = (float) entities[entities.length-1].x();
         float y = (float) entities[entities.length-1].y();
         float z = (float) entities[entities.length-1].z();
