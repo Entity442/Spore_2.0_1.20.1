@@ -145,25 +145,23 @@ public class IkKrakenLeg {
 
     protected void applyEntityMovementToLegs() {
         boolean inWater = owner.isInDeepWater();
+        if (!inWater){
+            return;
+        }
         if (ownerMovementDelta.lengthSqr() < 0.00001){
-            if (inWater){
-                Vec3 defaultTipPos = getLegBasePos();
-                int tip = entities.length - 1;
-                Vec3 currentPos = entities[tip];
-                entities[tip] = currentPos.lerp(defaultTipPos, 0.1f);
-            }
+            Vec3 defaultTipPos = getLegBasePos();
+            int tip = entities.length - 1;
+            Vec3 currentPos = entities[tip];
+            entities[tip] = currentPos.lerp(defaultTipPos, 0.1f);
             return;
         }
 
         int last = entities.length - 1;
-        int val = inWater ? 0 : 1;
 
-        for (int i = 0; i < entities.length-val; i++) {
+        for (int i = 0; i < entities.length; i++) {
             float t = (float) i / last;
             float followStrength = Mth.lerp(t, 0.5f, 0.05f);
-            float drag = inWater
-                    ? Mth.lerp(t, 0.90f, 0.65f)
-                    : Mth.lerp(t, 0.90f, 0.1f);
+            float drag = Mth.lerp(t, 0.90f, 0.65f);
 
             segmentVelocities[i] = segmentVelocities[i]
                     .add(ownerMovementDelta.scale(followStrength));
