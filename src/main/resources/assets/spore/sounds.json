@@ -79,6 +79,14 @@
       "spore:stahl_slash2"
     ]
   },
+  "phayres_screech" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:phayres_screech",
+      "spore:phayres_screech2",
+      "spore:phayres_screech3"
+    ]
+  },
   "chemist_fuse" :{
     "subtitle": "sounds.spore.growl",
     "sounds": [

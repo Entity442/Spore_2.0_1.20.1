@@ -135,6 +135,9 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
         if (this.isAlive() && this.getTypeVariant() == 2) {
             manageExplosiveBusser();
         }
+        if (tickCount % 200 == 0 && (!level().canSeeSky(this.blockPosition()) || level().isNight())){
+            this.playSound(Ssounds.PHAYRES_SCREECH.get());
+        }
     }
 
     public void manageExplosiveBusser(){
