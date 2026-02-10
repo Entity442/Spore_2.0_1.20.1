@@ -11,6 +11,7 @@ import com.Harbinger.Spore.Sentities.Experiments.Saugling;
 import com.Harbinger.Spore.Sentities.FallenMultipart.HowitzerArm;
 import com.Harbinger.Spore.Sentities.FallenMultipart.Licker;
 import com.Harbinger.Spore.Sentities.FallenMultipart.SiegerTail;
+import com.Harbinger.Spore.Sentities.FallenMultipart.StalhArm;
 import com.Harbinger.Spore.Sentities.Hyper.*;
 import com.Harbinger.Spore.Sentities.Organoids.*;
 import com.Harbinger.Spore.Sentities.Projectile.*;
@@ -415,11 +416,17 @@ public class Sentities {
             () -> EntityType.Builder.of(Howitzer::new, INFECTED).sized(5f, 5f)
                     .build(new ResourceLocation(Spore.MODID, "howitzer").toString()));
 
+    public static final Supplier<EntityType<Stahlmorder>> STALH = SPORE_ENTITIES.register("stahl",
+            () -> EntityType.Builder.of(Stahlmorder::new, INFECTED).sized(3f, 6f)
+                    .build(new ResourceLocation(Spore.MODID, "stahl").toString()));
+
     public static final RegistryObject<EntityType<Hohlfresser>> HOHLFRESSER = SPORE_ENTITIES.register("hohlfresser",
             () -> EntityType.Builder.of(Hohlfresser::new, INFECTED).sized(3.5f, 3.5f)
                     .build(new ResourceLocation(Spore.MODID, "hohlfresser").toString()));
     public static final RegistryObject<EntityType<HohlMultipart>> HOHLFRESSER_SEG = SPORE_ENTITIES.register("hohlfresser_seg",
             () -> EntityType.Builder.of(HohlMultipart::new, INFECTED).sized(3.5f, 3.5f)
                     .build(new ResourceLocation(Spore.MODID, "hohlfresser_seg").toString()));
-
+    public static final Supplier<EntityType<StalhArm>> STAHL_ARM = SPORE_ENTITIES.register("stahl_arm",
+            () -> EntityType.Builder.of(StalhArm::new, MobCategory.MISC).sized(3f, 1f)
+                    .build(new ResourceLocation(Spore.MODID, "stahl_arm").toString()));
 }

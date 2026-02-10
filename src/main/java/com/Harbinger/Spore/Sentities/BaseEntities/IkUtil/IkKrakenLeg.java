@@ -28,6 +28,8 @@ public class IkKrakenLeg {
     protected int stepUpTicks = 0;
     protected Vec3 lastOwnerPosition = Vec3.ZERO;
     protected Vec3 ownerMovementDelta = Vec3.ZERO;
+    protected float lastYaw = 0;
+    protected float yawDelta = 0;
     public IkKrakenLeg(Grakensenker owner, int amount, Vec3 defaultBodyOffset,
                        Vec3 defaultLimbOffset,
                        float maxDistance) {
@@ -115,7 +117,8 @@ public class IkKrakenLeg {
 
     public Vec3 getLegBasePos() {
         Vec3 pivot = owner.position();
-        return pivot.add(applyYaw(defaultLimbOffset));
+        Vec3 extend = isOwnerMoving() ? new Vec3(1,0,0) : Vec3.ZERO;
+        return pivot.add(applyYaw(defaultLimbOffset.add(extend)));
     }
 
     public Vec3 getBodyOffset() {
@@ -141,6 +144,40 @@ public class IkKrakenLeg {
         Vec3 currentOwnerPos = owner.position();
         ownerMovementDelta = currentOwnerPos.subtract(lastOwnerPosition);
         lastOwnerPosition = currentOwnerPos;
+        float currentYaw = owner.getYRot();
+        yawDelta = Mth.wrapDegrees(currentYaw - lastYaw);
+        lastYaw = currentYaw;
+    }
+    protected Vec3 rotateAroundYaw(Vec3 pos, Vec3 pivot, float degrees) {
+        double rad = degrees * Mth.DEG_TO_RAD;
+        Vec3 rel = pos.subtract(pivot);
+        Vec3 rotated = rel.yRot((float)-rad);
+        return pivot.add(rotated);
+    }
+    protected void applyBodySpin() {
+        if (Math.abs(yawDelta) < 0.001f) return;
+        boolean inWater = owner.isInDeepWater();
+        if (inWater){
+            return;
+        }
+        Vec3 pivot = owner.position();
+
+        for (int i = 0; i < entities.length; i++) {
+            entities[i] = rotateAroundYaw(entities[i], pivot, yawDelta);
+        }
+
+        if (sitPosition != null) {
+            sitPosition = rotateAroundYaw(sitPosition, pivot, yawDelta);
+        }
+
+        if (lastSitPosition != null) {
+            lastSitPosition = rotateAroundYaw(lastSitPosition, pivot, yawDelta);
+        }
+
+        for (int i = 0; i < segmentVelocities.length; i++) {
+            segmentVelocities[i] =
+                    segmentVelocities[i].yRot((float)(-yawDelta * Mth.DEG_TO_RAD));
+        }
     }
 
     protected void applyEntityMovementToLegs() {
@@ -182,6 +219,7 @@ public class IkKrakenLeg {
         Vec3 defaultTipPos = sitPosition == null ? getLegBasePos() : sitPosition;
         updateOwnerMovementDelta();
         applyEntityMovementToLegs();
+        applyBodySpin();
         if (!owner.isInDeepWater()){
             float jumpVal = 1.5f;
             boolean val = stepUpTicks > 0 && isOwnerMoving();

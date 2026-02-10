@@ -354,6 +354,9 @@ public class Sitems {
     public  static final RegistryObject<Item> KRAKEN_SPAWNEGG = ITEMS.register("kraken_spawnegg",
             () -> new SporeSpawnEgg(Sentities.KRAKEN,214325443,SpawnEggType.CALAMITY));
 
+    public  static final RegistryObject<Item> STAHL_SPAWNEGG = ITEMS.register("stahl_spawnegg",
+            () -> new SporeSpawnEgg(Sentities.STALH,546456633,SpawnEggType.CALAMITY));
+
     public  static final RegistryObject<Item> ACID = ITEMS.register("acid",
             () -> new Item( new Item.Properties()));
     public  static final RegistryObject<Item> BILE = ITEMS.register("bile",

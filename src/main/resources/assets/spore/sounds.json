@@ -23,25 +23,24 @@
       "spore:nuke"
     ]
   },
-"inf_damage" :{
+  "inf_damage" :{
   "subtitle": "sounds.spore.damage",
   "sounds": [
     "spore:slash",
     "spore:slash2"
+  ]
+},"bairn" :{
+  "subtitle": "sounds.spore.growl",
+  "sounds": [
+    "spore:bairn_ambient1",
+    "spore:bairn_ambient2",
+    "spore:bairn_ambient3"
   ]
 },
   "scientist_fuse" :{
     "subtitle": "sounds.spore.growl",
     "sounds": [
       "spore:scientist_fuse"
-    ]
-  },
-  "bairn" :{
-    "subtitle": "sounds.spore.growl",
-    "sounds": [
-      "spore:bairn_ambient1",
-      "spore:bairn_ambient2",
-      "spore:bairn_ambient3"
     ]
   },
   "kraken_growl" :{
@@ -51,6 +50,35 @@
     "spore:kraken_growl2"
   ]
 },
+  "stahl_ambient" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:stahl_ambient",
+      "spore:stahl_ambient2",
+      "spore:stahl_ambient3"
+    ]
+  },
+  "stahl_kick" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:stahl_kick",
+      "spore:stahl_kick2"
+    ]
+  },
+  "stahl_slap" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:stahl_slap",
+      "spore:stahl_slap2"
+    ]
+  },
+  "stahl_slash" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:stahl_slash",
+      "spore:stahl_slash2"
+    ]
+  },
   "chemist_fuse" :{
     "subtitle": "sounds.spore.growl",
     "sounds": [

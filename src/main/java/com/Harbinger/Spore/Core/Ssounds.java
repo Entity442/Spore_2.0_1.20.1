@@ -270,6 +270,14 @@ public class Ssounds {
     public static final RegistryObject<SoundEvent> KRAKEN_GROWL = soundRegistry("kraken_growl");
 
     public static final RegistryObject<SoundEvent> BAIRN = soundRegistry("bairn");
+
+    public static final RegistryObject<SoundEvent> STAHL_AMBIENT = soundRegistry("stahl_ambient");
+
+    public static final RegistryObject<SoundEvent> STAHL_KICK = soundRegistry("stahl_kick");
+
+    public static final RegistryObject<SoundEvent> STAHL_SLAP = soundRegistry("stahl_slap");
+
+    public static final RegistryObject<SoundEvent> STAHL_SLASH = soundRegistry("stahl_slash");
     private Ssounds() {
     }
 }
