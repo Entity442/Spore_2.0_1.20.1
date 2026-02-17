@@ -33,15 +33,16 @@ import org.jetbrains.annotations.Nullable;
 
 public class BrainRemnants extends BaseEntityBlock {
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
+    public static final BooleanProperty OCCUPIED = BlockStateProperties.OCCUPIED;
     public BrainRemnants() {
         super(Properties.of().sound(SoundType.STONE).strength(6f, 20f));
-        this.registerDefaultState(this.stateDefinition.any().setValue(LIT, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(LIT, false).setValue(OCCUPIED, false));
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new BrainRemnantBlockEntity(pos,state,state.getValue(LIT));
+        return new BrainRemnantBlockEntity(pos,state,state.getValue(LIT),state.getValue(OCCUPIED));
     }
 
     @Override
@@ -71,7 +72,7 @@ public class BrainRemnants extends BaseEntityBlock {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> blockStateBuilder) {
         super.createBlockStateDefinition(blockStateBuilder);
-        blockStateBuilder.add(LIT);
+        blockStateBuilder.add(LIT).add(OCCUPIED);
     }
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {

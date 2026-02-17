@@ -389,6 +389,15 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> proto_sapient_target;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> proto_summonable_troops;
 
+        public final ForgeConfigSpec.ConfigValue<Double> htumor_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> htumor_armor;
+        public final ForgeConfigSpec.ConfigValue<Double> htumor_damage;
+        public final ForgeConfigSpec.ConfigValue<Boolean> htumor_madness;
+        public final ForgeConfigSpec.ConfigValue<Integer> htumor_range;
+        public final ForgeConfigSpec.ConfigValue<Integer> htumor_timer;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> htumor_sapient_target;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> htumor_summonable_troops;
+
         public final ForgeConfigSpec.ConfigValue<Double> how_hp;
         public final ForgeConfigSpec.ConfigValue<Double> how_damage;
         public final ForgeConfigSpec.ConfigValue<Double> how_armor;
@@ -1036,7 +1045,20 @@ public class SConfig {
                             "recruits:recruit","recruits:bowman","recruits:recruit_shieldman", "recruits:nomad","recruits:horseman","roamers:roamer") , o -> o instanceof String);
             this.proto_summonable_troops = builder.defineList("Mobs that the proto can summon to defend itself",
                     Lists.newArrayList("spore:mound","spore:vigil","spore:umarmed","spore:usurper","spore:braurei","spore:verva","spore:delusioner") , o -> o instanceof String);
+            builder.pop();
 
+            builder.push("Hivetumor");
+            this.htumor_hp = builder.comment("Hivetumor 50").defineInRange("Sets Hivetumor Max health", 50, 1, Double.MAX_VALUE);
+            this.htumor_armor = builder.comment("Default 10").defineInRange("Sets Hivetumor Armor", 10, 1, Double.MAX_VALUE);
+            this.htumor_damage = builder.comment("Default 10").defineInRange("Sets Hivetumor Melee damage", 10, 1, Double.MAX_VALUE);
+            this.htumor_range = builder.comment("Default 128").defineInRange("Sets the linking range", 128, 1, Integer.MAX_VALUE);
+            this.htumor_timer = builder.comment("Default 21600").defineInRange("Time before it grows back into a hivemind", 21600, 1, Integer.MAX_VALUE);
+            this.htumor_madness = builder.comment("Default true").define("Should the Hivetumor spread madness?",true);
+            this.htumor_sapient_target = builder.defineList("Sentient Mobs targeted by the Hivetumor",
+                    Lists.newArrayList("minecraft:villager","minecraft:pillager","guardvillagers:guard","minecraft:evoker","minecraft:vindicator",
+                            "recruits:recruit","recruits:bowman","recruits:recruit_shieldman", "recruits:nomad","recruits:horseman","roamers:roamer") , o -> o instanceof String);
+            this.htumor_summonable_troops = builder.defineList("Mobs that the Hivetumor can summon to defend itself",
+                    Lists.newArrayList("spore:mound","spore:umarmed","spore:usurper","spore:braurei") , o -> o instanceof String);
             builder.pop();
 
             builder.push("Howler");
@@ -1602,6 +1624,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> vigil_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> umarmer_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> proto_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> tumor_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> mound_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> usurper_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> wendigo_loot;
@@ -1802,6 +1825,9 @@ public class SConfig {
 
             this.proto_loot = builder.defineList("Proto Hivemind",
                     Lists.newArrayList("spore:mutated_fiber|100|10|20","spore:armor_fragment|80|4|14","spore:organoid_membrane|80|4|8","spore:mutated_heart|80|1|6","spore:cerebrum|100|2|11","spore:spine_fragment|80|2|8") , o -> o instanceof String);
+
+            this.tumor_loot = builder.defineList("Hive Tumor",
+                    Lists.newArrayList("spore:mutated_fiber|100|10|20","spore:organoid_membrane|80|4|8","spore:mutated_heart|80|1|6","spore:cerebrum|100|2|5") , o -> o instanceof String);
 
 
             this.verwa_loot = builder.defineList("Verwa",

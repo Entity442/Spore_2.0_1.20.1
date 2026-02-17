@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.ExtremelySusThings.ChunkLoadRequest;
 import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
+import com.Harbinger.Spore.Sblocks.BrainRemnants;
 import com.Harbinger.Spore.Sblocks.CDUBlock;
 import com.Harbinger.Spore.Sentities.*;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
@@ -567,7 +568,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread, C
                     level().setBlock(pos.above(), Sblocks.ROOTED_BIOMASS.get().defaultBlockState(), 2);
                 }
                 if (Math.random() < 0.15) {
-                    level().setBlock(pos, Sblocks.BRAIN_REMNANTS.get().defaultBlockState(), 2);
+                    level().setBlock(pos, Sblocks.BRAIN_REMNANTS.get().defaultBlockState().setValue(BrainRemnants.OCCUPIED,true), 2);
                 }
             }
         }

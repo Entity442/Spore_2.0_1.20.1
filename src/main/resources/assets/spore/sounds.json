@@ -87,6 +87,14 @@
       "spore:phayres_screech3"
     ]
   },
+  "tumor_ambient" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:hivetumor_ambient",
+      "spore:hivetumor_ambient2",
+      "spore:hivetumor_ambient3"
+    ]
+  },
   "chemist_fuse" :{
     "subtitle": "sounds.spore.growl",
     "sounds": [
@@ -456,6 +464,12 @@
     "subtitle": "sounds.spore.proto_ambient",
     "sounds": [
       "spore:calamity_incoming"
+    ]
+  },
+  "tumor_spawn" :{
+    "subtitle": "sounds.spore.proto_ambient",
+    "sounds": [
+      "spore:hivetumor_spawn"
     ]
   },
   "spore_area_ambient" :{

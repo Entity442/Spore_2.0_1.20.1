@@ -280,6 +280,11 @@ public class Ssounds {
     public static final RegistryObject<SoundEvent> STAHL_SLASH = soundRegistry("stahl_slash");
 
     public static final RegistryObject<SoundEvent> PHAYRES_SCREECH = soundRegistry("phayres_screech");
+
+    public static final RegistryObject<SoundEvent> TUMOR_SPAWN = soundRegistry("tumor_spawn");
+
+    public static final RegistryObject<SoundEvent> TUMOR_AMBIENT = soundRegistry("tumor_ambient");
+
     private Ssounds() {
     }
 }

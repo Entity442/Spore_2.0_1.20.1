@@ -318,6 +318,9 @@ public class Sitems {
     public  static final RegistryObject<Item> PROTO_SPAWNEGG = ITEMS.register("proto_spawnegg",
             () -> new SporeSpawnEgg(Sentities.PROTO,244208,SpawnEggType.ORGANOID));
 
+    public  static final RegistryObject<Item> HIVE_SPAWNEGG = ITEMS.register("hive_spawnegg",
+            () -> new SporeSpawnEgg(Sentities.HIVETUMOR,321344,SpawnEggType.ORGANOID));
+
     public  static final RegistryObject<Item> WENDIGO_SPAWNEGG = ITEMS.register("wendigo_spawnegg",
             () -> new SporeSpawnEgg(Sentities.WENDIGO,-354345818,SpawnEggType.HYPER));
 

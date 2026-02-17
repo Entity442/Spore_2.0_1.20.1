@@ -106,6 +106,7 @@ public class Attributes {
         event.put(Sentities.KRAKEN.get(), Grakensenker.createAttributes().build());
         event.put(Sentities.STAHL_ARM.get(), StalhArm.createAttributes().build());
         event.put(Sentities.STALH.get(), Stahlmorder.createAttributes().build());
+        event.put(Sentities.HIVETUMOR.get(), HiveTumor.createAttributes().build());
     }
 }
 
