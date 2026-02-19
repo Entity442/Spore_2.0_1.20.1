@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sitems;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Sblocks;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -14,15 +15,18 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Objects;
 
-public class Innards extends BaseItem {
-    public Innards(Properties properties) {
-        super(properties);
+public class Innards extends CerebrumItem {
+    public Innards() {
+        super(null,null, Sblocks.INNARDS_BLOCK.get().defaultBlockState());
     }
 
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
+        if (player.isShiftKeyDown()){
+            return InteractionResultHolder.fail(itemstack);
+        }
         player.startUsingItem(hand);
         RandomSource random = RandomSource.create();
         for (String str : SConfig.DATAGEN.innards_loot.get()){

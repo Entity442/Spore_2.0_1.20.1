@@ -39,7 +39,7 @@ public class Sitems {
     public  static final RegistryObject<Item> ARMOR_FRAGMENT = ITEMS.register("armor_fragment",
             () -> new OrganItem("spore.scanner.organ.armor_fragment","spore:anatomy_act_2"));
     public  static final RegistryObject<Item> MUTATED_HEART = ITEMS.register("mutated_heart",
-            () -> new OrganItem("spore.scanner.organ.mutated_heart","spore:anatomy_act_3"));
+            () -> new CerebrumItem("spore.scanner.organ.mutated_heart","spore:anatomy_act_3",Sblocks.HEART_BLOCK.get().defaultBlockState()));
     public  static final RegistryObject<Item> MUTATED_FIBER = ITEMS.register("mutated_fiber",
             () -> new OrganItem("spore.scanner.organ.mutated_fiber","spore:anatomy_act_4"));
     public  static final RegistryObject<Item> WING_MEMBRANE = ITEMS.register("wing_membrane",
@@ -57,7 +57,7 @@ public class Sitems {
     public  static final RegistryObject<Item> NERVES = ITEMS.register("nerves",
             () -> new BaseItem( new Item.Properties()));
     public  static final RegistryObject<Item> CEREBRUM = ITEMS.register("cerebrum",
-            () -> new CerebrumItem("spore.scanner.organ.cerebrum","spore:anatomy_act_6"));
+            () -> new CerebrumItem("spore.scanner.organ.cerebrum","spore:anatomy_act_6",Sblocks.CEREBRUM_BLOCK.get().defaultBlockState()));
     public  static final RegistryObject<Item> SPINE = ITEMS.register("spine",
             () -> new BaseItem( new Item.Properties()));
     public  static final RegistryObject<Item> ARMOR_PLATE = ITEMS.register("armor_plate",
@@ -65,7 +65,7 @@ public class Sitems {
     public  static final RegistryObject<Item> PLATED_MUSCLE = ITEMS.register("plated_muscle",
             () -> new BaseItem( new Item.Properties()));
     public  static final RegistryObject<Item> ALVEOLIC_SACK = ITEMS.register("alveolic_sack",
-            () -> new OrganItem("spore.scanner.organ.alveolic_sack","spore:anatomy_act_7"));
+            () -> new CerebrumItem("spore.scanner.organ.alveolic_sack","spore:anatomy_act_7",Sblocks.BRAIO_BLOCK.get().defaultBlockState()));
     public  static final RegistryObject<Item> ALTERED_SPLEEN = ITEMS.register("altered_spleen",
             () -> new OrganItem("spore.scanner.organ.altered_spleen","spore:anatomy_act_8"));
     public  static final RegistryObject<Item> CORROSIVE_SACK = ITEMS.register("corrosive_sack",
@@ -75,7 +75,7 @@ public class Sitems {
     public  static final RegistryObject<Item> TENDONS = ITEMS.register("tendons",
             () -> new BaseItem( new Item.Properties()));
     public  static final RegistryObject<Item> INNARDS = ITEMS.register("innards",
-            () -> new Innards( new Item.Properties()));
+            Innards::new);
     public  static final RegistryObject<Item> SICKLE_FRAGMENT = ITEMS.register("sickle_fragment",
             () -> new BaseItem( new Item.Properties()));
     public  static final RegistryObject<Item> FANG = ITEMS.register("fang",

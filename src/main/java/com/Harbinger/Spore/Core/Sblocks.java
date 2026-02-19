@@ -127,6 +127,9 @@ public class Sblocks {
     public static final RegistryObject<Block> WALL_REMAINS = BLOCKS.register("wall_remains", WallRemainsBlock::new);
     public static final RegistryObject<Block> FROZEN_REMAINS = BLOCKS.register("frozen_remains", FrozenRemains::new);
     public static final RegistryObject<Block> CEREBRUM_BLOCK = BLOCKS.register("cerebrum_block", Cerebrum::new);
+    public static final RegistryObject<Block> INNARDS_BLOCK = BLOCKS.register("innards_block", Cerebrum::new);
+    public static final RegistryObject<Block> HEART_BLOCK = BLOCKS.register("heart_block", Cerebrum::new);
+    public static final RegistryObject<Block> BRAIO_BLOCK = BLOCKS.register("braio_block", Cerebrum::new);
     public static final RegistryObject<Block> DROWNED_LUMP = BLOCKS.register("drowned_lump", DrownedLump::new);
     public static final RegistryObject<Block> BILE_LUMP = BLOCKS.register("bile_lump", BileLump::new);
 }

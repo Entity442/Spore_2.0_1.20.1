@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Sblocks;
 
+import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.Core.Sitems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -47,6 +48,18 @@ public class Cerebrum extends Block {
 
     @Override
     public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
-        return new ItemStack(Sitems.CEREBRUM.get());
+        if(state.is(Sblocks.CEREBRUM_BLOCK.get())){
+            return new ItemStack(Sitems.CEREBRUM.get());
+        }
+        if(state.is(Sblocks.INNARDS_BLOCK.get())){
+            return new ItemStack(Sitems.INNARDS.get());
+        }
+        if(state.is(Sblocks.HEART_BLOCK.get())){
+            return new ItemStack(Sitems.MUTATED_HEART.get());
+        }
+        if(state.is(Sblocks.BRAIO_BLOCK.get())){
+            return new ItemStack(Sitems.ALVEOLIC_SACK.get());
+        }
+        return ItemStack.EMPTY;
     }
 }

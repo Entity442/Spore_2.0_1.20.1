@@ -10,8 +10,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class CerebrumItem extends OrganItem{
-    public CerebrumItem(String value, String advancementId) {
+    private final BlockState BlockState;
+    public CerebrumItem(String value, String advancementId, BlockState state) {
         super(value, advancementId);
+        this.BlockState = state;
     }
 
     @Override
@@ -23,7 +25,7 @@ public class CerebrumItem extends OrganItem{
         if (player == null) return InteractionResult.FAIL;
 
         BlockPos placePos = pos.relative(context.getClickedFace());
-        BlockState state = Sblocks.CEREBRUM_BLOCK.get().defaultBlockState().setValue(Cerebrum.FACING,context.getHorizontalDirection());
+        BlockState state = BlockState.setValue(Cerebrum.FACING,context.getHorizontalDirection());
 
         if (!level.isClientSide) {
             if (level.getBlockState(placePos).canBeReplaced()) {

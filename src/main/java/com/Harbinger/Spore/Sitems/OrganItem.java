@@ -34,6 +34,9 @@ public class OrganItem extends BaseItem {
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> list, TooltipFlag tooltipFlag) {
         super.appendHoverText(stack, level, list, tooltipFlag);
+        if (info == null || advancementIds == null){
+            return;
+        }
         if (level != null && level.isClientSide) {
             Entity entity = Minecraft.getInstance().getCameraEntity();
             if (entity instanceof Player player) {

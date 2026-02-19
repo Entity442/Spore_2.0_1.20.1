@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "spore:block/heart", "y": 180 },
+    "facing=south": { "model": "spore:block/heart" },
+    "facing=west": { "model": "spore:block/heart", "y": 90 },
+    "facing=east": { "model": "spore:block/heart", "y": 270 }
+  }
+}
