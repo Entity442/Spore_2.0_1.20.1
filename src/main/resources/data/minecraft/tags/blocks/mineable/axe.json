@@ -22,6 +22,8 @@
     "spore:outpost_watcher",
     "spore:mycelium_block",
     "spore:mycelium_slab",
+    "spore:bile_lump",
+    "spore:wall_remains",
     "spore:cabinet",
     "spore:laboratory_bed"
   ]

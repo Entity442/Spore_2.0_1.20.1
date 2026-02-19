@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
+import com.Harbinger.Spore.Sblocks.WallRemainsBlock;
 import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.AI.HurtTargetGoal;
 import com.Harbinger.Spore.Sentities.AI.InfectedConsumeFromRemains;
@@ -32,6 +33,7 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -450,24 +452,48 @@ public class Infected extends Monster{
             super.die(source);
         }
     }
-    private void placeRemains(DamageSource source){
-        if (this.hasEffect(Seffects.STARVATION.get()) && source == this.damageSources().generic()){
-            AABB aabb = this.getBoundingBox().inflate(1);
-            for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
-                BlockState blockState = level().getBlockState(blockpos);
-                BlockState above = level().getBlockState(blockpos.above());
-                if (!level().isClientSide() && blockState.isSolidRender(level(),blockpos) && above.isAir()){
-                    if (Math.random() < 0.9){
-                        if (Math.random() < 0.5) {
-                            level().setBlock(blockpos.above(), Sblocks.GROWTHS_BIG.get().defaultBlockState(), 3);
-                        } else {
-                            level().setBlock(blockpos.above(), Sblocks.GROWTHS_SMALL.get().defaultBlockState(), 3);
-                        }
-                    }if (Math.random() < 0.3){
-                        level().setBlock(blockpos.above(), Sblocks.REMAINS.get().defaultBlockState(), 3);
-                        break;
-                    }
+    private void placeRemains(DamageSource source) {
+
+        if (!this.hasEffect(Seffects.STARVATION.get())) return;
+        if (!source.is(DamageTypes.GENERIC)) return;
+
+        if (level().isClientSide()) return;
+
+        AABB aabb = this.getBoundingBox().inflate(1);
+        RandomSource random = level().getRandom();
+
+        for (BlockPos blockPos : BlockPos.betweenClosed(
+                Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ),
+                Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+
+            BlockState groundState = level().getBlockState(blockPos);
+            BlockPos abovePos = blockPos.above();
+            BlockState aboveState = level().getBlockState(abovePos);
+
+            if (!groundState.isSolidRender(level(), blockPos)) continue;
+            if (!aboveState.isAir()) continue;
+
+            if (random.nextFloat() < 0.9f) {
+                BlockState growth = random.nextBoolean()
+                        ? Sblocks.GROWTHS_BIG.get().defaultBlockState()
+                        : Sblocks.GROWTHS_SMALL.get().defaultBlockState();
+
+                level().setBlock(abovePos, growth, 3);
+            }
+            if (random.nextFloat() < 0.3f) {
+
+                BlockState remains;
+
+                if (random.nextBoolean()) {
+                    Direction randomHorizontal = Direction.Plane.HORIZONTAL.getRandomDirection(random);
+                    remains = Sblocks.WALL_REMAINS.get()
+                            .defaultBlockState()
+                            .setValue(WallRemainsBlock.FACING, randomHorizontal);
+                } else {
+                    remains = Sblocks.REMAINS.get().defaultBlockState();
                 }
+
+                level().setBlock(abovePos, remains, 3);
             }
         }
     }

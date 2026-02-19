@@ -80,6 +80,8 @@ public class Sblocks {
     public static final RegistryObject<Block> INFESTED_CLAY = BLOCKS.register("infested_clay", () -> new SelectableBlock(BlockBehaviour.Properties.copy(Blocks.CLAY)));
     public static final RegistryObject<Block> INFESTED_COBBLESTONE = BLOCKS.register("infested_cobblestone", () -> new SelectableBlock(BlockBehaviour.Properties.copy(Blocks.COBBLESTONE)));
     public static final RegistryObject<Block> INFESTED_COBBLED_DEEPSLATE = BLOCKS.register("infested_cobbled_deepslate", () -> new SelectableBlock(BlockBehaviour.Properties.copy(Blocks.COBBLED_DEEPSLATE)));
+    public static final RegistryObject<Block> INFESTED_STONE_BRICKS = BLOCKS.register("infested_stone_bricks", () -> new SelectableBlock(BlockBehaviour.Properties.copy(Blocks.STONE_BRICKS)));
+    public static final RegistryObject<Block> INFESTED_BRICKS = BLOCKS.register("infested_bricks", () -> new SelectableBlock(BlockBehaviour.Properties.copy(Blocks.BRICKS)));
     public static final RegistryObject<Block> INFESTED_LABORATORY_BLOCK = BLOCKS.register("infested_laboratory_block", () -> new SelectableBlock(BlockBehaviour.Properties.of().sound(SoundType.STONE).strength(3f, 10f)));
     public static final RegistryObject<Block> INFESTED_LABORATORY_BLOCK1 = BLOCKS.register("infested_laboratory_block1", () -> new SelectableBlock(BlockBehaviour.Properties.of().sound(SoundType.STONE).strength(3f, 10f)));
     public static final RegistryObject<Block> INFESTED_LABORATORY_BLOCK2 = BLOCKS.register("infested_laboratory_block2", () -> new SelectableBlock(BlockBehaviour.Properties.of().sound(SoundType.STONE).strength(3f, 10f)));
@@ -97,22 +99,9 @@ public class Sblocks {
     public static final RegistryObject<Block> ROTTEN_SLAB = BLOCKS.register("rotten_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.WOOD).ignitedByLava()));
     public static final RegistryObject<Block> ROTTEN_SCRAPS = BLOCKS.register("rotten_scraps", WoodenScraps::new);
     public static final RegistryObject<Block> ROTTEN_BRANCH = BLOCKS.register("rotten_branch", Branch::new);
-    public static final RegistryObject<Block> ROTTEN_BUSH = BLOCKS.register("rotten_bush", () -> new RottenBush(){
-        @Override
-        public boolean isFlammable(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
-            return true;
-        }
-
-        @Override
-        public int getFlammability(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
-            return 10;
-        }
-
-        @Override
-        public int getFireSpreadSpeed(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
-            return 15;
-        }
-    });
+    public static final RegistryObject<Block> ROTTEN_BUSH = BLOCKS.register("rotten_bush", RottenBush::new);
+    public static final RegistryObject<Block> ROTTEN_GRASS = BLOCKS.register("rotten_grass", RottenBush::new);
+    public static final RegistryObject<Block> ROTTEN_FERN = BLOCKS.register("rotten_fern", RottenBush::new);
     public static final RegistryObject<Block> ROTTEN_CROPS = BLOCKS.register("rotten_crops", FungalCrops::new);
     public static final RegistryObject<Block> BIOMASS_LUMP = BLOCKS.register("biomass_lump", BiomassLump::new);
     public static final RegistryObject<Block> HIVE_SPAWN = BLOCKS.register("hive_spawn", HiveSpawn::new);
@@ -135,5 +124,9 @@ public class Sblocks {
     public static final RegistryObject<Block> CRUSTED_BILE = BLOCKS.register("crusted_bile", CrustedBile::new);
 
     public static final RegistryObject<Block> REMAINS = BLOCKS.register("remains", Remains::new);
+    public static final RegistryObject<Block> WALL_REMAINS = BLOCKS.register("wall_remains", WallRemainsBlock::new);
     public static final RegistryObject<Block> FROZEN_REMAINS = BLOCKS.register("frozen_remains", FrozenRemains::new);
+    public static final RegistryObject<Block> CEREBRUM_BLOCK = BLOCKS.register("cerebrum_block", Cerebrum::new);
+    public static final RegistryObject<Block> DROWNED_LUMP = BLOCKS.register("drowned_lump", DrownedLump::new);
+    public static final RegistryObject<Block> BILE_LUMP = BLOCKS.register("bile_lump", BileLump::new);
 }

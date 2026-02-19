@@ -57,7 +57,7 @@ public class Sitems {
     public  static final RegistryObject<Item> NERVES = ITEMS.register("nerves",
             () -> new BaseItem( new Item.Properties()));
     public  static final RegistryObject<Item> CEREBRUM = ITEMS.register("cerebrum",
-            () -> new OrganItem("spore.scanner.organ.cerebrum","spore:anatomy_act_6"));
+            () -> new CerebrumItem("spore.scanner.organ.cerebrum","spore:anatomy_act_6"));
     public  static final RegistryObject<Item> SPINE = ITEMS.register("spine",
             () -> new BaseItem( new Item.Properties()));
     public  static final RegistryObject<Item> ARMOR_PLATE = ITEMS.register("armor_plate",
@@ -608,6 +608,8 @@ public class Sitems {
     public static final RegistryObject<Item> ROTTEN_SCRAPS = block(Sblocks.ROTTEN_SCRAPS);
     public static final RegistryObject<Item> ROTTEN_BRANCH = block(Sblocks.ROTTEN_BRANCH);
     public static final RegistryObject<Item> ROTTEN_BUSH = block(Sblocks.ROTTEN_BUSH);
+    public static final RegistryObject<Item> ROTTEN_GRASS = block(Sblocks.ROTTEN_GRASS);
+    public static final RegistryObject<Item> ROTTEN_FERN = block(Sblocks.ROTTEN_FERN);
     public static final RegistryObject<Item> ROTTEN_CROPS = block(Sblocks.ROTTEN_CROPS);
     public static final RegistryObject<Item> ROOTED_BIOMASS = block(Sblocks.ROOTED_BIOMASS);
     public static final RegistryObject<Item> BIOMASS_BLOCK = block(Sblocks.BIOMASS_BLOCK);
@@ -636,6 +638,8 @@ public class Sitems {
     public static final RegistryObject<Item> INFESTED_CLAY = block(Sblocks.INFESTED_CLAY);
     public static final RegistryObject<Item> INFESTED_COBBLESTONE = block(Sblocks.INFESTED_COBBLESTONE);
     public static final RegistryObject<Item> INFESTED_COBBLED_DEEPSLATE = block(Sblocks.INFESTED_COBBLED_DEEPSLATE);
+    public static final RegistryObject<Item> INFESTED_STONE_BRICKS = block(Sblocks.INFESTED_STONE_BRICKS);
+    public static final RegistryObject<Item> INFESTED_BRICKS = block(Sblocks.INFESTED_BRICKS);
     public static final RegistryObject<Item> INFESTED_LABORATORY_BLOCK = block(Sblocks.INFESTED_LABORATORY_BLOCK);
     public static final RegistryObject<Item> INFESTED_LABORATORY_BLOCK1 = block(Sblocks.INFESTED_LABORATORY_BLOCK1);
     public static final RegistryObject<Item> INFESTED_LABORATORY_BLOCK2 = block(Sblocks.INFESTED_LABORATORY_BLOCK2);
@@ -645,7 +649,10 @@ public class Sitems {
     public static final RegistryObject<Item> OUTPOST_WATCHER = block(Sblocks.OUTPOST_WATCHER);
 
     public static final RegistryObject<Item> REMAINS = block(Sblocks.REMAINS);
+    public static final RegistryObject<Item> WALL_REMAINS = block(Sblocks.WALL_REMAINS);
     public static final RegistryObject<Item> BIOMASS_LUMP = block(Sblocks.BIOMASS_LUMP);
     public static final RegistryObject<Item> HIVE_SPAWN = block(Sblocks.HIVE_SPAWN);
+    public static final RegistryObject<Item> DROWNED_LUMP = block(Sblocks.DROWNED_LUMP);
+    public static final RegistryObject<Item> BILE_LUMP = block(Sblocks.BILE_LUMP);
 
 }

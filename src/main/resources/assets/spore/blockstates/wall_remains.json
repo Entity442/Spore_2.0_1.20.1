@@ -1,0 +1,57 @@
+{
+  "variants": {
+    "facing=east":[
+      {
+        "model": "spore:block/wall_remains",
+        "y": 90
+      },
+      {
+        "model": "spore:block/wall_remains2",
+        "y": 90
+      },
+      {
+        "model": "spore:block/wall_remains3",
+        "y": 90
+      }
+    ],
+    "facing=north":[
+      {
+        "model": "spore:block/wall_remains"
+      },
+      {
+        "model": "spore:block/wall_remains2"
+      },
+      {
+        "model": "spore:block/wall_remains3"
+      }
+    ],
+    "facing=south":[
+      {
+        "model": "spore:block/wall_remains",
+        "y": 180
+      },
+      {
+        "model": "spore:block/wall_remains2",
+        "y": 180
+      },
+      {
+        "model": "spore:block/wall_remains3",
+        "y": 180
+      }
+    ],
+    "facing=west":[
+      {
+        "model": "spore:block/wall_remains",
+        "y": 270
+      },
+      {
+        "model": "spore:block/wall_remains2",
+        "y": 270
+      },
+      {
+        "model": "spore:block/wall_remains3",
+        "y": 270
+      }
+    ]
+  }
+}

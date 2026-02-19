@@ -18,6 +18,8 @@
     "spore:biomass_bulb",
     "spore:rotten_bush",
     "spore:outpost_watcher",
-    "spore:organite"
+    "spore:organite",
+    "spore:bile_lump",
+    "spore:drowned_lump"
   ]
 }

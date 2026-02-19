@@ -111,7 +111,14 @@ public interface FoliageSpread {
     }
     default void placeRottenBush(BlockState above,Level level,BlockPos blockpos,BlockState blockstate){
         if (above.getBlock() instanceof BushBlock && !(above.getBlock() instanceof GenericFoliageBlock) && blockstate.isSolidRender(level ,blockpos)){
-            BlockState state = Math.random() < 0.5f ? Sblocks.ROTTEN_BUSH.get().defaultBlockState() : Sblocks.GROWTHS_BIG.get().defaultBlockState();
+            BlockState state;
+            if (above.is(Blocks.GRASS)){
+                state = Sblocks.ROTTEN_GRASS.get().defaultBlockState();
+            } else if (above.is(Blocks.FERN)) {
+                state = Sblocks.ROTTEN_FERN.get().defaultBlockState();
+            }else {
+                state = Math.random() < 0.5f ? Sblocks.ROTTEN_BUSH.get().defaultBlockState() : Sblocks.GROWTHS_BIG.get().defaultBlockState();
+            }
             level.setBlock(blockpos.above(),state, 3);
         }
     }

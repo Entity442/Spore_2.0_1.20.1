@@ -1,0 +1,38 @@
+{
+  "variants": {
+    "short=false":[
+      {
+        "model": "spore:block/drowned_lump"
+      },
+      {
+        "model": "spore:block/drowned_lump",
+         "y": 180
+      },
+      {
+        "model": "spore:block/drowned_lump",
+        "y": 90
+      },
+      {
+        "model": "spore:block/drowned_lump",
+        "y": 270
+      }
+    ],
+    "short=true":[
+      {
+        "model": "spore:block/drowned_lump_s1"
+      },
+      {
+        "model": "spore:block/drowned_lump_s1",
+        "y": 180
+      },
+      {
+        "model": "spore:block/drowned_lump_s1",
+        "y": 90
+      },
+      {
+        "model": "spore:block/drowned_lump_s1",
+        "y": 270
+      }
+    ]
+  }
+}

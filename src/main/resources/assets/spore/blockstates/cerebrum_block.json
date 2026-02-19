@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "spore:block/cerebrum", "y": 180 },
+    "facing=south": { "model": "spore:block/cerebrum" },
+    "facing=west": { "model": "spore:block/cerebrum", "y": 90 },
+    "facing=east": { "model": "spore:block/cerebrum", "y": 270 }
+  }
+}

@@ -107,7 +107,7 @@ public class BrainRemnantBlockEntity extends BlockEntity implements AnimatedEnti
         MinecraftServer server = level.getServer();
         if (server != null){
             for(ServerPlayer player : server.getPlayerList().getPlayers()){
-                player.playNotifySound(Ssounds.TUMOR_AMBIENT.get(), SoundSource.AMBIENT,1f,1f);
+                player.playNotifySound(Ssounds.TUMOR_SPAWN.get(), SoundSource.AMBIENT,1f,1f);
                 player.displayClientMessage(Component.translatable("tumor_summon_message"), false);
             }
         }
