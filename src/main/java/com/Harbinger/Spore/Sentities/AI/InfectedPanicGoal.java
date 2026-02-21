@@ -91,7 +91,7 @@ public class InfectedPanicGoal extends Goal {
     protected BlockPos lookForBodies(BlockGetter getter, Entity entity, int distance) {
         BlockPos blockpos = entity.blockPosition();
         return !getter.getBlockState(blockpos).getCollisionShape(getter, blockpos).isEmpty() ? null : BlockPos.findClosestMatch(entity.blockPosition(), distance, 1, (p_196649_) -> {
-            return getter.getBlockState(p_196649_).is(Sblocks.REMAINS.get()) || getter.getBlockState(p_196649_).is(Sblocks.BIOMASS_BULB.get());
+            return getter.getBlockState(p_196649_).is(Sblocks.REMAINS.get()) || getter.getBlockState(p_196649_).is(Sblocks.BIOMASS_BULB.get()) || getter.getBlockState(p_196649_).is(Sblocks.DROWNED_LUMP.get()) || getter.getBlockState(p_196649_).is(Sblocks.WALL_REMAINS.get());
         }).orElse(null);
     }
 }

@@ -1,6 +1,6 @@
 package com.Harbinger.Spore.Client.Renderers;
 
-import com.Harbinger.Spore.Client.Models.OvergrownSpawnerModel;
+import com.Harbinger.Spore.Client.Models.InfestedSpawnerModel;
 import com.Harbinger.Spore.Client.Special.BaseBlockEntityRenderer;
 import com.Harbinger.Spore.SBlockEntities.OvergrownSpawnerEntity;
 import com.Harbinger.Spore.Spore;
@@ -12,7 +12,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class OvergrownSpawnerRenderer extends BaseBlockEntityRenderer<OvergrownSpawnerEntity> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,"textures/block/overgrown_spawner.png");
     public OvergrownSpawnerRenderer() {
-        super(new OvergrownSpawnerModel<>());
+        super(new InfestedSpawnerModel<>());
     }
     @Override
     public ResourceLocation getTexture(OvergrownSpawnerEntity block) {

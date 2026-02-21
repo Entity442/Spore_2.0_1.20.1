@@ -28,7 +28,7 @@ public class InfectedConsumeFromRemains extends Goal {
         AABB aabb = entity.getBoundingBox().inflate(2);
         for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
             BlockState blockstate = this.infected.level().getBlockState(blockpos);
-            if (blockstate.is(Sblocks.REMAINS.get())){
+            if (blockstate.is(Sblocks.REMAINS.get()) || blockstate.is(Sblocks.WALL_REMAINS.get())){
                 if (Math.random() < 0.1){
                     entity.level().removeBlock(blockpos,false);
                     this.infected.setHunger(0);
