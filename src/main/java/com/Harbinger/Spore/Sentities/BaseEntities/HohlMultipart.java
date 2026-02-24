@@ -92,7 +92,7 @@ public class HohlMultipart extends LivingEntity implements TrueCalamity {
         if (tickCount > 1) {
             Entity parent = getParentSafe();
             if (!level().isClientSide) {
-                if (parent == null || parent.isRemoved()) {
+                if (parent == null || parent.isRemoved()  || (parent instanceof Hohlfresser leviathan && !Objects.equals(leviathan.getChildId(), this.uuid))) {
                     this.remove(RemovalReason.DISCARDED);
                 } else {
                     if (parent instanceof LivingEntity living) {

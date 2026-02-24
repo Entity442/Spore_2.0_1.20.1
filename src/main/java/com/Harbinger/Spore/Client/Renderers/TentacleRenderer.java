@@ -1,9 +1,6 @@
 package com.Harbinger.Spore.Client.Renderers;
 
-import com.Harbinger.Spore.Client.Models.SegmentBase;
-import com.Harbinger.Spore.Client.Models.TentacleSegmentModel;
-import com.Harbinger.Spore.Client.Models.TentacleSegmentModel2;
-import com.Harbinger.Spore.Client.Models.TentacleSegmentModel3;
+import com.Harbinger.Spore.Client.Models.*;
 import com.Harbinger.Spore.Sentities.Organoids.Tentacle;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -26,12 +23,12 @@ public class TentacleRenderer extends MobRenderer<Tentacle, EntityModel<Tentacle
     private final TentacleSegmentModel2<Entity> tentacleModel1;
     private final TentacleSegmentModel3<Entity> tentacleModel3;
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
-            "textures/entity/tentacle_base.png");
+            "textures/entity/sieger.png");
     private static final ResourceLocation TENTACLE_SEG = new ResourceLocation(Spore.MODID,
             "textures/entity/tentacle.png");
 
     public TentacleRenderer(EntityRendererProvider.Context context) {
-        super(context, new SegmentBase<>(), 0.2f);
+        super(context, new SiegerLeg<>(), 0.2f);
         tentacleModel2 = new TentacleSegmentModel<>();
         tentacleModel1 = new TentacleSegmentModel2<>();
         tentacleModel3 = new TentacleSegmentModel3<>();
@@ -53,14 +50,14 @@ public class TentacleRenderer extends MobRenderer<Tentacle, EntityModel<Tentacle
     @Override
     public void render(Tentacle entity, float entityYaw, float partialTicks, PoseStack stack, MultiBufferSource buffer, int packedLight) {
         super.render(entity, entityYaw, partialTicks, stack, buffer, packedLight);
-        Vec3 entityPos = entity.getPosition(partialTicks);
+        //Vec3 entityPos = entity.getPosition(partialTicks);
         stack.pushPose();
         {
-            stack.translate(-entityPos.x, -entityPos.y, -entityPos.z);
-            renderTentacle(stack, buffer, entity.getRightSegments(), entity,partialTicks);
-            renderTentacle(stack, buffer, entity.getLeftSegments(), entity,partialTicks);
-            renderTentacle(stack, buffer, entity.getRightBackSegments(), entity,partialTicks);
-            renderTentacle(stack, buffer, entity.getLeftBackSegments(), entity,partialTicks);
+            //stack.translate(-entityPos.x, -entityPos.y, -entityPos.z);
+            //renderTentacle(stack, buffer, entity.getRightSegments(), entity,partialTicks);
+            //renderTentacle(stack, buffer, entity.getLeftSegments(), entity,partialTicks);
+            //renderTentacle(stack, buffer, entity.getRightBackSegments(), entity,partialTicks);
+            //renderTentacle(stack, buffer, entity.getLeftBackSegments(), entity,partialTicks);
         }
         stack.popPose();
     }

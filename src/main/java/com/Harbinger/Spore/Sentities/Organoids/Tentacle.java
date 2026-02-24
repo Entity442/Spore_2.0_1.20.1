@@ -128,8 +128,8 @@ public class Tentacle extends UtilityEntity {
         }
         for (IkLegWithHitbox leg : IkLegs) {
             leg.applyIK();
-            spawnParticlesInPlaces(leg.getSitPosition(), leg, false);
-            spawnParticlesInPlaces(leg.getSitPosition(), leg, true);
+            //spawnParticlesInPlaces(leg.getSitPosition(), leg, false);
+            //spawnParticlesInPlaces(leg.getSitPosition(), leg, true);
         }
     }
     private void spawnParticlesInPlaces(Vec3 vec3, IkLegWithHitbox legs,boolean fire){

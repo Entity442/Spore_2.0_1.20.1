@@ -23,16 +23,18 @@ public class IkKrakenLeg {
     protected final float[] wiggleAmplitudes;
     protected final float[] wiggleOffsets;
     protected final Vec3[] segmentVelocities;
+    protected final boolean reverseSpin;
     protected Vec3 sitPosition =  null;
     protected Vec3 lastSitPosition = null;
-    protected int stepUpTicks = 0;
     protected Vec3 lastOwnerPosition = Vec3.ZERO;
     protected Vec3 ownerMovementDelta = Vec3.ZERO;
     protected float lastYaw = 0;
     protected float yawDelta = 0;
+    protected float stepAngle = 0f;
+    protected float stepSpeed = 6f;
     public IkKrakenLeg(Grakensenker owner, int amount, Vec3 defaultBodyOffset,
                        Vec3 defaultLimbOffset,
-                       float maxDistance) {
+                       float maxDistance, boolean reverseSpin) {
         this.owner = owner;
         this.entities = new Vec3[amount];
         this.segmentVar = new int[amount];
@@ -41,6 +43,7 @@ public class IkKrakenLeg {
         this.wiggleAmplitudes = new float[amount];
         this.wiggleOffsets = new float[amount];
         this.segmentVelocities = new Vec3[amount];
+        this.reverseSpin = reverseSpin;
         for(int i = 0;i<amount;i++){
             entities[i] = new Vec3(0,0,0);
             segmentVar[i] = randomSource.nextInt(12);
@@ -134,7 +137,7 @@ public class IkKrakenLeg {
     protected void moveTipTowards(Vec3 target) {
         int tip = entities.length - 1;
         Vec3 currentPos = entities[tip];
-        entities[tip] = currentPos.lerp(target, 0.15f);
+        entities[tip] = currentPos.lerp(target, 0.25f);
     }
     protected boolean isOwnerMoving(){
         return owner.getDeltaMovement().lengthSqr() > 0.005;
@@ -211,26 +214,28 @@ public class IkKrakenLeg {
         if (sitPosition != null) sitPosition = sitPosition.add(ownerMovementDelta);
         if (lastSitPosition != null) lastSitPosition = lastSitPosition.add(ownerMovementDelta);
     }
+    protected Vec3 applyStepCircle(Vec3 baseTipPos) {
+        if (!isOwnerMoving() || this instanceof IkKrakenArm) return baseTipPos;
+        stepAngle += stepSpeed;
+        stepAngle = Mth.wrapDegrees(stepAngle);
+        float rad = reverseSpin ? -stepAngle * Mth.DEG_TO_RAD : stepAngle * Mth.DEG_TO_RAD;
+        double x = Math.cos(rad) * 4;
+        double y =  Math.sin(rad) * 6f;
+        Vec3 circularOffset = new Vec3(-x, y > -0.5 ? y : 0, 0);
+        circularOffset = applyYaw(circularOffset);
+        return baseTipPos.add(circularOffset);
+    }
 
     public void applyIK() {
         if (entities == null || entities.length == 0) return;
-
         Vec3 basePos = getBodyOffset();
         Vec3 defaultTipPos = sitPosition == null ? getLegBasePos() : sitPosition;
+        defaultTipPos = applyStepCircle(defaultTipPos);
         updateOwnerMovementDelta();
         applyEntityMovementToLegs();
         applyBodySpin();
         if (!owner.isInDeepWater()){
-            float jumpVal = 1.5f;
-            boolean val = stepUpTicks > 0 && isOwnerMoving();
-            if (val){
-                for (int i = 1; i < entities.length; i++) {
-                    Vec3 vec3 = entities[i];
-                    entities[i] = vec3.lerp(vec3.add(0,jumpVal,0), 0.05f);
-                }
-            }else {
-                moveTipTowards(defaultTipPos);
-            }
+            moveTipTowards(defaultTipPos);
         }
         for (int i = entities.length - 2; i >= 0; i--) {
             Vec3 nextPos = entities[i + 1];
@@ -264,9 +269,6 @@ public class IkKrakenLeg {
         }
         applyIdleWiggle();
         updateWiggleTimers();
-        if (stepUpTicks > 0){
-            stepUpTicks--;
-        }
     }
 
 
@@ -279,7 +281,6 @@ public class IkKrakenLeg {
         }
         sitPosition = findStableFooting();
         if (!sitPosition.equals(lastSitPosition)){
-            stepUpTicks = 10;
             lastSitPosition = sitPosition;
         }
     }

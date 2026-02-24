@@ -27,7 +27,7 @@ public class IkKrakenArm extends IkKrakenLeg {
     private final Vec3 LeftWaterVec = new Vec3(8, 4.5, 6);
     private static final Vector3f nullVec = new Vector3f(0);
     public IkKrakenArm(Grakensenker owner, int amount, Vec3 defaultBodyOffset, Vec3 defaultLimbOffset, float maxDistance, boolean rightArm) {
-        super(owner, amount, defaultBodyOffset, defaultLimbOffset, maxDistance);
+        super(owner, amount, defaultBodyOffset, defaultLimbOffset, maxDistance,false);
         this.rightArm = rightArm;
     }
 
