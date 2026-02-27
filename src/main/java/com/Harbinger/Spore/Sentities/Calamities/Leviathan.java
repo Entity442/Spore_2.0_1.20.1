@@ -27,6 +27,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -202,7 +203,10 @@ public class Leviathan extends Calamity implements TrueCalamity, WaterInfected, 
     public List<? extends String> getDropList() {
         return SConfig.DATAGEN.leviathan_loot.get();
     }
-
+    @Override
+    public boolean isInvulnerableTo(DamageSource source) {
+        return source.is(DamageTypes.IN_WALL)  || source.is(DamageTypes.FALL);
+    }
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if (source.getEntity() != null && amount >= 10 && Math.random() < 0.2){
