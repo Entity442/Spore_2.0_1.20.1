@@ -844,6 +844,13 @@
   "sounds": [
     "spore:tumoroid_nuke"
   ]
+},"fungal_boom" :{
+  "subtitle": "sounds.spore.tumor",
+  "sounds": [
+    "spore:spore_explosion1",
+    "spore:spore_explosion2",
+    "spore:spore_explosion3"
+  ]
 }
 
 }
