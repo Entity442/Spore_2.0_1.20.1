@@ -23,6 +23,9 @@ public class CalamityPartsHandeling {
     private static final hohlfresserTailModel<?> worm_tailModel = new hohlfresserTailModel<>();
     private static final GrakensenkerModel<?> grakensenkerModel = new GrakensenkerModel<>();
     private static final StahlmorderModel<?> stahlmorderModel = new StahlmorderModel<>();
+    private static final LeviathanModel<?> leviathanModel = new LeviathanModel<>();
+    private static final LeviathanMiddleSegment<?> leviathanSegModel = new LeviathanMiddleSegment<>();
+    private static final LeviathanTailModel<?> leviathanTailModel = new LeviathanTailModel<>();
     private static final ResourceLocation DEFAULT_SIEGER = new ResourceLocation(Spore.MODID,"textures/entity/sieger.png");
     private static final ResourceLocation ADAPTED_SIEGER = new ResourceLocation(Spore.MODID,"textures/entity/war_sieger.png");
     private static final ResourceLocation DEFAULT_GAZEN = new ResourceLocation(Spore.MODID,"textures/entity/gazen.png");
@@ -37,6 +40,8 @@ public class CalamityPartsHandeling {
     private static final ResourceLocation HOHL_ORGAN_SEG  = new ResourceLocation(Spore.MODID,"textures/entity/hohl/hohl_seg3.png");
     private static final ResourceLocation GRAKEN  = new ResourceLocation(Spore.MODID,"textures/entity/graken.png");
     private static final ResourceLocation STAHL  = new ResourceLocation(Spore.MODID,"textures/entity/stalh.png");
+    private static final ResourceLocation LEVIATHAN  = new ResourceLocation(Spore.MODID,"textures/entity/leviathan.png");
+    private static final ResourceLocation LEVIATHAN_TAIL  = new ResourceLocation(Spore.MODID,"textures/entity/leviathan_tail.png");
     public record Part(int id, List<ModelPart> parts,float x, float y,float z,float xRot, float yRot,float zRot, ResourceLocation location,ResourceLocation adapted_location){}
 
     public static final Part SIEGER_BODY = new Part(0,List.of(siegerModel.mainbody,siegerModel.mainbody2),0,0,0,0,0,0,DEFAULT_SIEGER,ADAPTED_SIEGER);

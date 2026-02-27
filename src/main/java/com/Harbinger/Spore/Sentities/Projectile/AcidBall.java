@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities.Projectile;
 
 import com.Harbinger.Spore.Core.*;
+import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -85,8 +86,10 @@ public class AcidBall extends AbstractArrow implements ItemSupplier {
 
     @Override
     protected void onHitEntity(EntityHitResult hitResult) {
-        super.onHitEntity(hitResult);
-        levels(hitResult.getEntity());
+        if (hitResult.getEntity() instanceof LivingEntity living && Utilities.TARGET_SELECTOR.Test(living)){
+            super.onHitEntity(hitResult);
+            levels(living);
+        }
     }
 
     public static void place_acid(LevelAccessor world, double x, double y, double z) {
@@ -96,13 +99,13 @@ public class AcidBall extends AbstractArrow implements ItemSupplier {
         }
     }
 
-    private void levels(Entity entity) {
-        if (entity instanceof LivingEntity _livEnt) {
-            _livEnt.addEffect(new MobEffectInstance(Seffects.CORROSION.get(), 300, 1 +
-                    (_livEnt.hasEffect(Seffects.CORROSION.get())
-                            ? _livEnt.getEffect(Seffects.CORROSION.get()).getAmplifier() : 0)));
+    private void levels(LivingEntity living) {
+        int level = 0;
+        MobEffectInstance instance = living.getEffect(Seffects.CORROSION.get());
+        if (instance != null){
+            level = instance.getAmplifier() +1;
         }
-
+        living.addEffect(new MobEffectInstance(Seffects.CORROSION.get(),300,level));
     }
     protected SoundEvent getDefaultHitGroundSoundEvent() {
         return SoundEvents.SLIME_JUMP_SMALL;

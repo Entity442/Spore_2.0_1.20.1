@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Core;
 
 import com.Harbinger.Spore.Sentities.BaseEntities.HohlMultipart;
+import com.Harbinger.Spore.Sentities.BaseEntities.LeviathanMultipart;
 import com.Harbinger.Spore.Sentities.BasicInfected.*;
 import com.Harbinger.Spore.Sentities.Calamities.*;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.*;
@@ -279,6 +280,10 @@ public class Sentities {
             EntityType.Builder.<VomitHohlBall>of(VomitHohlBall::new, MobCategory.MISC).setCustomClientFactory((spawnEntity, level) -> new VomitHohlBall(level))
                     .setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(0.5f, 0.5f));
 
+    public static final Supplier<EntityType<DrownedFleshBomb>> DROWNED_FLESH_BOMB = register("drowned_flesh_bomb",
+            EntityType.Builder.<DrownedFleshBomb>of(DrownedFleshBomb::new, MobCategory.MISC)
+                    .setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(0.5f, 0.5f));
+
     public static final RegistryObject<EntityType<VomitUsurperBall>> USURPER_VOMIT_BALL = register("usurper_vomit_ball",
             EntityType.Builder.<VomitUsurperBall>of(VomitUsurperBall::new, MobCategory.MISC).setCustomClientFactory((spawnEntity, level) -> new VomitUsurperBall(level))
                     .setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(0.5f, 0.5f));
@@ -433,4 +438,11 @@ public class Sentities {
     public static final Supplier<EntityType<StalhArm>> STAHL_ARM = SPORE_ENTITIES.register("stahl_arm",
             () -> EntityType.Builder.of(StalhArm::new, MobCategory.MISC).sized(3f, 1f)
                     .build(new ResourceLocation(Spore.MODID, "stahl_arm").toString()));
+
+    public static final Supplier<EntityType<Leviathan>> LEVIATHAN = SPORE_ENTITIES.register("leviathan",
+            () -> EntityType.Builder.of(Leviathan::new, INFECTED).sized(3.5f, 3.5f)
+                    .build(new ResourceLocation(Spore.MODID, "leviathan").toString()));
+    public static final Supplier<EntityType<LeviathanMultipart>> LEVIATHAN_SEG = SPORE_ENTITIES.register("leviathan_seg",
+            () -> EntityType.Builder.of(LeviathanMultipart::new, INFECTED).sized(3.5f, 3.5f)
+                    .build(new ResourceLocation(Spore.MODID, "leviathan_seg").toString()));
 }

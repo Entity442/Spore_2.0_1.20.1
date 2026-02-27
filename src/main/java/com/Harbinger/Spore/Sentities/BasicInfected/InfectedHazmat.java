@@ -5,6 +5,7 @@ import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
+import com.Harbinger.Spore.Sentities.EvolvedInfected.Chemist;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Inebriator;
 import com.Harbinger.Spore.Sentities.EvolvingInfected;
 import com.Harbinger.Spore.Sentities.VariantKeeper;
@@ -156,19 +157,19 @@ public class InfectedHazmat extends Infected implements VariantKeeper , Evolving
     public void Evolve(Infected livingEntity, List<? extends String> value, ScamperVariants variants) {
         if (level() instanceof ServerLevel world){
             if (this.getVariant() == HazmatVariant.COAT){
-                Inebriator inebriator = new Inebriator(Sentities.INEBRIATER.get(),world);
+                Infected infected = getMobPerVariant(world);
                 Collection<MobEffectInstance> collection = livingEntity.getActiveEffects();
                 for(MobEffectInstance mobeffectinstance : collection) {
-                    inebriator.addEffect(new MobEffectInstance(mobeffectinstance));
+                    infected.addEffect(new MobEffectInstance(mobeffectinstance));
                 }
-                inebriator.setKills(livingEntity.getKills());
-                inebriator.setEvoPoints(livingEntity.getEvoPoints());
-                inebriator.setSearchPos(livingEntity.getSearchPos());
-                inebriator.setLinked(livingEntity.getLinked());
-                inebriator.setPos(livingEntity.getX(), livingEntity.getY() + 0.5D, livingEntity.getZ());
-                inebriator.setCustomName(livingEntity.getCustomName());
-                inebriator.finalizeSpawn(world, livingEntity.level().getCurrentDifficultyAt(new BlockPos((int) livingEntity.getX(),(int)  livingEntity.getY(),(int)  livingEntity.getZ())), MobSpawnType.NATURAL, null, null);
-                world.addFreshEntity(inebriator);
+                infected.setKills(livingEntity.getKills());
+                infected.setEvoPoints(livingEntity.getEvoPoints());
+                infected.setSearchPos(livingEntity.getSearchPos());
+                infected.setLinked(livingEntity.getLinked());
+                infected.setPos(livingEntity.getX(), livingEntity.getY() + 0.5D, livingEntity.getZ());
+                infected.setCustomName(livingEntity.getCustomName());
+                infected.finalizeSpawn(world, livingEntity.level().getCurrentDifficultyAt(new BlockPos((int) livingEntity.getX(),(int)  livingEntity.getY(),(int)  livingEntity.getZ())), MobSpawnType.NATURAL, null, null);
+                world.addFreshEntity(infected);
                 livingEntity.discard();
             }
             double x0 = livingEntity.getX() - (random.nextFloat() - 0.1) * 0.1D;
@@ -177,7 +178,15 @@ public class InfectedHazmat extends Infected implements VariantKeeper , Evolving
             world.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x0, y0, z0, 2, 0, 0, 0, 1);
         }
     }
-
+    private Infected getMobPerVariant(ServerLevel world){
+        if (this.getVariant() == HazmatVariant.COAT){
+            return new Inebriator(Sentities.INEBRIATER.get(),world);
+        }
+        if (this.getVariant() == HazmatVariant.TANK){
+            return new Chemist(Sentities.CHEMIST.get(),world);
+        }
+        return new Chemist(Sentities.CHEMIST.get(),world);
+    }
     private void explodeTank(){
         if (!this.level().isClientSide){
             this.level().explode(this,this.getX(),this.getY(),this.getZ(),SConfig.SERVER.gastank_explosion.get(), Level.ExplosionInteraction.NONE);

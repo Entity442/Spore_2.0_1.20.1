@@ -286,6 +286,9 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.STALH.get(), StalhRenderer::new);
         event.registerEntityRenderer(Sentities.STAHL_ARM.get(), StahlArmRenderer::new);
         event.registerEntityRenderer(Sentities.HIVETUMOR.get(), HiveTumorRenderer::new);
+        event.registerEntityRenderer(Sentities.LEVIATHAN.get(), LeviathanRenderer::new);
+        event.registerEntityRenderer(Sentities.LEVIATHAN_SEG.get(), LeviathanSegRenderer::new);
+        event.registerEntityRenderer(Sentities.DROWNED_FLESH_BOMB.get(), DrownedFleshBombRenderer::new);
 
         event.registerBlockEntityRenderer(SblockEntities.OVERGROWN_SPAWNER.get(), new OvergrownSpawnerRenderer());
         event.registerBlockEntityRenderer(SblockEntities.BRAIN_REMNANTS.get(), new BrainRemnantsRenderer());

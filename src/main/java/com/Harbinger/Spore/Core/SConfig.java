@@ -267,6 +267,13 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_debuffs;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_explosive_effects;
 
+        public final ForgeConfigSpec.ConfigValue<Double> levi_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> levi_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> levi_armor;
+        public final ForgeConfigSpec.ConfigValue<Double> levi_dpsr;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> levi_buffs;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> levi_debuffs;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> levi_explosive_effects;
 
         public final ForgeConfigSpec.ConfigValue<Double> hohl_hp;
         public final ForgeConfigSpec.ConfigValue<Double> hohl_damage;
@@ -916,7 +923,21 @@ public class SConfig {
             this.sieger_explosive_effects = builder.comment("Default values: minecraft:wither ,spore:mycelium ,minecraft:weakness").defineList("Sieger explosion ranged effects",
                     Lists.newArrayList("minecraft:wither", "spore:mycelium_ef", "minecraft:weakness") , o -> o instanceof String);
             builder.pop();
+            builder.push("Leviathan");
+            this.levi_hp = builder.comment("Default 450").defineInRange("Sets Leviathan Max health", 450, 1, Double.MAX_VALUE);
+            this.levi_damage = builder.comment("Default 30").defineInRange("Sets Leviathan Damage", 30, 1, Double.MAX_VALUE);
+            this.levi_armor = builder.comment("Default 25").defineInRange("Sets Leviathan Armor", 25, 1, Double.MAX_VALUE);
+            this.levi_dpsr = builder.comment("Default 100").defineInRange("Sets Leviathan Damage Cap , set to 0 to disable", 100, 0, Double.MAX_VALUE);
 
+            this.levi_buffs = builder.comment("Default values: minecraft:speed|600|0, minecraft:conduit_power|600|0, minecraft:resistance|600|1").defineList("Leviathan buffs",
+                    Lists.newArrayList("minecraft:speed|600|0", "minecraft:conduit_power|600|0", "minecraft:resistance|600|1") , o -> o instanceof String);
+
+            this.levi_debuffs = builder.comment("Default values: minecraft:mining_fatigue|600|0, spore:mycelium|600|1, minecraft:hunger|600|1").defineList("Leviathan debuffs",
+                    Lists.newArrayList("minecraft:mining_fatigue|600|0", "spore:mycelium_ef|600|1", "minecraft:hunger|600|1") , o -> o instanceof String);
+
+            this.levi_explosive_effects = builder.comment("Default values: minecraft:wither ,spore:mycelium ,minecraft:weakness").defineList("Leviathan explosion effects",
+                    Lists.newArrayList("minecraft:wither", "spore:mycelium_ef", "minecraft:weakness") , o -> o instanceof String);
+            builder.pop();
             builder.push("Stahlmorder");
             this.sta_hp = builder.comment("Default 200").defineInRange("Sets Stahlmorder Max health", 200, 1, Double.MAX_VALUE);
             this.sta_damage = builder.comment("Default 35").defineInRange("Sets Stahlmorder Sword Damage", 35, 1, Double.MAX_VALUE);
@@ -1609,6 +1630,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_volatile_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_mep_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> graken_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> leviathan_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> gastgaber_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sca_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_loot;
@@ -1804,6 +1826,9 @@ public class SConfig {
             this.graken_loot = builder.defineList("Graken",
                     Lists.newArrayList("spore:mutated_fiber|100|33|75","spore:armor_fragment|100|15|38","spore:mutated_heart|70|3|7","spore:cerebrum|70|4|9","spore:spine_fragment|56|7|15") , o -> o instanceof String);
 
+            this.leviathan_loot = builder.defineList("Leviathan",
+                    Lists.newArrayList("spore:mutated_fiber|100|33|75","spore:corrosive_sack|100|3|8","spore:armor_fragment|100|15|38","spore:mutated_heart|70|3|7","spore:cerebrum|70|4|9","spore:spine_fragment|56|7|15") , o -> o instanceof String);
+
             this.sta_loot = builder.defineList("Stahlmorder",
                     Lists.newArrayList("spore:mutated_fiber|100|10|45","spore:armor_fragment|100|10|25","spore:mutated_heart|70|1|5","spore:tumor|100|6|23","spore:cerebrum|70|2|7","spore:spine_fragment|56|4|14","spore:claw|30|3|12","spore:claw_fragment|56|15|45") , o -> o instanceof String);
 
@@ -1821,7 +1846,6 @@ public class SConfig {
 
             this.sta_blade_loot = builder.defineList("Stahlmorder Blade loot",
                     Lists.newArrayList("spore:mutated_fiber|100|5|15","spore:armor_fragment|100|3|14","spore:tumor|100|1|4","spore:tendons|70|6|12","spore:claw|100|3|12","spore:claw_fragment|100|15|45") , o -> o instanceof String);
-
 
             this.proto_loot = builder.defineList("Proto Hivemind",
                     Lists.newArrayList("spore:mutated_fiber|100|10|20","spore:armor_fragment|80|4|14","spore:organoid_membrane|80|4|8","spore:mutated_heart|80|1|6","spore:cerebrum|100|2|11","spore:spine_fragment|80|2|8") , o -> o instanceof String);
@@ -1887,10 +1911,10 @@ public class SConfig {
                     Lists.newArrayList(
                             "The_Harbinger69", "ABucketOfFriedChicken", "LoneGuy", "cheesepuff", "Sire_AwfulThe1st", "Azami",
                             "Deyvid", "Dany_Why", "Technoblade", "Ike", "Hypnotizd", "That_Insane_Guy", "JhonOK22", "Tabcaps", "WhisperFire26",
-                            "ButtonHatBoy", "Gistique", "BigXplosion", "Atomiclbomb", "Mad_Dog", "Ripley", "gregTheTyrant", "Joker_de_Coeur",
+                            "ButtonHatBoy", "Gistique", "yile_ouo", "BigXplosion", "Atomiclbomb", "Mad_Dog", "Ripley", "gregTheTyrant", "Joker_de_Coeur",
                             "xXFuryXx", "Nova69", "Belladonna","Entity","Keymind","Whisper","Helldwin", "ExeedingSky74", "Flash62724", "Hank_o", "JWT114",
                             "DawnsSlayers", "Dr_Pilot_MOO", "NexouuZ", "Mr_Door12323", "PedroHenrry", "TVGuy", "ThatGardener", "TheCaramelGuy", "TokenOni420",
-                            "lightigivhi", "CODATOWER", "mrlambert6", "SyrCrypt", "KaratFeng","Toasteroni","UnmeiHa","AllToAshes","0dna","minisketchy0919") , o -> o instanceof String);
+                            "lightigivhi", "CODATOWER", "mrlambert6","ThatGardener", "SyrCrypt", "KaratFeng","Toasteroni","UnmeiHa","AllToAshes","0dna","minisketchy0919") , o -> o instanceof String);
             builder.comment("Items|chance of giving");
             this.player_h = builder.defineList("Head Slot",
                     Lists.newArrayList("minecraft:leather_helmet|50","minecraft:iron_helmet|20","minecraft:chainmail_helmet|20") , o -> o instanceof String);
