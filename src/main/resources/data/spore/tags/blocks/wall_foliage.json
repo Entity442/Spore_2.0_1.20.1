@@ -1,6 +1,8 @@
 {
   "values": [
     "spore:wall_growths",
-    "spore:wall_growths_big"
+    "spore:wall_growths_big",
+    "spore:wall_growths_fleshy",
+    "spore:vocals"
   ]
 }

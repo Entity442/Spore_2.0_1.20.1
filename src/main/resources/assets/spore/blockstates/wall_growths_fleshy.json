@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "spore:block/wallf",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "spore:block/wallf",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "spore:block/wallf"
+    },
+    "facing=west": {
+      "model": "spore:block/wallf",
+      "y": 90
+    }
+  }
+}

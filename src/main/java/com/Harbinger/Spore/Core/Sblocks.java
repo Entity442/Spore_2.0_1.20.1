@@ -61,10 +61,16 @@ public class Sblocks {
     public static final RegistryObject<Block> FUNGAL_STEM_TOP = BLOCKS.register("fungal_stem_top", FungalStemTop::new);
     public static final RegistryObject<Block> UNDERWATER_FUNGAL_STEM_TOP = BLOCKS.register("underwater_fungal_stem_top", UnderWaterFungusTop::new);
     public static final RegistryObject<Block> FUNGAL_ROOTS = BLOCKS.register("fungal_roots", HangingRoots::new);
+    public static final RegistryObject<Block> ACIDIC_SACK = BLOCKS.register("acidic_sack", FallingAcidSack::new);
+    public static final RegistryObject<Block> HAND = BLOCKS.register("hand", Hand::new);
+    public static final RegistryObject<Block> LUNGS = BLOCKS.register("lungs", CancerLungs::new);
+    public static final RegistryObject<Block> GLOWSHROOM = BLOCKS.register("glowshroom", HangingGlowShroom::new);
     public static final RegistryObject<Block> GROWTH_MYCELIUM = BLOCKS.register("growth_mycelium", () -> new GenericFoliageBlock( BlockBehaviour.Properties.of().sound(SoundType.CROP).strength(0f, 0f).noCollission().noOcclusion().sound(SoundType.CROP)
             .lightLevel(s -> 2).hasPostProcess((bs, br, bp) -> true).emissiveRendering((bs, br, bp) -> true)));
     public static final RegistryObject<Block> WALL_GROWTHS = BLOCKS.register("wall_growths", WallFolliage::new);
     public static final RegistryObject<Block> WALL_GROWTHS_BIG = BLOCKS.register("wall_growths_big", WallFolliage::new);
+    public static final RegistryObject<Block> WALL_GROWTHS_FLESHY = BLOCKS.register("wall_growths_fleshy", WallFolliage::new);
+    public static final RegistryObject<Block> VOCALS = BLOCKS.register("vocals", WallVocalsBlock::new);
     public static final RegistryObject<Block> MYCELIUM_VEINS = BLOCKS.register("mycelium_veins", MyceliumVeins::new);
     public static final RegistryObject<Block> BIOMASS_BULB = BLOCKS.register("biomass_bulb", BiomassBulb::new);
 
@@ -132,4 +138,5 @@ public class Sblocks {
     public static final RegistryObject<Block> BRAIO_BLOCK = BLOCKS.register("braio_block", Cerebrum::new);
     public static final RegistryObject<Block> DROWNED_LUMP = BLOCKS.register("drowned_lump", DrownedLump::new);
     public static final RegistryObject<Block> BILE_LUMP = BLOCKS.register("bile_lump", BileLump::new);
+    public static final RegistryObject<Block> FANG_LUMP = BLOCKS.register("fang_lump", FangLump::new);
 }

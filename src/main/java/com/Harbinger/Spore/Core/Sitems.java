@@ -599,6 +599,7 @@ public class Sitems {
     public static final RegistryObject<Item> BLOOM_G = block(Sblocks.BLOOM_G);
     public static final RegistryObject<Item> BLOOM_GG = block(Sblocks.BLOOM_GG);
     public static final RegistryObject<Item> FUNGAL_ROOTS = block(Sblocks.FUNGAL_ROOTS);
+    public static final RegistryObject<Item> HAND = block(Sblocks.HAND);
     public static final RegistryObject<Item> GROWTH_MYCELIUM = block(Sblocks.GROWTH_MYCELIUM);
     public static final RegistryObject<Item> FUNGAL_STEP_SAPLING = block(Sblocks.FUNGAL_STEM_SAPLING);
     public static final RegistryObject<Item> MYCELIUM_VEINS = block(Sblocks.MYCELIUM_VEINS);
@@ -656,6 +657,11 @@ public class Sitems {
     public static final RegistryObject<Item> BIOMASS_LUMP = block(Sblocks.BIOMASS_LUMP);
     public static final RegistryObject<Item> HIVE_SPAWN = block(Sblocks.HIVE_SPAWN);
     public static final RegistryObject<Item> DROWNED_LUMP = block(Sblocks.DROWNED_LUMP);
+    public static final RegistryObject<Item> FANG_LUMP = block(Sblocks.FANG_LUMP);
+    public static final RegistryObject<Item> VOCALS = block(Sblocks.VOCALS);
+    public static final RegistryObject<Item> LUNGS = block(Sblocks.LUNGS);
+    public static final RegistryObject<Item> ACIDIC_SACK = block(Sblocks.ACIDIC_SACK);
+    public static final RegistryObject<Item> GLOWSHROOM = block(Sblocks.GLOWSHROOM);
     public static final RegistryObject<Item> BILE_LUMP = block(Sblocks.BILE_LUMP);
 
 }

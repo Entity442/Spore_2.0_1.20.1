@@ -1,7 +1,13 @@
 {
   "values": [
     "spore:fungal_roots",
+    "spore:fungal_roots",
+    "spore:fungal_roots",
     "spore:blomfung",
-    "spore:bloomfung2"
+    "spore:bloomfung2",
+    "spore:glowshroom",
+    "spore:hand",
+    "spore:lungs",
+    "spore:acidic_sack"
   ]
 }

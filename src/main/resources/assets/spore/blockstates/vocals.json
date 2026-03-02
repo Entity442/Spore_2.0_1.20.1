@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "spore:block/vocals",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "spore:block/vocals",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "spore:block/vocals"
+    },
+    "facing=west": {
+      "model": "spore:block/vocals",
+      "y": 90
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "variants": {
+    "enabled=false": [
+      {
+        "model": "spore:block/hand"
+      },
+      {
+        "model": "spore:block/hand",
+        "y": 90
+      },
+      {
+        "model": "spore:block/hand",
+        "y": 180
+      },
+      {
+        "model": "spore:block/hand",
+        "y": 270
+      }
+    ],
+    "enabled=true": [
+      {
+        "model": "spore:block/hand_closed"
+      },
+      {
+        "model": "spore:block/hand_closed",
+        "y": 90
+      },
+      {
+        "model": "spore:block/hand_closed",
+        "y": 180
+      },
+      {
+        "model": "spore:block/hand_closed",
+        "y": 270
+      }
+    ]
+  }
+}

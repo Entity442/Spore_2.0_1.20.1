@@ -289,6 +289,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.LEVIATHAN.get(), LeviathanRenderer::new);
         event.registerEntityRenderer(Sentities.LEVIATHAN_SEG.get(), LeviathanSegRenderer::new);
         event.registerEntityRenderer(Sentities.DROWNED_FLESH_BOMB.get(), DrownedFleshBombRenderer::new);
+        event.registerEntityRenderer(Sentities.FALLEN_ACID_BULB.get(), FallenAcidSackRenderer::new);
 
         event.registerBlockEntityRenderer(SblockEntities.OVERGROWN_SPAWNER.get(), new OvergrownSpawnerRenderer());
         event.registerBlockEntityRenderer(SblockEntities.BRAIN_REMNANTS.get(), new BrainRemnantsRenderer());

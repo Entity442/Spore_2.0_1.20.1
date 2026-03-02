@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/glowshroom"
+      },
+      {
+        "model": "spore:block/glowshroom",
+        "y": 90
+      },
+      {
+        "model": "spore:block/glowshroom",
+        "y": 180
+      },
+      {
+        "model": "spore:block/glowshroom",
+        "y": 270
+      }
+    ]
+  }
+}

@@ -28,7 +28,6 @@ public class DrownedFleshBombRenderer<T extends DrownedFleshBomb>extends EntityR
 
     public void render(T entity, float value2, float value, PoseStack stack, MultiBufferSource source, int p_116116_) {
         stack.pushPose();
-        stack.translate(0,-1,0);
         stack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(value, entity.yRotO, entity.getYRot()) - 90.0F));
         stack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(value, entity.xRotO, entity.getXRot()) + 90.0F));
         VertexConsumer vertexconsumer = ItemRenderer.getFoilBufferDirect(source, this.model.renderType(this.getTextureLocation(entity)), false, false);

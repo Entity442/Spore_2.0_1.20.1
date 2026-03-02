@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/lungs"
+      },
+      {
+        "model": "spore:block/lungs",
+        "y": 90
+      },
+      {
+        "model": "spore:block/lungs",
+        "y": 180
+      },
+      {
+        "model": "spore:block/lungs",
+        "y": 270
+      }
+    ]
+  }
+}

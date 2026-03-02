@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/acidic_sack"
+      },
+      {
+        "model": "spore:block/acidic_sack",
+        "y": 90
+      },
+      {
+        "model": "spore:block/acidic_sack",
+        "y": 180
+      },
+      {
+        "model": "spore:block/acidic_sack",
+        "y": 270
+      }
+    ]
+  }
+}
