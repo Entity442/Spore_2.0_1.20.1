@@ -460,6 +460,7 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
     protected void damageStomp(Level level, BlockPos pos, double range, double damageRange){
         AABB aabb = this.getBoundingBox().inflate(damageRange);
         List<Entity> entities = level.getEntities(this,aabb,entity -> {return entity instanceof LivingEntity living && TARGET_SELECTOR.test(living);});
+        if (level instanceof ServerLevel serverLevel){
         for(int i = 0; i <= 2*range; ++i) {
             for(int j = 0; j <= 2*range; ++j) {
                 for(int k = 0; k <= 2*range; ++k) {
@@ -469,13 +470,12 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
                             BlockPos blockpos = pos.offset( i-(int)range,j-(int)range,k-(int)range);
                             BlockState state = level.getBlockState(blockpos);
                             boolean airBelow = level.getBlockState(blockpos.below()).isAir();
-                            if (level instanceof ServerLevel serverLevel){
                                 if (airBelow && state.getDestroySpeed(level,pos) >= 0 && Math.random() < 0.3){
                                     FallingBlockEntity.fall(serverLevel,blockpos,state);
                                     serverLevel.removeBlock(blockpos,false);
                                 }
-                            }
-                        }}}}}
+
+                        }}}}}}
         for (Entity entity : entities){
             if (entity instanceof LivingEntity living)
                 for (int i = 0;i<2;i++){
