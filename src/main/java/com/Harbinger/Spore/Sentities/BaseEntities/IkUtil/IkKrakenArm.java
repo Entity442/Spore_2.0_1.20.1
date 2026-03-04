@@ -64,7 +64,7 @@ public class IkKrakenArm extends IkKrakenLeg {
         int tip = entities.length - 1;
         Vec3 currentPos = entities[tip];
         int val = entities.length - 1;
-        Vec3 newPos = currentPos.lerp(value, owner.level().isClientSide ? 0.35f : 0.2f);
+        Vec3 newPos = currentPos.lerp(value, 0.35f);
         entities[val] = newPos;
     }
 
@@ -136,12 +136,11 @@ public class IkKrakenArm extends IkKrakenLeg {
         float x = (float) entities[entities.length-1].x();
         float y = (float) entities[entities.length-1].y();
         float z = (float) entities[entities.length-1].z();
-        if (!owner.level().isClientSide){
-            if (rightArm){
-                owner.setRightArm(new Vector3f(x,y,z));
-            }else {
-                owner.setLeftArm(new Vector3f(x,y,z));
-            }
+        Vector3f vector3f = new Vector3f(x,y,z);
+        if (rightArm){
+            owner.setRightArm(vector3f);
+        }else {
+            owner.setLeftArm(vector3f);
         }
     }
 }
