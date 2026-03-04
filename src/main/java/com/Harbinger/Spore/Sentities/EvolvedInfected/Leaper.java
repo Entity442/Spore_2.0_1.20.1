@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities.EvolvedInfected;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
@@ -8,15 +9,16 @@ import com.Harbinger.Spore.Sentities.AI.LeapGoal;
 import com.Harbinger.Spore.Sentities.AI.TransportInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.Carrier;
+import com.Harbinger.Spore.Sentities.EvolvingInfected;
+import com.Harbinger.Spore.Sentities.Hyper.Grober;
 import com.Harbinger.Spore.Sentities.MovementControls.InfectedWallMovementControl;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
@@ -28,9 +30,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.Collection;
 import java.util.List;
 
-public class Leaper extends EvolvedInfected implements Carrier {
+public class Leaper extends EvolvedInfected implements Carrier, EvolvingInfected {
     public Leaper(EntityType<? extends Monster> type, Level level) {
         super(type, level);
         this.moveControl = new InfectedWallMovementControl(this);
@@ -119,5 +122,28 @@ public class Leaper extends EvolvedInfected implements Carrier {
         super.positionRider(entity, p_19958_);
         Vec3 vec3 = (new Vec3(-0.2D, 0.0D, 0.0D)).yRot(-this.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
         entity.setPos(this.getX() + vec3.x, this.getY() + 1.6,this.getZ()+ vec3.z);
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        this.tickHyperEvolution(this);
+    }
+    @Override
+    public void HyperEvolve(LivingEntity living) {
+        Grober grober = new Grober(Sentities.GROBER.get(),this.level());
+        Collection<MobEffectInstance> collection = this.getActiveEffects();
+        for(MobEffectInstance mobeffectinstance : collection) {
+            grober.addEffect(new MobEffectInstance(mobeffectinstance));
+        }
+        grober.setKills(this.getKills());
+        grober.setEvoPoints(this.getEvoPoints()-SConfig.SERVER.min_kills_hyper.get());
+        grober.setCustomName(this.getCustomName());
+        grober.setPos(this.getX(),this.getY(),this.getZ());
+        if (this.level() instanceof ServerLevel serverLevel)
+            grober.finalizeSpawn(serverLevel,serverLevel.getCurrentDifficultyAt(this.getOnPos()), MobSpawnType.CONVERSION,null,null);
+        this.level().addFreshEntity(grober);
+        this.discard();
+        EvolvingInfected.super.HyperEvolve(living);
     }
 }
