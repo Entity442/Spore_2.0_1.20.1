@@ -8,7 +8,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.EnumSet;
 
 public class LeapGoal extends Goal {
-    private final Mob mob;
+    protected final Mob mob;
     private LivingEntity target;
     private final float yd;
 

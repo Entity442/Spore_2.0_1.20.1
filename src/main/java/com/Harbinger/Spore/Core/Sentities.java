@@ -13,6 +13,7 @@ import com.Harbinger.Spore.Sentities.FallenMultipart.HowitzerArm;
 import com.Harbinger.Spore.Sentities.FallenMultipart.Licker;
 import com.Harbinger.Spore.Sentities.FallenMultipart.SiegerTail;
 import com.Harbinger.Spore.Sentities.FallenMultipart.StalhArm;
+import com.Harbinger.Spore.Sentities.Hyper.Grober;
 import com.Harbinger.Spore.Sentities.Hyper.*;
 import com.Harbinger.Spore.Sentities.Organoids.*;
 import com.Harbinger.Spore.Sentities.Projectile.*;
@@ -187,6 +188,10 @@ public class Sentities {
     public static final RegistryObject<EntityType<Inquisitor>> INQUISITOR = SPORE_ENTITIES.register("inquisitor",
             () -> EntityType.Builder.of(Inquisitor::new, INFECTED).sized(1f, 2.8f)
                     .build(new ResourceLocation(Spore.MODID, "inquisitor").toString()));
+
+    public static final Supplier<EntityType<Grober>> GROBER = SPORE_ENTITIES.register("grober",
+            () -> EntityType.Builder.of(Grober::new, INFECTED).sized(1f, 2.5f)
+                    .build(new ResourceLocation(Spore.MODID, "grober").toString()));
 
     public static final RegistryObject<EntityType<Hevoker>> HEVOKER = SPORE_ENTITIES.register("hevoker",
             () -> EntityType.Builder.of(Hevoker::new, INFECTED).sized(1f, 3f)
