@@ -56,7 +56,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread, C
     private static final EntityDataAccessor<Integer> HOSTS = SynchedEntityData.defineId(Proto.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> BIOMASS = SynchedEntityData.defineId(Proto.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<BlockPos> NODE = SynchedEntityData.defineId(Proto.class, EntityDataSerializers.BLOCK_POS);
-    private final List<String> hypers = new ArrayList<>(){{add("spore:inquisitor");add("spore:wendigo");add("spore:hvindicator");add("spore:brot");add("spore:ogre");add("spore:hevoker");}};
+    private final List<String> hypers = new ArrayList<>(){{add("spore:inquisitor");add("spore:grober");add("spore:wendigo");add("spore:hvindicator");add("spore:brot");add("spore:ogre");add("spore:hevoker");}};
     private int summonDefense = 0;
     private static final int INPUT_SIZE = 4;
     private static final int OUTPUT_SIZE = 4;

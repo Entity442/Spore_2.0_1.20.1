@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Client.Renderers;
 
 
 import com.Harbinger.Spore.Client.Layers.GrakenMembraneLayer;
+import com.Harbinger.Spore.Client.Layers.GrakenShipLayer;
 import com.Harbinger.Spore.Client.Layers.WaterCalamityCamo;
 import com.Harbinger.Spore.Client.Models.GrakensenkerModel;
 import com.Harbinger.Spore.Client.Models.KrakenTentacles.*;
@@ -63,6 +64,7 @@ public class KrakenRenderer<Type extends Grakensenker> extends CalamityRenderer<
         super(context, new GrakensenkerModel<>(), 4f);
         this.addLayer(new GrakenMembraneLayer<>(this));
         this.addLayer(new WaterCalamityCamo<>(this));
+        this.addLayer(new GrakenShipLayer(this));
     }
 
     @Override
