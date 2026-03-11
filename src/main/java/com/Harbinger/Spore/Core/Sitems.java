@@ -489,6 +489,13 @@ public class Sitems {
     public  static final RegistryObject<Item> INF_UP_BOOTS = ITEMS.register("inf_up_boots",
             UpgradedInfectedExoskeleton.InfectedUpBoots::new);
 
+    public  static final RegistryObject<Item> FLESH_HORSE_ARMOR = ITEMS.register("flesh_horse_armor",
+            SporeHorseFleshArmor::new);
+    public  static final RegistryObject<Item> PLATED_HORSE_ARMOR = ITEMS.register("plated_horse_armor",
+            SporeHorsePlatedArmor::new);
+    public  static final RegistryObject<Item> LIVING_HORSE_ARMOR = ITEMS.register("living_horse_armor",
+            SporeHorseLivingArmor::new);
+
 
     public  static final RegistryObject<Item> CORRUPTED_RECORD = ITEMS.register("corrupted_record",
             CorruptedRecord::new);

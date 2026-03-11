@@ -29,6 +29,7 @@ import com.Harbinger.Spore.Sentities.Projectile.*;
 import com.Harbinger.Spore.Sentities.Utility.*;
 import com.Harbinger.Spore.Sitems.BaseWeapons.*;
 import com.Harbinger.Spore.Sitems.PCI;
+import com.Harbinger.Spore.Sitems.SporeHorseArmor;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
@@ -51,6 +52,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -868,5 +870,14 @@ public class HandlerEvents {
             }
         }
     }
+    @SubscribeEvent
+    public static void horseArmorTick(LivingEvent.LivingTickEvent event) {
+        if (!(event.getEntity() instanceof AbstractHorse horse)) return;
 
+        ItemStack armor = horse.getItemBySlot(EquipmentSlot.CHEST);
+
+        if (armor.getItem() instanceof SporeHorseArmor armorItem) {
+            armorItem.onHorseArmorTick(armor, horse.level(), horse);
+        }
+    }
 }

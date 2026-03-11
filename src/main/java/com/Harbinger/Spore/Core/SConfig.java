@@ -577,6 +577,9 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Integer> ely_toughness;
         public final ForgeConfigSpec.ConfigValue<Integer> ely_knockback_resistance;
 
+        public final ForgeConfigSpec.ConfigValue<Integer> flesh_h_protection;
+        public final ForgeConfigSpec.ConfigValue<Integer> plate_h_protection;
+        public final ForgeConfigSpec.ConfigValue<Integer> living_h_protection;
 
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> human_ev;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> villager_ev;
@@ -1610,6 +1613,11 @@ public class SConfig {
             this.ely_durability = builder.comment("Default 500").defineInRange("Durability", 500, 1, Integer.MAX_VALUE);
             this.ely_protection = builder.comment("Default 5").defineInRange("Protection", 5, 1, Integer.MAX_VALUE);
             this.ely_toughness = builder.comment("Default 1").defineInRange("Toughness", 1, 0, Integer.MAX_VALUE);
+            builder.pop();
+            builder.push("Horse Armor");
+            this.flesh_h_protection = builder.comment("Default 8").defineInRange("Flesh Horse Armor Protection", 8, 0, Integer.MAX_VALUE);
+            this.plate_h_protection = builder.comment("Default 12").defineInRange("Plated Horse Armor Protection", 12, 0, Integer.MAX_VALUE);
+            this.living_h_protection = builder.comment("Default 20").defineInRange("Living Horse Armor Protection", 20, 0, Integer.MAX_VALUE);
             builder.pop();
         }
     }
