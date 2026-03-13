@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Sparticles;
 import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.BufferAI;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
@@ -19,10 +20,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -232,9 +230,9 @@ public class GastGeber extends EvolvedInfected implements FoliageSpread {
         AABB aabb = this.getBoundingBox().inflate(16);
         List<Entity> entities = level().getEntities(this,aabb, e -> e instanceof LivingEntity living && this.TARGET_SELECTOR.test(living));
         for (Entity entity : entities){
-            if (entity instanceof LivingEntity living){
+            if (entity instanceof LivingEntity living && !Utilities.helmetList().contains(living.getItemBySlot(EquipmentSlot.HEAD).getItem())){
                 living.addEffect(new MobEffectInstance(MobEffects.WEAKNESS,400,0));
-                living.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),600,3));
+                living.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),600,1));
             }
         }
         if (level() instanceof ServerLevel serverLevel){
