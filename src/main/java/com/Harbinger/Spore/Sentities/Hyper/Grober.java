@@ -12,6 +12,7 @@ import com.Harbinger.Spore.Sentities.MovementControls.InfectedWallMovementContro
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -38,10 +39,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.EnumSet;
-import java.util.List;
+import java.util.*;
 
 public class Grober extends Hyper implements ArmorPersentageBypass {
     public static final EntityDataAccessor<Integer> ATTACK_TYPE = SynchedEntityData.defineId(Grober.class, EntityDataSerializers.INT);
@@ -105,11 +103,12 @@ public class Grober extends Hyper implements ArmorPersentageBypass {
             if (getMeleeState() == MELEE_STATES.KICK){
                 living.hurtMarked = true;
                 living.knockback((3f),  Mth.sin(this.getYRot() * ((float) Math.PI / 180F)), (double) (-Mth.cos(this.getYRot() * ((float) Math.PI / 180F))));
+                this.playSound(Ssounds.GROBER_KICK.get());
             }
             if (getMeleeState() == MELEE_STATES.RIGHT_SLAP || getMeleeState() == MELEE_STATES.LEFT_SLAP){
                 living.addEffect(new MobEffectInstance(MobEffects.CONFUSION,200));
                 living.addEffect(new MobEffectInstance(MobEffects.WEAKNESS,100));
-                this.playSound(SoundEvents.PLAYER_ATTACK_CRIT);
+                this.playSound(Ssounds.GROBER_SLAP.get());
             }
          }
         this.attackAnimationTick = 10;
@@ -205,9 +204,11 @@ public class Grober extends Hyper implements ArmorPersentageBypass {
             entityData.set(RAVAGE_COOLDOWN,entityData.get(RAVAGE_COOLDOWN) -1);
         }
     }
-
+    public boolean isOmniMan(){
+        return Objects.equals(this.getCustomName(), Component.literal("Omni-Man"));
+    }
     protected SoundEvent getAmbientSound() {
-        return Ssounds.INQUISITOR_AMBIENT.get();
+        return isOmniMan() ? Ssounds.OMNI_AMBIENT.get() : Ssounds.GROBER_AMBIENT.get();
     }
 
     protected SoundEvent getStepSound() {
@@ -231,7 +232,7 @@ public class Grober extends Hyper implements ArmorPersentageBypass {
                                 serverLevel.removeBlock(blockpos,false);
                             }
                         }}}}}}
-        this.playSound(Ssounds.LANDING.get());
+        this.playSound(Ssounds.GROBER_SMASH.get());
     }
     public MELEE_STATES getMeleeState() {
         return MELEE_STATES.byId(this.entityData.get(ATTACK_TYPE) & 255);
@@ -293,6 +294,7 @@ public class Grober extends Hyper implements ArmorPersentageBypass {
 
         @Override
         public void start() {
+            mob.playSound(Ssounds.GROBER_CHARGE.get());
             mob.setRavageTime(0);
             mob.entityData.set(Grober.RAVAGE_COOLDOWN, 200);
         }
@@ -326,6 +328,7 @@ public class Grober extends Hyper implements ArmorPersentageBypass {
             float damage = (float) mob.getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.25F;
 
             for (LivingEntity living : victims) {
+                mob.playSound(Ssounds.GROBER_CHOKE.get());
                 living.hurt(mob.damageSources().mobAttack(mob), damage);
                 living.knockback(1.2F,
                         Mth.sin(mob.getYRot() * ((float)Math.PI / 180F)),

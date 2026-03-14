@@ -42,6 +42,35 @@
     "spore:bairn_ambient2",
     "spore:bairn_ambient3"
   ]
+},"grober_slap" :{
+  "subtitle": "sounds.spore.growl",
+  "sounds": [
+    "spore:grober_slap",
+    "spore:grober_slap2"
+  ]
+},"grober_smash" :{
+  "subtitle": "sounds.spore.growl",
+  "sounds": [
+    "spore:grober_overhead",
+    "spore:grober_overhead2"
+  ]
+},"grober_kick" :{
+  "subtitle": "sounds.spore.growl",
+  "sounds": [
+    "spore:grober_kick",
+    "spore:grober_kick2"
+  ]
+},"grober_charge" :{
+  "subtitle": "sounds.spore.growl",
+  "sounds": [
+    "spore:groberfub_charge"
+  ]
+},"grober_choke" :{
+  "subtitle": "sounds.spore.growl",
+  "sounds": [
+    "spore:grober_charge_hit",
+    "spore:grober_charge_hit2"
+  ]
 },"grober_ambient" :{
   "subtitle": "sounds.spore.growl",
   "sounds": [

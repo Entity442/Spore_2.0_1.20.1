@@ -283,11 +283,25 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> TUMOR_SPAWN = soundRegistry("tumor_spawn");
 
+    public static final RegistryObject<SoundEvent> OMNI_AMBIENT = soundRegistry("omni_ambient");
+
+    public static final RegistryObject<SoundEvent> GROBER_AMBIENT = soundRegistry("grober_ambient");
+
     public static final RegistryObject<SoundEvent> TUMOR_AMBIENT = soundRegistry("tumor_ambient");
 
     public static final RegistryObject<SoundEvent> FUNGAL_BOOM = soundRegistry("fungal_boom");
 
     public static final RegistryObject<SoundEvent> ELECTRIC = soundRegistry("electric");
+
+    public static final RegistryObject<SoundEvent> GROBER_SLAP = soundRegistry("grober_slap");
+
+    public static final RegistryObject<SoundEvent> GROBER_SMASH = soundRegistry("grober_smash");
+
+    public static final RegistryObject<SoundEvent> GROBER_KICK = soundRegistry("grober_kick");
+
+    public static final RegistryObject<SoundEvent> GROBER_CHARGE = soundRegistry("grober_charge");
+
+    public static final RegistryObject<SoundEvent> GROBER_CHOKE = soundRegistry("grober_choke");
 
     private Ssounds() {
     }
