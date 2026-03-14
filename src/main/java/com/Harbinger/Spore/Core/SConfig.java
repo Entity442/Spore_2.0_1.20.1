@@ -338,6 +338,12 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> chemist_explosion;
         public final ForgeConfigSpec.ConfigValue<Boolean> chemist_explosion_on;
 
+        public final ForgeConfigSpec.ConfigValue<Double> conductor_armor;
+        public final ForgeConfigSpec.ConfigValue<Double> conductor_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> conductor_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> conductor_el_small_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> conductor_el_discharge_damage;
+
         public final ForgeConfigSpec.ConfigValue<Double> plagued_hp;
         public final ForgeConfigSpec.ConfigValue<Double> plagued_damage;
         public final ForgeConfigSpec.ConfigValue<Double> plagued_armor;
@@ -1390,6 +1396,13 @@ public class SConfig {
             this.chemist_explosion = builder.comment("Default 2.5").define("Explosion Radius",2.5);
             this.chemist_explosion_on = builder.comment("Default true").define("Should explosion break blocks ?",true);
             builder.pop();
+            builder.push("Conductor");
+            this.conductor_armor = builder.comment("Default 3").defineInRange("Sets Conductor Armor", 3, 1, Double.MAX_VALUE);
+            this.conductor_hp = builder.comment("Default 25").defineInRange("Sets Conductor Max health", 25, 1, Double.MAX_VALUE);
+            this.conductor_damage = builder.comment("Default 6").defineInRange("Sets Conductor Damage", 6, 1, Double.MAX_VALUE);
+            this.conductor_el_small_damage = builder.comment("Default 2").defineInRange("Sets Conductor Arc Damage", 2, 1, Double.MAX_VALUE);
+            this.conductor_el_discharge_damage = builder.comment("Default 10").defineInRange("Sets Conductor Discharge Damage", 10, 1, Double.MAX_VALUE);
+            builder.pop();
             builder.pop();
 
 
@@ -1694,6 +1707,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_protector_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inebriater_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> chemist_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> conductor_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> saugling_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> vanguard_loot;
 
@@ -1824,7 +1838,8 @@ public class SConfig {
                     Lists.newArrayList("spore:mutated_fiber|20|1|3","spore:mutated_heart|10|1|1","spore:tumor|20|1|1") , o -> o instanceof String);
             this.chemist_loot = builder.defineList("Chemist",
                     Lists.newArrayList("spore:mutated_fiber|800|1|3","spore:mutated_heart|10|1|1","spore:tumor|100|4|8") , o -> o instanceof String);
-
+            this.conductor_loot = builder.defineList("Conductor",
+                    Lists.newArrayList("spore:mutated_fiber|800|1|3","spore:mutated_heart|10|1|1","spore:cerebrum|100|1|1") , o -> o instanceof String);
 
             this.sca_loot = builder.defineList("Scamper",
                     Lists.newArrayList("spore:mutated_fiber|50|1|4","spore:armor_fragment|80|1|3","spore:mutated_heart|10|1|1","spore:tumor|100|1|1") , o -> o instanceof String);

@@ -287,6 +287,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> FUNGAL_BOOM = soundRegistry("fungal_boom");
 
+    public static final RegistryObject<SoundEvent> ELECTRIC = soundRegistry("electric");
+
     private Ssounds() {
     }
 }

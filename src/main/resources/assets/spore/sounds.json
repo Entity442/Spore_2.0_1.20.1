@@ -16,7 +16,13 @@
     "sounds": [
       "spore:saw_sound"
     ]
-  },
+  },"electric" :{
+  "subtitle": "sounds.spore.saw_sound",
+  "sounds": [
+    "spore:electric1",
+    "spore:electric2"
+  ]
+},
   "nuke" :{
     "subtitle": "sounds.spore.nuke",
     "sounds": [
@@ -35,6 +41,23 @@
     "spore:bairn_ambient1",
     "spore:bairn_ambient2",
     "spore:bairn_ambient3"
+  ]
+},"grober_ambient" :{
+  "subtitle": "sounds.spore.growl",
+  "sounds": [
+    "spore:groberfub_ambient1",
+    "spore:groberfub_ambient2",
+    "spore:groberfub_ambient3"
+  ]
+},"omni_ambient" :{
+  "subtitle": "sounds.spore.growl",
+  "sounds": [
+    "spore:groberfub_omni1",
+    "spore:groberfub_omni2",
+    "spore:groberfub_omni3",
+    "spore:groberfub_omni4",
+    "spore:groberfub_omni5",
+    "spore:groberfub_omni6"
   ]
 },
   "scientist_fuse" :{

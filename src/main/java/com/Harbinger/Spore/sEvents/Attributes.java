@@ -108,6 +108,7 @@ public class Attributes {
         event.put(Sentities.LEVIATHAN.get(), Leviathan.createAttributes().build());
         event.put(Sentities.LEVIATHAN_SEG.get(), Leviathan.createAttributes().build());
         event.put(Sentities.GROBER.get(), Grober.createAttributes().build());
+        event.put(Sentities.CONDUCTOR.get(), Conductor.createAttributes().build());
     }
 }
 
