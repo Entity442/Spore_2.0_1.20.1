@@ -144,7 +144,7 @@ public class Vigil extends Organoid implements TraceableEntity, VariantKeeper {
         }else if (this.entityData.get(TIMER) >= 6000){
             escape();
         }
-        if (this.getTarget() != null && this.distanceToSqr(this.getTarget()) < 300 || this.getTrigger() >= 4){
+        if (this.getTarget() != null && this.distanceToSqr(this.getTarget()) < 150 || this.getTrigger() >= 4){
             this.setTrigger(this.getTrigger() <= 0 ? 1:this.getTrigger());
             escape();
         }

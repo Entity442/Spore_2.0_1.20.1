@@ -64,7 +64,7 @@ public class Specter extends UtilityEntity implements Enemy, ArmorPersentageBypa
 
     @Override
     public List<? extends String> getDropList() {
-        return SConfig.DATAGEN.gastgaber_loot.get();
+        return SConfig.DATAGEN.specter_loot.get();
     }
 
 

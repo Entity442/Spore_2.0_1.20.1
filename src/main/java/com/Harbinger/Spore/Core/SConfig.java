@@ -1280,7 +1280,7 @@ public class SConfig {
             builder.pop();
 
             builder.push("Nuckelave");
-            this.nuckelave_hp = builder.comment("Default 55").defineInRange("Sets Nuckelave Max health", 55, 1, Double.MAX_VALUE);
+            this.nuckelave_hp = builder.comment("Default 45").defineInRange("Sets Nuckelave Max health", 45, 1, Double.MAX_VALUE);
             this.nuckelave_damage = builder.comment("Default 8").defineInRange("Sets Nuckelave Damage", 8, 1, Double.MAX_VALUE);
             this.nuckelave_armor = builder.comment("Default 6").defineInRange("Sets Nuckelave Armor", 6, 1, Double.MAX_VALUE);
             builder.pop();
