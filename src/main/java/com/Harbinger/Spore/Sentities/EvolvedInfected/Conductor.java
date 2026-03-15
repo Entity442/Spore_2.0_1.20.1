@@ -123,6 +123,7 @@ public class Conductor extends EvolvedInfected{
                 }else {
                     if (living != null){
                         entityData.set(CHARGE,entityData.get(CHARGE)-1f);
+                        this.playSound(Ssounds.ELECTRIC_SPARK.get());
                         living.hurt(level().damageSources().lightningBolt(), (float) (SConfig.SERVER.conductor_el_small_damage.get() * SConfig.SERVER.global_damage.get()));
                         if (Math.random() < 0.2){
                             living.setRemainingFireTicks(40);
@@ -159,7 +160,7 @@ public class Conductor extends EvolvedInfected{
                 target.hurt(level().damageSources().lightningBolt(), (float) (SConfig.SERVER.conductor_el_discharge_damage.get() * SConfig.SERVER.global_damage.get() * voltageModifier));
                 target.setRemainingFireTicks(100);
                 entityData.set(CHARGE, getCharge() - 10f);
-                playSound(SoundEvents.LIGHTNING_BOLT_IMPACT);
+                playSound(Ssounds.ELECTRIC_DISCHARGE.get());
             }
         }
     }

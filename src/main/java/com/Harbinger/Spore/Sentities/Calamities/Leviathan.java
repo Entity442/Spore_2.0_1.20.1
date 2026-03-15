@@ -25,6 +25,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -428,6 +429,12 @@ public class Leviathan extends Calamity implements TrueCalamity, WaterInfected, 
 
             previous = part;
         }
+    }
+    protected SoundEvent getAmbientSound() {
+        if (this.getTarget() != null && this.distanceToSqr(this.getTarget()) > 200){
+            return null;
+        }
+        return Ssounds.LEVIATHAN_AMBIENT.get();
     }
     /*-----------------GOALS--------------------------*/
     @Override

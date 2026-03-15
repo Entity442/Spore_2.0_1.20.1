@@ -303,6 +303,13 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> GROBER_CHOKE = soundRegistry("grober_choke");
 
+    public static final RegistryObject<SoundEvent> ELECTRIC_SPARK = soundRegistry("electric_spark");
+
+    public static final RegistryObject<SoundEvent> ELECTRIC_DISCHARGE = soundRegistry("electric_discharge");
+
+    public static final RegistryObject<SoundEvent> LEVIATHAN_AMBIENT = soundRegistry("leviathan_ambient");
+
+
     private Ssounds() {
     }
 }

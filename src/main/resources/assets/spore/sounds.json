@@ -22,6 +22,17 @@
     "spore:electric1",
     "spore:electric2"
   ]
+},"electric_spark" :{
+  "subtitle": "sounds.spore.saw_sound",
+  "sounds": [
+    "spore:conductor_shock",
+    "spore:conductor_shock2"
+  ]
+},"electric_discharge" :{
+  "subtitle": "sounds.spore.saw_sound",
+  "sounds": [
+    "spore:conductor_big_shock"
+  ]
 },
   "nuke" :{
     "subtitle": "sounds.spore.nuke",
@@ -458,6 +469,12 @@
     "subtitle": "sounds.spore.growl",
     "sounds": [
       "spore:scavenger_screech"
+    ]
+  },
+  "leviathan_ambient" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:leviathan_ambient"
     ]
   },
   "braurei_ambient" :{
