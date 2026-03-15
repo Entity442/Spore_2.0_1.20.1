@@ -328,6 +328,10 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> scavenger_damage;
         public final ForgeConfigSpec.ConfigValue<Double> scavenger_armor;
 
+        public final ForgeConfigSpec.ConfigValue<Double> gargoyle_health;
+        public final ForgeConfigSpec.ConfigValue<Double> gargoyle_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> gargoyle_armor;
+
         public final ForgeConfigSpec.ConfigValue<Double> naiad_hp;
         public final ForgeConfigSpec.ConfigValue<Double> naiad_damage;
         public final ForgeConfigSpec.ConfigValue<Double> naiad_armor;
@@ -742,7 +746,7 @@ public class SConfig {
                             "spore:bloater","spore:naiad") , o -> o instanceof String);
             this.player_ev = builder.defineList("Infected Adventurer Evolutions",
                     Lists.newArrayList(
-                            "spore:nuclea","spore:protector") , o -> o instanceof String);
+                            "spore:nuclea","spore:protector","spore:gargoyle") , o -> o instanceof String);
 
             this.evolution_age_human = builder.comment("Default 300").define("Evolution Timer in seconds",300);
             this.min_kills = builder.comment("Default 1").define("Minimum amount of kills to start the evolution",1);
@@ -801,6 +805,12 @@ public class SConfig {
             this.scavenger_hp = builder.comment("Default 25").defineInRange("Sets Scavenger Max health", 25, 1, Double.MAX_VALUE);
             this.scavenger_damage = builder.comment("Default 10").defineInRange("Sets Scavenger Damage", 7, 1, Double.MAX_VALUE);
             this.scavenger_armor = builder.comment("Default 4").defineInRange("Sets Scavenger Armor", 4, 1, Double.MAX_VALUE);
+            builder.pop();
+
+            builder.push("Gargoyle");
+            this.gargoyle_health = builder.comment("Default 35").defineInRange("Sets Gargoyle Max health", 35, 1, Double.MAX_VALUE);
+            this.gargoyle_damage = builder.comment("Default 8").defineInRange("Sets Gargoyle Damage", 8, 1, Double.MAX_VALUE);
+            this.gargoyle_armor = builder.comment("Default 4").defineInRange("Sets Gargoyle Armor", 6, 1, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("Hallucination");
@@ -1694,6 +1704,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> thorn_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> specter_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> jagd_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> gargoyle_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> construct_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> bloater_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> scavenger_loot;
@@ -1817,6 +1828,8 @@ public class SConfig {
                     Lists.newArrayList("spore:mutated_fiber|80|3|12","spore:fang|50|1|2","spore:mutated_heart|25|1|1","spore:armor_fragment|80|3|8","spore:tumor|100|1|3") , o -> o instanceof String);
             this.inf_protector_loot = builder.defineList("Protector",
                     Lists.newArrayList("spore:mutated_fiber|80|3|12","spore:mutated_heart|25|1|1","spore:armor_fragment|80|3|8","spore:shield_fragment|100|1|4") , o -> o instanceof String);
+            this.gargoyle_loot = builder.defineList("Gargoyle",
+                    Lists.newArrayList("spore:mutated_fiber|80|3|13","spore:armor_fragment|50|2|4","spore:claw_fragment|80|1|3","spore:mutated_heart|10|1|1","spore:wing_membrane|60|1|4") , o -> o instanceof String);
 
             this.naiad_loot = builder.defineList("Naiad",
                     Lists.newArrayList("spore:mutated_fiber|70|1|5","minecraft:copper_ingot|15|1|1","spore:armor_fragment|80|1|3","spore:mutated_heart|10|1|1","spore:claw_fragment|80|6|9") , o -> o instanceof String);

@@ -181,6 +181,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(GroberfubModel.LAYER_LOCATION, GroberfubModel::createBodyLayer);
         event.registerLayerDefinition(HarbingerModel.LAYER_LOCATION, HarbingerModel::createBodyLayer);
         event.registerLayerDefinition(ConductorModel.LAYER_LOCATION, ConductorModel::createBodyLayer);
+        event.registerLayerDefinition(gargoyleModel.LAYER_LOCATION, gargoyleModel::createBodyLayer);
 
         event.registerLayerDefinition(BombFunnelModel.LAYER_LOCATION, BombFunnelModel::createBodyLayer);
         event.registerLayerDefinition(MushroomExplosionTop.LAYER_LOCATION, MushroomExplosionTop::createBodyLayer);
@@ -253,6 +254,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.HVINDICATOR.get(), HyperVindicatorRenderer::new);
         event.registerEntityRenderer(Sentities.INF_DISEASED_VILLAGER.get(), InfectedDiseasedVillagerRenderer::new);
         event.registerEntityRenderer(Sentities.CONDUCTOR.get(), ConductorRenderer::new);
+        event.registerEntityRenderer(Sentities.GARGOYLE.get(), GargoyleRenderer::new);
 
         event.registerEntityRenderer(Sentities.ACID_BALL.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(Sentities.VOMIT_BALL.get(), VomitRenderer::new);

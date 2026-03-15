@@ -27,6 +27,7 @@ import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -160,7 +161,7 @@ public class Conductor extends EvolvedInfected{
                 target.hurt(level().damageSources().lightningBolt(), (float) (SConfig.SERVER.conductor_el_discharge_damage.get() * SConfig.SERVER.global_damage.get() * voltageModifier));
                 target.setRemainingFireTicks(100);
                 entityData.set(CHARGE, getCharge() - 10f);
-                playSound(Ssounds.ELECTRIC_DISCHARGE.get());
+                this.playSound(Ssounds.ELECTRIC_DISCHARGE.get());
             }
         }
     }
