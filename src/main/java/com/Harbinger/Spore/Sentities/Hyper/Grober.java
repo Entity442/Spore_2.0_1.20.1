@@ -205,7 +205,7 @@ public class Grober extends Hyper implements ArmorPersentageBypass {
         }
     }
     public boolean isOmniMan(){
-        return Objects.equals(this.getCustomName(), Component.literal("Omni-Man"));
+        return Objects.equals(this.getCustomName(), Component.literal("Omni-Man")) || Objects.equals(this.getCustomName(), Component.literal("Nolan"));
     }
     protected SoundEvent getAmbientSound() {
         return isOmniMan() ? Ssounds.OMNI_AMBIENT.get() : Ssounds.GROBER_AMBIENT.get();

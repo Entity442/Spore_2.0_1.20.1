@@ -32,7 +32,7 @@ public class GroberRenderer<Type extends Grober> extends BaseInfectedRenderer<Ty
     }
 
     public boolean isOmniMan(Type entity){
-        return Objects.equals(entity.getCustomName(), Component.literal("Omni-Man"));
+        return Objects.equals(entity.getCustomName(), Component.literal("Omni-Man")) || Objects.equals(entity.getCustomName(), Component.literal("Nolan"));
     }
 
     @Override
