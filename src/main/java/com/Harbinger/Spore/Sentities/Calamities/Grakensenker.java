@@ -133,6 +133,13 @@ public class Grakensenker extends Calamity implements TrueCalamity, WaterInfecte
         }
 
     }
+    @Override
+    public String getMutation() {
+        if (getAdaptation()){
+            return "spore.entity.variant.ship";
+        }
+        return super.getMutation();
+    }
     enum GrakenLegsModifiers{
         BACK_LEFT_TENTACLE(new Vec3(-3,3.5,0.75),new Vec3(-6, -1, 6),new Vec3(1, -3, 4)),
         BACK_RIGHT_TENTACLE(new Vec3(-3,3.5,-0.75),new Vec3(-6, -1, -6),new Vec3(1, -3, -4)),

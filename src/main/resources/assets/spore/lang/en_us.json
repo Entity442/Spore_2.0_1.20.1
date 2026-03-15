@@ -447,6 +447,8 @@
   "spore.entity.variant.burst" : "Burst Fire Mutation",
   "spore.entity.variant.spray" : "Spray Mutation",
   "spore.entity.variant.triton" : "Triton Mutation",
+  "spore.entity.variant.engorged" : "Engorged Mutation",
+  "spore.entity.variant.ship" : "Galleon Mutation",
   "spore.scanner.danger.calamity" : "RUN",
   "spore.scanner.danger.hyper" : "Very High",
   "spore.scanner.danger.evolved" : "Medium-High",

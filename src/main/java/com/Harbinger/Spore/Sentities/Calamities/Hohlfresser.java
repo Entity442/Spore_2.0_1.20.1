@@ -102,7 +102,13 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
     public List<? extends String> getDropList() {
         return SConfig.DATAGEN.hohl_loot.get();
     }
-
+    @Override
+    public String getMutation() {
+        if (getAdaptation()){
+            return "spore.entity.variant.engorged";
+        }
+        return super.getMutation();
+    }
     @Override
     public boolean isPushable() {
         return false;
