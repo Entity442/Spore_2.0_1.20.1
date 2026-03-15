@@ -50,7 +50,7 @@ public class FleshHorseArmorBit extends HorseArmorBit{
             ModelPart leftFront = fleshHorseArmorModel.FrontLeftLeg;
             ModelPart rightBack = fleshHorseArmorModel.BackRightLeg;
             ModelPart leftBack = fleshHorseArmorModel.BackLeftLeg;
-            applyTransformEx(poseStack,model.getHead(),0,-0.1f,0.64f,1.15f,0,0,0,() -> {
+            applyTransformEx(poseStack,model.getHead(),0,-0.05f,0.64f,1.15f,0,0,0,() -> {
                 head.render(poseStack, consumer, light, OverlayTexture.NO_OVERLAY, red ,green,blue,1);
             });
             applyTransformEx(poseStack,model.getBody(),0,-0.71f,-0.35f,1.05f,0,0,0,() -> {
