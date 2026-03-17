@@ -3,8 +3,8 @@
     "icon": {
       "item": "spore:reaper_spawnegg"
     },
-    "title":{"translate": "advancement.spore.specter.title"},
-    "description":{"translate": "advancement.spore.specter.description"}
+    "title":{"translate": "advancement.spore.reaper.title"},
+    "description":{"translate": "advancement.spore.reaper.description"}
   },
 
   "parent": "spore:inf_diseased_villager",
