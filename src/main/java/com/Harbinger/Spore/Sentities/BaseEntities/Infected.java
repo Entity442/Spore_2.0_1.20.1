@@ -494,6 +494,7 @@ public class Infected extends Monster{
                 }
 
                 level().setBlock(abovePos, remains, 3);
+                break;
             }
         }
     }
