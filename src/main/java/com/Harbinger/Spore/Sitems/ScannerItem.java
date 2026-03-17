@@ -98,7 +98,7 @@ public class ScannerItem extends BaseItem2 {
             return;
         }
         entity.addEffect(new MobEffectInstance(MobEffects.GLOWING, 40));
-        String name = entity.getCustomName() != null ? entity.getCustomName().getString() : Component.translatable("spore.scanner.line.1").getString();
+        String name = entity.getCustomName() != null ? entity.getCustomName().getString() : Component.translatable("spore.scanner.line.0").getString();
 
         lines.add("------------------");
         lines.add(Component.translatable("spore.scanner.line.2").getString() + name);

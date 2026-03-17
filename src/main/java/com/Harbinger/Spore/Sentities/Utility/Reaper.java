@@ -9,8 +9,10 @@ import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.HybridPathNavigation;
 import com.Harbinger.Spore.Sentities.ArmorPersentageBypass;
+import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
+import com.Harbinger.Spore.Sentities.EvolvingInfected;
 import com.Harbinger.Spore.Sentities.MovementControls.InfectedWallMovementControl;
 import com.Harbinger.Spore.Sentities.Projectile.VomitUsurperBall;
 import net.minecraft.core.BlockPos;
@@ -288,10 +290,10 @@ public class Reaper extends UtilityEntity implements Enemy, ArmorPersentageBypas
         }
     }
     public void FeedNearbyInfected(){
-        AABB aabb = this.getBoundingBox().inflate(16);
+        AABB aabb = this.getBoundingBox().inflate(getComposter() ? 24 : 16);
         List<Infected> entities = level().getEntitiesOfClass(Infected.class,aabb);
         for (Infected infected : entities){
-            if (infected.getEvoPoints() < SConfig.SERVER.min_kills.get()){
+            if (infected.getEvoPoints() < SConfig.SERVER.min_kills.get() && infected instanceof EvolvingInfected && !(infected instanceof EvolvedInfected)){
                 int charge = SConfig.SERVER.min_kills.get() - infected.getEvoPoints();
                 infected.setEvoPoints(infected.getEvoPoints() + charge);
                 infected.setKills(infected.getKills() + charge);
@@ -316,10 +318,19 @@ public class Reaper extends UtilityEntity implements Enemy, ArmorPersentageBypas
         if ((state.getBlock() instanceof SaplingBlock || state.getBlock() instanceof SweetBerryBushBlock) && Math.random() < 0.3){
             return level.setBlock(blockPos, Sblocks.ROTTEN_BUSH.get().defaultBlockState(), 3);
         }
-        this.setStomach(getStomach() + random.nextInt(4));
-        this.playSound(SoundEvents.GENERIC_EAT);
+        int compostMod = getComposter() ? 8 : 4;
+        this.setStomach(getStomach() + random.nextInt(compostMod));
         this.attackAnimationTick = 10;
-        playSound(Ssounds.REAPER_HARVEST.get());
+        if (state.getBlock().equals(Blocks.COMPOSTER)){
+            playSound(SoundEvents.WOOD_BREAK);
+            setComposter(true);
+        }else {
+            if (Math.random() < 0.2){
+                this.playSound(SoundEvents.GENERIC_EAT);
+            }else {
+                playSound(Ssounds.REAPER_HARVEST.get());
+            }
+        }
         this.level().broadcastEntityEvent(this, (byte)4);
         return level.destroyBlock(blockPos, false, this);
     }
