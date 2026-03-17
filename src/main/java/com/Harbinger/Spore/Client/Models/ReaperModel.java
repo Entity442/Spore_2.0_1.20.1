@@ -1,7 +1,8 @@
 package com.Harbinger.Spore.Client.Models;// Made with Blockbench 5.0.7
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
-import com.Harbinger.Spore.Client.Models.TentacledModel;
+
+
 import com.Harbinger.Spore.Sentities.Utility.Reaper;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -45,6 +46,8 @@ public class ReaperModel<T extends Reaper> extends EntityModel<T> implements Ten
 	private final ModelPart T;
 	private final ModelPart Tumor2;
 	private final ModelPart TumorClump;
+	private final ModelPart composter;
+	private final ModelPart compost;
 	private final ModelPart Head;
 	private final ModelPart HeadTop;
 	private final ModelPart PetalCrown;
@@ -101,6 +104,8 @@ public class ReaperModel<T extends Reaper> extends EntityModel<T> implements Ten
 		this.T = this.Tendril.getChild("T");
 		this.Tumor2 = this.Details.getChild("Tumor2");
 		this.TumorClump = this.Details.getChild("TumorClump");
+		this.composter = this.Torso.getChild("composter");
+		this.compost = this.composter.getChild("compost");
 		this.Head = this.TorsoHead.getChild("Head");
 		this.HeadTop = this.Head.getChild("HeadTop");
 		this.PetalCrown = this.HeadTop.getChild("PetalCrown");
@@ -225,17 +230,17 @@ public class ReaperModel<T extends Reaper> extends EntityModel<T> implements Ten
 
 		PartDefinition T2 = Tendril2.addOrReplaceChild("T2", CubeListBuilder.create().texOffs(28, 93).addBox(-0.5F, -6.0F, -0.5F, 1.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(-0.65F, -5.45F, 1.95F));
 
-		PartDefinition Tendril3 = Tendrils.addOrReplaceChild("Tendril3", CubeListBuilder.create(), PartPose.offset(2.0F, -28.7F, 6.2F));
+		PartDefinition Tendril3 = Tendrils.addOrReplaceChild("Tendril3", CubeListBuilder.create(), PartPose.offsetAndRotation(2.0F, -28.7F, 6.2F, -0.4772F, -0.0447F, -0.3413F));
 
 		PartDefinition cube_r8 = Tendril3.addOrReplaceChild("cube_r8", CubeListBuilder.create().texOffs(88, 29).addBox(-1.0F, -6.0F, -1.0F, 2.0F, 6.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.1675F, 0.178F, -0.1133F));
 
-		PartDefinition T3 = Tendril3.addOrReplaceChild("T3", CubeListBuilder.create().texOffs(24, 93).addBox(-0.5F, -6.25F, -0.5F, 1.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.6F, -5.75F, 1.0F, 0.0F, 0.0F, -0.1745F));
+		PartDefinition T3 = Tendril3.addOrReplaceChild("T3", CubeListBuilder.create().texOffs(24, 93).addBox(-0.5F, -6.25F, -0.5F, 1.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.6F, -5.75F, 1.0F, 0.6419F, -0.7074F, -0.5933F));
 
-		PartDefinition Tendril4 = Tendrils.addOrReplaceChild("Tendril4", CubeListBuilder.create(), PartPose.offset(-2.0F, -28.7F, 3.0F));
+		PartDefinition Tendril4 = Tendrils.addOrReplaceChild("Tendril4", CubeListBuilder.create(), PartPose.offsetAndRotation(-2.0F, -28.7F, 3.0F, 0.0F, 0.0F, -0.4363F));
 
 		PartDefinition cube_r9 = Tendril4.addOrReplaceChild("cube_r9", CubeListBuilder.create().texOffs(84, 86).addBox(-1.0F, -7.0F, -1.0F, 2.0F, 7.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.062F, 0.1356F, -0.3496F));
 
-		PartDefinition T4 = Tendril4.addOrReplaceChild("T4", CubeListBuilder.create().texOffs(20, 93).addBox(-0.75F, -7.75F, -0.5F, 1.0F, 8.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0F, -5.7F, 0.45F, 0.0F, 0.0F, -0.2618F));
+		PartDefinition T4 = Tendril4.addOrReplaceChild("T4", CubeListBuilder.create().texOffs(20, 93).addBox(-0.75F, -7.75F, -0.5F, 1.0F, 8.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0F, -6.2F, 0.45F, -1.47F, -0.1557F, -0.0626F));
 
 		PartDefinition Tendril5 = Tendrils.addOrReplaceChild("Tendril5", CubeListBuilder.create(), PartPose.offset(6.6F, -31.3F, 0.9F));
 
@@ -260,6 +265,11 @@ public class ReaperModel<T extends Reaper> extends EntityModel<T> implements Ten
 		PartDefinition Tumor_r2 = TumorClump.addOrReplaceChild("Tumor_r2", CubeListBuilder.create().texOffs(0, 53).addBox(-2.7408F, -1.808F, -2.4918F, 5.0F, 5.0F, 5.0F, new CubeDeformation(-0.75F)), PartPose.offsetAndRotation(-0.8367F, -0.2749F, -1.2167F, 0.4738F, 0.5054F, -0.1271F));
 
 		PartDefinition Tumor_r3 = TumorClump.addOrReplaceChild("Tumor_r3", CubeListBuilder.create().texOffs(0, 53).addBox(-2.9715F, -2.049F, -2.7982F, 5.0F, 5.0F, 5.0F, new CubeDeformation(-1.2F)), PartPose.offsetAndRotation(3.1633F, -0.1749F, 0.0833F, -0.4676F, 0.1287F, -0.544F));
+
+		PartDefinition composter = Torso.addOrReplaceChild("composter", CubeListBuilder.create().texOffs(0, 104).addBox(-6.0F, -9.0F, -6.0F, 12.0F, 12.0F, 12.0F, new CubeDeformation(-3.0F))
+		.texOffs(96, 94).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 10.0F, 8.0F, new CubeDeformation(-2.0F)), PartPose.offsetAndRotation(-2.0F, 0.0F, 7.0F, -0.4821F, -0.2129F, -0.3838F));
+
+		PartDefinition compost = composter.addOrReplaceChild("compost", CubeListBuilder.create().texOffs(36, 94).addBox(-9.0F, -9.0F, 1.0F, 8.0F, 6.0F, 8.0F, new CubeDeformation(-2.0F)), PartPose.offset(5.0F, 3.0F, -5.0F));
 
 		PartDefinition Head = TorsoHead.addOrReplaceChild("Head", CubeListBuilder.create(), PartPose.offset(1.6F, -10.8F, -7.6F));
 
@@ -440,7 +450,7 @@ public class ReaperModel<T extends Reaper> extends EntityModel<T> implements Ten
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
 
-	public void moveZ(ModelPart part,float val){
+	public void moveZ(ModelPart part, float val){
 		part.z = part.getInitialPose().z+val;
 	}
 	@Override
@@ -507,7 +517,7 @@ public class ReaperModel<T extends Reaper> extends EntityModel<T> implements Ten
 		animateTentacleZ(Tendril2,r8);
 		animateTentacleX(Tendril2,r7);
 		animateTentacleZ(T2,r4);
-		animateTentacleZ(Tendril3,r3);
+		animateTentacleX(Tendril3,r3);
 		animateTentacleY(Tendril3,r5);
 		animateTentacleZ(T3,r2);
 		animateTentacleZ(Tendril4,r6);
@@ -515,6 +525,8 @@ public class ReaperModel<T extends Reaper> extends EntityModel<T> implements Ten
 		animateTentacleZ(T4,r5);
 		animateTentacleZ(Tendril5,r6);
 		animateTentacleY(Tendril5,r7);
+		composter.visible = entity.getComposter();
+		compost.visible = entity.getStomach() > 0;
 	}
 
 	@Override

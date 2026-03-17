@@ -309,7 +309,15 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> LEVIATHAN_AMBIENT = soundRegistry("leviathan_ambient");
 
+    public static final RegistryObject<SoundEvent> REAPER_AMBIENT = soundRegistry("reaper_ambient");
 
+    public static final RegistryObject<SoundEvent> REAPER_ATTACK = soundRegistry("reaper_attack");
+
+    public static final RegistryObject<SoundEvent> REAPER_SPIT = soundRegistry("reaper_spit");
+
+    public static final RegistryObject<SoundEvent> REAPER_HARVEST = soundRegistry("reaper_harvest");
+
+    public static final RegistryObject<SoundEvent> REAPER_COMPOST = soundRegistry("reaper_compost");
     private Ssounds() {
     }
 }

@@ -53,6 +53,36 @@
     "spore:bairn_ambient2",
     "spore:bairn_ambient3"
   ]
+},"reaper_ambient" :{
+  "subtitle": "sounds.spore.growl",
+  "sounds": [
+    "spore:reaper_idle1",
+    "spore:reaper_idle2",
+    "spore:reaper_idle3"
+  ]
+},"reaper_attack" :{
+  "subtitle": "sounds.spore.growl",
+  "sounds": [
+    "spore:reaper_attack1",
+    "spore:reaper_attack2"
+  ]
+},"reaper_spit" :{
+  "subtitle": "sounds.spore.growl",
+  "sounds": [
+    "spore:reaper_spit1",
+    "spore:reaper_spit2"
+  ]
+},"reaper_harvest" :{
+  "subtitle": "sounds.spore.growl",
+  "sounds": [
+    "spore:reaper_harvest1",
+    "spore:reaper_harvest2"
+  ]
+},"reaper_compost" :{
+  "subtitle": "sounds.spore.growl",
+  "sounds": [
+    "spore:reaper_composter"
+  ]
 },"grober_slap" :{
   "subtitle": "sounds.spore.growl",
   "sounds": [

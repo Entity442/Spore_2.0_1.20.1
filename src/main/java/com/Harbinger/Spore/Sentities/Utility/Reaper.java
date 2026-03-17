@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Sentities.Utility;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.Core.Seffects;
+import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
@@ -18,6 +19,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
@@ -54,6 +56,7 @@ public class Reaper extends UtilityEntity implements Enemy, ArmorPersentageBypas
     private BlockPos Targetpos;
     public static final EntityDataAccessor<Integer> BIOMASS = SynchedEntityData.defineId(Reaper.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Integer> STOMACH = SynchedEntityData.defineId(Reaper.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Boolean> COMPOSTER = SynchedEntityData.defineId(Reaper.class, EntityDataSerializers.BOOLEAN);
     public Reaper(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         this.moveControl = new InfectedWallMovementControl(this);
@@ -105,6 +108,7 @@ public class Reaper extends UtilityEntity implements Enemy, ArmorPersentageBypas
             living.addEffect(new MobEffectInstance(MobEffects.CONFUSION,200,0));
             living.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),200,1));
         }
+        playSound(Ssounds.REAPER_ATTACK.get());
         this.attackAnimationTick = 10;
         this.level().broadcastEntityEvent(this, (byte)4);
         return super.doHurtTarget(entity);
@@ -169,6 +173,7 @@ public class Reaper extends UtilityEntity implements Enemy, ArmorPersentageBypas
         super.defineSynchedData();
         entityData.define(STOMACH,0);
         entityData.define(BIOMASS,0);
+        entityData.define(COMPOSTER,false);
     }
 
     @Override
@@ -176,6 +181,7 @@ public class Reaper extends UtilityEntity implements Enemy, ArmorPersentageBypas
         super.readAdditionalSaveData(tag);
         setBiomass(tag.getInt("biomass"));
         setStomach(tag.getInt("stomach"));
+        setComposter(tag.getBoolean("composter"));
     }
 
     @Override
@@ -183,12 +189,21 @@ public class Reaper extends UtilityEntity implements Enemy, ArmorPersentageBypas
         super.addAdditionalSaveData(tag);
         tag.putInt("biomass",getBiomass());
         tag.putInt("stomach",getStomach());
+        tag.putBoolean("composter",getComposter());
     }
     @Override
     public boolean canDrownInFluidType(FluidType type) {
         return false;
     }
-
+    public void setComposter(boolean value){
+        entityData.set(COMPOSTER,value);
+    }
+    public boolean getComposter(){
+        return entityData.get(COMPOSTER);
+    }
+    private boolean searchComposter(BlockState block){
+        return !getComposter() && block.getBlock().equals(Blocks.COMPOSTER);
+    }
     @Override
     public void awardKillScore(Entity p_19953_, int p_19954_, DamageSource p_19955_) {
         this.setBiomass(this.getBiomass()+1);
@@ -211,7 +226,7 @@ public class Reaper extends UtilityEntity implements Enemy, ArmorPersentageBypas
         AABB aabb = this.getBoundingBox().inflate(32,4,32);
         for(BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
             BlockState block = level().getBlockState(blockpos);
-            if (states.contains(block) || block.getBlock() instanceof CropBlock || block.getBlock() instanceof StemBlock || block.getBlock() instanceof SaplingBlock){
+            if (states.contains(block) || block.getBlock() instanceof CropBlock || block.getBlock() instanceof StemBlock || block.getBlock() instanceof SaplingBlock || searchComposter(block)){
                 if (hasLineOfSightBlocks(blockpos) && this.random.nextFloat() < 0.5f){
                     setTargetPos(blockpos);
                     break;
@@ -232,8 +247,12 @@ public class Reaper extends UtilityEntity implements Enemy, ArmorPersentageBypas
         if (tickCount % 200 == 0){
             searchBlocks();
             if (getStomach() > 25f){
+                int val = getComposter() ? 2 : 5;
                 setBiomass(getBiomass()+1);
-                setStomach(getStomach()-5);
+                setStomach(getStomach()-val);
+                if (getComposter()){
+                    playSound(Ssounds.REAPER_COMPOST.get());
+                }
             }
             if (getBiomass() > 10){
                 FeedNearbyInfected();
@@ -300,16 +319,28 @@ public class Reaper extends UtilityEntity implements Enemy, ArmorPersentageBypas
         this.setStomach(getStomach() + random.nextInt(4));
         this.playSound(SoundEvents.GENERIC_EAT);
         this.attackAnimationTick = 10;
+        playSound(Ssounds.REAPER_HARVEST.get());
         this.level().broadcastEntityEvent(this, (byte)4);
         return level.destroyBlock(blockPos, false, this);
     }
+    protected SoundEvent getAmbientSound() {
+        return isInvisible() ? null : Ssounds.REAPER_AMBIENT.get();
+    }
 
+    protected SoundEvent getHurtSound(DamageSource p_34327_) {
+        return Ssounds.EVOLVE_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return Ssounds.INF_DAMAGE.get();
+    }
     @Override
     public void performRangedAttack(LivingEntity livingEntity, float v) {
         VomitUsurperBall.shoot(this,livingEntity,(float) (SConfig.SERVER.reaper_ranged_damage.get() * SConfig.SERVER.global_damage.get()));
         this.setStomach(getStomach()-1);
         this.rangedAttackAnimationTick = 10;
         this.level().broadcastEntityEvent(this, (byte)5);
+        playSound(Ssounds.REAPER_SPIT.get());
     }
 
     public static class SearchAroundGoal extends Goal {
