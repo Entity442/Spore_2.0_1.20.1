@@ -250,6 +250,11 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> specter_damage;
         public final ForgeConfigSpec.ConfigValue<Double> specter_armor;
 
+        public final ForgeConfigSpec.ConfigValue<Double> reaper_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> reaper_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> reaper_armor;
+        public final ForgeConfigSpec.ConfigValue<Double> reaper_ranged_damage;
+
         public final ForgeConfigSpec.ConfigValue<Double> scamper_hp;
         public final ForgeConfigSpec.ConfigValue<Double> scamper_damage;
         public final ForgeConfigSpec.ConfigValue<Double> scamper_armor;
@@ -863,7 +868,12 @@ public class SConfig {
             this.brot_effects = builder.comment("Default values: minecraft:poison|120|0 ,spore:mycelium|600|0 ,spore:marker|2400|1").defineList("Braiomil Effects",
                     Lists.newArrayList("minecraft:wither|200|0" ,"minecraft:weakness|300|1" , "spore:mycelium_ef|600|1","spore:marker|2400|1") , o -> o instanceof String);
             builder.pop();
-
+            builder.push("Reaper");
+            this.reaper_hp = builder.comment("Default 80").defineInRange("Sets Reaper Max health", 80, 1, Double.MAX_VALUE);
+            this.reaper_damage = builder.comment("Default 10").defineInRange("Sets Reaper Damage", 10, 1, Double.MAX_VALUE);
+            this.reaper_armor = builder.comment("Default 8").defineInRange("Sets Reaper Armor", 8, 0, Double.MAX_VALUE);
+            this.reaper_ranged_damage = builder.comment("Default 5").defineInRange("Sets Spit Damage Armor", 5, 0, Double.MAX_VALUE);
+            builder.pop();
             builder.push("Infested Construct");
             this.inf_cons_hp = builder.comment("Default 60").defineInRange("Sets Infested Construct Max health", 60, 1, Double.MAX_VALUE);
             this.inf_machine_hp = builder.comment("Default 50").defineInRange("Sets Infested Construct Golem Max health", 50, 1, Double.MAX_VALUE);
@@ -927,13 +937,13 @@ public class SConfig {
 
             this.vigil_middle_wave = builder.comment("The mixed wave of infected a vigil can summon").defineList("Vigil mix wave",
                     Lists.newArrayList("spore:inf_human", "spore:inf_villager", "spore:inf_pillager", "spore:inf_wanderer",
-                            "spore:knight", "spore:griefer","spore:mephitic", "spore:thorn", "spore:nuclea", "spore:jagd", "spore:scavenger", "spore:bloater","spore:slasher", "spore:leaper", "spore:inf_evoker", "spore:spitter") , o -> o instanceof String);
+                            "spore:knight", "spore:griefer", "spore:gargoyle","spore:mephitic", "spore:thorn", "spore:nuclea", "spore:jagd", "spore:scavenger", "spore:bloater","spore:slasher", "spore:leaper", "spore:inf_evoker", "spore:spitter") , o -> o instanceof String);
 
             this.vigil_max_wave = builder.comment("The max wave of infected a vigil can summon").defineList("Vigil max wave",
                     Lists.newArrayList("spore:inf_vindicator", "spore:busser", "spore:inf_witch", "spore:brute",
                             "spore:knight", "spore:griefer", "spore:thorn", "spore:jagd", "spore:leaper", "spore:inf_evoker", "spore:spitter", "spore:stalker",
                             "spore:howler", "spore:braiomil", "spore:wendigo","spore:hevoker", "spore:scavenger", "spore:bloater","spore:ogre","spore:slasher", "spore:inquisitor", "spore:brot"
-                            , "spore:volatile","spore:mephitic", "spore:hvindicator", "spore:grober") , o -> o instanceof String);
+                            , "spore:volatile","spore:mephitic", "spore:gargoyle", "spore:hvindicator", "spore:grober") , o -> o instanceof String);
 
             builder.pop();
 
@@ -1703,6 +1713,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> bioblob_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> thorn_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> specter_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> reaper_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> jagd_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> gargoyle_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> construct_loot;
@@ -1840,6 +1851,8 @@ public class SConfig {
             this.bairn_loot = builder.defineList("Bairn",
                     Lists.newArrayList("spore:mutated_fiber|80|1|5","spore:mutated_heart|10|1|1","spore:claw_fragment|80|1|3") , o -> o instanceof String);
             this.specter_loot = builder.defineList("Specter",
+                    Lists.newArrayList("spore:mutated_fiber|80|5|17","spore:fang|50|1|2","spore:armor_fragment|80|2|9","spore:mutated_heart|10|1|3","spore:claw_fragment|80|6|9","spore:innards|50|1|2","spore:tumor|100|4|8","spore:tendons|60|3|7") , o -> o instanceof String);
+            this.reaper_loot = builder.defineList("Specter",
                     Lists.newArrayList("spore:mutated_fiber|80|5|17","spore:fang|50|1|2","spore:armor_fragment|80|2|9","spore:mutated_heart|10|1|3","spore:claw_fragment|80|6|9","spore:innards|50|1|2","spore:tumor|100|4|8","spore:tendons|60|3|7") , o -> o instanceof String);
             this.vanguard_loot = builder.defineList("Vanguard",
                     Lists.newArrayList("spore:mutated_fiber|80|5|17","minecraft:emerald_block|50|1|2","spore:armor_fragment|80|2|9","spore:mutated_heart|10|1|3","spore:claw_fragment|80|6|9","spore:innards|50|1|2","spore:tumor|100|4|8","spore:tendons|60|3|7","minecraft:arrow|60|3|7") , o -> o instanceof String);
@@ -2019,7 +2032,7 @@ public class SConfig {
             this.raid_level_3= builder.defineList("Raid level 3 spawns",
                     Lists.newArrayList("spore:griefer","spore:howler","spore:mephitic","spore:nuclea","spore:thorn","spore:busser", "spore:scavenger", "spore:bloater","spore:knight","spore:brute","spore:slasher","spore:volatile","spore:braiomil" , "spore:leaper", "spore:spitter","spore:jagd","spore:inf_pillager","spore:stalker","spore:inf_vindicator","spore:inf_evoker") , o -> o instanceof String);
             this.special= builder.defineList("Special Spawns",
-                    Lists.newArrayList("spore:brot","spore:grober","spore:saugling","spore:inquisitor","spore:hevoker","spore:gastgaber","spore:hvendicator","spore:biobloob" ,"spore:wendigo","spore:ogre" , "spore:specter","spore:plagued","spore:lacerator","spore:inf_construct") , o -> o instanceof String);
+                    Lists.newArrayList("spore:brot","spore:grober","spore:reaper","spore:saugling","spore:inquisitor","spore:hevoker","spore:gastgaber","spore:hvendicator","spore:biobloob" ,"spore:wendigo","spore:ogre" , "spore:specter","spore:plagued","spore:lacerator","spore:inf_construct") , o -> o instanceof String);
             this.drops= builder.defineList("Items that may drop at the end of the raid",
                     Lists.newArrayList("spore:fleshy_bone","spore:hardened_bind","spore:fleshy_claw" ,"spore:living_core" , "spore:spine","spore:armor_plate","spore:plated_muscle","spore:altered_spleen","spore:corrosive_sack","spore:sickle_fragment","spore:vigil_eye","spore:symbiotic_reagent"
                             ,"spore:cryogenic_reagent","spore:gastric_reagent","spore:corrosive_reagent","spore:serrated_reagent","spore:voracious_reagent","spore:calcified_tumor","spore:frozen_tumor","spore:sicken_tumor","spore:bile_tumor") , o -> o instanceof String);

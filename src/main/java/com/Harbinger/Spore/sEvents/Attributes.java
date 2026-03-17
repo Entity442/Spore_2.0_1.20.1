@@ -110,6 +110,7 @@ public class Attributes {
         event.put(Sentities.GROBER.get(), Grober.createAttributes().build());
         event.put(Sentities.CONDUCTOR.get(), Conductor.createAttributes().build());
         event.put(Sentities.GARGOYLE.get(), Gargoyl.createAttributes().build());
+        event.put(Sentities.REAPER.get(), Reaper.createAttributes().build());
     }
 }
 
