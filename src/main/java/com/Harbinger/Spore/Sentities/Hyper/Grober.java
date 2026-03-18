@@ -76,7 +76,7 @@ public class Grober extends Hyper implements ArmorPersentageBypass {
     @Override
     protected int calculateFallDamage(float v1, float v2) {
         if (v1 >= 8){
-            damageStomp(level(),this.getOnPos(),7);
+            damageStomp(level(),this.getOnPos(),7,true);
         }
         return 0;
     }
@@ -98,7 +98,7 @@ public class Grober extends Hyper implements ArmorPersentageBypass {
     public boolean doHurtTarget(Entity entity) {
         if (entity instanceof LivingEntity living){
             if (getMeleeState() == MELEE_STATES.SMASH){
-                damageStomp(level(),entity.getOnPos(),3);
+                damageStomp(level(),entity.getOnPos(),3,false);
             }
             if (getMeleeState() == MELEE_STATES.KICK){
                 living.hurtMarked = true;
@@ -215,7 +215,7 @@ public class Grober extends Hyper implements ArmorPersentageBypass {
         return SoundEvents.ZOMBIE_STEP;
     }
 
-    protected void damageStomp(Level level, BlockPos pos, double range){
+    protected void damageStomp(Level level, BlockPos pos, double range,boolean fall){
         if (level instanceof ServerLevel serverLevel){
         for(int i = 0; i <= 2*range; ++i) {
             for(int j = 0; j <= 2*range; ++j) {
@@ -232,7 +232,7 @@ public class Grober extends Hyper implements ArmorPersentageBypass {
                                 serverLevel.removeBlock(blockpos,false);
                             }
                         }}}}}}
-        this.playSound(Ssounds.GROBER_SMASH.get());
+        this.playSound(fall ? Ssounds.LANDING.get() : Ssounds.GROBER_SMASH.get());
     }
     public MELEE_STATES getMeleeState() {
         return MELEE_STATES.byId(this.entityData.get(ATTACK_TYPE) & 255);
