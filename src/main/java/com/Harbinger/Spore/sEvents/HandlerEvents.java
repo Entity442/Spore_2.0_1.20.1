@@ -742,7 +742,7 @@ public class HandlerEvents {
     @SubscribeEvent
     public static void DefenseBypass(LivingDamageEvent event) {
         Entity living = event.getSource().getEntity();
-        if (living instanceof Player player && event.getEntity().getItemBySlot(EquipmentSlot.CHEST).equals(ItemStack.EMPTY)){
+        if (living instanceof Player player && event.getEntity().getItemBySlot(EquipmentSlot.CHEST).isEmpty()){
             ItemStack weapon = player.getMainHandItem();
             if (weapon.getItem() instanceof PCI pci && pci.getCharge(weapon)>0 && !player.getCooldowns().isOnCooldown(pci)){
                 int damageMod = SConfig.SERVER.pci_damage_multiplier.get();
@@ -751,9 +751,10 @@ public class HandlerEvents {
                 boolean freeze = event.getEntity().getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES);
                 float targetHealth = freeze ? target.getHealth()/damageMod : target.getHealth();
                 int freezeDamage = charge >= targetHealth ? (int) targetHealth : charge;
-                event.setAmount(freeze ?freezeDamage * damageMod : freezeDamage);
+                float newDamage = event.getAmount() + (freeze ? freezeDamage * damageMod : freezeDamage);
+                event.setAmount(newDamage);
                 pci.setCharge(weapon, charge - freezeDamage);
-                target.setTicksFrozen(600);
+                target.setTicksFrozen(Math.max(target.getTicksFrozen(), 600));
                 player.getCooldowns().addCooldown(pci, (int) Math.ceil(targetHealth / 5f) * 20);
                 pci.playSound(player);
             }
