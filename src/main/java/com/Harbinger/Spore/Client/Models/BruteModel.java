@@ -1,8 +1,6 @@
-package com.Harbinger.Spore.Client.Models;// Made with Blockbench 4.11.1
+package com.Harbinger.Spore.Client.Models;// Made with Blockbench 5.0.7
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
-
-
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Brute;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -23,29 +21,61 @@ public class BruteModel<T extends Brute> extends EntityModel<T> implements Armed
 	private final ModelPart Brute;
 	private final ModelPart Legs;
 	private final ModelPart LeftLeg;
+	private final ModelPart LeftLegSeg2;
 	private final ModelPart RightLeg;
+	private final ModelPart RightLegSeg2;
 	private final ModelPart Arms;
 	private final ModelPart LeftArm;
+	private final ModelPart LeftArmSeg2;
+	private final ModelPart LeftArmFungus;
+	private final ModelPart LeftFist;
+	private final ModelPart Fist;
 	private final ModelPart RightArm;
-	private final ModelPart LeftForArm;
-	private final ModelPart RightForArm;
+	private final ModelPart RightArmSeg3;
+	private final ModelPart RightFist;
+	private final ModelPart Fist2;
+	private final ModelPart FistFungus;
+	private final ModelPart MiddleChestFungus;
+	private final ModelPart crown2;
+	private final ModelPart crown3;
+	private final ModelPart crown6;
 	private final ModelPart Neck;
 	private final ModelPart Head;
 	private final ModelPart Jaw;
+	private final ModelPart crown1;
+	private final ModelPart crown4;
+	private final ModelPart crown5;
+	private final ModelPart FungalBloom;
 
 	public BruteModel(ModelPart root) {
 		this.Brute = root.getChild("Brute");
 		this.Legs = this.Brute.getChild("Legs");
 		this.LeftLeg = this.Legs.getChild("LeftLeg");
+		this.LeftLegSeg2 = this.LeftLeg.getChild("LeftLegSeg2");
 		this.RightLeg = this.Legs.getChild("RightLeg");
+		this.RightLegSeg2 = this.RightLeg.getChild("RightLegSeg2");
 		this.Arms = this.Brute.getChild("Arms");
 		this.LeftArm = this.Arms.getChild("LeftArm");
+		this.LeftArmSeg2 = this.LeftArm.getChild("LeftArmSeg2");
+		this.LeftArmFungus = this.LeftArmSeg2.getChild("LeftArmFungus");
+		this.LeftFist = this.LeftArmSeg2.getChild("LeftFist");
+		this.Fist = this.LeftFist.getChild("Fist");
 		this.RightArm = this.Arms.getChild("RightArm");
-		this.LeftForArm = LeftArm.getChild("LeftArmSeg2");
-		this.RightForArm = RightArm.getChild("RightArmSeg3");
+		this.RightArmSeg3 = this.RightArm.getChild("RightArmSeg3");
+		this.RightFist = this.RightArmSeg3.getChild("RightFist");
+		this.Fist2 = this.RightFist.getChild("Fist2");
+		this.FistFungus = this.Fist2.getChild("FistFungus");
+		this.MiddleChestFungus = this.RightArm.getChild("MiddleChestFungus");
+		this.crown2 = this.Arms.getChild("crown2");
+		this.crown3 = this.Arms.getChild("crown3");
+		this.crown6 = this.Arms.getChild("crown6");
 		this.Neck = this.Brute.getChild("Neck");
 		this.Head = this.Neck.getChild("Head");
 		this.Jaw = this.Head.getChild("Jaw");
+		this.crown1 = this.Head.getChild("crown1");
+		this.crown4 = this.Head.getChild("crown4");
+		this.crown5 = this.Head.getChild("crown5");
+		this.FungalBloom = this.Brute.getChild("FungalBloom");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -54,9 +84,11 @@ public class BruteModel<T extends Brute> extends EntityModel<T> implements Armed
 
 		PartDefinition Brute = partdefinition.addOrReplaceChild("Brute", CubeListBuilder.create(), PartPose.offset(0.0F, 13.0F, 2.0F));
 
-		PartDefinition UpperTorso_r1 = Brute.addOrReplaceChild("UpperTorso_r1", CubeListBuilder.create().texOffs(0, 64).addBox(-6.0F, -4.0F, -12.0F, 12.0F, 8.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.5357F, 2.4378F, -0.6981F, 0.0F, 0.0F));
+		PartDefinition UpperTorso_r1 = Brute.addOrReplaceChild("UpperTorso_r1", CubeListBuilder.create().texOffs(0, 64).addBox(-6.0F, -4.0F, -12.0F, 12.0F, 8.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.5357F, 2.4379F, -0.6981F, 0.0F, 0.0F));
 
-		PartDefinition Base_r1 = Brute.addOrReplaceChild("Base_r1", CubeListBuilder.create().texOffs(64, 52).addBox(-5.0F, -3.0F, -1.5F, 10.0F, 6.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.5357F, 2.4378F, -0.3054F, 0.0F, 0.0F));
+		PartDefinition Tail_r1 = Brute.addOrReplaceChild("Tail_r1", CubeListBuilder.create().texOffs(97, 54).addBox(-2.0F, -2.0F, -3.0F, 4.0F, 4.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.8359F, 8.784F, -0.0785F, 0.0F, 0.0F));
+
+		PartDefinition Base_r1 = Brute.addOrReplaceChild("Base_r1", CubeListBuilder.create().texOffs(64, 52).addBox(-5.0F, -3.0F, -1.5F, 10.0F, 6.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.5357F, 2.4379F, -0.3054F, 0.0F, 0.0F));
 
 		PartDefinition Legs = Brute.addOrReplaceChild("Legs", CubeListBuilder.create(), PartPose.offset(0.0F, 3.0F, 6.0F));
 
@@ -73,9 +105,9 @@ public class BruteModel<T extends Brute> extends EntityModel<T> implements Armed
 		PartDefinition RightShoulder_r1 = Arms.addOrReplaceChild("RightShoulder_r1", CubeListBuilder.create().texOffs(0, 112).addBox(-3.0F, -2.0F, -3.0F, 6.0F, 4.0F, 6.0F, new CubeDeformation(0.0F))
 		.texOffs(0, 112).addBox(5.0F, -2.0F, -3.0F, 6.0F, 4.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.0F, -1.9452F, 1.8213F, -0.3054F, 0.0F, 0.0F));
 
-		PartDefinition LeftArm = Arms.addOrReplaceChild("LeftArm", CubeListBuilder.create().texOffs(48, 80).addBox(-2.0F, -3.5F, -2.5F, 8.0F, 6.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(5.625F, 1.6495F, 1.0F, 0.18F, 0.3007F, 0.5509F));
+		PartDefinition LeftArm = Arms.addOrReplaceChild("LeftArm", CubeListBuilder.create().texOffs(48, 80).addBox(-2.0F, -3.5F, -2.5F, 8.0F, 6.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(6.625F, 0.6495F, 1.0F, 0.18F, 0.3007F, 0.5509F));
 
-		PartDefinition LeftArmSeg2 = LeftArm.addOrReplaceChild("LeftArmSeg2", CubeListBuilder.create().texOffs(92, 0).addBox(-2.0F, -1.5F, -2.0F, 6.0F, 9.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.4253F, 0.0093F, 0.0F, 0.0F, 0.0F, -0.7418F));
+		PartDefinition LeftArmSeg2 = LeftArm.addOrReplaceChild("LeftArmSeg2", CubeListBuilder.create().texOffs(92, 0).addBox(-2.0F, -1.5F, -2.0F, 6.0F, 9.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.4253F, 0.0092F, 0.0F, 0.0F, 0.0F, -0.7418F));
 
 		PartDefinition LeftArmFungus = LeftArmSeg2.addOrReplaceChild("LeftArmFungus", CubeListBuilder.create(), PartPose.offset(1.8904F, 0.502F, 0.6525F));
 
@@ -85,15 +117,15 @@ public class BruteModel<T extends Brute> extends EntityModel<T> implements Armed
 
 		PartDefinition LeftFist = LeftArmSeg2.addOrReplaceChild("LeftFist", CubeListBuilder.create(), PartPose.offset(0.0F, 9.0F, 0.0F));
 
-		PartDefinition Fist = LeftFist.addOrReplaceChild("Fist", CubeListBuilder.create().texOffs(0, 84).addBox(-3.0F, -2.0F, -3.0F, 7.0F, 7.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.4881F, -1.3918F, 0.5F, 0.0F, 0.0F, 0.2182F));
+		PartDefinition Fist = LeftFist.addOrReplaceChild("Fist", CubeListBuilder.create().texOffs(0, 84).addBox(-3.0F, -2.0F, -3.0F, 7.0F, 8.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.4882F, -1.3918F, 0.5F, 0.0F, 0.0F, 0.2182F));
 
-		PartDefinition RightArm = Arms.addOrReplaceChild("RightArm", CubeListBuilder.create().texOffs(48, 80).mirror().addBox(-6.0F, -3.5F, -2.5F, 8.0F, 6.0F, 7.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-5.625F, 1.6495F, 1.0F, 0.18F, -0.3007F, -0.5509F));
+		PartDefinition RightArm = Arms.addOrReplaceChild("RightArm", CubeListBuilder.create().texOffs(48, 80).mirror().addBox(-6.0F, -3.5F, -2.5F, 8.0F, 6.0F, 7.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-6.625F, 0.6495F, 1.0F, 0.18F, -0.3007F, -0.5509F));
 
-		PartDefinition RightArmSeg3 = RightArm.addOrReplaceChild("RightArmSeg3", CubeListBuilder.create().texOffs(92, 0).addBox(-4.0F, -1.5F, -2.0F, 6.0F, 9.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.4253F, 0.0093F, 0.0F, 0.0F, 0.0F, 0.7418F));
+		PartDefinition RightArmSeg3 = RightArm.addOrReplaceChild("RightArmSeg3", CubeListBuilder.create().texOffs(92, 0).addBox(-4.0F, -1.5F, -2.0F, 6.0F, 9.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.4253F, 0.0092F, 0.0F, 0.0F, 0.0F, 0.7418F));
 
 		PartDefinition RightFist = RightArmSeg3.addOrReplaceChild("RightFist", CubeListBuilder.create(), PartPose.offset(0.0F, 9.0F, 0.0F));
 
-		PartDefinition Fist2 = RightFist.addOrReplaceChild("Fist2", CubeListBuilder.create().texOffs(0, 84).addBox(-4.0F, -2.0F, -3.0F, 7.0F, 7.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.4881F, -1.3918F, 0.5F, 0.0F, 0.0F, -0.2182F));
+		PartDefinition Fist2 = RightFist.addOrReplaceChild("Fist2", CubeListBuilder.create().texOffs(0, 84).addBox(-4.0F, -2.0F, -3.0F, 7.0F, 8.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.4882F, -1.3918F, 0.5F, 0.0F, 0.0F, -0.2182F));
 
 		PartDefinition FistFungus = Fist2.addOrReplaceChild("FistFungus", CubeListBuilder.create(), PartPose.offset(-1.0F, 10.0F, 0.0F));
 
@@ -127,7 +159,7 @@ public class BruteModel<T extends Brute> extends EntityModel<T> implements Armed
 
 		PartDefinition Petal2_r2 = crown3.addOrReplaceChild("Petal2_r2", CubeListBuilder.create().texOffs(-7, 0).addBox(-3.5F, 0.0F, -5.5F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.2969F, 0.3356F, -0.5792F, -0.4726F, -0.2047F, 0.1036F));
 
-		PartDefinition crown6 = Arms.addOrReplaceChild("crown6", CubeListBuilder.create(), PartPose.offsetAndRotation(-0.5764F, 6.6135F, 0.7692F, -0.6729F, 0.0001F, 0.2258F));
+		PartDefinition crown6 = Arms.addOrReplaceChild("crown6", CubeListBuilder.create(), PartPose.offsetAndRotation(-0.5765F, 6.6135F, 0.7692F, -0.6729F, 0.0001F, 0.2258F));
 
 		PartDefinition Petal6_r1 = crown6.addOrReplaceChild("Petal6_r1", CubeListBuilder.create().texOffs(-7, 0).addBox(-2.0F, 1.0F, -3.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.8861F, 0.5245F, -0.0399F, 0.1745F, 0.0F, -0.4363F));
 
@@ -137,7 +169,7 @@ public class BruteModel<T extends Brute> extends EntityModel<T> implements Armed
 
 		PartDefinition Petal3_r3 = crown6.addOrReplaceChild("Petal3_r3", CubeListBuilder.create().texOffs(-7, 0).addBox(-3.5F, 0.0F, -5.5F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.2969F, -0.3356F, -0.5792F, 0.4726F, -0.2047F, -0.1036F));
 
-		PartDefinition Neck = Brute.addOrReplaceChild("Neck", CubeListBuilder.create().texOffs(112, 108).addBox(-3.0F, -4.0F, -1.0F, 6.0F, 6.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -4.0F, -8.0F));
+		PartDefinition Neck = Brute.addOrReplaceChild("Neck", CubeListBuilder.create().texOffs(112, 108).addBox(-3.0F, -4.0F, -1.0F, 6.0F, 6.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -6.0F, -8.0F));
 
 		PartDefinition Head = Neck.addOrReplaceChild("Head", CubeListBuilder.create().texOffs(48, 64).addBox(-4.0F, -6.0F, -7.5F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F))
 		.texOffs(68, 93).addBox(-1.0F, 1.0F, -9.5F, 2.0F, 4.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -1.0F, -1.0F));
@@ -210,8 +242,8 @@ public class BruteModel<T extends Brute> extends EntityModel<T> implements Armed
 			RightLeg.xRot = RightLeg.getInitialPose().xRot - moveValue;
 			LeftArm.yRot = RightArm.getInitialPose().yRot + moveValue;
 			RightArm.yRot = RightArm.getInitialPose().yRot + moveValue;
-			RightForArm.zRot = RightForArm.getInitialPose().zRot + moveValue;
-			LeftForArm.zRot = LeftForArm.getInitialPose().zRot + moveValue;
+			RightFist.zRot = RightFist.getInitialPose().zRot + moveValue;
+			LeftFist.zRot = LeftFist.getInitialPose().zRot + moveValue;
 		}
 	}
 
@@ -219,7 +251,6 @@ public class BruteModel<T extends Brute> extends EntityModel<T> implements Armed
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		Brute.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
-
 	@Override
 	public void translateToHand(HumanoidArm humanoidArm, PoseStack poseStack) {
 		poseStack.translate(0,-1.3f,0.6f);
