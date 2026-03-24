@@ -85,6 +85,11 @@ public abstract class BaseArmorRenderingBit {
             red = (color >> 16 & 255) / 255.0F;
             green = (color >> 8 & 255) / 255.0F;
             blue = (color & 255) / 255.0F;
+        }else if (itemStack.getItem() instanceof SporeWeaponData weaponData){
+            int color = weaponData.getVariant(itemStack).getColor();
+            red = (color >> 16 & 255) / 255.0F;
+            green = (color >> 8 & 255) / 255.0F;
+            blue = (color & 255) / 255.0F;
         } else {
             red = 1f;
             blue = 1f;

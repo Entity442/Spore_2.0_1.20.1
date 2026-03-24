@@ -1,0 +1,19 @@
+{
+  "type": "spore:surgery",
+  "ingredients": [
+    { "slot": 2, "item": "spore:skull_soup" },
+    { "slot": 3, "item": "spore:voracious_reagent" },
+    { "slot": 4, "item": "spore:tumor" },
+    { "slot": 5, "item": "spore:spine" },
+    { "slot": 6, "item": "spore:hyperbolized_liver" },
+    { "slot": 7, "item": "spore:reforged_biomass_t" },
+    { "slot": 8, "item": "spore:spine" },
+    { "slot": 9, "item": "spore:gastric_reagent" },
+    { "slot": 10, "item": "spore:reforged_biomass_w" },
+    { "slot": 12, "item": "spore:innards" },
+    { "slot": 13, "item": "spore:reforged_biomass_a" }
+  ],
+  "output": {
+    "item": "spore:bile_blaster"
+  }
+}

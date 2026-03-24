@@ -87,4 +87,5 @@ public class SItemProperties {
             return stack.getItem() instanceof InfectedShield && player != null && player.isUsingItem() ? 1.0F : 0.0F;
         });
     }
+
 }

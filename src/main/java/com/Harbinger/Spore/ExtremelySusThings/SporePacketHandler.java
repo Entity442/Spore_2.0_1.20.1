@@ -26,6 +26,11 @@ public class SporePacketHandler {
                 .decoder(RequestAdvancementPacket::new)
                 .consumerMainThread(RequestAdvancementPacket::handle)
                 .add();
+        INSTANCE.messageBuilder(SporeGunFirePacket.class, packetId.getAndIncrement())
+                .encoder(SporeGunFirePacket::encode)
+                .decoder(SporeGunFirePacket::new)
+                .consumerMainThread(SporeGunFirePacket::handle)
+                .add();
 
         INSTANCE.messageBuilder(SyncAdvancementPacket.class, packetId.getAndIncrement())
                 .encoder(SyncAdvancementPacket::encode)
@@ -46,6 +51,11 @@ public class SporePacketHandler {
                 .encoder(OpenSurgeryScreenPacket::encode)
                 .decoder(OpenSurgeryScreenPacket::new)
                 .consumerMainThread(OpenSurgeryScreenPacket::handle)
+                .add();
+        INSTANCE.messageBuilder(SporeGunFireSyncPacket.class, packetId.getAndIncrement())
+                .encoder(SporeGunFireSyncPacket::encode)
+                .decoder(SporeGunFireSyncPacket::new)
+                .consumerMainThread(SporeGunFireSyncPacket::handle)
                 .add();
     }
     public static <T> void sendToServer(T packet) {

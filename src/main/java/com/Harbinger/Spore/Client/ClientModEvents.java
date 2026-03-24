@@ -303,6 +303,9 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.FALLEN_ACID_BULB.get(), FallenAcidSackRenderer::new);
         event.registerEntityRenderer(Sentities.GROBER.get(), GroberRenderer::new);
         event.registerEntityRenderer(Sentities.HARPOON.get(), HarpoonRenderer::new);
+        event.registerEntityRenderer(Sentities.GORE_BULLET.get(), GoreBulletRenderer::new);
+        event.registerEntityRenderer(Sentities.ASSASSIN_BULLET.get(), AcidBulletRenderer::new);
+        event.registerEntityRenderer(Sentities.BILE_BULLET.get(), BileBulletRenderer::new);
 
         event.registerBlockEntityRenderer(SblockEntities.OVERGROWN_SPAWNER.get(), new OvergrownSpawnerRenderer());
         event.registerBlockEntityRenderer(SblockEntities.BRAIN_REMNANTS.get(), new BrainRemnantsRenderer());
@@ -331,6 +334,7 @@ public class ClientModEvents {
         });
 
     }
+
     @SubscribeEvent
     public static void addLayers(final EntityRenderersEvent.AddLayers event) {
         event.getSkins().forEach(name -> {
@@ -384,6 +388,12 @@ public class ClientModEvents {
                 VomitParticle.Provider::new);
         Minecraft.getInstance().particleEngine.register(Sparticles.VOMIT_ORES.get(),
                 VomitParticle.Provider::new);
+        Minecraft.getInstance().particleEngine.register(Sparticles.ACID_BULLET.get(),
+                AcidBulletParticle.Provider::new);
+        Minecraft.getInstance().particleEngine.register(Sparticles.GORE_BULLET.get(),
+                GoreBulletParticle.Provider::new);
+        Minecraft.getInstance().particleEngine.register(Sparticles.BILE_BULLET.get(),
+                BileBulletParticle.Provider::new);
     }
 
     @SubscribeEvent
@@ -421,4 +431,7 @@ public class ClientModEvents {
         InjectionRecipeMenu menu = new InjectionRecipeMenu(1, player.getInventory());
         Minecraft.getInstance().setScreen(new InjectionRecipeScreen(menu, player.getInventory(), Component.literal("")));
     }
+
+
+
 }

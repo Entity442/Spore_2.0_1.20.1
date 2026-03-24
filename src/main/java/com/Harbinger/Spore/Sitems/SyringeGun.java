@@ -34,7 +34,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanishable {
+public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanishable,GunHeldItem {
     private static final ResourceLocation TEXTURE = new ResourceLocation("spore:textures/item/syringe_gun.png");
     private static final String DATA = "data";
 
@@ -63,6 +63,11 @@ public class SyringeGun extends BaseItem2 implements CustomModelArmorData, Vanis
     @Override
     public UseAnim getUseAnimation(ItemStack stack) {
         return UseAnim.NONE;
+    }
+
+    @Override
+    public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
+        return true;
     }
 
     @Override

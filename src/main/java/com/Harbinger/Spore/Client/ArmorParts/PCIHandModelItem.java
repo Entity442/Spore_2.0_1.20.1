@@ -28,7 +28,7 @@ public class PCIHandModelItem extends ComplexHandModelItem{
     }
 
     @Override
-    protected void renderModel(PoseStack poseStack, VertexConsumer consumer, int light, MultiBufferSource source,ItemStack stack) {
+    protected void renderModel(PoseStack poseStack, VertexConsumer consumer, int light, MultiBufferSource source, ItemStack stack, int color) {
         applyTransformEx(poseStack,this.x,this.y,this.z,this.expand,this.Xspin,this.Yspin,this.Zspin,() ->{
             this.part.render(poseStack,consumer,light, OverlayTexture.NO_OVERLAY,1,1,1,1);
             VertexConsumer vertexConsumer = displayglow(source,stack);
@@ -38,7 +38,7 @@ public class PCIHandModelItem extends ComplexHandModelItem{
         });
     }
 
-    public VertexConsumer displayglow(MultiBufferSource source,ItemStack stack){
+    public VertexConsumer displayglow(MultiBufferSource source, ItemStack stack){
         if (stack.getItem() instanceof PCI pci && pci.getCharge(stack) > 0){
             return source.getBuffer(RenderType.eyes(glowLocation));
         }

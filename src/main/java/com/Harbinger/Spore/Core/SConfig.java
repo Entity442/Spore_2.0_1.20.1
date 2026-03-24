@@ -596,6 +596,14 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Integer> plate_h_protection;
         public final ForgeConfigSpec.ConfigValue<Integer> living_h_protection;
 
+        public final ForgeConfigSpec.ConfigValue<Integer> mistmaker_durability;
+        public final ForgeConfigSpec.ConfigValue<Integer> bile_blaster_durability;
+        public final ForgeConfigSpec.ConfigValue<Integer> acidic_assassin_durability;
+        public final ForgeConfigSpec.ConfigValue<Integer> mistmaker_damage;
+        public final ForgeConfigSpec.ConfigValue<Integer> mistmaker_melee_damage;
+        public final ForgeConfigSpec.ConfigValue<Integer> bile_blaster_damage;
+        public final ForgeConfigSpec.ConfigValue<Integer> acidic_assassin_damage;
+
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> human_ev;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> villager_ev;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> pil_ev;
@@ -1652,6 +1660,15 @@ public class SConfig {
             this.plate_h_protection = builder.comment("Default 12").defineInRange("Plated Horse Armor Protection", 12, 0, Integer.MAX_VALUE);
             this.living_h_protection = builder.comment("Default 20").defineInRange("Living Horse Armor Protection", 20, 0, Integer.MAX_VALUE);
             builder.pop();
+            builder.push("Living Guns");
+            this.mistmaker_durability = builder.comment("Default 300").defineInRange("Mist Maker Durability", 300, 1, Integer.MAX_VALUE);
+            this.bile_blaster_durability = builder.comment("Default 300").defineInRange("Bile Blaster Durability", 300, 1, Integer.MAX_VALUE);
+            this.acidic_assassin_durability = builder.comment("Default 300").defineInRange("Acidic Assassin Durability", 300, 1, Integer.MAX_VALUE);
+            this.mistmaker_damage = builder.comment("Default 5").defineInRange("Mist Maker Pallet Damage", 5, 1, Integer.MAX_VALUE);
+            this.mistmaker_melee_damage = builder.comment("Default 5").defineInRange("Mist Maker Saw Damage", 5, 1, Integer.MAX_VALUE);
+            this.bile_blaster_damage = builder.comment("Default 8").defineInRange("Bile Blaster Damage", 8, 1, Integer.MAX_VALUE);
+            this.acidic_assassin_damage = builder.comment("Default 15").defineInRange("Acidic Assassin Damage", 15, 1, Integer.MAX_VALUE);
+            builder.pop();
         }
     }
 
@@ -1871,29 +1888,28 @@ public class SConfig {
                     Lists.newArrayList("spore:mutated_fiber|50|1|4","spore:armor_fragment|80|1|3","spore:mutated_heart|10|1|1","spore:tumor|100|1|1") , o -> o instanceof String);
 
             this.sieger_loot = builder.defineList("Sieger",
-                    Lists.newArrayList("spore:mutated_fiber|100|33|75","spore:armor_fragment|100|15|38","spore:mutated_heart|70|3|7","spore:tumor|100|2|5","spore:cerebrum|70|2|7","spore:spine_fragment|56|4|9") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mutated_fiber|100|33|75","spore:amalgamated_heart|100|1|1","spore:armor_fragment|100|15|38","spore:mutated_heart|70|3|7","spore:tumor|100|2|5","spore:cerebrum|70|2|7","spore:spine_fragment|56|4|9") , o -> o instanceof String);
 
             this.howit_loot = builder.defineList("Howitzer",
-                    Lists.newArrayList("spore:mutated_fiber|100|53|95","spore:fang|50|1|2","spore:armor_fragment|100|15|25","spore:mutated_heart|90|6|14","spore:tumor|100|6|15","spore:cerebrum|70|2|7","spore:spine_fragment|56|4|9","spore:innards|100|3|15") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mutated_fiber|100|53|95","spore:hyperbolized_liver|100|1|1","spore:ligaments|70|1|1","spore:fang|50|1|2","spore:armor_fragment|100|15|25","spore:mutated_heart|90|6|14","spore:tumor|100|6|15","spore:cerebrum|70|2|7","spore:spine_fragment|56|4|9","spore:innards|100|3|15") , o -> o instanceof String);
 
             this.hohl_loot = builder.defineList("Hohlfresser",
-                    Lists.newArrayList("spore:mutated_fiber|100|20|75","spore:armor_fragment|100|15|38","spore:mutated_heart|70|3|7","spore:tumor|100|6|23","spore:cerebrum|70|2|7","spore:spine_fragment|56|4|9") , o -> o instanceof String);
-
-
-            this.gazen_loot = builder.defineList("Gazenbrecher",
-                    Lists.newArrayList("spore:mutated_fiber|100|33|75","spore:armor_fragment|100|15|38","spore:mutated_heart|70|3|7","spore:cerebrum|70|4|9","spore:spine_fragment|56|7|15") , o -> o instanceof String);
-
-            this.graken_loot = builder.defineList("Graken",
-                    Lists.newArrayList("spore:mutated_fiber|100|33|75","spore:armor_fragment|100|15|38","spore:mutated_heart|70|3|7","spore:cerebrum|70|4|9","spore:spine_fragment|56|7|15") , o -> o instanceof String);
-
-            this.leviathan_loot = builder.defineList("Leviathan",
-                    Lists.newArrayList("spore:mutated_fiber|100|33|75","spore:corrosive_sack|100|3|8","spore:armor_fragment|100|15|38","spore:mutated_heart|70|3|7","spore:cerebrum|70|4|9","spore:spine_fragment|56|7|15") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mutated_fiber|100|20|75","spore:acidic_gland|70|1|1","spore:ligaments|70|1|1","spore:armor_fragment|100|15|38","spore:mutated_heart|70|3|7","spore:tumor|100|6|23","spore:cerebrum|70|2|7","spore:spine_fragment|56|4|9") , o -> o instanceof String);
 
             this.sta_loot = builder.defineList("Stahlmorder",
-                    Lists.newArrayList("spore:mutated_fiber|100|10|45","spore:armor_fragment|100|10|25","spore:mutated_heart|70|1|5","spore:tumor|100|6|23","spore:cerebrum|70|2|7","spore:spine_fragment|56|4|14","spore:claw|30|3|12","spore:claw_fragment|56|15|45") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mutated_fiber|100|10|45","spore:acidic_gland|50|1|1","spore:ligaments|100|1|1","spore:armor_fragment|100|10|25","spore:mutated_heart|70|1|5","spore:tumor|100|6|23","spore:cerebrum|70|2|7","spore:spine_fragment|56|4|14","spore:claw|30|3|12","spore:claw_fragment|56|15|45") , o -> o instanceof String);
+
+            this.gazen_loot = builder.defineList("Gazenbrecher",
+                    Lists.newArrayList("spore:mutated_fiber|100|33|75","spore:fins|100|1|1","spore:hyperbolized_liver|70|1|1","spore:armor_fragment|100|15|38","spore:mutated_heart|70|3|7","spore:cerebrum|70|4|9","spore:spine_fragment|56|7|15") , o -> o instanceof String);
+
+            this.leviathan_loot = builder.defineList("Leviathan",
+                    Lists.newArrayList("spore:mutated_fiber|100|33|75","spore:acidic_gland|100|1|1","spore:fins|100|1|1","spore:corrosive_sack|100|3|8","spore:armor_fragment|100|15|38","spore:mutated_heart|70|3|7","spore:cerebrum|70|4|9","spore:spine_fragment|56|7|15") , o -> o instanceof String);
+
+            this.graken_loot = builder.defineList("Graken",
+                    Lists.newArrayList("spore:mutated_fiber|100|33|75","spore:fins|100|1|1","spore:ligaments|50|1|1","spore:armor_fragment|100|15|38","spore:mutated_heart|70|3|7","spore:cerebrum|70|4|9","spore:spine_fragment|56|7|15") , o -> o instanceof String);
 
             this.hindie_loot = builder.defineList("Hindenburg",
-                    Lists.newArrayList("spore:mutated_fiber|100|33|75","spore:armor_fragment|100|1|4","spore:mutated_heart|70|3|7","spore:cerebrum|70|1|4","spore:spine_fragment|56|7|15","spore:tumor|100|7|22", "spore:wing_membrane|100|3|11") , o -> o instanceof String);
+                    Lists.newArrayList("spore:mutated_fiber|100|33|75","spore:amalgamated_heart|100|1|1","spore:armor_fragment|100|1|4","spore:mutated_heart|70|3|7","spore:cerebrum|70|1|4","spore:spine_fragment|56|7|15","spore:tumor|100|7|22", "spore:wing_membrane|100|3|11") , o -> o instanceof String);
 
             this.sieger_tail_loot = builder.defineList("Sieger Tail",
                     Lists.newArrayList("spore:mutated_fiber|100|10|25","spore:armor_fragment|100|3|10","spore:tumor|100|7|22") , o -> o instanceof String);

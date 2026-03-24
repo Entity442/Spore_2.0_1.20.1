@@ -33,24 +33,16 @@ public class AdvancementGivingPackage {
     public static void handle(AdvancementGivingPackage message, Supplier<NetworkEvent.Context> context) {
         context.get().enqueueWork(() -> {
             ServerPlayer entity = context.get().getSender();
+            if(entity == null){
+                return;
+            }
             Entity truePlayer = entity.level().getEntity(message.id);
             if (!(truePlayer instanceof ServerPlayer player)){
                 return;
             }
-            if (player == null || !player.isAlive()) {
-                System.err.println("[Spore] Invalid player when handling advancement package.");
-                return;
-            }
-
             MinecraftServer server = player.server;
-            if (server == null || server.getAdvancements() == null) {
-                System.err.println("[Spore] Server advancements are null!");
-                return;
-            }
-
             Advancement advancement = server.getAdvancements().getAdvancement(new ResourceLocation(message.advancement));
             if (advancement == null) {
-                System.err.println("[Spore] Advancement not found: " + message.advancement);
                 return;
             }
 

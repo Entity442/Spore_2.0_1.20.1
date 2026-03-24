@@ -950,6 +950,91 @@
     "spore:spore_explosion2",
     "spore:spore_explosion3"
   ]
+},"biogun_out_of_ammo" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:biogun_out_of_ammo"
+  ]
+},"mistmaker_bite" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:mistmaker_bite",
+    "spore:mistmaker_bite2"
+  ]
+},"mistmaker_bullet_block" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:mistmaker_bullet_block",
+    "spore:mistmaker_bullet_block2"
+  ]
+},"mistmaker_bullet_entity" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:mistmaker_bullet_entity",
+    "spore:mistmaker_bullet_entity2"
+  ]
+},"mistmaker_deploy" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:mistmaker_deploy"
+  ]
+},"mistmaker_retract" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:mistmaker_retract"
+  ]
+},"mistmaker_shot" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:mistmaker_shot1",
+    "spore:mistmaker_shot2"
+  ]
+},"bile_blaster_shot" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:bile_blaster_shot1",
+    "spore:bile_blaster_shot2"
+  ]
+},"bile_blaster_bullet_block" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:bile_blaster_bullet_block",
+    "spore:bile_blaster_bullet_block2"
+  ]
+},"bile_blaster_bullet_entity" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:bile_blaster_bullet_entity",
+    "spore:bile_blaster_bullet_entity2"
+  ]
+},"assassin_shot" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:assassin_shot1",
+    "spore:assassin_shot2"
+  ]
+},"assassin_bullet_block" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:assassin_bullet_block",
+    "spore:assassin_bullet_block2"
+  ]
+},"assassin_bullet_entity" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:assassin_bullet_entity",
+    "spore:assassin_bullet_entity2"
+  ]
+},"biogun_reload" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:biogun_reload"
+  ]
+},"biogun_hit_player" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:biogun_hitmark_player"
+  ]
 }
 
 }

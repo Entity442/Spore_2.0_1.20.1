@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "item": "spore:bucket_of_bile"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "item": "spore:bile_vial"
+  }
+}

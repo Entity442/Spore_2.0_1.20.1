@@ -1,13 +1,15 @@
 package com.Harbinger.Spore.Client;
 
-import com.Harbinger.Spore.Client.AnimationTrackers.PCIAnimationTracker;
-import com.Harbinger.Spore.Client.AnimationTrackers.SGAnimationTracker;
-import com.Harbinger.Spore.Client.AnimationTrackers.SGReloadAnimationTracker;
+import com.Harbinger.Spore.Client.AnimationTrackers.*;
 import com.Harbinger.Spore.Client.ArmorParts.ComplexHandModelItem;
+import com.Harbinger.Spore.ExtremelySusThings.Package.SporeGunFirePacket;
+import com.Harbinger.Spore.ExtremelySusThings.SporePacketHandler;
 import com.Harbinger.Spore.Sitems.CustomModelArmorData;
+import com.Harbinger.Spore.Sitems.Guns.AbstractSporeGun;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderHandEvent;
@@ -19,10 +21,17 @@ import net.minecraftforge.fml.common.Mod;
 public class SpecificClientEvents {
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
+        handleGunTrigger();
         if (event.phase == TickEvent.Phase.END) {
             PCIAnimationTracker.tickAll();
             SGAnimationTracker.tickAll();
             SGReloadAnimationTracker.tickAll();
+            MistMakerSawAnimationTracker.tickAll();
+            MistMakerShootAnimationTracker.tickAll();
+            BileBlasterShootAnimationTracker.tickAll();
+            BileBlasterReloadAnimationTracker.tickAll();
+            AssassinShootAnimationTracker.tickAll();
+            AssassinReloadAnimationTracker.tickAll();
         }
     }
     @SubscribeEvent
@@ -37,5 +46,34 @@ public class SpecificClientEvents {
             }
         }
     }
+    public static void handleGunTrigger() {
+        Minecraft mc = Minecraft.getInstance();
+        LocalPlayer player = mc.player;
 
+        if (player == null) return;
+
+        if (mc.options.keyAttack.isDown()) {
+
+            ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
+
+            if (stack.getItem() instanceof AbstractSporeGun gun) {
+
+                int shootDelay = getInt(stack, "ShootDelay");
+                int reloadDelay = getInt(stack, "ReloadDelay");
+
+                if (shootDelay <= 0 && reloadDelay <= 0
+                        && !player.getCooldowns().isOnCooldown(gun)) {
+
+                    SporePacketHandler.sendToServer(
+                            new SporeGunFirePacket(player.getId())
+                    );
+                }
+            }
+        }
+    }
+    private static int getInt(ItemStack stack, String key) {
+        return stack.getTag() != null && stack.getTag().contains(key)
+                ? stack.getTag().getInt(key)
+                : 0;
+    }
 }

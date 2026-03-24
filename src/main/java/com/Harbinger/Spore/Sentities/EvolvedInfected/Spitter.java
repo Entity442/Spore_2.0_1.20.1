@@ -128,7 +128,7 @@ public class Spitter extends EvolvedInfected implements RangedAttackMob, Variant
             case 2 -> shootBile(dx, dy, dz);
             case 3 -> shootCloseOrFar(target, dist, true);
             case 4 -> AcidBall.shoot(this, target,
-                    (float) (SConfig.SERVER.spit_damage_l.get() * SConfig.SERVER.global_damage.get()) * 2);
+                    (float) (SConfig.SERVER.spit_damage_l.get() * SConfig.SERVER.global_damage.get()) * 1.5f);
             default -> shootCloseOrFar(target, dist, false);
         }
     }

@@ -1,0 +1,20 @@
+{
+  "type": "spore:surgery",
+  "ingredients": [
+    { "slot": 2, "item": "spore:tumor" },
+    { "slot": 3, "item": "spore:voracious_reagent" },
+    { "slot": 5, "item": "spore:spine" },
+    { "slot": 6, "item": "spore:amalgamated_heart" },
+    { "slot": 7, "item": "spore:reforged_biomass_t" },
+    { "slot": 8, "item": "spore:spine" },
+    { "slot": 9, "item": "spore:innards" },
+    { "slot": 10, "item": "spore:innards" },
+    { "slot": 11, "item": "spore:reforged_biomass_w" },
+    { "slot": 12, "item": "spore:plated_muscle" },
+    { "slot": 13, "item": "spore:plated_muscle" },
+    { "slot": 14, "item": "spore:reforged_biomass_a" }
+  ],
+  "output": {
+    "item": "spore:mistmaker"
+  }
+}

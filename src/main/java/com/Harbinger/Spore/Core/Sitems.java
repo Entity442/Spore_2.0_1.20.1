@@ -4,6 +4,9 @@ import com.Harbinger.Spore.Sitems.*;
 import com.Harbinger.Spore.Sitems.Agents.*;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeArmorMutations;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsMutations;
+import com.Harbinger.Spore.Sitems.Guns.AcidicAssasin;
+import com.Harbinger.Spore.Sitems.Guns.BileBlaster;
+import com.Harbinger.Spore.Sitems.Guns.MistMaker;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -427,6 +430,12 @@ public class Sitems {
             InfectedRapier::new);
     public  static final RegistryObject<Item> SHIELD = ITEMS.register("shield",
             InfectedShield::new);
+    public  static final RegistryObject<Item> MISTMAKER = ITEMS.register("mistmaker",
+            MistMaker::new);
+    public  static final RegistryObject<Item> BILE_BLASTER = ITEMS.register("bile_blaster",
+            BileBlaster::new);
+    public  static final RegistryObject<Item> ACIDIC_ASSASSIN = ITEMS.register("acidic_assassin",
+            AcidicAssasin::new);
     public  static final RegistryObject<Item> VIGIL_EYE = ITEMS.register("vigil_eye",
             VigilEye::new);
     public  static final RegistryObject<Item> SYMBIOTIC_REAGENT = ITEMS.register("symbiotic_reagent",
@@ -549,6 +558,10 @@ public class Sitems {
             SharpeningAgent::new);
     public  static final RegistryObject<Item> INTEGRATING_AGENT = ITEMS.register("integrating_agent",
             ConnectingAgent::new);
+    public  static final RegistryObject<Item> BILE_VIAL = ITEMS.register("bile_vial",
+            () -> new BaseItem2(new Item.Properties()));
+    public  static final RegistryObject<Item> ACID_VIAL = ITEMS.register("acid_vial",
+            () -> new BaseItem2(new Item.Properties()));
     public  static final RegistryObject<Item> MUTATION_SYRINGE = ITEMS.register("mutation_syringe",
             MutationSyringe::new);
     public  static final RegistryObject<Item> SYRINGE = ITEMS.register("syringe",

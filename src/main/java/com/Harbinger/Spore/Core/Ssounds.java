@@ -318,6 +318,36 @@ public class Ssounds {
     public static final RegistryObject<SoundEvent> REAPER_HARVEST = soundRegistry("reaper_harvest");
 
     public static final RegistryObject<SoundEvent> REAPER_COMPOST = soundRegistry("reaper_compost");
+
+    public static final RegistryObject<SoundEvent> BIOGUN_NO_AMMO = soundRegistry("biogun_out_of_ammo");
+
+    public static final RegistryObject<SoundEvent> MISTMAKER_BITE = soundRegistry("mistmaker_bite");
+
+    public static final RegistryObject<SoundEvent> MISTMAKER_BULLET_BLOCK = soundRegistry("mistmaker_bullet_block");
+
+    public static final RegistryObject<SoundEvent> MISTMAKER_BULLET_ENTITY = soundRegistry("mistmaker_bullet_entity");
+
+    public static final RegistryObject<SoundEvent> MISTMAKER_DEPLOY = soundRegistry("mistmaker_deploy");
+
+    public static final RegistryObject<SoundEvent> MISTMAKER_RETRACT = soundRegistry("mistmaker_retract");
+
+    public static final RegistryObject<SoundEvent> MISTMAKER_SHOT = soundRegistry("mistmaker_shot");
+
+    public static final RegistryObject<SoundEvent> BILE_BLASTER_SHOT = soundRegistry("bile_blaster_shot");
+
+    public static final RegistryObject<SoundEvent> BILE_BLASTER_BULLET_BLOCK = soundRegistry("bile_blaster_bullet_block");
+
+    public static final RegistryObject<SoundEvent> BILE_BLASTER_BULLET_ENTITY = soundRegistry("bile_blaster_bullet_entity");
+
+    public static final RegistryObject<SoundEvent> ASSASSIN_SHOT = soundRegistry("assassin_shot");
+
+    public static final RegistryObject<SoundEvent> ASSASSIN_BULLET_BLOCK = soundRegistry("assassin_bullet_block");
+
+    public static final RegistryObject<SoundEvent> ASSASSIN_BULLET_ENTITY = soundRegistry("assassin_bullet_entity");
+
+    public static final RegistryObject<SoundEvent> BIOGUN_RELOAD = soundRegistry("biogun_reload");
+
+    public static final RegistryObject<SoundEvent> BIOGUN_HIT_PLAYER = soundRegistry("biogun_hit_player");
     private Ssounds() {
     }
 }
