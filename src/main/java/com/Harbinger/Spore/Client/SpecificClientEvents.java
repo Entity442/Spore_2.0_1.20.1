@@ -6,6 +6,7 @@ import com.Harbinger.Spore.ExtremelySusThings.Package.SporeGunFirePacket;
 import com.Harbinger.Spore.ExtremelySusThings.SporePacketHandler;
 import com.Harbinger.Spore.Sitems.CustomModelArmorData;
 import com.Harbinger.Spore.Sitems.Guns.AbstractSporeGun;
+import com.Harbinger.Spore.Sitems.Guns.AcidicAssasin;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -13,6 +14,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderHandEvent;
+import net.minecraftforge.client.event.ViewportEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -75,5 +77,18 @@ public class SpecificClientEvents {
         return stack.getTag() != null && stack.getTag().contains(key)
                 ? stack.getTag().getInt(key)
                 : 0;
+    }
+    @SubscribeEvent
+    public static void onFovUpdate(ViewportEvent.ComputeFov event) {
+        Minecraft mc = Minecraft.getInstance();
+        LocalPlayer player = mc.player;
+        if (player == null) return;
+        ItemStack stack = player.getMainHandItem();
+        if (stack.getItem() instanceof AcidicAssasin) {
+            if (player.isShiftKeyDown()) {
+                float zoomMultiplier = 0.4f;
+                event.setFOV(event.getFOV() * zoomMultiplier);
+            }
+        }
     }
 }

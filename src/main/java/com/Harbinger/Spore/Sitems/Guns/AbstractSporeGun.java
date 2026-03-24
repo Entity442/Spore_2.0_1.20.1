@@ -190,8 +190,9 @@ public abstract class AbstractSporeGun extends BaseItem implements GunHeldItem, 
                     .withStyle(ChatFormatting.LIGHT_PURPLE));
         }
         if (Screen.hasShiftDown()){
-            tooltip.add(Component.literal(Component.translatable("spore.item.stomach").getString() + stomach).withStyle(ChatFormatting.DARK_GREEN));
-            if (getVariant(stack) != SporeToolsMutations.DEFAULT) {
+            if (needsToReload()){
+                tooltip.add(Component.literal(Component.translatable("spore.item.stomach").getString() + stomach).withStyle(ChatFormatting.DARK_GREEN));
+            }if (getVariant(stack) != SporeToolsMutations.DEFAULT) {
                 tooltip.add(Component.literal(Component.translatable("spore.item.mutation").getString() + Component.translatable(getVariant(stack).getName()).getString()));
             }
         }else {
