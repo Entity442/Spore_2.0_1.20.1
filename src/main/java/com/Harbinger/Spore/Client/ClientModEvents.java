@@ -185,6 +185,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(ReaperModel.LAYER_LOCATION, ReaperModel::createBodyLayer);
         event.registerLayerDefinition(ForlornHowlerModel.LAYER_LOCATION, ForlornHowlerModel::createBodyLayer);
         event.registerLayerDefinition(SwarmerHowlerModel.LAYER_LOCATION, SwarmerHowlerModel::createBodyLayer);
+        event.registerLayerDefinition(ringerVigilModel.LAYER_LOCATION, ringerVigilModel::createBodyLayer);
 
         event.registerLayerDefinition(BombFunnelModel.LAYER_LOCATION, BombFunnelModel::createBodyLayer);
         event.registerLayerDefinition(MushroomExplosionTop.LAYER_LOCATION, MushroomExplosionTop::createBodyLayer);
