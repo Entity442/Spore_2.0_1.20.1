@@ -437,6 +437,7 @@
   "entity.spore.gargoyle": "Gargoyle",
   "entity.spore.reaper": "Reaper",
   "entity.spore.inf_diseased_villager": "Infected Diseased Villager",
+  "entity.spore.arena_tendril": "Challenge Watcher",
 
   "spore.entity.variant.kidnapper" : "Kidnapper Mutation",
   "spore.entity.variant.kamikaze": "Kamikaze Mutation",
@@ -467,6 +468,8 @@
   "spore.entity.variant.triton" : "Triton Mutation",
   "spore.entity.variant.engorged" : "Engorged Mutation",
   "spore.entity.variant.ship" : "Galleon Mutation",
+  "spore.entity.variant.forlorn" : "Forlorn Mutation",
+  "spore.entity.variant.swarmer" : "Swarmer Mutation",
   "spore.scanner.danger.calamity" : "RUN",
   "spore.scanner.danger.hyper" : "Very High",
   "spore.scanner.danger.evolved" : "Medium-High",
