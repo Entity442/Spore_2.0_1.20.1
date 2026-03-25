@@ -28,6 +28,7 @@ import com.Harbinger.Spore.Sentities.Organoids.*;
 import com.Harbinger.Spore.Sentities.Projectile.*;
 import com.Harbinger.Spore.Sentities.Utility.*;
 import com.Harbinger.Spore.Sitems.BaseWeapons.*;
+import com.Harbinger.Spore.Sitems.Guns.AbstractSporeGun;
 import com.Harbinger.Spore.Sitems.PCI;
 import com.Harbinger.Spore.Sitems.SporeHorseArmor;
 import com.Harbinger.Spore.Spore;
@@ -74,7 +75,9 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.*;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.Event;
@@ -879,6 +882,23 @@ public class HandlerEvents {
 
         if (armor.getItem() instanceof SporeHorseArmor armorItem) {
             armorItem.onHorseArmorTick(armor, horse.level(), horse);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onAttack(AttackEntityEvent event) {
+        Player player = event.getEntity();
+
+        if (player.getMainHandItem().getItem() instanceof AbstractSporeGun) {
+            event.setCanceled(true);
+        }
+    }
+    @SubscribeEvent
+    public static void onLeftClickBlock(PlayerInteractEvent.LeftClickBlock event) {
+        Player player = event.getEntity();
+
+        if (player.getMainHandItem().getItem() instanceof AbstractSporeGun) {
+            event.setCanceled(true);
         }
     }
 }
