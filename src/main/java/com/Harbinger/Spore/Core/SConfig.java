@@ -2051,7 +2051,7 @@ public class SConfig {
                     Lists.newArrayList("spore:brot","spore:grober","spore:reaper","spore:saugling","spore:inquisitor","spore:hevoker","spore:gastgaber","spore:hvendicator","spore:biobloob" ,"spore:wendigo","spore:ogre" , "spore:specter","spore:plagued","spore:lacerator","spore:inf_construct") , o -> o instanceof String);
             this.drops= builder.defineList("Items that may drop at the end of the raid",
                     Lists.newArrayList("spore:fleshy_bone","spore:hardened_bind","spore:fleshy_claw" ,"spore:living_core" , "spore:spine","spore:armor_plate","spore:plated_muscle","spore:altered_spleen","spore:corrosive_sack","spore:sickle_fragment","spore:vigil_eye","spore:symbiotic_reagent"
-                            ,"spore:cryogenic_reagent","spore:gastric_reagent","spore:corrosive_reagent","spore:serrated_reagent","spore:voracious_reagent","spore:calcified_tumor","spore:frozen_tumor","spore:sicken_tumor","spore:bile_tumor") , o -> o instanceof String);
+                            ,"spore:cryogenic_reagent","spore:flesh_horse_armor","spore:plated_horse_armor","spore:living_horse_armor","spore:gastric_reagent","spore:corrosive_reagent","spore:serrated_reagent","spore:voracious_reagent","spore:calcified_tumor","spore:frozen_tumor","spore:sicken_tumor","spore:bile_tumor") , o -> o instanceof String);
             builder.pop();
         }
     }
