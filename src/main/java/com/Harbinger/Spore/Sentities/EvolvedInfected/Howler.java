@@ -220,6 +220,7 @@ public class Howler extends EvolvedInfected implements VariantKeeper, ArmorPerse
             Illusion entityType = new Illusion(Sentities.ILLUSION.get(), level);
             entityType.teleportRelative(caster.getX() + dx, caster.getY() + 0.5D + dy, caster.getZ() + dz);
             entityType.setTargetId(target == null ? 0 : target.getId());
+            entityType.setSeeAble(false);
             entityType.finalizeSpawn(
                     levelAccessor,
                     level.getCurrentDifficultyAt(BlockPos.containing(caster.position())),
