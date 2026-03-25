@@ -2,13 +2,16 @@ package com.Harbinger.Spore.Sentities.EvolvedInfected;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
+import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.ArmorPersentageBypass;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
+import com.Harbinger.Spore.Sentities.BasicInfected.Bairn;
 import com.Harbinger.Spore.Sentities.Carrier;
+import com.Harbinger.Spore.Sentities.Utility.Illusion;
 import com.Harbinger.Spore.Sentities.VariantKeeper;
 import com.Harbinger.Spore.Sentities.Variants.HowlerVariants;
 import net.minecraft.Util;
@@ -138,8 +141,17 @@ public class Howler extends EvolvedInfected implements VariantKeeper, ArmorPerse
             if (target instanceof Infected infected) {
                 infected.addEffect(new MobEffectInstance(Seffects.MARKER.get(), 400, 0));
             } else if (target instanceof Player player) {
-                player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 100, 0));
-                player.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 200, 0));
+                if (getVariant() == HowlerVariants.FORLORN){
+                    player.addEffect(new MobEffectInstance(Seffects.UNEASY.get(), 3600, 0));
+                    player.addEffect(new MobEffectInstance(Seffects.MADNESS.get(), 3600, 1));
+                }
+                if (getVariant() == HowlerVariants.SWARMER){
+                    player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 100, 0));
+                    player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 200, 1));
+                }else {
+                    player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 100, 0));
+                    player.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 200, 0));
+                }
             }
         }
     }
@@ -198,6 +210,41 @@ public class Howler extends EvolvedInfected implements VariantKeeper, ArmorPerse
             }
         }
     }
+    public void SummonSpecialScream(LivingEntity caster,LivingEntity target) {
+        ServerLevelAccessor levelAccessor = (ServerLevelAccessor) caster.level();
+        Level level = caster.level();
+        int dx = random.nextInt(-8, 9);
+        int dz = random.nextInt(-8, 9);
+        int dy = random.nextInt(0, 2);
+        if (getVariant() == HowlerVariants.FORLORN) {
+            Illusion entityType = new Illusion(Sentities.ILLUSION.get(), level);
+            entityType.teleportRelative(caster.getX() + dx, caster.getY() + 0.5D + dy, caster.getZ() + dz);
+            entityType.setTargetId(target == null ? 0 : target.getId());
+            entityType.finalizeSpawn(
+                    levelAccessor,
+                    level.getCurrentDifficultyAt(BlockPos.containing(caster.position())),
+                    MobSpawnType.MOB_SUMMONED,
+                    null,
+                    null
+            );
+            level.addFreshEntity(entityType);
+            this.playSound(Ssounds.HOWLER_GROWL.get());
+        }
+        if (getVariant() == HowlerVariants.SWARMER) {
+            Bairn entityType = new Bairn(Sentities.BAIRN.get(), level);
+            entityType.teleportRelative(caster.getX() + dx, caster.getY() + 0.5D + dy, caster.getZ() + dz);
+            entityType.finalizeSpawn(
+                    levelAccessor,
+                    level.getCurrentDifficultyAt(BlockPos.containing(caster.position())),
+                    MobSpawnType.MOB_SUMMONED,
+                    null,
+                    null
+            );
+            level.addFreshEntity(entityType);
+            this.playSound(Ssounds.HOWLER_GROWL.get());
+        }
+    }
+
     public void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(DATA_ID_TYPE_VARIANT, 0);
@@ -265,9 +312,22 @@ public class Howler extends EvolvedInfected implements VariantKeeper, ArmorPerse
                     ScreamBuffInfected(mob);
                 } else {
                     boolean skulk = ModList.get().isLoaded("sculkhorde");
-                    int summons =skulk ? random.nextInt(3, 9): random.nextInt(1, 3);
+                    int summons;
+                    if (skulk){
+                        summons = random.nextInt(3, 9);
+                    }else if (getVariant() == HowlerVariants.SWARMER){
+                        summons = random.nextInt(4, 7);
+                    }else if (getVariant() == HowlerVariants.FORLORN){
+                        summons = random.nextInt(3, 5);
+                    }else {
+                        summons = random.nextInt(1, 3);
+                    }
                     for (int i = 0; i < summons; i++) {
-                        SummonScream(mob,isSkulk,skulk);
+                        if (getVariant() == HowlerVariants.SWARMER || getVariant() == HowlerVariants.FORLORN){
+                            SummonSpecialScream(mob,target);
+                        }else {
+                            SummonScream(mob,isSkulk,skulk);
+                        }
                     }
                 }
                 if (this.mob.getVariant() == HowlerVariants.SONIC){

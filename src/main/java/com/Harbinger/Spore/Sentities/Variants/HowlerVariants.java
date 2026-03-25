@@ -6,7 +6,9 @@ import java.util.Comparator;
 public enum HowlerVariants {
     DEFAULT(0,"default"),
     BANSHEE(1,"spore.entity.variant.banshee"),
-    SONIC(2,"spore.entity.variant.sonic");
+    SONIC(2,"spore.entity.variant.sonic"),
+    FORLORN(3,"spore.entity.variant.forlorn"),
+    SWARMER(4,"spore.entity.variant.swarmer");
 
     private static final HowlerVariants[] BY_ID = Arrays.stream(values()).sorted(Comparator.
             comparingInt(HowlerVariants::getId)).toArray(HowlerVariants[]::new);
