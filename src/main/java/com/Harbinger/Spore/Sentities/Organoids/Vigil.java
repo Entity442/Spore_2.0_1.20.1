@@ -1,9 +1,8 @@
 package com.Harbinger.Spore.Sentities.Organoids;
 
 import com.Harbinger.Spore.Core.*;
-import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
-import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
-import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
+import com.Harbinger.Spore.ExtremelySusThings.Utilities;
+import com.Harbinger.Spore.Sentities.BaseEntities.*;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Busser;
 import com.Harbinger.Spore.Sentities.Signal;
 import com.Harbinger.Spore.Sentities.Utility.ScentEntity;
@@ -20,6 +19,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
@@ -42,6 +42,7 @@ import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.block.entity.SignText;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
@@ -359,6 +360,63 @@ public class Vigil extends Organoid implements TraceableEntity, VariantKeeper {
 
         }
     }
+    private static class WatcherMobCall extends Goal{
+        private final Vigil vigil;
+        private int timer;
+
+        private WatcherMobCall(Vigil vigil) {
+            this.vigil = vigil;
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity living = vigil.getTarget();
+            return this.vigil.tickCount % 40 == 0  && living != null && checkForInfected(living) && vigil.getVariant() == VigilVariants.RINGER;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return timer < 200;
+        }
+
+        boolean checkForInfected(Entity entity){
+            AABB boundingBox = entity.getBoundingBox().inflate(16);
+            List<Entity> entities = entity.level().getEntities(entity, boundingBox ,EntitySelector.NO_CREATIVE_OR_SPECTATOR);
+            for (Entity en : entities) {
+                if (en instanceof Infected){
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        @Override
+        public void start() {
+            super.start();
+            Level level = vigil.level();
+            AABB aabb = this.vigil.getBoundingBox().inflate(64);
+            List<Infected> infecteds = level.getEntitiesOfClass(Infected.class,aabb,entity -> {return !(entity instanceof Hyper || entity instanceof Experiment);});
+            BlockPos pos = vigil.getOnPos();
+            Vec3 position = vigil.position();
+            boolean above = level.canSeeSky(pos);
+            for (Infected infected : infecteds){
+                Vec3 vec3 = Utilities.generatePositionAway(position,30);
+                infected.randomTeleport(vec3.x,vec3.y,vec3.z,false);
+                if (above){
+                    infected.teleportToSurface(vigil.level(),infected);
+                }
+                infected.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,200,0));
+                infected.setSearchPos(pos);
+            }
+            vigil.playSound(SoundEvents.BELL_RESONATE);
+        }
+
+        @Override
+        public void tick() {
+            super.tick();
+            timer++;
+        }
+    }
 
     private static class WatcherMobSummon extends Goal{
         private final Vigil vigil;
@@ -369,10 +427,11 @@ public class Vigil extends Organoid implements TraceableEntity, VariantKeeper {
 
         @Override
         public boolean canUse() {
-            if (this.vigil.getWaveSize() > 0){
+            if (this.vigil.getWaveSize() > 0 || vigil.getVariant() == VigilVariants.RINGER){
                 return false;
             }
-            return this.vigil.random.nextInt(100) == 0  && this.vigil.getTarget() != null && checkForInfected(this.vigil.getTarget());
+            LivingEntity living = vigil.getTarget();
+            return this.vigil.tickCount % 40 == 0  && living != null && checkForInfected(living);
         }
         boolean checkForInfected(Entity entity){
             AABB boundingBox = entity.getBoundingBox().inflate(16);
@@ -475,6 +534,7 @@ public class Vigil extends Organoid implements TraceableEntity, VariantKeeper {
         this.addTargettingGoals();
         this.goalSelector.addGoal(2 ,new WatchTargetGoat(this));
         this.goalSelector.addGoal(2 ,new WatcherMobSummon(this));
+        this.goalSelector.addGoal(2 ,new WatcherMobCall(this));
         this.goalSelector.addGoal(3 ,new RandomLookAroundGoal(this));
         super.registerGoals();
     }

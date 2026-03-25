@@ -6,7 +6,8 @@ import java.util.Comparator;
 public enum VigilVariants {
     DEFAULT(0,"default"),
     STALKER(1,"spore.entity.variant.stalker"),
-    TROLL(2,"spore.entity.variant.troll");
+    TROLL(2,"spore.entity.variant.troll"),
+    RINGER(2,"spore.entity.variant.ringer");
 
     private static final VigilVariants[] BY_ID = Arrays.stream(values()).sorted(Comparator.
             comparingInt(VigilVariants::getId)).toArray(VigilVariants[]::new);

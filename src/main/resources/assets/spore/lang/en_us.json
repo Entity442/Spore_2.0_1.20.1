@@ -470,6 +470,7 @@
   "spore.entity.variant.ship" : "Galleon Mutation",
   "spore.entity.variant.forlorn" : "Forlorn Mutation",
   "spore.entity.variant.swarmer" : "Swarmer Mutation",
+  "spore.entity.variant.ringer" : "Ringer Mutation",
   "spore.scanner.danger.calamity" : "RUN",
   "spore.scanner.danger.hyper" : "Very High",
   "spore.scanner.danger.evolved" : "Medium-High",
