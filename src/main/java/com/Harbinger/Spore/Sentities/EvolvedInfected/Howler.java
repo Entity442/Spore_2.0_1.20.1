@@ -136,19 +136,15 @@ public class Howler extends EvolvedInfected implements VariantKeeper, ArmorPerse
     public void ScreamAOE(Entity origin) {
         AABB area = origin.getBoundingBox().inflate(12);
         List<Entity> targets = origin.level().getEntities(origin, area, EntitySelector.NO_CREATIVE_OR_SPECTATOR);
-
         for (Entity target : targets) {
-            if (target instanceof Infected infected) {
-                infected.addEffect(new MobEffectInstance(Seffects.MARKER.get(), 400, 0));
-            } else if (target instanceof Player player) {
-                if (getVariant() == HowlerVariants.FORLORN){
+            if (target instanceof Player player) {
+                if (getVariant() == HowlerVariants.FORLORN) {
                     player.addEffect(new MobEffectInstance(Seffects.UNEASY.get(), 3600, 0));
                     player.addEffect(new MobEffectInstance(Seffects.MADNESS.get(), 3600, 1));
-                }
-                if (getVariant() == HowlerVariants.SWARMER){
+                } else if (getVariant() == HowlerVariants.SWARMER) {
                     player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 100, 0));
                     player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 200, 1));
-                }else {
+                } else {
                     player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 100, 0));
                     player.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 200, 0));
                 }
@@ -272,6 +268,9 @@ public class Howler extends EvolvedInfected implements VariantKeeper, ArmorPerse
             if (entity instanceof Infected && !(SConfig.SERVER.support.get().contains(entity.getEncodeId()) || entity instanceof Carrier)) {
                 return true;
             }
+            if (entity instanceof Illusion && this.getVariant() == HowlerVariants.FORLORN){
+                return true;
+            }
         }
         return false;
     }
@@ -308,8 +307,8 @@ public class Howler extends EvolvedInfected implements VariantKeeper, ArmorPerse
             if (dist > 120.0D) {
                 mob.getNavigation().moveTo(target, speed);
             } else if (screamTimer <= 0) {
+                ScreamAOE(mob);
                 if (checkForInfected(mob)) {
-                    ScreamAOE(mob);
                     ScreamBuffInfected(mob);
                 } else {
                     boolean skulk = ModList.get().isLoaded("sculkhorde");
