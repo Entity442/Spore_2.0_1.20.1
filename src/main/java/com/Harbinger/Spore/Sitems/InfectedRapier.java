@@ -4,14 +4,9 @@ import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Sitems.BaseWeapons.DamagePiercingModifier;
 import com.Harbinger.Spore.Sitems.BaseWeapons.SporeSwordBase;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 public class InfectedRapier extends SporeSwordBase implements DamagePiercingModifier {
     public InfectedRapier() {
@@ -26,9 +21,8 @@ public class InfectedRapier extends SporeSwordBase implements DamagePiercingModi
     }
 
     @Override
-    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
-        components.add(Component.translatable("item.rapier.corrosive").withStyle(ChatFormatting.GREEN));
-        super.appendHoverText(itemStack, level, components, flag);
+    protected ChatFormatting getDesColor() {
+        return ChatFormatting.GREEN;
     }
 
     @Override

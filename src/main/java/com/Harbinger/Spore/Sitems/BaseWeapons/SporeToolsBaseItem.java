@@ -156,9 +156,14 @@ public class SporeToolsBaseItem extends BaseItem implements IForgeItem ,SporeWea
             if (getVariant(stack) != SporeToolsMutations.DEFAULT){
                 components.add(Component.literal(Component.translatable("spore.item.mutation").getString()+Component.translatable(getVariant(stack).getName()).getString()));
             }
-            components.add(Component.translatable("spore.item.desc."+desc));
+            components.add(Component.translatable("spore.item.desc."+desc).withStyle(getDesColor()));
+        }else {
+            components.add(Component.translatable("item.armor.normal").withStyle(ChatFormatting.GOLD));
         }
 
+    }
+    protected ChatFormatting getDesColor(){
+        return ChatFormatting.RED;
     }
 
     @Override

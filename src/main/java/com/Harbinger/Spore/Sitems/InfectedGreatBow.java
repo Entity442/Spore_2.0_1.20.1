@@ -166,7 +166,9 @@ public class InfectedGreatBow extends BowItem implements SporeWeaponData {
             if (getVariant(stack) != SporeToolsMutations.DEFAULT){
                 components.add(Component.literal(Component.translatable("spore.item.mutation").getString()+Component.translatable(getVariant(stack).getName()).getString()));
             }
-            components.add(Component.translatable("spore.item.desc."+"bow"));
+            components.add(Component.translatable("spore.item.desc."+"bow").withStyle(ChatFormatting.RED));
+        }else {
+            components.add(Component.translatable("item.armor.normal").withStyle(ChatFormatting.GOLD));
         }
 
     }
