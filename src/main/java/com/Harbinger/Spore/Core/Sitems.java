@@ -145,7 +145,7 @@ public class Sitems {
                     .effect(()-> new MobEffectInstance(MobEffects.SLOW_FALLING,300,1),1f).meat().build())));
     public  static final RegistryObject<Item> BIOMASS_BACON = ITEMS.register("biomass_bacon",
             () -> new BaseItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(0.5F).effect(()-> new MobEffectInstance(Seffects.MYCELIUM.get(),200,0),0.4f)
-                    .effect(()-> new MobEffectInstance(MobEffects.SATURATION,300,1),1f).meat().build())));
+                    .effect(()-> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE,300,0),1f).meat().build())));
     public  static final RegistryObject<Item> TENDON_GUM = ITEMS.register("tendon_gum",
             () -> new BaseItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(1F).effect(()-> new MobEffectInstance(Seffects.MYCELIUM.get(),200,0),0.4f)
                     .effect(()-> new MobEffectInstance(MobEffects.JUMP,300,1),1f).meat().build())));

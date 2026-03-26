@@ -195,6 +195,13 @@ public abstract class AbstractSporeGun extends BaseItem implements GunHeldItem, 
             }if (getVariant(stack) != SporeToolsMutations.DEFAULT) {
                 tooltip.add(Component.literal(Component.translatable("spore.item.mutation").getString() + Component.translatable(getVariant(stack).getName()).getString()));
             }
+            if (getAdditionalDamage(stack) > 0){
+                tooltip.add(Component.literal(Component.translatable("spore.item.damage_increase").getString() + getAdditionalDamage(stack) + "%"));
+            }if (getMaxAdditionalDurability(stack) > 0){
+                tooltip.add(Component.literal(Component.translatable("spore.item.durability_increase").getString()+ getMaxAdditionalDurability(stack) + "%"));
+            }if (getAdditionalDurability(stack) > 0){
+                tooltip.add(Component.literal(Component.translatable("spore.item.additional_durability").getString()+ getAdditionalDurability(stack)));
+            }
         }else {
             tooltip.add(Component.translatable("item.armor.normal").withStyle(ChatFormatting.GOLD));
         }

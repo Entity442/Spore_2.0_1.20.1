@@ -112,7 +112,7 @@ public class Slasher extends EvolvedInfected implements ArmorPersentageBypass, V
         }
         if (this.getVariant() == SlasherVariants.SMASHER && entity instanceof LivingEntity livingEntity){
             livingEntity.hurtMarked = true;
-            livingEntity.knockback((4f),  Mth.sin(this.getYRot() * ((float) Math.PI / 180F)), (double) (-Mth.cos(this.getYRot() * ((float) Math.PI / 180F))));
+            livingEntity.knockback((2f),  Mth.sin(this.getYRot() * ((float) Math.PI / 180F)), (double) (-Mth.cos(this.getYRot() * ((float) Math.PI / 180F))));
         }
         if (this.getVariant() == SlasherVariants.GRABBER && entity instanceof LivingEntity livingEntity){
             if (!level().isClientSide && Math.random() <0.15){

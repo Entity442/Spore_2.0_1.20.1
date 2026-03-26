@@ -158,14 +158,14 @@ public class Hvindicator extends Hyper implements RangedAttackMob {
         float reduction = 1.0f;
         reduction = hasLeftSkull() ? reduction - 0.1f : reduction;
         reduction = hasRightSkull() ? reduction - 0.1f : reduction;
-        if (source.is(DamageTypeTags.IS_PROJECTILE) && Math.random() < 0.75f) {
+        if (source.is(DamageTypeTags.IS_PROJECTILE) && Math.random() < 0.5f) {
             if (!this.level().isClientSide()) {
                 this.playSound(SoundEvents.SHIELD_BLOCK);
                 this.level().broadcastEntityEvent(this, (byte) 5);
             }
             return false;
         }
-        if (source.getEntity() != null && Math.random() < 0.3f) {
+        if (source.getEntity() != null && Math.random() < 0.15f) {
             if (!this.level().isClientSide()) {
                 this.level().broadcastEntityEvent(this, (byte) 5);
             }
