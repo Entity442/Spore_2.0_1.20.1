@@ -70,8 +70,10 @@ public abstract class AbstractGunProjectile extends AbstractArrow implements Spo
     @Override
     protected void onHitEntity(EntityHitResult result) {
         Entity target = result.getEntity();
+        CalamityMultipart severedPart = null;
         if (target instanceof CalamityMultipart multipart){
             target = multipart.getParent();
+            severedPart = multipart;
         }
         if (target instanceof LivingEntity living && this.getOwner() instanceof LivingEntity owner) {
             float calculations =  living.getMaxHealth() * getProDamage();
@@ -79,7 +81,11 @@ public abstract class AbstractGunProjectile extends AbstractArrow implements Spo
             if (calculations > damage){
                 damage = calculations;
             }
-            living.hurt(level().damageSources().mobProjectile(this,owner),damage);
+            if (severedPart == null){
+                living.hurt(level().damageSources().mobProjectile(this,owner),damage);
+            }else {
+                severedPart.hurt(level().damageSources().mobProjectile(this,owner),damage);
+            }
             doHitAfterEffects(living,owner);
             if (living instanceof Player && owner instanceof Player player){
                 player.playNotifySound(Ssounds.BIOGUN_HIT_PLAYER.get(), SoundSource.MASTER,1,1);

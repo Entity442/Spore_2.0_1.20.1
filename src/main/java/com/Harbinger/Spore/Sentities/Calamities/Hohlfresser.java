@@ -116,17 +116,13 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
     @Override
     public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
         super.onSyncedDataUpdated(key);
-        if (ORES.equals(key)){
+        if (ORES.equals(key) && !getAdaptation()){
             if (getOres() > 50 && getKills() > 50){
                 entityData.set(ADAPTED,true);
-            }
-        }
-        if (ADAPTED.equals(key)){
-            refreshDimensions();
-            AttributeInstance health = this.getAttribute(Attributes.MAX_HEALTH);
-            AttributeInstance armor = this.getAttribute(Attributes.ARMOR);
-            AttributeInstance damage = this.getAttribute(Attributes.ATTACK_DAMAGE);
-            if (getAdaptation()){
+                refreshDimensions();
+                AttributeInstance health = this.getAttribute(Attributes.MAX_HEALTH);
+                AttributeInstance armor = this.getAttribute(Attributes.ARMOR);
+                AttributeInstance damage = this.getAttribute(Attributes.ATTACK_DAMAGE);
                 if (health != null){
                     health.setBaseValue(health.getValue()*2);
                 }
