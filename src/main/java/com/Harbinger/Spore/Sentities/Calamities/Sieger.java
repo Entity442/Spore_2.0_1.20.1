@@ -320,12 +320,9 @@ public class Sieger extends Calamity implements RangedAttackMob, TrueCalamity {
 
     public boolean hurt(CalamityMultipart calamityMultipart, DamageSource source, float value) {
         if (calamityMultipart == this.tail || calamityMultipart == this.tail2){
-            if (this.getTailHp() > 0 && value > this.getTailHp()){
-                this.playSound(Ssounds.LIMB_SLASH.get());
-                SummonDetashedTail();
-            }
             this.hurt(source,this.isAdapted() ? value:value * 2);
-            this.setTailHp(value > this.getTailHp() ? 0 : this.getTailHp() - value);
+            float lostHealth = getTailHp()-this.getDamageAfterArmorAbsorb(source,value);
+            this.setTailHp(lostHealth > 0 ? lostHealth : getTailHp() != 0 ? SummonDetashedTail() : 0f);
         }if (calamityMultipart == this.head){
             this.hurt(source,value * 0.75f);
         }else{
@@ -350,12 +347,14 @@ public class Sieger extends Calamity implements RangedAttackMob, TrueCalamity {
     }
 
 
-    private void SummonDetashedTail(){
+    private float SummonDetashedTail(){
         SiegerTail siegerTail = new SiegerTail(Sentities.SIEGER_TAIL.get(),this.level());
         Vec3 vec3 = (new Vec3(-1.7D, 0.0D, 0.0D)).yRot(-this.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
         siegerTail.setWar(this.isAdapted());
         siegerTail.moveTo(this.getX() + vec3.x, this.getY() + 1.6,this.getZ()+ vec3.z);
         this.level().addFreshEntity(siegerTail);
+        this.playSound(Ssounds.LIMB_SLASH.get());
+        return 0;
     }
 
     @Override
