@@ -186,13 +186,14 @@ public class Gargoyl extends EvolvedInfected implements FlyingInfected, ArmedInf
         @Override
         public boolean canUse() {
             target = gargoyle.getTarget();
-            return target != null && target.isAlive() && gargoyle.distanceTo(target) < 32;
+            return target != null && target.isAlive() && gargoyle.distanceTo(target) < 32 && !target.isInWater();
         }
 
         @Override
         public void start(){
             state = 0;
         }
+
 
         @Override
         public void tick(){
@@ -246,5 +247,13 @@ public class Gargoyl extends EvolvedInfected implements FlyingInfected, ArmedInf
             state = 0;
             target = null;
         }
+    }
+
+    @Override
+    public boolean hasLineOfSight(Entity entity) {
+        if (entity.isInWater()){
+            return false;
+        }
+        return super.hasLineOfSight(entity);
     }
 }
