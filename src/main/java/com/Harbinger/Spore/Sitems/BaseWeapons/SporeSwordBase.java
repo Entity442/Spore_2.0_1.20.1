@@ -12,8 +12,8 @@ import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
 
 public class SporeSwordBase extends SporeToolsBaseItem{
-    public SporeSwordBase(double meleeDamage, double meleeReach, double meleeRecharge, int durability) {
-        super(meleeDamage, meleeReach, meleeRecharge, durability, 1);
+    public SporeSwordBase(double meleeDamage, double meleeReach, double meleeRecharge, int durability,String desc) {
+        super(meleeDamage, meleeReach, meleeRecharge, durability, 1,desc);
     }
 
     public boolean canAttackBlock(BlockState state, Level level, BlockPos pos, Player player) {

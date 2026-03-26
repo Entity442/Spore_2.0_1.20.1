@@ -27,8 +27,8 @@ import java.util.Optional;
 
 public class SporeAxeItems extends SporeDiggerTools{
     protected static final ImmutableMap STRIPPABLES;
-    public SporeAxeItems(double meleeDamage, double meleeReach, double meleeRecharge, int durability, int miningLevel) {
-        super(meleeDamage, meleeReach, meleeRecharge, durability, miningLevel, BlockTags.MINEABLE_WITH_AXE);
+    public SporeAxeItems(double meleeDamage, double meleeReach, double meleeRecharge, int durability, int miningLevel,String desc) {
+        super(meleeDamage, meleeReach, meleeRecharge, durability, miningLevel,desc, BlockTags.MINEABLE_WITH_AXE);
     }
 
     public InteractionResult useOn(UseOnContext context) {

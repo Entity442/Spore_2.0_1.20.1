@@ -18,7 +18,7 @@ public class InfectedGreatSword extends SporeSwordBase {
     private final UUID BONUS_ARMOR_MODIFIER_UUID = UUID.fromString("6d8794d2-25bc-41ad-8da7-1d2ce0818d75");
     private final UUID BONUS_TOUGHNESS_MODIFIER_UUID = UUID.fromString("69df05bf-4f50-47eb-9108-a55dc2673144");
     public InfectedGreatSword() {
-        super(SConfig.SERVER.greatsword_damage.get(), 2.5f, 3F, SConfig.SERVER.greatsword_durability.get());
+        super(SConfig.SERVER.greatsword_damage.get(), 2.5f, 3F, SConfig.SERVER.greatsword_durability.get(),"greatsword");
     }
 
 

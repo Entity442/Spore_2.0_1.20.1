@@ -52,8 +52,10 @@ import java.util.function.Predicate;
 public class InfectedCrossbow extends CrossbowItem implements SporeWeaponData {
     private boolean startSoundPlayed = false;
     private boolean midLoadSoundPlayed = false;
+    private final String desc;
     public InfectedCrossbow() {
         super(new Item.Properties().durability(SConfig.SERVER.crossbow_durability.get()));
+        this.desc = "crossbow";
         Sitems.BIOLOGICAL_ITEMS.add(this);
         Sitems.TINTABLE_ITEMS.add(this);
     }
@@ -398,6 +400,7 @@ public class InfectedCrossbow extends CrossbowItem implements SporeWeaponData {
             if (getVariant(stack) != SporeToolsMutations.DEFAULT){
                 components.add(Component.literal(Component.translatable("spore.item.mutation").getString()+Component.translatable(getVariant(stack).getName()).getString()));
             }
+            components.add(Component.translatable("spore.item.desc."+desc));
         }
     }
 

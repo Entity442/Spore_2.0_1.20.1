@@ -44,15 +44,17 @@ public class SporeToolsBaseItem extends BaseItem implements IForgeItem ,SporeWea
     protected final double meleeReach;
     protected final double meleeRecharge;
     protected final int miningLevel;
+    protected final String desc;
     protected final UUID BONUS_DAMAGE_MODIFIER_UUID = UUID.fromString("035e66d6-5a74-402f-b64c-e61432ec39ba");
     protected final UUID BONUS_REACH_MODIFIER_UUID = UUID.fromString("d8c35ba5-f440-4335-92b2-3c8b1b703706");
     protected final UUID BONUS_RECHARGE_MODIFIER_UUID = UUID.fromString("6dee499d-60f9-4f91-9ae9-fa62f285cc24");
-    public SporeToolsBaseItem(double meleeDamage, double meleeReach, double meleeRecharge, int durability, int miningLevel) {
+    public SporeToolsBaseItem(double meleeDamage, double meleeReach, double meleeRecharge, int durability, int miningLevel, String desc) {
         super(new Item.Properties().stacksTo(1).durability(durability));
         this.meleeDamage = meleeDamage;
         this.meleeReach = meleeReach;
         this.meleeRecharge = meleeRecharge;
         this.miningLevel = miningLevel;
+        this.desc = desc;
         Sitems.TINTABLE_ITEMS.add(this);
     }
 
@@ -154,6 +156,7 @@ public class SporeToolsBaseItem extends BaseItem implements IForgeItem ,SporeWea
             if (getVariant(stack) != SporeToolsMutations.DEFAULT){
                 components.add(Component.literal(Component.translatable("spore.item.mutation").getString()+Component.translatable(getVariant(stack).getName()).getString()));
             }
+            components.add(Component.translatable("spore.item.desc."+desc));
         }
 
     }

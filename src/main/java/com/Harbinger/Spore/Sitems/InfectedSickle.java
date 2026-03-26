@@ -37,7 +37,7 @@ public class InfectedSickle extends SporeSwordBase {
     private static final String SICKLE_THROWN = "sickle_thrown";
     private static final String THROWN = "thrown";
     public InfectedSickle() {
-        super(SConfig.SERVER.sickle_damage.get(), 2f, 2, SConfig.SERVER.sickle_durability.get());
+        super(SConfig.SERVER.sickle_damage.get(), 2f, 2, SConfig.SERVER.sickle_durability.get(),"sickle");
     }
 
     @Override

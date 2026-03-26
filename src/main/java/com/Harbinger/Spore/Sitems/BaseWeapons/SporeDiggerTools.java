@@ -20,8 +20,8 @@ import java.util.List;
 
 public class SporeDiggerTools extends SporeToolsBaseItem{
     protected final TagKey<Block> blocks;
-    public SporeDiggerTools(double meleeDamage, double meleeReach, double meleeRecharge, int durability, int miningLevel, TagKey<Block> blocks) {
-        super(meleeDamage, meleeReach, meleeRecharge, durability, miningLevel);
+    public SporeDiggerTools(double meleeDamage, double meleeReach, double meleeRecharge, int durability, int miningLevel,String desc, TagKey<Block> blocks) {
+        super(meleeDamage, meleeReach, meleeRecharge, durability, miningLevel,desc);
         this.blocks = blocks;
     }
     @Override

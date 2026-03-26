@@ -29,7 +29,7 @@ import java.util.List;
 public class InfectedCleaver extends SporeSwordBase implements DeathRewardingWeapon {
     private final List<EnAndItem> heads;
     public InfectedCleaver() {
-        super(SConfig.SERVER.cleaver_damage.get(), 2.5f, 3F, SConfig.SERVER.cleaver_durability.get());
+        super(SConfig.SERVER.cleaver_damage.get(), 2.5f, 3F, SConfig.SERVER.cleaver_durability.get(),"cleaver");
         this.heads = getHeads();
     }
     @Override

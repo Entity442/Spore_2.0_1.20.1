@@ -11,7 +11,7 @@ import net.minecraft.world.level.Level;
 
 public class InfectedHalbert extends SporeAxeItems {
     public InfectedHalbert() {
-        super(SConfig.SERVER.halberd_damage.get(), 4.5, 3.2, SConfig.SERVER.halberd_durability.get(), 3);
+        super(SConfig.SERVER.halberd_damage.get(), 4.5, 3.2, SConfig.SERVER.halberd_durability.get(), 3,"halbert");
     }
 
     @Override
