@@ -146,6 +146,9 @@ public class SporeMusicPlayer {
             if (battleMusicTicks <= 0){
                 battleMusic = SongVariantsPerEntity.getVariant(id).getName();
             }
+            if (currentMusic.isStopped() && oldMusic != null){
+                currentMusic = new SporeMusicInstance(oldMusic);
+            }
             battleMusicTicks = 200;
             return;
         }
