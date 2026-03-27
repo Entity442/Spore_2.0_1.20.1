@@ -431,7 +431,7 @@ public class Vigil extends Organoid implements TraceableEntity, VariantKeeper {
                 return false;
             }
             LivingEntity living = vigil.getTarget();
-            return this.vigil.tickCount % 40 == 0  && living != null && checkForInfected(living);
+            return this.vigil.tickCount % 10 == 0  && living != null && checkForInfected(living);
         }
         boolean checkForInfected(Entity entity){
             AABB boundingBox = entity.getBoundingBox().inflate(16);

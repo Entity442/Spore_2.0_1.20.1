@@ -348,6 +348,47 @@ public class Ssounds {
     public static final RegistryObject<SoundEvent> BIOGUN_RELOAD = soundRegistry("biogun_reload");
 
     public static final RegistryObject<SoundEvent> BIOGUN_HIT_PLAYER = soundRegistry("biogun_hit_player");
+
+
+
+    public static final RegistryObject<SoundEvent> BANE_OF_SETTLEMENT = soundRegistry("bane_of_settlement");
+    public static final RegistryObject<SoundEvent> BICENTENNIAL = soundRegistry("bicentennial");
+    public static final RegistryObject<SoundEvent> BROKEN_REFLECTION = soundRegistry("broken_reflection");
+    public static final RegistryObject<SoundEvent> CYCLE_OF_EVOLUTION = soundRegistry("cycle_of_evolution");
+    public static final RegistryObject<SoundEvent> DECAY = soundRegistry("decay");
+    public static final RegistryObject<SoundEvent> DESOLATION = soundRegistry("desolation");
+    public static final RegistryObject<SoundEvent> ENDLESS_FEAST = soundRegistry("endless_feast");
+    public static final RegistryObject<SoundEvent> FALL_OF_MAN = soundRegistry("fall_of_man");
+    public static final RegistryObject<SoundEvent> INSOLENCE = soundRegistry("insolence");
+    public static final RegistryObject<SoundEvent> INSOLENCE_INTRO = soundRegistry("insolence_intro");
+    public static final RegistryObject<SoundEvent> MANMADE_HORRORS = soundRegistry("manmade_horrors");
+    public static final RegistryObject<SoundEvent> MENTAL_MUTILATION = soundRegistry("mental_mutilation");
+    public static final RegistryObject<SoundEvent> MYCONAUT = soundRegistry("myconaut");
+    public static final RegistryObject<SoundEvent> MYCONOCLAST = soundRegistry("myconoclast");
+    public static final RegistryObject<SoundEvent> MYCOPHOBIA = soundRegistry("mycophobia");
+    public static final RegistryObject<SoundEvent> NATURAL_OCCURANCE = soundRegistry("natural_occurance");
+    public static final RegistryObject<SoundEvent> NEUROGENESIS = soundRegistry("neurogenesis");
+    public static final RegistryObject<SoundEvent> NOURISHMENT = soundRegistry("nourishment");
+    public static final RegistryObject<SoundEvent> ONCE_HERE = soundRegistry("once_here");
+    public static final RegistryObject<SoundEvent> PROJECT_REGENESIS = soundRegistry("project_regenesis");
+    public static final RegistryObject<SoundEvent> PROTOTYPE = soundRegistry("prototype");
+    public static final RegistryObject<SoundEvent> RECLAIMATION = soundRegistry("reclaimation");
+    public static final RegistryObject<SoundEvent> REPURPOSED = soundRegistry("repurposed");
+    public static final RegistryObject<SoundEvent> RESTLESS_REACH = soundRegistry("restless_reach");
+    public static final RegistryObject<SoundEvent> ROADS_ONCE_TRAVELLED = soundRegistry("roads_once_travelled");
+    public static final RegistryObject<SoundEvent> ROT = soundRegistry("rot");
+    public static final RegistryObject<SoundEvent> SLEEPLESS_DREAMING = soundRegistry("sleepless_dreaming");
+    public static final RegistryObject<SoundEvent> SOMETHING_ONCE_GREAT = soundRegistry("something_once_great");
+    public static final RegistryObject<SoundEvent> SPORE_BURST_SONG = soundRegistry("spore_burst_song");
+    public static final RegistryObject<SoundEvent> START_ANEW = soundRegistry("start_anew");
+    public static final RegistryObject<SoundEvent> SYNAPTIC_RELAPSE = soundRegistry("synaptic_relapse");
+    public static final RegistryObject<SoundEvent> THE_SOIL_TALKS = soundRegistry("the_soil_talks");
+    public static final RegistryObject<SoundEvent> THEY_AWAKEN = soundRegistry("they_awaken");
+    public static final RegistryObject<SoundEvent> THEY_GROW_BELOW = soundRegistry("they_grow_below");
+    public static final RegistryObject<SoundEvent> THEY_LISTEN = soundRegistry("they_listen");
+    public static final RegistryObject<SoundEvent> VIRULENT_VIGIL = soundRegistry("virulent_vigil");
+    public static final RegistryObject<SoundEvent> WHISPERS = soundRegistry("whispers");
+    public static final RegistryObject<SoundEvent> WHAT_WE_BECOME = soundRegistry("what_we_become");
     private Ssounds() {
     }
 }

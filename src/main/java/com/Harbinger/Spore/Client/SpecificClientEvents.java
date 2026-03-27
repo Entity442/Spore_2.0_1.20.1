@@ -2,6 +2,9 @@ package com.Harbinger.Spore.Client;
 
 import com.Harbinger.Spore.Client.AnimationTrackers.*;
 import com.Harbinger.Spore.Client.ArmorParts.ComplexHandModelItem;
+import com.Harbinger.Spore.Client.MusicManager.MenuMusicPlayer;
+import com.Harbinger.Spore.Client.MusicManager.SporeMusicPlayer;
+import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.ExtremelySusThings.Package.SporeGunFirePacket;
 import com.Harbinger.Spore.ExtremelySusThings.SporePacketHandler;
 import com.Harbinger.Spore.Sitems.CustomModelArmorData;
@@ -9,6 +12,7 @@ import com.Harbinger.Spore.Sitems.Guns.AbstractSporeGun;
 import com.Harbinger.Spore.Sitems.Guns.AcidicAssasin;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
@@ -34,6 +38,16 @@ public class SpecificClientEvents {
             BileBlasterReloadAnimationTracker.tickAll();
             AssassinShootAnimationTracker.tickAll();
             AssassinReloadAnimationTracker.tickAll();
+            Minecraft mc = Minecraft.getInstance();
+            if (SConfig.SERVER.disable_vanilla.get()){
+                Minecraft.getInstance().getMusicManager().stopPlaying();
+            }
+            if (!SConfig.SERVER.disable_system.get()){
+                SporeMusicPlayer.tickMusic();
+            }
+            if (mc.screen instanceof TitleScreen && SConfig.SERVER.menu_song.get()) {
+                MenuMusicPlayer.tick();
+            }
         }
     }
     @SubscribeEvent

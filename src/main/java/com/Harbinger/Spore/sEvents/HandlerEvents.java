@@ -2,14 +2,12 @@ package com.Harbinger.Spore.sEvents;
 
 import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Damage.SdamageTypes;
-import com.Harbinger.Spore.ExtremelySusThings.ChunkLoadRequest;
-import com.Harbinger.Spore.ExtremelySusThings.ChunkLoaderHelper;
+import com.Harbinger.Spore.ExtremelySusThings.*;
 import com.Harbinger.Spore.ExtremelySusThings.CustomJsonReader.SporeConversionData;
 import com.Harbinger.Spore.ExtremelySusThings.CustomJsonReader.SporeConversionReloadListener;
 import com.Harbinger.Spore.ExtremelySusThings.CustomJsonReader.SporeMobConversionData;
 import com.Harbinger.Spore.ExtremelySusThings.CustomJsonReader.SporeMobConversionReloadListener;
-import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
-import com.Harbinger.Spore.ExtremelySusThings.Utilities;
+import com.Harbinger.Spore.ExtremelySusThings.Package.SongInitializingPacket;
 import com.Harbinger.Spore.SBlockEntities.CDUBlockEntity;
 import com.Harbinger.Spore.SBlockEntities.LivingStructureBlocks;
 import com.Harbinger.Spore.Sentities.ArmorPersentageBypass;
@@ -42,6 +40,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.players.PlayerList;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.TagKey;
@@ -92,7 +91,7 @@ import java.util.*;
 public class HandlerEvents {
     private static int tickCounter = 0;
     private static final int CHECK_INTERVAL = 1200; // 60 seconds
-
+    private static int val;
     @SubscribeEvent
     public static void onServerTick(TickEvent.ServerTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
@@ -108,6 +107,26 @@ public class HandlerEvents {
                 }
             }
             tickCounter = 0;
+        }
+        int i = 20 * 60 * SConfig.SERVER.time_song_trigger.get();
+        val++;
+        if (val % i == 0){
+            if (!SConfig.SERVER.ambient_song.get() || SConfig.SERVER.disable_system.get()){
+                val = 0;
+                return;
+            }
+            PlayerList players = event.getServer().getPlayerList();
+            if (players.getPlayers().isEmpty()){
+                return;
+            }else {
+                for (Player player : players.getPlayers()){
+                    if (player instanceof ServerPlayer serverPlayer){
+                        boolean postProto = !SporeSavedData.getHiveminds().isEmpty();
+                        SporePacketHandler.sendToClient(new SongInitializingPacket(-1,false,postProto),serverPlayer);
+                    }
+                }
+            }
+            val = 0;
         }
     }
 
@@ -872,6 +891,23 @@ public class HandlerEvents {
                     player.playSound(Ssounds.AREA_AMBIENT.get());
                 }
             }
+        }
+        if (!(event.getEntity() instanceof Mob mob))
+            return;
+
+        if (!(mob.getTarget() instanceof ServerPlayer player))
+            return;
+
+        if (mob.tickCount % 20 != 0)
+            return;
+        if (mob instanceof Calamity){
+            SporePacketHandler.sendToClient(new SongInitializingPacket(0, true, true), player);
+        }
+        if (mob instanceof Vanguard){
+            SporePacketHandler.sendToClient(new SongInitializingPacket(1, true, true), player);
+        }
+        if (mob instanceof Vigil){
+            SporePacketHandler.sendToClient(new SongInitializingPacket(2, true, true), player);
         }
     }
     @SubscribeEvent

@@ -630,6 +630,13 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Integer> kami_busser_explosion;
         public final ForgeConfigSpec.ConfigValue<Integer> volatile_explosion;
 
+        public final ForgeConfigSpec.ConfigValue<Integer> time_song_trigger;
+        public final ForgeConfigSpec.ConfigValue<Boolean> menu_song;
+        public final ForgeConfigSpec.ConfigValue<Boolean> encounter_songs;
+        public final ForgeConfigSpec.ConfigValue<Boolean> ambient_song;
+        public final ForgeConfigSpec.ConfigValue<Boolean> disable_vanilla;
+        public final ForgeConfigSpec.ConfigValue<Boolean> disable_system;
+
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> howler_effects_buff;
 
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> mycelium;
@@ -663,7 +670,14 @@ public class SConfig {
             this.faw_target = builder.comment("Default true").define("Should there be a compatibility with FAW?",true);
             this.skulk_target = builder.comment("Default true").define("Should there be a compatibility with Sculk Infection?",true);
             builder.pop();
-
+            builder.push("Music System");
+            this.time_song_trigger = builder.define("Time before ambient songs start playing in minutes",7);
+            this.menu_song = builder.comment("Default true").define("Should we play songs in the minecraft menu?",true);
+            this.encounter_songs = builder.comment("Default true").define("Should we play songs in certain entity encounters?",true);
+            this.ambient_song = builder.comment("Default true").define("Should we play songs in the minecraft world?",true);
+            this.disable_vanilla = builder.comment("Default true").define("Turn off Vanilla music?",true);
+            this.disable_system = builder.comment("Default false").define("Turn off the system?",false);
+            builder.pop();
             builder.push("Griefing Parameters");
             this.calamity_bd = builder.define("The block breaking hardness of calamities",5);
             this.hyper_bd = builder.define("The block breaking hardness of hyper evolveds",3);

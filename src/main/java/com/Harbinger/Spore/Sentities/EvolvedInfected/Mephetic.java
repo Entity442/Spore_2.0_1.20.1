@@ -64,7 +64,13 @@ public class Mephetic extends EvolvedInfected implements RangedAttackMob {
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         super.registerGoals();
     }
-
+    @Override
+    public boolean addEffect(MobEffectInstance effectInstance, @org.jetbrains.annotations.Nullable Entity entity) {
+        if (effectInstance.getEffect().isBeneficial()){
+            return super.addEffect(effectInstance, entity);
+        }
+        return false;
+    }
     @Override
     public List<? extends String> getDropList() {
         return SConfig.DATAGEN.inf_mep_loot.get();

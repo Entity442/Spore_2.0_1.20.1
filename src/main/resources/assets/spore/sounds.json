@@ -1035,6 +1035,199 @@
   "sounds": [
     "spore:biogun_hitmark_player"
   ]
+},
+
+
+  "bane_of_settlement" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:events/bane_of_settlement"
+  ]
+},"bicentennial" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:pre_proto/bicentennial"
+  ]
+},"broken_reflection" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:post_proto/broken_reflection"
+  ]
+},"cycle_of_evolution" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:pre_proto/cycle_of_evolution"
+  ]
+},"decay" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:post_proto/decay"
+  ]
+},"desolation" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:pre_proto/desolation"
+  ]
+},"endless_feast" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:post_proto/endless_feast"
+  ]
+},"fall_of_man" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:pre_proto/fall_of_man"
+  ]
+},"insolence" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:events/insolence"
+  ]
+},"insolence_intro" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:events/insolence_intro"
+  ]
+},"manmade_horrors" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:pre_proto/manmade_horrors"
+  ]
+},"mental_mutilation" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:post_proto/mental_mutilation"
+  ]
+},"myconaut" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:post_proto/myconaut"
+  ]
+},"myconoclast" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:pre_proto/myconoclast"
+  ]
+},"mycophobia" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:events/mycophobia"
+  ]
+},"natural_occurance" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:post_proto/natural_occurance"
+  ]
+},"neurogenesis" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:post_proto/neurogenesis"
+  ]
+},"nourishment" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:pre_proto/nourishment"
+  ]
+},"once_here" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:events/once_here"
+  ]
+},"project_regenesis" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:pre_proto/project_regenesis"
+  ]
+},"prototype" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:post_proto/prototype"
+  ]
+},"reclaimation" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:pre_proto/reclaimation"
+  ]
+},"repurposed" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:post_proto/repurposed"
+  ]
+},"restless_reach" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:pre_proto/restless_reach"
+  ]
+},"roads_once_travelled" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:pre_proto/roads_once_travelled"
+  ]
+},"rot" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:post_proto/rot"
+  ]
+},"sleepless_dreaming" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:pre_proto/sleepless_dreaming"
+  ]
+},"something_once_great" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:post_proto/something_once_great"
+  ]
+},"spore_burst_song" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:post_proto/spore_burst"
+  ]
+},"start_anew" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:pre_proto/start_anew"
+  ]
+},"synaptic_relapse" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:post_proto/synaptic_relapse"
+  ]
+},"the_soil_talks" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:pre_proto/the_soil_talks"
+  ]
+},"they_awaken" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:pre_proto/they_awaken"
+  ]
+},"they_grow_below" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:pre_proto/they_grow_below"
+  ]
+},"they_listen" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:post_proto/they_listen"
+  ]
+},"virulent_vigil" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:events/virulent_vigil"
+  ]
+},"whispers" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:post_proto/whispers"
+  ]
+},"what_we_become" :{
+  "subtitle": "sounds.spore.song",
+  "sounds": [
+    "spore:post_proto/what_we_become"
+  ]
 }
 
 }

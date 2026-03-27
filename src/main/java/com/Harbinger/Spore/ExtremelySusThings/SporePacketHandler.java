@@ -57,6 +57,11 @@ public class SporePacketHandler {
                 .decoder(SporeGunFireSyncPacket::new)
                 .consumerMainThread(SporeGunFireSyncPacket::handle)
                 .add();
+        INSTANCE.messageBuilder(SongInitializingPacket.class, packetId.getAndIncrement())
+                .encoder(SongInitializingPacket::encode)
+                .decoder(SongInitializingPacket::new)
+                .consumerMainThread(SongInitializingPacket::handle)
+                .add();
     }
     public static <T> void sendToServer(T packet) {
         INSTANCE.sendToServer(packet);
