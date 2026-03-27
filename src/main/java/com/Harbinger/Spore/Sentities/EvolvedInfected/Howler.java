@@ -137,7 +137,7 @@ public class Howler extends EvolvedInfected implements VariantKeeper, ArmorPerse
         AABB area = origin.getBoundingBox().inflate(12);
         List<Entity> targets = origin.level().getEntities(origin, area, EntitySelector.NO_CREATIVE_OR_SPECTATOR);
         for (Entity target : targets) {
-            if (target instanceof Player player) {
+            if (target instanceof LivingEntity player && Utilities.TARGET_SELECTOR.Test(player)) {
                 if (getVariant() == HowlerVariants.FORLORN) {
                     player.addEffect(new MobEffectInstance(Seffects.UNEASY.get(), 3600, 0));
                     player.addEffect(new MobEffectInstance(Seffects.MADNESS.get(), 3600, 1));
