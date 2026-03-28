@@ -1,6 +1,5 @@
 package com.Harbinger.Spore.Sitems;
 
-import com.Harbinger.Spore.Core.Sblocks;
 import com.Harbinger.Spore.Sblocks.Cerebrum;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
