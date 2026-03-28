@@ -143,8 +143,14 @@ public class SporeMusicPlayer {
             return;
         }
         if (inCombat && id >= 0 && SConfig.SERVER.encounter_songs.get()) {
-            if (battleMusicTicks <= 0){
-                battleMusic = SongVariantsPerEntity.getVariant(id).getName();
+            SongVariantsPerEntity variants = SongVariantsPerEntity.getVariant(id);
+            if (battleMusicTicks <= 0 || (currentMusic != null && currentMusic.getTickCount() >= (variants.getDuration()-10))){
+                SoundEvent event = variants.getName();
+                if (currentMusic != null){
+                    currentMusic.fadeOut();
+                }
+                battleMusic = event;
+                playMusic(event);
             }
             battleMusicTicks = 200;
             return;
@@ -165,10 +171,10 @@ public class SporeMusicPlayer {
     // =========================================================
 
     public enum SongVariantsPerEntity {
-        CALAMITY(0, Ssounds.MYCOPHOBIA.get()),
-        VANGUARD(1, Ssounds.BANE_OF_SETTLEMENT.get()),
-        VIGIL(2, Ssounds.VIRULENT_VIGIL.get()),
-        PROTO(3, Ssounds.SOMETHING_ONCE_GREAT.get());
+        CALAMITY(0, Ssounds.MYCOPHOBIA.get(),2720),
+        VANGUARD(1, Ssounds.BANE_OF_SETTLEMENT.get(),1640),
+        VIGIL(2, Ssounds.VIRULENT_VIGIL.get(),2880),
+        PROTO(3, Ssounds.SOMETHING_ONCE_GREAT.get(),6000);
 
         private static final SongVariantsPerEntity[] BY_ID =
                 Arrays.stream(values())
@@ -177,11 +183,14 @@ public class SporeMusicPlayer {
 
         private final int id;
         private final SoundEvent name;
+        private final int duration;
 
-        SongVariantsPerEntity(int id, SoundEvent name) {
+        SongVariantsPerEntity(int id, SoundEvent name, int duration) {
             this.id = id;
             this.name = name;
+            this.duration = duration;
         }
+
 
         public SoundEvent getName() {
             return name;
@@ -189,6 +198,9 @@ public class SporeMusicPlayer {
 
         public int getId() {
             return id;
+        }
+        public int getDuration() {
+            return duration;
         }
 
         public static SongVariantsPerEntity byId(int id) {

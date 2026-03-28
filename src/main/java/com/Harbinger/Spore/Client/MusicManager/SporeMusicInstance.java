@@ -9,6 +9,7 @@ public class SporeMusicInstance extends AbstractTickableSoundInstance {
 
     private float targetVolume = 1f;
     private float fadeSpeed = 0.01f;
+    private int ticks;
     private static final RandomSource random = RandomSource.create();
     public SporeMusicInstance(SoundEvent sound) {
         super(sound, SoundSource.MUSIC,random);
@@ -40,5 +41,9 @@ public class SporeMusicInstance extends AbstractTickableSoundInstance {
         if (volume <= 0.001f && targetVolume == 0f) {
             stop();
         }
+        ticks++;
+    }
+    public int getTickCount(){
+        return ticks;
     }
 }
