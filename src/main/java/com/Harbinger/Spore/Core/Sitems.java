@@ -106,15 +106,15 @@ public class Sitems {
     public  static final RegistryObject<Item> REFORGED_BIOMASS_A = ITEMS.register("reforged_biomass_a",
             () -> new BaseItem(new Item.Properties()));
     public  static final RegistryObject<Item> ACIDIC_GLAND = ITEMS.register("acidic_gland",
-            () -> new BaseItem(new Item.Properties()));
+            () -> new OrganItem("spore.scanner.organ.acidic_gland","spore:anatomy_act_12"));
     public  static final RegistryObject<Item> AMALGAMATED_HEART = ITEMS.register("amalgamated_heart",
-            () -> new BaseItem(new Item.Properties()));
+            () -> new OrganItem("spore.scanner.organ.amalgamated_heart","spore:anatomy_act_11"));
     public  static final RegistryObject<Item> LIGAMENTS = ITEMS.register("ligaments",
-            () -> new BaseItem(new Item.Properties()));
+            () -> new OrganItem("spore.scanner.organ.ligaments","spore:anatomy_act_13"));
     public  static final RegistryObject<Item> FINS = ITEMS.register("fins",
-            () -> new BaseItem(new Item.Properties()));
+            () -> new OrganItem("spore.scanner.organ.fins","spore:anatomy_act_14"));
     public  static final RegistryObject<Item> HYPERBOLIZED_LIVER = ITEMS.register("hyperbolized_liver",
-            () -> new BaseItem(new Item.Properties()));
+            () -> new OrganItem("spore.scanner.organ.hyperbolized_liver","spore:anatomy_act_15"));
     public  static final RegistryObject<Item> RESPIRATOR = ITEMS.register("respirator",
             () -> new BaseItem(new Item.Properties()));
     public  static final RegistryObject<Item> SAUSAGE = ITEMS.register("sausage",
