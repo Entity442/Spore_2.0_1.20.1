@@ -12,6 +12,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -59,7 +60,7 @@ public interface CasingGenerator {
                         if (distance>radius-(thickness/2d) && distance<radius+(thickness/2d)){
                             BlockPos blockpos = pos.offset(i-radius,j-radius,k-radius);
                             BlockState blockstate = level.getBlockState(blockpos);
-                            if (Math.random() < 0.1 && !blockstate.isSolidRender(level,blockpos) && compare(level,blockpos)){
+                            if (Math.random() < 0.1 && !blockstate.isSolidRender(level,blockpos) && !blockstate.is(Blocks.BARRIER) && compare(level,blockpos)){
                                 if (!level.isClientSide){
                                     level.setBlock(blockpos,this.possibleBlocks().get(randomSource.nextInt(this.possibleBlocks().size())),3);
                                     if (Math.random() < 0.001){
