@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Client.Layers;
 import com.Harbinger.Spore.Client.ArmorModelList;
 import com.Harbinger.Spore.Client.ArmorParts.BaseArmorRenderingBit;
 import com.Harbinger.Spore.Client.ArmorParts.EnchantingPart;
+import com.Harbinger.Spore.Core.SConfig;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -20,6 +21,9 @@ public class CustomArmorLayer<E extends  LivingEntity,M extends HumanoidModel<E>
     }
     @Override
     public void render(PoseStack poseStack, MultiBufferSource buffer, int light, E entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float v5) {
+        if (SConfig.SERVER.armor_blacklist.get().contains(entity.getEncodeId())){
+            return;
+        }
         handleArmorPartsRendering(entity,poseStack,light,buffer,limbSwing,limbSwingAmount,ageInTicks,netHeadYaw,headPitch);
         handleArmorEnchantingPartsRendering(entity,poseStack,light,buffer,limbSwing,limbSwingAmount,ageInTicks,netHeadYaw,headPitch);
     }

@@ -636,7 +636,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Boolean> ambient_song;
         public final ForgeConfigSpec.ConfigValue<Boolean> disable_vanilla;
         public final ForgeConfigSpec.ConfigValue<Boolean> disable_system;
-
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> armor_blacklist;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> howler_effects_buff;
 
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> mycelium;
@@ -698,6 +698,9 @@ public class SConfig {
             this.teleport_hive = builder.comment("Default false").define("Move the hivemind to the surface once it forms?",false);
             this.damagecap = builder.comment("Default true").define("Should evolved and hyper have a damage cap on hard mode?",true);
             this.calamity_chunk = builder.comment("Default true").define("Should a calamity load chunks?",true);
+            this.armor_blacklist = builder.defineList("Mobs to not render spore armor on",
+                    Lists.newArrayList(
+                            "minecraft:zombie") , o -> o instanceof String);
             builder.pop();
             builder.push("Targeting Tasks");
             this.at_mob = builder.comment("Default true").define("Should attack other mobs?",true);
