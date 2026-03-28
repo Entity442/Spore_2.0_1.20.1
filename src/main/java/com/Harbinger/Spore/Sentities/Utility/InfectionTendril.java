@@ -26,6 +26,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -179,13 +180,19 @@ public class InfectionTendril extends UtilityEntity {
         if (this.isAlive() && this.entityData.get(LIFE)>0){
             this.entityData.set(LIFE, this.entityData.get(LIFE) - 1);
         }
-        if (this.getSearchArea() != BlockPos.ZERO && this.random.nextInt(40) == 0){
+        if (this.getSearchArea() != BlockPos.ZERO && this.tickCount % 40 == 0){
                 if ((Math.abs(this.getSearchArea().getX())  - Math.abs(this.getX()) < 6) && (Math.abs(this.getSearchArea().getZ())  - Math.abs(this.getZ()) < 6)){
                   teleport();
                 }
                 if (!this.onGround() && this.horizontalCollision && this.verticalCollision){
                     teleport();
                 }
+        }
+        if (this.tickCount % 40 == 0){
+            AABB aabb = this.getBoundingBox().inflate(8);
+            if (!level().getEntitiesOfClass(Player.class,aabb).isEmpty()){
+                discard();
+            }
         }
     }
 
