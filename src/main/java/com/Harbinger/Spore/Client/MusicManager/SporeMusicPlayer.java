@@ -138,7 +138,9 @@ public class SporeMusicPlayer {
 
     public static void handlePacket(boolean pro, int id, boolean inCombat) {
         if (pro && id == 3){
-            currentMusic = null;
+            if (currentMusic != null){
+                currentMusic.fadeOut();
+            }
             playMusic(Ssounds.SOMETHING_ONCE_GREAT.get());
             return;
         }
