@@ -57,7 +57,7 @@ public abstract class AbstractSyringe extends BaseItem2 {
 
     @Override
     public void releaseUsing(ItemStack stack, Level level, LivingEntity living, int value) {
-        if ((getUseDuration(stack) - value) > 40){
+        if ((getUseDuration(stack) - value) > 10){
             useSyringe(stack,living);
         }
         super.releaseUsing(stack, level, living, value);

@@ -54,6 +54,11 @@ public abstract class AbstractSporeGun extends BaseItem implements GunHeldItem, 
 
 
     @Override
+    public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
+        return true;
+    }
+
+    @Override
     public int getEnchantmentValue(ItemStack stack) {
         return getLuck(stack);
     }
