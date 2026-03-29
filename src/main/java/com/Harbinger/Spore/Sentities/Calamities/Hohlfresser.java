@@ -125,7 +125,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
     }
 
     public void setAdapted(boolean val){
-        if (val){
+        if (val && !getAdaptation()){
             AttributeInstance health = this.getAttribute(Attributes.MAX_HEALTH);
             AttributeInstance armor = this.getAttribute(Attributes.ARMOR);
             AttributeInstance damage = this.getAttribute(Attributes.ATTACK_DAMAGE);
