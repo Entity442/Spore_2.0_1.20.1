@@ -167,7 +167,7 @@ public abstract class AbstractSporeGun extends BaseItem implements GunHeldItem, 
                 return false;
             }
 
-            int value = (int)(food.getNutrition() + food.getSaturationModifier());
+            int value = (int)(food.getNutrition() + (10 * food.getSaturationModifier()));
 
             int newValue = needsToReload()
                     ? current + value
