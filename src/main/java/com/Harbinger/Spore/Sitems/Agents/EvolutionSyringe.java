@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
+import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
 import com.Harbinger.Spore.Sentities.EvolvingInfected;
 import com.Harbinger.Spore.Sentities.Organoids.Mound;
 import com.Harbinger.Spore.Sitems.BaseItem2;
@@ -48,6 +49,10 @@ public class EvolutionSyringe extends BaseItem2 {
         }
         if (living instanceof Calamity calamity && !calamity.getAdaptation()){
             calamity.ActivateAdaptation();
+            return InteractionResult.SUCCESS;
+        }
+        if (living instanceof Scamper scamper){
+            scamper.setAge(SConfig.SERVER.scamper_age.get());
             return InteractionResult.SUCCESS;
         }
         return super.interactLivingEntity(stack, player, living, hand);
