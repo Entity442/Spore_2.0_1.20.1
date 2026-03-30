@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class BaseBlockEntityRenderer<T extends BlockEntity & AnimatedEntity> implements BlockEntityRenderer<T>, BlockEntityRendererProvider<T> {
-    private final BlockEntityModel<T> model;
+    protected final BlockEntityModel<T> model;
     protected BaseBlockEntityRenderer(BlockEntityModel<T> model) {
         this.model = model;
     }

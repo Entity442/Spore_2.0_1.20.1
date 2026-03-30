@@ -239,7 +239,7 @@ public class Gargoyl extends EvolvedInfected implements FlyingInfected, ArmedInf
 
         @Override
         public boolean canContinueToUse(){
-            return state != 2;
+            return state != 2 && gargoyle.isAlive();
         }
 
         @Override
