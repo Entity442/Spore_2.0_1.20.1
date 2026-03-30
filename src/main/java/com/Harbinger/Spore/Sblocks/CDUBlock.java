@@ -69,7 +69,8 @@ public class CDUBlock extends BaseEntityBlock {
         }
         BlockState blockState = level.getBlockState(pos);
         if (blockState.equals(Sblocks.CDU.get().defaultBlockState())){
-            level.setBlock(pos,blockState.getBlock().defaultBlockState().setValue(LIT,true),3);
+            BlockState newstate = blockState.setValue(LIT,true);
+            level.setBlock(pos,newstate,3);
         }
     }
     public static boolean isCDUUsable(BlockPos pos,Level level){
