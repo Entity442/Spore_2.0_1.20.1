@@ -17,7 +17,7 @@ public class hohlfresserHeadModelAdapted<T extends Hohlfresser> extends EntityMo
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "hohlfresserheadmodeladapted"), "main");
 	private final ModelPart hohl_head;
-	private final ModelPart TrueHead;
+	public final ModelPart TrueHead;
 	private final ModelPart Inner;
 	private final ModelPart InnerRingBase;
 	private final ModelPart InnerRim;
@@ -68,7 +68,7 @@ public class hohlfresserHeadModelAdapted<T extends Hohlfresser> extends EntityMo
 	private final ModelPart Body;
 	private final ModelPart Front;
 	private final ModelPart bone;
-	private final ModelPart Middle;
+	public final ModelPart Middle;
 	private final ModelPart MiddleDetails;
 	private final ModelPart RidgeBodies;
 	private final ModelPart Body17;

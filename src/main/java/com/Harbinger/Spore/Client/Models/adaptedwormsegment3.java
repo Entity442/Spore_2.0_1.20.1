@@ -18,7 +18,7 @@ import net.minecraft.util.Mth;
 public class adaptedwormsegment3<T extends HohlMultipart> extends EntityModel<T> implements TentacledModel {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "adaptedwormsegment3"), "main");
-	private final ModelPart hohl_seg;
+	public final ModelPart hohl_seg;
 	private final ModelPart SegBase;
 	private final ModelPart Tumors;
 	private final ModelPart SpineSide;

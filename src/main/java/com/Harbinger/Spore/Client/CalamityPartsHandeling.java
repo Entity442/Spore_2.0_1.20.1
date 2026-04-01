@@ -26,6 +26,11 @@ public class CalamityPartsHandeling {
     private static final LeviathanModel<?> leviathanModel = new LeviathanModel<>();
     private static final LeviathanMiddleSegment<?> leviathanSegModel = new LeviathanMiddleSegment<>();
     private static final LeviathanTailModel<?> leviathanTailModel = new LeviathanTailModel<>();
+    private static final hohlfresserHeadModelAdapted<?> worm_ada_headModel = new hohlfresserHeadModelAdapted<>();
+    private static final adaptedwormsegment1<?> worm_ada_seg1Model = new adaptedwormsegment1<>();
+    private static final adaptedwormsegment2<?> worm_ada_seg2Model = new adaptedwormsegment2<>();
+    private static final adaptedwormsegment3<?> worm_ada_seg3Model = new adaptedwormsegment3<>();
+    private static final adaptedwormtail<?> worm_ada_tailModel = new adaptedwormtail<>();
     private static final ResourceLocation DEFAULT_SIEGER = new ResourceLocation(Spore.MODID,"textures/entity/sieger.png");
     private static final ResourceLocation ADAPTED_SIEGER = new ResourceLocation(Spore.MODID,"textures/entity/war_sieger.png");
     private static final ResourceLocation DEFAULT_GAZEN = new ResourceLocation(Spore.MODID,"textures/entity/gazen.png");
@@ -38,6 +43,10 @@ public class CalamityPartsHandeling {
     private static final ResourceLocation HOHL_SEG  = new ResourceLocation(Spore.MODID,"textures/entity/hohl/hohl_seg1.png");
     private static final ResourceLocation HOHL_SHARP_SEG  = new ResourceLocation(Spore.MODID,"textures/entity/hohl/hohl_seg2.png");
     private static final ResourceLocation HOHL_ORGAN_SEG  = new ResourceLocation(Spore.MODID,"textures/entity/hohl/hohl_seg3.png");
+    private static final ResourceLocation HOHL_ADAPTED =  new ResourceLocation(Spore.MODID, "textures/entity/hohl/hohl_head_adapted.png");
+    private static final ResourceLocation HOHL_SEG1_ADA =  new ResourceLocation(Spore.MODID, "textures/entity/hohl/adaptedwormsegment1.png");
+    private static final ResourceLocation HOHL_SEG2_ADA =  new ResourceLocation(Spore.MODID, "textures/entity/hohl/adaptedwormsegment2.png");
+    private static final ResourceLocation HOHL_SEG3_ADA =  new ResourceLocation(Spore.MODID, "textures/entity/hohl/adaptedwormsegment3.png");
     private static final ResourceLocation GRAKEN  = new ResourceLocation(Spore.MODID,"textures/entity/graken.png");
     private static final ResourceLocation STAHL  = new ResourceLocation(Spore.MODID,"textures/entity/stalh.png");
     private static final ResourceLocation LEVIATHAN  = new ResourceLocation(Spore.MODID,"textures/entity/leviathan.png");
@@ -98,6 +107,13 @@ public class CalamityPartsHandeling {
     public static final Part LEVI_RIGHT_JAW = new Part(44,List.of(leviathanModel.RightJaw),-1,-2,-1,0,0,90,LEVIATHAN,LEVIATHAN);
     public static final Part LEVI_LEFT_JAW = new Part(45,List.of(leviathanModel.LeftJaw),-1,-2,1,0,0,90,LEVIATHAN,LEVIATHAN);
 
+    public static final Part HOHL_ADA_JAW = new Part(46,List.of(worm_ada_headModel.TrueHead),-3.5f,0,0,-90,0,0,HOHL_ADAPTED,HOHL_ADAPTED);
+    public static final Part HOHL_ADA_HEAD = new Part(47,List.of(worm_ada_headModel.Middle),2.25f,0,0,-90,0,0,HOHL_ADAPTED,HOHL_ADAPTED);
+    public static final Part HOHL_ADA_SEG1 = new Part(48,List.of(worm_ada_seg1Model.hohl_seg),0,0.5f,0,0,0,0,HOHL_SEG1_ADA,HOHL_SEG1_ADA);
+    public static final Part HOHL_ADA_SEG2 = new Part(49,List.of(worm_ada_seg2Model.hohl_seg),0,0.5f,0,0,0,0,HOHL_SEG2_ADA,HOHL_SEG2_ADA);
+    public static final Part HOHL_ADA_SEG3 = new Part(50,List.of(worm_ada_seg3Model.hohl_seg),0,0.5f,0,0,0,0,HOHL_SEG3_ADA,HOHL_SEG3_ADA);
+    public static final Part HOHL_ADA_TAIL = new Part(51,List.of(worm_tailModel.tail),0,0,0.5f,0,0,0,HOHL_SEG1_ADA,HOHL_SEG1_ADA);
+
 
     public static Part getPart(int value){
         return getParts.stream().filter(p -> p.id == value).findFirst().orElse(SIEGER_BODY);
@@ -157,5 +173,12 @@ public class CalamityPartsHandeling {
         add(LEVI_TAIL);
         add(LEVI_RIGHT_JAW);
         add(LEVI_LEFT_JAW);
+
+        add(HOHL_ADA_JAW);
+        add(HOHL_ADA_HEAD);
+        add(HOHL_ADA_SEG1);
+        add(HOHL_ADA_SEG2);
+        add(HOHL_ADA_SEG3);
+        add(HOHL_ADA_TAIL);
     }};
 }

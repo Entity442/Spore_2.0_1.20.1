@@ -946,15 +946,16 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
     }
 
     private HitboxesForParts CalculateParts(HohlMultipart hohlMultipart){
+        boolean adapted = getAdaptation();
         if (hohlMultipart.isTail()){
-            return HitboxesForParts.HOHL_TAIL;
+            return adapted ? HitboxesForParts.HOHL_ADA_TAIL : HitboxesForParts.HOHL_TAIL;
         }
         if (hohlMultipart.getSegmentVariant() == HohlMultipart.SegmentVariants.MELEE){
-            return HitboxesForParts.HOHL_SEG2;
+            return adapted ? HitboxesForParts.HOHL_ADA_SEG2 : HitboxesForParts.HOHL_SEG2;
         }
         if (hohlMultipart.getSegmentVariant() == HohlMultipart.SegmentVariants.ORGAN){
-            return HitboxesForParts.HOHL_SEG3;
+            return adapted ? HitboxesForParts.HOHL_ADA_SEG3 : HitboxesForParts.HOHL_SEG3;
         }
-        return HitboxesForParts.HOHL_SEG1;
+        return adapted ? HitboxesForParts.HOHL_ADA_SEG1 : HitboxesForParts.HOHL_SEG1;
     }
 }
