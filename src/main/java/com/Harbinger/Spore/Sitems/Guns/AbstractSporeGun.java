@@ -207,6 +207,10 @@ public abstract class AbstractSporeGun extends BaseItem implements GunHeldItem, 
             }if (getAdditionalDurability(stack) > 0){
                 tooltip.add(Component.literal(Component.translatable("spore.item.additional_durability").getString()+ getAdditionalDurability(stack)));
             }
+            Component component = extraTips();
+            if (component != null){
+                tooltip.add(component);
+            }
         }else {
             tooltip.add(Component.translatable("item.armor.normal").withStyle(ChatFormatting.GOLD));
         }
@@ -218,7 +222,9 @@ public abstract class AbstractSporeGun extends BaseItem implements GunHeldItem, 
         int value = calculateDurabilityLostForMutations(1,stack);
         hurtTool(stack,player,value);
     }
-
+    public Component extraTips(){
+        return null;
+    }
     public void clientShoot(Player player, InteractionHand interactionHand) {
 
     }

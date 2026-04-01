@@ -8,6 +8,8 @@ import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.Projectile.GunProjectiles.AssassinBullet;
 import com.Harbinger.Spore.Sitems.CustomModelArmorData;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -80,5 +82,10 @@ public class AcidicAssasin extends AbstractSporeGun implements CustomModelArmorD
     @Override
     public ResourceLocation getTextureLocation() {
         return TEXTURE;
+    }
+
+    @Override
+    public Component extraTips() {
+        return Component.translatable("spore.item.desc.assassin").withStyle(ChatFormatting.GREEN);
     }
 }

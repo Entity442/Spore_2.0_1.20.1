@@ -1137,7 +1137,7 @@ public class SConfig {
             this.htumor_armor = builder.comment("Default 10").defineInRange("Sets Hivetumor Armor", 10, 1, Double.MAX_VALUE);
             this.htumor_damage = builder.comment("Default 10").defineInRange("Sets Hivetumor Melee damage", 10, 1, Double.MAX_VALUE);
             this.htumor_range = builder.comment("Default 128").defineInRange("Sets the linking range", 128, 1, Integer.MAX_VALUE);
-            this.htumor_timer = builder.comment("Default 21600").defineInRange("Time before it grows back into a hivemind", 21600, 1, Integer.MAX_VALUE);
+            this.htumor_timer = builder.comment("Default 1200").defineInRange("Time before it grows back into a hivemind", 1200, 1, Integer.MAX_VALUE);
             this.htumor_madness = builder.comment("Default true").define("Should the Hivetumor spread madness?",true);
             this.htumor_sapient_target = builder.defineList("Sentient Mobs targeted by the Hivetumor",
                     Lists.newArrayList("minecraft:villager","minecraft:pillager","guardvillagers:guard","minecraft:evoker","minecraft:vindicator",

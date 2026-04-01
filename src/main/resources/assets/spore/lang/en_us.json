@@ -531,7 +531,9 @@
   "spore.item.desc.shield": "When blocking damage, the shield builds up to a large shockwave attack.",
   "spore.item.desc.sickle": "Can be thrown and used like a grappling hook. Pulls enemies towards the wielder when damaging them.",
   "spore.item.desc.spear": "Can be thrown at enemies.",
-
+  "spore.item.desc.assassin": "An extremely powerful sniper rifle. Left clicking shoots an exceedingly fast acid glob that deals 50% true damage and inflicts Corrosion. Right click to reload with a Concentrated Acid Vial. Sneaking lets the wielder utilize the scope and zoom in their screen.",
+  "spore.item.desc.mistmaker": "A violent shotgun/chainsaw hybrid that reloads on the flesh of its enemies. Right click to deploy the chainsaw and utilize it to gain more ammo. Left click to fire a mass of gore bits.",
+  "spore.item.desc.bileblaster": "Similar to an assault rifle in its structure and fire rate. Left clicking shoots clumps of bile that inflict equally nasty effects. Right click to reload with a Concentrated Bile Vial",
   "entity.spore.thrown_tumor": "Tumor",
   "entity.spore.thrown_spear": "Infected Spear",
   "entity.spore.acid_ball": "Acid Ball",

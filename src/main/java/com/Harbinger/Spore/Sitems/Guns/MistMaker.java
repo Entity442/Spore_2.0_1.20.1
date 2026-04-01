@@ -7,6 +7,8 @@ import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.Projectile.GunProjectiles.GoreBullet;
 import com.Harbinger.Spore.Sitems.CustomModelArmorData;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -146,6 +148,10 @@ public class MistMaker extends AbstractSporeGun implements CustomModelArmorData 
             }
         }
         return super.use(level, player, hand);
+    }
+    @Override
+    public Component extraTips() {
+        return Component.translatable("spore.item.desc.mistmaker").withStyle(ChatFormatting.DARK_RED);
     }
 
     @Override
