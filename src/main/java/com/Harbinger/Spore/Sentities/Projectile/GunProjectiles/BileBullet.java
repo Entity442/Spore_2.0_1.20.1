@@ -36,7 +36,7 @@ public class BileBullet extends AbstractGunProjectile {
 
     @Override
     public float getProDamage() {
-        return 0.05f;
+        return 0.1f;
     }
 
 

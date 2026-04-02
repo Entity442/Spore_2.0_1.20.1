@@ -222,6 +222,7 @@ public class Bairn extends Infected implements VariantKeeper {
         this.Targetpos = pos;
     }
 
+
     @Override
     public @Nullable SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance p_21435_, MobSpawnType p_21436_, @Nullable SpawnGroupData p_21437_, @Nullable CompoundTag p_21438_) {
         BairnSkins variant = Util.getRandom(BairnSkins.values(), this.random);
@@ -338,12 +339,16 @@ public class Bairn extends Infected implements VariantKeeper {
     }
     @Override
     public boolean doHurtTarget(Entity entity) {
-        if (entity instanceof LivingEntity living && getVariant() == BairnSkins.HUSK){
-            living.addEffect(new MobEffectInstance(MobEffects.HUNGER,1200,0));
-        }
-        if (entity instanceof LivingEntity living && getVariant() == BairnSkins.ZOMBIE_VILLAGER){
-            living.addEffect(new MobEffectInstance(MobEffects.POISON,200,0));
-            living.addEffect(new MobEffectInstance(MobEffects.CONFUSION,200,0));
+        if (entity instanceof LivingEntity living){
+            if (getVariant() == BairnSkins.HUSK){
+                living.addEffect(new MobEffectInstance(MobEffects.HUNGER,1200,0));
+            }
+            if (getVariant() == BairnSkins.ZOMBIE_VILLAGER){
+                living.addEffect(new MobEffectInstance(MobEffects.POISON,200,0));
+                living.addEffect(new MobEffectInstance(MobEffects.CONFUSION,200,0));
+            }
+            living.hurtTime = 0;
+            living.invulnerableTime = 0;
         }
         return super.doHurtTarget(entity);
     }
