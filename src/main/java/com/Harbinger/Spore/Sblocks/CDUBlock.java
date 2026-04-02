@@ -93,7 +93,7 @@ public class CDUBlock extends BaseEntityBlock {
         BlockEntity entity = level.getBlockEntity(pos);
         if (!state.getValue(LIT)) {
             if (entity instanceof CDUBlockEntity blockEntity && blockEntity.getFuel() > 0) {
-                Vec3 localOffset = new Vec3(0.75, 10, 0.75);
+                Vec3 localOffset = new Vec3(0.75, 1, 0.75);
 
                 Vec3 rotated = rotateOffset(localOffset, state.getValue(FACING));
 

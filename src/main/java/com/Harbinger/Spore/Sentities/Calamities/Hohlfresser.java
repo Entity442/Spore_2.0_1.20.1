@@ -64,7 +64,6 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
     public static final EntityDataAccessor<Integer> VULNERABLE = SynchedEntityData.defineId(Hohlfresser.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Boolean> ADAPTED = SynchedEntityData.defineId(Hohlfresser.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> UNDERGROUND = SynchedEntityData.defineId(Hohlfresser.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Float> WORM_ANGLE = SynchedEntityData.defineId(Hohlfresser.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> ORES = SynchedEntityData.defineId(Hohlfresser.class, EntityDataSerializers.FLOAT);
     private float spin = 0;
     private HohlMultipart[] parts = null;
@@ -88,7 +87,6 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
         this.entityData.define(VULNERABLE, 0);
         this.entityData.define(CHILD_UUID, Optional.empty());
         this.entityData.define(CHILD_ID, -1);
-        this.entityData.define(WORM_ANGLE, 0f);
         this.entityData.define(ORES, 0f);
     }
     public float getSpin(){
@@ -249,12 +247,6 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
     public boolean hurt(CalamityMultipart calamityMultipart, DamageSource source, float value) {
         return this.hurt(source, value);
     }
-    public void setWormAngle(float angle){
-        this.entityData.set(WORM_ANGLE,angle);
-    }
-    public float getWormAngle(){
-        return entityData.get(WORM_ANGLE);
-    }
 
     @Override
     public int chemicalRange() {
@@ -328,6 +320,7 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
             if (tickCount % 20 == 0 && parts != null && getAdaptation()){
                 refreshDimensions();
                 float size = 1.2f;
+                AttributeInstance hostInstance = this.getAttribute(Attributes.MAX_HEALTH);
                 for(int i = 0;i<parts.length;i++){
                     size = size - 0.05f;
                     HohlMultipart hohlMultipart = parts[i];
@@ -335,6 +328,10 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
                     hohlMultipart.setAdapted(this.getAdaptation());
                     hohlMultipart.setSize(size * 1.4f);
                     hohlMultipart.setIsTail(isTail);
+                    AttributeInstance instance = hohlMultipart.getAttribute(Attributes.MAX_HEALTH);
+                    if (instance != null && hostInstance != null && instance.getValue() != hostInstance.getValue()){
+                        instance.setBaseValue(hostInstance.getBaseValue());
+                    }
                 }
             }
 

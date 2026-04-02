@@ -79,12 +79,6 @@ public class CDUBlockEntity extends BlockEntity implements MenuProvider,Animated
         }
         return 2;
     }
-    private boolean setInfested(BlockState state){
-        if (state.getBlock().getStateDefinition().getProperty("facing") instanceof BooleanProperty directionProperty){
-            return state.getValue(directionProperty);
-        }
-        return false;
-    }
 
     public static void clientTick(Level level, BlockPos pos, BlockState state, CDUBlockEntity cduBlockEntity) {
         cduBlockEntity.ticks++;
