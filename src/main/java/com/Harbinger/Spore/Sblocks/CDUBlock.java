@@ -88,21 +88,43 @@ public class CDUBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void animateTick(BlockState state, Level level, BlockPos blockPos, RandomSource randomSource) {
-        super.animateTick(state, level, blockPos, randomSource);
-        BlockEntity entity = level.getBlockEntity(blockPos);
-        if (!state.getValue(LIT)){
-            if (entity instanceof CDUBlockEntity blockEntity && blockEntity.getFuel() > 0){
-                for (int i = 0; i < 360; i++) {
-                    if (i % 20 == 0) {
-                        double yy = Math.sin(i) * Math.cos(i) * 0.25d;
-                        level.addParticle(ParticleTypes.SNOWFLAKE,
-                                blockPos.getX()+0.47, blockPos.getY() + 1, blockPos.getZ()+0.47,
-                                Math.cos(i) * 0.15d, yy, Math.sin(i) * 0.15d);
-                    }
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        super.animateTick(state, level, pos, random);
+        BlockEntity entity = level.getBlockEntity(pos);
+        if (!state.getValue(LIT)) {
+            if (entity instanceof CDUBlockEntity blockEntity && blockEntity.getFuel() > 0) {
+                Vec3 localOffset = new Vec3(0.75, 10, 0.75);
+
+                Vec3 rotated = rotateOffset(localOffset, state.getValue(FACING));
+
+                double px = pos.getX() + rotated.x;
+                double py = pos.getY() + rotated.y;
+                double pz = pos.getZ() + rotated.z;
+
+                for (int i = 0; i < 360; i += 20) {
+                    double yy = Math.sin(i) * Math.cos(i) * 0.25d;
+                    level.addParticle(
+                            ParticleTypes.SNOWFLAKE,
+                            px, py, pz,
+                            Math.cos(i) * 0.15d,
+                            yy,
+                            Math.sin(i) * 0.15d
+                    );
                 }
             }
         }
+    }
+    public static Vec3 rotateOffset(Vec3 offset, Direction facing) {
+        double x = offset.x;
+        double z = offset.z;
+
+        return switch (facing) {
+            case NORTH -> new Vec3(x, offset.y, z);
+            case SOUTH -> new Vec3(1 - x, offset.y, 1 - z);
+            case WEST  -> new Vec3(z, offset.y, 1 - x);
+            case EAST  -> new Vec3(1 - z, offset.y, x);
+            default -> offset;
+        };
     }
     public BlockState rotate(BlockState p_54360_, Rotation p_54361_) {
         return p_54360_.setValue(FACING, p_54361_.rotate(p_54360_.getValue(FACING)));
