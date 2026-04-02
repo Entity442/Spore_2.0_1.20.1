@@ -1,5 +1,7 @@
 {
-  "variants": {
-    "model": "spore:block/cdu"
-  }
+  "variants": [
+    {
+      "model": "spore:block/cdu"
+    }
+  ]
 }

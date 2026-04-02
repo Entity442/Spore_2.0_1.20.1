@@ -67,7 +67,11 @@ public class CDUBlockEntity extends BlockEntity implements MenuProvider,Animated
     }
     public boolean infested() {
         if (level == null) return false;
-        return level.getBlockState(worldPosition).getValue(CDUBlock.LIT);
+        BlockState state = level.getBlockState(worldPosition);
+        if (state.is(Sblocks.CDU.get())){
+            return state.getValue(CDUBlock.LIT);
+        }
+        return false;
     }
     public boolean isRunning(){
         return fuel > 0;
