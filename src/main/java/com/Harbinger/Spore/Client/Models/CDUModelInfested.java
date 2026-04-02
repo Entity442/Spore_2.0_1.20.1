@@ -152,9 +152,17 @@ public class CDUModelInfested<T extends CDUBlockEntity> extends BlockEntityModel
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		cdu.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
+	void animateTendrilsPulsate(ModelPart part,float val){
+		part.xScale = 1 +val;
+		part.yScale = 1 +val;
+		part.zScale = 1 +val;
+	}
 
 	@Override
 	public void setupAnim(T entity, float ageInTicks) {
-
+		animateTendrilsPulsate(Tendril1, (float) (Math.sin(ageInTicks/16)/12));
+		animateTendrilsPulsate(Tendril2, (float) (Math.cos(ageInTicks/17)/13));
+		animateTendrilsPulsate(Tendril3, (float) (Math.sin(ageInTicks/19)/15));
+		animateTendrilsPulsate(Tendril4, (float) (Math.cos(ageInTicks/18)/14));
 	}
 }

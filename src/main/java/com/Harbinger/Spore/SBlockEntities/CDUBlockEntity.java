@@ -32,6 +32,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.phys.AABB;
@@ -43,14 +45,51 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class CDUBlockEntity extends BlockEntity implements MenuProvider {
+public class CDUBlockEntity extends BlockEntity implements MenuProvider,AnimatedEntity {
     public final int maxFuel = SConfig.DATAGEN.cryo_time.get();
     public int fuel;
     private final List<StoreDouble> blockMap;
+    private final int side;
+    private int ticks;
+
     public CDUBlockEntity(BlockPos pos, BlockState state) {
         super(SblockEntities.CDU.get(), pos, state);
         blockMap = fabricateBlocks();
+        side = setSide(state);
     }
+
+    @Override
+    public int getTicks() {
+        return ticks;
+    }
+    public int getSide(){
+        return side;
+    }
+    public boolean infested() {
+        if (level == null) return false;
+        return level.getBlockState(worldPosition).getValue(CDUBlock.LIT);
+    }
+    public boolean isRunning(){
+        return fuel > 0;
+    }
+
+    private int setSide(BlockState state){
+        if (state.getBlock().getStateDefinition().getProperty("facing") instanceof DirectionProperty directionProperty){
+            return state.getValue(directionProperty).get3DDataValue();
+        }
+        return 2;
+    }
+    private boolean setInfested(BlockState state){
+        if (state.getBlock().getStateDefinition().getProperty("facing") instanceof BooleanProperty directionProperty){
+            return state.getValue(directionProperty);
+        }
+        return false;
+    }
+
+    public static void clientTick(Level level, BlockPos pos, BlockState state, CDUBlockEntity cduBlockEntity) {
+        cduBlockEntity.ticks++;
+    }
+
     record StoreDouble(Block value1, Block value2){}
 
     private List<StoreDouble> fabricateBlocks(){

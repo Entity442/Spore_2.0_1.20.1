@@ -103,6 +103,8 @@ public class CDUModel<T extends CDUBlockEntity> extends BlockEntityModel<T> {
 
 	@Override
 	public void setupAnim(T entity, float ageInTicks) {
-
+		if (entity.isRunning()){
+			ventfan.xRot = ageInTicks * 0.075f;
+		}
 	}
 }

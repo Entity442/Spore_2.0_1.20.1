@@ -7,6 +7,7 @@ import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.SBlockEntities.CDUBlockEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -21,12 +22,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -35,6 +34,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -47,9 +47,10 @@ import java.util.List;
 
 public class CDUBlock extends BaseEntityBlock {
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
+    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     public CDUBlock() {
         super(BlockBehaviour.Properties.of().sound(SoundType.STONE).strength(6f, 20f));
-        this.registerDefaultState(this.stateDefinition.any().setValue(LIT, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(LIT, false).setValue(FACING, Direction.NORTH));
     }
 
     @Nullable
@@ -60,17 +61,19 @@ public class CDUBlock extends BaseEntityBlock {
 
     @Override
     public RenderShape getRenderShape(BlockState state) {
-        return RenderShape.MODEL;
+        return RenderShape.INVISIBLE;
     }
 
-    public static void replaceCDU(BlockPos pos,Level level){
-        if (level == null || level.isClientSide){
+    public static void replaceCDU(BlockPos pos, Level level) {
+        if (level == null || level.isClientSide) {
             return;
         }
+
         BlockState blockState = level.getBlockState(pos);
-        if (blockState.equals(Sblocks.CDU.get().defaultBlockState())){
-            BlockState newstate = blockState.setValue(LIT,true);
-            level.setBlock(pos,newstate,3);
+
+        if (blockState.getBlock() == Sblocks.CDU.get()) {
+            BlockState newState = blockState.setValue(LIT, true);
+            level.setBlock(pos, newState, 3);
         }
     }
     public static boolean isCDUUsable(BlockPos pos,Level level){
@@ -101,7 +104,16 @@ public class CDUBlock extends BaseEntityBlock {
             }
         }
     }
+    public BlockState rotate(BlockState p_54360_, Rotation p_54361_) {
+        return p_54360_.setValue(FACING, p_54361_.rotate(p_54360_.getValue(FACING)));
+    }
 
+    public BlockState mirror(BlockState p_54357_, Mirror p_54358_) {
+        return p_54357_.rotate(p_54358_.getRotation(p_54357_.getValue(FACING)));
+    }
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+    }
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         Vec3 offset = state.getOffset(world, pos);
@@ -112,7 +124,7 @@ public class CDUBlock extends BaseEntityBlock {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> blockStateBuilder) {
         super.createBlockStateDefinition(blockStateBuilder);
-        blockStateBuilder.add(LIT);
+        blockStateBuilder.add(LIT).add(FACING);
     }
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
@@ -153,7 +165,7 @@ public class CDUBlock extends BaseEntityBlock {
 
     @javax.annotation.Nullable
     protected static <T extends BlockEntity> BlockEntityTicker<T> createCDUTicker(Level level, BlockEntityType<T> type, BlockEntityType<? extends CDUBlockEntity> p_151990_) {
-        return level.isClientSide ? null : createTickerHelper(type, p_151990_, CDUBlockEntity::serverTick);
+        return level.isClientSide ? createTickerHelper(type, p_151990_, CDUBlockEntity::clientTick) : createTickerHelper(type, p_151990_, CDUBlockEntity::serverTick);
     }
 
     public void setFuelTag(ItemStack stack,int value){
