@@ -429,6 +429,7 @@
   "entity.spore.stahl": "钢铁杀戮者",
   "entity.spore.hivetumor": "蜂巢肿瘤",
   "entity.spore.leviathan": "利维坦",
+  "entity.spore.leviathan_seg": "利维坦",
   "entity.spore.grober": "金刚兽",
   "entity.spore.harpoon": "拟态鱼叉",
   "entity.spore.conductor": "指挥官",
@@ -530,6 +531,9 @@
   "spore.item.desc.shield": "格挡伤害时，盾牌会积蓄能量，释放强大的冲击波攻击。",
   "spore.item.desc.sickle": "可投掷并用作抓钩。对敌人造成伤害时将其拉向使用者。",
   "spore.item.desc.spear": "可投掷攻击敌人。",
+  "spore.item.desc.assassin": "一把极其强大的狙击步枪。左键射击射出一个极快的酸液球，造成50%的真实伤害并施加腐蚀效果。右键使用浓缩酸液瓶装填。潜行时使用者可以启用瞄准镜并拉近视角。",
+  "spore.item.desc.mistmaker": "一种暴力霰弹枪与电锯的混合体，依靠敌人的血肉进行装填。右键展开电锯，利用它来获取更多弹药。左键发射一团碎肉块。",
+  "spore.item.desc.bileblaster": "结构与射速类似于突击步枪。左键射击出胆汁团块，施加同样棘手的负面效果。右键使用浓缩胆汁瓶装填。",
 
   "enchantment.spore.symbiotic_reconstitution.desc": "强化你与装备之间的共生关系，在共生状态下持续修复其损伤",
   "enchantment.spore.cryogenic_aspect.desc": "将寒意直透受击者骨髓，大幅降低其移动速度并造成冰冻伤害",

@@ -420,6 +420,7 @@
   "entity.spore.stahl": "Stahlmorder",
   "entity.spore.hivetumor": "Tumor Colmena",
   "entity.spore.leviathan": "Leviatán",
+  "entity.spore.leviathan_seg": "Leviatán",
   "entity.spore.grober": "Groberfub",
   "entity.spore.harpoon": "Arpón",
   "entity.spore.conductor": "Conductor",
@@ -521,6 +522,9 @@
   "spore.item.desc.shield": "Al bloquear daño, el escudo acumula un gran ataque de onda de choque.",
   "spore.item.desc.sickle": "Se puede lanzar y usar como un gancho de agarre. Atrae a los enemigos hacia el portador cuando los daña.",
   "spore.item.desc.spear": "Se puede lanzar a los enemigos.",
+  "spore.item.desc.assassin": "Un rifle de francotirador extremadamente potente. Hacer clic izquierdo dispara un globo de ácido extremadamente rápido que inflige un 50% de daño real y causa Corrosión. Haz clic derecho para recargar con un Vial de Ácido Concentrado. Agacharse permite al portador usar la mira y acercar la imagen en su pantalla.",
+  "spore.item.desc.mistmaker": "Un violento híbrido de escopeta y motosierra que se recarga con la carne de sus enemigos. Haz clic derecho para desplegar la motosierra y usarla para obtener más munición. Haz clic izquierdo para disparar una masa de trozos de carne.",
+  "spore.item.desc.bileblaster": "Similar a un rifle de asalto en su estructura y cadencia de fuego. Hacer clic izquierdo dispara masas de bilis que infligen efectos igualmente desagradables. Haz clic derecho para recargar con un Vial de Bilis Concentrada.",
 
   "enchantment.spore.symbiotic_reconstitution.desc": "Fortalece el vínculo simbiótico entre usted y su armamento, reparando sus heridas mientras están bajo simbiosis.",
   "enchantment.spore.cryogenic_aspect.desc": "Enfría a la víctima hasta los huesos, lo que reduce su velocidad de movimiento y a su vez infligiendole daño congelante.",

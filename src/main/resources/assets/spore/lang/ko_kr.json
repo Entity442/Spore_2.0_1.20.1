@@ -432,6 +432,7 @@
     "entity.spore.stahl": "강철살해자",
     "entity.spore.hivetumor": "군체종양",
     "entity.spore.leviathan": "레비아탄",
+    "entity.spore.leviathan_seg": "레비아탄",
     "entity.spore.grober": "빅풋",
     "entity.spore.harpoon": "작살",
     "entity.spore.conductor": "전도자",
@@ -531,6 +532,9 @@
     "spore.item.desc.shield": "피해를 막을 때, 방패는 강력한 충격파 공격을 축적합니다.",
     "spore.item.desc.sickle": "던지거나 갈고리처럼 사용할 수 있습니다. 적에게 피해를 줄 때 사용자 쪽으로 끌어당깁니다.",
     "spore.item.desc.spear": "적에게 던질 수 있습니다.",
+    "spore.item.desc.assassin": "매우 강력한 저격 소총입니다. 좌클릭 시 매우 빠른 속도의 산성 구체를 발사하여 50%의 고정 피해를 주고 부식을 적용합니다. 우클릭으로 농축 산성 용기로 재장전합니다. 웅크리면 사용자가 조준경을 활용하고 화면을 확대할 수 있습니다.",
+    "spore.item.desc.mistmaker": "적의 살점으로 재장전하는 폭력적인 산탄총/전기톱 하이브리드 무기입니다. 우클릭으로 전기톱을 펼쳐 사용하여 더 많은 탄약을 얻을 수 있습니다. 좌클릭으로 살점 덩어리를 발사합니다.",
+    "spore.item.desc.bileblaster": "구조와 발사 속도 면에서 돌격 소총과 유사합니다. 좌클릭으로 담즙 덩어리를 발사하여 동등하게 불쾌한 효과를 줍니다. 우클릭으로 농축 담즙 용기로 재장전합니다.",
 
     "entity.spore.thrown_tumor": "종양",
     "entity.spore.thrown_spear": "감염된 창",

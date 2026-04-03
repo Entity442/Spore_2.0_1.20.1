@@ -415,6 +415,7 @@
   "entity.spore.stahl": "Stahlmorder",
   "entity.spore.hivetumor": "Tumore Alveare",
   "entity.spore.leviathan": "Leviatano",
+  "entity.spore.leviathan_seg": "Leviatano",
   "entity.spore.grober": "Groberfub",
   "entity.spore.harpoon": "Arpione",
   "entity.spore.conductor": "Conduttore",
@@ -517,6 +518,9 @@
   "spore.item.desc.shield": "Quando blocca il danno, lo scudo accumula un potente attacco ad onda d'urto.",
   "spore.item.desc.sickle": "Può essere lanciato e usato come un rampino. Attira i nemici verso il possessore quando li danneggia.",
   "spore.item.desc.spear": "Può essere lanciato contro i nemici.",
+  "spore.item.desc.assassin": "Un fucile da cecchino estremamente potente. Il clic sinistro spara un globulo acido velocissimo che infligge il 50% di danno vero e infligge Corrosione. Clic destro per ricaricare con una Fiala di Acido Concentrato. Accovacciarsi consente al possessore di utilizzare il mirino e ingrandire lo schermo.",
+  "spore.item.desc.mistmaker": "Un violento ibrido tra fucile a pompa e motosega che si ricarica con la carne dei suoi nemici. Clic destro per aprire la motosega e usarla per ottenere più munizioni. Clic sinistro per sparare una massa di pezzi di carne.",
+  "spore.item.desc.bileblaster": "Simile a un fucile d'assalto per struttura e cadenza di fuoco. Il clic sinistro spara grumi di bile che infliggono effetti altrettanto sgradevoli. Clic destro per ricaricare con una Fiala di Bile Concentrata.",
 
   "enchantment.spore.symbiotic_reconstitution.desc": "Potenzia il legame tra l'Arma e il Brandente, riparandola mentre sei a riposo.",
   "enchantment.spore.cryogenic_aspect.desc": "Infligge un brivido gelido fin dentro al Cuore, effetivamente Dannegiando Infetti in modo letale.",
