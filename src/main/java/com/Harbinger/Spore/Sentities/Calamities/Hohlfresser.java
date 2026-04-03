@@ -318,7 +318,6 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
                 rebuildPartsArray();
             }
             if (tickCount % 20 == 0 && parts != null && getAdaptation()){
-                refreshDimensions();
                 float size = 1.2f;
                 AttributeInstance hostInstance = this.getAttribute(Attributes.MAX_HEALTH);
                 for(int i = 0;i<parts.length;i++){
@@ -332,7 +331,6 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
                     if (instance != null && hostInstance != null && instance.getValue() != hostInstance.getValue()){
                         instance.setBaseValue(hostInstance.getBaseValue());
                     }
-                    hohlMultipart.setHealth(this.getHealth());
                 }
             }
 
@@ -354,6 +352,12 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
         // Periodic dig-in check
         if (tickCount % 20 == 0) {
             handleDigIn();
+            refreshDimensions();
+            if (parts != null){
+                for (HohlMultipart multipart : parts){
+                    multipart.setHealth(this.getHealth());
+                }
+            }
         }
 
         // Update underground timer
