@@ -1172,7 +1172,7 @@ public class SConfig {
             this.reconstructor_terrain = builder.defineList("Mobs that are summoned for ground support",
                     Lists.newArrayList("spore:sieger","spore:howitzer","spore:stahl" ) , o -> o instanceof String);
             this.reconstructor_air = builder.defineList("Mobs that are summoned for air support",
-                    Lists.newArrayList("spore:hindenburg","spore:howitzer" ) , o -> o instanceof String);
+                    Lists.newArrayList("spore:hindenburg" ) , o -> o instanceof String);
             this.reconstructor_water = builder.defineList("Mobs that are summoned for water support",
                     Lists.newArrayList("spore:gazenbreacher","spore:kraken","spore:leviathan" ) , o -> o instanceof String);
             this.reconstructor_underground = builder.defineList("Mobs that are summoned for underground support",

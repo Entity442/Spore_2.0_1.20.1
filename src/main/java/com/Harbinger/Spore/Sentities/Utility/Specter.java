@@ -5,6 +5,7 @@ import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.HybridPathNavigation;
 import com.Harbinger.Spore.Sentities.ArmorPersentageBypass;
+import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.MovementControls.InfectedWallMovementControl;
 import com.Harbinger.Spore.Sentities.Variants.BraureiVariants;
@@ -61,7 +62,13 @@ public class Specter extends UtilityEntity implements Enemy, ArmorPersentageBypa
         this.navigation = new HybridPathNavigation(this,this.level());
         this.setMaxUpStep(1F);
     }
-
+    @Override
+    protected boolean canRide(Entity entity) {
+        if (entity instanceof Infected || entity instanceof UtilityEntity){
+            return super.canRide(entity);
+        }
+        return false;
+    }
     @Override
     public List<? extends String> getDropList() {
         return SConfig.DATAGEN.specter_loot.get();

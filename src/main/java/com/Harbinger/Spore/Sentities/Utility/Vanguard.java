@@ -80,7 +80,13 @@ public class Vanguard extends UtilityEntity implements CrossbowAttackMob, Enemy 
         this.navigation = new WallClimberNavigation(this,level);
         this.setMaxUpStep(1.0F);
     }
-
+    @Override
+    protected boolean canRide(Entity entity) {
+        if (entity instanceof Infected || entity instanceof UtilityEntity){
+            return super.canRide(entity);
+        }
+        return false;
+    }
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, SConfig.SERVER.vanguard_hp.get() * SConfig.SERVER.global_health.get())
