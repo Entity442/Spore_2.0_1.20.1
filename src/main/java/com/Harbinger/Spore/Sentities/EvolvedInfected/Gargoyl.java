@@ -81,8 +81,8 @@ public class Gargoyl extends EvolvedInfected implements FlyingInfected, ArmedInf
         double smashRange = 2 + fallDistance * 0.25;
         double blockBreaking = 1 + fallDistance * 0.15;
 
-        this.DamageEntities(level(), smashRange, attackMulti);
-        this.SmashStomp(level(), this.blockPosition(), smashRange, blockBreaking);
+        this.DamageEntities(level(), smashRange, attackMulti > 3 ? 3 : attackMulti);
+        this.SmashStomp(level(), this.blockPosition(),  smashRange > 16 ? 16 : smashRange, blockBreaking > 32 ? 32 : blockBreaking);
 
         this.playSound(Ssounds.LANDING.get(), 2f, 0.8f);
         return false;
