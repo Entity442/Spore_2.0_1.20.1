@@ -73,7 +73,7 @@ public class Gargoyl extends EvolvedInfected implements FlyingInfected, ArmedInf
     }
 
     public boolean causeFallDamage(float damage_val, float protection_val, DamageSource source) {
-        if (fallDistance < 3) return false;
+        if (fallDistance < 3 || !isAlive()) return false;
 
         float ratio = 0.1f;
         float attackMulti = 1f + (fallDistance * ratio);
