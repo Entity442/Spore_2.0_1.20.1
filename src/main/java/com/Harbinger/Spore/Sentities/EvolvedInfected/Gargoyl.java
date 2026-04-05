@@ -99,7 +99,7 @@ public class Gargoyl extends EvolvedInfected implements FlyingInfected, ArmedInf
                                 BlockState state = level.getBlockState(blockpos);
                                 boolean airBelow = level.getBlockState(blockpos.below()).isAir();
                                 double breakSpeed = state.getDestroySpeed(level,pos);
-                                if (airBelow && state.getDestroySpeed(level,pos) >= 0 && breakSpeed <= breaking && Math.random() < 0.3){
+                                if (airBelow && state.getDestroySpeed(level,pos) >= 0 && breakSpeed <= breaking && Math.random() < 0.3 && !state.isAir()){
                                     FallingBlockEntity.fall(serverLevel,blockpos,state);
                                     serverLevel.removeBlock(blockpos,false);
                                 }
