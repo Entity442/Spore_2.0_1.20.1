@@ -14,6 +14,7 @@ import com.Harbinger.Spore.Sentities.ChunkLoaderMob;
 import com.Harbinger.Spore.Sentities.EvolvingInfected;
 import com.Harbinger.Spore.Sentities.HitboxesForParts;
 import com.Harbinger.Spore.Sentities.MovementControls.CalamityMovementControl;
+import com.Harbinger.Spore.Sentities.MovementControls.SmoothLookControl;
 import com.Harbinger.Spore.Sentities.Organoids.Mound;
 import com.Harbinger.Spore.Sentities.Utility.CorpseEntity;
 import net.minecraft.core.BlockPos;
@@ -86,6 +87,7 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
         this.setPathfindingMalus(BlockPathTypes.DANGER_POWDER_SNOW, -1.0F);
         this.navigation = new CalamityPathNavigation(this,level);
         this.moveControl = new CalamityMovementControl(this,20);
+        this.lookControl = new SmoothLookControl(this, 3.0f, 2.0f, 0.35f);
         this.xpReward = 50;
     }
 
