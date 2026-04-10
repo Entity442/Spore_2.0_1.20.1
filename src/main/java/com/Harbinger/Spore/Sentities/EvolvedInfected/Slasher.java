@@ -31,8 +31,11 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.OpenDoorGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
+import net.minecraft.world.entity.ai.util.GoalUtils;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Inventory;
@@ -104,15 +107,30 @@ public class Slasher extends EvolvedInfected implements ArmorPersentageBypass, V
             public void start() {
                 super.start();
                 mob.playSound(Ssounds.SLASHER_PULL.get());
+                mob.level().broadcastEntityEvent(mob, (byte)4);
+            }
+        });
+        this.goalSelector.addGoal(3, new OpenDoorGoal(this, true) {
+            @Override
+            public boolean canUse() {
+                return super.canUse() && SConfig.SERVER.higher_thinking.get();
+            }
+            @Override
+            public void start() {
+                this.mob.swing(InteractionHand.MAIN_HAND);
+                super.start();
             }
         });
         this.goalSelector.addGoal(3, new RandomStrollGoal(this, 0.8));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
-
-
         super.registerGoals();
     }
-
+    protected void customServerAiStep() {
+        if (!this.isNoAi() && GoalUtils.hasGroundPathNavigation(this) && SConfig.SERVER.higher_thinking.get()) {
+            ((GroundPathNavigation)this.getNavigation()).setCanOpenDoors(true);
+        }
+        super.customServerAiStep();
+    }
     @Override
     public boolean doHurtTarget(Entity entity) {
         if (entity instanceof ServerPlayer player && this.getVariant() == SlasherVariants.PIERCER && !player.isBlocking()){
