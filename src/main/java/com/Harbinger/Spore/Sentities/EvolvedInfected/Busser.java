@@ -9,6 +9,7 @@ import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.Carrier;
 import com.Harbinger.Spore.Sentities.FlyingInfected;
 import com.Harbinger.Spore.Sentities.MovementControls.InfectedArialMovementControl;
+import com.Harbinger.Spore.Sentities.MovementControls.PathFinders.CachedFlyingNavigation;
 import com.Harbinger.Spore.Sentities.Projectile.StingerProjectile;
 import com.Harbinger.Spore.Sentities.VariantKeeper;
 import com.Harbinger.Spore.Sentities.Variants.BusserVariants;

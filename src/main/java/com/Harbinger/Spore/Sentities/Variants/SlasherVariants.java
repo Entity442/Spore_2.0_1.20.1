@@ -7,7 +7,8 @@ public enum SlasherVariants {
     DEFAULT(0,"default"),
     PIERCER(1,"spore.entity.variant.piercer"),
     SMASHER(2,"spore.entity.variant.smasher"),
-    GRABBER(3,"spore.entity.variant.grabber");
+    GRABBER(3,"spore.entity.variant.grabber"),
+    SCREW(4,"spore.entity.variant.screw");
 
     private static final SlasherVariants[] BY_ID = Arrays.stream(values()).sorted(Comparator.
             comparingInt(SlasherVariants::getId)).toArray(SlasherVariants[]::new);
