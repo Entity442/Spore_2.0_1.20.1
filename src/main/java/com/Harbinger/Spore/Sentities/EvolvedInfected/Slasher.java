@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities.EvolvedInfected;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
@@ -9,6 +10,7 @@ import com.Harbinger.Spore.Sentities.ArmorPersentageBypass;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.VariantKeeper;
 import com.Harbinger.Spore.Sentities.Variants.SlasherVariants;
+import com.Harbinger.Spore.Sentities.Variants.ThornVariants;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -22,7 +24,11 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -37,9 +43,11 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.WeakHashMap;
 
 public class Slasher extends EvolvedInfected implements ArmorPersentageBypass, VariantKeeper {
     private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(Slasher.class, EntityDataSerializers.INT);
+    private final WeakHashMap<LivingEntity,Double> screwMap = new WeakHashMap<>();
     public Slasher(EntityType<? extends Monster> type, Level level) {
         super(type, level);
     }
@@ -123,10 +131,45 @@ public class Slasher extends EvolvedInfected implements ArmorPersentageBypass, V
                 }
             }
         }
+        if (this.getVariant() == SlasherVariants.SCREW){
+            double defaultDamage = SConfig.SERVER.sla_damage.get() * SConfig.SERVER.global_damage.get();
+            double damageMod = 1;
+            if (entity instanceof LivingEntity living){
+                if (screwMap.containsKey(living)){
+                    damageMod = screwMap.get(living);
+                    double newMod = Math.min(2.5, damageMod + 0.5);
+                    screwMap.put(living, newMod);
+                    damageMod = newMod;
+                } else {
+                    screwMap.put(living, 1.0);
+                }
+            }
+            AttributeInstance instance = getAttribute(Attributes.ATTACK_DAMAGE);
+            if (instance != null){
+                instance.setBaseValue(defaultDamage * damageMod);
+            }
+        }
         this.playSound(Ssounds.SLASHER_STAB.get());
         return super.doHurtTarget(entity);
     }
-    private void dropItems(LivingEntity living,InteractionHand hand,BlockPos pos){
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        if (source.getDirectEntity() instanceof LivingEntity livingEntity && livingEntity.distanceToSqr(this)<100D && !source.is(DamageTypes.THORNS) && getVariant() == SlasherVariants.SCREW){
+            livingEntity.hurt(this.level().damageSources().thorns(this),5);
+        }
+        return super.hurt(source, amount);
+    }
+
+    @Override
+    public void awardKillScore(Entity entity, int i, DamageSource damageSource) {
+        super.awardKillScore(entity, i, damageSource);
+        if (entity instanceof LivingEntity living){
+            screwMap.remove(living);
+        }
+    }
+
+    private void dropItems(LivingEntity living, InteractionHand hand, BlockPos pos){
         ItemStack stack = living.getItemInHand(hand);
         if (stack == ItemStack.EMPTY){
             return;
