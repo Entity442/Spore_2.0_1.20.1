@@ -26,6 +26,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fluids.FluidType;
@@ -57,6 +58,7 @@ public class Organoid extends UtilityEntity implements Enemy {
         if (tickCount % 200 == 0 && !(this instanceof Proto || this instanceof Mound)){
             regulateSpawns();
         }
+        spawnEmergingParticles();
     }
     protected SoundEvent getHurtSound(DamageSource p_34327_) {
         return Ssounds.ORGANOID_DAMAGE.get();
@@ -159,26 +161,36 @@ public class Organoid extends UtilityEntity implements Enemy {
         }
     }
 
-    @Override
-    public void aiStep() {
-        super.aiStep();
-        if (this.isEmerging() || this.isBurrowing()) {
-            double x = this.getX();
-            double y = this.getY();
-            double z = this.getZ();
-            Level world = this.level();
-            RandomSource randomsource = this.getRandom();
-            for (int l = 0 ;l<this.getNumberOfParticles();l++){
-                if (level() instanceof ServerLevel serverLevel) {
-                    int xi = randomsource.nextInt(-1,1);
-                    int zi = randomsource.nextInt(-1,1);
-                    if (world.getBlockState(new BlockPos((int) x, (int) y - 1, (int) z)).getBlock().asItem() != ItemStack.EMPTY.getItem()) {
+    private void spawnEmergingParticles() {
+        if (!(this.isEmerging() || this.isBurrowing())) return;
+        if (!(this.level() instanceof ServerLevel serverLevel)) return;
 
-                        serverLevel.sendParticles(new ItemParticleOption(ParticleTypes.ITEM, new ItemStack((world.getBlockState(new BlockPos((int) x, (int) y - 1, (int) z))).getBlock())), x + xi, y - 0.1D, z + zi, 3,
-                                ((double) randomsource.nextFloat() - 1D) * 0.08D, ((double) randomsource.nextFloat() - 1D) * 0.08D, ((double) randomsource.nextFloat() - 1D) * 0.08D, 0.15F);
-                    }
-                }
-            }
+        double x = this.getX();
+        double y = this.getY();
+        double z = this.getZ();
+        RandomSource randomsource = this.getRandom();
+
+        BlockPos belowPos = BlockPos.containing(x, y - 1, z);
+
+        for (int l = 0; l < this.getNumberOfParticles(); l++) {
+            // Safely get block state
+            if (!serverLevel.isLoaded(belowPos)) continue;
+
+            BlockState state = serverLevel.getBlockState(belowPos);
+            if (state.isAir()) continue;
+
+            double xi = randomsource.nextDouble() - 0.5;
+            double zi = randomsource.nextDouble() - 0.5;
+
+            serverLevel.sendParticles(
+                    new ItemParticleOption(ParticleTypes.ITEM, new ItemStack(state.getBlock())),
+                    x + xi, y - 0.1D, z + zi,
+                    1,  // Reduced particle count
+                    (randomsource.nextDouble() - 0.5D) * 0.1D,
+                    (randomsource.nextDouble() - 0.5D) * 0.1D,
+                    (randomsource.nextDouble() - 0.5D) * 0.1D,
+                    0.15F
+            );
         }
     }
 
