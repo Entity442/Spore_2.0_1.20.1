@@ -93,6 +93,7 @@ public class HiveTumor extends Organoid implements FoliageSpread {
                             break;
                         }
                     }
+                }else {
                     SummonProto(serverLevel);
                 }
             }
