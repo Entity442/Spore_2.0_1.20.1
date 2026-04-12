@@ -7,7 +7,8 @@ public enum BusserVariants {
     DEFAULT(0,"default"),
     ENHANCED(1,"spore.entity.variant.kidnapper"),
     BOMBER(2,"spore.entity.variant.kamikaze"),
-    TOXIC(3,"spore.entity.variant.noxious");
+    TOXIC(3,"spore.entity.variant.noxious"),
+    TRANSPORTER(4,"spore.entity.variant.transporter");
 
     private static final BusserVariants[] BY_ID = Arrays.stream(values()).sorted(Comparator.
             comparingInt(BusserVariants::getId)).toArray(BusserVariants[]::new);

@@ -11,16 +11,20 @@ import com.Harbinger.Spore.Sentities.FlyingInfected;
 import com.Harbinger.Spore.Sentities.MovementControls.InfectedArialMovementControl;
 import com.Harbinger.Spore.Sentities.MovementControls.PathFinders.CachedFlyingNavigation;
 import com.Harbinger.Spore.Sentities.Projectile.StingerProjectile;
+import com.Harbinger.Spore.Sentities.Projectile.ThrownBlockProjectile;
 import com.Harbinger.Spore.Sentities.VariantKeeper;
 import com.Harbinger.Spore.Sentities.Variants.BusserVariants;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -35,14 +39,17 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Optional;
 
 public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, RangedAttackMob, VariantKeeper {
     private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(Busser.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> DATA_SWELL_DIR = SynchedEntityData.defineId(Busser.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Optional<BlockState>> DATA_CARRY_STATE = SynchedEntityData.defineId(Busser.class, EntityDataSerializers.OPTIONAL_BLOCK_STATE);
     private int flytimeV;
     private int swell;
 
@@ -139,6 +146,16 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
         if (tickCount % 200 == 0 && (!level().canSeeSky(this.blockPosition()) || level().isNight())){
             this.playSound(Ssounds.PHAYRES_SCREECH.get());
         }
+        if (tickCount % 40 == 0){
+            if (getCarriedBlock() == null){
+                setCarriedBlock(selectBlock());
+            }else {
+                LivingEntity living = getTarget();
+                if (living != null){
+                    ThrowBlock(living);
+                }
+            }
+        }
     }
 
     public void manageExplosiveBusser(){
@@ -185,6 +202,30 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
         }
     }
 
+    public BlockState selectBlock(){
+        AABB aabb = this.getBoundingBox().inflate(0.2,1.5,0.2);
+        for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+            BlockState blockstate = this.level().getBlockState(blockpos);
+            if (blockstate.getDestroySpeed(level(), blockpos) < 5 && blockstate.getDestroySpeed(level(), blockpos) >= 0 && blockstate.isSolidRender(level(),blockpos)) {
+                level().destroyBlock(blockpos,false);
+                return blockstate;
+            }
+        }
+        return null;
+    }
+    public void ThrowBlock(LivingEntity livingEntity){
+        if(!level().isClientSide && this.getCarriedBlock() != null) {
+            ThrownBlockProjectile thrownBlockProjectile = new ThrownBlockProjectile(level(),this,10f,getCarriedBlock(),TARGET_SELECTOR);
+            double dx = livingEntity.getX() - this.getX();
+            double dy = livingEntity.getY() + livingEntity.getEyeHeight() - 1;
+            double dz = livingEntity.getZ() - this.getZ();
+            thrownBlockProjectile.moveTo(this.getX(),this.getY()+1.5,this.getZ());
+            thrownBlockProjectile.shoot(dx, dy - thrownBlockProjectile.getY() + Math.hypot(dx, dz) * 0.05F, dz, 1f * 2, 12.0F);
+            level().addFreshEntity(thrownBlockProjectile);
+            this.setCarriedBlock(null);
+        }
+    }
+
     @Override
     public void travel(Vec3 vec) {
         if (this.isEffectiveAi() && !this.onGround()) {
@@ -194,6 +235,11 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
         } else {
             super.travel(vec);
         }
+    }
+
+    @Override
+    public boolean isVehicle() {
+        return super.isVehicle() || (getVariant() == BusserVariants.TRANSPORTER && this.getCarriedBlock() != null);
     }
 
     @Override
@@ -218,19 +264,39 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
         super.defineSynchedData();
         this.entityData.define(DATA_ID_TYPE_VARIANT, 0);
         this.entityData.define(DATA_SWELL_DIR, -1);
+        this.entityData.define(DATA_CARRY_STATE, Optional.empty());
     }
 
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt("Variant", this.getTypeVariant());
+        BlockState blockstate = this.getCarriedBlock();
+        if (blockstate != null) {
+            tag.put("carriedBlockState", NbtUtils.writeBlockState(blockstate));
+        }
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         this.entityData.set(DATA_ID_TYPE_VARIANT, tag.getInt("Variant"));
+        BlockState blockstate = null;
+        if (tag.contains("carriedBlockState", 10)) {
+            blockstate = NbtUtils.readBlockState(this.level().holderLookup(Registries.BLOCK), tag.getCompound("carriedBlockState"));
+            if (blockstate.isAir()) {
+                blockstate = null;
+            }
+        }
+        this.setCarriedBlock(blockstate);
+    }
+    public void setCarriedBlock(@Nullable BlockState state) {
+        this.entityData.set(DATA_CARRY_STATE, Optional.ofNullable(state));
     }
 
+    @Nullable
+    public BlockState getCarriedBlock() {
+        return this.entityData.get(DATA_CARRY_STATE).orElse((BlockState)null);
+    }
     @Override
     public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor) {
         if (DATA_ID_TYPE_VARIANT.equals(dataAccessor)){

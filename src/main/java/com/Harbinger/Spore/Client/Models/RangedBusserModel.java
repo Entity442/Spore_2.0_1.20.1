@@ -363,7 +363,7 @@ public class RangedBusserModel<T extends Busser> extends EntityModel<T> {
 		this.ShooterSmall.zRot = Mth.sin(ageInTicks/6)/6;
 		this.ShooterSmall2.zRot = Mth.cos(ageInTicks/6)/6;
 		this.ShooterBig.yScale = 1.5f + Mth.sin(ageInTicks/7)/5;
-		if (entity.onGround() || entity.isInFluidType()){
+		if (!entity.getBlockStateOn().isAir()){
 			this.Tail1.yRot = Mth.cos(limbSwing * 0.8F) * 0.8F * limbSwingAmount;
 			this.Tail2.yRot = Mth.cos(limbSwing * 0.8F) * 0.8F * limbSwingAmount;
 			this.Tail3.yRot = Mth.cos(limbSwing * 0.8F) * 0.8F * limbSwingAmount;
