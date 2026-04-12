@@ -146,7 +146,7 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
         if (tickCount % 200 == 0 && (!level().canSeeSky(this.blockPosition()) || level().isNight())){
             this.playSound(Ssounds.PHAYRES_SCREECH.get());
         }
-        if (tickCount % 40 == 0){
+        if (tickCount % 40 == 0 && getVariant() == BusserVariants.TRANSPORTER){
             if (getCarriedBlock() == null){
                 setCarriedBlock(selectBlock());
             }else {
