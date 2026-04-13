@@ -456,6 +456,8 @@
   "spore.entity.variant.forlorn": "Mutazione Abbandonata",
   "spore.entity.variant.swarmer": "Mutazione Sciame",
   "spore.entity.variant.ringer": "Mutazione Campanaria",
+  "spore.entity.variant.screw" : "Mutazione Noiosa",
+  "spore.entity.variant.transporter" : "Mutazione del Carico Utile",
   "spore.scanner.danger.calamity" : "Gerri Scotti",
   "spore.scanner.danger.hyper" : "Molto Alto",
   "spore.scanner.danger.evolved" : "Medio Alto",

@@ -470,6 +470,8 @@
   "spore.entity.variant.forlorn": "遗弃突变",
   "spore.entity.variant.swarmer": "蜂群突变",
   "spore.entity.variant.ringer": "震声突变",
+  "spore.entity.variant.screw" : "无聊的变异",
+  "spore.entity.variant.transporter" : "有效载荷变异",
 
   "spore.scanner.danger.calamity" : "跑！！！",
   "spore.scanner.danger.hyper" : "极高",

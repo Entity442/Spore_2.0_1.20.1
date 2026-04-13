@@ -473,6 +473,8 @@
     "spore.entity.variant.forlorn": "절규 변이",
     "spore.entity.variant.swarmer": "군집 변이",
     "spore.entity.variant.ringer": "타종 변이",
+    "spore.entity.variant.screw" : "지루한 변이",
+    "spore.entity.variant.transporter" : "페이로드 변이",
     "spore.scanner.danger.calamity": "튀어",
     "spore.scanner.danger.hyper": "극상",
     "spore.scanner.danger.evolved": "중-상",

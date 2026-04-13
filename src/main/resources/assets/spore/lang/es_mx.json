@@ -460,6 +460,8 @@
   "spore.entity.variant.forlorn": "Mutación Abandonada",
   "spore.entity.variant.swarmer": "Mutación Enjambre",
   "spore.entity.variant.ringer": "Mutación Campanera",
+  "spore.entity.variant.screw" : "Mutación Aburrida",
+  "spore.entity.variant.transporter" : "Mutación de Carga Util",
   "spore.item.clip": "Cargador: ",
   "spore.item.biomass": "Biomasa: ",
   "spore.item.stomach": "Estómago: ",

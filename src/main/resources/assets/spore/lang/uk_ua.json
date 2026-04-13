@@ -458,6 +458,8 @@
   "spore.entity.variant.forlorn": "Самотня мутація",
   "spore.entity.variant.swarmer": "Ройова мутація",
   "spore.entity.variant.ringer": "Дзвінка мутація",
+  "spore.entity.variant.screw" : "Нудна мутація",
+  "spore.entity.variant.transporter" : "мутація корисного навантаження",
   "spore.scanner.danger.calamity" : "БІГАТИ",
   "spore.scanner.danger.hyper" : "Дуже висока",
   "spore.scanner.danger.evolved" : "Середньо-високий",

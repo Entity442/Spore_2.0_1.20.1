@@ -473,6 +473,8 @@
   "spore.entity.variant.forlorn": "孤独変異体",
   "spore.entity.variant.swarmer": "群れ変異体",
   "spore.entity.variant.ringer": "鳴動変異体",
+  "spore.entity.variant.screw" : "退屈な突然変異",
+  "spore.entity.variant.transporter" : "ペイロードの突然変異",
   "spore.scanner.danger.calamity": "逃　げ　　ろ",
   "spore.scanner.danger.hyper": "高い-危険",
   "spore.scanner.danger.evolved": "低～中",

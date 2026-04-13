@@ -468,6 +468,8 @@
 	"spore.entity.variant.forlorn": "Одинокая мутация",
 	"spore.entity.variant.swarmer": "Роевая мутация",
 	"spore.entity.variant.ringer": "Звенящая мутация",
+	"spore.entity.variant.screw" : "Скучные мутации",
+	"spore.entity.variant.transporter" : "мутации полезной нагрузки",
 
 	"spore.scanner.danger.calamity" : "БЕГИ",
 	"spore.scanner.danger.hyper" : "Очень высокая",

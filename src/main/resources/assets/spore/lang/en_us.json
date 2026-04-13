@@ -473,6 +473,8 @@
   "spore.entity.variant.forlorn" : "Forlorn Mutation",
   "spore.entity.variant.swarmer" : "Swarmer Mutation",
   "spore.entity.variant.ringer" : "Ringer Mutation",
+  "spore.entity.variant.screw" : "Boring Mutation",
+  "spore.entity.variant.transporter" : "Payload Mutation",
   "spore.scanner.danger.calamity" : "RUN",
   "spore.scanner.danger.hyper" : "Very High",
   "spore.scanner.danger.evolved" : "Medium-High",
