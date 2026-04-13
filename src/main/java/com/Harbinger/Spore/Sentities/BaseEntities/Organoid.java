@@ -171,19 +171,22 @@ public class Organoid extends UtilityEntity implements Enemy {
         RandomSource randomsource = this.getRandom();
 
         BlockPos belowPos = BlockPos.containing(x, y - 1, z);
-
+        BlockState state = serverLevel.getBlockState(belowPos);
+        if (state.isAir()){
+            return;
+        }
+        ItemStack stack = new ItemStack(state.getBlock());
+        if (stack.isEmpty()){
+            return;
+        }
         for (int l = 0; l < this.getNumberOfParticles(); l++) {
             // Safely get block state
             if (!serverLevel.isLoaded(belowPos)) continue;
 
-            BlockState state = serverLevel.getBlockState(belowPos);
-            if (state.isAir()) continue;
-
             double xi = randomsource.nextDouble() - 0.5;
             double zi = randomsource.nextDouble() - 0.5;
-
             serverLevel.sendParticles(
-                    new ItemParticleOption(ParticleTypes.ITEM, new ItemStack(state.getBlock())),
+                    new ItemParticleOption(ParticleTypes.ITEM,stack),
                     x + xi, y - 0.1D, z + zi,
                     1,  // Reduced particle count
                     (randomsource.nextDouble() - 0.5D) * 0.1D,
