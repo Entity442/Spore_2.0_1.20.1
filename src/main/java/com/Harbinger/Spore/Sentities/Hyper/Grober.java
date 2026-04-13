@@ -154,7 +154,7 @@ public class Grober extends Hyper implements ArmorPersentageBypass {
         this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F){
             @Override
             public boolean canUse() {
-                return super.canUse() && tickCount % 20 == 0;
+                return super.canUse() && tickCount % 20 == 0 && !Grober.this.isInWater();
             }
         });
         this.goalSelector.addGoal(6, new RandomStrollGoal(this, 0.8));

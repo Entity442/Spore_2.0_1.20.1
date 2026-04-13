@@ -6,6 +6,7 @@ import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Chemist;
+import com.Harbinger.Spore.Sentities.EvolvedInfected.Conductor;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Inebriator;
 import com.Harbinger.Spore.Sentities.EvolvingInfected;
 import com.Harbinger.Spore.Sentities.VariantKeeper;
@@ -181,7 +182,7 @@ public class InfectedHazmat extends Infected implements VariantKeeper , Evolving
         if (this.getVariant() == HazmatVariant.TANK){
             return new Chemist(Sentities.CHEMIST.get(),world);
         }
-        return new Chemist(Sentities.CONDUCTOR.get(),world);
+        return new Conductor(Sentities.CONDUCTOR.get(),world);
     }
     private void explodeTank(){
         if (!this.level().isClientSide){
