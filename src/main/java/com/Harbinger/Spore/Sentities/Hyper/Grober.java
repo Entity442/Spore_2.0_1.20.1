@@ -128,6 +128,16 @@ public class Grober extends Hyper implements ArmorPersentageBypass {
         this.goalSelector.addGoal(2, new Ravage(this));
         this.goalSelector.addGoal(2, new LeapGoal(this,0.8F){
             @Override
+            public boolean canUse() {
+                return super.canUse() && !mob.isInWater();
+            }
+
+            @Override
+            public boolean canContinueToUse() {
+                return super.canContinueToUse() && !mob.isInWater();
+            }
+
+            @Override
             public void start() {
                 triggerAnimation(MELEE_STATES.SMASH.value);
                 super.start();
@@ -151,13 +161,7 @@ public class Grober extends Hyper implements ArmorPersentageBypass {
 
             }
         });
-        this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F){
-            @Override
-            public boolean canUse() {
-                return super.canUse() && tickCount % 20 == 0 && !Grober.this.isInWater();
-            }
-        });
-        this.goalSelector.addGoal(6, new RandomStrollGoal(this, 0.8));
+        this.goalSelector.addGoal(8, new RandomStrollGoal(this, 0.8));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
 
     }
@@ -285,7 +289,7 @@ public class Grober extends Hyper implements ArmorPersentageBypass {
                 return false;
 
             target = mob.getTarget();
-            if (target == null || !target.isAlive())
+            if (target == null || !target.isAlive() || mob.isInWater())
                 return false;
 
             double distance = mob.distanceTo(target);
