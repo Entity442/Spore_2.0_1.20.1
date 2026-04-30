@@ -1907,11 +1907,11 @@ public class StahlmorderModel<T extends Stahlmorder> extends HierarchicalModel<T
 		animateTentacleX(LeftForLeg,this.Leftleg.xRot < 0 ? -this.Leftleg.xRot * 1.25f : 0);
 		animateTentacleX(RightForLeg,this.Rightleg.xRot < 0 ? -this.Rightleg.xRot * 1.25f : 0);
 		if (entity.getMeleeState() == Stahlmorder.MELEE_STATES.SLASH){
-			this.animate(entity.animationState, StahlmorderModelAnimation.slash,ageInTicks,1.5F);
+			this.animate(entity.animationState, StahlmorderModelAnimation.slash,ageInTicks,1);
 		}else if (entity.getMeleeState() == Stahlmorder.MELEE_STATES.SLAP){
-			this.animate(entity.animationState, StahlmorderModelAnimation.slap,ageInTicks,1.25F);
+			this.animate(entity.animationState, StahlmorderModelAnimation.slap,ageInTicks,1);
 		}else {
-			this.animate(entity.animationState, StahlmorderModelAnimation.kick,ageInTicks,1.5F);
+			this.animate(entity.animationState, StahlmorderModelAnimation.kick,ageInTicks,1);
 		}
         animateTumor(AssTumor,Mth.cos(ageInTicks/8)/7);
         animateTumor(leftLegTumor,Mth.sin(ageInTicks/6)/6);

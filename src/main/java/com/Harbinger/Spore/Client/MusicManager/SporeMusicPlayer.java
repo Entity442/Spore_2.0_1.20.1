@@ -100,12 +100,20 @@ public class SporeMusicPlayer {
     // =========================================================
 
     private static void playRandomDefault() {
-        SoundEvent pick = DEFAULT_PLAYLIST.get(random.nextInt(DEFAULT_PLAYLIST.size()));
+        List<SoundEvent> music = new java.util.ArrayList<>(DEFAULT_PLAYLIST);
+        if (oldMusic != null){
+            music.remove(oldMusic);
+        }
+        SoundEvent pick = music.get(random.nextInt(music.size()));
         playMusic(pick);
     }
 
     private static void playRandomPost() {
-        SoundEvent pick = POST_PLAYLIST.get(random.nextInt(POST_PLAYLIST.size()));
+        List<SoundEvent> music = new java.util.ArrayList<>(POST_PLAYLIST);
+        if (oldMusic != null){
+            music.remove(oldMusic);
+        }
+        SoundEvent pick = music.get(random.nextInt(music.size()));
         playMusic(pick);
     }
 

@@ -20,6 +20,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
@@ -30,11 +31,13 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.entity.PartEntity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class Stahlmorder extends Calamity implements TrueCalamity {
     public static final EntityDataAccessor<Float> SWORD_ARM = SynchedEntityData.defineId(Stahlmorder.class, EntityDataSerializers.FLOAT);
@@ -45,7 +48,7 @@ public class Stahlmorder extends Calamity implements TrueCalamity {
     public final CalamityMultipart swordArm;
     public final CalamityMultipart mouth;
     public AnimationState animationState = new AnimationState();
-    private int animationOffset = 0;
+    public int animationOffset = 0;
     public Stahlmorder(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         this.swordArm = new CalamityMultipart(this, "swordArm", 3.5F, 3.5F);
@@ -192,10 +195,7 @@ public class Stahlmorder extends Calamity implements TrueCalamity {
 
     @Override
     public boolean doHurtTarget(Entity entity) {
-        this.animationOffset = 20;
-        this.level().broadcastEntityEvent(this, (byte)4);
         if (entity instanceof LivingEntity living){
-            triggerAnimation(decideAnimation(living));
             applyAttackEffect(living,entityData.get(MELEE_STATE));
         }
         return super.doHurtTarget(entity);
@@ -291,18 +291,12 @@ public class Stahlmorder extends Calamity implements TrueCalamity {
     @Override
     public void registerGoals() {
         this.goalSelector.addGoal(3, new StaLeapGoal(this,1.6F));
-        this.goalSelector.addGoal(4, new AOEMeleeAttackGoal(this, 1.5, false,3,2,living -> {return TARGET_SELECTOR.test(living);}){
+        this.goalSelector.addGoal(4, new StahlMeleeAttackGoal(this, 1.5, false,3,2,living -> {return TARGET_SELECTOR.test(living);}){
             @Override
             protected double getAttackReachSqr(LivingEntity entity) {
                 float f = Stahlmorder.this.getBbWidth();
                 return (double)(f * 2.0F * f * 2.0F + entity.getBbWidth());
             }
-
-            @Override
-            protected void resetAttackCooldown() {
-                this.ticksUntilNextAttack = this.adjustedTickDelay(40);
-            }
-
         });
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.2));
         this.goalSelector.addGoal(6, new FloatDiveGoal(this));
@@ -441,5 +435,78 @@ public class Stahlmorder extends Calamity implements TrueCalamity {
             }
         }
         return values;
+    }
+
+    public static class StahlMeleeAttackGoal extends AOEMeleeAttackGoal{
+        public int attackWindup = 0;
+        public LivingEntity delayedTarget;
+        public StahlMeleeAttackGoal(PathfinderMob mob, double speed, boolean p_25554_, double hitbox, float range, Predicate<LivingEntity> targets) {
+            super(mob, speed, p_25554_, hitbox, range, targets);
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            if (attackWindup > 0){
+                return true;
+            }
+            return super.canContinueToUse();
+        }
+
+        @Override
+        protected void resetAttackCooldown() {
+            this.ticksUntilNextAttack = this.adjustedTickDelay(40);
+        }
+
+        @Override
+        protected void checkAndPerformAttack(LivingEntity living, double at) {
+            double d0 = this.getAttackReachSqr(living);
+            if (mob instanceof Stahlmorder stahlmorder && ticksUntilNextAttack == 20 && at <= d0){
+                stahlmorder.animationOffset = 20;
+                stahlmorder.level().broadcastEntityEvent(stahlmorder, (byte)4);
+                stahlmorder.triggerAnimation(stahlmorder.decideAnimation(living));
+                stahlmorder.applyAttackEffect(living,stahlmorder.entityData.get(MELEE_STATE));
+            }
+            if (at <= d0 && this.ticksUntilNextAttack <= 0 && mob.hasLineOfSight(living)) {
+                this.resetAttackCooldown();
+
+                if (mob instanceof Stahlmorder s) {
+                    startDelayedAttack(living,s);
+                }
+            }
+        }
+        public void startDelayedAttack(LivingEntity target,Stahlmorder s) {
+            this.attackWindup = 15;
+            this.delayedTarget = target;
+
+            s.animationOffset = 20;
+            s.level().broadcastEntityEvent(s, (byte)4);
+            s.triggerAnimation(s.decideAnimation(target));
+        }
+        private void performDelayedAttack(LivingEntity living) {
+            if (!mob.hasLineOfSight(living)) return;
+            if (mob.distanceToSqr(living) > getAttackReachSqr(living)) return;
+
+            mob.swing(InteractionHand.MAIN_HAND);
+            mob.doHurtTarget(living);
+
+            AABB hitbox = living.getBoundingBox().inflate(box);
+            for (LivingEntity en : mob.level().getEntitiesOfClass(LivingEntity.class, hitbox, victims)) {
+                mob.doHurtTarget(en);
+            }
+        }
+
+        @Override
+        public void tick() {
+            super.tick();
+            if (attackWindup > 0) {
+                attackWindup--;
+
+                if (attackWindup == 1 && delayedTarget != null && delayedTarget.isAlive()) {
+                    performDelayedAttack(delayedTarget);
+                    delayedTarget = null;
+                }
+            }
+        }
+
     }
 }
