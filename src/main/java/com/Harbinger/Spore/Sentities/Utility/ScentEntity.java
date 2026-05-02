@@ -5,6 +5,7 @@ import com.Harbinger.Spore.Core.Sparticles;
 import com.Harbinger.Spore.ExtremelySusThings.CustomJsonReader.SporeMobConversionData;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
+import com.Harbinger.Spore.Sentities.Organoids.Womb;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -62,14 +63,25 @@ public class ScentEntity extends UtilityEntity {
             setSummon(getSummon()+1);
             if (getSummon() >= SConfig.SERVER.scent_summon_cooldown.get()) {
                 if (!this.level().isClientSide && (getOvercharged() || checkForNonInfected(this))){
-                this.Summon(this);
-                    setSummon(0);
+                    Womb womb = getNearbyWombs();
+                    if (womb != null){
+                        womb.setBiomass(womb.getBiomass() + SConfig.SERVER.reconstructor_assimilation.get());
+                    }
+                    this.Summon(this);
+                setSummon(0);
                 }
             }}
         }
         super.tick();
     }
-
+    private Womb getNearbyWombs(){
+        List<Womb> wombs = level().getEntitiesOfClass(Womb.class,this.getBoundingBox().inflate(16));
+        if (wombs.isEmpty()){
+            return  null;
+        }else {
+            return wombs.get(random.nextInt(wombs.size()));
+        }
+    }
     boolean checkForNonInfected(Entity entity){
         AABB boundingBox = entity.getBoundingBox().inflate(16);
         List<Entity> entities = entity.level().getEntities(entity, boundingBox ,EntitySelector.NO_CREATIVE_OR_SPECTATOR);
