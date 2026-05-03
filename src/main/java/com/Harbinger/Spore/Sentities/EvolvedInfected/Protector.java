@@ -500,8 +500,8 @@ public class Protector extends EvolvedInfected implements ArmedInfected,HasUsabl
                     food = foodCalculation;
                     stack.shrink(stack.getCount());
                 }
-                if (item instanceof SwordItem tieredItem){
-                    damage = (int) tieredItem.getDamage();
+                if (item instanceof TieredItem tieredItem){
+                    damage = (int) tieredItem.getTier().getAttackDamageBonus();
                     stack.shrink(1);
                 }
                 if (item instanceof ArmorItem tieredItem){
