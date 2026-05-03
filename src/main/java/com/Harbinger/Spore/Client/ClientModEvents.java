@@ -188,6 +188,10 @@ public class ClientModEvents {
         event.registerLayerDefinition(ringerVigilModel.LAYER_LOCATION, ringerVigilModel::createBodyLayer);
         event.registerLayerDefinition(ScrewerSlasherModel.LAYER_LOCATION, ScrewerSlasherModel::createBodyLayer);
         event.registerLayerDefinition(TransporterPhayresModel.LAYER_LOCATION, TransporterPhayresModel::createBodyLayer);
+        event.registerLayerDefinition(StuddedProtectorModel.LAYER_LOCATION, StuddedProtectorModel::createBodyLayer);
+        event.registerLayerDefinition(CollectorProtectorModel.LAYER_LOCATION, CollectorProtectorModel::createBodyLayer);
+        event.registerLayerDefinition(MossProtectorModel.LAYER_LOCATION, MossProtectorModel::createBodyLayer);
+        event.registerLayerDefinition(BulwarkProtectorModel.LAYER_LOCATION, BulwarkProtectorModel::createBodyLayer);
 
         event.registerLayerDefinition(BombFunnelModel.LAYER_LOCATION, BombFunnelModel::createBodyLayer);
         event.registerLayerDefinition(MushroomExplosionTop.LAYER_LOCATION, MushroomExplosionTop::createBodyLayer);

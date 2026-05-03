@@ -1,7 +1,6 @@
-package com.Harbinger.Spore.Client.Models;// Made with Blockbench 4.12.5
+package com.Harbinger.Spore.Client.Models;// Made with Blockbench 5.1.3
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
-
 import com.Harbinger.Spore.Client.Special.ProtectorBits;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Protector;
 import com.Harbinger.Spore.Spore;
@@ -17,16 +16,17 @@ import net.minecraft.util.Mth;
 
 import java.util.List;
 
-public class ProtectorModel<T extends Protector> extends EntityModel<T> implements TentacledModel, ProtectorBits {
+public class BulwarkProtectorModel<T extends Protector> extends EntityModel<T> implements TentacledModel, ProtectorBits{
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "protectormodel"), "main");
-	public final ModelPart Protector;
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "bulwarkprotectormodel"), "main");
+	private final ModelPart Protector;
 	private final ModelPart FullBody;
 	private final ModelPart Body;
 	private final ModelPart RibHeart;
 	private final ModelPart RibCage1;
 	private final ModelPart Heart;
 	private final ModelPart RibCage2;
+	private final ModelPart armor;
 	private final ModelPart Arms;
 	private final ModelPart ShieldArm;
 	private final ModelPart rightArm;
@@ -38,23 +38,27 @@ public class ProtectorModel<T extends Protector> extends EntityModel<T> implemen
 	private final ModelPart tumors;
 	private final ModelPart Head;
 	private final ModelPart Jaw;
-	public final ModelPart headWear;
+	private final ModelPart headWear;
+	private final ModelPart morearmor;
 	private final ModelPart Legs;
 	private final ModelPart LeftLeg;
-	public final ModelPart LeftBoot;
+	private final ModelPart LeftBoot;
 	private final ModelPart RightLeg;
-	public final ModelPart RightBoot;
-	public final ModelPart LeftArm;
-	private final boolean armor;
-
-	public ProtectorModel(ModelPart root,boolean armor) {
+	private final ModelPart RightBoot;
+	private final ModelPart LeftArm;
+	private final ModelPart minishield;
+	private final ModelPart ShieldFoliage4;
+	private final boolean armorE;
+	public BulwarkProtectorModel(ModelPart root, boolean armorE) {
 		this.Protector = root.getChild("Protector");
-		this.FullBody = this.Protector.getChild("FullBody");
+        this.armorE = armorE;
+        this.FullBody = this.Protector.getChild("FullBody");
 		this.Body = this.FullBody.getChild("Body");
 		this.RibHeart = this.Body.getChild("RibHeart");
 		this.RibCage1 = this.RibHeart.getChild("RibCage1");
 		this.Heart = this.RibHeart.getChild("Heart");
 		this.RibCage2 = this.RibHeart.getChild("RibCage2");
+		this.armor = this.Body.getChild("armor");
 		this.Arms = this.FullBody.getChild("Arms");
 		this.ShieldArm = this.Arms.getChild("ShieldArm");
 		this.rightArm = this.ShieldArm.getChild("rightArm");
@@ -67,13 +71,15 @@ public class ProtectorModel<T extends Protector> extends EntityModel<T> implemen
 		this.Head = this.FullBody.getChild("Head");
 		this.Jaw = this.Head.getChild("Jaw");
 		this.headWear = this.Head.getChild("headWear");
+		this.morearmor = this.Head.getChild("morearmor");
 		this.Legs = this.Protector.getChild("Legs");
 		this.LeftLeg = this.Legs.getChild("LeftLeg");
 		this.LeftBoot = this.LeftLeg.getChild("LeftBoot");
 		this.RightLeg = this.Legs.getChild("RightLeg");
 		this.RightBoot = this.RightLeg.getChild("RightBoot");
 		this.LeftArm = root.getChild("LeftArm");
-		this.armor = armor;
+		this.minishield = this.LeftArm.getChild("minishield");
+		this.ShieldFoliage4 = this.minishield.getChild("ShieldFoliage4");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -121,6 +127,13 @@ public class ProtectorModel<T extends Protector> extends EntityModel<T> implemen
 
 		PartDefinition Rib_r4 = RibCage2.addOrReplaceChild("Rib_r4", CubeListBuilder.create().texOffs(104, 45).addBox(-1.0F, -2.0F, -1.0F, 3.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, -0.5F, 0.0F, -1.3265F, 0.0F));
 
+		PartDefinition armor = Body.addOrReplaceChild("armor", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
+
+		PartDefinition cube_r1 = armor.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(120, 10).addBox(-1.0F, -3.0F, -2.0F, 2.0F, 5.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0F, 0.0F, -1.0F, 0.2182F, -0.1745F, -0.0873F));
+
+		PartDefinition cube_r2 = armor.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(101, 17).addBox(-3.0F, -3.0F, -0.5F, 2.0F, 3.0F, 2.0F, new CubeDeformation(0.0F))
+		.texOffs(114, 0).addBox(-1.0F, -5.0F, -1.0F, 5.0F, 6.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.5F, 6.5F, -2.5F, 0.1309F, -0.1309F, 0.0873F));
+
 		PartDefinition Arms = FullBody.addOrReplaceChild("Arms", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition ShieldArm = Arms.addOrReplaceChild("ShieldArm", CubeListBuilder.create(), PartPose.offset(-2.6F, -20.7F, 0.5F));
@@ -129,7 +142,7 @@ public class ProtectorModel<T extends Protector> extends EntityModel<T> implemen
 
 		PartDefinition rightForArm = rightArm.addOrReplaceChild("rightForArm", CubeListBuilder.create().texOffs(0, 57).addBox(-1.7F, 0.0F, -2.9F, 5.0F, 8.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.1179F, 6.0182F, 0.0F, -0.4821F, -0.2129F, -0.3838F));
 
-		PartDefinition shield = rightForArm.addOrReplaceChild("shield", CubeListBuilder.create(), PartPose.offsetAndRotation(-2.0F, 2.0F, 3.0F, 1.4775F, 1.1324F, 1.4679F));
+		PartDefinition shield = rightForArm.addOrReplaceChild("shield", CubeListBuilder.create().texOffs(132, 0).addBox(0.0F, -11.0F, -4.0F, 7.0F, 15.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0F, 2.0F, 3.0F, 1.4775F, 1.1324F, 1.4679F));
 
 		PartDefinition ShieldBase_r1 = shield.addOrReplaceChild("ShieldBase_r1", CubeListBuilder.create().texOffs(27, 40).addBox(-1.0F, -7.0F, -1.0F, 8.0F, 11.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.2F, -2.4F, -1.1F, 0.0F, 0.4538F, 0.0F));
 
@@ -211,6 +224,12 @@ public class ProtectorModel<T extends Protector> extends EntityModel<T> implemen
 
 		PartDefinition headWear = Head.addOrReplaceChild("headWear", CubeListBuilder.create().texOffs(0, 0).addBox(-16.0F, -19.0F, -18.0F, 32.0F, 32.0F, 32.0F, new CubeDeformation(-11.5F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
+		PartDefinition morearmor = Head.addOrReplaceChild("morearmor", CubeListBuilder.create(), PartPose.offset(0.0F, -3.0F, -1.0F));
+
+		PartDefinition cube_r3 = morearmor.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(109, 13).addBox(-1.0F, -2.0F, -1.0F, 3.0F, 3.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.25F, -2.0F, -2.0F, 0.0F, 0.0436F, -0.1745F));
+
+		PartDefinition cube_r4 = morearmor.addOrReplaceChild("cube_r4", CubeListBuilder.create().texOffs(101, 11).addBox(-1.0F, -2.0F, -1.0F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.25F, -2.0F, -4.0F, 0.1745F, 0.0F, -0.1745F));
+
 		PartDefinition Legs = Protector.addOrReplaceChild("Legs", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition LeftLeg = Legs.addOrReplaceChild("LeftLeg", CubeListBuilder.create().texOffs(85, 12).addBox(-2.5F, 0.0F, -2.5F, 4.0F, 5.0F, 4.0F, new CubeDeformation(0.0F))
@@ -236,8 +255,31 @@ public class ProtectorModel<T extends Protector> extends EntityModel<T> implemen
 
 		PartDefinition CalciumArmor_r11 = LeftArm.addOrReplaceChild("CalciumArmor_r11", CubeListBuilder.create().texOffs(38, 95).addBox(-1.0F, -3.0F, -1.0F, 5.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, 0.3F, -0.1F, -0.0043F, -0.1221F, 0.0352F));
 
+		PartDefinition minishield = LeftArm.addOrReplaceChild("minishield", CubeListBuilder.create(), PartPose.offset(3.0F, 7.0F, 0.0F));
+
+		PartDefinition cube_r5 = minishield.addOrReplaceChild("cube_r5", CubeListBuilder.create().texOffs(152, 0).addBox(-1.0F, -2.0F, -2.0F, 2.0F, 5.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.5F, -3.0F, -1.5F, 0.2618F, 0.2182F, -0.0436F));
+
+		PartDefinition cube_r6 = minishield.addOrReplaceChild("cube_r6", CubeListBuilder.create().texOffs(122, 18).addBox(-1.0F, -2.0F, -2.0F, 2.0F, 6.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.5F, -3.0F, 1.0F, 0.1745F, 0.2182F, 0.0F));
+
+		PartDefinition cube_r7 = minishield.addOrReplaceChild("cube_r7", CubeListBuilder.create().texOffs(112, 21).addBox(-0.75F, -4.0F, -1.0F, 2.0F, 7.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -1.0F, 1.5F, 0.0F, -0.1745F, 0.0873F));
+
+		PartDefinition cube_r8 = minishield.addOrReplaceChild("cube_r8", CubeListBuilder.create().texOffs(101, 22).addBox(-2.0F, -1.0F, -2.0F, 2.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 5.0F, 1.0F, 0.0F, 0.0F, 0.2618F));
+
+		PartDefinition cube_r9 = minishield.addOrReplaceChild("cube_r9", CubeListBuilder.create().texOffs(102, 69).addBox(-1.0F, -3.0F, -2.0F, 2.0F, 8.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.1309F, 0.1309F, 0.1745F));
+
+		PartDefinition ShieldFoliage4 = minishield.addOrReplaceChild("ShieldFoliage4", CubeListBuilder.create(), PartPose.offsetAndRotation(1.576F, 0.1044F, 0.2254F, 0.1309F, -0.7418F, 1.789F));
+
+		PartDefinition Petal4_r4 = ShieldFoliage4.addOrReplaceChild("Petal4_r4", CubeListBuilder.create().texOffs(73, 63).addBox(-3.0F, 0.0F, -3.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.5111F, -1.3995F, 0.3649F, 0.2443F, 0.0F, -0.4363F));
+
+		PartDefinition Petal3_r4 = ShieldFoliage4.addOrReplaceChild("Petal3_r4", CubeListBuilder.create().texOffs(25, 84).addBox(-2.0F, 0.0F, -3.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.5065F, -0.3677F, 0.3649F, 0.263F, 0.1603F, 0.1693F));
+
+		PartDefinition Petal2_r4 = ShieldFoliage4.addOrReplaceChild("Petal2_r4", CubeListBuilder.create().texOffs(73, 56).addBox(-3.0F, 0.0F, -3.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0111F, -1.1995F, -3.6351F, -0.4363F, 0.0F, 0.0F));
+
+		PartDefinition Petal1_r4 = ShieldFoliage4.addOrReplaceChild("Petal1_r4", CubeListBuilder.create().texOffs(79, 47).addBox(-3.0F, 0.0F, -3.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0111F, -1.1995F, 3.0649F, 0.4354F, 0.0295F, -0.0633F));
+
 		return LayerDefinition.create(meshdefinition, 256, 128);
 	}
+
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		float moveValue = Mth.cos(limbSwing * 0.8F) * 0.8F * limbSwingAmount;
@@ -265,7 +307,7 @@ public class ProtectorModel<T extends Protector> extends EntityModel<T> implemen
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float r, float g, float b, float alpha) {
-		root().getAllParts().forEach(part -> {setDraw(part,armor);});
+		root().getAllParts().forEach(part -> {setDraw(part,armorE);});
 		Protector.render(poseStack, vertexConsumer, packedLight, packedOverlay,r,g,b, alpha);
 		LeftArm.render(poseStack, vertexConsumer, packedLight, packedOverlay,r,g,b, alpha);
 	}
@@ -294,6 +336,4 @@ public class ProtectorModel<T extends Protector> extends EntityModel<T> implemen
 	public ModelPart root() {
 		return Protector;
 	}
-
-
 }

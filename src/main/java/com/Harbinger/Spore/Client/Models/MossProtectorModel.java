@@ -1,7 +1,6 @@
-package com.Harbinger.Spore.Client.Models;// Made with Blockbench 4.12.5
+package com.Harbinger.Spore.Client.Models;// Made with Blockbench 5.1.3
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
-
 import com.Harbinger.Spore.Client.Special.ProtectorBits;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Protector;
 import com.Harbinger.Spore.Spore;
@@ -17,10 +16,10 @@ import net.minecraft.util.Mth;
 
 import java.util.List;
 
-public class ProtectorModel<T extends Protector> extends EntityModel<T> implements TentacledModel, ProtectorBits {
+public class MossProtectorModel<T extends Protector> extends EntityModel<T> implements TentacledModel, ProtectorBits  {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "protectormodel"), "main");
-	public final ModelPart Protector;
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "mossprotectormodel"), "main");
+	private final ModelPart Protector;
 	private final ModelPart FullBody;
 	private final ModelPart Body;
 	private final ModelPart RibHeart;
@@ -36,20 +35,21 @@ public class ProtectorModel<T extends Protector> extends EntityModel<T> implemen
 	private final ModelPart ShieldFoliage2;
 	private final ModelPart ShieldFoliage;
 	private final ModelPart tumors;
+	private final ModelPart ShieldMossnThrons;
 	private final ModelPart Head;
 	private final ModelPart Jaw;
-	public final ModelPart headWear;
+	private final ModelPart headWear;
 	private final ModelPart Legs;
 	private final ModelPart LeftLeg;
-	public final ModelPart LeftBoot;
+	private final ModelPart LeftBoot;
 	private final ModelPart RightLeg;
-	public final ModelPart RightBoot;
-	public final ModelPart LeftArm;
+	private final ModelPart RightBoot;
+	private final ModelPart LeftArm;
 	private final boolean armor;
-
-	public ProtectorModel(ModelPart root,boolean armor) {
+	public MossProtectorModel(ModelPart root, boolean armor) {
 		this.Protector = root.getChild("Protector");
-		this.FullBody = this.Protector.getChild("FullBody");
+        this.armor = armor;
+        this.FullBody = this.Protector.getChild("FullBody");
 		this.Body = this.FullBody.getChild("Body");
 		this.RibHeart = this.Body.getChild("RibHeart");
 		this.RibCage1 = this.RibHeart.getChild("RibCage1");
@@ -64,6 +64,7 @@ public class ProtectorModel<T extends Protector> extends EntityModel<T> implemen
 		this.ShieldFoliage2 = this.shield.getChild("ShieldFoliage2");
 		this.ShieldFoliage = this.shield.getChild("ShieldFoliage");
 		this.tumors = this.shield.getChild("tumors");
+		this.ShieldMossnThrons = this.shield.getChild("ShieldMossnThrons");
 		this.Head = this.FullBody.getChild("Head");
 		this.Jaw = this.Head.getChild("Jaw");
 		this.headWear = this.Head.getChild("headWear");
@@ -73,7 +74,6 @@ public class ProtectorModel<T extends Protector> extends EntityModel<T> implemen
 		this.RightLeg = this.Legs.getChild("RightLeg");
 		this.RightBoot = this.RightLeg.getChild("RightBoot");
 		this.LeftArm = root.getChild("LeftArm");
-		this.armor = armor;
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -98,6 +98,8 @@ public class ProtectorModel<T extends Protector> extends EntityModel<T> implemen
 		PartDefinition Petal_r2 = Body.addOrReplaceChild("Petal_r2", CubeListBuilder.create().texOffs(50, 48).addBox(-1.0F, 0.0F, -1.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.6F, 2.4F, 1.5F, -0.1745F, -0.2967F, 0.0F));
 
 		PartDefinition Petal_r3 = Body.addOrReplaceChild("Petal_r3", CubeListBuilder.create().texOffs(56, 8).addBox(-1.0F, 0.0F, -1.0F, 7.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.4F, 5.0F, 0.3F, -0.1222F, 0.2793F, 0.0F));
+
+		PartDefinition cube_r1 = Body.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(134, 24).addBox(-1.0F, -2.0F, -1.0F, 4.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.6F, 5.3F, 2.3F, -1.5289F, 0.1736F, -0.1467F));
 
 		PartDefinition RibHeart = Body.addOrReplaceChild("RibHeart", CubeListBuilder.create(), PartPose.offset(2.9F, -2.0F, -3.3F));
 
@@ -169,7 +171,7 @@ public class ProtectorModel<T extends Protector> extends EntityModel<T> implemen
 
 		PartDefinition Petal4_r2 = ShieldFoliage2.addOrReplaceChild("Petal4_r2", CubeListBuilder.create().texOffs(60, 16).addBox(-3.0F, 0.0F, -3.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.6016F, 1.4674F, -1.161F, 0.2443F, 0.0F, -0.4363F));
 
-		PartDefinition Petal3_r2 = ShieldFoliage2.addOrReplaceChild("Petal3_r2", CubeListBuilder.create().texOffs(0, 84).addBox(-2.0F, 0.0F, -3.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-6.416F, 2.4992F, -1.161F, 0.263F, 0.1603F, 0.1693F));
+		PartDefinition Petal3_r2 = ShieldFoliage2.addOrReplaceChild("Petal3_r2", CubeListBuilder.create().texOffs(0, 84).addBox(-0.6617F, 11.9015F, -1.2754F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.216F, -8.9008F, -5.361F, 0.2861F, 0.1128F, 0.3388F));
 
 		PartDefinition Petal2_r2 = ShieldFoliage2.addOrReplaceChild("Petal2_r2", CubeListBuilder.create().texOffs(54, 33).addBox(-3.0F, 0.0F, -3.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.8984F, 1.6674F, -5.161F, -0.4363F, 0.0F, 0.0F));
 
@@ -191,6 +193,44 @@ public class ProtectorModel<T extends Protector> extends EntityModel<T> implemen
 
 		PartDefinition ShieldTumor_r3 = tumors.addOrReplaceChild("ShieldTumor_r3", CubeListBuilder.create().texOffs(36, 103).addBox(-2.0F, -2.0F, -1.0F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(7.1F, -2.7F, 2.0F, -0.3204F, 0.0282F, -0.1378F));
 
+		PartDefinition ShieldMossnThrons = shield.addOrReplaceChild("ShieldMossnThrons", CubeListBuilder.create(), PartPose.offsetAndRotation(-2.3821F, 3.1818F, -2.8F, 0.0F, -1.3963F, 0.0F));
+
+		PartDefinition cube_r2 = ShieldMossnThrons.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(119, 28).addBox(-5.0F, 0.0F, -3.0F, 6.0F, 0.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.4F, -2.8F, -9.6F, 0.2565F, -0.4349F, -0.3745F));
+
+		PartDefinition cube_r3 = ShieldMossnThrons.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(119, 28).addBox(-5.0F, 0.0F, -3.0F, 6.0F, 0.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.5F, 5.1F, -10.1F, 0.2099F, -0.3621F, -0.1292F));
+
+		PartDefinition cube_r4 = ShieldMossnThrons.addOrReplaceChild("cube_r4", CubeListBuilder.create().texOffs(119, 28).addBox(-5.0F, 0.0F, -3.0F, 6.0F, 0.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.3F, -8.5F, -9.6F, -0.0079F, -0.403F, -0.1185F));
+
+		PartDefinition cube_r5 = ShieldMossnThrons.addOrReplaceChild("cube_r5", CubeListBuilder.create().texOffs(119, 28).addBox(-5.0F, 0.0F, -3.0F, 6.0F, 0.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.3F, 3.9F, -1.3F, -0.3405F, 0.3158F, -0.1417F));
+
+		PartDefinition cube_r6 = ShieldMossnThrons.addOrReplaceChild("cube_r6", CubeListBuilder.create().texOffs(119, 28).addBox(-5.0F, 0.0F, -3.0F, 6.0F, 0.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.9F, -0.8F, -0.7F, 0.2298F, 0.328F, -0.1035F));
+
+		PartDefinition cube_r7 = ShieldMossnThrons.addOrReplaceChild("cube_r7", CubeListBuilder.create().texOffs(118, 14).addBox(-1.0F, -2.0F, -5.0F, 2.0F, 2.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.1F, 5.3F, -7.7F, 1.1307F, -0.1575F, -0.3732F));
+
+		PartDefinition cube_r8 = ShieldMossnThrons.addOrReplaceChild("cube_r8", CubeListBuilder.create().texOffs(118, 14).addBox(-1.0F, -2.0F, -5.0F, 2.0F, 2.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.8F, 4.9F, -1.6F, -1.202F, 0.2878F, 0.1206F));
+
+		PartDefinition cube_r9 = ShieldMossnThrons.addOrReplaceChild("cube_r9", CubeListBuilder.create().texOffs(119, 28).addBox(-5.0F, 0.0F, -3.0F, 6.0F, 0.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.2F, -2.1F, -6.7F, -0.0874F, -0.1323F, -0.1111F));
+
+		PartDefinition cube_r10 = ShieldMossnThrons.addOrReplaceChild("cube_r10", CubeListBuilder.create().texOffs(118, 14).addBox(-1.0F, -2.0F, -5.0F, 2.0F, 2.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.2F, 6.7F, -10.8F, -0.1591F, -1.3804F, -0.7174F));
+
+		PartDefinition cube_r11 = ShieldMossnThrons.addOrReplaceChild("cube_r11", CubeListBuilder.create().texOffs(118, 14).addBox(-1.0F, -2.0F, -5.0F, 2.0F, 2.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.2F, -5.8F, -10.8F, -1.2527F, -0.4042F, 0.1357F));
+
+		PartDefinition cube_r12 = ShieldMossnThrons.addOrReplaceChild("cube_r12", CubeListBuilder.create().texOffs(117, 14).addBox(-1.0F, -3.0F, -5.0F, 3.0F, 3.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.5F, -4.1F, -10.8F, 1.6635F, -0.431F, -1.3779F));
+
+		PartDefinition cube_r13 = ShieldMossnThrons.addOrReplaceChild("cube_r13", CubeListBuilder.create().texOffs(117, 14).addBox(-1.0F, -3.0F, -5.0F, 3.0F, 3.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.5F, 0.5F, 0.7F, 0.9239F, -0.0241F, -1.8295F));
+
+		PartDefinition cube_r14 = ShieldMossnThrons.addOrReplaceChild("cube_r14", CubeListBuilder.create().texOffs(117, 14).addBox(-1.0F, -3.0F, -5.0F, 3.0F, 3.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.6F, 5.8F, -8.8F, 1.3435F, -0.6661F, -1.2126F));
+
+		PartDefinition cube_r15 = ShieldMossnThrons.addOrReplaceChild("cube_r15", CubeListBuilder.create().texOffs(117, 14).addBox(-1.0F, -3.0F, -5.0F, 3.0F, 3.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.7F, 5.8F, -8.8F, 2.1203F, -0.1365F, -3.0913F));
+
+		PartDefinition cube_r16 = ShieldMossnThrons.addOrReplaceChild("cube_r16", CubeListBuilder.create().texOffs(113, 10).addBox(-1.0F, -3.0F, -9.0F, 3.0F, 3.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.3F, -0.1F, -2.1F, 0.7059F, -0.0165F, -0.2287F));
+
+		PartDefinition cube_r17 = ShieldMossnThrons.addOrReplaceChild("cube_r17", CubeListBuilder.create().texOffs(113, 10).addBox(-1.0F, -3.0F, -9.0F, 3.0F, 3.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.5F, -0.6F, -6.6F, -0.5567F, -0.3365F, 0.3108F));
+
+		PartDefinition cube_r18 = ShieldMossnThrons.addOrReplaceChild("cube_r18", CubeListBuilder.create().texOffs(119, 28).addBox(-5.0F, 0.0F, -3.0F, 6.0F, 0.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.4F, -4.8F, -10.1F, 0.2253F, -0.2614F, -0.0965F));
+
+		PartDefinition cube_r19 = ShieldMossnThrons.addOrReplaceChild("cube_r19", CubeListBuilder.create().texOffs(114, 11).addBox(-1.0F, -3.0F, -9.0F, 3.0F, 3.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.1821F, 0.2782F, -0.0908F));
+
 		PartDefinition Head = FullBody.addOrReplaceChild("Head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -6.5F, -5.6F, 8.0F, 6.0F, 8.0F, new CubeDeformation(0.0F))
 		.texOffs(101, 84).addBox(-4.0F, -0.7F, 0.4F, 8.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -25.0F, -2.2F, -0.1309F, 0.0F, 0.0F));
 
@@ -201,6 +241,10 @@ public class ProtectorModel<T extends Protector> extends EntityModel<T> implemen
 		PartDefinition CalciumArmor_r5 = Head.addOrReplaceChild("CalciumArmor_r5", CubeListBuilder.create().texOffs(0, 91).addBox(-1.0F, -3.0F, -1.0F, 5.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.2F, -4.6F, -5.5F, 0.3233F, -0.0516F, -0.1748F));
 
 		PartDefinition CalciumArmor_r6 = Head.addOrReplaceChild("CalciumArmor_r6", CubeListBuilder.create().texOffs(19, 91).addBox(-1.0F, -3.0F, -1.0F, 5.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.4F, -6.0F, -3.1F, -0.0873F, -0.0698F, 1.3439F));
+
+		PartDefinition cube_r20 = Head.addOrReplaceChild("cube_r20", CubeListBuilder.create().texOffs(134, 24).addBox(-1.0F, -2.0F, -1.0F, 4.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.2F, -4.9F, 1.2F, -0.9127F, 0.6246F, -0.0729F));
+
+		PartDefinition cube_r21 = Head.addOrReplaceChild("cube_r21", CubeListBuilder.create().texOffs(134, 24).addBox(-1.0F, -2.0F, -1.0F, 4.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.9F, -5.0F, -0.2F, -0.0803F, -0.1102F, -0.0608F));
 
 		PartDefinition CalciumArmor_r7 = Head.addOrReplaceChild("CalciumArmor_r7", CubeListBuilder.create().texOffs(21, 75).addBox(-1.0F, -3.0F, -1.0F, 5.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.5F, -3.0F, -6.3F, 0.291F, -0.4577F, -0.1036F));
 
@@ -225,6 +269,8 @@ public class ProtectorModel<T extends Protector> extends EntityModel<T> implemen
 		.texOffs(0, 71).addBox(-2.0F, 5.0F, -3.0F, 5.0F, 7.0F, 5.0F, new CubeDeformation(0.0F))
 		.texOffs(98, 109).addBox(-1.957F, 3.9154F, -3.0535F, 5.0F, 8.0F, 5.0F, new CubeDeformation(0.2F)), PartPose.offset(-2.5F, -12.0F, 0.5F));
 
+		PartDefinition cube_r22 = RightLeg.addOrReplaceChild("cube_r22", CubeListBuilder.create().texOffs(134, 24).addBox(-1.0F, -2.0F, -1.0F, 4.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.1F, 9.9F, 0.0F, -0.3652F, 0.0786F, -1.748F));
+
 		PartDefinition RightBoot = RightLeg.addOrReplaceChild("RightBoot", CubeListBuilder.create().texOffs(0, 88).addBox(-7.5F, 1.5F, -8.5F, 16.0F, 16.0F, 16.0F, new CubeDeformation(-5.21F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition LeftArm = partdefinition.addOrReplaceChild("LeftArm", CubeListBuilder.create().texOffs(84, 84).addBox(-0.4F, -0.6F, -1.6F, 4.0F, 7.0F, 4.0F, new CubeDeformation(0.0F))
@@ -236,8 +282,11 @@ public class ProtectorModel<T extends Protector> extends EntityModel<T> implemen
 
 		PartDefinition CalciumArmor_r11 = LeftArm.addOrReplaceChild("CalciumArmor_r11", CubeListBuilder.create().texOffs(38, 95).addBox(-1.0F, -3.0F, -1.0F, 5.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, 0.3F, -0.1F, -0.0043F, -0.1221F, 0.0352F));
 
+		PartDefinition cube_r23 = LeftArm.addOrReplaceChild("cube_r23", CubeListBuilder.create().texOffs(134, 24).addBox(-1.0F, -2.0F, -1.0F, 4.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.8F, 8.3F, -0.1F, -0.949F, 0.0385F, 1.478F));
+
 		return LayerDefinition.create(meshdefinition, 256, 128);
 	}
+
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		float moveValue = Mth.cos(limbSwing * 0.8F) * 0.8F * limbSwingAmount;
@@ -294,6 +343,4 @@ public class ProtectorModel<T extends Protector> extends EntityModel<T> implemen
 	public ModelPart root() {
 		return Protector;
 	}
-
-
 }
