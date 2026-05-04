@@ -19,14 +19,19 @@
     "spore:rotten_bush",
     "spore:outpost_watcher",
     "spore:organite",
-    "spore:bile_lump",
     "spore:drowned_lump",
+    "spore:bile_lump",
     "spore:glowshroom",
     "spore:hand",
     "spore:wall_growths_fleshy",
     "spore:vocals",
     "spore:fang_lump",
     "spore:lungs",
-    "spore:acidic_sack"
+    "spore:acidic_sack",
+    "spore:exploding_lump",
+    "spore:poisoning_lump",
+    "spore:rotten_grass",
+    "spore:rotten_fern",
+    "spore:rotten_bush"
   ]
 }

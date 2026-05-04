@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/poisoning_lump"
+      },
+      {
+        "model": "spore:block/poisoning_lump",
+        "y": 90
+      },
+      {
+        "model": "spore:block/poisoning_lump",
+        "y": 180
+      },
+      {
+        "model": "spore:block/poisoning_lump",
+        "y": 270
+      }
+    ]
+  }
+}

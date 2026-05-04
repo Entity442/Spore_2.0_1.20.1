@@ -73,6 +73,8 @@ public class Sblocks {
     public static final RegistryObject<Block> VOCALS = BLOCKS.register("vocals", WallVocalsBlock::new);
     public static final RegistryObject<Block> MYCELIUM_VEINS = BLOCKS.register("mycelium_veins", MyceliumVeins::new);
     public static final RegistryObject<Block> BIOMASS_BULB = BLOCKS.register("biomass_bulb", BiomassBulb::new);
+    public static final RegistryObject<Block> EXPLODING_LUMP = BLOCKS.register("exploding_lump", ExplodingLump::new);
+    public static final RegistryObject<Block> POISONING_LUMP = BLOCKS.register("poisoning_lump", CorrosiveDrownedLump::new);
 
     public static final RegistryObject<Block> INFESTED_DIRT = BLOCKS.register("infested_dirt", () -> new SelectableBlock(BlockBehaviour.Properties.copy(Blocks.COARSE_DIRT)));
     public static final RegistryObject<Block> INFESTED_STONE = BLOCKS.register("infested_stone", () -> new SelectableBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
@@ -139,4 +141,5 @@ public class Sblocks {
     public static final RegistryObject<Block> DROWNED_LUMP = BLOCKS.register("drowned_lump", DrownedLump::new);
     public static final RegistryObject<Block> BILE_LUMP = BLOCKS.register("bile_lump", BileLump::new);
     public static final RegistryObject<Block> FANG_LUMP = BLOCKS.register("fang_lump", FangLump::new);
+
 }

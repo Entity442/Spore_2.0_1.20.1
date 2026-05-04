@@ -700,6 +700,8 @@ public class Sitems {
     public static final RegistryObject<Item> HIVE_SPAWN = block(Sblocks.HIVE_SPAWN);
     public static final RegistryObject<Item> DROWNED_LUMP = block(Sblocks.DROWNED_LUMP);
     public static final RegistryObject<Item> FANG_LUMP = block(Sblocks.FANG_LUMP);
+    public static final RegistryObject<Item> EXPLODING_LUMP = block(Sblocks.EXPLODING_LUMP);
+    public static final RegistryObject<Item> POISONING_LUMP = block(Sblocks.POISONING_LUMP);
     public static final RegistryObject<Item> VOCALS = block(Sblocks.VOCALS);
     public static final RegistryObject<Item> LUNGS = block(Sblocks.LUNGS);
     public static final RegistryObject<Item> ACIDIC_SACK = block(Sblocks.ACIDIC_SACK);
