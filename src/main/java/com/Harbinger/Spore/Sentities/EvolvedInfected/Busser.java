@@ -5,11 +5,11 @@ import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.*;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.ScatterShotRangedGoal;
+import com.Harbinger.Spore.Sentities.AI.NeuralProcessing.Experimental.ExpAirPathNavigation;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.Carrier;
 import com.Harbinger.Spore.Sentities.FlyingInfected;
 import com.Harbinger.Spore.Sentities.MovementControls.InfectedArialMovementControl;
-import com.Harbinger.Spore.Sentities.MovementControls.PathFinders.CachedFlyingNavigation;
 import com.Harbinger.Spore.Sentities.Projectile.StingerProjectile;
 import com.Harbinger.Spore.Sentities.Projectile.ThrownBlockProjectile;
 import com.Harbinger.Spore.Sentities.VariantKeeper;
@@ -56,7 +56,7 @@ public class Busser extends EvolvedInfected implements Carrier, FlyingInfected, 
     public Busser(EntityType<? extends Monster> type, Level level) {
         super(type, level);
         this.moveControl = new InfectedArialMovementControl(this , 20,true);
-        this.navigation = new FlyingPathNavigation(this,level);
+        this.navigation = new ExpAirPathNavigation(this,level);
     }
     public boolean causeFallDamage(float p_147105_, float p_147106_, DamageSource p_147107_) {
         return false;
