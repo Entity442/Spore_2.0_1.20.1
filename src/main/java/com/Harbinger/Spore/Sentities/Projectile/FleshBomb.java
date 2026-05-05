@@ -37,7 +37,6 @@ public class FleshBomb extends AbstractArrow {
     private static final EntityDataAccessor<Integer> EXPLOSION = SynchedEntityData.defineId(FleshBomb.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> CARRIER = SynchedEntityData.defineId(FleshBomb.class, EntityDataSerializers.BOOLEAN);
     private Predicate<LivingEntity> livingEntityPredicate = (entity) -> {return true;};
-    @Nullable
     private Vec3 target;
 
     public FleshBomb(Level level,LivingEntity entity,float damage,BombType type,int range) {
