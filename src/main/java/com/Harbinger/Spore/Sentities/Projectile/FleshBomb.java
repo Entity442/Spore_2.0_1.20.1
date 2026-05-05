@@ -38,7 +38,7 @@ public class FleshBomb extends AbstractArrow {
     private static final EntityDataAccessor<Boolean> CARRIER = SynchedEntityData.defineId(FleshBomb.class, EntityDataSerializers.BOOLEAN);
     private Predicate<LivingEntity> livingEntityPredicate = (entity) -> {return true;};
     @Nullable
-    private Entity target;
+    private Vec3 target;
 
     public FleshBomb(Level level,LivingEntity entity,float damage,BombType type,int range) {
         super(Sentities.FLESH_BOMB.get(), level);
@@ -48,7 +48,7 @@ public class FleshBomb extends AbstractArrow {
         setOwner(entity);
     }
     public void setTarget(Entity entity){
-        this.target = entity;
+        this.target = entity.position();
     }
 
     public FleshBomb(EntityType<FleshBomb> fleshBombEntityType, Level level) {
@@ -146,15 +146,15 @@ public class FleshBomb extends AbstractArrow {
         }
         aimForTarget();
     }
-    private float calculate(Entity entity,Entity entity1){
-        float f = (float)(entity.getX() - entity1.getX());
-        float f2 = (float)(entity.getZ() - entity1.getZ());
+    private float calculate(Entity entity,Vec3 entity1){
+        float f = (float)(entity.getX() - entity1.x);
+        float f2 = (float)(entity.getZ() - entity1.z);
         return Mth.sqrt(f * f + f2 * f2);
     }
     private void aimForTarget(){
         if (target != null && this.getDeltaMovement().y<0){
             Vec3 vec3 = this.getDeltaMovement();
-            Vec3 vec31 = new Vec3(this.target.getX() - this.getX(), 0.0D, this.target.getZ() - this.getZ());
+            Vec3 vec31 = new Vec3(this.target.x - this.getX(), 0.0D, this.target.z - this.getZ());
             if (vec31.lengthSqr() > 1.0E-7D) {
                 vec31 = vec31.normalize().scale(0.05D);
             }
