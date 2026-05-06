@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -11,6 +12,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -30,7 +32,23 @@ public class CorrosiveDrownedLump extends GenericFoliageBlock{
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateBuilder) {
         stateBuilder.add(WATERLOGGED);
     }
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        super.animateTick(state, level, pos, random);
 
+        double offsetX = (random.nextDouble() - 0.5D) * 0.8D;
+        double offsetZ = (random.nextDouble() - 0.5D) * 0.8D;
+
+        double particleX = pos.getX() + 0.5D + offsetX;
+        double particleY = pos.getY() + 0.2D + random.nextDouble() * 0.6D;
+        double particleZ = pos.getZ() + 0.5D + offsetZ;
+
+        level.addParticle(
+                ParticleTypes.BUBBLE,
+                particleX, particleY, particleZ,
+                0, 0.1 + random.nextDouble() * 0.2, 0
+        );
+    }
     @Override
     public boolean isRandomlyTicking(BlockState state) {
         return true;
