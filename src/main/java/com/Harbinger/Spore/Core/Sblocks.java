@@ -101,7 +101,7 @@ public class Sblocks {
     public static final RegistryObject<Block> HEART_PIE = BLOCKS.register("heart_pie", HeartPie::new);
     public static final RegistryObject<Block> COOKED_TORSO = BLOCKS.register("cooked_torso", CookedTorsoBlock::new);
 
-    public static final RegistryObject<Block> ROTTEN_LOG = BLOCKS.register("rotten_log", () -> new FlamableRotatingBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LOG).sound(SoundType.WOOD)));
+    public static final RegistryObject<Block> ROTTEN_LOG = BLOCKS.register("rotten_log", () -> new FlamableRotatingBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LOG).sound(SoundType.WOOD).randomTicks()));
     public static final RegistryObject<Block> ROTTEN_PLANKS = BLOCKS.register("rotten_planks", () -> new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.WOOD).ignitedByLava()));
     public static final RegistryObject<Block> ROTTEN_STAIR = BLOCKS.register("rotten_stair", () -> new StairBlock(Sblocks.ROTTEN_PLANKS.get().defaultBlockState(),BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.WOOD).ignitedByLava()));
     public static final RegistryObject<Block> ROTTEN_SLAB = BLOCKS.register("rotten_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.WOOD).ignitedByLava()));
