@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Sentities.EvolvedInfected;
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import net.minecraft.core.BlockPos;
@@ -11,12 +12,10 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -40,8 +39,8 @@ public class Gorgon extends EvolvedInfected {
     @Override
     protected void addRegularGoals() {
         super.addRegularGoals();
-        this.goalSelector.addGoal(3,new GorgonSporeSpewGoal(this));
-        this.goalSelector.addGoal(4, new CustomMeleeAttackGoal(this, 1.1, false) {
+        this.goalSelector.addGoal(2,new GorgonSporeSpewGoal(this));
+        this.goalSelector.addGoal(4, new CustomMeleeAttackGoal(this, 1.3, false) {
             @Override
             protected double getAttackReachSqr(LivingEntity entity) {
                 return 4.0 + entity.getBbWidth() * entity.getBbWidth();}
@@ -61,7 +60,7 @@ public class Gorgon extends EvolvedInfected {
                 .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.gorgon_damage.get() * SConfig.SERVER.global_damage.get())
                 .add(Attributes.ARMOR, SConfig.SERVER.gorgon_armor.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.FOLLOW_RANGE, 32)
-                .add(Attributes.ATTACK_KNOCKBACK, 1);
+                .add(Attributes.ATTACK_KNOCKBACK, 2);
 
     }
     @Override
@@ -171,7 +170,7 @@ public class Gorgon extends EvolvedInfected {
         @Override
         public boolean canUse() {
             LivingEntity target = gorgon.getTarget();
-            return gorgon.tickCount % 20 == 0 && gorgon.getSpores() > 6 && target != null;
+            return gorgon.getSpores() > 6 && target != null;
         }
 
         @Override
@@ -181,7 +180,7 @@ public class Gorgon extends EvolvedInfected {
         }
 
         boolean canAttack(LivingEntity target){
-            return target != null && gorgon.hasLineOfSight(target) && !target.isBlocking();
+            return target != null && gorgon.hasLineOfSight(target);
         }
 
         @Override
@@ -197,12 +196,16 @@ public class Gorgon extends EvolvedInfected {
             gorgon.activateMouth();
             LivingEntity target = gorgon.getTarget();
             if (canAttack(target)){
-                gorgon.setSpores(gorgon.getSpores()-0.1f);
-                if (gorgon.tickCount % 40 == 0){
+                double d0 = target.distanceTo(gorgon);
+                if (gorgon.tickCount % 40 == 0 && d0 < 25){
                     gorgon.setTargetId(target.getId());
+                    if (target.isBlocking() || Utilities.helmetList().contains(target.getItemBySlot(EquipmentSlot.HEAD).getItem())){
+                        return;
+                    }
                     target.hurt(gorgon.level().damageSources().mobAttack(gorgon),(float)(SConfig.SERVER.gorgon_ranged_damage.get() * 1f));
-                    target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,60,2));
-                    target.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),60,1));
+                    tryToApply(target,MobEffects.MOVEMENT_SLOWDOWN,400,2);
+                    tryToApply(target,Seffects.MYCELIUM.get(),400,1);
+                    tryToApply(target,MobEffects.BLINDNESS,80,0);
                 }
             }else {
                 gorgon.setTargetId(-1);
@@ -212,6 +215,11 @@ public class Gorgon extends EvolvedInfected {
         @Override
         public boolean requiresUpdateEveryTick() {
             return true;
+        }
+        public void tryToApply(LivingEntity living, MobEffect effect, int duration, int amp){
+            if(!living.hasEffect(effect)){
+                living.addEffect(new MobEffectInstance(effect,duration,amp));
+            }
         }
     }
 }
