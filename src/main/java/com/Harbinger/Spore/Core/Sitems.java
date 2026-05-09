@@ -257,6 +257,8 @@ public class Sitems {
             () -> new SporeSpawnEgg(Sentities.VOLATILE,-976435818,SpawnEggType.EVOLVED));
     public  static final RegistryObject<Item> MEPH_SPAWNEGG = ITEMS.register("meph_spawnegg",
             () -> new SporeSpawnEgg(Sentities.MEPHETIC,-412343453,SpawnEggType.EVOLVED));
+    public  static final RegistryObject<Item> GORGON_SPAWNEGG = ITEMS.register("gorgon_spawnegg",
+            () -> new SporeSpawnEgg(Sentities.GORGON,-65464564,SpawnEggType.EVOLVED));
 
     public  static final RegistryObject<Item> INEBRIATER_SPAWNEGG = ITEMS.register("inebriater_spawnegg",
             () -> new SporeSpawnEgg(Sentities.INEBRIATER,-412435818,SpawnEggType.EVOLVED));

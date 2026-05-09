@@ -180,6 +180,10 @@ public class Sentities {
             () -> EntityType.Builder.of(Howler::new, INFECTED).sized(0.6f, 2.1f)
                     .build(new ResourceLocation(Spore.MODID, "howler").toString()));
 
+    public static final Supplier<EntityType<Gorgon>> GORGON = SPORE_ENTITIES.register("gorgon",
+            () -> EntityType.Builder.of(Gorgon::new, INFECTED).sized(0.6f, 1.9f)
+                    .build(new ResourceLocation(Spore.MODID, "gorgon").toString()));
+
     public static final RegistryObject<EntityType<Stalker>> STALKER = SPORE_ENTITIES.register("stalker",
             () -> EntityType.Builder.of(Stalker::new, INFECTED).sized(0.6f, 2.3f)
                     .build(new ResourceLocation(Spore.MODID, "stalker").toString()));

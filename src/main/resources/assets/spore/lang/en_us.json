@@ -355,6 +355,8 @@
   "item.spore.conductor_spawnegg": "Conductor",
   "item.spore.garg_spawnegg": "Gargoyle",
   "item.spore.reaper_spawnegg": "Reaper",
+  "item.spore.gorgon_spawnegg": "Gorgon",
+
 
   "entity.spore.knight": "Knight",
   "entity.spore.griefer": "Griefer",
@@ -442,6 +444,7 @@
   "entity.spore.reaper": "Reaper",
   "entity.spore.inf_diseased_villager": "Infected Diseased Villager",
   "entity.spore.arena_tendril": "Challenge Watcher",
+  "entity.spore.gorgon": "Gorgon",
 
   "spore.entity.variant.kidnapper" : "Kidnapper Mutation",
   "spore.entity.variant.kamikaze": "Kamikaze Mutation",

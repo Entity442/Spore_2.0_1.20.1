@@ -441,6 +441,11 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> nuke_damage;
         public final ForgeConfigSpec.ConfigValue<Integer> nuke_time;
 
+        public final ForgeConfigSpec.ConfigValue<Double> gorgon_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> gorgon_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> gorgon_ranged_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> gorgon_armor;
+
         public final ForgeConfigSpec.ConfigValue<Double> hevoker_hp;
         public final ForgeConfigSpec.ConfigValue<Double> hevoker_damage;
         public final ForgeConfigSpec.ConfigValue<Double> hevoker_armor;
@@ -766,7 +771,7 @@ public class SConfig {
                             "spore:brute") , o -> o instanceof String);
             this.wit_ev = builder.defineList("Infected Witch Evolutions",
                     Lists.newArrayList(
-                            "spore:volatile","spore:mephitic") , o -> o instanceof String);
+                            "spore:volatile","spore:mephitic","spore:gorgon") , o -> o instanceof String);
             this.husk_ev = builder.defineList("Infected Husk Evolutions",
                     Lists.newArrayList(
                             "spore:thorn",
@@ -962,13 +967,13 @@ public class SConfig {
 
             this.vigil_middle_wave = builder.comment("The mixed wave of infected a vigil can summon").defineList("Vigil mix wave",
                     Lists.newArrayList("spore:inf_human", "spore:inf_villager", "spore:inf_pillager", "spore:inf_wanderer",
-                            "spore:knight", "spore:griefer", "spore:gargoyle","spore:mephitic", "spore:thorn", "spore:nuclea", "spore:jagd", "spore:scavenger", "spore:bloater","spore:slasher", "spore:leaper", "spore:inf_evoker", "spore:spitter") , o -> o instanceof String);
+                            "spore:knight", "spore:griefer","spore:gorgon", "spore:gargoyle","spore:mephitic", "spore:thorn", "spore:nuclea", "spore:jagd", "spore:scavenger", "spore:bloater","spore:slasher", "spore:leaper", "spore:inf_evoker", "spore:spitter") , o -> o instanceof String);
 
             this.vigil_max_wave = builder.comment("The max wave of infected a vigil can summon").defineList("Vigil max wave",
                     Lists.newArrayList("spore:inf_vindicator", "spore:busser", "spore:inf_witch", "spore:brute",
                             "spore:knight", "spore:griefer", "spore:thorn", "spore:jagd", "spore:leaper", "spore:inf_evoker", "spore:spitter", "spore:stalker",
                             "spore:howler", "spore:braiomil", "spore:wendigo","spore:hevoker", "spore:scavenger", "spore:bloater","spore:ogre","spore:slasher", "spore:inquisitor", "spore:brot"
-                            , "spore:volatile","spore:mephitic", "spore:gargoyle", "spore:hvindicator", "spore:grober") , o -> o instanceof String);
+                            , "spore:volatile","spore:mephitic","spore:gorgon", "spore:gargoyle", "spore:hvindicator", "spore:grober") , o -> o instanceof String);
 
             builder.pop();
 
@@ -1233,6 +1238,13 @@ public class SConfig {
             this.specter_hp = builder.comment("Default 70").defineInRange("Sets Specter Max health", 70, 1, Double.MAX_VALUE);
             this.specter_damage = builder.comment("Default 10").defineInRange("Sets Specter Damage", 10, 1, Double.MAX_VALUE);
             this.specter_armor = builder.comment("Default 8").defineInRange("Sets Specter Armor", 8, 0, Double.MAX_VALUE);
+            builder.pop();
+
+            builder.push("Gorgon");
+            this.gorgon_hp = builder.comment("Default 50 ").defineInRange("Sets Gorgon Max health", 50 , 1, Double.MAX_VALUE);
+            this.gorgon_damage = builder.comment("Default 8").defineInRange("Sets Gorgon Damage", 8, 1, Double.MAX_VALUE);
+            this.gorgon_armor = builder.comment("Default 10").defineInRange("Sets Gorgon Armor", 10, 1, Double.MAX_VALUE);
+            this.gorgon_ranged_damage = builder.comment("Default 2").defineInRange("Sets Gorgon Ranged Damage", 2, 1, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("Vanguard");
@@ -1709,6 +1721,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_brute_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_claw_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_bus_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_gorgon_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_drow_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_player_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_husk_loot;
@@ -1854,6 +1867,8 @@ public class SConfig {
             this.inf_volatile_loot = builder.defineList("Volatile",
                     Lists.newArrayList("spore:mutated_fiber|70|1|5","spore:armor_fragment|80|2|6","spore:mutated_heart|10|1|1","spore:claw_fragment|80|6|9","spore:innards|50|1|1","spore:tumor|100|2|4") , o -> o instanceof String);
             this.inf_mep_loot = builder.defineList("Mephetic",
+                    Lists.newArrayList("spore:mutated_fiber|70|1|5","spore:armor_fragment|80|2|6","spore:mutated_heart|10|1|1","spore:claw_fragment|80|6|9","spore:innards|50|1|1","spore:tumor|100|2|4") , o -> o instanceof String);
+            this.inf_gorgon_loot = builder.defineList("Gorgon",
                     Lists.newArrayList("spore:mutated_fiber|70|1|5","spore:armor_fragment|80|2|6","spore:mutated_heart|10|1|1","spore:claw_fragment|80|6|9","spore:innards|50|1|1","spore:tumor|100|2|4") , o -> o instanceof String);
 
 
