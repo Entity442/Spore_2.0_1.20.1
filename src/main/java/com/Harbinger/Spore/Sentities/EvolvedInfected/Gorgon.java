@@ -197,9 +197,9 @@ public class Gorgon extends EvolvedInfected {
             LivingEntity target = gorgon.getTarget();
             if (canAttack(target)){
                 double d0 = target.distanceTo(gorgon);
-                if (gorgon.tickCount % 40 == 0 && d0 < 25){
+                if (gorgon.tickCount % 20 == 0 && d0 < 25){
                     gorgon.setTargetId(target.getId());
-                    if (target.isBlocking() || Utilities.helmetList().contains(target.getItemBySlot(EquipmentSlot.HEAD).getItem())){
+                    if (target.isBlocking()){
                         return;
                     }
                     target.hurt(gorgon.level().damageSources().mobAttack(gorgon),(float)(SConfig.SERVER.gorgon_ranged_damage.get() * 1f));

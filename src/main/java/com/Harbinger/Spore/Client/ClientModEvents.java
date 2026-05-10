@@ -193,6 +193,10 @@ public class ClientModEvents {
         event.registerLayerDefinition(MossProtectorModel.LAYER_LOCATION, MossProtectorModel::createBodyLayer);
         event.registerLayerDefinition(BulwarkProtectorModel.LAYER_LOCATION, BulwarkProtectorModel::createBodyLayer);
         event.registerLayerDefinition(gorgonModel.LAYER_LOCATION, gorgonModel::createBodyLayer);
+        event.registerLayerDefinition(IchorGargoyleModel.LAYER_LOCATION, IchorGargoyleModel::createBodyLayer);
+        event.registerLayerDefinition(bloomingGargoyleModel.LAYER_LOCATION, bloomingGargoyleModel::createBodyLayer);
+        event.registerLayerDefinition(bomberGargoyleModel.LAYER_LOCATION, bomberGargoyleModel::createBodyLayer);
+        event.registerLayerDefinition(valkyrieGargoyleModel.LAYER_LOCATION, valkyrieGargoyleModel::createBodyLayer);
 
         event.registerLayerDefinition(BombFunnelModel.LAYER_LOCATION, BombFunnelModel::createBodyLayer);
         event.registerLayerDefinition(MushroomExplosionTop.LAYER_LOCATION, MushroomExplosionTop::createBodyLayer);

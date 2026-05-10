@@ -484,6 +484,10 @@
   "spore.entity.variant.collector" : "Collector Mutation",
   "spore.entity.variant.moss" : "Thornbloom Mutation",
   "spore.entity.variant.bulk" : "Bulwark Mutation",
+  "spore.entity.variant.blooming" : "Blooming Mutation",
+  "spore.entity.variant.valkyrie" : "Valkyrie Mutation",
+  "spore.entity.variant.madcap" : "Madcap Mutation",
+  "spore.entity.variant.ichor" : "Ichor Mutation",
 
   "spore.scanner.danger.calamity" : "RUN",
   "spore.scanner.danger.hyper" : "Very High",
