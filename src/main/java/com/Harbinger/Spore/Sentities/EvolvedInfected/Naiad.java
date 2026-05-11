@@ -597,6 +597,10 @@ public class Naiad extends EvolvedInfected implements WaterInfected, VariantKeep
 
                 this.yBodyRot = lerpRotation(this.yRotO, this.getYRot());
             }
+        }else {
+            if (isCharging()){
+                stopCharge();
+            }
         }
     }
 
