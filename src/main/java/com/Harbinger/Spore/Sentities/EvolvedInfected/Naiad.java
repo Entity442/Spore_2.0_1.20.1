@@ -615,7 +615,7 @@ public class Naiad extends EvolvedInfected implements WaterInfected, VariantKeep
     private void performChargeMovement() {
         if (!(this.level() instanceof ServerLevel serverLevel)) return;
 
-        if (chargeTarget == null || !isCharging()) {
+        if (chargeTarget == null || !isCharging() || !this.isInWater()) {
             stopCharge();
             return;
         }

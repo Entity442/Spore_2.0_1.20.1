@@ -1,7 +1,7 @@
 {
   "variants": [
     {
-      "model": "spore:block/cdu"
+      "model": "spore:block/incubator"
     }
   ]
 }
