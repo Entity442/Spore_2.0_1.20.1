@@ -1,19 +1,22 @@
 {
   "display": {
     "icon": {
-      "item": "spore:groberfub_spawnegg"
+      "item": "spore:gorgon_spawnegg"
     },
-    "title":{"translate": "advancement.spore.grober.title"},
-    "description":{"translate": "advancement.spore.grober.description"}
+    "title":{"translate": "advancement.spore.gorgon.title"},
+    "description":{"translate": "advancement.spore.gorgon.description"},
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
   },
 
-  "parent": "spore:leaper",
+  "parent": "spore:inf_witch",
   "criteria": {
     "hurt_infected": {
       "trigger": "minecraft:player_hurt_entity",
       "conditions": {
         "entity": {
-          "type": "spore:grober"
+          "type": "spore:gorgon"
         }
       }
     },
@@ -22,7 +25,7 @@
       "conditions": {
         "damage": {
           "source_entity": {
-            "type": "spore:grober"
+            "type": "spore:gorgon"
           }
         }
       }

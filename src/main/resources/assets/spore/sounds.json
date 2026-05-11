@@ -498,8 +498,8 @@
   "gorgon_spew" :{
     "subtitle": "sounds.spore.growl",
     "sounds": [
-      "spore:gorgon_attack1",
-      "spore:gorgon_attack1"
+      "spore:gorgon_attack_1",
+      "spore:gorgon_attack_1"
     ]
   },
   "scavenger_screech" :{
