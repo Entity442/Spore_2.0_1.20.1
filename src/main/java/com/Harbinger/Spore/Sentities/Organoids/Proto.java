@@ -611,7 +611,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread, C
         if (level instanceof  ServerLevel serverLevel && serverLevel.isEmptyBlock(blockPos) && (serverLevel.isEmptyBlock(blockPosTop) || serverLevel.getBlockState(blockPosTop).liquid())){
             if (pos != null){
                 Womb.TERRAIN terrain = Womb.TERRAIN.GROUND_LEVEL;
-                if (pos.getY() > 120){
+                if (pos.getY() > 90){
                     terrain = Womb.TERRAIN.AIR_LEVEL;
                 }else if (pos.getY()<63){
                  terrain = Womb.TERRAIN.UNDERGROUND;
