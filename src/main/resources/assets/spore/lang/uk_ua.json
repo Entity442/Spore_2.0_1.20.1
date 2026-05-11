@@ -106,6 +106,8 @@
   "block.spore.cooked_torso": "Приготований Торс",
   "block.spore.skull_soup": "Суп з Черепів",
   "block.spore.rotten_crops": "Гнилі врожаї",
+  "block.spore.exploding_lump": "Вибуховий уламок",
+  "block.spore.poisoning_lump": "Уламок забруднюючої речовини",
 
   "item.spore.acidic_gland": "Кислотна залоза",
   "item.spore.amalgamated_heart": "Амальгамне серце",
@@ -341,6 +343,7 @@
   "item.spore.conductor_spawnegg": "Кондуктор",
   "item.spore.garg_spawnegg": "Горгулья",
   "item.spore.reaper_spawnegg": "Жнець",
+  "item.spore.gorgon_spawnegg": "Горгона",
 
   "entity.spore.knight": "Лицар",
   "entity.spore.griefer": "Грифер",
@@ -425,6 +428,7 @@
   "entity.spore.reaper": "Жнець",
   "entity.spore.inf_diseased_villager": "Заражений хворий селянин",
   "entity.spore.arena_tendril": "Наглядач випробування",
+  "entity.spore.gorgon": "Горгона",
 
   "spore.entity.variant.kidnapper" : "Мутація викрадача",
   "spore.entity.variant.kamikaze": "Камікадзе Мутація",
@@ -460,6 +464,15 @@
   "spore.entity.variant.ringer": "Дзвінка мутація",
   "spore.entity.variant.screw" : "Нудна мутація",
   "spore.entity.variant.transporter" : "мутація корисного навантаження",
+  "spore.entity.variant.stubbed" : "Шипована мутація",
+  "spore.entity.variant.collector" : "Мутація збирача",
+  "spore.entity.variant.moss" : "Терноквіткова мутація",
+  "spore.entity.variant.bulk" : "Мутація бастіону",
+  "spore.entity.variant.blooming" : "Квітуча мутація",
+  "spore.entity.variant.valkyrie" : "Мутація валькірії",
+  "spore.entity.variant.madcap" : "Божевільна мутація",
+  "spore.entity.variant.ichor" : "Ікорна мутація",
+
   "spore.scanner.danger.calamity" : "БІГАТИ",
   "spore.scanner.danger.hyper" : "Дуже висока",
   "spore.scanner.danger.evolved" : "Середньо-високий",
@@ -859,6 +872,8 @@
   "advancement.spore.gargoyle.description": "Зустріньте Горгулью.",
   "advancement.spore.reaper.title": "Що посієш, те й пожнеш",
   "advancement.spore.reaper.description": "Зустріньте Жнеця.",
+  "advancement.spore.gorgon.title" : "Кам'яний",
+  "advancement.spore.gorgon.description" : "Зустріньте горгону.",
 
   "spore.proto.message.0": "Тобі знадобиться більший меч :P",
   "spore.proto.message.1": "Гнів, припини вже, ти закінчив.",

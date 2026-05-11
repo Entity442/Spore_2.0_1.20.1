@@ -82,7 +82,8 @@
   "block.spore.lab_slab2": "Scalino del Laboratorio",
   "block.spore.lab_slab3": "Scalino del Laboratorio",
   "block.spore.cabinet": "Mobiletto",
-
+  "block.spore.exploding_lump": "Gruppo esplosivo",
+  "block.spore.poisoning_lump": "Gruppo inquinante",
 
   "block.spore.infested_dirt": "Suolo Infestato",
   "block.spore.infested_stone": "Roccia Infestata",
@@ -337,6 +338,7 @@
   "item.spore.conductor_spawnegg": "Conduttore",
   "item.spore.garg_spawnegg": "Gargoyle",
   "item.spore.reaper_spawnegg": "Mietitore",
+  "item.spore.gorgon_spawnegg": "Gorgone",
 
   "entity.spore.knight": "Cavaliere",
   "entity.spore.griefer": "Artificere",
@@ -422,7 +424,7 @@
   "entity.spore.gargoyle": "Gargoyle",
   "entity.spore.reaper": "Mietitore",
   "entity.spore.arena_tendril": "Osservatore della Sfida",
-
+  "entity.spore.gorgon": "Gorgone",
 
   "spore.entity.variant.kidnapper" : "Mutazione Rapitore",
   "spore.entity.variant.kamikaze": "Mutazione Kamikaze",
@@ -458,6 +460,15 @@
   "spore.entity.variant.ringer": "Mutazione Campanaria",
   "spore.entity.variant.screw" : "Mutazione Noiosa",
   "spore.entity.variant.transporter" : "Mutazione del Carico Utile",
+  "spore.entity.variant.stubbed" : "Mutazione Borchiata",
+  "spore.entity.variant.collector" : "Mutazione Collettrice",
+  "spore.entity.variant.moss" : "Mutazione Spinofiore",
+  "spore.entity.variant.bulk" : "Mutazione Baluardo",
+  "spore.entity.variant.blooming" : "Mutazione Fiorita",
+  "spore.entity.variant.valkyrie" : "Mutazione Valchiria",
+  "spore.entity.variant.madcap" : "Mutazione Pazzoide",
+  "spore.entity.variant.ichor" : "Mutazione Icore",
+
   "spore.scanner.danger.calamity" : "Gerri Scotti",
   "spore.scanner.danger.hyper" : "Molto Alto",
   "spore.scanner.danger.evolved" : "Medio Alto",
@@ -863,6 +874,8 @@
   "advancement.spore.gargoyle.description": "Incontra un Gargoyle.",
   "advancement.spore.reaper.title": "Raccolgi Ciò che Semini",
   "advancement.spore.reaper.description": "Incontra un Mietitore.",
+  "advancement.spore.gorgon.title" : "Pietrificato",
+  "advancement.spore.gorgon.description" : "Incontra una Gorgone.",
 
   "spore.proto.message.0": "Ti servirà una spada più grande :P",
   "spore.proto.message.1": "Rabbia, smettila, hai finito",

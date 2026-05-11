@@ -108,6 +108,9 @@
   "block.spore.cooked_torso": "烹调躯干",
   "block.spore.skull_soup": "头骨汤",
   "block.spore.rotten_crops": "腐烂的庄稼",
+  "block.spore.exploding_lump": "爆炸性肿块",
+  "block.spore.poisoning_lump": "污染物肿块",
+
 
   "item.spore.acidic_gland": "腐蚀腺体",
   "item.spore.amalgamated_heart": "融合心脏",
@@ -350,6 +353,8 @@
   "item.spore.conductor_spawnegg": "导电者",
   "item.spore.garg_spawnegg": "石像鬼",
   "item.spore.reaper_spawnegg": "收割者",
+  "item.spore.gorgon_spawnegg": "戈耳工",
+
 
   "entity.spore.knight": "菌骑士",
   "entity.spore.griefer": "侵袭者",
@@ -436,6 +441,7 @@
   "entity.spore.reaper": "收割者",
   "entity.spore.inf_diseased_villager": "菌染僵尸村民",
   "entity.spore.arena_tendril": "竞技场触须",
+  "entity.spore.gorgon": "戈耳工",
 
   "spore.entity.variant.kidnapper" : "绑架者突变",
   "spore.entity.variant.kamikaze": "神风突变",
@@ -472,6 +478,14 @@
   "spore.entity.variant.ringer": "震声突变",
   "spore.entity.variant.screw" : "无聊的变异",
   "spore.entity.variant.transporter" : "有效载荷变异",
+  "spore.entity.variant.stubbed" : "铆钉突变体",
+  "spore.entity.variant.collector" : "收集者突变体",
+  "spore.entity.variant.moss" : "棘花突变体",
+  "spore.entity.variant.bulk" : "壁垒突变体",
+  "spore.entity.variant.blooming" : "绽放突变体",
+  "spore.entity.variant.valkyrie" : "女武神突变体",
+  "spore.entity.variant.madcap" : "狂人突变体",
+  "spore.entity.variant.ichor" : "灵浆突变体",
 
   "spore.scanner.danger.calamity" : "跑！！！",
   "spore.scanner.danger.hyper" : "极高",
@@ -869,6 +883,8 @@
   "advancement.spore.gargoyle.description": "遭遇一只石像鬼",
   "advancement.spore.reaper.title": "种瓜得瓜，种豆得豆",
   "advancement.spore.reaper.description": "遭遇收割者",
+  "advancement.spore.gorgon.title" : "石化",
+  "advancement.spore.gorgon.description" : "遭遇一只戈耳工。",
 
   "spore.proto.message.0": "去找把村好剑再来",
   "spore.proto.message.1": "退游吧失败者",

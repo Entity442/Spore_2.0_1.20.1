@@ -105,7 +105,9 @@
   "block.spore.heart_pie": "Пирогъ из сердец",
   "block.spore.cooked_torso": "Приготовленное тело",
   "block.spore.skull_soup": "Черепной супъ",
-  "block.spore.rotten_crops": "Rotten Crops",
+  "block.spore.rotten_crops": "Гнилые посевы",
+  "block.spore.exploding_lump": "Взрывной ком",
+  "block.spore.poisoning_lump": "Комок загрязняющих веществ",
 
   "item.spore.acidic_gland": "Кислотная железа",
   "item.spore.amalgamated_heart": "Амальгамное сердце",
@@ -348,6 +350,7 @@
   "item.spore.conductor_spawnegg": "Кондуктор",
   "item.spore.garg_spawnegg": "Горгулья",
   "item.spore.reaper_spawnegg": "Жнец",
+  "item.spore.gorgon_spawnegg": "Горгона",
 
   "entity.spore.knight": "Рыцарь",
   "entity.spore.griefer": "Вандалъ",
@@ -435,6 +438,7 @@
   "entity.spore.reaper": "Жнец",
   "entity.spore.inf_diseased_villager": "Заражённый больной житель",
   "entity.spore.arena_tendril": "Смотритель испытания",
+  "entity.spore.gorgon": "Горгона",
 
   "spore.entity.variant.kidnapper": "Видъ Пленитель",
   "spore.entity.variant.kamikaze": "Видъ Камикадзе",
@@ -470,6 +474,15 @@
   "spore.entity.variant.ringer": "Звенящая мутация",
   "spore.entity.variant.screw" : "Скучные мутации",
   "spore.entity.variant.transporter" : "мутации полезной нагрузки",
+  "spore.entity.variant.stubbed" : "Шипованная мутация",
+  "spore.entity.variant.collector" : "Мутация сборщика",
+  "spore.entity.variant.moss" : "Терновцветная мутация",
+  "spore.entity.variant.bulk" : "Мутация бастиона",
+  "spore.entity.variant.blooming" : "Цветущая мутация",
+  "spore.entity.variant.valkyrie" : "Мутация валькирии",
+  "spore.entity.variant.madcap" : "Безумная мутация",
+  "spore.entity.variant.ichor" : "Икорная мутация",
+
   "spore.scanner.danger.calamity": "БѢГИ",
   "spore.scanner.danger.hyper": "Очень высокая",
   "spore.scanner.danger.evolved": "Умеренно-высокая",
@@ -870,6 +883,8 @@
   "advancement.spore.gargoyle.description": "Встретьте Горгулью.",
   "advancement.spore.reaper.title": "Что посеешь, то пожнёшь",
   "advancement.spore.reaper.description": "Встретьте Жнеца.",
+  "advancement.spore.gorgon.title" : "Окаменевший",
+  "advancement.spore.gorgon.description" : "Встретьте горгону.",
 
   "spore.proto.message.0": "И с мечомъ ты дуракъ :P",
   "spore.proto.message.1": "Ярость стихла, впрочемъ, какъ и ты",

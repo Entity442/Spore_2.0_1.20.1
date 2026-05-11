@@ -145,7 +145,7 @@ public class Brute extends EvolvedInfected implements Carrier, RangedAttackMob, 
         if (this.isAlive() && this.getTarget() != null && this.getRandom().nextInt(0,6) == 3 && checkForInfected(this) && switchy()){performRangedAttack(this);}
         super.tick();
 
-        if (getCarriedBlock() == null && this.random.nextInt(250) == 0){
+        if (getCarriedBlock() == null && this.tickCount % 80 == 0 && !level().isClientSide()){
             this.setCarriedBlock(blocky());
         }
         this.tickHyperEvolution(this);

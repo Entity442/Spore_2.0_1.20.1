@@ -109,6 +109,8 @@
   "block.spore.cooked_torso": "焼き人肉",
   "block.spore.skull_soup": "脳みそのスープ",
   "block.spore.rotten_crops": "腐敗した作物",
+  "block.spore.exploding_lump":"爆発性の塊",
+  "block.spore.poisoning_lump":"汚染物質の塊",
 
   "item.spore.acidic_gland": "酸滴定腺",
   "item.spore.amalgamated_heart": "融合した心臓",
@@ -353,6 +355,7 @@
   "item.spore.conductor_spawnegg": "コンダクター",
   "item.spore.garg_spawnegg": "ガーゴイル",
   "item.spore.reaper_spawnegg": "リーパー",
+  "item.spore.gorgon_spawnegg": "ゴルゴン",
 
   "entity.spore.knight": "感染した騎士",
   "entity.spore.griefer": "グリーファー",
@@ -440,6 +443,7 @@
   "entity.spore.reaper": "リーパー",
   "entity.spore.inf_diseased_villager": "感染した村人ゾンビ",
   "entity.spore.arena_tendril": "チャレンジ・ウォッチャー",
+  "entity.spore.gorgon": "ゴルゴン",
 
   "spore.entity.variant.kidnapper": "誘拐的変異体",
   "spore.entity.variant.kamikaze": "カミカゼ変異体",
@@ -483,6 +487,15 @@
   "spore.scanner.danger.organoid": "非常に高い-危険",
   "spore.scanner.danger.utility": "不明",
   "spore.scanner.line.scamper": "Mobが菌に支配されるまでの時間 ",
+  "spore.entity.variant.stubbed" : "鋲付き変異",
+  "spore.entity.variant.collector" : "収集者の変異",
+  "spore.entity.variant.moss" : "棘花変異",
+  "spore.entity.variant.bulk" : "防壁の変異",
+  "spore.entity.variant.blooming" : "開花変異",
+  "spore.entity.variant.valkyrie" : "ワルキューレ変異",
+  "spore.entity.variant.madcap" : "狂人変異",
+  "spore.entity.variant.ichor" : "イコル変異",
+
   "spore.scanner.line.0": "不明",
   "spore.scanner.line.1": "なし ",
   "spore.scanner.line.2": "名前 ",
@@ -879,6 +892,8 @@
   "advancement.spore.gargoyle.description": "ガーゴイルに遭遇する。",
   "advancement.spore.reaper.title": "自分で蒔いた種",
   "advancement.spore.reaper.description": "リーパーに遭遇する。",
+  "advancement.spore.gorgon.title" : "石化",
+  "advancement.spore.gorgon.description" : "ゴルゴンと遭遇する。",
   
   "spore.proto.message.0": "そんな装備で大丈夫か？",
   "spore.proto.message.1": "とっととやめなよ、もう結末は俺らのもんだ。",

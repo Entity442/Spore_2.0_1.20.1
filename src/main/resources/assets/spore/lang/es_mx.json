@@ -106,6 +106,8 @@
   "block.spore.cooked_torso": "Torso cocido",
   "block.spore.skull_soup": "Sopa de cráneo",
   "block.spore.rotten_crops": "Cultivos podridos",
+  "block.spore.exploding_lump": "Obstáculo explosivo",
+  "block.spore.poisoning_lump": "Obstáculo contaminante",
 
   "item.spore.acidic_gland": "Glándula Acidimétrica",
   "item.spore.amalgamated_heart": "Corazón Amalgamado",
@@ -342,6 +344,8 @@
   "item.spore.conductor_spawnegg": "Conductor",
   "item.spore.garg_spawnegg": "Gárgola",
   "item.spore.reaper_spawnegg": "Segador",
+  "item.spore.gorgon_spawnegg": "Gorgona",
+
   "entity.spore.knight": "Caballero",
   "entity.spore.griefer": "Griefer",
   "entity.spore.inf_human": "Humano infectado",
@@ -427,6 +431,7 @@
   "entity.spore.gargoyle": "Gárgola",
   "entity.spore.reaper": "Segador",
   "entity.spore.arena_tendril": "Vigilante del Desafío",
+  "entity.spore.gorgon": "Gorgona",
 
   "spore.entity.variant.kidnapper" : "Mutación secuestradora",
   "spore.entity.variant.kamikaze": "Mutación Kamikaze",
@@ -462,6 +467,15 @@
   "spore.entity.variant.ringer": "Mutación Campanera",
   "spore.entity.variant.screw" : "Mutación Aburrida",
   "spore.entity.variant.transporter" : "Mutación de Carga Util",
+  "spore.entity.variant.stubbed" : "Mutación Tachonada",
+  "spore.entity.variant.collector" : "Mutación Recolectora",
+  "spore.entity.variant.moss" : "Mutación Espinoflor",
+  "spore.entity.variant.bulk" : "Mutación Bastión",
+  "spore.entity.variant.blooming" : "Mutación Floreciente",
+  "spore.entity.variant.valkyrie" : "Mutación Valquiria",
+  "spore.entity.variant.madcap" : "Mutación Lunática",
+  "spore.entity.variant.ichor" : "Mutación Icor",
+
   "spore.item.clip": "Cargador: ",
   "spore.item.biomass": "Biomasa: ",
   "spore.item.stomach": "Estómago: ",
@@ -864,6 +878,8 @@
   "advancement.spore.gargoyle.description": "Encuentra a una Gárgola.",
   "advancement.spore.reaper.title": "Cosechas lo que Siembras",
   "advancement.spore.reaper.description": "Encuentra a un Segador.",
+  "advancement.spore.gorgon.title" : "Petrificado",
+  "advancement.spore.gorgon.description" : "Encuentra a una Gorgona.",
 
   "spore.proto.message.0": "Necesitarás una espada más grande :P",
   "spore.proto.message.1": "Rage, dejalo ya, estas acabado",

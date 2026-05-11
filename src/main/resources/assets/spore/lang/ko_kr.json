@@ -109,6 +109,8 @@
     "block.spore.cooked_torso": "몸통 구이",
     "block.spore.skull_soup": "머리뼈 수프",
     "block.spore.rotten_crops": "썩은 작물",
+    "block.spore.exploding_lump": "폭발성 덩어리",
+    "block.spore.poisoning_lump": "오염물질 덩어리",
 
     "item.spore.acidic_gland": "산정량 샘",
     "item.spore.amalgamated_heart": "뒤섞인 심장",
@@ -353,6 +355,7 @@
     "item.spore.conductor_spawnegg": "전도자 생성",
     "item.spore.garg_spawnegg": "가고일 생성",
     "item.spore.reaper_spawnegg": "수확자 생성",
+    "item.spore.gorgon_spawnegg": "고르곤",
 
     "entity.spore.knight": "기사",
     "entity.spore.griefer": "방해자",
@@ -440,6 +443,7 @@
     "entity.spore.reaper": "수확자",
     "entity.spore.inf_diseased_villager": "감염된 병든 주민",
     "entity.spore.arena_tendril": "도전 감시자",
+    "entity.spore.gorgon": "고르곤",
 
     "spore.entity.variant.kidnapper": "납치자 변이",
     "spore.entity.variant.kamikaze": "카미카제 변이",
@@ -475,6 +479,15 @@
     "spore.entity.variant.ringer": "종지기 변이",
     "spore.entity.variant.screw" : "천공자 변이",
     "spore.entity.variant.transporter" : "운송자 변이",
+    "spore.entity.variant.stubbed" : "박힌 돌기 변이",
+    "spore.entity.variant.collector" : "수집가 변이",
+    "spore.entity.variant.moss" : "가시꽃 변이",
+    "spore.entity.variant.bulk" : "보루 변이",
+    "spore.entity.variant.blooming" : "개화 변이",
+    "spore.entity.variant.valkyrie" : "발키리 변이",
+    "spore.entity.variant.madcap" : "미치광이 변이",
+    "spore.entity.variant.ichor" : "이코르 변이",
+
     "spore.scanner.danger.calamity": "튀어",
     "spore.scanner.danger.hyper": "극상",
     "spore.scanner.danger.evolved": "중-상",
@@ -880,6 +893,9 @@
     "advancement.spore.gargoyle.description": "가고일과 조우하세요.",
     "advancement.spore.reaper.title": "뿌린 대로 거둔다",
     "advancement.spore.reaper.description": "수확자와 조우하세요.",
+    "advancement.spore.gorgon.title" : "석화",
+    "advancement.spore.gorgon.description" : "고르곤과 조우하세요.",
+
 
     "spore.proto.message.0": "더 큰 칼이 필요할 것 같아 :P",
     "spore.proto.message.1": "더럽고 추하게 빤쓰런 해야지",
