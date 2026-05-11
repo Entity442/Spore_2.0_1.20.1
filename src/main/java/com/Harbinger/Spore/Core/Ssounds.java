@@ -349,6 +349,7 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> BIOGUN_HIT_PLAYER = soundRegistry("biogun_hit_player");
 
+    public static final RegistryObject<SoundEvent> GORGON_SPEW = soundRegistry("gorgon_spew");
 
 
     public static final RegistryObject<SoundEvent> BANE_OF_SETTLEMENT = soundRegistry("bane_of_settlement");

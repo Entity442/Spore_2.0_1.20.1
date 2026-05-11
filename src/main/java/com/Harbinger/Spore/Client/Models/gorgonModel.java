@@ -343,7 +343,12 @@ public class gorgonModel<T extends Gorgon> extends EntityModel<T> implements Ten
 		float val5 = Mth.cos(ageInTicks/8)/13;
 		int attackAN = entity.getAttackAnimationTick();
 		int vomitAN = entity.getMouthAnimationTick();
-		if (attackAN > 0){
+		if (vomitAN > 0){
+			this.rightarm.xRot = 0.75F - 0.75F * Mth.triangleWave((float)vomitAN, 20.0F);
+			this.leftarm.xRot = 0.75F - 0.75F * Mth.triangleWave((float)vomitAN, 20.0F);
+			this.rightarm.zRot = 0.2f;
+			this.leftarm.zRot = -0.2f;
+		}else if (attackAN > 0){
 			this.rightarm.xRot = -2.0F + 1.5F * Mth.triangleWave((float)attackAN, 20.0F);
 			this.leftarm.xRot = -2.0F + 1.5F * Mth.triangleWave((float)attackAN, 20.0F);
 		} else if (!(limbSwingAmount > -0.05F && limbSwingAmount < 0.15F)){
