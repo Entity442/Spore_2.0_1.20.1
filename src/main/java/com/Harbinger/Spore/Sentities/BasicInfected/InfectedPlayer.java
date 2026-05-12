@@ -232,36 +232,37 @@ public class InfectedPlayer extends Infected implements RangedAttackMob , ArmedI
             RandomSource random = RandomSource.create();
             if (Math.random() < 0.9) {
                 Random rand = new Random();
-                for (int i = 0; i < 1; ++i) {
-                    int randomIndex = rand.nextInt(value.size());
-                    ResourceLocation randomElement1 = new ResourceLocation(value.get(randomIndex));
-                    EntityType<?> randomElement = ForgeRegistries.ENTITY_TYPES.getValue(randomElement1);
-                    Entity waveentity = randomElement.create(level);
-                    waveentity.setPos(livingEntity.getX(), livingEntity.getY() + 0.5D, livingEntity.getZ());
-                    waveentity.setCustomName(livingEntity.getCustomName());
-                    if (waveentity instanceof LivingEntity entity){
-                        Collection<MobEffectInstance> collection = livingEntity.getActiveEffects();
-                        for(MobEffectInstance mobeffectinstance : collection) {
-                            entity.addEffect(new MobEffectInstance(mobeffectinstance));
-                        }
+                int randomIndex = rand.nextInt(value.size());
+                ResourceLocation randomElement1 = new ResourceLocation(value.get(randomIndex));
+                EntityType<?> randomElement = ForgeRegistries.ENTITY_TYPES.getValue(randomElement1);
+                Entity waveentity = randomElement.create(level);
+                waveentity.setPos(livingEntity.getX(), livingEntity.getY() + 0.5D, livingEntity.getZ());
+                waveentity.setCustomName(livingEntity.getCustomName());
+                if (waveentity instanceof LivingEntity entity){
+                    Collection<MobEffectInstance> collection = livingEntity.getActiveEffects();
+                    for(MobEffectInstance mobeffectinstance : collection) {
+                        entity.addEffect(new MobEffectInstance(mobeffectinstance));
                     }
-                    if (waveentity instanceof Infected infected){
-                        infected.setKills(livingEntity.getKills());
-                        infected.setEvoPoints(livingEntity.getEvoPoints());
-                        infected.setSearchPos(livingEntity.getSearchPos());
-                        infected.setLinked(livingEntity.getLinked());
-                        if (infected instanceof HasUsableSlot hasUsableSlot){
-                            for(EquipmentSlot slot : EquipmentSlot.values()){
-                                if (hasUsableSlot.hasUsableSlot(slot)){
-                                    infected.setItemSlot(slot,this.getItemBySlot(slot));
-                                }
+                }
+                if (waveentity instanceof Infected infected){
+                    infected.setKills(livingEntity.getKills());
+                    infected.setEvoPoints(livingEntity.getEvoPoints());
+                    infected.setSearchPos(livingEntity.getSearchPos());
+                    infected.setLinked(livingEntity.getLinked());
+                    if (infected instanceof HasUsableSlot hasUsableSlot){
+                        for(EquipmentSlot slot : EquipmentSlot.values()){
+                            if (hasUsableSlot.hasUsableSlot(slot)){
+                                infected.setItemSlot(slot,this.getItemBySlot(slot));
                             }
                         }
                     }
-                    level.addFreshEntity(waveentity);
-
-                    livingEntity.discard();
+                    if (level instanceof ServerLevel serverLevel){
+                        infected.finalizeSpawn(serverLevel,serverLevel.getCurrentDifficultyAt(infected.blockPosition()),MobSpawnType.CONVERSION,null,null);
+                    }
                 }
+                level.addFreshEntity(waveentity);
+
+                livingEntity.discard();
             }else {
                 Scamper scamper = new Scamper(Sentities.SCAMPER.get(), level);
                 scamper.setPos(livingEntity.getX(), livingEntity.getY() + 0.5D, livingEntity.getZ());
