@@ -637,6 +637,8 @@ public class Sitems {
     public static final RegistryObject<Item> REINFORCED_DOOR = Techblock(Sblocks.REINFORCED_DOOR);
     public static final RegistryObject<Item> FROZEN_REINFORCED_DOOR = Techblock(Sblocks.FROZEN_REINFORCED_DOOR);
     public static final RegistryObject<Item> RUSTED_REINFORCED_DOOR = Techblock(Sblocks.RUSTED_REINFORCED_DOOR);
+    public static final RegistryObject<Item> HALOGEN_LIGHT = Techblock(Sblocks.HALOGEN_LIGHT);
+    public static final RegistryObject<Item> BROKEN_HALOGEN_LIGHT = Techblock(Sblocks.BROKEN_HALOGEN_LIGHT);
 
     public static final RegistryObject<Item> GROWTHS_BIG = block(Sblocks.GROWTHS_BIG);
     public static final RegistryObject<Item> GROWTHS_SMALL = block(Sblocks.GROWTHS_SMALL);

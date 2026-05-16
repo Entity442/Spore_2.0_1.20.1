@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XRX",
+    "TRT",
+    "XRX"
+  ],
+  "key": {
+    "R": {
+      "tag": "forge:glass_panes/colorless"
+    },
+    "T": {
+      "item": "minecraft:redstone"
+    },
+    "X": {
+      "item": "minecraft:iron_nugget"
+    }
+},
+  "result": {
+    "id": "spore:halogen_light"
+  }
+}

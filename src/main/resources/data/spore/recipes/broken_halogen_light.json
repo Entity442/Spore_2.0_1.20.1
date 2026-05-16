@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "spore:broken_halogen_light"
+    },
+    {
+      "tag": "forge:glass_panes/colorless"
+    }
+  ],
+  "result": {
+    "id": "spore:halogen_light"
+  }
+}

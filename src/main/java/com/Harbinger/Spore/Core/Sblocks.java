@@ -1,6 +1,10 @@
 package com.Harbinger.Spore.Core;
 
 import com.Harbinger.Spore.Sblocks.*;
+import com.Harbinger.Spore.Sblocks.Lights.BrokenHalogenLight;
+import com.Harbinger.Spore.Sblocks.Lights.BrokenHalogenLightOn;
+import com.Harbinger.Spore.Sblocks.Lights.HalogenLight;
+import com.Harbinger.Spore.Sblocks.Lights.HalogenLightOn;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -142,4 +146,8 @@ public class Sblocks {
     public static final RegistryObject<Block> BILE_LUMP = BLOCKS.register("bile_lump", BileLump::new);
     public static final RegistryObject<Block> FANG_LUMP = BLOCKS.register("fang_lump", FangLump::new);
 
+    public static final RegistryObject<Block> HALOGEN_LIGHT = BLOCKS.register("halogen_light", HalogenLight::new);
+    public static final RegistryObject<Block> HALOGEN_LIGHT_ON = BLOCKS.register("halogen_light_on", HalogenLightOn::new);
+    public static final RegistryObject<Block> BROKEN_HALOGEN_LIGHT = BLOCKS.register("broken_halogen_light", BrokenHalogenLight::new);
+    public static final RegistryObject<Block> BROKEN_HALOGEN_LIGHT_ON = BLOCKS.register("broken_halogen_light_on", BrokenHalogenLightOn::new);
 }

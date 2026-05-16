@@ -36,7 +36,10 @@
     "spore:reinforced_door",
     "spore:rusted_reinforced_door",
     "spore:frozen_reinforced_door",
-
+    "spore:halogen_light",
+    "spore:halogen_light_on",
+    "spore:broken_halogen_light",
+    "spore:broken_halogen_light_on",
 
 
 
