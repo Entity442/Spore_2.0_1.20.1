@@ -52,8 +52,8 @@ public class FungalClamp extends GenericFoliageBlock{
             if (state.getValue(OPEN)){
                 level.setBlock(pos, level.getBlockState(pos).setValue(OPEN, false), Block.UPDATE_ALL);
                 AABB aabb = new AABB(
-                        pos.getX() - 1, pos.getY() - 1, pos.getZ() - 1,
-                        pos.getX() + 2, pos.getY() + 2, pos.getZ() + 2
+                        pos.getX() - 5, pos.getY() - 1, pos.getZ() - 5,
+                        pos.getX() + 5, pos.getY() + 3, pos.getZ() + 5
                 );
                 living.hurt(level.damageSources().cactus(),10);
                 spreadInfection(level,aabb);
@@ -81,7 +81,7 @@ public class FungalClamp extends GenericFoliageBlock{
             return;
         }
         int i = instance.getAmplifier();
-        i = i <= 4 ? i+1 : i;
+        i = i < 4 ? i+1 : i;
         living.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),300,i));
     }
 

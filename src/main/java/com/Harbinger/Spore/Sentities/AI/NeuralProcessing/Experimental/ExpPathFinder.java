@@ -37,7 +37,7 @@ public class ExpPathFinder  extends PathFinder {
 
     @Override
     protected float distance(Node first, @NotNull Node second) {
-        return first.distanceToXZ(second);
+        return first.distanceTo(second);
     }
 
     static class PatchedPath extends Path {
