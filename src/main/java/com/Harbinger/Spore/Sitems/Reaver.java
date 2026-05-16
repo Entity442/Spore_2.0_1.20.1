@@ -33,7 +33,7 @@ public class Reaver extends SwordItem implements LootModifierWeapon {
 
             @Override
             public float getSpeed() {
-                return -1;
+                return -2;
             }
 
             @Override
