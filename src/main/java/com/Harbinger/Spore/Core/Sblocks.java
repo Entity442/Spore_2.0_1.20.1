@@ -145,6 +145,7 @@ public class Sblocks {
     public static final RegistryObject<Block> DROWNED_LUMP = BLOCKS.register("drowned_lump", DrownedLump::new);
     public static final RegistryObject<Block> BILE_LUMP = BLOCKS.register("bile_lump", BileLump::new);
     public static final RegistryObject<Block> FANG_LUMP = BLOCKS.register("fang_lump", FangLump::new);
+    public static final RegistryObject<Block> FUNGAL_CLAMP = BLOCKS.register("fungal_clamp", FungalClamp::new);
 
     public static final RegistryObject<Block> HALOGEN_LIGHT = BLOCKS.register("halogen_light", HalogenLight::new);
     public static final RegistryObject<Block> HALOGEN_LIGHT_ON = BLOCKS.register("halogen_light_on", HalogenLightOn::new);

@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "open=true": [
+      {
+        "model": "spore:block/fungal_clamp_open"
+      },
+      {
+        "model": "spore:block/fungal_clamp_open",
+        "y": 90
+      }
+    ],
+    "open=false":[
+      {
+        "model": "spore:block/fungal_clamp_closed"
+      },
+      {
+        "model": "spore:block/fungal_clamp_closed",
+        "y": 90
+      }
+    ]
+  }
+}
