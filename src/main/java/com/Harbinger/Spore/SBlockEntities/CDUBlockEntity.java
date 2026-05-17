@@ -15,6 +15,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -25,12 +26,13 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.Property;
@@ -44,6 +46,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CDUBlockEntity extends BlockEntity implements MenuProvider,AnimatedEntity {
+    public static final TagKey<Item> fungalItems = ItemTags.create(new ResourceLocation("spore:weapons"));
     public final int maxFuel = SConfig.DATAGEN.cryo_time.get();
     public int fuel;
     private final List<StoreDouble> blockMap;
@@ -176,6 +179,20 @@ public class CDUBlockEntity extends BlockEntity implements MenuProvider,Animated
                 int intensity = instance == null ? 0 : instance.getAmplifier()+1;
                 livingEntity.addEffect(new MobEffectInstance(Seffects.FROSTBITE.get(),1200,intensity));
             }
+            if (entity instanceof Player player){
+                boolean be = false;
+                for (ItemStack stack : player.getArmorSlots()){
+                    if (stack.is(fungalItems)){
+                        be = true;
+                        break;
+                    }
+                }
+                if (be){
+                    MobEffectInstance instance = player.getEffect(Seffects.FROSTBITE.get());
+                    int intensity = instance == null ? 0 : instance.getAmplifier()+1;
+                    player.addEffect(new MobEffectInstance(Seffects.FROSTBITE.get(),600,intensity));
+                }
+            }
             if (entity instanceof ScentEntity || entity instanceof InfectionTendril){
                 entity.discard();
             }
@@ -210,7 +227,7 @@ public class CDUBlockEntity extends BlockEntity implements MenuProvider,Animated
         if (CDUBlock.isCDUUsable(blockPos,e.level)){
             if (e.getFuel() > 0 && !level.isClientSide){
                 e.fuel--;
-                if (e.getFuel() % 100 == 0){
+                if (e.getFuel() % 200 == 0){
                     e.cleanInfection(blockPos);
                 }
                 if (e.getFuel() % 80 == 0){

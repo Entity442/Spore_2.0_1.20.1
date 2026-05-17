@@ -32,7 +32,7 @@ public class InfectedExoskeleton extends SporeBaseArmor implements CustomModelAr
     }
 
     public void geteffect(LivingEntity entity) {
-        if (!entity.hasEffect(Seffects.SYMBIOSIS.get()) && entity.tickCount % 20 == 0){
+        if (entity.tickCount % 20 == 0 && !entity.hasEffect(Seffects.SYMBIOSIS.get()) && !entity.hasEffect(Seffects.FROSTBITE.get())){
             int val = getEffectMod(entity);
             if (val != -1){
                 entity.addEffect(new MobEffectInstance(Seffects.SYMBIOSIS.get(), 200, val, (false), (false)));

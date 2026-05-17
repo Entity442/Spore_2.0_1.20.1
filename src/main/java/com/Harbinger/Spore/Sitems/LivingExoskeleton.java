@@ -29,7 +29,7 @@ public class LivingExoskeleton extends SporeBaseArmor {
     }
 
     public void geteffect(LivingEntity entity) {
-        if (!entity.hasEffect(Seffects.SYMBIOSIS.get())){
+        if (entity.tickCount % 20 == 0 && !entity.hasEffect(Seffects.SYMBIOSIS.get()) && !entity.hasEffect(Seffects.FROSTBITE.get())){
             if ((entity.getItemBySlot(EquipmentSlot.FEET).getItem() == Sitems.LIVING_BOOTS.get())
                     && (entity.getItemBySlot(EquipmentSlot.LEGS).getItem() == Sitems.LIVING_PANTS.get())
                     && (entity.getItemBySlot(EquipmentSlot.CHEST).getItem() == Sitems.LIVING_CHEST.get())
