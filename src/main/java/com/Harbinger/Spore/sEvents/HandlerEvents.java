@@ -3,10 +3,6 @@ package com.Harbinger.Spore.sEvents;
 import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.ExtremelySusThings.*;
-import com.Harbinger.Spore.ExtremelySusThings.CustomJsonReader.SporeConversionData;
-import com.Harbinger.Spore.ExtremelySusThings.CustomJsonReader.SporeConversionReloadListener;
-import com.Harbinger.Spore.ExtremelySusThings.CustomJsonReader.SporeMobConversionData;
-import com.Harbinger.Spore.ExtremelySusThings.CustomJsonReader.SporeMobConversionReloadListener;
 import com.Harbinger.Spore.ExtremelySusThings.Package.SongInitializingPacket;
 import com.Harbinger.Spore.SBlockEntities.CDUBlockEntity;
 import com.Harbinger.Spore.SBlockEntities.LivingStructureBlocks;
@@ -68,7 +64,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.common.util.FakePlayerFactory;
-import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.*;
@@ -777,6 +772,7 @@ public class HandlerEvents {
                 event.setAmount(newDamage);
                 pci.setCharge(weapon, charge - freezeDamage);
                 target.setTicksFrozen(Math.max(target.getTicksFrozen(), 600));
+                target.addEffect(new MobEffectInstance(Seffects.FROSTBITE.get(),2400,4));
                 player.getCooldowns().addCooldown(pci, (int) Math.ceil(targetHealth / 5f) * 20);
                 pci.playSound(player);
             }
