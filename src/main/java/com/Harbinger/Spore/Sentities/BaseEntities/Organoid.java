@@ -1,6 +1,8 @@
 package com.Harbinger.Spore.Sentities.BaseEntities;
 
 import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.Sentities.ColdEndurance;
+import com.Harbinger.Spore.Sentities.ColdWeakness;
 import com.Harbinger.Spore.Sentities.Organoids.Mound;
 import com.Harbinger.Spore.Sentities.Organoids.Proto;
 import com.Harbinger.Spore.Sentities.Projectile.AcidBall;
@@ -34,7 +36,7 @@ import net.minecraftforge.fluids.FluidType;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class Organoid extends UtilityEntity implements Enemy {
+public class Organoid extends UtilityEntity implements Enemy, ColdWeakness {
     public static final EntityDataAccessor<Integer> BORROW = SynchedEntityData.defineId(Organoid.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Integer> EMERGE = SynchedEntityData.defineId(Organoid.class, EntityDataSerializers.INT);
     protected Organoid(EntityType<? extends PathfinderMob> type, Level level) {
@@ -225,5 +227,10 @@ public class Organoid extends UtilityEntity implements Enemy {
         if (entityList.size() > 4){
             tickBurrowing();
         }
+    }
+
+    @Override
+    public ColdEndurance getEndurance() {
+        return ColdEndurance.EVOLVED;
     }
 }

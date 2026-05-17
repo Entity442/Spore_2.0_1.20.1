@@ -10,6 +10,8 @@ import com.Harbinger.Spore.Sentities.AI.HybridPathNavigation;
 import com.Harbinger.Spore.Sentities.BaseEntities.Hyper;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
+import com.Harbinger.Spore.Sentities.ColdEndurance;
+import com.Harbinger.Spore.Sentities.ColdWeakness;
 import com.Harbinger.Spore.Sentities.Projectile.ThrownBlockProjectile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -54,7 +56,7 @@ import java.util.*;
 
 import static com.Harbinger.Spore.ExtremelySusThings.Utilities.biomass;
 
-public class InfestedConstruct extends UtilityEntity implements RangedAttackMob, Enemy {
+public class InfestedConstruct extends UtilityEntity implements RangedAttackMob, Enemy, ColdWeakness {
     public static final EntityDataAccessor<Boolean> ACTIVE = SynchedEntityData.defineId(InfestedConstruct.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> DISPENSER = SynchedEntityData.defineId(InfestedConstruct.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Float> MACHINE_HEALTH = SynchedEntityData.defineId(InfestedConstruct.class, EntityDataSerializers.FLOAT);
@@ -414,6 +416,11 @@ public class InfestedConstruct extends UtilityEntity implements RangedAttackMob,
                 }
             }
         }
+    }
+
+    @Override
+    public ColdEndurance getEndurance() {
+        return ColdEndurance.ABNORMALS;
     }
 
     public static class SearchAroundGoal extends Goal {

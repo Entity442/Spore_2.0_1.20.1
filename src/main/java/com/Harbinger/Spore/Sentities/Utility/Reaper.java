@@ -12,6 +12,8 @@ import com.Harbinger.Spore.Sentities.ArmorPersentageBypass;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
+import com.Harbinger.Spore.Sentities.ColdEndurance;
+import com.Harbinger.Spore.Sentities.ColdWeakness;
 import com.Harbinger.Spore.Sentities.EvolvingInfected;
 import com.Harbinger.Spore.Sentities.MovementControls.InfectedWallMovementControl;
 import com.Harbinger.Spore.Sentities.Projectile.VomitUsurperBall;
@@ -50,7 +52,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
-public class Reaper extends UtilityEntity implements Enemy, ArmorPersentageBypass, RangedAttackMob {
+public class Reaper extends UtilityEntity implements Enemy, ArmorPersentageBypass, RangedAttackMob, ColdWeakness {
     public static final List<BlockState> states = new ArrayList<>(){{add(Blocks.HAY_BLOCK.defaultBlockState());add(Blocks.SUGAR_CANE.defaultBlockState());add(Blocks.PUMPKIN.defaultBlockState());add(Blocks.CARVED_PUMPKIN.defaultBlockState());add(Blocks.MELON.defaultBlockState());add(Blocks.SWEET_BERRY_BUSH.defaultBlockState());}};
     private int attackAnimationTick;
     private int rangedAttackAnimationTick;
@@ -359,6 +361,11 @@ public class Reaper extends UtilityEntity implements Enemy, ArmorPersentageBypas
         this.rangedAttackAnimationTick = 10;
         this.level().broadcastEntityEvent(this, (byte)5);
         playSound(Ssounds.REAPER_SPIT.get());
+    }
+
+    @Override
+    public ColdEndurance getEndurance() {
+        return ColdEndurance.ABNORMALS;
     }
 
     public static class SearchAroundGoal extends Goal {

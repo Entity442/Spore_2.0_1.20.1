@@ -39,7 +39,9 @@ public class Seffects {
             () -> new Corrosion().addAttributeModifier(Attributes.ARMOR,
                     "91AEAA56-376B-4498-935B-2F7F68070635",-0.1F ,AttributeModifier.Operation.MULTIPLY_TOTAL));
 
-
+    public static final RegistryObject<MobEffect> FROSTBITE = MOB_EFFECTS.register("frostbite",
+            () -> new FrostBite().addAttributeModifier(Attributes.MOVEMENT_SPEED,
+                    "6ee43a05-b6c8-4abf-8c1d-6e36007724e0",-0.1F ,AttributeModifier.Operation.MULTIPLY_TOTAL));
 
     public static final RegistryObject<MobEffect> SYMBIOSIS = MOB_EFFECTS.register("symbiosis",
             () -> new Symbiosis().addAttributeModifier(Attributes.MOVEMENT_SPEED,

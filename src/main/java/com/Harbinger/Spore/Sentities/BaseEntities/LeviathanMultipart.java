@@ -5,6 +5,8 @@ import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.BaseEntities.IkUtil.IkLeviLeg;
 import com.Harbinger.Spore.Sentities.Calamities.Hohlfresser;
 import com.Harbinger.Spore.Sentities.Calamities.Leviathan;
+import com.Harbinger.Spore.Sentities.ColdEndurance;
+import com.Harbinger.Spore.Sentities.ColdWeakness;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -34,7 +36,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Predicate;
 
-public class LeviathanMultipart extends LivingEntity implements TrueCalamity {
+public class LeviathanMultipart extends LivingEntity implements TrueCalamity, ColdWeakness {
     private double prevHeight = 0;
     private int headEntityId = -1;
     private final IkLeviLeg[] legs;
@@ -55,6 +57,12 @@ public class LeviathanMultipart extends LivingEntity implements TrueCalamity {
     public IkLeviLeg[] getLegs(){
         return legs;
     }
+
+    @Override
+    public ColdEndurance getEndurance() {
+        return ColdEndurance.CALAMITY;
+    }
+
     enum LEG_POSITIONS{
         BACK_LEFT_TENTACLE(new Vec3(-1.5,0.5,0.25),new Vec3(-2.5, -1, 4)),
         BACK_RIGHT_TENTACLE(new Vec3(-1.5,0.5,-0.25),new Vec3(-2.5, -1, -4)),

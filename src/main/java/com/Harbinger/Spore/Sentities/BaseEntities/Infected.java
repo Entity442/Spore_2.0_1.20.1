@@ -5,16 +5,14 @@ import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.ExtremelySusThings.SporeSavedData;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sblocks.WallRemainsBlock;
+import com.Harbinger.Spore.Sentities.*;
 import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.AI.HurtTargetGoal;
 import com.Harbinger.Spore.Sentities.AI.InfectedConsumeFromRemains;
 import com.Harbinger.Spore.Sentities.AI.InfectedPanicGoal;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.*;
-import com.Harbinger.Spore.Sentities.ArmedInfected;
-import com.Harbinger.Spore.Sentities.EvolvingInfected;
 import com.Harbinger.Spore.Sentities.Projectile.AcidBall;
 import com.Harbinger.Spore.Sentities.Projectile.Vomit;
-import com.Harbinger.Spore.Sentities.WaterInfected;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -48,7 +46,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.AbstractGlassBlock;
@@ -68,7 +65,7 @@ import java.util.function.Predicate;
 
 import static com.Harbinger.Spore.ExtremelySusThings.Utilities.biomass;
 
-public class Infected extends Monster{
+public class Infected extends Monster implements ColdWeakness {
     public static final EntityDataAccessor<Integer> HUNGER = SynchedEntityData.defineId(Infected.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Integer> KILLS = SynchedEntityData.defineId(Infected.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Integer> EVOLUTION_POINTS = SynchedEntityData.defineId(Infected.class, EntityDataSerializers.INT);
@@ -268,8 +265,7 @@ public class Infected extends Monster{
         if (!SConfig.SERVER.weaktocold.get()) return;
         if (!isInPowderSnow && !isFreazing()) return;
 
-        addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 1, false, false), this);
-        addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0, false, false), this);
+        addEffect(new MobEffectInstance(Seffects.FROSTBITE.get(), 100, 0, false, false), this);
     }
     private boolean canGrief() {
         return net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(level(), this);
@@ -321,7 +317,7 @@ public class Infected extends Monster{
         int k = Mth.floor(this.getZ());
         BlockPos blockpos = new BlockPos(i, j, k);
         Biome biome = this.level().getBiome(blockpos).value();
-        return (SConfig.SERVER.weaktocold.get() && this.random.nextInt(20) == 0  && biome.getBaseTemperature() <= 0.2);
+        return (SConfig.SERVER.weaktocold.get() && biome.getBaseTemperature() <= 0.2);
     }
 
     @Override
@@ -608,5 +604,10 @@ public class Infected extends Monster{
 
     public String getMutation(){
         return null;
+    }
+
+    @Override
+    public ColdEndurance getEndurance() {
+        return ColdEndurance.INFECTED;
     }
 }

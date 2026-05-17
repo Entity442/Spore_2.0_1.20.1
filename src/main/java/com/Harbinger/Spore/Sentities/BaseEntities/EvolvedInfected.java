@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sentities.BaseEntities;
 
 import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.Sentities.ColdEndurance;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Scamper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
@@ -42,7 +43,10 @@ public class EvolvedInfected extends Infected {
     public double getDamageCap(){
         return getMaxHealth()/3;
     }
-
+    @Override
+    public ColdEndurance getEndurance() {
+        return ColdEndurance.EVOLVED;
+    }
     @Override
     public boolean canStarve() {
         return false;

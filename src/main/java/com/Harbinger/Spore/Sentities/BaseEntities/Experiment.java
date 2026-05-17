@@ -5,6 +5,7 @@ import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.BufferAI;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.LocalTargettingGoal;
 import com.Harbinger.Spore.Sentities.AI.LocHiv.SearchAreaGoal;
+import com.Harbinger.Spore.Sentities.ColdEndurance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -100,5 +101,10 @@ public class Experiment extends Infected{
             setDormant(true);
         }
         return super.finalizeSpawn(serverLevelAccessor, p_21435_, spawnType, p_21437_, p_21438_);
+    }
+
+    @Override
+    public ColdEndurance getEndurance() {
+        return ColdEndurance.EVOLVED;
     }
 }

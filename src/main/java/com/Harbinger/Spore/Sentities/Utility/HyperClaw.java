@@ -7,6 +7,8 @@ import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.HybridPathNavigation;
 import com.Harbinger.Spore.Sentities.AI.LeapGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
+import com.Harbinger.Spore.Sentities.ColdEndurance;
+import com.Harbinger.Spore.Sentities.ColdWeakness;
 import com.Harbinger.Spore.Sentities.MovementControls.InfectedWallMovementControl;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
@@ -20,7 +22,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-public class HyperClaw extends UtilityEntity {
+public class HyperClaw extends UtilityEntity implements ColdWeakness {
     public HyperClaw(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         this.moveControl = new InfectedWallMovementControl(this);
@@ -91,5 +93,10 @@ public class HyperClaw extends UtilityEntity {
             living.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),  600, 0),this);
         }
         return super.doHurtTarget(entity);
+    }
+
+    @Override
+    public ColdEndurance getEndurance() {
+        return ColdEndurance.EVOLVED;
     }
 }

@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
@@ -34,7 +35,7 @@ public interface EvolvingInfected {
                 if (infected.getEvolutionCoolDown() >= SConfig.SERVER.evolution_age_human.get()){
                     this.Evolve(infected,value,variants);
                 }else{
-                    if (!infected.hasEffect(MobEffects.WEAKNESS))
+                    if (!infected.hasEffect(Seffects.FROSTBITE.get()))
                         infected.setEvolution(infected.getEvolutionCoolDown()+1);
                 }
             }
@@ -46,7 +47,7 @@ public interface EvolvingInfected {
                 if (infected.getEvolutionCoolDown() >= SConfig.SERVER.evolution_age_human.get()){
                     this.HyperEvolve(infected);
                 }else{
-                    if (!infected.hasEffect(MobEffects.WEAKNESS))
+                    if (!infected.hasEffect(Seffects.FROSTBITE.get()))
                         infected.setEvolution(infected.getEvolutionCoolDown()+1);
                 }
             }

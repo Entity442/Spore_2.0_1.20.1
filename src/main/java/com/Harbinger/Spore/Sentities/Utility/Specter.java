@@ -7,6 +7,8 @@ import com.Harbinger.Spore.Sentities.AI.HybridPathNavigation;
 import com.Harbinger.Spore.Sentities.ArmorPersentageBypass;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
+import com.Harbinger.Spore.Sentities.ColdEndurance;
+import com.Harbinger.Spore.Sentities.ColdWeakness;
 import com.Harbinger.Spore.Sentities.MovementControls.InfectedWallMovementControl;
 import com.Harbinger.Spore.Sentities.Variants.BraureiVariants;
 import net.minecraft.core.BlockPos;
@@ -49,7 +51,7 @@ import java.util.*;
 
 import static com.Harbinger.Spore.ExtremelySusThings.Utilities.biomass;
 
-public class Specter extends UtilityEntity implements Enemy, ArmorPersentageBypass {
+public class Specter extends UtilityEntity implements Enemy, ArmorPersentageBypass, ColdWeakness {
     public static final EntityDataAccessor<Boolean> INVISIBLE = SynchedEntityData.defineId(Specter.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Integer> BIOMASS = SynchedEntityData.defineId(Specter.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Integer> STOMACH = SynchedEntityData.defineId(Specter.class, EntityDataSerializers.INT);
@@ -347,6 +349,11 @@ public class Specter extends UtilityEntity implements Enemy, ArmorPersentageBypa
     @Override
     public float amountOfDamage(float value) {
         return (float) ((SConfig.SERVER.specter_damage.get() * SConfig.SERVER.global_damage.get())/4f);
+    }
+
+    @Override
+    public ColdEndurance getEndurance() {
+        return ColdEndurance.ABNORMALS;
     }
 
     public static class SearchAroundGoal extends Goal{

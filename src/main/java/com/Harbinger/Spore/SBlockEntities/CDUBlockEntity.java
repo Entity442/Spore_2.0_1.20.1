@@ -1,9 +1,6 @@
 package com.Harbinger.Spore.SBlockEntities;
 
-import com.Harbinger.Spore.Core.SConfig;
-import com.Harbinger.Spore.Core.SblockEntities;
-import com.Harbinger.Spore.Core.Sblocks;
-import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.ExtremelySusThings.CustomJsonReader.SporeCduConversionData;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sblocks.CDUBlock;
@@ -22,6 +19,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
@@ -174,8 +172,9 @@ public class CDUBlockEntity extends BlockEntity implements MenuProvider,Animated
         for (Entity entity : entities){
             if (entity instanceof LivingEntity livingEntity &&
                     (livingEntity.getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES))){
-                livingEntity.setTicksFrozen(livingEntity.getTicksFrozen()+100);
-                livingEntity.hurt(livingEntity.damageSources().freeze(), (float) (SConfig.DATAGEN.cryo_damage.get() *1f));
+                MobEffectInstance instance = livingEntity.getEffect(Seffects.FROSTBITE.get());
+                int intensity = instance == null ? 0 : instance.getAmplifier()+1;
+                livingEntity.addEffect(new MobEffectInstance(Seffects.FROSTBITE.get(),1200,intensity));
             }
             if (entity instanceof ScentEntity || entity instanceof InfectionTendril){
                 entity.discard();

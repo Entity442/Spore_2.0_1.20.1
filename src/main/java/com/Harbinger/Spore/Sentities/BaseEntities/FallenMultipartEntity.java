@@ -1,6 +1,8 @@
 package com.Harbinger.Spore.Sentities.BaseEntities;
 
 import com.Harbinger.Spore.Core.Sblocks;
+import com.Harbinger.Spore.Sentities.ColdEndurance;
+import com.Harbinger.Spore.Sentities.ColdWeakness;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
@@ -11,7 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.fluids.FluidType;
 
-public class FallenMultipartEntity extends UtilityEntity implements Enemy {
+public class FallenMultipartEntity extends UtilityEntity implements Enemy, ColdWeakness {
     public FallenMultipartEntity(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
     }
@@ -41,5 +43,10 @@ public class FallenMultipartEntity extends UtilityEntity implements Enemy {
     @Override
     public boolean canDrownInFluidType(FluidType type) {
         return false;
+    }
+
+    @Override
+    public ColdEndurance getEndurance() {
+        return ColdEndurance.HYPER;
     }
 }
