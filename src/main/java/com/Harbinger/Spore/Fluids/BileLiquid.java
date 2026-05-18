@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Fluids;
 
+import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
@@ -73,10 +74,7 @@ public class BileLiquid extends FluidType {
     }
     public static List<MobEffectInstance> bileEffects(){
         List<MobEffectInstance> values = new ArrayList<>();
-        values.add(new MobEffectInstance(MobEffects.WEAKNESS,100,0));
-        values.add(new MobEffectInstance(MobEffects.BLINDNESS,100,0));
-        values.add(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,100,0));
-        values.add(new MobEffectInstance(MobEffects.DIG_SLOWDOWN,200,0));
+        values.add(new MobEffectInstance(Seffects.BILED.get(),100,0));
         return values;
     }
 

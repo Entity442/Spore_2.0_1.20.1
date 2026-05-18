@@ -5,18 +5,26 @@ import com.Harbinger.Spore.Client.ArmorParts.ComplexHandModelItem;
 import com.Harbinger.Spore.Client.MusicManager.MenuMusicPlayer;
 import com.Harbinger.Spore.Client.MusicManager.SporeMusicPlayer;
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Seffects;
 import com.Harbinger.Spore.ExtremelySusThings.Package.SporeGunFirePacket;
 import com.Harbinger.Spore.ExtremelySusThings.SporePacketHandler;
 import com.Harbinger.Spore.Sitems.CustomModelArmorData;
 import com.Harbinger.Spore.Sitems.Guns.AbstractSporeGun;
 import com.Harbinger.Spore.Sitems.Guns.AcidicAssasin;
 import com.Harbinger.Spore.Spore;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.ViewportEvent;
 import net.minecraftforge.event.TickEvent;
@@ -104,5 +112,65 @@ public class SpecificClientEvents {
                 event.setFOV(event.getFOV() * zoomMultiplier);
             }
         }
+    }
+
+
+    public static final ResourceLocation ASSASIN_SCOPE =new ResourceLocation(Spore.MODID,"textures/gui/icons/assassin_scope.png");
+    public static final ResourceLocation BILE_OVERLAY =new ResourceLocation(Spore.MODID,"textures/gui/icons/bile_overlay.png");
+    public static final ResourceLocation CORROSION_OVERLAY =new ResourceLocation(Spore.MODID,"textures/gui/icons/corrosion_overlay.png");
+    public static final ResourceLocation MADNESS_OVERLAY =new ResourceLocation(Spore.MODID,"textures/gui/icons/madness_overlay.png");
+    public static final ResourceLocation MYCELIUM_INFECTION_OVERLAY =new ResourceLocation(Spore.MODID,"textures/gui/icons/mycelium_infection_overlay.png");
+    @SubscribeEvent
+    public static void onRenderOverlay(RenderGuiEvent.Pre event) {
+        Minecraft mc = Minecraft.getInstance();
+        LocalPlayer player = mc.player;
+        if (player == null){
+            return;
+        }
+        GuiGraphics guiGraphics = event.getGuiGraphics();
+        int screenWidth = guiGraphics.guiWidth();
+        int screenHeight = guiGraphics.guiHeight();
+
+        ItemStack stack = player.getMainHandItem();
+        if (stack.getItem() instanceof AcidicAssasin) {
+            if (player.isShiftKeyDown()) {
+                renderOverlay(event,screenWidth,screenHeight,ASSASIN_SCOPE,false,0);
+            }
+        }
+        MobEffectInstance biled = player.getEffect(Seffects.BILED.get());
+        MobEffectInstance corroded = player.getEffect(Seffects.CORROSION.get());
+        MobEffectInstance madness = player.getEffect(Seffects.MADNESS.get());
+        MobEffectInstance mycelium = player.getEffect(Seffects.MYCELIUM.get());
+        if (biled != null){
+            renderOverlay(event,screenWidth,screenHeight,BILE_OVERLAY,true,biled.getDuration());
+        }
+        if (corroded != null){
+            renderOverlay(event,screenWidth,screenHeight,CORROSION_OVERLAY,true,corroded.getDuration());
+        }
+        if (madness != null){
+            renderOverlay(event,screenWidth,screenHeight,MADNESS_OVERLAY,true,madness.getDuration());
+        }
+        if (mycelium != null){
+            renderOverlay(event,screenWidth,screenHeight,MYCELIUM_INFECTION_OVERLAY,true,mycelium.getDuration());
+        }
+    }
+
+    protected static void renderOverlay(RenderGuiEvent.Pre event,int w,int h,ResourceLocation location,boolean fade,int i){
+        float alpha = 1;
+        if (fade && i <= 100){
+            alpha = i * 0.01f;
+        }
+        RenderSystem.disableDepthTest();
+        RenderSystem.depthMask(false);
+        RenderSystem.enableBlend();
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        RenderSystem.setShaderColor(1, 1, 1, alpha);
+        event.getGuiGraphics().blit(location, 0, 0, 0, 0, w, h, w, h);
+        RenderSystem.depthMask(true);
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.enableDepthTest();
+        RenderSystem.disableBlend();
+        RenderSystem.setShaderColor(1, 1, 1, alpha);
     }
 }

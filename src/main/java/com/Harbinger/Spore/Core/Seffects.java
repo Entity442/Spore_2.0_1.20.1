@@ -2,6 +2,8 @@ package com.Harbinger.Spore.Core;
 
 import com.Harbinger.Spore.Effect.*;
 import com.Harbinger.Spore.Spore;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -42,6 +44,12 @@ public class Seffects {
     public static final RegistryObject<MobEffect> FROSTBITE = MOB_EFFECTS.register("frostbite",
             () -> new FrostBite().addAttributeModifier(Attributes.MOVEMENT_SPEED,
                     "6ee43a05-b6c8-4abf-8c1d-6e36007724e0",-0.1F ,AttributeModifier.Operation.MULTIPLY_TOTAL));
+
+    public static final RegistryObject<MobEffect> BILED = MOB_EFFECTS.register("biled",
+            () -> new Biled().addAttributeModifier(Attributes.MOVEMENT_SPEED,
+                    "4be9c86d-ff59-4eed-b3e4-a07d72a241af",-0.2f ,AttributeModifier.Operation.MULTIPLY_TOTAL).addAttributeModifier(Attributes.ATTACK_SPEED,
+                    "325ec79e-11cc-499b-9557-9f168c4e7ce6",-0.2f ,AttributeModifier.Operation.MULTIPLY_TOTAL).addAttributeModifier(Attributes.ATTACK_DAMAGE,
+                    "8bd4f8a7-3677-42bc-8e63-129ab2330906",-0.2f ,AttributeModifier.Operation.MULTIPLY_TOTAL));
 
     public static final RegistryObject<MobEffect> SYMBIOSIS = MOB_EFFECTS.register("symbiosis",
             () -> new Symbiosis().addAttributeModifier(Attributes.MOVEMENT_SPEED,
