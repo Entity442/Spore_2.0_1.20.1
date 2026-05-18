@@ -108,7 +108,13 @@
   "block.spore.rotten_crops": "Гнилі врожаї",
   "block.spore.exploding_lump": "Вибуховий уламок",
   "block.spore.poisoning_lump": "Уламок забруднюючої речовини",
+  "block.spore.halogen_light": "Галогеневе світло",
+  "block.spore.halogen_light_on": "Галогеневе світло",
+  "block.spore.broken_halogen_light": "Розбите галогенне світло",
+  "block.spore.broken_halogen_light_on": "Розбите галогенне світло",
+  "block.spore.fungal_clamp": "Грибковий затискач",
 
+  "item.spore.fungal_bonemeal": "Грибкове кісткове борошно",
   "item.spore.acidic_gland": "Кислотна залоза",
   "item.spore.amalgamated_heart": "Амальгамне серце",
   "item.spore.ligaments": "Гіперпідвісні зв'язки",
@@ -568,6 +574,9 @@
   "effect.spore.symbiosis": "Сімбіоз",
   "effect.spore.uneasy": "Стурбованість",
   "effect.spore.madness": "Безумство",
+  "effect.spore.frostbite": "Обмороження",
+  "effect.spore.biled": "Жовч",
+
   "item.minecraft.splash_potion.effect.mycelium_potion": "Вибухове зілля міцелієвої інфекції",
   "item.minecraft.potion.effect.mycelium_potion": "Зілля міцелієвої інфекції",
   "item.minecraft.lingering_potion.effect.mycelium_potion": "Осідальне зілля міцелієвої інфекції",

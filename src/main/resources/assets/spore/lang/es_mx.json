@@ -108,7 +108,13 @@
   "block.spore.rotten_crops": "Cultivos podridos",
   "block.spore.exploding_lump": "Obstáculo explosivo",
   "block.spore.poisoning_lump": "Obstáculo contaminante",
+  "block.spore.halogen_light": "Luz halógena",
+  "block.spore.halogen_light_on": "Luz halógena",
+  "block.spore.broken_halogen_light": "Luz halógena rota",
+  "block.spore.broken_halogen_light_on": "Luz halógena rota",
+  "block.spore.fungal_clamp": "Pinza fúngica",
 
+  "item.spore.fungal_bonemeal": "Harina de hueso fúngica",
   "item.spore.acidic_gland": "Glándula Acidimétrica",
   "item.spore.amalgamated_heart": "Corazón Amalgamado",
   "item.spore.ligaments": "Ligamentos Hiper-suspensores",
@@ -572,6 +578,9 @@
   "effect.spore.symbiosis": "Simbiosis",
   "effect.spore.uneasy": "Inquietud",
   "effect.spore.madness": "Locura",
+  "effect.spore.frostbite": "Congelación",
+  "effect.spore.biled": "Bilis",
+
   "item.minecraft.splash_potion.effect.mycelium_potion": "Poción arrojadiza de infección de micelio",
   "item.minecraft.potion.effect.mycelium_potion": "Poción de infección de micelio",
   "item.minecraft.lingering_potion.effect.mycelium_potion": "Poción persistente de infección de micelio",

@@ -84,7 +84,13 @@
   "block.spore.cabinet": "Mobiletto",
   "block.spore.exploding_lump": "Gruppo esplosivo",
   "block.spore.poisoning_lump": "Gruppo inquinante",
+  "block.spore.halogen_light": "Lampada alogena",
+  "block.spore.halogen_light_on": "Lampada alogena",
+  "block.spore.broken_halogen_light": "Lampada alogena rotta",
+  "block.spore.broken_halogen_light_on": "Lampada alogena rotta",
+  "block.spore.fungal_clamp": "Morsetto fungino",
 
+  "item.spore.fungal_bonemeal": "Farina d'ossa fungina",
   "block.spore.infested_dirt": "Suolo Infestato",
   "block.spore.infested_stone": "Roccia Infestata",
   "block.spore.infested_netherrack": "Netherrack Infestato",
@@ -568,7 +574,8 @@
   "effect.spore.symbiosis": "Simbiosi",
   "effect.spore.uneasy": "Incomfortato",
   "effect.spore.madness": "Pazzia",
-
+  "effect.spore.frostbite": "Congelamento",
+  "effect.spore.biled": "Bile",
 
   "item.minecraft.splash_potion.effect.mycelium_potion": "Pozione da Lanciare di Infezione Micelica",
   "item.minecraft.potion.effect.mycelium_potion": "Pozione di Infezione Micelica",

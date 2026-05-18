@@ -110,8 +110,13 @@
   "block.spore.rotten_crops": "腐烂的庄稼",
   "block.spore.exploding_lump": "爆炸性肿块",
   "block.spore.poisoning_lump": "污染物肿块",
+  "block.spore.halogen_light": "卤素灯",
+  "block.spore.halogen_light_on": "卤素灯",
+  "block.spore.broken_halogen_light": "破碎的卤素灯",
+  "block.spore.broken_halogen_light_on": "破碎的卤素灯",
+  "block.spore.fungal_clamp": "真菌钳",
 
-
+  "item.spore.fungal_bonemeal": "真菌骨粉",
   "item.spore.acidic_gland": "腐蚀腺体",
   "item.spore.amalgamated_heart": "融合心脏",
   "item.spore.ligaments": "极限韧带",
@@ -577,6 +582,9 @@
   "effect.spore.symbiosis": "菌群共生",
   "effect.spore.uneasy": "不安",
   "effect.spore.madness": "疯狂",
+  "effect.spore.frostbite": "冻伤",
+  "effect.spore.biled": "胆汁",
+
   "item.minecraft.splash_potion.effect.mycelium_potion": "菌丝感染喷溅药水",
   "item.minecraft.potion.effect.mycelium_potion": "菌丝感染药水",
   "item.minecraft.lingering_potion.effect.mycelium_potion": "菌丝感染滞留药水",

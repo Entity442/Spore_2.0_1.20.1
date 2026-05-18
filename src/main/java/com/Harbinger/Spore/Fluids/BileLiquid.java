@@ -74,7 +74,7 @@ public class BileLiquid extends FluidType {
     }
     public static List<MobEffectInstance> bileEffects(){
         List<MobEffectInstance> values = new ArrayList<>();
-        values.add(new MobEffectInstance(Seffects.BILED.get(),100,0));
+        values.add(new MobEffectInstance(Seffects.BILED.get(),200,0));
         return values;
     }
 

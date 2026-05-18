@@ -108,7 +108,13 @@
 	"block.spore.rotten_crops": "Гнилые посевы",
 	"block.spore.exploding_lump": "Взрывной ком",
 	"block.spore.poisoning_lump": "Комок загрязняющих веществ",
+	"block.spore.halogen_light": "Галогенная лампа",
+	"block.spore.halogen_light_on": "Галогенная лампа",
+	"block.spore.broken_halogen_light": "Разбитая галогенная лампа",
+	"block.spore.broken_halogen_light_on": "Разбитая галогенная лампа",
+	"block.spore.fungal_clamp": "Грибной зажим",
 
+	"item.spore.fungal_bonemeal": "Грибная костная мука",
 	"item.spore.acidic_gland": "Кислотная железа",
 	"item.spore.amalgamated_heart": "Амальгамное сердце",
 	"item.spore.ligaments": "Гиперподвесные связки",
@@ -574,6 +580,9 @@
 	"effect.spore.symbiosis": "Симбиоз",
 	"effect.spore.uneasy": "Тревога",
 	"effect.spore.madness": "Безумие",
+	"effect.spore.frostbite": "Обморожение",
+	"effect.spore.biled": "Желчь",
+
 	"item.minecraft.splash_potion.effect.mycelium_potion": "Взрывное зелье мицелиевой инфекции",
 	"item.minecraft.potion.effect.mycelium_potion": "Зелье мицелиевой инфекции",
 	"item.minecraft.lingering_potion.effect.mycelium_potion": "Туманное зелье мицелиевой инфекции",
