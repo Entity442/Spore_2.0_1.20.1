@@ -7,11 +7,14 @@ import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -24,9 +27,13 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.Path;
+import org.jetbrains.annotations.Nullable;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoField;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -71,6 +78,21 @@ public class Gorgon extends EvolvedInfected {
         super.defineSynchedData();
         this.entityData.define(TARGET, -1);
         this.entityData.define(SPORES, 0f);
+    }
+
+    public boolean spooky(){
+        return this.getName().equals(Component.literal("Spooky"));
+    }
+
+
+    @Override
+    public @Nullable SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance p_21435_, MobSpawnType p_21436_, @Nullable SpawnGroupData p_21437_, @Nullable CompoundTag p_21438_) {
+        LocalDate localdate = LocalDate.now();
+        int j = localdate.get(ChronoField.MONTH_OF_YEAR);
+        if (j == 10 && Math.random() < 0.5){
+            setCustomName(Component.literal("Spooky"));
+        }
+        return super.finalizeSpawn(serverLevelAccessor, p_21435_, p_21436_, p_21437_, p_21438_);
     }
 
     public void setTargetId(int e){
