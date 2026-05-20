@@ -265,7 +265,11 @@ public class Infected extends Monster implements ColdWeakness {
         if (!SConfig.SERVER.weaktocold.get()) return;
         if (!isInPowderSnow && !isFreazing()) return;
 
-        addEffect(new MobEffectInstance(Seffects.FROSTBITE.get(), 100, 0, false, false), this);
+        if (hasEffect(Seffects.FROSTBITE.get())){
+            return;
+        }else {
+            addEffect(new MobEffectInstance(Seffects.FROSTBITE.get(), 100, 0, true, true));
+        }
     }
     private boolean canGrief() {
         return net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(level(), this);
