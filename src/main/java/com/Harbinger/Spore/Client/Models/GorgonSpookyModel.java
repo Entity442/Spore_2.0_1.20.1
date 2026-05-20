@@ -191,7 +191,7 @@ public class GorgonSpookyModel<T extends Gorgon> extends EntityModel<T> implemen
 		PartDefinition WitchHat = Head.addOrReplaceChild("WitchHat", CubeListBuilder.create().texOffs(0, 0).addBox(-5.7F, -2.05F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, -2.6F, 3.8F, -0.2449F, -0.0677F, -0.1576F));
 
 		PartDefinition hat4_r1 = WitchHat.addOrReplaceChild("hat4_r1", CubeListBuilder.create().texOffs(45, 60).addBox(0.25F, -5.8581F, -0.5064F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.25F))
-		.texOffs(102, 0).addBox(-1.5F, -3.8581F, -2.5064F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.7F, -3.7F, 0.6F, -0.5236F, 0.0F, 0.0F));
+				.texOffs(102, 0).addBox(-1.5F, -3.8581F, -2.5064F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.7F, -3.7F, 0.6F, -0.5236F, 0.0F, 0.0F));
 
 		PartDefinition hat2_r1 = WitchHat.addOrReplaceChild("hat2_r1", CubeListBuilder.create().texOffs(41, 0).addBox(-3.25F, -4.15F, -3.0F, 7.0F, 4.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.7F, -0.9F, -0.9F, -0.2443F, 0.0F, 0.0F));
 
@@ -211,7 +211,7 @@ public class GorgonSpookyModel<T extends Gorgon> extends EntityModel<T> implemen
 
 		PartDefinition head_r1 = Skull.addOrReplaceChild("head_r1", CubeListBuilder.create().texOffs(0, 32).addBox(-4.0F, -4.3F, -4.0F, 8.0F, 6.0F, 8.0F, new CubeDeformation(-0.5F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.5236F, 0.0F, 0.5934F));
 
-		PartDefinition BrokenJaw = FullSkull.addOrReplaceChild("BrokenJaw", CubeListBuilder.create(), PartPose.offsetAndRotation(-2.6F, -22.7F, -7.3F, 0.0F, 0.0F, 0.0873F));
+		PartDefinition BrokenJaw = FullSkull.addOrReplaceChild("BrokenJaw", CubeListBuilder.create(), PartPose.offset(-2.6F, -22.7F, -7.3F));
 
 		PartDefinition head_r2 = BrokenJaw.addOrReplaceChild("head_r2", CubeListBuilder.create().texOffs(56, 44).addBox(-1.0F, 1.7F, -4.0F, 5.0F, 2.0F, 8.0F, new CubeDeformation(-0.5F)), PartPose.offsetAndRotation(1.5F, -1.4F, -2.7F, 0.7807F, -0.1853F, -0.7609F));
 
@@ -309,9 +309,9 @@ public class GorgonSpookyModel<T extends Gorgon> extends EntityModel<T> implemen
 
 		PartDefinition Legs = Gorgon.addOrReplaceChild("Legs", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		PartDefinition LeftLeg = Legs.addOrReplaceChild("LeftLeg", CubeListBuilder.create().texOffs(0, 63).addBox(0.0F, -12.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+		PartDefinition LeftLeg = Legs.addOrReplaceChild("LeftLeg", CubeListBuilder.create().texOffs(0, 63).addBox(-2.0F, -1.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(2.0F, -11.0F, 0.0F));
 
-		PartDefinition RightLeg = Legs.addOrReplaceChild("RightLeg", CubeListBuilder.create().texOffs(42, 66).addBox(-4.0F, -12.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+		PartDefinition RightLeg = Legs.addOrReplaceChild("RightLeg", CubeListBuilder.create().texOffs(42, 66).addBox(-2.0F, -1.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.0F, -11.0F, 0.0F));
 
 		PartDefinition LeftArm = Gorgon.addOrReplaceChild("LeftArm", CubeListBuilder.create(), PartPose.offset(5.0F, -22.0F, -3.0F));
 
