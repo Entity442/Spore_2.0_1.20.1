@@ -376,7 +376,7 @@ public class GorgonSpookyModel<T extends Gorgon> extends EntityModel<T> implemen
 		float val = 0.75f + (entity.getSpores() * 0.05f);
 		tumor(Sack,val);
 		tumor(Sack2,val);
-		animateTumor(Tumour,val);
+		animateTumor(Tumour,val3);
 		animateTumor(Tumours2,val2);
 		animateTumor(Tumours3,val3);
 		animateTumor(ArmTumour,val4);
