@@ -464,6 +464,10 @@ public class Sentities {
     public static final RegistryObject<EntityType<Hinderburg>> HINDENBURG = SPORE_ENTITIES.register("hindenburg",
             () -> EntityType.Builder.of(Hinderburg::new, INFECTED).sized(5f, 5f)
                     .build(new ResourceLocation(Spore.MODID, "hindenburg").toString()));
+    public static final RegistryObject<EntityType<Verfalldrachen>> VERFALL = SPORE_ENTITIES.register("verfall",
+            () -> EntityType.Builder.of(Verfalldrachen::new, INFECTED).sized(4f, 5f)
+                    .build(new ResourceLocation(Spore.MODID, "verfall").toString()));
+
 
     public static final RegistryObject<EntityType<Howitzer>> HOWITZER = SPORE_ENTITIES.register("howitzer",
             () -> EntityType.Builder.of(Howitzer::new, INFECTED).sized(5f, 5f)

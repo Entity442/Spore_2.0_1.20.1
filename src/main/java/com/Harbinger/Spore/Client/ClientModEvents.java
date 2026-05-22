@@ -198,6 +198,7 @@ public class ClientModEvents {
         event.registerLayerDefinition(bomberGargoyleModel.LAYER_LOCATION, bomberGargoyleModel::createBodyLayer);
         event.registerLayerDefinition(valkyrieGargoyleModel.LAYER_LOCATION, valkyrieGargoyleModel::createBodyLayer);
         event.registerLayerDefinition(GorgonSpookyModel.LAYER_LOCATION, GorgonSpookyModel::createBodyLayer);
+        event.registerLayerDefinition(FungalDragonBodyModel.LAYER_LOCATION, FungalDragonBodyModel::createBodyLayer);
 
         event.registerLayerDefinition(BombFunnelModel.LAYER_LOCATION, BombFunnelModel::createBodyLayer);
         event.registerLayerDefinition(MushroomExplosionTop.LAYER_LOCATION, MushroomExplosionTop::createBodyLayer);
@@ -314,6 +315,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.HIVETUMOR.get(), HiveTumorRenderer::new);
         event.registerEntityRenderer(Sentities.LEVIATHAN.get(), LeviathanRenderer::new);
         event.registerEntityRenderer(Sentities.LEVIATHAN_SEG.get(), LeviathanSegRenderer::new);
+        event.registerEntityRenderer(Sentities.VERFALL.get(), DrakeRenderer::new);
         event.registerEntityRenderer(Sentities.DROWNED_FLESH_BOMB.get(), DrownedFleshBombRenderer::new);
         event.registerEntityRenderer(Sentities.FALLEN_ACID_BULB.get(), FallenAcidSackRenderer::new);
         event.registerEntityRenderer(Sentities.GROBER.get(), GroberRenderer::new);

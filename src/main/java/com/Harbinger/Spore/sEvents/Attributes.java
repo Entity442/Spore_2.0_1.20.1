@@ -112,6 +112,7 @@ public class Attributes {
         event.put(Sentities.GARGOYLE.get(), Gargoyl.createAttributes().build());
         event.put(Sentities.REAPER.get(), Reaper.createAttributes().build());
         event.put(Sentities.GORGON.get(), Gorgon.createAttributes().build());
+        event.put(Sentities.VERFALL.get(), Verfalldrachen.createAttributes().build());
     }
 }
 
