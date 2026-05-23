@@ -78,19 +78,19 @@ public class DragonNeckPieceTarMidModel<T extends LivingEntity> extends EntityMo
 
 		PartDefinition tarSacks1 = yes.addOrReplaceChild("tarSacks1", CubeListBuilder.create(), PartPose.offset(9.0F, -13.0F, 3.0F));
 
-		PartDefinition cube_r3 = tarSacks1.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(103, 30).addBox(4.2F, -1.2F, -1.2F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.8626F, -0.3734F, 0.3823F, -2.7106F, 0.432F, 0.3317F));
+		PartDefinition cube_r3 = tarSacks1.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(105, 54).addBox(4.2F, -1.2F, -1.2F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.8626F, -0.3734F, 0.3823F, -2.7106F, 0.432F, 0.3317F));
 
-		PartDefinition cube_r4 = tarSacks1.addOrReplaceChild("cube_r4", CubeListBuilder.create().texOffs(110, 34).addBox(4.2F, -1.2F, -1.2F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.8626F, -0.3734F, 0.3823F, -1.1811F, -0.05F, 0.121F));
+		PartDefinition cube_r4 = tarSacks1.addOrReplaceChild("cube_r4", CubeListBuilder.create().texOffs(112, 58).addBox(4.2F, -1.2F, -1.2F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.8626F, -0.3734F, 0.3823F, -1.1811F, -0.05F, 0.121F));
 
-		PartDefinition cube_r5 = tarSacks1.addOrReplaceChild("cube_r5", CubeListBuilder.create().texOffs(98, 33).addBox(4.2F, -1.2F, -1.2F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-6.8626F, -2.3734F, -2.6177F, 0.0F, -0.1309F, 0.0F));
+		PartDefinition cube_r5 = tarSacks1.addOrReplaceChild("cube_r5", CubeListBuilder.create().texOffs(100, 57).addBox(4.2F, -1.2F, -1.2F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-6.8626F, -2.3734F, -2.6177F, 0.0F, -0.1309F, 0.0F));
 
 		PartDefinition tarSacks2 = yes.addOrReplaceChild("tarSacks2", CubeListBuilder.create(), PartPose.offsetAndRotation(-9.0F, -5.0F, 0.0F, 3.0375F, 0.3865F, 3.0135F));
 
-		PartDefinition cube_r6 = tarSacks2.addOrReplaceChild("cube_r6", CubeListBuilder.create().texOffs(103, 30).addBox(4.2F, -1.2F, -1.2F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.8626F, -0.3734F, 0.3823F, -2.7106F, 0.432F, 0.3317F));
+		PartDefinition cube_r6 = tarSacks2.addOrReplaceChild("cube_r6", CubeListBuilder.create().texOffs(105, 54).addBox(4.2F, -1.2F, -1.2F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.8626F, -0.3734F, 0.3823F, -2.7106F, 0.432F, 0.3317F));
 
-		PartDefinition cube_r7 = tarSacks2.addOrReplaceChild("cube_r7", CubeListBuilder.create().texOffs(101, 29).addBox(4.2F, -1.2F, -1.2F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.8626F, -0.3734F, 0.3823F, -1.1811F, -0.05F, 0.121F));
+		PartDefinition cube_r7 = tarSacks2.addOrReplaceChild("cube_r7", CubeListBuilder.create().texOffs(103, 53).addBox(4.2F, -1.2F, -1.2F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.8626F, -0.3734F, 0.3823F, -1.1811F, -0.05F, 0.121F));
 
-		PartDefinition cube_r8 = tarSacks2.addOrReplaceChild("cube_r8", CubeListBuilder.create().texOffs(98, 33).addBox(4.2F, -1.2F, -1.2F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-6.8626F, -2.3734F, -2.6177F, 0.0F, -0.1309F, 0.0F));
+		PartDefinition cube_r8 = tarSacks2.addOrReplaceChild("cube_r8", CubeListBuilder.create().texOffs(100, 57).addBox(4.2F, -1.2F, -1.2F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-6.8626F, -2.3734F, -2.6177F, 0.0F, -0.1309F, 0.0F));
 
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}

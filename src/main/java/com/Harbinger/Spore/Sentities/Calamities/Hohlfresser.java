@@ -71,7 +71,6 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
     public int ringBufferIndex = -1;
     private int ticksUnder;
     private static final Map<BlockState, Integer> cache = new WeakHashMap<>();
-    private int[] segments = new int[10];
     public Hohlfresser(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         this.setMaxUpStep(2F);
@@ -161,7 +160,6 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
         if (getChildId() != null) {
             tag.putUUID("ChildUUID", getChildId());
         }
-        tag.putIntArray("segmentIds",segments);
     }
     public boolean isInWall(LivingEntity mob){
         float f = mob.getBbWidth() * 0.8F;
@@ -181,7 +179,6 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
         if (tag.hasUUID("ChildUUID")) {
             setChildId(tag.getUUID("ChildUUID"));
         }
-        segments = tag.getIntArray("segmentIds");
     }
 
     @Override
@@ -410,14 +407,13 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
         LivingEntity partParent = this;
         parts = new HohlMultipart[getSegments()];
         for (int i = 0; i < getSegments(); i++) {
-            int var = segments == null || segments.length < getSegments() ? random.nextInt(3) : segments[i];
             size = size - 0.1f;
             HohlMultipart part = new HohlMultipart(Sentities.HOHLFRESSER_SEG.get(), this.level());
             part.setPos(this.getX(), this.getY(), this.getZ());
             part.setParent(partParent);
             part.setSize(size);
             part.setColor(this.getMutationColor());
-            part.setVariant(var);
+            part.setVariant(random.nextInt(3));
             part.setIsTail(i == getSegments() - 1);
 
             if (partParent == this) {
@@ -438,14 +434,13 @@ public class Hohlfresser extends Calamity implements TrueCalamity, RangedAttackM
         float size = lastParent instanceof HohlMultipart hm ? hm.getSize() - 0.1f : 0.9f;
 
         for (int i = startIndex; i < parts.length; i++) {
-            int var = segments == null || segments.length < getSegments() ? random.nextInt(3) : segments[i];
             size = size - (getAdaptation() ? 0.05f : 0.1f);
             HohlMultipart part = new HohlMultipart(Sentities.HOHLFRESSER_SEG.get(), this.level());
             part.setPos(lastParent.getX(), lastParent.getY(), lastParent.getZ());
             part.setParent(lastParent);
             part.setSize(size);
             part.setColor(this.getMutationColor());
-            part.setVariant(var);
+            part.setVariant(random.nextInt(3));
             part.setIsTail(i == parts.length - 1);
 
             if (lastParent instanceof HohlMultipart partIndex) {

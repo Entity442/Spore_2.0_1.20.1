@@ -51,6 +51,12 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
     private static final ResourceLocation TAIL = new ResourceLocation(Spore.MODID,
             "textures/entity/dragon/verfa_tail_seg.png");
 
+    private static final ResourceLocation HEAD_MEMBRANE = new ResourceLocation(Spore.MODID,
+            "textures/entity/dragon/tar_dragon_head_membrane.png");
+    private static final ResourceLocation NECK_MEMBRANE = new ResourceLocation(Spore.MODID,
+            "textures/entity/dragon/verfa_tar_seg_membrane.png");
+
+
     private final DragonTailPieceStartModel<Type> tailStart = new DragonTailPieceStartModel<>();
     private final DragonTailPieceMid1Model<Type> tailMidSec1 = new DragonTailPieceMid1Model<>();
     private final DragonTailPieceTransitionModel<Type> tailMiddle = new DragonTailPieceTransitionModel<>();
@@ -147,14 +153,17 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
                     stack.translate(0,-length-2,0);
                     head.setupAnim(parent,0,0,parent.tickCount + partial,0,0);
                     head.renderToBuffer(stack,ends,light, OverlayTexture.NO_OVERLAY, r,g,b,1);
-                    VertexConsumer eyes = buffer.getBuffer(RenderType.eyes(limb.eyesTexture));
-                    head.renderToBuffer(stack,eyes,15728640, OverlayTexture.NO_OVERLAY, 1,1,1,1);
+                    renderEyes(head,limb.eyesTexture,buffer,stack);
                     stack.popPose();
                 }
             }
             stack.popPose();
         }
         stack.popPose();
+    }
+    private void renderEyes(EntityModel<Type> head,ResourceLocation location,MultiBufferSource buffer,PoseStack stack){
+        VertexConsumer eyes = buffer.getBuffer(RenderType.eyes(location));
+        head.renderToBuffer(stack,eyes,15728640, OverlayTexture.NO_OVERLAY, 1,1,1,1);
     }
     private enum LIMB{
         TAR(new TarDragonHead<>(),new DragonNeckPieceTarModel<>(),new DragonNeckPieceTarMidModel<>(),TAR_HEAD,TAR_NECK,TAR_EYES),
