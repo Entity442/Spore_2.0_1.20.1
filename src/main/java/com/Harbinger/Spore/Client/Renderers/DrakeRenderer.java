@@ -28,8 +28,6 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
             "textures/entity/dragon/verfalldrache.png");
     private static final ResourceLocation EYES_TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/eyes/verfalldrache.png");
-    private static final ResourceLocation WHITE = new ResourceLocation(Spore.MODID,
-            "textures/entity/blank.png");
     private static final ResourceLocation ELECTRICAL_HEAD = new ResourceLocation(Spore.MODID,
             "textures/entity/dragon/verfa_elec_head.png");
     private static final ResourceLocation ELECTRICAL_NECK = new ResourceLocation(Spore.MODID,
@@ -38,6 +36,17 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
             "textures/entity/dragon/sonic_dragon_head.png");
     private static final ResourceLocation SONIC_NECK = new ResourceLocation(Spore.MODID,
             "textures/entity/dragon/verfa_sonic_seg.png");
+    private static final ResourceLocation TAR_HEAD = new ResourceLocation(Spore.MODID,
+            "textures/entity/dragon/tar_dragon_head.png");
+    private static final ResourceLocation TAR_NECK = new ResourceLocation(Spore.MODID,
+            "textures/entity/dragon/verfa_tar_seg.png");
+
+    private static final ResourceLocation TAR_EYES = new ResourceLocation(Spore.MODID,
+            "textures/entity/dragon/eyes/tar_dragon_eyes.png");
+    private static final ResourceLocation SONIC_EYES = new ResourceLocation(Spore.MODID,
+            "textures/entity/dragon/eyes/sonic_dragon_eyes.png");
+    private static final ResourceLocation ELEC_EYES = new ResourceLocation(Spore.MODID,
+            "textures/entity/dragon/eyes/elec_dragon_eyes.png");
 
     private static final ResourceLocation TAIL = new ResourceLocation(Spore.MODID,
             "textures/entity/dragon/verfa_tail_seg.png");
@@ -114,7 +123,7 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
 
         float yaw = (float) Math.atan2(direction.x, direction.z);
         float pitch = (float) -Math.asin(direction.y);
-        float size = index % 2 == 0 ? 1.1f : 1;
+        float size = index % 2 == 0 ? 0.85f : 0.75f;
         stack.pushPose();
         {
             stack.translate(from.x, from.y, from.z);
@@ -138,6 +147,8 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
                     stack.translate(0,-length-2,0);
                     head.setupAnim(parent,0,0,parent.tickCount + partial,0,0);
                     head.renderToBuffer(stack,ends,light, OverlayTexture.NO_OVERLAY, r,g,b,1);
+                    VertexConsumer eyes = buffer.getBuffer(RenderType.eyes(limb.eyesTexture));
+                    head.renderToBuffer(stack,eyes,15728640, OverlayTexture.NO_OVERLAY, 1,1,1,1);
                     stack.popPose();
                 }
             }
@@ -146,21 +157,23 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
         stack.popPose();
     }
     private enum LIMB{
-        TAR(new TarDragonHead<>(),new Cube<>(),new Cube<>(),WHITE,WHITE),
-        SOUND(new SonicDragonHeadModel<>(),new DragonNeckPieceSonicModel<>(),new DragonNeckPieceSonicMidModel<>(),SONIC_HEAD,SONIC_NECK),
-        ELECTRICAL(new ElectricalDragonHeadModel<>(),new DragonNeckPieceElectricModel<>(),new DragonNeckPieceElectricMidModel<>(),ELECTRICAL_HEAD,ELECTRICAL_NECK);
+        TAR(new TarDragonHead<>(),new DragonNeckPieceTarModel<>(),new DragonNeckPieceTarMidModel<>(),TAR_HEAD,TAR_NECK,TAR_EYES),
+        SOUND(new SonicDragonHeadModel<>(),new DragonNeckPieceSonicModel<>(),new DragonNeckPieceSonicMidModel<>(),SONIC_HEAD,SONIC_NECK,SONIC_EYES),
+        ELECTRICAL(new ElectricalDragonHeadModel<>(),new DragonNeckPieceElectricModel<>(),new DragonNeckPieceElectricMidModel<>(),ELECTRICAL_HEAD,ELECTRICAL_NECK,ELEC_EYES);
         public final EntityModel<?> type;
         public final EntityModel<?> neckStartSegment;
         public final EntityModel<?> neckMiddleSegment;
         public final ResourceLocation headTexture;
         public final ResourceLocation segmentTexture;
+        public final ResourceLocation eyesTexture;
 
-        LIMB(EntityModel<?> type, EntityModel<?> neckStartSegment, EntityModel<?> neckMiddleSegment, ResourceLocation headTexture, ResourceLocation segmentTexture) {
+        LIMB(EntityModel<?> type, EntityModel<?> neckStartSegment, EntityModel<?> neckMiddleSegment, ResourceLocation headTexture, ResourceLocation segmentTexture, ResourceLocation eyesTexture) {
             this.type = type;
             this.neckStartSegment = neckStartSegment;
             this.neckMiddleSegment = neckMiddleSegment;
             this.headTexture = headTexture;
             this.segmentTexture = segmentTexture;
+            this.eyesTexture = eyesTexture;
         }
     }
 

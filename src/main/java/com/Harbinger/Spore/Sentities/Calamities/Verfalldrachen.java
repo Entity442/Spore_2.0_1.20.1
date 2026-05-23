@@ -40,9 +40,9 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
         this.tarHead = new CalamityMultipart(this, "tar_head", 1.5F, 1.5F);
         this.lightningHead = new CalamityMultipart(this, "lightning_head", 1.5F, 1.5F);
         this.subEntities = new CalamityMultipart[]{ this.ass, this.rightWing, this.leftWing,this.soundHead,this.tarHead,this.lightningHead};
-        this.ikSoundHead =  new IkDragonHead(this,soundHead,6,new Vec3(2,4.25,0.65),new Vec3(5.5,6.5,4));
-        this.ikTarHead =  new IkDragonHead(this,tarHead,5,new Vec3(2,4.65,0),new Vec3(5.5,6.5,0));
-        this.ikLightningHead =  new IkDragonHead(this,lightningHead,6,new Vec3(2,4.25,-0.65),new Vec3(5.5,6.5,-4));
+        this.ikSoundHead =  new IkDragonHead(this,soundHead,8,new Vec3(2,4.25,0.65),new Vec3(5.5,6.5,4));
+        this.ikTarHead =  new IkDragonHead(this,tarHead,7,new Vec3(2,4.65,0),new Vec3(5.5,6.5,0));
+        this.ikLightningHead =  new IkDragonHead(this,lightningHead,8,new Vec3(2,4.25,-0.65),new Vec3(5.5,6.5,-4));
         this.tail = new IkDragonTail(this,8,new Vec3(-4,3.5,0),new Vec3(-12,1,0));
         this.setMaxUpStep(1.5F);
         this.setId(ENTITY_COUNTER.getAndAdd(this.subEntities.length + 1) + 1);

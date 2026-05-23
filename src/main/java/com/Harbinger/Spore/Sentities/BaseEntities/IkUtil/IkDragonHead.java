@@ -199,7 +199,7 @@ public class IkDragonHead {
             Vec3 nextPos = entities[i + 1];
             Vec3 dir = entities[i].subtract(nextPos);
 
-            float segmentLength = 1.0f;
+            float segmentLength = 0.75f;
             if (dir.lengthSqr() > 0.0001f) {
                 dir = dir.normalize().scale(segmentLength);
             } else {
@@ -215,7 +215,7 @@ public class IkDragonHead {
             Vec3 prevPos = entities[i - 1];
             Vec3 dir = entities[i].subtract(prevPos);
 
-            float segmentLength = 1.0f;
+            float segmentLength = 0.75f;
             if (dir.lengthSqr() > 0.0001f) {
                 dir = dir.normalize().scale(segmentLength);
             } else {
