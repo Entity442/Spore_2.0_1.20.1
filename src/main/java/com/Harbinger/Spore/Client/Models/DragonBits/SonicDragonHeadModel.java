@@ -10,9 +10,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
-
 
 public class SonicDragonHeadModel<T extends LivingEntity> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -39,6 +37,13 @@ public class SonicDragonHeadModel<T extends LivingEntity> extends EntityModel<T>
 	private final ModelPart sculkBits3;
 	private final ModelPart tendril4;
 	private final ModelPart shrieker;
+	private final ModelPart tentacle;
+	private final ModelPart tentacle2;
+	private final ModelPart tendril6;
+	private final ModelPart tentacle3;
+	private final ModelPart tendril5;
+	private final ModelPart tentacle4;
+	private final ModelPart tentacle5;
 
 	public SonicDragonHeadModel() {
 		ModelPart root = createBodyLayer().bakeRoot();
@@ -64,6 +69,13 @@ public class SonicDragonHeadModel<T extends LivingEntity> extends EntityModel<T>
 		this.sculkBits3 = this.segment3.getChild("sculkBits3");
 		this.tendril4 = this.sculkBits3.getChild("tendril4");
 		this.shrieker = this.head.getChild("shrieker");
+		this.tentacle = this.head.getChild("tentacle");
+		this.tentacle2 = this.tentacle.getChild("tentacle2");
+		this.tendril6 = this.tentacle2.getChild("tendril6");
+		this.tentacle3 = this.tentacle2.getChild("tentacle3");
+		this.tendril5 = this.tentacle3.getChild("tendril5");
+		this.tentacle4 = this.tentacle3.getChild("tentacle4");
+		this.tentacle5 = this.tentacle4.getChild("tentacle5");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -75,6 +87,12 @@ public class SonicDragonHeadModel<T extends LivingEntity> extends EntityModel<T>
 
 		PartDefinition segment = head.addOrReplaceChild("segment", CubeListBuilder.create().texOffs(36, 79).addBox(-5.0F, 0.0F, -13.0F, 11.0F, 5.0F, 3.0F, new CubeDeformation(0.0F))
 		.texOffs(94, 148).addBox(-12.0F, 0.0F, -4.0F, 2.0F, 4.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -8.0F, 0.0F));
+
+		PartDefinition petal_r1 = segment.addOrReplaceChild("petal_r1", CubeListBuilder.create().texOffs(238, 250).addBox(-3.0F, 0.0F, -3.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.0F, -4.0F, 16.0F, -0.0873F, 0.0F, 0.1745F));
+
+		PartDefinition petal_r2 = segment.addOrReplaceChild("petal_r2", CubeListBuilder.create().texOffs(238, 250).addBox(-3.0F, 0.0F, -3.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(13.0F, -4.0F, 10.0F, -0.0873F, 0.0F, 0.1745F));
+
+		PartDefinition petal_r3 = segment.addOrReplaceChild("petal_r3", CubeListBuilder.create().texOffs(238, 250).addBox(-3.0F, 0.0F, -3.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(7.0F, -2.0F, 14.0F, -0.0873F, 0.0F, 0.0436F));
 
 		PartDefinition cube_r1 = segment.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(30, 141).addBox(-8.0F, -2.0F, -1.0F, 13.0F, 6.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, 2.25F, 9.0F, -0.5672F, 0.0F, 0.0F));
 
@@ -163,6 +181,14 @@ public class SonicDragonHeadModel<T extends LivingEntity> extends EntityModel<T>
 		PartDefinition cube_r21 = flower.addOrReplaceChild("cube_r21", CubeListBuilder.create().texOffs(170, 84).addBox(-6.0F, 0.0F, -3.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.3927F));
 
 		PartDefinition segment2 = head.addOrReplaceChild("segment2", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -18.0F, 0.0F, 0.0F, -1.8326F, 0.0F));
+
+		PartDefinition petal_r4 = segment2.addOrReplaceChild("petal_r4", CubeListBuilder.create().texOffs(238, 250).addBox(-3.0F, 0.0F, -3.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-15.0F, 1.0F, 9.0F, 0.0F, 1.0036F, -0.1745F));
+
+		PartDefinition petal_r5 = segment2.addOrReplaceChild("petal_r5", CubeListBuilder.create().texOffs(238, 250).addBox(-3.0F, 0.0F, -3.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-13.0F, -3.0F, 12.0F, -0.1304F, -0.0114F, -0.0865F));
+
+		PartDefinition petal_r6 = segment2.addOrReplaceChild("petal_r6", CubeListBuilder.create().texOffs(238, 250).addBox(-3.0F, 0.0F, -3.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, 0.0F, 18.0F, -0.1309F, 0.0F, 0.0F));
+
+		PartDefinition petal_r7 = segment2.addOrReplaceChild("petal_r7", CubeListBuilder.create().texOffs(238, 250).addBox(-3.0F, 0.0F, -3.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, -3.0F, 18.0F, -1.7297F, -1.4402F, 1.9071F));
 
 		PartDefinition teeth_r6 = segment2.addOrReplaceChild("teeth_r6", CubeListBuilder.create().texOffs(151, 76).addBox(-16.0F, -3.0F, -1.0F, 16.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(9.5F, 0.0F, -11.0F, -2.9671F, 1.2654F, -2.9671F));
 
@@ -254,6 +280,24 @@ public class SonicDragonHeadModel<T extends LivingEntity> extends EntityModel<T>
 
 		PartDefinition shrieker = head.addOrReplaceChild("shrieker", CubeListBuilder.create().texOffs(0, 57).addBox(-8.0F, -1.0F, -8.0F, 16.0F, 6.0F, 16.0F, new CubeDeformation(0.0F))
 		.texOffs(64, 57).addBox(-7.0F, -7.0F, -7.0F, 14.0F, 7.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -13.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
+
+		PartDefinition tentacle = head.addOrReplaceChild("tentacle", CubeListBuilder.create().texOffs(0, 236).addBox(-2.0F, -15.375F, -1.95F, 4.0F, 16.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -13.625F, -0.05F));
+
+		PartDefinition tentacle2 = tentacle.addOrReplaceChild("tentacle2", CubeListBuilder.create().texOffs(2, 237).addBox(-1.5F, -15.45F, -1.5F, 3.0F, 16.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -14.925F, -0.05F));
+
+		PartDefinition tendril6 = tentacle2.addOrReplaceChild("tendril6", CubeListBuilder.create(), PartPose.offsetAndRotation(0.1371F, -9.85F, -0.4917F, 0.48F, 1.4399F, 0.0F));
+
+		PartDefinition tendril_r3 = tendril6.addOrReplaceChild("tendril_r3", CubeListBuilder.create().texOffs(0, 149).addBox(0.0F, -5.0F, -5.0F, 0.0F, 10.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.6362F, 4.4962F, 3.4394F, 0.0F, -0.1745F, 0.0F));
+
+		PartDefinition tentacle3 = tentacle2.addOrReplaceChild("tentacle3", CubeListBuilder.create().texOffs(4, 238).addBox(-1.0F, -15.5F, -1.0F, 2.0F, 16.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -14.95F, 0.0F));
+
+		PartDefinition tendril5 = tentacle3.addOrReplaceChild("tendril5", CubeListBuilder.create(), PartPose.offsetAndRotation(-0.5629F, -11.7F, -0.3917F, -2.618F, -0.5672F, 3.1416F));
+
+		PartDefinition tendril_r4 = tendril5.addOrReplaceChild("tendril_r4", CubeListBuilder.create().texOffs(0, 149).addBox(0.0F, -5.0F, -5.0F, 0.0F, 10.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.6392F, 4.5473F, 3.4761F, 0.0F, -0.1745F, 0.0F));
+
+		PartDefinition tentacle4 = tentacle3.addOrReplaceChild("tentacle4", CubeListBuilder.create().texOffs(5, 239).addBox(-0.5F, -15.5F, -0.5F, 1.0F, 16.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -15.0F, 0.0F));
+
+		PartDefinition tentacle5 = tentacle4.addOrReplaceChild("tentacle5", CubeListBuilder.create().texOffs(16, 234).addBox(0.0F, -12.0F, -0.5F, 0.0F, 16.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -7.5F, 0.0F));
 
 		return LayerDefinition.create(meshdefinition, 256, 256);
 	}

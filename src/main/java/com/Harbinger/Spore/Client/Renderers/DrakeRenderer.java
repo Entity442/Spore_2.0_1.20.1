@@ -34,7 +34,19 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
             "textures/entity/dragon/verfa_elec_head.png");
     private static final ResourceLocation ELECTRICAL_NECK = new ResourceLocation(Spore.MODID,
             "textures/entity/dragon/verfa_elec_seg_start.png");
+    private static final ResourceLocation SONIC_HEAD = new ResourceLocation(Spore.MODID,
+            "textures/entity/dragon/sonic_dragon_head.png");
+    private static final ResourceLocation SONIC_NECK = new ResourceLocation(Spore.MODID,
+            "textures/entity/dragon/verfa_sonic_seg.png");
 
+    private static final ResourceLocation TAIL = new ResourceLocation(Spore.MODID,
+            "textures/entity/dragon/verfa_tail_seg.png");
+
+    private final DragonTailPieceStartModel<Type> tailStart = new DragonTailPieceStartModel<>();
+    private final DragonTailPieceMid1Model<Type> tailMidSec1 = new DragonTailPieceMid1Model<>();
+    private final DragonTailPieceTransitionModel<Type> tailMiddle = new DragonTailPieceTransitionModel<>();
+    private final DragonTailPieceMid2Model<Type> tailMidSec2 = new DragonTailPieceMid2Model<>();
+    private final DragonTailPieceEndModel<Type> tailEnd = new DragonTailPieceEndModel<>();
     public DrakeRenderer(EntityRendererProvider.Context context) {
         super(context, new FungalDragonBodyModel<>(), 5f);
         this.addLayer(new DrakeMembraneLayer<>(this));
@@ -63,7 +75,7 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
                 renderTentacle(stack,entity,light, bufferSource, entity.getIkLightningHead().getEntities(), entity,partialTicks,LIMB.ELECTRICAL);
                 renderTentacle(stack,entity,light, bufferSource, entity.getIkSoundHead().getEntities(), entity,partialTicks,LIMB.SOUND);
                 renderTentacle(stack,entity,light, bufferSource, entity.getIkTarHead().getEntities(), entity,partialTicks,LIMB.TAR);
-                renderTentacle(stack,entity,light, bufferSource, entity.getTail().getEntities(), entity,partialTicks,LIMB.TAIL);
+                renderTail(stack,entity,light, bufferSource, entity.getTail().getEntities(), entity,partialTicks);
             }
         }
         stack.popPose();
@@ -135,9 +147,8 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
     }
     private enum LIMB{
         TAR(new TarDragonHead<>(),new Cube<>(),new Cube<>(),WHITE,WHITE),
-        SOUND(new SonicDragonHeadModel<>(),new Cube<>(),new Cube<>(),WHITE,WHITE),
-        ELECTRICAL(new ElectricalDragonHeadModel<>(),new DragonNeckPieceElectricModel<>(),new DragonNeckPieceElectricMidModel<>(),ELECTRICAL_HEAD,ELECTRICAL_NECK),
-        TAIL(new Cube<>(),new Cube<>(),new Cube<>(),WHITE,WHITE);
+        SOUND(new SonicDragonHeadModel<>(),new DragonNeckPieceSonicModel<>(),new DragonNeckPieceSonicMidModel<>(),SONIC_HEAD,SONIC_NECK),
+        ELECTRICAL(new ElectricalDragonHeadModel<>(),new DragonNeckPieceElectricModel<>(),new DragonNeckPieceElectricMidModel<>(),ELECTRICAL_HEAD,ELECTRICAL_NECK);
         public final EntityModel<?> type;
         public final EntityModel<?> neckStartSegment;
         public final EntityModel<?> neckMiddleSegment;
@@ -151,5 +162,59 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
             this.headTexture = headTexture;
             this.segmentTexture = segmentTexture;
         }
+    }
+
+    private void renderTail(PoseStack stack, Type type, int light, MultiBufferSource buffer, Vec3[] segments, LivingEntity parent, float partial) {
+        if (segments == null || segments.length < 2) return;
+        float hurtTime = parent.hurtTime - partial;
+        float flashIntensity = 0.0F;
+        int mutationColor = type.getMutationColor() == 0 ? -1 : type.getMutationColor();
+        Vec3 origin = null;
+        if (hurtTime > 0) {
+            flashIntensity = Math.min(hurtTime / 10.0F, 1.0F);
+        }
+        float baseR = ((mutationColor >> 16) & 0xFF) / 255f;
+        float baseG = ((mutationColor >> 8) & 0xFF) / 255f;
+        float baseB = (mutationColor & 0xFF) / 255f;
+        float flash = flashIntensity * 0.5f;
+        float g = Mth.lerp(flash, baseG, 0.2f);
+        float b = Mth.lerp(flash, baseB, 0.2f);
+
+        for (int i = 0; i < segments.length; i++) {
+            Vec3 currentPos = segments[i];
+            renderConnectionTail(origin, currentPos,type,light, stack, buffer, i,partial,baseR,g,b,i == 1,i == segments.length-1,i==segments.length/2,i<segments.length/2);
+            origin = currentPos;
+        }
+    }
+    private void renderConnectionTail(Vec3 from, Vec3 to,Type parent,int light, PoseStack stack, MultiBufferSource buffer,int index, float partial
+            ,float r,float g,float b,boolean first,boolean last,boolean middle,boolean belowMiddle) {
+        if (from == null || to == null) return;
+        Vec3 direction = to.subtract(from);
+        float length = (float) direction.length();
+        if (length < 0.0001f) return;
+
+        direction = direction.normalize();
+
+        float yaw = (float) Math.atan2(direction.x, direction.z);
+        float pitch = (float) -Math.asin(direction.y);
+        float size = index % 2 == 0 ? 1.1f : 1;
+        stack.pushPose();
+        {
+            stack.translate(from.x, from.y, from.z);
+            stack.mulPose(Axis.YP.rotation(yaw));
+            stack.mulPose(Axis.XP.rotation(pitch));
+            stack.pushPose();
+            {
+                VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(TAIL));
+                EntityModel<Type> typeEntityModel = first ? tailStart : middle ? tailMiddle : belowMiddle ? tailMidSec1 : last ? tailEnd : tailMidSec2;
+                stack.mulPose(Axis.XP.rotationDegrees(90));
+                stack.translate(0,-length/2,0);
+                stack.scale(size,length*1.05f,size);
+                typeEntityModel.setupAnim(parent,0,0,parent.tickCount + partial,0,0);
+                typeEntityModel.renderToBuffer(stack,consumer,light, OverlayTexture.NO_OVERLAY, r,g,b,1);
+            }
+            stack.popPose();
+        }
+        stack.popPose();
     }
 }
