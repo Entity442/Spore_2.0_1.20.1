@@ -2,21 +2,28 @@ package com.Harbinger.Spore.Sentities.Calamities;
 
 import com.Harbinger.Spore.Core.SAttributes;
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.ExtremelySusThings.Utilities;
+import com.Harbinger.Spore.Sentities.AmbientSparks;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.BaseEntities.IkUtil.IkDragonHead;
 import com.Harbinger.Spore.Sentities.BaseEntities.IkUtil.IkDragonTail;
+import com.Harbinger.Spore.Sentities.EvolvedInfected.Conductor;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Verfalldrachen extends Calamity implements TrueCalamity {
@@ -31,6 +38,9 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
     private final IkDragonHead ikTarHead;
     private final IkDragonHead ikLightningHead;
     private final IkDragonTail tail;
+    protected List<AmbientSparks> sparks = new ArrayList<>();
+    private static final EntityDataAccessor<Float> CHARGE = SynchedEntityData.defineId(Verfalldrachen.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Integer> CHARGE_DATA_ID = SynchedEntityData.defineId(Conductor.class, EntityDataSerializers.INT);
     public Verfalldrachen(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         this.ass = new CalamityMultipart(this, "ass", 2F, 4.0F);
@@ -53,7 +63,22 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
         for (int i = 0; i < this.subEntities.length; i++)
             this.subEntities[i].setId(p_20235_ + i + 1);
     }
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        entityData.define(CHARGE,1f);
+        entityData.define(CHARGE_DATA_ID,-1);
+    }
+    public List<AmbientSparks> getSparks(){
+        return sparks;
+    }
 
+    public void setCharge(float val){
+        entityData.set(CHARGE,val);
+    }
+    public float getCharge(){
+        return entityData.get(CHARGE);
+    }
     @Override
     public boolean hurt(CalamityMultipart calamityMultipart, DamageSource source, float value) {
         return hurt(source,value);
@@ -94,6 +119,40 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
         ikTarHead.applyIK();
         ikLightningHead.applyIK();
         tail.applyIK();
+
+
+
+        ///Ambient Electricity why am I writing a comment am I a baka ?
+        if (tickCount % 5 == 0 && getCharge() > 0 && level().isClientSide){
+            this.playSound(Ssounds.ELECTRIC.get());
+            for (int e = 0;e<ikLightningHead.getEntities().length;e++){
+                float range = Math.abs(getCharge() * 0.15f);
+                int charge = (int) range * 3;
+                Vec3 entityPositions = ikLightningHead.getEntities()[e];
+                for (int i = 0;i<random.nextInt(3 + charge);i++){
+                    Vec3 vec3 = Utilities.generatePositionAway(entityPositions,2+range);
+                    if (level().isClientSide){
+                        AmbientSparks ambientSparks = new AmbientSparks(vec3,null,this,entityPositions,random.nextInt(5,10));
+                        sparks.add(ambientSparks);
+                    }
+                }
+            }
+        }
+        if (level().isClientSide){
+            if (!sparks.isEmpty()){
+                Iterator<AmbientSparks> it = sparks.iterator();
+
+                while (it.hasNext()) {
+                    AmbientSparks spark = it.next();
+
+                    spark.TickSpark();
+
+                    if (spark.life > spark.maxLife) {
+                        it.remove();
+                    }
+                }
+            }
+        }
     }
 
     public IkDragonHead getIkSoundHead(){

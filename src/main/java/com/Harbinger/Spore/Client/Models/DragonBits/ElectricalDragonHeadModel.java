@@ -13,8 +13,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 
 import java.lang.reflect.Type;
+import java.util.List;
 
-public class ElectricalDragonHeadModel<T extends LivingEntity> extends EntityModel<T> {
+public class ElectricalDragonHeadModel<T extends LivingEntity> extends EntityModel<T> implements ElectricalBrain{
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "electricaldragonheadmodel"), "main");
 	private final ModelPart head;
@@ -263,5 +264,15 @@ public class ElectricalDragonHeadModel<T extends LivingEntity> extends EntityMod
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+	}
+
+	@Override
+	public ModelPart getBrain() {
+		return brains;
+	}
+
+	@Override
+	public List<ModelPart> positionList() {
+		return List.of(head,brains);
 	}
 }

@@ -1,4 +1,4 @@
-package com.Harbinger.Spore.Client.Models;// Made with Blockbench 5.1.4
+package com.Harbinger.Spore.Client.Models;
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 import com.Harbinger.Spore.Sentities.Calamities.Verfalldrachen;
@@ -26,6 +26,9 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 	private final ModelPart rib3;
 	private final ModelPart rib2;
 	private final ModelPart rib;
+	private final ModelPart Tumors10;
+	private final ModelPart Tumors9;
+	private final ModelPart Tumors8;
 	private final ModelPart mass7;
 	private final ModelPart mass8;
 	private final ModelPart mass9;
@@ -34,6 +37,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 	private final ModelPart Body5;
 	private final ModelPart Body6;
 	private final ModelPart Body7;
+	private final ModelPart Tumors7;
 	private final ModelPart Spine;
 	private final ModelPart Segment;
 	private final ModelPart Segment2;
@@ -203,6 +207,9 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 		this.rib3 = this.body.getChild("rib3");
 		this.rib2 = this.body.getChild("rib2");
 		this.rib = this.body.getChild("rib");
+		this.Tumors10 = this.body.getChild("Tumors10");
+		this.Tumors9 = this.body.getChild("Tumors9");
+		this.Tumors8 = this.body.getChild("Tumors8");
 		this.mass7 = this.body.getChild("mass7");
 		this.mass8 = this.mass7.getChild("mass8");
 		this.mass9 = this.mass8.getChild("mass9");
@@ -211,6 +218,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 		this.Body5 = this.mass7.getChild("Body5");
 		this.Body6 = this.mass7.getChild("Body6");
 		this.Body7 = this.mass7.getChild("Body7");
+		this.Tumors7 = this.body.getChild("Tumors7");
 		this.Spine = this.Ribcage.getChild("Spine");
 		this.Segment = this.Spine.getChild("Segment");
 		this.Segment2 = this.Spine.getChild("Segment2");
@@ -454,6 +462,28 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 
 		PartDefinition MiddleRidgeRib1_r6 = rib.addOrReplaceChild("MiddleRidgeRib1_r6", CubeListBuilder.create().texOffs(134, 544).addBox(-1.5F, -2.0F, -12.0F, 3.0F, 4.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-10.183F, -0.5391F, 17.5F, 0.0F, -0.3491F, 0.0F));
 
+		PartDefinition Tumors10 = body.addOrReplaceChild("Tumors10", CubeListBuilder.create(), PartPose.offsetAndRotation(-1.9023F, -10.5239F, -3.0648F, -1.2975F, -0.7749F, -1.7638F));
+
+		PartDefinition Tumor_r1 = Tumors10.addOrReplaceChild("Tumor_r1", CubeListBuilder.create().texOffs(256, 443).addBox(-4.0F, -4.0F, -10.0F, 14.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(6.2608F, -2.6408F, 0.8509F, 0.2359F, 0.422F, 0.5307F));
+
+		PartDefinition Tumor_r2 = Tumors10.addOrReplaceChild("Tumor_r2", CubeListBuilder.create().texOffs(418, 469).addBox(-5.5F, -5.5F, -7.5F, 13.0F, 13.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.4721F, 1.9873F, 1.5593F, -0.2384F, -0.1248F, 1.1897F));
+
+		PartDefinition Tumors9 = body.addOrReplaceChild("Tumors9", CubeListBuilder.create(), PartPose.offsetAndRotation(-2.9023F, -25.5239F, 7.9352F, -1.9958F, 0.7149F, 1.1545F));
+
+		PartDefinition Tumor_r3 = Tumors9.addOrReplaceChild("Tumor_r3", CubeListBuilder.create().texOffs(256, 443).addBox(-4.0F, -4.0F, -10.0F, 14.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(6.2608F, -2.6408F, 0.8509F, 0.2359F, 0.422F, 0.5307F));
+
+		PartDefinition Tumor_r4 = Tumors9.addOrReplaceChild("Tumor_r4", CubeListBuilder.create().texOffs(418, 469).addBox(-5.5F, -5.5F, -7.5F, 13.0F, 13.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.4721F, 1.9873F, 1.5593F, -0.2384F, -0.1248F, 1.1897F));
+
+		PartDefinition Tumor_r5 = Tumors9.addOrReplaceChild("Tumor_r5", CubeListBuilder.create().texOffs(250, 518).addBox(-5.2774F, -3.6119F, -0.565F, 11.0F, 11.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.2608F, -1.6408F, 3.8509F, 0.2359F, 0.422F, 0.5307F));
+
+		PartDefinition Tumors8 = body.addOrReplaceChild("Tumors8", CubeListBuilder.create(), PartPose.offsetAndRotation(-15.9023F, -17.5239F, 4.9352F, -2.3531F, 0.2458F, 0.4281F));
+
+		PartDefinition Tumor_r6 = Tumors8.addOrReplaceChild("Tumor_r6", CubeListBuilder.create().texOffs(256, 443).addBox(-4.0F, -4.0F, -10.0F, 14.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(6.2608F, -2.6408F, 0.8509F, 0.2359F, 0.422F, 0.5307F));
+
+		PartDefinition Tumor_r7 = Tumors8.addOrReplaceChild("Tumor_r7", CubeListBuilder.create().texOffs(418, 469).addBox(-5.5F, -5.5F, -7.5F, 13.0F, 13.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.4721F, 1.9873F, 1.5593F, -0.2384F, -0.1248F, 1.1897F));
+
+		PartDefinition Tumor_r8 = Tumors8.addOrReplaceChild("Tumor_r8", CubeListBuilder.create().texOffs(250, 518).addBox(-5.2774F, -3.6119F, -0.565F, 11.0F, 11.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.2608F, -1.6408F, 3.8509F, 0.2359F, 0.422F, 0.5307F));
+
 		PartDefinition mass7 = body.addOrReplaceChild("mass7", CubeListBuilder.create().texOffs(454, 358).addBox(-4.0F, -1.0F, -10.0F, 8.0F, 9.0F, 19.0F, new CubeDeformation(0.0F)), PartPose.offset(24.85F, -13.0F, 20.0F));
 
 		PartDefinition mass8 = mass7.addOrReplaceChild("mass8", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 6.0F, 0.0F, 0.0F, 0.0F, -0.4363F));
@@ -462,7 +492,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 
 		PartDefinition mass9 = mass8.addOrReplaceChild("mass9", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 4.0F, 0.0F, 0.0F, 0.0F, 0.8727F));
 
-		PartDefinition Tumor_r1 = mass9.addOrReplaceChild("Tumor_r1", CubeListBuilder.create().texOffs(418, 236).addBox(-2.0F, -1.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, -1.0F, 7.0F, -0.2391F, -0.5194F, 0.4565F));
+		PartDefinition Tumor_r9 = mass9.addOrReplaceChild("Tumor_r9", CubeListBuilder.create().texOffs(418, 236).addBox(-2.0F, -1.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, -1.0F, 7.0F, -0.2391F, -0.5194F, 0.4565F));
 
 		PartDefinition Body1 = mass9.addOrReplaceChild("Body1", CubeListBuilder.create(), PartPose.offset(0.0F, 6.0F, 0.0F));
 
@@ -527,6 +557,14 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 		PartDefinition Jaw_r5 = Body7.addOrReplaceChild("Jaw_r5", CubeListBuilder.create().texOffs(376, 282).addBox(-4.0F, 0.0F, -3.99F, 8.0F, 1.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(5.0F, 0.0F, 0.0F, 0.1488F, -0.4652F, 0.1496F));
 
 		PartDefinition Head_r5 = Body7.addOrReplaceChild("Head_r5", CubeListBuilder.create().texOffs(402, 539).addBox(-4.0F, -7.0F, -3.99F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(5.0F, 0.0F, 0.0F, 0.0452F, 0.2615F, -0.381F));
+
+		PartDefinition Tumors7 = body.addOrReplaceChild("Tumors7", CubeListBuilder.create(), PartPose.offsetAndRotation(9.0977F, -17.5239F, 4.9352F, -2.3321F, -0.3166F, -0.1279F));
+
+		PartDefinition Tumor_r10 = Tumors7.addOrReplaceChild("Tumor_r10", CubeListBuilder.create().texOffs(256, 443).addBox(-4.0F, -4.0F, -10.0F, 14.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(6.2608F, -2.6408F, 0.8509F, 0.2359F, 0.422F, 0.5307F));
+
+		PartDefinition Tumor_r11 = Tumors7.addOrReplaceChild("Tumor_r11", CubeListBuilder.create().texOffs(418, 469).addBox(-5.5F, -5.5F, -7.5F, 13.0F, 13.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.4721F, 1.9873F, 1.5593F, -0.2384F, -0.1248F, 1.1897F));
+
+		PartDefinition Tumor_r12 = Tumors7.addOrReplaceChild("Tumor_r12", CubeListBuilder.create().texOffs(250, 518).addBox(-5.2774F, -3.6119F, -0.565F, 11.0F, 11.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.2608F, -1.6408F, 3.8509F, 0.2359F, 0.422F, 0.5307F));
 
 		PartDefinition Spine = Ribcage.addOrReplaceChild("Spine", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -34.25F, -4.0F, -0.3491F, 0.0F, 0.0F));
 
@@ -838,51 +876,51 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 
 		PartDefinition Tumors = Ribcage.addOrReplaceChild("Tumors", CubeListBuilder.create(), PartPose.offsetAndRotation(-1.9023F, -12.5239F, 45.9352F, -0.0698F, -0.4206F, 0.0809F));
 
-		PartDefinition Tumor_r2 = Tumors.addOrReplaceChild("Tumor_r2", CubeListBuilder.create().texOffs(438, 103).addBox(-4.0F, -4.0F, -10.0F, 14.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0977F, -4.4761F, -5.9352F, 0.2359F, 0.422F, 0.5307F));
+		PartDefinition Tumor_r13 = Tumors.addOrReplaceChild("Tumor_r13", CubeListBuilder.create().texOffs(438, 103).addBox(-4.0F, -4.0F, -10.0F, 14.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0977F, -4.4761F, -5.9352F, 0.2359F, 0.422F, 0.5307F));
 
-		PartDefinition Tumor_r3 = Tumors.addOrReplaceChild("Tumor_r3", CubeListBuilder.create().texOffs(502, 401).addBox(-5.5F, -5.5F, -5.5F, 11.0F, 11.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-8.8864F, 0.152F, -5.2267F, -0.2384F, -0.1248F, 1.1897F));
+		PartDefinition Tumor_r14 = Tumors.addOrReplaceChild("Tumor_r14", CubeListBuilder.create().texOffs(502, 401).addBox(-5.5F, -5.5F, -5.5F, 11.0F, 11.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-8.8864F, 0.152F, -5.2267F, -0.2384F, -0.1248F, 1.1897F));
 
-		PartDefinition Tumor_r4 = Tumors.addOrReplaceChild("Tumor_r4", CubeListBuilder.create().texOffs(348, 501).addBox(-9.0F, -10.0F, -5.0F, 12.0F, 11.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.0977F, 2.5239F, 2.0648F, 0.2359F, 0.422F, 0.5307F));
+		PartDefinition Tumor_r15 = Tumors.addOrReplaceChild("Tumor_r15", CubeListBuilder.create().texOffs(348, 501).addBox(-9.0F, -10.0F, -5.0F, 12.0F, 11.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.0977F, 2.5239F, 2.0648F, 0.2359F, 0.422F, 0.5307F));
 
 		PartDefinition Tumors2 = Ribcage.addOrReplaceChild("Tumors2", CubeListBuilder.create(), PartPose.offsetAndRotation(-1.9023F, -19.5239F, 19.9352F, -2.9033F, -0.0583F, -3.0929F));
 
-		PartDefinition Tumor_r5 = Tumors2.addOrReplaceChild("Tumor_r5", CubeListBuilder.create().texOffs(438, 131).addBox(-4.0F, -4.0F, -10.0F, 14.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0977F, -4.4761F, -5.9352F, 0.2359F, 0.422F, 0.5307F));
+		PartDefinition Tumor_r16 = Tumors2.addOrReplaceChild("Tumor_r16", CubeListBuilder.create().texOffs(438, 131).addBox(-4.0F, -4.0F, -10.0F, 14.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0977F, -4.4761F, -5.9352F, 0.2359F, 0.422F, 0.5307F));
 
-		PartDefinition Tumor_r6 = Tumors2.addOrReplaceChild("Tumor_r6", CubeListBuilder.create().texOffs(502, 423).addBox(-3.5F, -3.5F, -7.5F, 11.0F, 11.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.8864F, 0.152F, -0.2267F, -0.2384F, -0.1248F, 1.1897F));
+		PartDefinition Tumor_r17 = Tumors2.addOrReplaceChild("Tumor_r17", CubeListBuilder.create().texOffs(502, 423).addBox(-3.5F, -3.5F, -7.5F, 11.0F, 11.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.8864F, 0.152F, -0.2267F, -0.2384F, -0.1248F, 1.1897F));
 
-		PartDefinition Tumor_r7 = Tumors2.addOrReplaceChild("Tumor_r7", CubeListBuilder.create().texOffs(494, 495).addBox(-7.0F, -7.0F, -5.0F, 12.0F, 12.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.0977F, -1.4761F, 2.0648F, 0.2359F, 0.422F, 0.5307F));
+		PartDefinition Tumor_r18 = Tumors2.addOrReplaceChild("Tumor_r18", CubeListBuilder.create().texOffs(494, 495).addBox(-7.0F, -7.0F, -5.0F, 12.0F, 12.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.0977F, -1.4761F, 2.0648F, 0.2359F, 0.422F, 0.5307F));
 
 		PartDefinition Tumors3 = Ribcage.addOrReplaceChild("Tumors3", CubeListBuilder.create(), PartPose.offsetAndRotation(-4.9023F, -18.5239F, 52.9352F, -2.7269F, -0.3111F, 2.6178F));
 
-		PartDefinition Tumor_r8 = Tumors3.addOrReplaceChild("Tumor_r8", CubeListBuilder.create().texOffs(394, 519).addBox(0.0F, 0.0F, -10.0F, 10.0F, 10.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.9023F, -6.4761F, 6.0648F, -0.1132F, 0.422F, 0.5307F));
+		PartDefinition Tumor_r19 = Tumors3.addOrReplaceChild("Tumor_r19", CubeListBuilder.create().texOffs(394, 519).addBox(0.0F, 0.0F, -10.0F, 10.0F, 10.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.9023F, -6.4761F, 6.0648F, -0.1132F, 0.422F, 0.5307F));
 
-		PartDefinition Tumor_r9 = Tumors3.addOrReplaceChild("Tumor_r9", CubeListBuilder.create().texOffs(438, 236).addBox(-4.0F, -4.0F, -10.0F, 14.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0977F, -4.4761F, -5.9352F, 0.2359F, 0.422F, 0.5307F));
+		PartDefinition Tumor_r20 = Tumors3.addOrReplaceChild("Tumor_r20", CubeListBuilder.create().texOffs(438, 236).addBox(-4.0F, -4.0F, -10.0F, 14.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0977F, -4.4761F, -5.9352F, 0.2359F, 0.422F, 0.5307F));
 
-		PartDefinition Tumor_r10 = Tumors3.addOrReplaceChild("Tumor_r10", CubeListBuilder.create().texOffs(64, 469).addBox(-5.5F, -5.5F, -7.5F, 13.0F, 13.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-8.8864F, 0.152F, -5.2267F, -0.2384F, -0.1248F, 1.1897F));
+		PartDefinition Tumor_r21 = Tumors3.addOrReplaceChild("Tumor_r21", CubeListBuilder.create().texOffs(64, 469).addBox(-5.5F, -5.5F, -7.5F, 13.0F, 13.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-8.8864F, 0.152F, -5.2267F, -0.2384F, -0.1248F, 1.1897F));
 
 		PartDefinition Tumors4 = Ribcage.addOrReplaceChild("Tumors4", CubeListBuilder.create(), PartPose.offsetAndRotation(-6.9023F, -33.5239F, 12.9352F, -0.0698F, -0.4206F, 0.0809F));
 
-		PartDefinition Tumor_r11 = Tumors4.addOrReplaceChild("Tumor_r11", CubeListBuilder.create().texOffs(440, 391).addBox(-4.0F, -4.0F, -10.0F, 14.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0977F, -4.4761F, -5.9352F, 0.2359F, 0.422F, 0.5307F));
+		PartDefinition Tumor_r22 = Tumors4.addOrReplaceChild("Tumor_r22", CubeListBuilder.create().texOffs(440, 391).addBox(-4.0F, -4.0F, -10.0F, 14.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0977F, -4.4761F, -5.9352F, 0.2359F, 0.422F, 0.5307F));
 
-		PartDefinition Tumor_r12 = Tumors4.addOrReplaceChild("Tumor_r12", CubeListBuilder.create().texOffs(470, 469).addBox(-5.5F, -5.5F, -7.5F, 13.0F, 13.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-8.8864F, 0.152F, -5.2267F, -0.2384F, -0.1248F, 1.1897F));
+		PartDefinition Tumor_r23 = Tumors4.addOrReplaceChild("Tumor_r23", CubeListBuilder.create().texOffs(470, 469).addBox(-5.5F, -5.5F, -7.5F, 13.0F, 13.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-8.8864F, 0.152F, -5.2267F, -0.2384F, -0.1248F, 1.1897F));
 
-		PartDefinition Tumor_r13 = Tumors4.addOrReplaceChild("Tumor_r13", CubeListBuilder.create().texOffs(508, 346).addBox(-5.2774F, -3.6119F, -0.565F, 11.0F, 11.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.0977F, -3.4761F, -2.9352F, 0.2359F, 0.422F, 0.5307F));
+		PartDefinition Tumor_r24 = Tumors4.addOrReplaceChild("Tumor_r24", CubeListBuilder.create().texOffs(508, 346).addBox(-5.2774F, -3.6119F, -0.565F, 11.0F, 11.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.0977F, -3.4761F, -2.9352F, 0.2359F, 0.422F, 0.5307F));
 
 		PartDefinition Tumors5 = Ribcage.addOrReplaceChild("Tumors5", CubeListBuilder.create(), PartPose.offsetAndRotation(-1.9023F, -18.5239F, 22.9352F, 2.9031F, -0.3972F, 1.0866F));
 
-		PartDefinition Tumor_r14 = Tumors5.addOrReplaceChild("Tumor_r14", CubeListBuilder.create().texOffs(112, 441).addBox(-4.0F, -4.0F, -10.0F, 14.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0977F, -4.4761F, -5.9352F, 0.2359F, 0.422F, 0.5307F));
+		PartDefinition Tumor_r25 = Tumors5.addOrReplaceChild("Tumor_r25", CubeListBuilder.create().texOffs(112, 441).addBox(-4.0F, -4.0F, -10.0F, 14.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0977F, -4.4761F, -5.9352F, 0.2359F, 0.422F, 0.5307F));
 
-		PartDefinition Tumor_r15 = Tumors5.addOrReplaceChild("Tumor_r15", CubeListBuilder.create().texOffs(116, 469).addBox(-5.5F, -5.5F, -7.5F, 13.0F, 13.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-8.8864F, 0.152F, -5.2267F, -0.2384F, -0.1248F, 1.1897F));
+		PartDefinition Tumor_r26 = Tumors5.addOrReplaceChild("Tumor_r26", CubeListBuilder.create().texOffs(116, 469).addBox(-5.5F, -5.5F, -7.5F, 13.0F, 13.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-8.8864F, 0.152F, -5.2267F, -0.2384F, -0.1248F, 1.1897F));
 
-		PartDefinition Tumor_r16 = Tumors5.addOrReplaceChild("Tumor_r16", CubeListBuilder.create().texOffs(518, 17).addBox(-5.2774F, -3.6119F, -0.5649F, 11.0F, 11.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.0977F, -3.4761F, -2.9352F, 0.2359F, 0.422F, 0.5307F));
+		PartDefinition Tumor_r27 = Tumors5.addOrReplaceChild("Tumor_r27", CubeListBuilder.create().texOffs(518, 17).addBox(-5.2774F, -3.6119F, -0.5649F, 11.0F, 11.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.0977F, -3.4761F, -2.9352F, 0.2359F, 0.422F, 0.5307F));
 
 		PartDefinition Tumors6 = Ribcage.addOrReplaceChild("Tumors6", CubeListBuilder.create(), PartPose.offsetAndRotation(7.0977F, -34.5239F, -1.0648F, 2.6475F, -0.4993F, 0.077F));
 
-		PartDefinition Tumor_r17 = Tumors6.addOrReplaceChild("Tumor_r17", CubeListBuilder.create().texOffs(256, 443).addBox(-4.0F, -4.0F, -10.0F, 14.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(6.2608F, -2.6408F, 0.8509F, 0.2359F, 0.422F, 0.5307F));
+		PartDefinition Tumor_r28 = Tumors6.addOrReplaceChild("Tumor_r28", CubeListBuilder.create().texOffs(256, 443).addBox(-4.0F, -4.0F, -10.0F, 14.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(6.2608F, -2.6408F, 0.8509F, 0.2359F, 0.422F, 0.5307F));
 
-		PartDefinition Tumor_r18 = Tumors6.addOrReplaceChild("Tumor_r18", CubeListBuilder.create().texOffs(418, 469).addBox(-5.5F, -5.5F, -7.5F, 13.0F, 13.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.4721F, 1.9873F, 1.5593F, -0.2384F, -0.1248F, 1.1897F));
+		PartDefinition Tumor_r29 = Tumors6.addOrReplaceChild("Tumor_r29", CubeListBuilder.create().texOffs(418, 469).addBox(-5.5F, -5.5F, -7.5F, 13.0F, 13.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.4721F, 1.9873F, 1.5593F, -0.2384F, -0.1248F, 1.1897F));
 
-		PartDefinition Tumor_r19 = Tumors6.addOrReplaceChild("Tumor_r19", CubeListBuilder.create().texOffs(250, 518).addBox(-5.2774F, -3.6119F, -0.5649F, 11.0F, 11.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.2608F, -1.6408F, 3.8509F, 0.2359F, 0.422F, 0.5307F));
+		PartDefinition Tumor_r30 = Tumors6.addOrReplaceChild("Tumor_r30", CubeListBuilder.create().texOffs(250, 518).addBox(-5.2774F, -3.6119F, -0.5649F, 11.0F, 11.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.2608F, -1.6408F, 3.8509F, 0.2359F, 0.422F, 0.5307F));
 
 		PartDefinition RightWing = Ribcage.addOrReplaceChild("RightWing", CubeListBuilder.create(), PartPose.offset(-18.0F, -40.0F, -13.0F));
 

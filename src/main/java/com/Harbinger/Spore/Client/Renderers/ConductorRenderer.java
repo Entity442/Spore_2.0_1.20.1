@@ -3,6 +3,7 @@ package com.Harbinger.Spore.Client.Renderers;
 import com.Harbinger.Spore.Client.Models.ConductorModel;
 import com.Harbinger.Spore.Client.Special.BaseInfectedRenderer;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
+import com.Harbinger.Spore.Sentities.AmbientSparks;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Conductor;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -35,7 +36,7 @@ public class ConductorRenderer<Type extends Conductor> extends BaseInfectedRende
     private static final ResourceLocation EYES_TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/eyes/conductor.png");
     private final EntityModel<Type> chains = new BoltBit<>();
-    private Conductor.AmbientSparks attackSpark = null;
+    private AmbientSparks attackSpark = null;
     public ConductorRenderer(EntityRendererProvider.Context context) {
         super(context, new ConductorModel<>(context.bakeLayer(ConductorModel.LAYER_LOCATION)), 0.5f);
         addLayer(new ElectricalOverlayLayer<>(this,context.getModelSet()));
@@ -86,14 +87,14 @@ public class ConductorRenderer<Type extends Conductor> extends BaseInfectedRende
         stack.pushPose();
         {
             stack.translate(-entityPos.x, -entityPos.y, -entityPos.z);
-            for (Conductor.AmbientSparks  sparks : type.getSparks()){
+            for (AmbientSparks sparks : type.getSparks()){
                 renderChain(sparks.getConnections(),stack,light,bufferSource,false);
             }
             int targetId = type.getAttackedId();
             Entity e = type.level().getEntity(targetId);
             if(e != null && type.getBeamTicks() >= 19){
                 Vec3 vec3 = Utilities.generatePositionAway(type.getPosition(partial),4);
-                attackSpark = new Conductor.AmbientSparks(vec3, e, type,20);
+                attackSpark = new AmbientSparks(vec3, e, type,20);
             }
             if (attackSpark != null && attackSpark.life < attackSpark.maxLife){
                 attackSpark.TickSpark();
@@ -146,7 +147,7 @@ public class ConductorRenderer<Type extends Conductor> extends BaseInfectedRende
         chains.renderToBuffer(stack,consumer,light, OverlayTexture.NO_OVERLAY, 1,1,1,1);
     }
 
-    private static class BoltBit<T extends Entity> extends EntityModel<T> {
+    public static class BoltBit<T extends Entity> extends EntityModel<T> {
         // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
         public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "boltbit"), "main");
         private final ModelPart bone;

@@ -1,16 +1,17 @@
 package com.Harbinger.Spore.Client.Renderers;
 
 import com.Harbinger.Spore.Client.Layers.DrakeMembraneLayer;
-import com.Harbinger.Spore.Client.Models.Cube;
 import com.Harbinger.Spore.Client.Models.DragonBits.*;
 import com.Harbinger.Spore.Client.Models.FungalDragonBodyModel;
 import com.Harbinger.Spore.Client.Special.CalamityRenderer;
+import com.Harbinger.Spore.Sentities.AmbientSparks;
 import com.Harbinger.Spore.Sentities.Calamities.Verfalldrachen;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -21,6 +22,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer<Type , EntityModel<Type>> {
@@ -51,10 +54,8 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
     private static final ResourceLocation TAIL = new ResourceLocation(Spore.MODID,
             "textures/entity/dragon/verfa_tail_seg.png");
 
-    private static final ResourceLocation HEAD_MEMBRANE = new ResourceLocation(Spore.MODID,
-            "textures/entity/dragon/tar_dragon_head_membrane.png");
-    private static final ResourceLocation NECK_MEMBRANE = new ResourceLocation(Spore.MODID,
-            "textures/entity/dragon/verfa_tar_seg_membrane.png");
+    private final EntityModel<Type> bolt = new ConductorRenderer.BoltBit<>();
+    private static final ResourceLocation POWER_LOCATION =new ResourceLocation("textures/entity/creeper/creeper_armor.png");
 
 
     private final DragonTailPieceStartModel<Type> tailStart = new DragonTailPieceStartModel<>();
@@ -91,6 +92,11 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
                 renderTentacle(stack,entity,light, bufferSource, entity.getIkSoundHead().getEntities(), entity,partialTicks,LIMB.SOUND);
                 renderTentacle(stack,entity,light, bufferSource, entity.getIkTarHead().getEntities(), entity,partialTicks,LIMB.TAR);
                 renderTail(stack,entity,light, bufferSource, entity.getTail().getEntities(), entity,partialTicks);
+            }
+            if (entity.getCharge() > 0){
+                for (AmbientSparks sparks : entity.getSparks()){
+                    renderChain(sparks.getConnections(),stack,light,bufferSource,false);
+                }
             }
         }
         stack.popPose();
@@ -144,6 +150,10 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
                 stack.scale(size,length*1.05f,size);
                 typeEntityModel.setupAnim(parent,0,0,parent.tickCount + partial,0,0);
                 typeEntityModel.renderToBuffer(stack,consumer,light, OverlayTexture.NO_OVERLAY, r,g,b,1);
+                boolean electric = limb == LIMB.ELECTRICAL && parent.getCharge() > 0;
+                if (electric){
+                    renderCharge(typeEntityModel,parent,buffer,stack,light,partial);
+                }
                 if (last){
                     EntityModel<Type> head = (EntityModel<Type>) limb.type;
                     stack.pushPose();
@@ -154,6 +164,9 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
                     head.setupAnim(parent,0,0,parent.tickCount + partial,0,0);
                     head.renderToBuffer(stack,ends,light, OverlayTexture.NO_OVERLAY, r,g,b,1);
                     renderEyes(head,limb.eyesTexture,buffer,stack);
+                    if (electric){
+                        renderCharge(head,parent,buffer,stack,light,partial);
+                    }
                     stack.popPose();
                 }
             }
@@ -165,6 +178,19 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
         VertexConsumer eyes = buffer.getBuffer(RenderType.eyes(location));
         head.renderToBuffer(stack,eyes,15728640, OverlayTexture.NO_OVERLAY, 1,1,1,1);
     }
+    private void renderCharge(EntityModel<Type> brain, Type livingEntity,MultiBufferSource buffer,PoseStack stack, int packedLight,float partialTicks){
+        if (brain instanceof ElectricalBrain electricalBrain){
+            stack.pushPose();
+            for(ModelPart part : electricalBrain.positionList()){
+                part.translateAndRotate(stack);
+            }
+            float f = ((float)livingEntity.tickCount + partialTicks);
+            VertexConsumer vertexconsumer = buffer.getBuffer(RenderType.energySwirl(POWER_LOCATION, livingEntity.tickCount * 0.01F % 1.0F, f * 0.01F % 1.0F));
+            electricalBrain.getBrain().render(stack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY, -8355712,1,1,1);
+            stack.popPose();
+        }
+    }
+
     private enum LIMB{
         TAR(new TarDragonHead<>(),new DragonNeckPieceTarModel<>(),new DragonNeckPieceTarMidModel<>(),TAR_HEAD,TAR_NECK,TAR_EYES),
         SOUND(new SonicDragonHeadModel<>(),new DragonNeckPieceSonicModel<>(),new DragonNeckPieceSonicMidModel<>(),SONIC_HEAD,SONIC_NECK,SONIC_EYES),
@@ -238,5 +264,47 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
             stack.popPose();
         }
         stack.popPose();
+    }
+
+
+
+    private void renderChain(List<Vec3> entities, PoseStack stack, int light, MultiBufferSource buffer, boolean extra) {
+        if (entities == null || entities.size() < 2) return;
+        Vec3 origin = null;
+
+        for (Vec3 currentPos : entities) {
+            renderConnection(origin, currentPos, light, stack, buffer,extra);
+            origin = currentPos;
+        }
+    }
+    private void renderConnection(Vec3 from, Vec3 to,int light, PoseStack stack, MultiBufferSource buffer,boolean extra) {
+        if (from == null || to == null) return;
+        Vec3 direction = to.subtract(from);
+        float length = (float) direction.length();
+        if (length < 0.0001f) return;
+        float thickness = extra ? 2 : 1;
+        direction = direction.normalize();
+
+        float yaw = (float) Math.atan2(direction.x, direction.z);
+        float pitch = (float) -Math.asin(direction.y);
+        stack.pushPose();
+        {
+            stack.translate(from.x, from.y, from.z);
+            stack.mulPose(Axis.YP.rotation(yaw));
+            stack.mulPose(Axis.XP.rotation(pitch));
+            stack.pushPose();
+            {
+                stack.mulPose(Axis.XP.rotationDegrees(90));
+                stack.translate(0,-length/2,0);
+                stack.scale(thickness,length*1.05f,thickness);
+                VertexConsumer consumer = buffer.getBuffer(RenderType.lightning());
+                renderBit(stack,light,consumer);
+            }
+            stack.popPose();
+        }
+        stack.popPose();
+    }
+    public void renderBit(PoseStack stack,int light,VertexConsumer consumer){
+        bolt.renderToBuffer(stack,consumer,light, OverlayTexture.NO_OVERLAY, 1,1,1,1);
     }
 }

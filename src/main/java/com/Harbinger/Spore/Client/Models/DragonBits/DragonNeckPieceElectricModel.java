@@ -11,7 +11,9 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 
-public class DragonNeckPieceElectricModel<T extends LivingEntity> extends EntityModel<T> {
+import java.util.List;
+
+public class DragonNeckPieceElectricModel<T extends LivingEntity> extends EntityModel<T> implements ElectricalBrain{
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "dragonneckpieceelectricmodel"), "main");
 	private final ModelPart yes;
@@ -98,5 +100,15 @@ public class DragonNeckPieceElectricModel<T extends LivingEntity> extends Entity
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		yes.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+	}
+
+	@Override
+	public ModelPart getBrain() {
+		return Brain1;
+	}
+
+	@Override
+	public List<ModelPart> positionList() {
+		return List.of(yes);
 	}
 }
