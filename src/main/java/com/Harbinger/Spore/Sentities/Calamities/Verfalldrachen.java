@@ -11,6 +11,7 @@ import com.Harbinger.Spore.Sentities.BaseEntities.IkUtil.IkDragonHead;
 import com.Harbinger.Spore.Sentities.BaseEntities.IkUtil.IkDragonTail;
 import com.Harbinger.Spore.Sentities.EvolvedInfected.Conductor;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -41,6 +42,9 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
     protected List<AmbientSparks> sparks = new ArrayList<>();
     private static final EntityDataAccessor<Float> CHARGE = SynchedEntityData.defineId(Verfalldrachen.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Integer> CHARGE_DATA_ID = SynchedEntityData.defineId(Conductor.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Float> RIGHT_WING_HP = SynchedEntityData.defineId(Verfalldrachen.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> LEFT_WING_HP = SynchedEntityData.defineId(Verfalldrachen.class, EntityDataSerializers.FLOAT);
+    private final static float wingsMaxHp = (float) (SConfig.SERVER.sieger_hp.get() * SConfig.SERVER.global_health.get() * 0.25);
     public Verfalldrachen(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         this.ass = new CalamityMultipart(this, "ass", 2F, 4.0F);
@@ -68,6 +72,8 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
         super.defineSynchedData();
         entityData.define(CHARGE,1f);
         entityData.define(CHARGE_DATA_ID,-1);
+        entityData.define(RIGHT_WING_HP,wingsMaxHp);
+        entityData.define(LEFT_WING_HP,wingsMaxHp);
     }
     public List<AmbientSparks> getSparks(){
         return sparks;
@@ -79,13 +85,63 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
     public float getCharge(){
         return entityData.get(CHARGE);
     }
+    public void setRightWing(float val){
+        entityData.set(RIGHT_WING_HP,val);
+    }
+    public void setLeftWing(float val){
+        entityData.set(LEFT_WING_HP,val);
+    }
+    public float getRightWing(){
+        return entityData.get(RIGHT_WING_HP);
+    }
+    public float getLeftWing(){
+        return entityData.get(LEFT_WING_HP);
+    }
+
+    public int getWingData(){
+        if (getRightWing() <= 0 && getLeftWing() <= 0){
+            return 3;
+        }
+        if (getRightWing() <= 0){
+            return 2;
+        }
+        if (getLeftWing() <= 0){
+            return 1;
+        }
+        return 0;
+    }
+    @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putFloat("right_wing_hp", getRightWing());
+        tag.putFloat("left_wing_hp", getLeftWing());
+    }
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        setRightWing(tag.getFloat("right_wing_hp"));
+        setLeftWing(tag.getFloat("left_wing_hp"));
+    }
     @Override
     public boolean hurt(CalamityMultipart calamityMultipart, DamageSource source, float value) {
+        if (calamityMultipart == rightWing && getRightWing() > 0){
+            float lostHealth = getRightWing()-this.getDamageAfterArmorAbsorb(source,value);
+            setRightWing(lostHealth);
+        }
+        if (calamityMultipart == leftWing && getLeftWing() > 0){
+            float lostHealth = getLeftWing()-this.getDamageAfterArmorAbsorb(source,value);
+            setLeftWing(lostHealth);
+        }
         return hurt(source,value);
     }
     @Override
     public boolean isMultipartEntity() {
         return true;
+    }
+
+    @Override
+    public double getDamageCap() {
+        return 60;
     }
 
     @Override
@@ -98,8 +154,8 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
         for(int j = 0; j < this.subEntities.length; ++j) {
             avec3[j] = new Vec3(this.subEntities[j].getX(), this.subEntities[j].getY(), this.subEntities[j].getZ());
         }
-        this.tickPart(this.rightWing, new Vec3(0D,0D,-4),1D);
-        this.tickPart(this.leftWing, new Vec3(0D,0D,4),1D);
+        this.tickPart(this.rightWing, new Vec3(0D,0D,4),1D);
+        this.tickPart(this.leftWing, new Vec3(0D,0D,-4),1D);
         this.tickPart(this.ass, new Vec3(-4.5,0D,0),0D);
         for(int l = 0; l < this.subEntities.length; ++l) {
             this.subEntities[l].xo = avec3[l].x;
@@ -119,7 +175,14 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
         ikTarHead.applyIK();
         ikLightningHead.applyIK();
         tail.applyIK();
-
+        if (this.tickCount % 40 == 0 && this.getHealth() >= this.getMaxHealth()){
+            if (getRightWing() < wingsMaxHp){
+                this.setRightWing(this.getRightWing() +1);
+            }
+            if (getLeftWing() < wingsMaxHp){
+                this.setLeftWing(this.getLeftWing() +1);
+            }
+        }
 
 
         ///Ambient Electricity why am I writing a comment am I a baka ?

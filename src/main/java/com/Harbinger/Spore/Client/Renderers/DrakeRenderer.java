@@ -29,6 +29,12 @@ import java.util.List;
 public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer<Type , EntityModel<Type>> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/dragon/verfalldrache.png");
+    private static final ResourceLocation NO_WINGS = new ResourceLocation(Spore.MODID,
+            "textures/entity/dragon/verfalldrache_wings_down.png");
+    private static final ResourceLocation NO_RIGHT_WING = new ResourceLocation(Spore.MODID,
+            "textures/entity/dragon/verfalldrache_right_wing.png");
+    private static final ResourceLocation NO_LEFT_WING = new ResourceLocation(Spore.MODID,
+            "textures/entity/dragon/verfalldrache_left_wing.png");
     private static final ResourceLocation EYES_TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/eyes/verfalldrache.png");
     private static final ResourceLocation ELECTRICAL_HEAD = new ResourceLocation(Spore.MODID,
@@ -70,7 +76,8 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
 
     @Override
     public ResourceLocation getTextureLocation(Type entity) {
-        return TEXTURE;
+        int i = entity.getWingData();
+        return i == 3 ? NO_WINGS : i == 2 ? NO_RIGHT_WING : i == 1 ? NO_LEFT_WING : TEXTURE;
     }
 
 
