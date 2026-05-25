@@ -1279,6 +1279,18 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 
 		return LayerDefinition.create(meshdefinition, 1024, 1024);
 	}
+	public void moveY(ModelPart part, float val){
+		if (val < -0.5){
+			return;
+		}
+		part.y = part.getInitialPose().y+val;
+	}
+	public void moveZ(ModelPart part,float val){
+		part.z = part.getInitialPose().z+val;
+	}
+	public void moveX(ModelPart part,float val){
+		part.z = part.getInitialPose().z+val;
+	}
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
@@ -1311,6 +1323,31 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 		animateTentacleZ(LowerRightfinger2,v2);
 		animateTentacleZ(Infectedarm230,v4);
 		animateTentacleZ(LowerRightfinger,v3);
+
+		float val = Mth.cos(limbSwing * 0.1f) * 1.25f * limbSwingAmount;
+		moveY(RightWing,val* 10f);
+		moveY(LeftWing,-val* 10f);
+		moveX(RightWing,val * 12f);
+		moveX(LeftWing,-val * 6f);
+		moveZ(RightWing,val * 6f);
+		moveZ(LeftWing,-val * 6f);
+		animateTentacleY(RightWing,val * 0.75f);
+		animateTentacleY(LeftWing,val * 0.75f);
+		animateTentacleY(RightWingSeg2,RightWing.xRot * 0.5f);
+		animateTentacleY(LeftWingSeg2,LeftWing.xRot * 0.5f);
+		animateTentacleY(RightWingSeg3,RightWing.xRot );
+		animateTentacleY(LeftWingSeg3,LeftWing.xRot);
+
+		animateTentacleX(LeftBackLeg,val);
+		animateTentacleX(Left,LeftBackLeg.xRot < 0 ? -LeftBackLeg.xRot: 0);
+		animateTentacleX(RightBackLeg,-val);
+		animateTentacleX(Right,RightBackLeg.xRot < 0 ? -RightBackLeg.xRot : 0);
+		moveY(RightBackLeg,val* 5f);
+		moveY(LeftBackLeg,-val* 5f);
+		moveX(RightBackLeg,val * 7.5f);
+		moveX(LeftBackLeg,-val * 7.5f);
+		moveZ(RightBackLeg,val * 6f);
+		moveZ(LeftBackLeg,-val * 6f);
 	}
 
 	@Override

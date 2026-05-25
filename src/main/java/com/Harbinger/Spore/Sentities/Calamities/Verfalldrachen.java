@@ -5,11 +5,18 @@ import com.Harbinger.Spore.Core.SConfig;
 import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
+import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
+import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.CalamityInfectedCommand;
+import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SporeBurstSupport;
+import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SummonScentInCombat;
+import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.AmbientSparks;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.BaseEntities.IkUtil.IkDragonHead;
 import com.Harbinger.Spore.Sentities.BaseEntities.IkUtil.IkDragonTail;
+import com.Harbinger.Spore.Sentities.MovementControls.CalamityMovementControl;
+import com.Harbinger.Spore.Sentities.MovementControls.UndergroundMovementControl;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
@@ -20,6 +27,10 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.FlyingMoveControl;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -67,9 +78,11 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
         this.lightningHead = new CalamityMultipart(this, "lightning_head", 1.5F, 1.5F);
         this.subEntities = new CalamityMultipart[]{ this.ass, this.rightWing, this.leftWing,this.soundHead,this.tarHead,this.lightningHead};
         this.ikSoundHead =  new IkDragonHead(this,soundHead,SONIC_HEAD_SEGMENT,new Vec3(2,4.25,0.65),new Vec3(5.5,6.5,4));
-        this.ikTarHead =  new IkDragonHead(this,tarHead,TAR_HEAD_SEGMENT,new Vec3(2,4.65,0),new Vec3(5.5,6.5,0));
+        this.ikTarHead =  new IkDragonHead(this,tarHead,TAR_HEAD_SEGMENT,new Vec3(2,4.65,0),new Vec3(6.5,6.5,0));
         this.ikLightningHead =  new IkDragonHead(this,lightningHead,ELECTRICAL_SEGMENT,new Vec3(2,4.25,-0.65),new Vec3(5.5,6.5,-4));
         this.tail = new IkDragonTail(this,8,new Vec3(-4,3.5,0),new Vec3(-12,1,0));
+        this.navigation = new GroundPathNavigation(this,level);
+        this.moveControl = new CalamityMovementControl(this,60);
         this.setMaxUpStep(1.5F);
         this.setId(ENTITY_COUNTER.getAndAdd(this.subEntities.length + 1) + 1);
     }
@@ -150,6 +163,18 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
     }
     public int getElectricalHeadSegment(){
         return entityData.get(ELECTRICAL_SEGMENTS);
+    }
+
+    @Override
+    public void registerGoals() {
+        super.registerGoals();
+        this.goalSelector.addGoal(3, new AOEMeleeAttackGoal(this, 1.5, false,2.5 ,6, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.2));
+        this.goalSelector.addGoal(6, new FloatDiveGoal(this));
+        this.goalSelector.addGoal(6,new CalamityInfectedCommand(this));
+        this.goalSelector.addGoal(7,new SummonScentInCombat(this));
+        this.goalSelector.addGoal(8,new SporeBurstSupport(this));
+        this.goalSelector.addGoal(9,new RandomStrollGoal(this , 1));
     }
 
     @Override
@@ -413,6 +438,7 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
                 .add(Attributes.FOLLOW_RANGE, 64)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1)
                 .add(Attributes.ATTACK_KNOCKBACK, 2)
+                .add(Attributes.FLYING_SPEED, 0.3)
                 .add(SAttributes.TOXICITY.get(), 0.0D)
                 .add(SAttributes.REJUVENATION.get(), 0.0D)
                 .add(SAttributes.LOCALIZATION.get(), 0.0D)

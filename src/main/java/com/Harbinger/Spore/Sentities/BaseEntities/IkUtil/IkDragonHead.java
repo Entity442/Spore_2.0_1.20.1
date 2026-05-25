@@ -99,8 +99,7 @@ public class IkDragonHead {
 
     public Vec3 getHeadBasePos() {
         Vec3 pivot = owner.position();
-        Vec3 extend = isOwnerMoving() ? new Vec3(1,0,0) : Vec3.ZERO;
-        return pivot.add(applyYaw(defaultLimbOffset.add(extend)));
+        return pivot.add(applyYaw(defaultLimbOffset));
     }
 
     public Vec3 getBodyOffset() {
@@ -110,7 +109,7 @@ public class IkDragonHead {
 
     protected void moveSegmentTowards(int index, Vec3 target,boolean far) {
         Vec3 currentPos = entities[index];
-        Vec3 newPos = currentPos.lerp(target, 0.35f);
+        Vec3 newPos = currentPos.lerp(target, 0.5f);
         entities[index] = (far ? target : newPos);
     }
     protected void moveTipTowards(Vec3 target) {
@@ -118,13 +117,10 @@ public class IkDragonHead {
         Vec3 currentPos = entities[tip];
         entities[tip] = currentPos.lerp(target, 0.25f);
     }
-    protected boolean isOwnerMoving(){
-        return owner.getDeltaMovement().lengthSqr() > 0.005;
-    }
 
     protected void updateOwnerMovementDelta() {
         Vec3 currentOwnerPos = owner.position();
-        ownerMovementDelta = currentOwnerPos.subtract(lastOwnerPosition);
+        ownerMovementDelta = currentOwnerPos.subtract(lastOwnerPosition).multiply(new Vec3(1.5f,1,1.5f));
         lastOwnerPosition = currentOwnerPos;
         float currentYaw = owner.getYRot();
         yawDelta = Mth.wrapDegrees(currentYaw - lastYaw);
@@ -159,32 +155,67 @@ public class IkDragonHead {
     }
 
     protected void applyEntityMovementToLegs() {
+        float movementStrength = (float)ownerMovementDelta.length();
+        boolean isMoving = movementStrength > 0.001f;
 
-        if (ownerMovementDelta.lengthSqr() < 0.00001){
+        if (!isMoving) {
+            // Smooth return to rest position
             Vec3 defaultTipPos = getHeadBasePos();
             int tip = entities.length - 1;
-            Vec3 currentPos = entities[tip];
-            entities[tip] = currentPos.lerp(defaultTipPos, 0.1f);
+
+            for (int i = 0; i < entities.length; i++) {
+                float t = (float) i / (entities.length - 1);
+                float returnSpeed = Mth.lerp(t, 0.15f, 0.08f);
+
+                Vec3 targetPos;
+                if (i == 0) {
+                    targetPos = getBodyOffset();
+                } else if (i == tip) {
+                    targetPos = defaultTipPos;
+                } else {
+                    // Interpolate between start and end for middle segments
+                    targetPos = getBodyOffset().lerp(defaultTipPos, t);
+                }
+
+                entities[i] = entities[i].lerp(targetPos, returnSpeed);
+            }
+
+            if (sitPosition != null) sitPosition = sitPosition.lerp(getHeadBasePos(), 0.1f);
+            if (lastSitPosition != null) lastSitPosition = lastSitPosition.lerp(getHeadBasePos(), 0.1f);
             return;
         }
 
+        // Apply movement with better damping
         int last = entities.length - 1;
 
         for (int i = 0; i < entities.length; i++) {
             float t = (float) i / last;
-            float followStrength = Mth.lerp(t, 0.5f, 0.05f);
-            float drag = Mth.lerp(t, 0.90f, 0.65f);
+
+            // Adjust follow strength based on segment position
+            float followStrength = Mth.lerp(t, 0.35f, 0.08f);
+            float drag = Mth.lerp(t, 0.92f, 0.75f);
+
+            // Add movement with smoothing
+            Vec3 movementInfluence = ownerMovementDelta.scale(followStrength * movementStrength * 2);
+
+
+            if (movementStrength > 0.02f && i > last / 2) {
+                movementInfluence = movementInfluence.scale(1.2f);
+            }
 
             segmentVelocities[i] = segmentVelocities[i]
-                    .add(ownerMovementDelta.scale(followStrength));
+                    .add(movementInfluence)
+                    .scale(drag);
 
-            segmentVelocities[i] = segmentVelocities[i].scale(drag);
+            if (segmentVelocities[i].length() > 1.5f) {
+                segmentVelocities[i] = segmentVelocities[i].normalize().scale(1.5f);
+            }
 
             entities[i] = entities[i].add(segmentVelocities[i]);
         }
 
-        if (sitPosition != null) sitPosition = sitPosition.add(ownerMovementDelta);
-        if (lastSitPosition != null) lastSitPosition = lastSitPosition.add(ownerMovementDelta);
+        if (sitPosition != null) sitPosition = sitPosition.add(ownerMovementDelta.scale(0.5f));
+        if (lastSitPosition != null) lastSitPosition = lastSitPosition.add(ownerMovementDelta.scale(0.5f));
     }
 
     public void applyIK() {

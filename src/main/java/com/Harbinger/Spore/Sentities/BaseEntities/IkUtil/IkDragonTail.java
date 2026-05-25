@@ -19,6 +19,10 @@ public class IkDragonTail {
     protected final Vec3[] segmentVelocities;
     protected Vec3 sitPosition =  null;
     protected Vec3 lastSitPosition = null;
+    protected Vec3 lastOwnerPosition = Vec3.ZERO;
+    protected Vec3 ownerMovementDelta = Vec3.ZERO;
+    protected float lastYaw = 0;
+    protected float yawDelta = 0;
     public IkDragonTail(LivingEntity owner, int amount, Vec3 defaultBodyOffset,
                         Vec3 defaultLimbOffset) {
         this.owner = owner;
@@ -116,6 +120,7 @@ public class IkDragonTail {
 
 
     public void applyIK() {
+        updateOwnerMovementDelta();
         if (entities == null || entities.length == 0) return;
         Vec3 basePos = getBodyOffset();
         Vec3 defaultTipPos = sitPosition == null ?  getHeadBasePos() : sitPosition;
@@ -152,9 +157,43 @@ public class IkDragonTail {
             Vec3 solvedPos = prevPos.add(dir);
             moveSegmentTowards(i, solvedPos, entities[i-1].distanceTo(entities[i]) > 5);
         }
+        applyBodySpin();
         applyIdleWiggle();
         updateWiggleTimers();
     }
+    protected void updateOwnerMovementDelta() {
+        Vec3 currentOwnerPos = owner.position();
+        ownerMovementDelta = currentOwnerPos.subtract(lastOwnerPosition);
+        lastOwnerPosition = currentOwnerPos;
+        float currentYaw = owner.getYRot();
+        yawDelta = Mth.wrapDegrees(currentYaw - lastYaw);
+        lastYaw = currentYaw;
+    }
+    protected Vec3 rotateAroundYaw(Vec3 pos, Vec3 pivot, float degrees) {
+        double rad = degrees * Mth.DEG_TO_RAD;
+        Vec3 rel = pos.subtract(pivot);
+        Vec3 rotated = rel.yRot((float)-rad);
+        return pivot.add(rotated);
+    }
+    protected void applyBodySpin() {
+        if (Math.abs(yawDelta) < 0.001f) return;
+        Vec3 pivot = owner.position();
 
+        for (int i = 0; i < entities.length; i++) {
+            entities[i] = rotateAroundYaw(entities[i], pivot, yawDelta);
+        }
 
+        if (sitPosition != null) {
+            sitPosition = rotateAroundYaw(sitPosition, pivot, yawDelta);
+        }
+
+        if (lastSitPosition != null) {
+            lastSitPosition = rotateAroundYaw(lastSitPosition, pivot, yawDelta);
+        }
+
+        for (int i = 0; i < segmentVelocities.length; i++) {
+            segmentVelocities[i] =
+                    segmentVelocities[i].yRot((float)(-yawDelta * Mth.DEG_TO_RAD));
+        }
+    }
 }

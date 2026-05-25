@@ -89,7 +89,7 @@ public class TarDragonHead<T extends LivingEntity> extends EntityModel<T> implem
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
 		PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 60).addBox(-10.0F, -8.0F, -10.0F, 20.0F, 8.0F, 20.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 31).addBox(-10.0F, -1.5F, -10.0F, 20.0F, 9.0F, 20.0F, new CubeDeformation(0.15F)), PartPose.offsetAndRotation(0.0F, 24.0F, 0.0F, 1.5708F, 0.0F, 0.0F));
+				.texOffs(0, 31).addBox(-10.0F, -1.5F, -10.0F, 20.0F, 9.0F, 20.0F, new CubeDeformation(0.15F)), PartPose.offset(0.0F, 24.0F, 0.0F));
 
 		PartDefinition big_teeth_r1 = head.addOrReplaceChild("big_teeth_r1", CubeListBuilder.create().texOffs(0, 123).addBox(-1.0F, -20.0F, -8.0F, 0.0F, 18.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, -25.0F, 3.0F, 0.4352F, 0.017F, -0.1298F));
 
@@ -122,18 +122,18 @@ public class TarDragonHead<T extends LivingEntity> extends EntityModel<T> implem
 		PartDefinition cube_r9 = tarSacks2.addOrReplaceChild("cube_r9", CubeListBuilder.create().texOffs(84, 102).addBox(-2.8F, -8.2F, -7.2F, 11.0F, 10.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.8626F, 4.6266F, -2.6177F, -0.1772F, -0.1719F, 0.0306F));
 
 		PartDefinition head2 = topJaw.addOrReplaceChild("head2", CubeListBuilder.create().texOffs(152, 157).addBox(-4.0F, -2.0F, -8.0F, 8.0F, 6.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(62, 182).addBox(-4.0F, 4.0F, -8.0F, 8.0F, 1.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(6.0F, 3.0F, -37.0F, 0.6127F, -0.3644F, -0.2455F));
+				.texOffs(62, 182).addBox(-4.0F, 4.0F, -8.0F, 8.0F, 1.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(6.0F, 3.0F, -37.0F, 0.6127F, -0.3644F, -0.2455F));
 
 		PartDefinition head3 = topJaw.addOrReplaceChild("head3", CubeListBuilder.create().texOffs(32, 158).addBox(-4.0F, -2.0F, -8.0F, 8.0F, 6.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(62, 182).addBox(-4.0F, 4.0F, -8.0F, 8.0F, 1.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.0F, 3.0F, -37.0F, 0.6229F, 0.4F, 0.2727F));
+				.texOffs(62, 182).addBox(-4.0F, 4.0F, -8.0F, 8.0F, 1.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.0F, 3.0F, -37.0F, 0.6229F, 0.4F, 0.2727F));
 
 		PartDefinition head4 = topJaw.addOrReplaceChild("head4", CubeListBuilder.create().texOffs(164, 28).addBox(-4.0F, -2.0F, -8.0F, 8.0F, 6.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(62, 182).addBox(-4.0F, 4.0F, -8.0F, 8.0F, 1.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, -37.0F, 0.089F, -0.0736F, -0.047F));
+				.texOffs(62, 182).addBox(-4.0F, 4.0F, -8.0F, 8.0F, 1.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, -37.0F, 0.089F, -0.0736F, -0.047F));
 
 		PartDefinition head5 = topJaw.addOrReplaceChild("head5", CubeListBuilder.create().texOffs(164, 93).addBox(-4.0F, -2.0F, -8.0F, 8.0F, 6.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-8.0F, -5.0F, -18.0F, 0.117F, 0.7081F, 0.0359F));
 
 		PartDefinition head6 = topJaw.addOrReplaceChild("head6", CubeListBuilder.create().texOffs(164, 136).addBox(-4.0F, -2.0F, -8.0F, 8.0F, 6.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(62, 182).addBox(-4.0F, 4.0F, -8.0F, 8.0F, 1.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0F, 0.0F, -22.0F, 0.2094F, -0.5159F, 2.0281F));
+				.texOffs(62, 182).addBox(-4.0F, 4.0F, -8.0F, 8.0F, 1.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0F, 0.0F, -22.0F, 0.2094F, -0.5159F, 2.0281F));
 
 		PartDefinition FusedBody = topJaw.addOrReplaceChild("FusedBody", CubeListBuilder.create(), PartPose.offsetAndRotation(12.0214F, -5.6757F, -15.9144F, 0.3494F, -0.6543F, 0.257F));
 
@@ -292,7 +292,7 @@ public class TarDragonHead<T extends LivingEntity> extends EntityModel<T> implem
 		PartDefinition TorsoBase_r1 = FS2Body1.addOrReplaceChild("TorsoBase_r1", CubeListBuilder.create().texOffs(224, 7).addBox(-3.25F, -1.0F, -3.5F, 6.0F, 3.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.376F, 1.0111F, 1.8956F, -0.1286F, -0.4614F, 0.5318F));
 
 		PartDefinition TorsoTop_r2 = FS2Body1.addOrReplaceChild("TorsoTop_r2", CubeListBuilder.create().texOffs(224, 7).addBox(-6.0F, -3.5F, -4.0F, 6.0F, 4.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(224, 7).addBox(-14.0F, -5.5F, -4.0F, 7.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.4072F, 1.6966F, 0.4934F, -0.0177F, -0.4775F, 0.2877F));
+				.texOffs(224, 7).addBox(-14.0F, -5.5F, -4.0F, 7.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.4072F, 1.6966F, 0.4934F, -0.0177F, -0.4775F, 0.2877F));
 
 		PartDefinition Jaw_r1 = FS2Body1.addOrReplaceChild("Jaw_r1", CubeListBuilder.create().texOffs(224, 7).addBox(-0.752F, -4.9611F, -3.8866F, 1.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.7146F, -0.3831F, -2.47F, -0.1692F, -0.2135F, 0.7249F));
 
