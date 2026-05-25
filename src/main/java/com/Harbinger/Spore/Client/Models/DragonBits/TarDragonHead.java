@@ -333,7 +333,6 @@ public class TarDragonHead<T extends LivingEntity> extends EntityModel<T> implem
 		float value1 = Mth.cos(ageInTicks/7)/6;
 		float value2 = Mth.sin(ageInTicks/6)/6;
 
-		animateTentacleX(topJaw,value);
 		animateTentacleX(LeftJaw,-value);
 		animateTentacleX(RightJaw,-value);
 		animateTentacleZ(LeftJaw,value1);
