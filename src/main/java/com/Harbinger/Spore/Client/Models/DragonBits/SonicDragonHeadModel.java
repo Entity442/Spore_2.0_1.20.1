@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Client.Models.DragonBits;// Made with Blockbench 5.1.4
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
+import com.Harbinger.Spore.Client.Models.TentacledModel;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.client.model.EntityModel;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -10,10 +11,11 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 
 
-public class SonicDragonHeadModel<T extends LivingEntity> extends EntityModel<T> {
+public class SonicDragonHeadModel<T extends LivingEntity> extends EntityModel<T> implements TentacledModel {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "sonicdragonheadmodel"), "main");
 	private final ModelPart head;
@@ -273,7 +275,10 @@ public class SonicDragonHeadModel<T extends LivingEntity> extends EntityModel<T>
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+		animateTentacleX(tendril, Mth.cos(ageInTicks/6)/7);
+		animateTentacleZ(tendril2, Mth.sin(ageInTicks/7)/8);
+		animateTentacleX(tendril3, Mth.cos(ageInTicks/7)/7);
+		animateTentacleX(tendril4, Mth.sin(ageInTicks/7)/5);
 	}
 
 	@Override

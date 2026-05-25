@@ -11,8 +11,9 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
-public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel<T> {
+public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel<T> implements TentacledModel{
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "fungaldragonbodymodel"), "main");
 	private final ModelPart Ribcage;
@@ -1281,7 +1282,35 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		float v1 = Mth.sin(ageInTicks/6)/6;
+		float v2 = Mth.cos(ageInTicks/6)/7;
+		float v3 = Mth.sin(ageInTicks/7)/8;
+		float v4 = Mth.cos(ageInTicks/8)/9;
+		float v5 = Mth.sin(ageInTicks/9)/6;
 
+		animateTumor(Tumors,v1);
+		animateTumor(Tumors2,v2);
+		animateTumor(Tumors3,v3);
+		animateTumor(Tumors4,v4);
+		animateTumor(Tumors5,v5);
+		animateTumor(Tumors6,v2);
+		animateTumor(Tumors7,v3);
+		animateTumor(Tumors8,v4);
+		animateTumor(Tumors9,v5);
+		animateTumor(Tumors10,v2);
+		animateTentacleZ(LowerLeftfinger4,v3);
+		animateTentacleZ(Infectedarm20,v3);
+		animateTentacleZ(LowerLeftfinger5,v4);
+		animateTentacleZ(Infectedarm26,v4);
+
+		animateTentacleZ(Infectedarm37,v2);
+		animateTentacleZ(Infectedarm33,v4);
+		animateTentacleZ(Infectedarm41,v3);
+		animateTentacleY(Infectedarm225,v5);
+		animateTentacleX(Infectedarm223,-v5);
+		animateTentacleZ(LowerRightfinger2,v2);
+		animateTentacleZ(Infectedarm230,v4);
+		animateTentacleZ(LowerRightfinger,v3);
 	}
 
 	@Override
