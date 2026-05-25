@@ -95,9 +95,9 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
         {
             stack.translate(-entityPos.x, -entityPos.y, -entityPos.z);
             if (!entity.isInvisible()){
-                renderTentacle(stack,entity,light, bufferSource, entity.getIkLightningHead().getEntities(), entity,partialTicks,LIMB.ELECTRICAL);
-                renderTentacle(stack,entity,light, bufferSource, entity.getIkSoundHead().getEntities(), entity,partialTicks,LIMB.SOUND);
-                renderTentacle(stack,entity,light, bufferSource, entity.getIkTarHead().getEntities(), entity,partialTicks,LIMB.TAR);
+                renderTentacle(stack,entity,light, bufferSource, entity.getIkLightningHead().getEntities(),entity.getElectricalHeadSegment(), entity,partialTicks,LIMB.ELECTRICAL);
+                renderTentacle(stack,entity,light, bufferSource, entity.getIkSoundHead().getEntities(),entity.getSonicHeadSegment(), entity,partialTicks,LIMB.SOUND);
+                renderTentacle(stack,entity,light, bufferSource, entity.getIkTarHead().getEntities(),entity.getTarHeadSegment(), entity,partialTicks,LIMB.TAR);
                 renderTail(stack,entity,light, bufferSource, entity.getTail().getEntities(), entity,partialTicks);
             }
             if (entity.getCharge() > 0){
@@ -109,7 +109,7 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
         stack.popPose();
     }
 
-    private void renderTentacle(PoseStack stack, Type type, int light, MultiBufferSource buffer, Vec3[] segments, LivingEntity parent, float partial,LIMB limb) {
+    private void renderTentacle(PoseStack stack, Type type, int light, MultiBufferSource buffer, Vec3[] segments,int segment, LivingEntity parent, float partial,LIMB limb) {
         if (segments == null || segments.length < 2) return;
         float hurtTime = parent.hurtTime - partial;
         float flashIntensity = 0.0F;
@@ -126,6 +126,9 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
         float b = Mth.lerp(flash, baseB, 0.2f);
 
         for (int i = 0; i < segments.length; i++) {
+            if (i > segment){
+                break;
+            }
             Vec3 currentPos = segments[i];
             renderConnection(origin, currentPos,type,light, stack, buffer, i,partial,baseR,g,b,i == 1,i == segments.length-1,limb);
             origin = currentPos;

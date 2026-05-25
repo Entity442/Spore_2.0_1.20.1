@@ -2,6 +2,7 @@ package com.Harbinger.Spore.Sentities.Calamities;
 
 import com.Harbinger.Spore.Core.SAttributes;
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Sitems;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.AmbientSparks;
@@ -9,7 +10,6 @@ import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.BaseEntities.IkUtil.IkDragonHead;
 import com.Harbinger.Spore.Sentities.BaseEntities.IkUtil.IkDragonTail;
-import com.Harbinger.Spore.Sentities.EvolvedInfected.Conductor;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
@@ -20,6 +20,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
@@ -28,6 +30,9 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Verfalldrachen extends Calamity implements TrueCalamity {
+    public static final int TAR_HEAD_SEGMENT = 7;
+    public static final int SONIC_HEAD_SEGMENT = 8;
+    public static final int ELECTRICAL_SEGMENT = 8;
     private final CalamityMultipart[] subEntities;
     public final CalamityMultipart ass;
     public final CalamityMultipart rightWing;
@@ -41,10 +46,17 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
     private final IkDragonTail tail;
     protected List<AmbientSparks> sparks = new ArrayList<>();
     private static final EntityDataAccessor<Float> CHARGE = SynchedEntityData.defineId(Verfalldrachen.class, EntityDataSerializers.FLOAT);
-    private static final EntityDataAccessor<Integer> CHARGE_DATA_ID = SynchedEntityData.defineId(Conductor.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> CHARGE_DATA_ID = SynchedEntityData.defineId(Verfalldrachen.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Float> RIGHT_WING_HP = SynchedEntityData.defineId(Verfalldrachen.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> LEFT_WING_HP = SynchedEntityData.defineId(Verfalldrachen.class, EntityDataSerializers.FLOAT);
-    private final static float wingsMaxHp = (float) (SConfig.SERVER.sieger_hp.get() * SConfig.SERVER.global_health.get() * 0.25);
+    private static final EntityDataAccessor<Float> TAR_HEAD_HP = SynchedEntityData.defineId(Verfalldrachen.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> SONIC_HEAD_HP = SynchedEntityData.defineId(Verfalldrachen.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> ELECTRICAL_HP = SynchedEntityData.defineId(Verfalldrachen.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Integer> TAR_HEAD_SEGMENTS = SynchedEntityData.defineId(Verfalldrachen.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> SONIC_HEAD_SEGMENTS = SynchedEntityData.defineId(Verfalldrachen.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> ELECTRICAL_SEGMENTS = SynchedEntityData.defineId(Verfalldrachen.class, EntityDataSerializers.INT);
+    private final float wingsMaxHp = (float) (SConfig.SERVER.sieger_hp.get() * SConfig.SERVER.global_health.get() * 0.25);
+    private final float headsMaxHp = (float) (SConfig.SERVER.sieger_hp.get() * SConfig.SERVER.global_health.get() * 0.35);
     public Verfalldrachen(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         this.ass = new CalamityMultipart(this, "ass", 2F, 4.0F);
@@ -54,9 +66,9 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
         this.tarHead = new CalamityMultipart(this, "tar_head", 1.5F, 1.5F);
         this.lightningHead = new CalamityMultipart(this, "lightning_head", 1.5F, 1.5F);
         this.subEntities = new CalamityMultipart[]{ this.ass, this.rightWing, this.leftWing,this.soundHead,this.tarHead,this.lightningHead};
-        this.ikSoundHead =  new IkDragonHead(this,soundHead,8,new Vec3(2,4.25,0.65),new Vec3(5.5,6.5,4));
-        this.ikTarHead =  new IkDragonHead(this,tarHead,7,new Vec3(2,4.65,0),new Vec3(5.5,6.5,0));
-        this.ikLightningHead =  new IkDragonHead(this,lightningHead,8,new Vec3(2,4.25,-0.65),new Vec3(5.5,6.5,-4));
+        this.ikSoundHead =  new IkDragonHead(this,soundHead,SONIC_HEAD_SEGMENT,new Vec3(2,4.25,0.65),new Vec3(5.5,6.5,4));
+        this.ikTarHead =  new IkDragonHead(this,tarHead,TAR_HEAD_SEGMENT,new Vec3(2,4.65,0),new Vec3(5.5,6.5,0));
+        this.ikLightningHead =  new IkDragonHead(this,lightningHead,ELECTRICAL_SEGMENT,new Vec3(2,4.25,-0.65),new Vec3(5.5,6.5,-4));
         this.tail = new IkDragonTail(this,8,new Vec3(-4,3.5,0),new Vec3(-12,1,0));
         this.setMaxUpStep(1.5F);
         this.setId(ENTITY_COUNTER.getAndAdd(this.subEntities.length + 1) + 1);
@@ -70,10 +82,16 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        entityData.define(CHARGE,1f);
+        entityData.define(CHARGE,0f);
         entityData.define(CHARGE_DATA_ID,-1);
         entityData.define(RIGHT_WING_HP,wingsMaxHp);
         entityData.define(LEFT_WING_HP,wingsMaxHp);
+        entityData.define(TAR_HEAD_HP,headsMaxHp);
+        entityData.define(SONIC_HEAD_HP,headsMaxHp);
+        entityData.define(ELECTRICAL_HP,headsMaxHp);
+        entityData.define(TAR_HEAD_SEGMENTS,TAR_HEAD_SEGMENT);
+        entityData.define(SONIC_HEAD_SEGMENTS,SONIC_HEAD_SEGMENT);
+        entityData.define(ELECTRICAL_SEGMENTS,ELECTRICAL_SEGMENT);
     }
     public List<AmbientSparks> getSparks(){
         return sparks;
@@ -97,6 +115,55 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
     public float getLeftWing(){
         return entityData.get(LEFT_WING_HP);
     }
+    public void setTarHead(float val){
+        entityData.set(TAR_HEAD_HP,val);
+    }
+    public void setSonicHead(float val){
+        entityData.set(SONIC_HEAD_HP,val);
+    }
+    public void setElectricalHead(float val){
+        entityData.set(ELECTRICAL_HP,val);
+    }
+    public float getTarHead(){
+        return entityData.get(TAR_HEAD_HP);
+    }
+    public float getSonicHead(){
+        return entityData.get(SONIC_HEAD_HP);
+    }
+    public float getElectricalHead(){
+        return entityData.get(ELECTRICAL_HP);
+    }
+    public void setTarHeadSegment(int val){
+        entityData.set(TAR_HEAD_SEGMENTS,val);
+    }
+    public void setSonicHeadSegment(int val){
+        entityData.set(SONIC_HEAD_SEGMENTS,val);
+    }
+    public void setElectricalHeadSegment(int val){
+        entityData.set(ELECTRICAL_SEGMENTS,val);
+    }
+    public int getTarHeadSegment(){
+        return entityData.get(TAR_HEAD_SEGMENTS);
+    }
+    public int getSonicHeadSegment(){
+        return entityData.get(SONIC_HEAD_SEGMENTS);
+    }
+    public int getElectricalHeadSegment(){
+        return entityData.get(ELECTRICAL_SEGMENTS);
+    }
+
+    @Override
+    public void onAddedToWorld() {
+        super.onAddedToWorld();
+        setRightWing(wingsMaxHp);
+        setLeftWing(wingsMaxHp);
+        setTarHead(headsMaxHp);
+        setSonicHead(headsMaxHp);
+        setElectricalHead(headsMaxHp);
+        setTarHeadSegment(TAR_HEAD_SEGMENT);
+        setSonicHeadSegment(SONIC_HEAD_SEGMENT);
+        setElectricalHeadSegment(ELECTRICAL_SEGMENT);
+    }
 
     public int getWingData(){
         if (getRightWing() <= 0 && getLeftWing() <= 0){
@@ -115,28 +182,83 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
         super.addAdditionalSaveData(tag);
         tag.putFloat("right_wing_hp", getRightWing());
         tag.putFloat("left_wing_hp", getLeftWing());
+        tag.putFloat("tar_head_hp", getTarHead());
+        tag.putFloat("sonic_head_hp", getSonicHead());
+        tag.putFloat("electric_head_hp", getElectricalHead());
+        tag.putInt("tar_head_seg", getTarHeadSegment());
+        tag.putInt("sonic_head_seg", getSonicHeadSegment());
+        tag.putInt("electric_head_seg", getElectricalHeadSegment());
     }
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         setRightWing(tag.getFloat("right_wing_hp"));
         setLeftWing(tag.getFloat("left_wing_hp"));
+        setTarHead(tag.getFloat("tar_head_hp"));
+        setSonicHead(tag.getFloat("sonic_head_hp"));
+        setElectricalHead(tag.getFloat("electric_head_hp"));
+        setTarHeadSegment(tag.getInt("tar_head_seg"));
+        setSonicHeadSegment(tag.getInt("sonic_head_seg"));
+        setElectricalHeadSegment(tag.getInt("electric_head_seg"));
     }
     @Override
     public boolean hurt(CalamityMultipart calamityMultipart, DamageSource source, float value) {
         if (calamityMultipart == rightWing && getRightWing() > 0){
-            float lostHealth = getRightWing()-this.getDamageAfterArmorAbsorb(source,value);
-            setRightWing(lostHealth);
+            float lostHealth = this.getDamageAfterArmorAbsorb(source,value);
+            setRightWing(lostHealth > getRightWing() ? spawnWingFragments(new Vec3(0,1,4)) : getRightWing()-lostHealth);
         }
         if (calamityMultipart == leftWing && getLeftWing() > 0){
-            float lostHealth = getLeftWing()-this.getDamageAfterArmorAbsorb(source,value);
-            setLeftWing(lostHealth);
+            float lostHealth = this.getDamageAfterArmorAbsorb(source,value);
+            setLeftWing(lostHealth > getLeftWing() ? spawnWingFragments(new Vec3(0,1,-4)) : getLeftWing()-lostHealth);
+        }
+        if (calamityMultipart == tarHead){
+            if (getTarHead() > 0){
+                float lostHealth = this.getDamageAfterArmorAbsorb(source,value);
+                setTarHead(lostHealth > getTarHead() ? cutHead(0) : getTarHead()-lostHealth);
+            }else {
+                return false;
+            }
+        }
+        if (calamityMultipart == soundHead){
+            if (getSonicHead() > 0){
+                float lostHealth = this.getDamageAfterArmorAbsorb(source,value);
+                setSonicHead(lostHealth > getSonicHead() ? cutHead(1) : getSonicHead()-lostHealth);
+            }else {
+                return false;
+            }
+        }
+        if (calamityMultipart == lightningHead){
+            if (getElectricalHead() > 0){
+                float lostHealth = this.getDamageAfterArmorAbsorb(source,value);
+                setElectricalHead(lostHealth > getElectricalHead() ? cutHead(2) : getElectricalHead()-lostHealth);
+            }else {
+                return false;
+            }
         }
         return hurt(source,value);
     }
     @Override
     public boolean isMultipartEntity() {
         return true;
+    }
+    protected float spawnWingFragments(Vec3 vec3i){
+        Vec3 vec3 = (vec3i).yRot(-this.getYRot() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
+        ItemStack stack = new ItemStack(Sitems.WING_MEMBRANE.get(),random.nextInt(3,10));
+        ItemEntity item = new ItemEntity(level(),this.getX() + vec3.x, this.getY() + vec3i.y, this.getZ() + vec3.z,stack);
+        level().addFreshEntity(item);
+        return 0f;
+    }
+    protected float cutHead(int i){
+        if (i == 0){
+            setTarHeadSegment(0);
+        }
+        if (i == 1){
+            setSonicHeadSegment(0);
+        }
+        if (i == 2){
+            setElectricalHeadSegment(0);
+        }
+        return 0f;
     }
 
     @Override
@@ -168,6 +290,7 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
         super.aiStep();
     }
 
+
     @Override
     public void tick() {
         super.tick();
@@ -181,6 +304,27 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
             }
             if (getLeftWing() < wingsMaxHp){
                 this.setLeftWing(this.getLeftWing() +1);
+            }
+            if (getTarHeadSegment() < TAR_HEAD_SEGMENT){
+                setTarHeadSegment(getTarHeadSegment()+1);
+            }else {
+                if (getTarHead() < headsMaxHp){
+                    this.setTarHead(this.getTarHead() +1);
+                }
+            }
+            if (getElectricalHeadSegment() < ELECTRICAL_SEGMENT){
+                setElectricalHeadSegment(getElectricalHeadSegment()+1);
+            }else {
+                if (getElectricalHead() < headsMaxHp){
+                    this.setElectricalHead(this.getElectricalHead() +1);
+                }
+            }
+            if (getSonicHeadSegment() < SONIC_HEAD_SEGMENT){
+                setSonicHeadSegment(getSonicHeadSegment()+1);
+            }else {
+                if (getSonicHead() < headsMaxHp){
+                    this.setSonicHead(this.getSonicHead() +1);
+                }
             }
         }
 
