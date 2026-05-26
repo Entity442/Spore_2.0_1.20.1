@@ -6,85 +6,94 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 
-
 public class IkDragonHead {
+
     protected final RandomSource randomSource = RandomSource.create();
+
     protected final LivingEntity owner;
-    protected final Vec3[] entities;
-    protected final Vec3 defaultBodyOffset;
-    protected final Vec3 defaultLimbOffset;
     protected final CalamityMultipart multipart;
+
+    protected final Vec3[] entities;
+    protected final Vec3[] renderPositions;
+    protected final Vec3[] velocities;
+
     protected final float[] wiggleTimers;
     protected final float[] wiggleSpeeds;
     protected final float[] wiggleAmplitudes;
     protected final float[] wiggleOffsets;
-    protected final Vec3[] segmentVelocities;
-    protected Vec3 sitPosition =  null;
-    protected Vec3 lastSitPosition = null;
+
+    protected final Vec3 defaultBodyOffset;
+    protected final Vec3 defaultLimbOffset;
+
+    protected Vec3 sitPosition;
+    protected Vec3 lastSitPosition;
+
     protected Vec3 lastOwnerPosition = Vec3.ZERO;
     protected Vec3 ownerMovementDelta = Vec3.ZERO;
-    protected float lastYaw = 0;
-    protected float yawDelta = 0;
-    public IkDragonHead(LivingEntity owner, CalamityMultipart multipart, int amount, Vec3 defaultBodyOffset,
-                        Vec3 defaultLimbOffset) {
+
+    protected float lastYaw;
+    protected float lastPitch;
+
+    protected float yawDelta;
+    protected float pitchDelta;
+
+    protected final float segmentLength = 0.75f;
+
+    public IkDragonHead(
+            LivingEntity owner,
+            CalamityMultipart multipart,
+            int amount,
+            Vec3 defaultBodyOffset,
+            Vec3 defaultLimbOffset
+    ) {
         this.owner = owner;
         this.multipart = multipart;
+
+        this.defaultBodyOffset = defaultBodyOffset;
+        this.defaultLimbOffset = defaultLimbOffset;
+
         this.entities = new Vec3[amount];
+        this.renderPositions = new Vec3[amount];
+        this.velocities = new Vec3[amount];
+
         this.wiggleTimers = new float[amount];
         this.wiggleSpeeds = new float[amount];
         this.wiggleAmplitudes = new float[amount];
         this.wiggleOffsets = new float[amount];
-        this.segmentVelocities = new Vec3[amount];
-        for(int i = 0;i<amount;i++){
-            entities[i] = new Vec3(0,0,0);
+
+        Vec3 start = owner.position();
+
+        for (int i = 0; i < amount; i++) {
+
+            entities[i] = start;
+            renderPositions[i] = start;
+            velocities[i] = Vec3.ZERO;
+
+            wiggleTimers[i] = randomSource.nextFloat() * 100f;
             wiggleSpeeds[i] = 0.5f + randomSource.nextFloat() * getWiggleSpeed();
-            wiggleAmplitudes[i] = 0.02f + randomSource.nextFloat() * getWiggleAmplitude();
-            wiggleOffsets[i] = randomSource.nextFloat() * (float)Math.PI * 2;
-            wiggleTimers[i] = randomSource.nextFloat() * 100;
-            segmentVelocities[i] = new Vec3(0, 0, 0);
+            wiggleAmplitudes[i] = 0.01f + randomSource.nextFloat() * getWiggleAmplitude();
+            wiggleOffsets[i] = randomSource.nextFloat() * Mth.TWO_PI;
         }
-        this.defaultBodyOffset = defaultBodyOffset;
-        this.defaultLimbOffset = defaultLimbOffset;
+
+        lastOwnerPosition = owner.position();
+        lastYaw = owner.getYRot();
+        lastPitch = owner.getXRot();
     }
-    public float getWiggleSpeed(){
+
+    public float getWiggleSpeed() {
         return 0.25f;
     }
-    public float getWiggleAmplitude(){
-        return 0.03f;
-    }
-    protected void updateWiggleTimers() {
-        for (int i = 0; i < wiggleTimers.length; i++) {
-            wiggleTimers[i] += 0.05f * wiggleSpeeds[i];
 
-            if (wiggleTimers[i] > 1000) wiggleTimers[i] -= 1000;
-        }
+    public float getWiggleAmplitude() {
+        return 0.4f;
     }
+
+    public Vec3[] getEntities() {
+        return renderPositions;
+    }
+
     public Vec3 getSitPosition() {
         return sitPosition;
-    }
-    protected void applyIdleWiggle() {
-        RandomSource rand = this.randomSource;
-
-        for (int i = 1; i < entities.length - 1; i++) {
-            Vec3 current = entities[i];
-
-            float time = wiggleTimers[i] + wiggleOffsets[i];
-
-            float xWiggle = (float)Math.sin(time * 0.7f) * wiggleAmplitudes[i];
-            float yWiggle = (float)Math.sin(time * 1.2f + 1.5f) * wiggleAmplitudes[i] * 0.8f;
-            float zWiggle = (float)Math.sin(time * 0.9f + 2.0f) * wiggleAmplitudes[i] * 0.6f;
-
-            if (rand.nextFloat() < 0.05f) {
-                xWiggle += (rand.nextFloat() - 0.5f) * 0.02f;
-                yWiggle += (rand.nextFloat() - 0.5f) * 0.01f;
-                zWiggle += (rand.nextFloat() - 0.5f) * 0.02f;
-            }
-
-            entities[i] = current.add(xWiggle, yWiggle, zWiggle);
-        }
-    }
-    public Vec3[] getEntities() {
-        return entities;
     }
 
     public Vec3 getLastSitPosition() {
@@ -93,185 +102,291 @@ public class IkDragonHead {
 
     public Vec3 applyYaw(Vec3 offset) {
         float yawRad = owner.getYRot() * Mth.DEG_TO_RAD;
-
         return offset.yRot(-yawRad - Mth.HALF_PI);
     }
 
-    public Vec3 getHeadBasePos() {
-        Vec3 pivot = owner.position();
-        return pivot.add(applyYaw(defaultLimbOffset));
-    }
-
     public Vec3 getBodyOffset() {
-        Vec3 pivot = owner.position();
-        return pivot.add(applyYaw(defaultBodyOffset));
+        Vec3 extra = isMoving() ? new Vec3(1, 0, 0) : Vec3.ZERO;
+        return owner.position().add(applyYaw(defaultBodyOffset).add(extra));
     }
 
-    protected void moveSegmentTowards(int index, Vec3 target,boolean far) {
-        Vec3 currentPos = entities[index];
-        Vec3 newPos = currentPos.lerp(target, 0.5f);
-        entities[index] = (far ? target : newPos);
-    }
-    protected void moveTipTowards(Vec3 target) {
-        int tip = entities.length - 1;
-        Vec3 currentPos = entities[tip];
-        entities[tip] = currentPos.lerp(target, 0.25f);
+    public Vec3 getHeadBasePos() {
+        Vec3 extra = isMoving() ? new Vec3(1, 0, 0) : Vec3.ZERO;
+        return owner.position().add(applyYaw(defaultLimbOffset.add(extra)));
     }
 
-    protected void updateOwnerMovementDelta() {
-        Vec3 currentOwnerPos = owner.position();
-        ownerMovementDelta = currentOwnerPos.subtract(lastOwnerPosition).multiply(new Vec3(1.5f,1,1.5f));
-        lastOwnerPosition = currentOwnerPos;
+    protected void updateOwnerMovement() {
+
+        Vec3 currentPos = owner.position();
+
+        ownerMovementDelta = currentPos.subtract(lastOwnerPosition);
+
+        lastOwnerPosition = currentPos;
+
         float currentYaw = owner.getYRot();
+        float currentPitch = owner.getXRot();
+
         yawDelta = Mth.wrapDegrees(currentYaw - lastYaw);
+        pitchDelta = Mth.wrapDegrees(currentPitch - lastPitch);
+
+        yawDelta = Mth.clamp(yawDelta, -8f, 8f);
+        pitchDelta = Mth.clamp(pitchDelta, -6f, 6f);
+
         lastYaw = currentYaw;
+        lastPitch = currentPitch;
     }
-    protected Vec3 rotateAroundYaw(Vec3 pos, Vec3 pivot, float degrees) {
-        double rad = degrees * Mth.DEG_TO_RAD;
-        Vec3 rel = pos.subtract(pivot);
-        Vec3 rotated = rel.yRot((float)-rad);
-        return pivot.add(rotated);
+
+    protected boolean isMoving() {
+        return ownerMovementDelta.lengthSqr() > 0.0001 || Math.abs(yawDelta) > 0.05f;
     }
-    protected void applyBodySpin() {
-        if (Math.abs(yawDelta) < 0.001f) return;
+
+    protected Vec3 calculateAngularVelocity(Vec3 pos, Vec3 pivot, float yaw, float pitch, float influence) {
+
+        Vec3 rel = pos.subtract(pivot).scale(influence);
+
+        double yawRad = yaw * Mth.DEG_TO_RAD;
+        double pitchRad = pitch * Mth.DEG_TO_RAD;
+
+        Vec3 yawVel = new Vec3(
+                -yawRad * rel.z,
+                0,
+                yawRad * rel.x
+        );
+
+        Vec3 pitchVel = new Vec3(
+                0,
+                pitchRad * rel.z,
+                -pitchRad * rel.y
+        );
+
+        return yawVel.add(pitchVel);
+    }
+
+    protected void applyMovement() {
+
+        int last = entities.length - 1;
+
         Vec3 pivot = owner.position();
 
         for (int i = 0; i < entities.length; i++) {
-            entities[i] = rotateAroundYaw(entities[i], pivot, yawDelta);
-        }
 
-        if (sitPosition != null) {
-            sitPosition = rotateAroundYaw(sitPosition, pivot, yawDelta);
-        }
+            float t = (float)i / last;
 
-        if (lastSitPosition != null) {
-            lastSitPosition = rotateAroundYaw(lastSitPosition, pivot, yawDelta);
-        }
+            float followStrength = Mth.lerp(t, 0.15f, 0.65f);
 
-        for (int i = 0; i < segmentVelocities.length; i++) {
-            segmentVelocities[i] =
-                    segmentVelocities[i].yRot((float)(-yawDelta * Mth.DEG_TO_RAD));
+            Vec3 translational = ownerMovementDelta.scale(followStrength);
+
+            Vec3 rotational = calculateAngularVelocity(
+                    entities[i],
+                    pivot,
+                    yawDelta * 0.25f,
+                    pitchDelta * 0.25f,
+                    t
+            );
+
+            Vec3 force = translational.add(rotational);
+
+            velocities[i] = velocities[i]
+                    .scale(0.82f)
+                    .add(force);
+
+            float maxVel = Mth.lerp(t, 0.2f, 0.9f);
+
+            if (velocities[i].lengthSqr() > maxVel * maxVel) {
+                velocities[i] = velocities[i].normalize().scale(maxVel);
+            }
+
+            entities[i] = entities[i].add(velocities[i]);
         }
     }
 
-    protected void applyEntityMovementToLegs() {
-        float movementStrength = (float)ownerMovementDelta.length();
-        boolean isMoving = movementStrength > 0.001f;
+    protected void solveFABRIK(Vec3 root, Vec3 target) {
 
-        if (!isMoving) {
-            // Smooth return to rest position
-            Vec3 defaultTipPos = getHeadBasePos();
-            int tip = entities.length - 1;
+        int tip = entities.length - 1;
 
-            for (int i = 0; i < entities.length; i++) {
-                float t = (float) i / (entities.length - 1);
-                float returnSpeed = Mth.lerp(t, 0.15f, 0.08f);
+        entities[tip] = entities[tip].lerp(target, 0.2f);
 
-                Vec3 targetPos;
-                if (i == 0) {
-                    targetPos = getBodyOffset();
-                } else if (i == tip) {
-                    targetPos = defaultTipPos;
-                } else {
-                    // Interpolate between start and end for middle segments
-                    targetPos = getBodyOffset().lerp(defaultTipPos, t);
-                }
+        for (int i = tip - 1; i >= 0; i--) {
 
-                entities[i] = entities[i].lerp(targetPos, returnSpeed);
+            Vec3 next = entities[i + 1];
+
+            Vec3 dir = entities[i]
+                    .subtract(next);
+
+            if (dir.lengthSqr() < 0.0001f) {
+                dir = new Vec3(segmentLength, 0, 0);
             }
 
-            if (sitPosition != null) sitPosition = sitPosition.lerp(getHeadBasePos(), 0.1f);
-            if (lastSitPosition != null) lastSitPosition = lastSitPosition.lerp(getHeadBasePos(), 0.1f);
+            dir = dir.normalize().scale(segmentLength);
+
+            Vec3 solved = next.add(dir);
+
+            entities[i] = entities[i].lerp(solved, 0.45f);
+        }
+
+        entities[0] = root;
+
+        for (int i = 1; i < entities.length; i++) {
+
+            Vec3 prev = entities[i - 1];
+
+            Vec3 dir = entities[i]
+                    .subtract(prev);
+
+            if (dir.lengthSqr() < 0.0001f) {
+                dir = new Vec3(segmentLength, 0, 0);
+            }
+
+            dir = dir.normalize().scale(segmentLength);
+
+            Vec3 solved = prev.add(dir);
+
+            entities[i] = entities[i].lerp(solved, 0.45f);
+        }
+    }
+    protected void validateChainDistance() {
+
+        Vec3 root = getBodyOffset();
+
+        for (int i = 0; i < entities.length; i++) {
+
+            if (entities[i].distanceToSqr(root) > 125.0D) {
+
+                Vec3 resetPos = root.add(0, 0.25 * i, 0);
+
+                entities[i] = resetPos;
+                renderPositions[i] = resetPos;
+                velocities[i] = Vec3.ZERO;
+            }
+        }
+    }
+
+    protected void applyHeadTracking(Vec3 target) {
+
+        int tip = entities.length - 1;
+
+        Vec3 current = entities[tip];
+
+        Vec3 error = target.subtract(current);
+
+        velocities[tip] = velocities[tip]
+                .scale(0.72f)
+                .add(error.scale(0.12f));
+
+        entities[tip] = current.add(velocities[tip]);
+    }
+
+    protected void updateWiggleTimers() {
+
+        for (int i = 0; i < wiggleTimers.length; i++) {
+
+            wiggleTimers[i] += 0.05f * wiggleSpeeds[i];
+
+            if (wiggleTimers[i] > 1000f) {
+                wiggleTimers[i] -= 1000f;
+            }
+        }
+    }
+
+    protected void applyIdleWiggle() {
+
+        if (isMoving()) {
             return;
         }
 
-        // Apply movement with better damping
-        int last = entities.length - 1;
+        for (int i = 1; i < entities.length - 1; i++) {
 
-        for (int i = 0; i < entities.length; i++) {
-            float t = (float) i / last;
+            float time = wiggleTimers[i] + wiggleOffsets[i];
 
-            // Adjust follow strength based on segment position
-            float followStrength = Mth.lerp(t, 0.35f, 0.08f);
-            float drag = Mth.lerp(t, 0.92f, 0.75f);
+            float x =
+                    Mth.sin(time * 0.7f)
+                            * wiggleAmplitudes[i];
 
-            // Add movement with smoothing
-            Vec3 movementInfluence = ownerMovementDelta.scale(followStrength * movementStrength * 2);
+            float y =
+                    Mth.sin(time * 1.1f)
+                            * wiggleAmplitudes[i]
+                            * 0.6f;
 
+            float z =
+                    Mth.sin(time * 0.9f)
+                            * wiggleAmplitudes[i]
+                            * 0.4f;
 
-            if (movementStrength > 0.02f && i > last / 2) {
-                movementInfluence = movementInfluence.scale(1.2f);
-            }
+            Vec3 target = entities[i].add(x, y, z);
 
-            segmentVelocities[i] = segmentVelocities[i]
-                    .add(movementInfluence)
-                    .scale(drag);
-
-            if (segmentVelocities[i].length() > 1.5f) {
-                segmentVelocities[i] = segmentVelocities[i].normalize().scale(1.5f);
-            }
-
-            entities[i] = entities[i].add(segmentVelocities[i]);
+            entities[i] = entities[i].lerp(target, 0.1f);
         }
+    }
 
-        if (sitPosition != null) sitPosition = sitPosition.add(ownerMovementDelta.scale(0.5f));
-        if (lastSitPosition != null) lastSitPosition = lastSitPosition.add(ownerMovementDelta.scale(0.5f));
+    protected void dampVelocities() {
+
+        for (int i = 0; i < velocities.length; i++) {
+            velocities[i] = velocities[i].scale(0.88f);
+        }
+    }
+
+    protected void updateRenderPositions() {
+
+        for (int i = 0; i < renderPositions.length; i++) {
+            renderPositions[i] = renderPositions[i].lerp(entities[i], 0.35f);
+        }
     }
 
     public void applyIK() {
-        if (entities == null || entities.length == 0) return;
-        Vec3 basePos = getBodyOffset();
-        Vec3 defaultTipPos = sitPosition == null ?  getHeadBasePos() : sitPosition;
-        updateOwnerMovementDelta();
-        applyEntityMovementToLegs();
-        applyBodySpin();
-        moveTipTowards(defaultTipPos);
-        for (int i = entities.length - 2; i >= 0; i--) {
-            Vec3 nextPos = entities[i + 1];
-            Vec3 dir = entities[i].subtract(nextPos);
-
-            float segmentLength = 0.75f;
-            if (dir.lengthSqr() > 0.0001f) {
-                dir = dir.normalize().scale(segmentLength);
-            } else {
-                dir = new Vec3(segmentLength, 0, 0);
-            }
-
-            Vec3 solvedPos = nextPos.add(dir);
-            moveSegmentTowards(i, solvedPos, entities[i+1].distanceTo(entities[i]) > 5);
+        if (entities.length == 0) {
+            return;
         }
-        entities[0] = basePos;
 
-        for (int i = 1; i < entities.length; i++) {
-            Vec3 prevPos = entities[i - 1];
-            Vec3 dir = entities[i].subtract(prevPos);
+        validateChainDistance();
 
-            float segmentLength = 0.75f;
-            if (dir.lengthSqr() > 0.0001f) {
-                dir = dir.normalize().scale(segmentLength);
-            } else {
-                dir = new Vec3(segmentLength, 0, 0);
-            }
+        updateOwnerMovement();
 
-            Vec3 solvedPos = prevPos.add(dir);
-            moveSegmentTowards(i, solvedPos, entities[i-1].distanceTo(entities[i]) > 5);
-        }
+        Vec3 root = getBodyOffset();
+
+        Vec3 target = sitPosition == null
+                ? getHeadBasePos()
+                : sitPosition;
+
+        applyMovement();
+
+        applyHeadTracking(target);
+
+        solveFABRIK(root, target);
+
         applyIdleWiggle();
+
+        dampVelocities();
+
+        updateRenderPositions();
+
         updateWiggleTimers();
+
         setupPositionHitbox();
+
     }
 
+    public void setupPositionHitbox() {
 
-    public void setupPositionHitbox(){
-        Vec3 endSeg = entities[entities.length-1];
-        Vec3 avec3 = new Vec3(multipart.getX(),multipart.getY(),multipart.getZ());
-        this.multipart.setPos(endSeg.x, endSeg.y-0.45, endSeg.z);
-        this.multipart.xo = avec3.x;
-        this.multipart.yo = avec3.y;
-        this.multipart.zo = avec3.z;
-        this.multipart.xOld = avec3.x;
-        this.multipart.yOld = avec3.y;
-        this.multipart.zOld = avec3.z;
+        Vec3 endSeg = renderPositions[renderPositions.length - 1];
+
+        Vec3 prev = new Vec3(
+                multipart.getX(),
+                multipart.getY(),
+                multipart.getZ()
+        );
+
+        multipart.setPos(
+                endSeg.x,
+                endSeg.y - 0.45,
+                endSeg.z
+        );
+
+        multipart.xo = prev.x;
+        multipart.yo = prev.y;
+        multipart.zo = prev.z;
+
+        multipart.xOld = prev.x;
+        multipart.yOld = prev.y;
+        multipart.zOld = prev.z;
     }
-
 }

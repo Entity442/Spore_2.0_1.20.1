@@ -100,7 +100,7 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
                 renderTentacle(stack,entity,light, bufferSource, entity.getIkTarHead().getEntities(),entity.getTarHeadSegment(), entity,partialTicks,LIMB.TAR);
                 renderTail(stack,entity,light, bufferSource, entity.getTail().getEntities(), entity,partialTicks);
             }
-            if (entity.getCharge() > 0){
+            if (entity.getCharge() > 0 && entity.getElectricalHead() > 0){
                 for (AmbientSparks sparks : entity.getSparks()){
                     renderChain(sparks.getConnections(),stack,light,bufferSource,false);
                 }

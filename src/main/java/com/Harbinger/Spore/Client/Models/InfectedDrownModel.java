@@ -1,8 +1,7 @@
-package com.Harbinger.Spore.Client.Models;// Made with Blockbench 4.6.3
+package com.Harbinger.Spore.Client.Models;// Made with Blockbench 5.1.4
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
-
-
+import com.Harbinger.Spore.Client.Models.TentacledModel;
 import com.Harbinger.Spore.Sentities.BasicInfected.InfectedDrowned;
 import com.Harbinger.Spore.Spore;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -15,13 +14,62 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
-public class InfectedDrownModel<T extends InfectedDrowned> extends EntityModel<T> {
+public class InfectedDrownModel<T extends InfectedDrowned> extends EntityModel<T> implements TentacledModel {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "infecteddrownmodel"), "main");
 	private final ModelPart Body;
+	private final ModelPart spine;
+	private final ModelPart back;
+	private final ModelPart back2;
+	private final ModelPart spine2;
+	private final ModelPart back3;
+	private final ModelPart back4;
+	private final ModelPart LeftLeg;
+	private final ModelPart leftForLeg;
+	private final ModelPart tendril6;
+	private final ModelPart RightLeg;
+	private final ModelPart rightForLeg;
+	private final ModelPart tendril5;
+	private final ModelPart LeftArm;
+	private final ModelPart LeftForArm;
+	private final ModelPart RightArm;
+	private final ModelPart RightForArm;
+	private final ModelPart head;
+	private final ModelPart jaw;
+	private final ModelPart ear;
+	private final ModelPart ear2;
+	private final ModelPart tendril;
+	private final ModelPart tendril2;
+	private final ModelPart tendril3;
+	private final ModelPart tendril4;
+	private int angle;
 
 	public InfectedDrownModel(ModelPart root) {
 		this.Body = root.getChild("Body");
+		this.spine = this.Body.getChild("spine");
+		this.back = this.spine.getChild("back");
+		this.back2 = this.spine.getChild("back2");
+		this.spine2 = this.Body.getChild("spine2");
+		this.back3 = this.spine2.getChild("back3");
+		this.back4 = this.spine2.getChild("back4");
+		this.LeftLeg = this.Body.getChild("LeftLeg");
+		this.leftForLeg = this.LeftLeg.getChild("leftForLeg");
+		this.tendril6 = this.LeftLeg.getChild("tendril6");
+		this.RightLeg = this.Body.getChild("RightLeg");
+		this.rightForLeg = this.RightLeg.getChild("rightForLeg");
+		this.tendril5 = this.RightLeg.getChild("tendril5");
+		this.LeftArm = this.Body.getChild("LeftArm");
+		this.LeftForArm = this.LeftArm.getChild("LeftForArm");
+		this.RightArm = this.Body.getChild("RightArm");
+		this.RightForArm = this.RightArm.getChild("RightForArm");
+		this.head = this.Body.getChild("head");
+		this.jaw = this.head.getChild("jaw");
+		this.ear = this.head.getChild("ear");
+		this.ear2 = this.head.getChild("ear2");
+		this.tendril = this.Body.getChild("tendril");
+		this.tendril2 = this.Body.getChild("tendril2");
+		this.tendril3 = this.Body.getChild("tendril3");
+		this.tendril4 = this.Body.getChild("tendril4");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -65,6 +113,7 @@ public class InfectedDrownModel<T extends InfectedDrowned> extends EntityModel<T
 		PartDefinition RightForArm = RightArm.addOrReplaceChild("RightForArm", CubeListBuilder.create().texOffs(25, 45).addBox(-2.0F, 0.0F, -1.5F, 3.0F, 6.0F, 3.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(0.0F, 4.0F, 0.0F, -0.0873F, 0.0F, 0.0F));
 
 		PartDefinition head = Body.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 6.0F, 8.0F, new CubeDeformation(-0.01F))
+		.texOffs(48, 66).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 6.0F, 8.0F, new CubeDeformation(-0.15F))
 		.texOffs(24, 0).addBox(-4.0F, -2.0F, 0.0F, 8.0F, 2.0F, 4.0F, new CubeDeformation(0.0F))
 		.texOffs(33, 57).addBox(-4.0F, -2.0F, -4.0F, 8.0F, 1.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, -3.0F));
 
@@ -82,60 +131,46 @@ public class InfectedDrownModel<T extends InfectedDrowned> extends EntityModel<T
 
 		PartDefinition tendril4 = Body.addOrReplaceChild("tendril4", CubeListBuilder.create().texOffs(12, 48).addBox(0.0F, 0.0F, -1.0F, 0.0F, 8.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, 5.0F, 1.0F, 0.3927F, 0.0F, 0.0F));
 
-		return LayerDefinition.create(meshdefinition, 64, 64);
+		return LayerDefinition.create(meshdefinition, 80, 80);
 	}
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		if (entity.isAggressive()){
-				this.Body.getChild("RightArm").xRot = -89.5F - (Mth.sin(ageInTicks/4)/7);
-				this.Body.getChild("LeftArm").xRot = -89.5F + (Mth.sin(ageInTicks/4)/7);
-
-		}else {
-			this.Body.getChild("RightArm").zRot = Mth.sin(ageInTicks/8)/10;
-			this.Body.getChild("LeftArm").zRot = -Mth.sin(ageInTicks/8)/10;
-			this.Body.getChild("RightArm").xRot = 0;
-			this.Body.getChild("LeftArm").xRot = 0;
-		}
-		if (!(limbSwingAmount > -0.15F && limbSwingAmount < 0.15F) && entity.onGround()){
-			this.Body.getChild("RightArm").xRot = Mth.cos(limbSwing * 0.8F) * 0.8F * limbSwingAmount;
-			this.Body.getChild("LeftArm").xRot = Mth.cos(limbSwing * 0.8F) * -0.8F * limbSwingAmount;
-			this.Body.getChild("RightArm").zRot = 0;
-			this.Body.getChild("LeftArm").zRot = 0;
-		}
-		else {
-			this.Body.getChild("RightArm").zRot = Mth.sin(ageInTicks/8)/10;
-			this.Body.getChild("LeftArm").zRot = -Mth.sin(ageInTicks/8)/10;
-		}
-
-		if (entity.isInWater() && !(limbSwingAmount > -0.15F && limbSwingAmount < 0.15F)){
-			if (entity.isSwimming() && entity.getXRot() < 5){
-				this.Body.xRot = -headPitch /  ( 90F / (float) Math.PI);
+		float walk = Mth.cos(limbSwing * 0.8F) * 0.8F * limbSwingAmount;
+		float bodyAngle = angle * 0.025f;
+		float val = Mth.sin(ageInTicks/5)/6;
+		float val1 = Mth.cos(ageInTicks/8)/7;
+		float val2 = Mth.sin(ageInTicks/8)/7;
+		float val3 = Mth.cos(ageInTicks/6)/6;
+		float val4 = Mth.sin(ageInTicks/7)/7;
+		if (!(limbSwingAmount > -0.15F && limbSwingAmount < 0.15F) && entity.isInWater()){
+			if (angle < 40){
+				angle++;
 			}
 		}else {
-			this.Body.xRot = 0F;
+			this.head.yRot = netHeadYaw / (180F / (float) Math.PI);
+			if (angle > 0){
+				angle--;
+			}
 		}
-		this.Body.getChild("LeftLeg").xRot = Mth.cos(limbSwing * 0.8F) * 0.8F * limbSwingAmount;
-		this.Body.getChild("RightLeg").xRot = Mth.cos(limbSwing * 0.8F) * -0.8F * limbSwingAmount;
-		if (Body.getChild("LeftLeg").xRot < 0){
-			this.Body.getChild("LeftLeg").getChild("leftForLeg").xRot = -Body.getChild("LeftLeg").xRot;}
-		if (Body.getChild("RightLeg").xRot < 0){
-			this.Body.getChild("RightLeg").getChild("rightForLeg").xRot = -Body.getChild("RightLeg").xRot;}
-
-		this.Body.getChild("head").yRot = netHeadYaw / (180F / (float) Math.PI);
-		this.Body.getChild("head").xRot = headPitch /  ( 90F / (float) Math.PI);
-		this.Body.getChild("head").getChild("jaw").xRot = Mth.sin(ageInTicks/8)/10;
-
-		this.Body.getChild("tendril").yRot = -Mth.sin(ageInTicks/8)/5;
-		this.Body.getChild("tendril2").yRot = Mth.sin(ageInTicks/5)/7;
-		this.Body.getChild("tendril3").yRot = -Mth.sin(ageInTicks/6)/8;
-		this.Body.getChild("tendril4").yRot = Mth.sin(ageInTicks/9)/6;
-
-		this.Body.getChild("RightLeg").getChild("tendril5").yRot = Mth.sin(ageInTicks/9)/6;
-		this.Body.getChild("LeftLeg").getChild("tendril6").yRot = -Mth.sin(ageInTicks/9)/6;
-
-		this.Body.getChild("head").getChild("ear").xRot = Mth.sin(ageInTicks/6)/8;
-		this.Body.getChild("head").getChild("ear2").xRot = -Mth.sin(ageInTicks/6)/8;
+		animateTentacleX(Body,bodyAngle);
+		float aggressive = entity.isAggressive() ? -90 : 0;
+		animateTentacleX(RightArm,-bodyAngle + val1+aggressive);
+		animateTentacleX(LeftArm,-bodyAngle + val2+aggressive);
+		this.head.xRot = (headPitch /  ( 90F / (float) Math.PI)) -bodyAngle;
+		this.jaw.xRot = Mth.sin(ageInTicks/8)/10;
+		this.ear.xRot = Mth.sin(ageInTicks/6)/8;
+		this.ear2.xRot = -ear.xRot;
+		this.LeftLeg.xRot = walk;
+		this.RightLeg.xRot = -walk;
+		this.leftForLeg.xRot = LeftLeg.xRot < 0 ? -LeftLeg.xRot : 0;
+		this.rightForLeg.xRot = RightLeg.xRot < 0 ? -RightLeg.xRot : 0;
+		animateTentacleY(tendril,val);
+		animateTentacleY(tendril2,val1);
+		animateTentacleY(tendril3,val2);
+		animateTentacleY(tendril4,val3);
+		animateTentacleY(tendril5,val4);
+		animateTentacleY(tendril6,val);
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Client.Models.DragonBits;// Made with Blockbench 5.1.4
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
+import com.Harbinger.Spore.Client.Models.TentacledModel;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.client.model.EntityModel;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -10,12 +11,13 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class ElectricalDragonHeadModel<T extends LivingEntity> extends EntityModel<T> implements ElectricalBrain{
+public class ElectricalDragonHeadModel<T extends LivingEntity> extends EntityModel<T> implements ElectricalBrain {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "electricaldragonheadmodel"), "main");
 	private final ModelPart head;
@@ -255,10 +257,30 @@ public class ElectricalDragonHeadModel<T extends LivingEntity> extends EntityMod
 
 		return LayerDefinition.create(meshdefinition, 256, 256);
 	}
+	void animateBrain(ModelPart part,float val){
+		part.xScale = 1 + val;
+		part.zScale = 1 + val;
+		part.yScale = 1 - val;
+	}
+	void animateRib(ModelPart part,float val){
+		part.yRot = part.getInitialPose().yRot + val;
+	}
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+		float val = Mth.sin(ageInTicks/6)/7;
+		float val1 = Mth.cos(ageInTicks/7)/6;
+		animateBrain(Brain1,-val1);
+		animateBrain(Brain2,val1);
+		animateBrain(Brain3,-val);
+		animateBrain(Brain4,val1);
+		animateBrain(Brain5,val);
+		animateRib(spikes,val);
+		animateRib(spikes2,-val);
+		animateRib(spikes3,val1);
+		animateRib(spikes4,-val1);
+		animateRib(spikes5,val);
+		animateRib(spikes6,-val);
 	}
 
 	@Override
