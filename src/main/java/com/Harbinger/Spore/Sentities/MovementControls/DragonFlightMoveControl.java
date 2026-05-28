@@ -128,8 +128,8 @@ public class DragonFlightMoveControl extends MoveControl {
 
         // Handle flapping animation
         if (shouldFlap(dy, totalDist) && flapCooldown <= 0) {
-            newVel = newVel.add(0, 0.3, 0);
-            flapCooldown = 10;
+            newVel = newVel.add(0, 0.75, 0);
+            flapCooldown = 25;
             onFlap();
         }
 
@@ -185,7 +185,7 @@ public class DragonFlightMoveControl extends MoveControl {
         mob.playSound(SoundEvents.ENDER_DRAGON_FLAP, 1.0F,
                 0.8F + mob.getRandom().nextFloat() * 0.4F);
         mob.triggerFlap();
-        mob.level().broadcastEntityEvent(mob, (byte)4);
+        mob.level().broadcastEntityEvent(mob, (byte)6);
     }
 
     public boolean isAtTarget() {

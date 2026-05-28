@@ -11,19 +11,16 @@ import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SporeBurstSupport;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SummonScentInCombat;
 import com.Harbinger.Spore.Sentities.AI.CalamityPathNavigation;
 import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
-import com.Harbinger.Spore.Sentities.AI.NeuralProcessing.Experimental.ExpAirPathNavigation;
 import com.Harbinger.Spore.Sentities.AmbientSparks;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.BaseEntities.IkUtil.IkDragonHead;
 import com.Harbinger.Spore.Sentities.BaseEntities.IkUtil.IkDragonTail;
-import com.Harbinger.Spore.Sentities.FlyingInfected;
+import com.Harbinger.Spore.Sentities.MovementControls.CalamityMovementControl;
 import com.Harbinger.Spore.Sentities.MovementControls.DragonFlightMoveControl;
 import com.Harbinger.Spore.Sentities.MovementControls.ExperimentalGroundMovementController;
-import com.Harbinger.Spore.Sentities.MovementControls.InfectedArialMovementControl;
 import com.Harbinger.Spore.Sentities.MovementControls.UndergroundPathNavigation;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
-import com.Harbinger.Spore.Sentities.Variants.GargoyleVariants;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -68,12 +65,10 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
     private static final EntityDataAccessor<Integer> TAR_HEAD_SEGMENTS = SynchedEntityData.defineId(Verfalldrachen.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> SONIC_HEAD_SEGMENTS = SynchedEntityData.defineId(Verfalldrachen.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> ELECTRICAL_SEGMENTS = SynchedEntityData.defineId(Verfalldrachen.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> DRAGON_X_ANGLE = SynchedEntityData.defineId(Verfalldrachen.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Boolean> IS_FLYING = SynchedEntityData.defineId(Verfalldrachen.class, EntityDataSerializers.BOOLEAN);
     private final float wingsMaxHp = (float) (SConfig.SERVER.sieger_hp.get() * SConfig.SERVER.global_health.get() * 0.25);
     private final float headsMaxHp = (float) (SConfig.SERVER.sieger_hp.get() * SConfig.SERVER.global_health.get() * 0.35);
-    protected final CalamityPathNavigation GroundNavigation;
-    protected final UndergroundPathNavigation AirNavigation;
+    protected final CalamityPathNavigation calamityPathNavigation;
+    protected final UndergroundPathNavigation undergroundPathNavigation;
     protected final ExperimentalGroundMovementController groundMovementController;
     protected final DragonFlightMoveControl flightMoveControl;
     private int flapAnimationTicks;
@@ -90,12 +85,14 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
         this.ikTarHead =  new IkDragonHead(this,tarHead,TAR_HEAD_SEGMENT,new Vec3(3,4.65,0),new Vec3(6.5,7.5,0));
         this.ikLightningHead =  new IkDragonHead(this,lightningHead,ELECTRICAL_SEGMENT,new Vec3(3,4.25,-1),new Vec3(5.5,6.5,-4));
         this.tail = new IkDragonTail(this,10,new Vec3(-4,3.5,0),new Vec3(-12,0.5,0));
-        this.GroundNavigation = new CalamityPathNavigation(this,level);
-        this.AirNavigation = new UndergroundPathNavigation(this,level);
         this.groundMovementController = new ExperimentalGroundMovementController(this);
         this.flightMoveControl = new DragonFlightMoveControl(this);
-        this.navigation = AirNavigation;
-        this.moveControl = flightMoveControl;
+
+        calamityPathNavigation = new CalamityPathNavigation(this,level);
+        undergroundPathNavigation = new UndergroundPathNavigation(this,level);
+
+        this.navigation = calamityPathNavigation;
+        this.moveControl = groundMovementController;
         this.setMaxUpStep(1.5F);
         this.setId(ENTITY_COUNTER.getAndAdd(this.subEntities.length + 1) + 1);
     }
@@ -118,8 +115,6 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
         entityData.define(TAR_HEAD_SEGMENTS,TAR_HEAD_SEGMENT);
         entityData.define(SONIC_HEAD_SEGMENTS,SONIC_HEAD_SEGMENT);
         entityData.define(ELECTRICAL_SEGMENTS,ELECTRICAL_SEGMENT);
-        entityData.define(DRAGON_X_ANGLE,0);
-        entityData.define(IS_FLYING,false);
     }
     public List<AmbientSparks> getSparks(){
         return sparks;
@@ -184,41 +179,38 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
         return flapAnimationTicks;
     }
     public void triggerFlap(){
-        flapAnimationTicks = 10;
+        flapAnimationTicks = 20;
     }
     public void handleEntityEvent(byte value) {
-        if (value == 4) {
-            this.flapAnimationTicks = 10;
+        if (value == 6) {
+            this.flapAnimationTicks = 20;
         }else {
             super.handleEntityEvent(value);
         }
     }
 
     public void setFlying(boolean value){
-        if (!value || getRightWing() <= 0 || getLeftWing() <= 0){
-            navigation = GroundNavigation;
-            moveControl = groundMovementController;
-            setNoGravity(false);
-        }else {
-            navigation = AirNavigation;
+        boolean shouldFly = value && getRightWing() > 0 && getLeftWing() > 0;
+        if (shouldFly){
             moveControl = flightMoveControl;
+            navigation = undergroundPathNavigation;
             setNoGravity(true);
+        } else {
+            moveControl = groundMovementController;
+            navigation = calamityPathNavigation;
+            setNoGravity(false);
         }
-        entityData.set(IS_FLYING,value);
     }
-    public boolean isFlying(){
-        return entityData.get(IS_FLYING);
-    }
+
     @Override
     public void travel(Vec3 vec) {
-        if (this.isEffectiveAi() && !this.onGround()) {
+        if (this.isEffectiveAi() && isNoGravity()) {
             this.moveRelative(0.1F, vec);
             this.move(MoverType.SELF, this.getDeltaMovement().scale(isInWater() ? 0.2 : 1f));
-            this.setDeltaMovement(this.getDeltaMovement().scale(0.85D));
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.85D).add(0,-0.01,0));
         } else {
             super.travel(vec);
         }
-        this.setDeltaMovement(getDeltaMovement().add(0,-0.01,0));
     }
     @Override
     protected int calculateFallDamage(float p_149389_, float p_149390_) {
@@ -230,7 +222,7 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
     @Override
     public void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(3, new AOEMeleeAttackGoal(this, 1, false,2.5 ,6, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
+        this.goalSelector.addGoal(3, new AOEMeleeAttackGoal(this, 1.5, false,2.5 ,6, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
         this.goalSelector.addGoal(6, new FloatDiveGoal(this));
         this.goalSelector.addGoal(6,new CalamityInfectedCommand(this));
         this.goalSelector.addGoal(7,new SummonScentInCombat(this));
@@ -376,6 +368,10 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
         }
         super.aiStep();
     }
+    public void updateFlying(){
+        LivingEntity livingEntity = getTarget();
+        setFlying(livingEntity != null);
+    }
 
 
     @Override
@@ -385,6 +381,12 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
         ikTarHead.applyIK();
         ikLightningHead.applyIK();
         tail.applyIK();
+        if (flapAnimationTicks > 0){
+            flapAnimationTicks--;
+        }
+        if (this.tickCount % 20 == 0){
+            updateFlying();
+        }
         if (this.tickCount % 40 == 0 && this.getHealth() >= this.getMaxHealth()){
             if (getRightWing() < wingsMaxHp){
                 this.setRightWing(this.getRightWing() +1);
@@ -412,9 +414,6 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
                 if (getSonicHead() < headsMaxHp){
                     this.setSonicHead(this.getSonicHead() +1);
                 }
-            }
-            if (flapAnimationTicks > 0){
-                flapAnimationTicks--;
             }
         }
 
@@ -497,7 +496,7 @@ public class Verfalldrachen extends Calamity implements TrueCalamity {
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, SConfig.SERVER.sieger_hp.get() * SConfig.SERVER.global_health.get())
-                .add(Attributes.MOVEMENT_SPEED, 0.15)
+                .add(Attributes.MOVEMENT_SPEED, 0.25)
                 .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.sieger_damage.get() * SConfig.SERVER.global_damage.get())
                 .add(Attributes.ARMOR, SConfig.SERVER.sieger_armor.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.FOLLOW_RANGE, 64)

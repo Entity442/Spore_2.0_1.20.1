@@ -194,7 +194,6 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 	private final ModelPart Infectedarm29;
 	private final ModelPart Infectedarm30;
 	private final ModelPart Infectedarm31;
-
 	public FungalDragonBodyModel() {
 		ModelPart root = createBodyLayer().bakeRoot();
 		this.Ribcage = root.getChild("Ribcage");
@@ -381,9 +380,9 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition Ribcage = partdefinition.addOrReplaceChild("Ribcage", CubeListBuilder.create(), PartPose.offset(0.0F, -12.0F, -12.0F));
+		PartDefinition Ribcage = partdefinition.addOrReplaceChild("Ribcage", CubeListBuilder.create(), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-		PartDefinition body = Ribcage.addOrReplaceChild("body", CubeListBuilder.create(), PartPose.offset(0.0F, -17.0F, -30.0F));
+		PartDefinition body = Ribcage.addOrReplaceChild("body", CubeListBuilder.create(), PartPose.offset(0.0F, -53.0F, -42.0F));
 
 		PartDefinition cube_r1 = body.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(44, 519).addBox(-1.0F, -8.0F, -1.0F, 0.0F, 10.0F, 17.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.5F, -36.25F, 12.0F, -0.4363F, 0.0F, 0.0F));
 
@@ -398,7 +397,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 		PartDefinition cube_r6 = body.addOrReplaceChild("cube_r6", CubeListBuilder.create().texOffs(458, 223).addBox(-14.0F, -4.0F, -14.0F, 29.0F, 7.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -20.0F, 19.0F, -0.5672F, 0.0F, 0.0F));
 
 		PartDefinition cube_r7 = body.addOrReplaceChild("cube_r7", CubeListBuilder.create().texOffs(178, 275).addBox(-9.0F, 0.0F, -14.0F, 19.0F, 3.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(236, 372).addBox(-17.0F, -17.0F, -14.0F, 34.0F, 17.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -5.0F, 9.0F, -0.5672F, 0.0F, 0.0F));
+				.texOffs(236, 372).addBox(-17.0F, -17.0F, -14.0F, 34.0F, 17.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -5.0F, 9.0F, -0.5672F, 0.0F, 0.0F));
 
 		PartDefinition cube_r8 = body.addOrReplaceChild("cube_r8", CubeListBuilder.create().texOffs(286, 84).addBox(-15.0F, -5.0F, -11.0F, 31.0F, 8.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 4.0F, 16.0F, -0.8727F, 0.0F, 0.0F));
 
@@ -433,7 +432,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 		PartDefinition MiddleRidgeRib1_r2 = rib5.addOrReplaceChild("MiddleRidgeRib1_r2", CubeListBuilder.create().texOffs(546, 401).addBox(-1.5F, -2.0F, -12.0F, 3.0F, 4.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-10.183F, -0.5391F, 17.5F, 0.0F, -0.3491F, 0.0F));
 
 		PartDefinition body3 = rib5.addOrReplaceChild("body3", CubeListBuilder.create().texOffs(146, 495).addBox(-2.75F, -5.0F, -4.5F, 4.0F, 6.0F, 7.0F, new CubeDeformation(0.0F))
-		.texOffs(164, 546).addBox(-3.25F, -11.0F, -5.0F, 5.0F, 6.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-7.25F, 0.25F, 12.0F, -1.5716F, -0.3034F, 0.0191F));
+				.texOffs(164, 546).addBox(-3.25F, -11.0F, -5.0F, 5.0F, 6.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-7.25F, 0.25F, 12.0F, -1.5716F, -0.3034F, 0.0191F));
 
 		PartDefinition TFHead = body3.addOrReplaceChild("TFHead", CubeListBuilder.create().texOffs(192, 544).addBox(-2.0F, -7.5F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.75F, -10.5F, -1.0F, 0.2618F, 0.0F, 0.3054F));
 
@@ -475,7 +474,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 
 		PartDefinition Tumor_r4 = Tumors9.addOrReplaceChild("Tumor_r4", CubeListBuilder.create().texOffs(418, 469).addBox(-5.5F, -5.5F, -7.5F, 13.0F, 13.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.4721F, 1.9873F, 1.5593F, -0.2384F, -0.1248F, 1.1897F));
 
-		PartDefinition Tumor_r5 = Tumors9.addOrReplaceChild("Tumor_r5", CubeListBuilder.create().texOffs(250, 518).addBox(-5.2774F, -3.6119F, -0.565F, 11.0F, 11.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.2608F, -1.6408F, 3.8509F, 0.2359F, 0.422F, 0.5307F));
+		PartDefinition Tumor_r5 = Tumors9.addOrReplaceChild("Tumor_r5", CubeListBuilder.create().texOffs(250, 518).addBox(-5.2774F, -3.6119F, -0.5649F, 11.0F, 11.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.2608F, -1.6408F, 3.8509F, 0.2359F, 0.422F, 0.5307F));
 
 		PartDefinition Tumors8 = body.addOrReplaceChild("Tumors8", CubeListBuilder.create(), PartPose.offsetAndRotation(-15.9023F, -17.5239F, 4.9352F, -2.3531F, 0.2458F, 0.4281F));
 
@@ -508,7 +507,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 		PartDefinition Head_r1 = Body1.addOrReplaceChild("Head_r1", CubeListBuilder.create().texOffs(552, 55).addBox(-7.0F, -0.25F, -4.0F, 7.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0F, 2.25F, 0.0F, 0.0F, 0.0F, 0.1309F));
 
 		PartDefinition Body4 = mass9.addOrReplaceChild("Body4", CubeListBuilder.create().texOffs(552, 199).addBox(3.0F, 1.0F, -4.0F, 4.0F, 5.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(354, 412).addBox(3.5F, 6.0F, -3.5F, 3.0F, 4.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.0F, 0.0F, 0.0F));
+				.texOffs(354, 412).addBox(3.5F, 6.0F, -3.5F, 3.0F, 4.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.0F, 0.0F, 0.0F));
 
 		PartDefinition Leg_r1 = Body4.addOrReplaceChild("Leg_r1", CubeListBuilder.create().texOffs(224, 573).addBox(-2.0F, -1.0F, -1.99F, 4.0F, 8.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.0F, 11.0F, 2.0F, 0.0F, 0.0F, 0.9599F));
 
@@ -521,7 +520,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 		PartDefinition Head_r2 = Body4.addOrReplaceChild("Head_r2", CubeListBuilder.create().texOffs(544, 232).addBox(-4.0F, -7.0F, -3.99F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(5.0F, 0.0F, 0.0F, 0.0436F, 0.0F, -0.3927F));
 
 		PartDefinition Body5 = mass7.addOrReplaceChild("Body5", CubeListBuilder.create().texOffs(552, 212).addBox(3.0F, 1.0F, -4.0F, 4.0F, 5.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(438, 159).addBox(3.5F, 6.0F, -3.5F, 3.0F, 4.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.0F, 4.0F, -15.0F, 2.8035F, 0.0886F, 0.2467F));
+				.texOffs(438, 159).addBox(3.5F, 6.0F, -3.5F, 3.0F, 4.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.0F, 4.0F, -15.0F, 2.8035F, 0.0886F, 0.2467F));
 
 		PartDefinition Leg_r3 = Body5.addOrReplaceChild("Leg_r3", CubeListBuilder.create().texOffs(460, 573).addBox(-2.0F, -1.0F, -1.99F, 4.0F, 8.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.0F, 11.0F, 2.0F, 0.0F, 0.0F, 0.9599F));
 
@@ -534,7 +533,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 		PartDefinition Head_r3 = Body5.addOrReplaceChild("Head_r3", CubeListBuilder.create().texOffs(370, 539).addBox(-4.0F, -7.0F, -3.99F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(5.0F, 0.0F, 0.0F, 0.0436F, 0.0F, -0.3927F));
 
 		PartDefinition Body6 = mass7.addOrReplaceChild("Body6", CubeListBuilder.create().texOffs(552, 278).addBox(3.0F, 1.0F, -4.0F, 4.0F, 5.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(334, 563).addBox(3.5F, 6.0F, -3.5F, 3.0F, 4.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-45.0F, 2.0F, 0.0F, 0.0F, -2.8798F, 0.0F));
+				.texOffs(334, 563).addBox(3.5F, 6.0F, -3.5F, 3.0F, 4.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-45.0F, 2.0F, 0.0F, 0.0F, -2.8798F, 0.0F));
 
 		PartDefinition Leg_r5 = Body6.addOrReplaceChild("Leg_r5", CubeListBuilder.create().texOffs(334, 574).addBox(-2.0F, -1.0F, -1.99F, 4.0F, 8.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.0F, 11.0F, 2.0F, 0.0F, 0.0F, 0.9599F));
 
@@ -547,7 +546,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 		PartDefinition Head_r4 = Body6.addOrReplaceChild("Head_r4", CubeListBuilder.create().texOffs(544, 247).addBox(-4.0F, -7.0F, -3.99F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(5.0F, 0.0F, 0.0F, 0.0436F, 0.0F, -0.3927F));
 
 		PartDefinition Body7 = mass7.addOrReplaceChild("Body7", CubeListBuilder.create().texOffs(552, 291).addBox(3.0F, 1.0F, -4.0F, 4.0F, 5.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(564, 551).addBox(3.5F, 6.0F, -3.5F, 3.0F, 4.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-45.0F, 2.0F, -17.0F, 1.88F, 0.6294F, 2.668F));
+				.texOffs(564, 551).addBox(3.5F, 6.0F, -3.5F, 3.0F, 4.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-45.0F, 2.0F, -17.0F, 1.88F, 0.6294F, 2.668F));
 
 		PartDefinition Leg_r7 = Body7.addOrReplaceChild("Leg_r7", CubeListBuilder.create().texOffs(384, 82).addBox(-2.0F, -1.0F, -1.99F, 4.0F, 8.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.0F, 11.0F, 2.0F, 0.0F, 0.0F, 0.9599F));
 
@@ -567,47 +566,47 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 
 		PartDefinition Tumor_r12 = Tumors7.addOrReplaceChild("Tumor_r12", CubeListBuilder.create().texOffs(250, 518).addBox(-5.2774F, -3.6119F, -0.565F, 11.0F, 11.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.2608F, -1.6408F, 3.8509F, 0.2359F, 0.422F, 0.5307F));
 
-		PartDefinition Spine = Ribcage.addOrReplaceChild("Spine", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -34.25F, -4.0F, -0.3491F, 0.0F, 0.0F));
+		PartDefinition Spine = Ribcage.addOrReplaceChild("Spine", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -70.25F, -16.0F, -0.3491F, 0.0F, 0.0F));
 
 		PartDefinition Segment = Spine.addOrReplaceChild("Segment", CubeListBuilder.create().texOffs(348, 476).addBox(-6.5F, -10.0F, -1.0F, 12.0F, 12.0F, 13.0F, new CubeDeformation(0.0F))
-		.texOffs(518, 280).addBox(-0.6F, -18.0F, -4.0F, 0.0F, 10.0F, 17.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+				.texOffs(518, 280).addBox(-0.6F, -18.0F, -4.0F, 0.0F, 10.0F, 17.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition cube_r18 = Segment.addOrReplaceChild("cube_r18", CubeListBuilder.create().texOffs(132, 418).addBox(-12.0F, -10.0F, -1.0F, 20.0F, 10.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.5F, 10.0F, 0.0F, 0.3054F, 0.0F, 0.0F));
 
 		PartDefinition Segment2 = Spine.addOrReplaceChild("Segment2", CubeListBuilder.create().texOffs(50, 495).addBox(-6.0F, -10.0F, -1.0F, 11.0F, 11.0F, 13.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 1007).addBox(-8.0F, -11.0F, 4.0F, 15.0F, 14.0F, 3.0F, new CubeDeformation(0.0F))
-		.texOffs(522, 465).addBox(-0.5F, -18.0F, -1.0F, 0.0F, 10.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 11.0F, -0.1309F, 0.0F, 0.0F));
+				.texOffs(0, 1007).addBox(-8.0F, -11.0F, 4.0F, 15.0F, 14.0F, 3.0F, new CubeDeformation(0.0F))
+				.texOffs(522, 465).addBox(-0.5F, -18.0F, -1.0F, 0.0F, 10.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 11.0F, -0.1309F, 0.0F, 0.0F));
 
 		PartDefinition Segment3 = Spine.addOrReplaceChild("Segment3", CubeListBuilder.create().texOffs(342, 523).addBox(-0.4F, -18.0F, -1.0F, 0.0F, 10.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 2.0F, 24.0F, -0.0436F, 0.0F, 0.0F));
 
 		PartDefinition cube_r19 = Segment3.addOrReplaceChild("cube_r19", CubeListBuilder.create().texOffs(0, 1007).addBox(-7.5F, -6.5F, -1.5F, 15.0F, 14.0F, 3.0F, new CubeDeformation(0.0F))
-		.texOffs(98, 495).addBox(-5.5F, -5.5F, -6.5F, 11.0F, 11.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, -4.5F, 5.5F, 0.0F, -0.0175F, 0.0F));
+				.texOffs(98, 495).addBox(-5.5F, -5.5F, -6.5F, 11.0F, 11.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, -4.5F, 5.5F, 0.0F, -0.0175F, 0.0F));
 
 		PartDefinition Segment4 = Spine.addOrReplaceChild("Segment4", CubeListBuilder.create().texOffs(398, 495).addBox(-6.0F, -10.0F, -1.0F, 11.0F, 11.0F, 13.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 1007).addBox(-8.0F, -11.0F, 3.0F, 15.0F, 14.0F, 3.0F, new CubeDeformation(0.0F))
-		.texOffs(524, 68).addBox(-0.4F, -18.0F, -1.0F, 0.0F, 10.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.1F, 2.0F, 37.0F, 0.1309F, 0.0F, 0.0F));
+				.texOffs(0, 1007).addBox(-8.0F, -11.0F, 3.0F, 15.0F, 14.0F, 3.0F, new CubeDeformation(0.0F))
+				.texOffs(524, 68).addBox(-0.4F, -18.0F, -1.0F, 0.0F, 10.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.1F, 2.0F, 37.0F, 0.1309F, 0.0F, 0.0F));
 
 		PartDefinition body40 = Segment4.addOrReplaceChild("body40", CubeListBuilder.create().texOffs(22, 562).addBox(-3.5F, 4.5F, -2.5F, 7.0F, 6.0F, 4.0F, new CubeDeformation(-0.3F)), PartPose.offsetAndRotation(-0.9F, -9.75F, 4.0F, -1.3427F, 0.1964F, -3.135F));
 
 		PartDefinition cube_r20 = body40.addOrReplaceChild("cube_r20", CubeListBuilder.create().texOffs(558, 454).addBox(-4.0F, -2.5F, -2.0F, 8.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 2.4786F, -0.3263F, -0.1309F, 0.0F, 0.0F));
 
 		PartDefinition head37 = body40.addOrReplaceChild("head37", CubeListBuilder.create().texOffs(532, 551).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 6.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(570, 545).addBox(-4.0F, -2.0F, 0.0F, 8.0F, 2.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(248, 571).addBox(-4.0F, -2.0F, -4.0F, 8.0F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.0F, -0.75F, -0.6546F, -0.0138F, 0.0106F));
+				.texOffs(570, 545).addBox(-4.0F, -2.0F, 0.0F, 8.0F, 2.0F, 4.0F, new CubeDeformation(0.0F))
+				.texOffs(248, 571).addBox(-4.0F, -2.0F, -4.0F, 8.0F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.0F, -0.75F, -0.6546F, -0.0138F, 0.0106F));
 
 		PartDefinition RightArm39 = body40.addOrReplaceChild("RightArm39", CubeListBuilder.create().texOffs(252, 577).addBox(-2.0F, -2.0F, -1.5F, 3.0F, 6.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.0F, 2.0F, 0.0F, -1.5708F, 0.0F, 0.4363F));
 
 		PartDefinition LeftArm38 = body40.addOrReplaceChild("LeftArm38", CubeListBuilder.create().texOffs(40, 578).addBox(-1.0F, -2.0F, -1.5F, 3.0F, 6.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(5.0F, 2.0F, 0.0F, -1.3337F, 0.1313F, -0.3712F));
 
 		PartDefinition Segment5 = Spine.addOrReplaceChild("Segment5", CubeListBuilder.create().texOffs(446, 495).addBox(-6.0F, -10.0F, -1.5F, 11.0F, 11.0F, 13.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 1007).addBox(-8.0F, -11.0F, 3.5F, 15.0F, 14.0F, 3.0F, new CubeDeformation(0.0F))
-		.texOffs(524, 208).addBox(-0.4F, -18.0F, -1.0F, 0.0F, 10.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.3F, 0.0F, 50.0F, 0.3054F, 0.0F, 0.0F));
+				.texOffs(0, 1007).addBox(-8.0F, -11.0F, 3.5F, 15.0F, 14.0F, 3.0F, new CubeDeformation(0.0F))
+				.texOffs(524, 208).addBox(-0.4F, -18.0F, -1.0F, 0.0F, 10.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.3F, 0.0F, 50.0F, 0.3054F, 0.0F, 0.0F));
 
 		PartDefinition Segment6 = Spine.addOrReplaceChild("Segment6", CubeListBuilder.create().texOffs(0, 477).addBox(-6.0F, -10.0F, -2.6F, 11.0F, 11.0F, 14.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 1007).addBox(-8.0F, -11.0F, 2.4F, 15.0F, 14.0F, 3.0F, new CubeDeformation(0.0F))
-		.texOffs(134, 519).addBox(-0.4F, -18.0F, -2.0F, 0.0F, 10.0F, 15.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -4.0F, 63.0F, 0.4363F, 0.0F, 0.0F));
+				.texOffs(0, 1007).addBox(-8.0F, -11.0F, 2.4F, 15.0F, 14.0F, 3.0F, new CubeDeformation(0.0F))
+				.texOffs(134, 519).addBox(-0.4F, -18.0F, -2.0F, 0.0F, 10.0F, 15.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -4.0F, 63.0F, 0.4363F, 0.0F, 0.0F));
 
-		PartDefinition back = Ribcage.addOrReplaceChild("back", CubeListBuilder.create().texOffs(0, 357).addBox(-10.0F, -8.0F, -9.0F, 20.0F, 16.0F, 16.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -21.0F, 75.0F));
+		PartDefinition back = Ribcage.addOrReplaceChild("back", CubeListBuilder.create().texOffs(0, 357).addBox(-10.0F, -8.0F, -9.0F, 20.0F, 16.0F, 16.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -57.0F, 63.0F));
 
 		PartDefinition cube_r21 = back.addOrReplaceChild("cube_r21", CubeListBuilder.create().texOffs(266, 394).addBox(-1.0F, -8.0F, -2.0F, 0.0F, 26.0F, 23.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.7F, -9.25F, -6.0F, 0.2618F, 0.0F, 0.0F));
 
@@ -655,7 +654,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 
 		PartDefinition MiddleRidgeRib1_r12 = rib9.addOrReplaceChild("MiddleRidgeRib1_r12", CubeListBuilder.create().texOffs(548, 307).addBox(-1.5F, -2.0F, -12.0F, 3.0F, 4.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-10.183F, -0.5391F, 17.5F, 0.0F, -0.3491F, 0.0F));
 
-		PartDefinition MajoTarSack = Ribcage.addOrReplaceChild("MajoTarSack", CubeListBuilder.create(), PartPose.offsetAndRotation(-2.4846F, -17.5489F, -12.4748F, 0.7724F, -0.2445F, 0.0461F));
+		PartDefinition MajoTarSack = Ribcage.addOrReplaceChild("MajoTarSack", CubeListBuilder.create(), PartPose.offsetAndRotation(-2.4846F, -53.5489F, -24.4748F, 0.7724F, -0.2445F, 0.0461F));
 
 		PartDefinition Tar_r1 = MajoTarSack.addOrReplaceChild("Tar_r1", CubeListBuilder.create().texOffs(74, 340).addBox(-10.0F, -5.0F, -9.5F, 20.0F, 10.0F, 19.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.7889F, 0.1323F, 10.7466F, 0.4639F, -0.3106F, 0.4297F));
 
@@ -663,7 +662,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 
 		PartDefinition Tar_r3 = MajoTarSack.addOrReplaceChild("Tar_r3", CubeListBuilder.create().texOffs(412, 282).addBox(-12.0F, -3.5F, -2.0F, 21.0F, 10.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 2.0F, 0.0F, -0.2618F, 0.0F, 0.0F));
 
-		PartDefinition MajoTarSack2 = Ribcage.addOrReplaceChild("MajoTarSack2", CubeListBuilder.create(), PartPose.offsetAndRotation(-2.4846F, -7.5489F, -27.4748F, 1.0866F, -0.7201F, 0.7412F));
+		PartDefinition MajoTarSack2 = Ribcage.addOrReplaceChild("MajoTarSack2", CubeListBuilder.create(), PartPose.offsetAndRotation(-2.4846F, -43.5489F, -39.4748F, 1.0866F, -0.7201F, 0.7412F));
 
 		PartDefinition Tar_r4 = MajoTarSack2.addOrReplaceChild("Tar_r4", CubeListBuilder.create().texOffs(286, 30).addBox(-12.0F, -5.0F, -9.5F, 22.0F, 10.0F, 22.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.7889F, 0.1323F, 7.7466F, -2.0747F, -0.4884F, -1.0331F));
 
@@ -671,13 +670,13 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 
 		PartDefinition Tar_r6 = MajoTarSack2.addOrReplaceChild("Tar_r6", CubeListBuilder.create().texOffs(72, 369).addBox(-12.0F, -3.5F, -2.0F, 21.0F, 18.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 2.0F, 0.0F, -0.2618F, 0.0F, 0.0F));
 
-		PartDefinition LeftBackLeg = Ribcage.addOrReplaceChild("LeftBackLeg", CubeListBuilder.create(), PartPose.offset(11.0F, -21.0F, 73.0F));
+		PartDefinition LeftBackLeg = Ribcage.addOrReplaceChild("LeftBackLeg", CubeListBuilder.create(), PartPose.offset(11.0F, -57.0F, 61.0F));
 
 		PartDefinition LeftBack = LeftBackLeg.addOrReplaceChild("LeftBack", CubeListBuilder.create().texOffs(312, 461).addBox(-6.1283F, -6.0811F, -3.9146F, 9.0F, 32.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.3435F, 0.2684F, -1.0F, -0.532F, -0.2071F, -0.7724F));
 
 		PartDefinition flower14 = LeftBack.addOrReplaceChild("flower14", CubeListBuilder.create().texOffs(386, 24).addBox(-1.5F, -3.0F, -4.0F, 7.0F, 0.0F, 6.0F, new CubeDeformation(0.0F))
-		.texOffs(392, 236).addBox(-3.5F, 3.0F, -3.0F, 7.0F, 0.0F, 6.0F, new CubeDeformation(0.0F))
-		.texOffs(224, 567).addBox(-7.0F, -1.0F, -3.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.6565F, 9.2316F, -1.25F, 2.3998F, 1.4399F, 2.5744F));
+				.texOffs(392, 236).addBox(-3.5F, 3.0F, -3.0F, 7.0F, 0.0F, 6.0F, new CubeDeformation(0.0F))
+				.texOffs(224, 567).addBox(-7.0F, -1.0F, -3.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.6565F, 9.2316F, -1.25F, 2.3998F, 1.4399F, 2.5744F));
 
 		PartDefinition cube_r26 = flower14.addOrReplaceChild("cube_r26", CubeListBuilder.create().texOffs(554, 568).addBox(0.0F, 0.0F, -3.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, 0.0F, -4.0F, 0.1745F, -0.2182F, 0.0F));
 
@@ -708,14 +707,14 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 		PartDefinition Left = LeftBack.addOrReplaceChild("Left", CubeListBuilder.create().texOffs(482, 280).addBox(-5.0F, 0.0F, -4.5F, 9.0F, 29.0F, 9.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(-2.1283F, 23.9189F, 2.5854F, 1.7567F, -0.4545F, 0.4118F));
 
 		PartDefinition flower7 = Left.addOrReplaceChild("flower7", CubeListBuilder.create().texOffs(412, 24).addBox(-3.5F, -3.0F, -2.0F, 7.0F, 0.0F, 6.0F, new CubeDeformation(0.0F))
-		.texOffs(64, 461).addBox(-3.5F, 3.0F, -3.0F, 7.0F, 0.0F, 6.0F, new CubeDeformation(0.0F))
-		.texOffs(570, 521).addBox(-7.0F, -1.0F, -3.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.7848F, 12.3127F, 3.1646F, 0.0F, 0.2618F, 0.0F));
+				.texOffs(64, 461).addBox(-3.5F, 3.0F, -3.0F, 7.0F, 0.0F, 6.0F, new CubeDeformation(0.0F))
+				.texOffs(570, 521).addBox(-7.0F, -1.0F, -3.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.7848F, 12.3127F, 3.1646F, 0.0F, 0.2618F, 0.0F));
 
 		PartDefinition cube_r32 = flower7.addOrReplaceChild("cube_r32", CubeListBuilder.create().texOffs(570, 527).addBox(0.0F, 0.0F, -3.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, 0.0F, 0.0F, 0.1745F, -0.2182F, 0.0F));
 
 		PartDefinition flower2 = Left.addOrReplaceChild("flower2", CubeListBuilder.create().texOffs(472, 17).addBox(-3.5F, -3.0F, -2.0F, 7.0F, 0.0F, 6.0F, new CubeDeformation(0.0F))
-		.texOffs(552, 85).addBox(-3.5F, 3.0F, -3.0F, 7.0F, 0.0F, 6.0F, new CubeDeformation(0.0F))
-		.texOffs(570, 533).addBox(-7.0F, -1.0F, -3.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.7848F, 6.3127F, -3.8354F, 0.0F, 0.2618F, 0.0F));
+				.texOffs(552, 85).addBox(-3.5F, 3.0F, -3.0F, 7.0F, 0.0F, 6.0F, new CubeDeformation(0.0F))
+				.texOffs(570, 533).addBox(-7.0F, -1.0F, -3.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.7848F, 6.3127F, -3.8354F, 0.0F, 0.2618F, 0.0F));
 
 		PartDefinition cube_r33 = flower2.addOrReplaceChild("cube_r33", CubeListBuilder.create().texOffs(570, 539).addBox(0.0F, 0.0F, -3.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, 0.0F, 0.0F, 0.1745F, -0.2182F, 0.0F));
 
@@ -761,7 +760,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 
 		PartDefinition Infectedbody97 = Infectedbody96.addOrReplaceChild("Infectedbody97", CubeListBuilder.create().texOffs(582, 26).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 9.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 7.0F, 0.0F, -1.3508F, 0.1278F, 0.5085F));
 
-		PartDefinition RightBackLeg = Ribcage.addOrReplaceChild("RightBackLeg", CubeListBuilder.create(), PartPose.offset(-11.0F, -21.0F, 73.0F));
+		PartDefinition RightBackLeg = Ribcage.addOrReplaceChild("RightBackLeg", CubeListBuilder.create(), PartPose.offset(-11.0F, -57.0F, 61.0F));
 
 		PartDefinition RightBack = RightBackLeg.addOrReplaceChild("RightBack", CubeListBuilder.create().texOffs(312, 412).addBox(-2.8717F, -10.0811F, -4.9146F, 9.0F, 37.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.3435F, 0.2684F, -1.0F, -0.532F, 0.2071F, 0.7724F));
 
@@ -838,8 +837,8 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 		PartDefinition cube_r67 = body30.addOrReplaceChild("cube_r67", CubeListBuilder.create().texOffs(466, 93).addBox(-44.0F, 0.0F, -2.0F, 8.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(40.0F, 0.0F, 0.0F, -0.1309F, 0.0F, 0.0F));
 
 		PartDefinition head27 = body30.addOrReplaceChild("head27", CubeListBuilder.create().texOffs(550, 185).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 6.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(88, 566).addBox(-4.0F, -2.0F, 0.0F, 8.0F, 2.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(368, 566).addBox(-4.0F, -2.0F, -4.0F, 8.0F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.0F, -0.75F, -0.6378F, -0.1582F, -0.2095F));
+				.texOffs(88, 566).addBox(-4.0F, -2.0F, 0.0F, 8.0F, 2.0F, 4.0F, new CubeDeformation(0.0F))
+				.texOffs(368, 566).addBox(-4.0F, -2.0F, -4.0F, 8.0F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.0F, -0.75F, -0.6378F, -0.1582F, -0.2095F));
 
 		PartDefinition RightArm29 = body30.addOrReplaceChild("RightArm29", CubeListBuilder.create().texOffs(576, 274).addBox(-2.0F, -2.0F, -1.5F, 3.0F, 6.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.0F, 2.0F, 0.0F, -1.3526F, 0.0F, 0.4363F));
 
@@ -862,8 +861,8 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 		PartDefinition cube_r71 = body2.addOrReplaceChild("cube_r71", CubeListBuilder.create().texOffs(550, 479).addBox(-44.0F, 0.0F, -2.0F, 8.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(40.0F, 0.0F, 0.0F, -0.1309F, 0.0F, 0.0F));
 
 		PartDefinition head2 = body2.addOrReplaceChild("head2", CubeListBuilder.create().texOffs(550, 345).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 6.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(392, 566).addBox(-4.0F, -2.0F, 0.0F, 8.0F, 2.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(58, 567).addBox(-4.0F, -2.0F, -4.0F, 8.0F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.0F, -0.75F, -0.6378F, -0.1582F, -0.2095F));
+				.texOffs(392, 566).addBox(-4.0F, -2.0F, 0.0F, 8.0F, 2.0F, 4.0F, new CubeDeformation(0.0F))
+				.texOffs(58, 567).addBox(-4.0F, -2.0F, -4.0F, 8.0F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.0F, -0.75F, -0.6378F, -0.1582F, -0.2095F));
 
 		PartDefinition RightArm2 = body2.addOrReplaceChild("RightArm2", CubeListBuilder.create().texOffs(576, 390).addBox(-2.0F, -2.0F, -1.5F, 3.0F, 6.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.0F, 2.0F, 0.0F, -1.7858F, 0.0376F, -2.5348F));
 
@@ -875,7 +874,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 
 		PartDefinition cube_r72 = LeftForArm2.addOrReplaceChild("cube_r72", CubeListBuilder.create().texOffs(416, 576).addBox(-36.0F, 5.9772F, -0.9771F, 3.0F, 6.0F, 3.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(35.0F, -6.0F, 0.0F, -0.0873F, 0.0F, 0.0F));
 
-		PartDefinition Tumors = Ribcage.addOrReplaceChild("Tumors", CubeListBuilder.create(), PartPose.offsetAndRotation(-1.9023F, -12.5239F, 45.9352F, -0.0698F, -0.4206F, 0.0809F));
+		PartDefinition Tumors = Ribcage.addOrReplaceChild("Tumors", CubeListBuilder.create(), PartPose.offsetAndRotation(-1.9023F, -48.5239F, 33.9352F, -0.0698F, -0.4206F, 0.0809F));
 
 		PartDefinition Tumor_r13 = Tumors.addOrReplaceChild("Tumor_r13", CubeListBuilder.create().texOffs(438, 103).addBox(-4.0F, -4.0F, -10.0F, 14.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0977F, -4.4761F, -5.9352F, 0.2359F, 0.422F, 0.5307F));
 
@@ -883,7 +882,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 
 		PartDefinition Tumor_r15 = Tumors.addOrReplaceChild("Tumor_r15", CubeListBuilder.create().texOffs(348, 501).addBox(-9.0F, -10.0F, -5.0F, 12.0F, 11.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.0977F, 2.5239F, 2.0648F, 0.2359F, 0.422F, 0.5307F));
 
-		PartDefinition Tumors2 = Ribcage.addOrReplaceChild("Tumors2", CubeListBuilder.create(), PartPose.offsetAndRotation(-1.9023F, -19.5239F, 19.9352F, -2.9033F, -0.0583F, -3.0929F));
+		PartDefinition Tumors2 = Ribcage.addOrReplaceChild("Tumors2", CubeListBuilder.create(), PartPose.offsetAndRotation(-1.9023F, -55.5239F, 7.9352F, -2.9033F, -0.0583F, -3.0929F));
 
 		PartDefinition Tumor_r16 = Tumors2.addOrReplaceChild("Tumor_r16", CubeListBuilder.create().texOffs(438, 131).addBox(-4.0F, -4.0F, -10.0F, 14.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0977F, -4.4761F, -5.9352F, 0.2359F, 0.422F, 0.5307F));
 
@@ -891,7 +890,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 
 		PartDefinition Tumor_r18 = Tumors2.addOrReplaceChild("Tumor_r18", CubeListBuilder.create().texOffs(494, 495).addBox(-7.0F, -7.0F, -5.0F, 12.0F, 12.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.0977F, -1.4761F, 2.0648F, 0.2359F, 0.422F, 0.5307F));
 
-		PartDefinition Tumors3 = Ribcage.addOrReplaceChild("Tumors3", CubeListBuilder.create(), PartPose.offsetAndRotation(-4.9023F, -18.5239F, 52.9352F, -2.7269F, -0.3111F, 2.6178F));
+		PartDefinition Tumors3 = Ribcage.addOrReplaceChild("Tumors3", CubeListBuilder.create(), PartPose.offsetAndRotation(-4.9023F, -54.5239F, 40.9352F, -2.7269F, -0.3111F, 2.6178F));
 
 		PartDefinition Tumor_r19 = Tumors3.addOrReplaceChild("Tumor_r19", CubeListBuilder.create().texOffs(394, 519).addBox(0.0F, 0.0F, -10.0F, 10.0F, 10.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.9023F, -6.4761F, 6.0648F, -0.1132F, 0.422F, 0.5307F));
 
@@ -899,7 +898,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 
 		PartDefinition Tumor_r21 = Tumors3.addOrReplaceChild("Tumor_r21", CubeListBuilder.create().texOffs(64, 469).addBox(-5.5F, -5.5F, -7.5F, 13.0F, 13.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-8.8864F, 0.152F, -5.2267F, -0.2384F, -0.1248F, 1.1897F));
 
-		PartDefinition Tumors4 = Ribcage.addOrReplaceChild("Tumors4", CubeListBuilder.create(), PartPose.offsetAndRotation(-6.9023F, -33.5239F, 12.9352F, -0.0698F, -0.4206F, 0.0809F));
+		PartDefinition Tumors4 = Ribcage.addOrReplaceChild("Tumors4", CubeListBuilder.create(), PartPose.offsetAndRotation(-6.9023F, -69.5239F, 0.9352F, -0.0698F, -0.4206F, 0.0809F));
 
 		PartDefinition Tumor_r22 = Tumors4.addOrReplaceChild("Tumor_r22", CubeListBuilder.create().texOffs(440, 391).addBox(-4.0F, -4.0F, -10.0F, 14.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0977F, -4.4761F, -5.9352F, 0.2359F, 0.422F, 0.5307F));
 
@@ -907,7 +906,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 
 		PartDefinition Tumor_r24 = Tumors4.addOrReplaceChild("Tumor_r24", CubeListBuilder.create().texOffs(508, 346).addBox(-5.2774F, -3.6119F, -0.565F, 11.0F, 11.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.0977F, -3.4761F, -2.9352F, 0.2359F, 0.422F, 0.5307F));
 
-		PartDefinition Tumors5 = Ribcage.addOrReplaceChild("Tumors5", CubeListBuilder.create(), PartPose.offsetAndRotation(-1.9023F, -18.5239F, 22.9352F, 2.9031F, -0.3972F, 1.0866F));
+		PartDefinition Tumors5 = Ribcage.addOrReplaceChild("Tumors5", CubeListBuilder.create(), PartPose.offsetAndRotation(-1.9023F, -54.5239F, 10.9352F, 2.9031F, -0.3972F, 1.0866F));
 
 		PartDefinition Tumor_r25 = Tumors5.addOrReplaceChild("Tumor_r25", CubeListBuilder.create().texOffs(112, 441).addBox(-4.0F, -4.0F, -10.0F, 14.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0977F, -4.4761F, -5.9352F, 0.2359F, 0.422F, 0.5307F));
 
@@ -915,7 +914,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 
 		PartDefinition Tumor_r27 = Tumors5.addOrReplaceChild("Tumor_r27", CubeListBuilder.create().texOffs(518, 17).addBox(-5.2774F, -3.6119F, -0.5649F, 11.0F, 11.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.0977F, -3.4761F, -2.9352F, 0.2359F, 0.422F, 0.5307F));
 
-		PartDefinition Tumors6 = Ribcage.addOrReplaceChild("Tumors6", CubeListBuilder.create(), PartPose.offsetAndRotation(7.0977F, -34.5239F, -1.0648F, 2.6475F, -0.4993F, 0.077F));
+		PartDefinition Tumors6 = Ribcage.addOrReplaceChild("Tumors6", CubeListBuilder.create(), PartPose.offsetAndRotation(7.0977F, -70.5239F, -13.0648F, 2.6475F, -0.4993F, 0.077F));
 
 		PartDefinition Tumor_r28 = Tumors6.addOrReplaceChild("Tumor_r28", CubeListBuilder.create().texOffs(256, 443).addBox(-4.0F, -4.0F, -10.0F, 14.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(6.2608F, -2.6408F, 0.8509F, 0.2359F, 0.422F, 0.5307F));
 
@@ -923,10 +922,10 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 
 		PartDefinition Tumor_r30 = Tumors6.addOrReplaceChild("Tumor_r30", CubeListBuilder.create().texOffs(250, 518).addBox(-5.2774F, -3.6119F, -0.5649F, 11.0F, 11.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.2608F, -1.6408F, 3.8509F, 0.2359F, 0.422F, 0.5307F));
 
-		PartDefinition RightWing = Ribcage.addOrReplaceChild("RightWing", CubeListBuilder.create(), PartPose.offset(-18.0F, -40.0F, -13.0F));
+		PartDefinition RightWing = Ribcage.addOrReplaceChild("RightWing", CubeListBuilder.create(), PartPose.offset(-18.0F, -76.0F, -25.0F));
 
 		PartDefinition RightWingSeg1 = RightWing.addOrReplaceChild("RightWingSeg1", CubeListBuilder.create().texOffs(286, 10).addBox(-57.0F, -4.0F, -6.0F, 38.0F, 8.0F, 12.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 94).addBox(-51.0F, 0.0F, 6.0F, 78.0F, 0.0F, 50.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -4.0F, -2.0F, 0.0F, -0.3491F, -0.3927F));
+				.texOffs(0, 94).addBox(-51.0F, 0.0F, 6.0F, 78.0F, 0.0F, 50.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -4.0F, -2.0F, 0.0F, -0.3491F, -0.3927F));
 
 		PartDefinition cube_r73 = RightWingSeg1.addOrReplaceChild("cube_r73", CubeListBuilder.create().texOffs(256, 182).addBox(-30.0F, 0.0F, -4.0F, 60.0F, 0.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-29.0F, 0.0F, -9.0F, 0.0F, 3.1416F, 0.0F));
 
@@ -951,7 +950,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 		PartDefinition cube_r78 = WingThingie4.addOrReplaceChild("cube_r78", CubeListBuilder.create().texOffs(494, 93).addBox(-3.0F, -3.0F, 0.0F, 4.0F, 3.0F, 21.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.1279F, 1.75F, 19.4705F, 0.0F, 0.1745F, 0.0F));
 
 		PartDefinition RightWingSeg3 = RightWingSeg2.addOrReplaceChild("RightWingSeg3", CubeListBuilder.create().texOffs(74, 316).addBox(-41.0F, -2.0F, -4.0F, 42.0F, 4.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 0).addBox(-97.0F, 0.0F, 3.0F, 96.0F, 0.0F, 47.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-57.0F, -0.5F, 0.0F, 0.0F, 0.829F, 0.0F));
+				.texOffs(0, 0).addBox(-97.0F, 0.0F, 3.0F, 96.0F, 0.0F, 47.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-57.0F, -0.5F, 0.0F, 0.0F, 0.829F, 0.0F));
 
 		PartDefinition cube_r79 = RightWingSeg3.addOrReplaceChild("cube_r79", CubeListBuilder.create().texOffs(262, 282).addBox(-23.5F, 0.0F, -5.0F, 47.0F, 0.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-20.5F, 0.0F, -5.0F, 0.0F, 3.1416F, 0.0F));
 
@@ -988,7 +987,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 		PartDefinition Infectedarm230 = LowerRightfinger2.addOrReplaceChild("Infectedarm230", CubeListBuilder.create().texOffs(250, 323).addBox(-1.0F, -1.0F, -2.0F, 3.0F, 9.0F, 3.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(-12.0F, 6.0F, 0.0F, -2.4871F, 0.1309F, -2.3562F));
 
 		PartDefinition Infectedarm_r1 = Infectedarm230.addOrReplaceChild("Infectedarm_r1", CubeListBuilder.create().texOffs(132, 401).addBox(-1.0132F, -0.4146F, -1.0916F, 2.0F, 15.0F, 2.0F, new CubeDeformation(0.1F))
-		.texOffs(50, 477).addBox(-1.4868F, -14.5854F, -1.4084F, 3.0F, 15.0F, 3.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(4.5986F, 11.2658F, -1.3036F, -0.218F, 0.0094F, -0.3501F));
+				.texOffs(50, 477).addBox(-1.4868F, -14.5854F, -1.4084F, 3.0F, 15.0F, 3.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(4.5986F, 11.2658F, -1.3036F, -0.218F, 0.0094F, -0.3501F));
 
 		PartDefinition Infectedarm93 = Infectedarm230.addOrReplaceChild("Infectedarm93", CubeListBuilder.create(), PartPose.offset(8.9671F, 23.5851F, -4.7922F));
 
@@ -1111,7 +1110,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 		PartDefinition LLimbSeg3 = mass4.addOrReplaceChild("LLimbSeg3", CubeListBuilder.create(), PartPose.offsetAndRotation(9.1415F, 11.5972F, -12.7934F, 0.0322F, 0.4573F, -0.1627F));
 
 		PartDefinition LLimbSeg3_r1 = LLimbSeg3.addOrReplaceChild("LLimbSeg3_r1", CubeListBuilder.create().texOffs(552, 71).addBox(-2.6421F, 4.43F, -2.6093F, 4.0F, 6.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(434, 358).addBox(-2.1421F, -1.57F, -2.1093F, 3.0F, 6.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.7874F, 0.1064F, -1.2103F, 0.0F, 0.6109F, -1.0472F));
+				.texOffs(434, 358).addBox(-2.1421F, -1.57F, -2.1093F, 3.0F, 6.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.7874F, 0.1064F, -1.2103F, 0.0F, 0.6109F, -1.0472F));
 
 		PartDefinition Head1_r1 = LLimbSeg3.addOrReplaceChild("Head1_r1", CubeListBuilder.create().texOffs(544, 107).addBox(-8.7087F, -7.327F, -2.7458F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.4898F, 3.0555F, -1.2103F, 0.0F, 0.0F, -0.6109F));
 
@@ -1132,9 +1131,9 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 		PartDefinition Arm_r7 = CalciumCorpseLLimb.addOrReplaceChild("Arm_r7", CubeListBuilder.create().texOffs(476, 573).addBox(-1.5F, -4.0F, -1.5F, 3.0F, 8.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.4798F, 1.904F, -2.682F, 0.6429F, -0.1321F, 2.9666F));
 
 		PartDefinition TorsoBottom_r1 = CalciumCorpseLLimb.addOrReplaceChild("TorsoBottom_r1", CubeListBuilder.create().texOffs(376, 326).addBox(-3.5F, 3.0F, -1.75F, 7.0F, 6.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(224, 527).addBox(-4.0F, -3.0F, -2.5F, 8.0F, 6.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.1115F, -0.8313F, 1.318F, 0.0F, 0.0F, 2.7925F));
+				.texOffs(224, 527).addBox(-4.0F, -3.0F, -2.5F, 8.0F, 6.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.1115F, -0.8313F, 1.318F, 0.0F, 0.0F, 2.7925F));
 
-		PartDefinition LeftWing = Ribcage.addOrReplaceChild("LeftWing", CubeListBuilder.create(), PartPose.offset(18.0F, -40.0F, -13.0F));
+		PartDefinition LeftWing = Ribcage.addOrReplaceChild("LeftWing", CubeListBuilder.create(), PartPose.offset(18.0F, -76.0F, -25.0F));
 
 		PartDefinition RightWingSeg = LeftWing.addOrReplaceChild("RightWingSeg", CubeListBuilder.create().texOffs(0, 144).addBox(-27.0F, 0.0F, 6.0F, 78.0F, 0.0F, 50.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -4.0F, -2.0F, 0.0F, 0.3491F, 0.3927F));
 
@@ -1205,7 +1204,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 		PartDefinition cube_r124 = WingThingie9.addOrReplaceChild("cube_r124", CubeListBuilder.create().texOffs(494, 234).addBox(-1.0F, -3.0F, 0.0F, 4.0F, 3.0F, 21.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.1279F, 1.75F, 19.4705F, 0.0F, -0.1745F, 0.0F));
 
 		PartDefinition LeftWingSeg3 = LeftWingSeg2.addOrReplaceChild("LeftWingSeg3", CubeListBuilder.create().texOffs(74, 328).addBox(-1.0F, -2.0F, -4.0F, 42.0F, 4.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 47).addBox(1.0F, 0.0F, 3.0F, 96.0F, 0.0F, 47.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(57.0F, -0.5F, 0.0F, 0.0F, -0.829F, 0.0F));
+				.texOffs(0, 47).addBox(1.0F, 0.0F, 3.0F, 96.0F, 0.0F, 47.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(57.0F, -0.5F, 0.0F, 0.0F, -0.829F, 0.0F));
 
 		PartDefinition cube_r125 = LeftWingSeg3.addOrReplaceChild("cube_r125", CubeListBuilder.create().texOffs(286, 0).addBox(-23.5F, 0.0F, -5.0F, 47.0F, 0.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(20.5F, 0.0F, -5.0F, -3.1416F, 0.0F, 0.0F));
 
@@ -1226,7 +1225,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 		PartDefinition Infectedarm20 = LowerLeftfinger4.addOrReplaceChild("Infectedarm20", CubeListBuilder.create().texOffs(54, 421).addBox(-2.0F, -1.0F, -2.0F, 3.0F, 9.0F, 3.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(12.0F, 6.0F, 0.0F, -2.4871F, -0.1309F, 2.3562F));
 
 		PartDefinition Infectedarm_r7 = Infectedarm20.addOrReplaceChild("Infectedarm_r7", CubeListBuilder.create().texOffs(256, 426).addBox(-0.9868F, -0.4146F, -1.0916F, 2.0F, 15.0F, 2.0F, new CubeDeformation(0.1F))
-		.texOffs(212, 559).addBox(-1.5132F, -14.5854F, -1.4084F, 3.0F, 15.0F, 3.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(-4.5986F, 11.2658F, -1.3036F, -0.218F, -0.0094F, 0.3501F));
+				.texOffs(212, 559).addBox(-1.5132F, -14.5854F, -1.4084F, 3.0F, 15.0F, 3.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(-4.5986F, 11.2658F, -1.3036F, -0.218F, -0.0094F, 0.3501F));
 
 		PartDefinition Infectedarm21 = Infectedarm20.addOrReplaceChild("Infectedarm21", CubeListBuilder.create(), PartPose.offset(-8.9671F, 23.5851F, -4.7922F));
 
@@ -1255,7 +1254,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 		PartDefinition Infectedarm26 = LowerLeftfinger5.addOrReplaceChild("Infectedarm26", CubeListBuilder.create().texOffs(166, 572).addBox(-2.0F, -1.0F, -2.0F, 3.0F, 9.0F, 3.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(12.0F, 6.0F, 2.0F, 3.0543F, -0.1309F, 2.3562F));
 
 		PartDefinition Infectedarm_r13 = Infectedarm26.addOrReplaceChild("Infectedarm_r13", CubeListBuilder.create().texOffs(32, 572).addBox(-0.9868F, -0.4146F, -1.0916F, 2.0F, 15.0F, 2.0F, new CubeDeformation(0.1F))
-		.texOffs(178, 560).addBox(-1.5132F, -14.5854F, -1.4084F, 3.0F, 15.0F, 3.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(-4.5986F, 11.2658F, -1.3036F, -0.218F, -0.0094F, 0.3501F));
+				.texOffs(178, 560).addBox(-1.5132F, -14.5854F, -1.4084F, 3.0F, 15.0F, 3.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(-4.5986F, 11.2658F, -1.3036F, -0.218F, -0.0094F, 0.3501F));
 
 		PartDefinition Infectedarm27 = Infectedarm26.addOrReplaceChild("Infectedarm27", CubeListBuilder.create(), PartPose.offset(-8.9671F, 23.5851F, -4.7922F));
 
@@ -1291,12 +1290,12 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		Ribcage.getAllParts().forEach(ModelPart::resetPose);
 		float v1 = Mth.sin(ageInTicks/6)/6;
 		float v2 = Mth.cos(ageInTicks/6)/7;
 		float v3 = Mth.sin(ageInTicks/7)/8;
 		float v4 = Mth.cos(ageInTicks/8)/9;
 		float v5 = Mth.sin(ageInTicks/9)/6;
-
 		animateTumor(Tumors,v1);
 		animateTumor(Tumors2,v2);
 		animateTumor(Tumors3,v3);
@@ -1320,29 +1319,72 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 		animateTentacleZ(LowerRightfinger2,v2);
 		animateTentacleZ(Infectedarm230,v4);
 		animateTentacleZ(LowerRightfinger,v3);
+		boolean isAirborne = !entity.onGround() && !entity.isInFluidType();
+		if (isAirborne){
+			float swing = Mth.sin(ageInTicks/8)/10;
+			animateTentacleX(LeftBackLeg,1.5f + swing);
+			animateTentacleX(RightBackLeg,1.5f - swing);
+			animateTentacleX(Left,3.25f);
+			animateTentacleX(Right,3.25f);
+			int flap = entity.getFlapAnimationTicks();
+			if (flap > 0){
+				float flapPlap = 0.75F - 0.65F * Mth.triangleWave(flap, 20.0F);
+				animateTentacleY(RightWing,-flapPlap);
+				animateTentacleZ(RightWingSeg1,-0.25f+flapPlap);
+				animateTentacleZ(RightWingSeg2,-0.15f+flapPlap);
+				animateTentacleY(RightWingSeg2,-0.65f+flapPlap);
+				animateTentacleX(RightWingSeg2,0.55f);
+				animateTentacleY(RightWingSeg3,-1.15f);
+				animateTentacleZ(RightWingSeg3,-1f+flapPlap);
+				RightWing.z = RightWing.getInitialPose().z+(flapPlap * 5);
+				RightWing.y = RightWing.getInitialPose().y+(flapPlap * 4);
 
-		float val = Mth.cos(limbSwing * 0.25f) * 0.9f * limbSwingAmount;
-		moveY(RightWing,val* 13f);
-		moveY(LeftWing,val* 13f);
-		moveZ(RightWing,val * 6f);
-		moveZ(LeftWing,val * 6f);
-		animateTentacleY(RightWing,val * 0.75f);
-		animateTentacleY(LeftWing,val * 0.75f);
-		animateTentacleY(RightWingSeg2,RightWing.yRot * 0.5f);
-		animateTentacleY(LeftWingSeg2,LeftWing.yRot * 0.5f);
-		animateTentacleY(RightWingSeg3,RightWing.yRot );
-		animateTentacleY(LeftWingSeg3,LeftWing.yRot);
-		animateTentacleZ(RightWingSeg3,val);
-		animateTentacleZ(LeftWingSeg3,val);
+				animateTentacleY(LeftWing,+flapPlap);
+				animateTentacleZ(RightWingSeg,0.25f-flapPlap);
+				animateTentacleZ(LeftWingSeg2,0.15f-flapPlap);
+				animateTentacleY(LeftWingSeg2,0.65f-flapPlap);
+				animateTentacleX(LeftWingSeg2,0.45f);
+				animateTentacleY(LeftWingSeg3,1.15f);
+				animateTentacleZ(LeftWingSeg3,1f-flapPlap);
+				LeftWing.z = LeftWing.getInitialPose().z+(flapPlap * 5);
+				LeftWing.y = LeftWing.getInitialPose().y+(flapPlap * 4);
+			}else {
+				animateTentacleZ(RightWingSeg1,0.5f+swing);
+				animateTentacleZ(RightWingSeg2,0.35f+swing);
+				animateTentacleY(RightWingSeg2,-0.65f);
+				animateTentacleX(RightWingSeg2,0.55f);
+				animateTentacleY(RightWingSeg3,-1.15f+swing);
 
-		animateTentacleX(LeftBackLeg,val);
-		animateTentacleX(Left,LeftBackLeg.xRot < 0 ? -LeftBackLeg.xRot: 0);
-		animateTentacleX(RightBackLeg,-val);
-		animateTentacleX(Right,RightBackLeg.xRot < 0 ? -RightBackLeg.xRot : 0);
-		moveY(RightBackLeg,val* 5f);
-		moveY(LeftBackLeg,-val* 5f);
-		moveZ(RightBackLeg,val * 6f);
-		moveZ(LeftBackLeg,-val * 6f);
+				animateTentacleZ(RightWingSeg,-0.5f+swing);
+				animateTentacleZ(LeftWingSeg2,-0.35f+swing);
+				animateTentacleY(LeftWingSeg2,0.65f);
+				animateTentacleX(LeftWingSeg2,0.45f);
+				animateTentacleY(LeftWingSeg3,1.15f+swing);
+			}
+		}else {
+			float val = Mth.cos(limbSwing * 0.25f) * 0.9f * limbSwingAmount;
+			moveY(RightWing,val* 13f);
+			moveY(LeftWing,val* 13f);
+			moveZ(RightWing,val * 6f);
+			moveZ(LeftWing,val * 6f);
+			animateTentacleY(RightWing,val * 0.75f);
+			animateTentacleY(LeftWing,val * 0.75f);
+			animateTentacleY(RightWingSeg2,RightWing.yRot * 0.5f);
+			animateTentacleY(LeftWingSeg2,LeftWing.yRot * 0.5f);
+			animateTentacleY(RightWingSeg3,RightWing.yRot );
+			animateTentacleY(LeftWingSeg3,LeftWing.yRot);
+			animateTentacleZ(RightWingSeg3,val);
+			animateTentacleZ(LeftWingSeg3,val);
+
+			animateTentacleX(LeftBackLeg,val);
+			animateTentacleX(Left,LeftBackLeg.xRot < 0 ? -LeftBackLeg.xRot: 0);
+			animateTentacleX(RightBackLeg,-val);
+			animateTentacleX(Right,RightBackLeg.xRot < 0 ? -RightBackLeg.xRot : 0);
+			moveY(RightBackLeg,val* 5f);
+			moveY(LeftBackLeg,-val* 5f);
+			moveZ(RightBackLeg,val * 6f);
+			moveZ(LeftBackLeg,-val * 6f);
+		}
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package com.Harbinger.Spore.Sentities.BaseEntities.IkUtil;
 
+import com.Harbinger.Spore.Sentities.Calamities.Verfalldrachen;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -7,7 +8,7 @@ import net.minecraft.world.phys.Vec3;
 
 public class IkDragonTail {
     protected final RandomSource randomSource = RandomSource.create();
-    protected final LivingEntity owner;
+    protected final Verfalldrachen owner;
     protected final Vec3[] entities;
     protected final Vec3 defaultBodyOffset;
     protected final Vec3 defaultLimbOffset;
@@ -25,7 +26,7 @@ public class IkDragonTail {
     protected float lastYaw = 0;
     protected float yawDelta = 0;
 
-    public IkDragonTail(LivingEntity owner, int amount, Vec3 defaultBodyOffset,
+    public IkDragonTail(Verfalldrachen owner, int amount, Vec3 defaultBodyOffset,
                         Vec3 defaultLimbOffset) {
         this.owner = owner;
         this.entities = new Vec3[amount];
@@ -158,7 +159,6 @@ public class IkDragonTail {
             return;
         }
 
-        Vec3 pivot = owner.position();
         int lastSegment = entities.length - 1;
 
         // Update target yaws with progressive delay
@@ -260,6 +260,8 @@ public class IkDragonTail {
 
         if (!isOwnerMoving()){
             moveTipTowards(defaultTipPos);
+        }else {
+            moveTipTowards(entities[entities.length - 1].add(0,-0.01,0));
         }
 
         // Forward pass (root to tip) - maintain segment lengths

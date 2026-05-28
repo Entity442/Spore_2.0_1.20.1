@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities.BaseEntities.IkUtil;
 
 import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
+import com.Harbinger.Spore.Sentities.Calamities.Verfalldrachen;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -10,7 +11,7 @@ public class IkDragonHead {
 
     protected final RandomSource randomSource = RandomSource.create();
 
-    protected final LivingEntity owner;
+    protected final Verfalldrachen owner;
     protected final CalamityMultipart multipart;
 
     protected final Vec3[] entities;
@@ -40,7 +41,7 @@ public class IkDragonHead {
     protected final float segmentLength = 0.75f;
 
     public IkDragonHead(
-            LivingEntity owner,
+            Verfalldrachen owner,
             CalamityMultipart multipart,
             int amount,
             Vec3 defaultBodyOffset,

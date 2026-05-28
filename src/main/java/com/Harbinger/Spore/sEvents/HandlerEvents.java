@@ -443,10 +443,6 @@ public class HandlerEvents {
                                        player.displayClientMessage(Component.literal("Underground "+ sieger.isUnderground()),false);
                                        player.displayClientMessage(Component.literal("Ores ? "+ sieger.getOres()),false);
                                     }
-                                    if (calamity instanceof Verfalldrachen sieger){
-                                       player.displayClientMessage(Component.literal("RightWing ? "+ sieger.getRightWing()),false);
-                                       player.displayClientMessage(Component.literal("LeftWing ? "+ sieger.getLeftWing()),false);
-                                    }
 
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
                             }else if (entity1 instanceof Mound mound){

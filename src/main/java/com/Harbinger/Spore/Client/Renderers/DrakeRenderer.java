@@ -153,31 +153,25 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
             stack.mulPose(Axis.XP.rotation(pitch));
             stack.pushPose();
             {
-                VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(limb.segmentTexture));
+                VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(last ? limb.headTexture : limb.segmentTexture));
                 EntityModel<Type> typeEntityModel = first ? (EntityModel<Type>) limb.neckStartSegment : (EntityModel<Type>) limb.neckMiddleSegment;
-                stack.mulPose(Axis.XP.rotationDegrees(90));
-                stack.translate(0,-length/2,0);
-                stack.scale(size,length*1.05f,size);
+                typeEntityModel = last ? (EntityModel<Type>) limb.type : typeEntityModel;
+                stack.mulPose(Axis.XP.rotationDegrees(last ? -90 : 90));
+                if (last){
+                    stack.translate(0,(-length/2)-0.75,0);
+                    stack.scale(0.85f,length*0.85f,0.85f);
+                }else {
+                    stack.translate(0,-length/2,0);
+                    stack.scale(size,length*1.05f,size);
+                }
                 typeEntityModel.setupAnim(parent,0,0,parent.tickCount + partial,0,0);
                 typeEntityModel.renderToBuffer(stack,consumer,light, OverlayTexture.NO_OVERLAY, r,g,b,1);
+                if (last){
+                    renderEyes(typeEntityModel,limb.eyesTexture,buffer,stack);
+                }
                 boolean electric = limb == LIMB.ELECTRICAL && parent.getCharge() > 0;
                 if (electric){
                     renderCharge(typeEntityModel,parent,buffer,stack,light,partial);
-                }
-                if (last){
-                    EntityModel<Type> head = (EntityModel<Type>) limb.type;
-                    stack.pushPose();
-                    VertexConsumer ends = buffer.getBuffer(RenderType.entityCutoutNoCull(limb.headTexture));
-                    stack.scale(0.85f,0.85f,0.85f);
-                    stack.mulPose(Axis.XP.rotationDegrees(180));
-                    stack.translate(0,-length-2,0);
-                    head.setupAnim(parent,0,0,parent.tickCount + partial,0,0);
-                    head.renderToBuffer(stack,ends,light, OverlayTexture.NO_OVERLAY, r,g,b,1);
-                    renderEyes(head,limb.eyesTexture,buffer,stack);
-                    if (electric){
-                        renderCharge(head,parent,buffer,stack,light,partial);
-                    }
-                    stack.popPose();
                 }
             }
             stack.popPose();
