@@ -13,7 +13,7 @@ public class InfectedDrownRenderer<Type extends InfectedDrowned> extends BaseInf
     private static final ResourceLocation TEXTURE = new ResourceLocation(Spore.MODID,
             "textures/entity/inf_drowned.png");
     private static final ResourceLocation EYES_TEXTURE = new ResourceLocation(Spore.MODID,
-            "textures/entity/eyes/infected.png");
+            "textures/entity/eyes/inf_drowned.png");
     public InfectedDrownRenderer(EntityRendererProvider.Context context) {
         super(context, new InfectedDrownModel<>(context.bakeLayer(InfectedDrownModel.LAYER_LOCATION)), 0.5f);
     }

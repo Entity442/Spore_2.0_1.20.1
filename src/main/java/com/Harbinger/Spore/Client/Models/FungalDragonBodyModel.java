@@ -1326,8 +1326,8 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 		moveY(LeftWing,val* 13f);
 		moveZ(RightWing,val * 6f);
 		moveZ(LeftWing,val * 6f);
-		animateTentacleY(RightWing,val * 1.25f);
-		animateTentacleY(LeftWing,val * 1.25f);
+		animateTentacleY(RightWing,val * 0.75f);
+		animateTentacleY(LeftWing,val * 0.75f);
 		animateTentacleY(RightWingSeg2,RightWing.yRot * 0.5f);
 		animateTentacleY(LeftWingSeg2,LeftWing.yRot * 0.5f);
 		animateTentacleY(RightWingSeg3,RightWing.yRot );
