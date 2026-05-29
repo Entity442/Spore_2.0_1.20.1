@@ -444,6 +444,7 @@ public class HandlerEvents {
                                        player.displayClientMessage(Component.literal("Ores ? "+ sieger.getOres()),false);
                                     }
 
+
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
                             }else if (entity1 instanceof Mound mound){
                                     player.displayClientMessage(Component.literal("Entity "+ mound.getEncodeId() + " " + mound.getCustomName()),false);

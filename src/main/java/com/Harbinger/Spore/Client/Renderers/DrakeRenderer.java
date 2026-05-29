@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Client.Layers.DrakeMembraneLayer;
 import com.Harbinger.Spore.Client.Models.DragonBits.*;
 import com.Harbinger.Spore.Client.Models.FungalDragonBodyModel;
 import com.Harbinger.Spore.Client.Special.CalamityRenderer;
+import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.AmbientSparks;
 import com.Harbinger.Spore.Sentities.Calamities.Verfalldrachen;
 import com.Harbinger.Spore.Spore;
@@ -18,6 +19,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
@@ -61,6 +63,7 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
             "textures/entity/dragon/verfa_tail_seg.png");
 
     private final EntityModel<Type> bolt = new ConductorRenderer.BoltBit<>();
+    private AmbientSparks attackSpark = null;
     private static final ResourceLocation POWER_LOCATION =new ResourceLocation("textures/entity/creeper/creeper_armor.png");
 
 
@@ -100,9 +103,24 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
                 renderTentacle(stack,entity,light, bufferSource, entity.getIkTarHead().getEntities(),entity.getTarHeadSegment(), entity,partialTicks,LIMB.TAR);
                 renderTail(stack,entity,light, bufferSource, entity.getTail().getEntities(), entity,partialTicks);
             }
-            if (entity.getCharge() > 0 && entity.getElectricalHead() > 0){
-                for (AmbientSparks sparks : entity.getSparks()){
-                    renderChain(sparks.getConnections(),stack,light,bufferSource,false);
+
+            if (entity.getElectricalHead() > 0){
+                if (entity.getCharge() > 0){
+                    for (AmbientSparks sparks : entity.getSparks()){
+                        renderChain(sparks.getConnections(),stack,light,bufferSource,false);
+                    }
+                }
+                int targetId = entity.getElectricalTargetId();
+                Entity e = entity.level().getEntity(targetId);
+                if(e != null && entity.getBeamTicks() >= 39){
+                    Vec3 vec3 = Utilities.generatePositionAway(entity.getPosition(partialTicks),4);
+                    attackSpark = new AmbientSparks(vec3, e, entity.lightningHead,20);
+                }
+                if (attackSpark != null && attackSpark.life < attackSpark.maxLife){
+                    attackSpark.TickSpark();
+                    renderChain(attackSpark.getConnections(),stack,light,bufferSource,true);
+                }else {
+                    attackSpark = null;
                 }
             }
         }

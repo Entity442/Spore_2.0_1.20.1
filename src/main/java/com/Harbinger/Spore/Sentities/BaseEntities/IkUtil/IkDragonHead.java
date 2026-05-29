@@ -4,16 +4,19 @@ import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.Calamities.Verfalldrachen;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 
 public class IkDragonHead {
-
+    public static final int RANGE = 12 * 12;
     protected final RandomSource randomSource = RandomSource.create();
-
     protected final Verfalldrachen owner;
     protected final CalamityMultipart multipart;
-
+    protected final int headId;
+    protected final int shootingRange;
+    private int shootCooldown = 0;
+    private static final int COOLDOWN_MAX = 20;
     protected final Vec3[] entities;
     protected final Vec3[] renderPositions;
     protected final Vec3[] velocities;
@@ -26,9 +29,6 @@ public class IkDragonHead {
     protected final Vec3 defaultBodyOffset;
     protected final Vec3 defaultLimbOffset;
 
-    protected Vec3 sitPosition;
-    protected Vec3 lastSitPosition;
-
     protected Vec3 lastOwnerPosition = Vec3.ZERO;
     protected Vec3 ownerMovementDelta = Vec3.ZERO;
 
@@ -37,18 +37,21 @@ public class IkDragonHead {
 
     protected float yawDelta;
     protected float pitchDelta;
+    protected LivingEntity target;
 
     protected final float segmentLength = 0.75f;
 
     public IkDragonHead(
             Verfalldrachen owner,
-            CalamityMultipart multipart,
+            CalamityMultipart multipart, int headId, int shootingRange,
             int amount,
             Vec3 defaultBodyOffset,
             Vec3 defaultLimbOffset
     ) {
         this.owner = owner;
         this.multipart = multipart;
+        this.headId = headId;
+        this.shootingRange = shootingRange * shootingRange;
 
         this.defaultBodyOffset = defaultBodyOffset;
         this.defaultLimbOffset = defaultLimbOffset;
@@ -93,13 +96,6 @@ public class IkDragonHead {
         return renderPositions;
     }
 
-    public Vec3 getSitPosition() {
-        return sitPosition;
-    }
-
-    public Vec3 getLastSitPosition() {
-        return lastSitPosition;
-    }
 
     public Vec3 applyYaw(Vec3 offset) {
         float yawRad = owner.getYRot() * Mth.DEG_TO_RAD;
@@ -107,8 +103,7 @@ public class IkDragonHead {
     }
 
     public Vec3 getBodyOffset() {
-        Vec3 extra = isMoving() ? new Vec3(1, 0, 0) : Vec3.ZERO;
-        return owner.position().add(applyYaw(defaultBodyOffset).add(extra));
+        return owner.position().add(applyYaw(defaultBodyOffset));
     }
 
     public Vec3 getHeadBasePos() {
@@ -205,7 +200,7 @@ public class IkDragonHead {
 
         int tip = entities.length - 1;
 
-        entities[tip] = entities[tip].lerp(target, 0.2f);
+        entities[tip] = entities[tip].lerp(target, 0.05f);
 
         for (int i = tip - 1; i >= 0; i--) {
 
@@ -332,11 +327,48 @@ public class IkDragonHead {
             renderPositions[i] = renderPositions[i].lerp(entities[i], 0.35f);
         }
     }
+    public int getTargetId(){
+        if (headId == 0){
+            return owner.getTarDataId();
+        }
+        if (headId == 1){
+            return owner.getSonicDataId();
+        }
+        if (headId == 2){
+            return owner.getElectricalTargetId();
+        }
+        return -1;
+    }
+    public void handleTargetingAndShooting() {
+        if (shootCooldown <= 0){
+            int o = getTargetId();
+            if (o == -1) {
+                target = null;
+                return;
+            }
 
+            Entity entity = owner.level().getEntity(o);
+            if (entity instanceof LivingEntity livingEntity) {
+                target = livingEntity;
+
+
+                if (owner.hasLineOfSight(livingEntity) && multipart.distanceToSqr(livingEntity) < shootingRange) {
+                    // Add cooldown check
+                    owner.performRangedAttack(livingEntity, headId);
+                    shootCooldown = COOLDOWN_MAX;
+
+                }
+            }
+        }
+    }
     public void applyIK() {
         if (entities.length == 0) {
             return;
         }
+        if (shootCooldown > 0){
+            shootCooldown--;
+        }
+        handleTargetingAndShooting();
 
         validateChainDistance();
 
@@ -344,9 +376,9 @@ public class IkDragonHead {
 
         Vec3 root = getBodyOffset();
 
-        Vec3 target = sitPosition == null
-                ? getHeadBasePos()
-                : sitPosition;
+        Vec3 target = this.target != null && this.target.distanceToSqr(owner) < RANGE
+                ? new Vec3(this.target.position().x,getHeadBasePos().y,this.target.position().z)
+                : getHeadBasePos();
 
         applyMovement();
 
@@ -365,6 +397,7 @@ public class IkDragonHead {
         setupPositionHitbox();
 
     }
+
 
     public void setupPositionHitbox() {
 

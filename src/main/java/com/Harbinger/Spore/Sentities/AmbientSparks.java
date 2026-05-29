@@ -15,21 +15,21 @@ public class AmbientSparks{
     public final Vec3 Connection;
     @Nullable
     public final Entity living;
-    public final LivingEntity owner;
+    public final Entity owner;
     public final int maxLife;
     protected final Vec3 spawnPoint;
     protected final RandomSource random = RandomSource.create();
     protected List<Vec3> connections = new ArrayList<>();
     protected final RandomSource randomSource = RandomSource.create();
 
-    public AmbientSparks(Vec3 connection, @Nullable Entity living, LivingEntity owner, int maxLife) {
+    public AmbientSparks(Vec3 connection, @Nullable Entity living, Entity owner, int maxLife) {
         Connection = connection;
         this.living = living;
         this.owner = owner;
         this.maxLife = maxLife;
         this.spawnPoint = Vec3.ZERO;
     }
-    public AmbientSparks(Vec3 connection, @Nullable Entity living, LivingEntity owner,Vec3 spawnPoint, int maxLife) {
+    public AmbientSparks(Vec3 connection, @Nullable Entity living, Entity owner,Vec3 spawnPoint, int maxLife) {
         Connection = connection;
         this.living = living;
         this.owner = owner;
