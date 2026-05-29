@@ -361,6 +361,9 @@ public class IkDragonHead {
             }
         }
     }
+    public Vec3 getHeadMovementOffsets(LivingEntity entity){
+        return entity.position().add(0,2,0);
+    }
     public void applyIK() {
         if (entities.length == 0) {
             return;
@@ -377,7 +380,7 @@ public class IkDragonHead {
         Vec3 root = getBodyOffset();
 
         Vec3 target = this.target != null && this.target.distanceToSqr(owner) < RANGE
-                ? new Vec3(this.target.position().x,getHeadBasePos().y,this.target.position().z)
+                ? getHeadMovementOffsets(this.target)
                 : getHeadBasePos();
 
         applyMovement();
