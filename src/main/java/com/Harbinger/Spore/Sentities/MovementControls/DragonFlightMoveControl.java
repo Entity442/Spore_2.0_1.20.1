@@ -49,7 +49,7 @@ public class DragonFlightMoveControl extends MoveControl {
                 Vec3 vel = mob.getDeltaMovement();
                 mob.setDeltaMovement(
                         vel.x * 0.98F,
-                        vel.y - 0.01F,
+                        vel.y - 0.02F,
                         vel.z * 0.98F
                 );
                 mob.setNoGravity(true);

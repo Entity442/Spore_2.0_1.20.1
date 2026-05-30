@@ -304,6 +304,10 @@ public class Sentities {
             EntityType.Builder.<VomitHohlBall>of(VomitHohlBall::new, MobCategory.MISC).setCustomClientFactory((spawnEntity, level) -> new VomitHohlBall(level))
                     .setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(0.5f, 0.5f));
 
+    public static final RegistryObject<EntityType<TarBall>> TAR_BALL = register("tar_ball",
+            EntityType.Builder.<TarBall>of(TarBall::new, MobCategory.MISC).setCustomClientFactory((spawnEntity, level) -> new TarBall(level))
+                    .setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(0.5f, 0.5f));
+
     public static final Supplier<EntityType<DrownedFleshBomb>> DROWNED_FLESH_BOMB = register("drowned_flesh_bomb",
             EntityType.Builder.<DrownedFleshBomb>of(DrownedFleshBomb::new, MobCategory.MISC)
                     .setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(0.5f, 0.5f));

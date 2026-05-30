@@ -10,7 +10,6 @@ import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.CalamityInfectedCommand;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SporeBurstSupport;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SummonScentInCombat;
 import com.Harbinger.Spore.Sentities.AI.CalamityPathNavigation;
-import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.AmbientSparks;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
@@ -19,8 +18,9 @@ import com.Harbinger.Spore.Sentities.BaseEntities.IkUtil.IkDragonTail;
 import com.Harbinger.Spore.Sentities.MovementControls.DragonFlightMoveControl;
 import com.Harbinger.Spore.Sentities.MovementControls.ExperimentalGroundMovementController;
 import com.Harbinger.Spore.Sentities.MovementControls.UndergroundPathNavigation;
-import com.Harbinger.Spore.Sentities.Projectile.BileProjectile;
+import com.Harbinger.Spore.Sentities.Projectile.TarBall;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
@@ -34,6 +34,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.RangedAttackMob;
@@ -273,8 +274,29 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
     @Override
     public void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(3, new AOEMeleeAttackGoal(this, 1.5, false,2.5 ,6, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}));
-        this.goalSelector.addGoal(6, new FloatDiveGoal(this));
+        this.goalSelector.addGoal(3,new FlyAndOrbitTargetGoal(this,1,12));
+        this.goalSelector.addGoal(4, new AOEMeleeAttackGoal(this, 1, false,2.5 ,6, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}){
+            protected double getAttackReachSqr(LivingEntity entity) {
+                float f = Verfalldrachen.this.getBbWidth();
+                return (double)(f * 2.50F * f * 2.50F + entity.getBbWidth());
+            }
+
+            @Override
+            public boolean canUse() {
+                if (isNoGravity()){
+                    return false;
+                }
+                return super.canUse();
+            }
+
+            @Override
+            public boolean canContinueToUse() {
+                if (isNoGravity()){
+                    return false;
+                }
+                return super.canContinueToUse();
+            }
+        });
         this.goalSelector.addGoal(6,new CalamityInfectedCommand(this));
         this.goalSelector.addGoal(7,new SummonScentInCombat(this));
         this.goalSelector.addGoal(8,new SporeBurstSupport(this));
@@ -426,7 +448,20 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
     }
     public void updateFlying(){
         LivingEntity livingEntity = getTarget();
-        setFlying(livingEntity != null);
+        boolean checkAir = checkFloot();
+        boolean searchFar = getSearchArea() != BlockPos.ZERO && getSearchArea().getY() > this.getY();
+        setFlying(livingEntity != null || checkAir || searchFar);
+    }
+    boolean checkFloot(){
+        boolean val = true;
+        for (int i = 0;i< 4;i++){
+            BlockPos pos = this.blockPosition().below(i);
+            if (!level().getBlockState(pos).isAir()){
+                val = false;
+                break;
+            }
+        }
+        return val;
     }
 
 
@@ -651,9 +686,7 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
 
     private void performTarHeadAttack(LivingEntity target) {
         if (!canPerformTarAttack()) return;
-
-        BileProjectile projectile = new BileProjectile(level(), this, TARGET_SELECTOR);
-        projectile.setDamage((float) (SConfig.SERVER.verfa_tar_damage.get() * SConfig.SERVER.global_damage.get()));
+        TarBall projectile = new TarBall(this, level(), TARGET_SELECTOR,(float) (SConfig.SERVER.verfa_tar_damage.get() * SConfig.SERVER.global_damage.get()));
 
         Vec3 launchPosition = getLaunchPosition(ikTarHead);
         Vec3 targetPosition = getTargetPosition(target);
@@ -792,5 +825,75 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
                 pushDirection.y * 0.75,
                 pushDirection.z * 1.5
         );
+    }
+
+
+    public class FlyAndOrbitTargetGoal extends Goal {
+
+        private final PathfinderMob mob;
+        private LivingEntity target;
+
+        private final double speed;
+        private final double orbitRadius;
+
+        private double orbitAngle;
+
+        public FlyAndOrbitTargetGoal(PathfinderMob mob, double speed, double orbitRadius) {
+            this.mob = mob;
+            this.speed = speed;
+            this.orbitRadius = orbitRadius;
+        }
+
+        @Override
+        public boolean canUse() {
+            target = mob.getTarget();
+            return target != null && target.isAlive() && isNoGravity();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return target != null && target.isAlive() && isNoGravity();
+        }
+
+        @Override
+        public void start() {
+            orbitAngle = mob.getRandom().nextDouble() * Math.PI * 2;
+        }
+
+        @Override
+        public void tick() {
+            if (target == null) return;
+
+            double dx = target.getX() - mob.getX();
+            double dy = target.getEyeY() - mob.getY();
+            double dz = target.getZ() - mob.getZ();
+
+            double distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+            if (distance > orbitRadius) {
+                mob.getMoveControl().setWantedPosition(
+                        target.getX(),
+                        target.getEyeY(),
+                        target.getZ(),
+                        speed
+                );
+            } else {
+
+                orbitAngle += 0.08;
+
+                double orbitX = target.getX() + Math.cos(orbitAngle) * orbitRadius;
+                double orbitZ = target.getZ() + Math.sin(orbitAngle) * orbitRadius;
+                double orbitY = target.getEyeY() + 4.0;
+
+                mob.getMoveControl().setWantedPosition(
+                        orbitX,
+                        orbitY,
+                        orbitZ,
+                        speed
+                );
+            }
+
+            mob.getLookControl().setLookAt(target, 30.0F, 30.0F);
+        }
     }
 }

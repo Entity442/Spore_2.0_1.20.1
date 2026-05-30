@@ -35,6 +35,8 @@ public class Sparticles {
             PARTICLE_TYPES.register("vomit_bone", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> VOMIT_ORES =
             PARTICLE_TYPES.register("vomit_ores", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> TAR =
+            PARTICLE_TYPES.register("tar", () -> new SimpleParticleType(true));
     public static final Supplier<SimpleParticleType> ACID_BULLET =
             PARTICLE_TYPES.register("acid_bullet", () -> new SimpleParticleType(true));
     public static final Supplier<SimpleParticleType> GORE_BULLET =

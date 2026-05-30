@@ -1,6 +1,7 @@
 package com.Harbinger.Spore.Sentities;
 
 import com.Harbinger.Spore.Core.Sitems;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.Arrays;
@@ -89,14 +90,14 @@ public enum HitboxesForParts {
     }
 
     public enum CALAMITY_TYPE{
-        GROUND(new ItemStack(Sitems.REFORGED_BIOMASS_T.get())),
-        WATER(new ItemStack(Sitems.REFORGED_BIOMASS_W.get())),
-        AIR(new ItemStack(Sitems.REFORGED_BIOMASS_A.get()));
-        private final ItemStack stack;
-        CALAMITY_TYPE(ItemStack stack) {
+        GROUND(Sitems.REFORGED_BIOMASS_T.get()),
+        WATER(Sitems.REFORGED_BIOMASS_W.get()),
+        AIR(Sitems.REFORGED_BIOMASS_A.get());
+        private final Item stack;
+        CALAMITY_TYPE(Item stack) {
             this.stack = stack;
         }
-        public ItemStack getStack() {
+        public Item getStack() {
             return stack;
         }
     }

@@ -65,7 +65,7 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
             "textures/entity/dragon/verfa_tail_seg.png");
 
     private final EntityModel<Type> bolt = new ConductorRenderer.BoltBit<>();
-    private List<AmbientSparks> attackSpark = new ArrayList<>();
+    private final List<AmbientSparks> attackSpark = new ArrayList<>();
     private static final ResourceLocation POWER_LOCATION =new ResourceLocation("textures/entity/creeper/creeper_armor.png");
 
 

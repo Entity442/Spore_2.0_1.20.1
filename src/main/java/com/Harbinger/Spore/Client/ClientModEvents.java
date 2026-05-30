@@ -324,6 +324,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.GORE_BULLET.get(), GoreBulletRenderer::new);
         event.registerEntityRenderer(Sentities.ASSASSIN_BULLET.get(), AcidBulletRenderer::new);
         event.registerEntityRenderer(Sentities.BILE_BULLET.get(), BileBulletRenderer::new);
+        event.registerEntityRenderer(Sentities.TAR_BALL.get(), TarRenderer::new);
 
         event.registerBlockEntityRenderer(SblockEntities.OVERGROWN_SPAWNER.get(), new OvergrownSpawnerRenderer());
         event.registerBlockEntityRenderer(SblockEntities.BRAIN_REMNANTS.get(), new BrainRemnantsRenderer());
@@ -406,6 +407,8 @@ public class ClientModEvents {
         Minecraft.getInstance().particleEngine.register(Sparticles.VOMIT_BONE.get(),
                 VomitParticle.Provider::new);
         Minecraft.getInstance().particleEngine.register(Sparticles.VOMIT_ORES.get(),
+                VomitParticle.Provider::new);
+        Minecraft.getInstance().particleEngine.register(Sparticles.TAR.get(),
                 VomitParticle.Provider::new);
         Minecraft.getInstance().particleEngine.register(Sparticles.ACID_BULLET.get(),
                 AcidBulletParticle.Provider::new);

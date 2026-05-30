@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "spore:block/tar"
+      },
+      {
+        "model": "spore:block/tar",
+        "y": 90
+      },
+      {
+        "model": "spore:block/tar",
+        "y": 180
+      },
+      {
+        "model": "spore:block/tar",
+        "y": 270
+      }
+    ]
+  }
+}

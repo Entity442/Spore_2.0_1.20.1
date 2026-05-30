@@ -1319,13 +1319,20 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 		animateTentacleZ(LowerRightfinger2,v2);
 		animateTentacleZ(Infectedarm230,v4);
 		animateTentacleZ(LowerRightfinger,v3);
+
+		animateTentacleY(rib7,v3);
+		animateTentacleY(rib8,v2);
+		animateTentacleY(rib9,v5);
+		animateTentacleY(rib10,-v3);
+		animateTentacleY(rib11,-v2);
+		animateTentacleY(rib12,-v5);
 		boolean isAirborne = !entity.onGround() && !entity.isInFluidType();
 		if (isAirborne){
 			float swing = Mth.sin(ageInTicks/8)/10;
 			animateTentacleX(LeftBackLeg,1.5f + swing);
 			animateTentacleX(RightBackLeg,1.5f - swing);
-			animateTentacleX(Left,3.25f);
-			animateTentacleX(Right,3.25f);
+			animateTentacleX(Left,-3.25f + swing);
+			animateTentacleX(Right,-3.25f - swing);
 			int flap = entity.getFlapAnimationTicks();
 			if (flap > 0){
 				float flapPlap = 0.75F - 0.65F * Mth.triangleWave(flap, 20.0F);
