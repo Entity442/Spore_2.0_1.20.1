@@ -40,15 +40,15 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAttackMob {
     public static final int TAR_HEAD_SEGMENT = 6;
@@ -80,6 +80,7 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
     private static final EntityDataAccessor<Integer> TAR_HEAD_SEGMENTS = SynchedEntityData.defineId(Verfalldrachen.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> SONIC_HEAD_SEGMENTS = SynchedEntityData.defineId(Verfalldrachen.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> ELECTRICAL_SEGMENTS = SynchedEntityData.defineId(Verfalldrachen.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> DRAGON_FIRE_CHARGE = SynchedEntityData.defineId(Verfalldrachen.class, EntityDataSerializers.BOOLEAN);
     private final float wingsMaxHp = (float) (SConfig.SERVER.verfa_hp.get() * SConfig.SERVER.global_health.get() * 0.25);
     private final float headsMaxHp = (float) (SConfig.SERVER.verfa_hp.get() * SConfig.SERVER.global_health.get() * 0.35);
     protected final CalamityPathNavigation calamityPathNavigation;
@@ -135,6 +136,13 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
         entityData.define(TAR_HEAD_SEGMENTS,TAR_HEAD_SEGMENT);
         entityData.define(SONIC_HEAD_SEGMENTS,SONIC_HEAD_SEGMENT);
         entityData.define(ELECTRICAL_SEGMENTS,ELECTRICAL_SEGMENT);
+        entityData.define(DRAGON_FIRE_CHARGE,false);
+    }
+    public void setDragonFireCharge(boolean va){
+        entityData.set(DRAGON_FIRE_CHARGE,va);
+    }
+    public boolean getDragonFireCharge(){
+        return entityData.get(DRAGON_FIRE_CHARGE);
     }
     public int getElectricalTargetId(){
         return entityData.get(CHARGE_DATA_ID);
@@ -274,6 +282,7 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
     @Override
     public void registerGoals() {
         super.registerGoals();
+        this.goalSelector.addGoal(2, new DragonFlyByGoal(this));
         this.goalSelector.addGoal(3,new FlyAndOrbitTargetGoal(this,1,12));
         this.goalSelector.addGoal(4, new AOEMeleeAttackGoal(this, 1, false,2.5 ,6, livingEntity -> {return TARGET_SELECTOR.test(livingEntity);}){
             protected double getAttackReachSqr(LivingEntity entity) {
@@ -283,7 +292,7 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
 
             @Override
             public boolean canUse() {
-                if (isNoGravity()){
+                if (isNoGravity() && (getTarHead() > 0 || getElectricalHead() > 0 || getSonicHead() > 0)){
                     return false;
                 }
                 return super.canUse();
@@ -291,7 +300,7 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
 
             @Override
             public boolean canContinueToUse() {
-                if (isNoGravity()){
+                if (isNoGravity() && (getTarHead() > 0 || getElectricalHead() > 0 || getSonicHead() > 0)){
                     return false;
                 }
                 return super.canContinueToUse();
@@ -471,6 +480,9 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
         if (tickCount % 5 == 0){
             allocateTargetsForHeads();
         }
+        if (tickCount % 10 == 0 && getDragonFireCharge()){
+            spewTar();
+        }
         regenerateCharges();
         ikSoundHead.applyIK();
         ikTarHead.applyIK();
@@ -518,7 +530,7 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
 
 
         ///Ambient Electricity why am I writing a comment am I a baka ?
-        if (tickCount % 5 == 0 && getCharge() > 0 && level().isClientSide){
+        if (tickCount % 5 == 0 && getCharge() > 0){
             this.playSound(Ssounds.ELECTRIC.get());
             for (int e = 0;e<ikLightningHead.getEntities().length;e++){
                 float range = Math.abs(getCharge() * 0.05f);
@@ -526,32 +538,41 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
                 Vec3 entityPositions = ikLightningHead.getEntities()[e];
                 for (int i = 0;i<random.nextInt(3 + charge);i++){
                     Vec3 vec3 = Utilities.generatePositionAway(entityPositions,2+range);
-                    if (level().isClientSide){
-                        AmbientSparks ambientSparks = new AmbientSparks(vec3,null,this,entityPositions,random.nextInt(5,10));
+                    if (getDragonFireCharge()){
+                        AABB aabb = getBoundingBox().inflate(8);
+                        List<TarBall> balls = level().getEntitiesOfClass(TarBall.class,aabb);
+                        TarBall tarBall = balls.isEmpty() ? null : balls.get(random.nextInt(balls.size()));
+                        if (tarBall != null){
+                            tarBall.setIgnited(true);
+                        }
+                        AmbientSparks ambientSparks = new AmbientSparks(vec3,tarBall,this,entityPositions,random.nextInt(5,10));
                         sparks.add(ambientSparks);
+                    }else {
+                        if (level().isClientSide){
+                            AmbientSparks ambientSparks = new AmbientSparks(vec3,null,this,entityPositions,random.nextInt(5,10));
+                            sparks.add(ambientSparks);
+                        }
                     }
                 }
             }
         }
-        if (level().isClientSide){
-            if (!sparks.isEmpty()){
-                Iterator<AmbientSparks> it = sparks.iterator();
+        if (!sparks.isEmpty()){
+            Iterator<AmbientSparks> it = sparks.iterator();
 
-                while (it.hasNext()) {
-                    AmbientSparks spark = it.next();
+            while (it.hasNext()) {
+                AmbientSparks spark = it.next();
 
-                    spark.TickSpark();
+                spark.TickSpark();
 
-                    if (spark.life > spark.maxLife) {
-                        it.remove();
-                    }
+                if (spark.life > spark.maxLife) {
+                    it.remove();
                 }
             }
         }
     }
 
     private void regenerateCharges() {
-        if (getElectricalTargetId() != -1 && getElectricalHead() > 0) {
+        if ((getElectricalTargetId() != -1 || getDragonFireCharge()) && getElectricalHead() > 0) {
             if (getCharge() <= 20) {
                 setCharge(getCharge() + 0.2f);
             }
@@ -701,6 +722,15 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
         setTarTargetId(-1);
     }
 
+    private void spewTar(){
+        if (!canPerformTarAttack()) return;
+        TarBall projectile = new TarBall(this, level(), TARGET_SELECTOR,(float) (SConfig.SERVER.verfa_tar_damage.get() * SConfig.SERVER.global_damage.get()));
+        Vec3 launchPosition = getLaunchPosition(ikTarHead);
+        projectile.moveTo(launchPosition.x, launchPosition.y, launchPosition.z);
+        projectile.setDeltaMovement(new Vec3(0,-0.1,0));
+        level().addFreshEntity(projectile);
+    }
+
     private void performElectricalHeadAttack(LivingEntity target) {
         if (!canPerformElectricalAttack()) return;
 
@@ -830,34 +860,39 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
 
     public class FlyAndOrbitTargetGoal extends Goal {
 
-        private final PathfinderMob mob;
+        private final Verfalldrachen mob;
         private LivingEntity target;
 
         private final double speed;
         private final double orbitRadius;
 
-        private double orbitAngle;
 
-        public FlyAndOrbitTargetGoal(PathfinderMob mob, double speed, double orbitRadius) {
+        public FlyAndOrbitTargetGoal(Verfalldrachen mob, double speed, double orbitRadius) {
             this.mob = mob;
             this.speed = speed;
             this.orbitRadius = orbitRadius;
+            this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
         }
 
         @Override
         public boolean canUse() {
+            if (mob.getDragonFireCharge() || (getTarHead() <= 0 && getElectricalHead() <= 0 && getSonicHead() <= 0)){
+                return false;
+            }
             target = mob.getTarget();
             return target != null && target.isAlive() && isNoGravity();
         }
 
         @Override
         public boolean canContinueToUse() {
+            if (mob.getDragonFireCharge() || (getTarHead() <= 0 && getElectricalHead() <= 0 && getSonicHead() <= 0)){
+                return false;
+            }
             return target != null && target.isAlive() && isNoGravity();
         }
 
         @Override
         public void start() {
-            orbitAngle = mob.getRandom().nextDouble() * Math.PI * 2;
         }
 
         @Override
@@ -873,27 +908,155 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
             if (distance > orbitRadius) {
                 mob.getMoveControl().setWantedPosition(
                         target.getX(),
-                        target.getEyeY(),
+                        target.getEyeY() + 4.0,
                         target.getZ(),
                         speed
                 );
             } else {
-
-                orbitAngle += 0.08;
-
-                double orbitX = target.getX() + Math.cos(orbitAngle) * orbitRadius;
-                double orbitZ = target.getZ() + Math.sin(orbitAngle) * orbitRadius;
-                double orbitY = target.getEyeY() + 4.0;
-
-                mob.getMoveControl().setWantedPosition(
-                        orbitX,
-                        orbitY,
-                        orbitZ,
-                        speed
-                );
+                mob.setDeltaMovement(mob.getDeltaMovement().multiply(0, 1, 0)
+                        .add(target.position().subtract(mob.position()).normalize().multiply(1, 0, 1)
+                                .yRot(90)).scale(mob.getAttributeValue(Attributes.FLYING_SPEED) * 1.5));
+                if ((target.getY() + 4) > mob.getY()){
+                    mob.getMoveControl().setWantedPosition(
+                            mob.getX(),
+                            mob.getEyeY() + 4.0,
+                            mob.getZ(),
+                            speed
+                    );
+                }
             }
 
             mob.getLookControl().setLookAt(target, 30.0F, 30.0F);
+        }
+
+    }
+
+    public static class DragonFlyByGoal extends Goal {
+
+        private final Verfalldrachen dragon;
+
+
+        private Vec3 attackDirection;
+        private Vec3 flyDestination;
+        private Vec3 climbPoint;
+
+        private boolean reachedClimbHeight;
+
+        private static final double TRIGGER_DISTANCE = 25.0D;
+        private static final double OVERSHOOT_DISTANCE = 15.0D;
+
+        private static final double CLIMB_HEIGHT = 20.0D;
+
+        private static final double CLIMB_SPEED = 0.7D;
+        private static final double GLIDE_SPEED = 1.5D;
+
+        public DragonFlyByGoal(Verfalldrachen dragon) {
+            this.dragon = dragon;
+            this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+
+            if (dragon.getTarCharge() < 20
+                    || dragon.getTarHead() <= 0
+                    || dragon.getElectricalHead() <= 0) {
+                return false;
+            }
+
+            LivingEntity target = dragon.getTarget();
+
+            if (target == null || !target.isAlive()) {
+                return false;
+            }
+
+            return dragon.distanceTo(target) >= TRIGGER_DISTANCE;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+
+            if (dragon.getTarHead() <= 0
+                    || dragon.getElectricalHead() <= 0) {
+                return false;
+            }
+
+            if (flyDestination == null) {
+                return false;
+            }
+
+            return dragon.position().distanceTo(flyDestination) > 3.0D;
+        }
+
+        @Override
+        public void start() {
+            LivingEntity target = dragon.getTarget();
+            if (target == null){
+                return;
+            }
+            dragon.setTarCharge(dragon.getTarCharge()-20);
+            dragon.setDragonFireCharge(true);
+
+            Vec3 dragonPos = dragon.position();
+            Vec3 targetPos = target.position();
+
+            attackDirection = targetPos.subtract(dragonPos).multiply(1,0,1).normalize();
+
+            flyDestination = targetPos.add(
+                    attackDirection.scale(OVERSHOOT_DISTANCE)
+            );
+
+            climbPoint = new Vec3(
+                    targetPos.x,
+                    targetPos.y + CLIMB_HEIGHT,
+                    targetPos.z
+            );
+
+            reachedClimbHeight = false;
+        }
+
+        @Override
+        public void tick() {
+            if (!reachedClimbHeight) {
+
+                Vec3 toClimb = climbPoint.subtract(dragon.position());
+
+                if (toClimb.lengthSqr() < 4.0D) {
+                    reachedClimbHeight = true;
+                    return;
+                }
+
+                Vec3 motion = toClimb.normalize().scale(CLIMB_SPEED);
+
+                dragon.setDeltaMovement(motion);
+
+                return;
+            }
+
+
+            Vec3 toDestination =
+                    flyDestination.subtract(dragon.position());
+
+            if (toDestination.lengthSqr() > 0.001D) {
+
+                Vec3 glideMotion =
+                        toDestination.normalize()
+                                .scale(GLIDE_SPEED);
+
+                dragon.setDeltaMovement(glideMotion);
+            }
+        }
+
+        @Override
+        public void stop() {
+
+            flyDestination = null;
+            climbPoint = null;
+            attackDirection = null;
+
+            reachedClimbHeight = false;
+
+            dragon.setDragonFireCharge(false);
         }
     }
 }

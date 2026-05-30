@@ -15,6 +15,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -58,8 +59,6 @@ public class TarBall extends AbstractArrow {
         if (entityData.get(IGNITED)){
             makeOre();
         }
-        if (this.inGround || this.isInFluidType())
-            this.discard();
     }
     private void makeBile(){
         for (int i = 0; i<8;i++){
@@ -79,24 +78,24 @@ public class TarBall extends AbstractArrow {
     }
 
     public void spreadTar(BlockPos blockPos,int range){
+        boolean fire = entityData.get(IGNITED);
         for (int x = -range;x<range;x++){
             for (int y = -range;y<range;y++){
                 for (int z = -range;z<range;z++){
                     BlockPos pos = blockPos.offset(x,y,z);
                     BlockState state = level().getBlockState(pos);
                     boolean fullBlockBelow = level().getBlockState(pos.below()).isSolidRender(level(),pos.below());
-                    if (fullBlockBelow && state.isAir()){
-                        level().setBlock(pos, Sblocks.TAR.get().defaultBlockState(),3);
+                    if (fullBlockBelow && state.isAir() && Math.random() < 0.75){
+                        level().setBlock(pos,fire ? Blocks.FIRE.defaultBlockState() : Sblocks.TAR.get().defaultBlockState(),3);
                     }
                 }
             }
         }
+        discard();
     }
 
     protected void onHitBlock(BlockHitResult blockHitResult) {
-        if (!level().isClientSide()){
-            spreadTar(blockHitResult.getBlockPos(),1);
-        }
+        spreadTar(blockHitResult.getBlockPos(),2);
         discard();
     }
 
@@ -108,9 +107,7 @@ public class TarBall extends AbstractArrow {
     @Override
     protected void onHitEntity(EntityHitResult hitResult) {
         if (hitResult.getEntity() instanceof LivingEntity living && target.test(living)){
-            if (!level().isClientSide()){
-                spreadTar(living.blockPosition(),2);
-            }
+            spreadTar(living.blockPosition(),2);
             super.onHitEntity(hitResult);
         }
     }
