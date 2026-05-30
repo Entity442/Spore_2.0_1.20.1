@@ -276,6 +276,16 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_debuffs;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_explosive_effects;
 
+        public final ForgeConfigSpec.ConfigValue<Double> verfa_hp;
+        public final ForgeConfigSpec.ConfigValue<Double> verfa_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> verfa_armor;
+        public final ForgeConfigSpec.ConfigValue<Double> verfa_dpsr;
+        public final ForgeConfigSpec.ConfigValue<Double> verfa_elec_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> verfa_sound_damage;
+        public final ForgeConfigSpec.ConfigValue<Double> verfa_tar_damage;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> verfa_buffs;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> verfa_debuffs;
+
         public final ForgeConfigSpec.ConfigValue<Double> levi_hp;
         public final ForgeConfigSpec.ConfigValue<Double> levi_damage;
         public final ForgeConfigSpec.ConfigValue<Double> levi_armor;
@@ -991,6 +1001,20 @@ public class SConfig {
 
             this.sieger_explosive_effects = builder.comment("Default values: minecraft:wither ,spore:mycelium ,minecraft:weakness").defineList("Sieger explosion ranged effects",
                     Lists.newArrayList("minecraft:wither", "spore:mycelium_ef", "minecraft:weakness") , o -> o instanceof String);
+            builder.pop();
+            builder.push("Verfalldrache");
+            this.verfa_hp = builder.comment("Default 300").defineInRange("Sets Verfalldrache Max health", 300, 1, Double.MAX_VALUE);
+            this.verfa_damage = builder.comment("Default 10").defineInRange("Sets Verfalldrache Damage", 10, 1, Double.MAX_VALUE);
+            this.verfa_elec_damage = builder.comment("Default 15").defineInRange("Sets Verfalldrache Electrical Damage", 15, 1, Double.MAX_VALUE);
+            this.verfa_sound_damage = builder.comment("Default 10").defineInRange("Sets Verfalldrache Sonic Damage", 10, 1, Double.MAX_VALUE);
+            this.verfa_tar_damage = builder.comment("Default 5").defineInRange("Sets Verfalldrache Tar Damage", 5, 1, Double.MAX_VALUE);
+            this.verfa_armor = builder.comment("Default 15").defineInRange("Sets Verfalldrache Armor", 15, 1, Double.MAX_VALUE);
+            this.verfa_dpsr = builder.comment("Default 50").defineInRange("Sets Verfalldrache Damage Cap , set to 0 to disable", 50, 0, Double.MAX_VALUE);
+            this.verfa_buffs = builder.comment("Default values: minecraft:speed|600|0 ,minecraft:strength|600|0 ,minecraft:resistance|600|1").defineList("Verfalldrache buffs",
+                    Lists.newArrayList("minecraft:speed|600|0" , "minecraft:strength|600|0","minecraft:resistance|600|1") , o -> o instanceof String);
+
+            this.verfa_debuffs = builder.comment("Default values: minecraft:weakness|600|1 ,spore:mycelium|600|1 ,minecraft:slowness|600|1").defineList("Verfalldrache debuffs",
+                    Lists.newArrayList("minecraft:weakness|600|1" , "spore:mycelium_ef|600|1","minecraft:slowness|600|1") , o -> o instanceof String);
             builder.pop();
             builder.push("Leviathan");
             this.levi_hp = builder.comment("Default 450").defineInRange("Sets Leviathan Max health", 450, 1, Double.MAX_VALUE);

@@ -79,8 +79,8 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
     private static final EntityDataAccessor<Integer> TAR_HEAD_SEGMENTS = SynchedEntityData.defineId(Verfalldrachen.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> SONIC_HEAD_SEGMENTS = SynchedEntityData.defineId(Verfalldrachen.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> ELECTRICAL_SEGMENTS = SynchedEntityData.defineId(Verfalldrachen.class, EntityDataSerializers.INT);
-    private final float wingsMaxHp = (float) (SConfig.SERVER.sieger_hp.get() * SConfig.SERVER.global_health.get() * 0.25);
-    private final float headsMaxHp = (float) (SConfig.SERVER.sieger_hp.get() * SConfig.SERVER.global_health.get() * 0.35);
+    private final float wingsMaxHp = (float) (SConfig.SERVER.verfa_hp.get() * SConfig.SERVER.global_health.get() * 0.25);
+    private final float headsMaxHp = (float) (SConfig.SERVER.verfa_hp.get() * SConfig.SERVER.global_health.get() * 0.35);
     protected final CalamityPathNavigation calamityPathNavigation;
     protected final UndergroundPathNavigation undergroundPathNavigation;
     protected final ExperimentalGroundMovementController groundMovementController;
@@ -393,7 +393,12 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
 
     @Override
     public double getDamageCap() {
-        return 60;
+        return SConfig.SERVER.verfa_dpsr.get();
+    }
+
+    @Override
+    public boolean canCalcify(Entity entity) {
+        return false;
     }
 
     @Override
@@ -566,12 +571,12 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
 
     @Override
     public List<? extends String> buffs() {
-        return List.of();
+        return SConfig.SERVER.verfa_buffs.get();
     }
 
     @Override
     public List<? extends String> debuffs() {
-        return List.of();
+        return SConfig.SERVER.verfa_debuffs.get();
     }
     public void allocateTargetsForHeads() {
         AABB aabb = this.getBoundingBox().inflate(32);
@@ -580,7 +585,7 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
                 entity != this &&
                         entity.isAlive() &&
                         !(entity instanceof Player player && player.getAbilities().instabuild) &&
-                        TARGET_SELECTOR.test(entity)
+                        TARGET_SELECTOR.test(entity) && this.hasLineOfSight(entity)
         );
 
 
@@ -608,10 +613,10 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, SConfig.SERVER.sieger_hp.get() * SConfig.SERVER.global_health.get())
+                .add(Attributes.MAX_HEALTH, SConfig.SERVER.verfa_hp.get() * SConfig.SERVER.global_health.get())
                 .add(Attributes.MOVEMENT_SPEED, 0.25)
-                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.sieger_damage.get() * SConfig.SERVER.global_damage.get())
-                .add(Attributes.ARMOR, SConfig.SERVER.sieger_armor.get() * SConfig.SERVER.global_armor.get())
+                .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.verfa_damage.get() * SConfig.SERVER.global_damage.get())
+                .add(Attributes.ARMOR, SConfig.SERVER.verfa_armor.get() * SConfig.SERVER.global_armor.get())
                 .add(Attributes.FOLLOW_RANGE, 64)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1)
                 .add(Attributes.ATTACK_KNOCKBACK, 2)
@@ -648,7 +653,7 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
         if (!canPerformTarAttack()) return;
 
         BileProjectile projectile = new BileProjectile(level(), this, TARGET_SELECTOR);
-        projectile.setDamage((float) (SConfig.SERVER.gazen_ranged_damage.get() * 1f));
+        projectile.setDamage((float) (SConfig.SERVER.verfa_tar_damage.get() * SConfig.SERVER.global_damage.get()));
 
         Vec3 launchPosition = getLaunchPosition(ikTarHead);
         Vec3 targetPosition = getTargetPosition(target);
@@ -667,7 +672,7 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
         if (!canPerformElectricalAttack()) return;
 
         int voltageModifier = (target instanceof IronGolem) ? 3 : 1;
-        float damage = (float) (SConfig.SERVER.conductor_el_discharge_damage.get() *
+        float damage = (float) (SConfig.SERVER.verfa_elec_damage.get() *
                 SConfig.SERVER.global_damage.get() *
                 voltageModifier);
         this.level().broadcastEntityEvent(this, (byte)7);
@@ -686,7 +691,7 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
 
         spawnSonicBoomParticles(target);
 
-        target.hurt(this.damageSources().sonicBoom(this), 10.0F);
+        target.hurt(this.damageSources().sonicBoom(this), (float) (SConfig.SERVER.verfa_sound_damage.get() * SConfig.SERVER.global_damage.get()));
         applySonicKnockback(target);
         setSonicCharge(getSonicCharge() - 5);
         setSonicTargetId(-1);

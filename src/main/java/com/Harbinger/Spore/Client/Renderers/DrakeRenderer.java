@@ -25,6 +25,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
@@ -63,7 +65,7 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
             "textures/entity/dragon/verfa_tail_seg.png");
 
     private final EntityModel<Type> bolt = new ConductorRenderer.BoltBit<>();
-    private AmbientSparks attackSpark = null;
+    private List<AmbientSparks> attackSpark = new ArrayList<>();
     private static final ResourceLocation POWER_LOCATION =new ResourceLocation("textures/entity/creeper/creeper_armor.png");
 
 
@@ -107,20 +109,33 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
             if (entity.getElectricalHead() > 0){
                 if (entity.getCharge() > 0){
                     for (AmbientSparks sparks : entity.getSparks()){
-                        renderChain(sparks.getConnections(),stack,light,bufferSource,false);
+                        renderChain(sparks.getConnections(),stack,light,bufferSource,true);
                     }
                 }
                 int targetId = entity.getElectricalTargetId();
                 Entity e = entity.level().getEntity(targetId);
                 if(e != null && entity.getBeamTicks() >= 39){
-                    Vec3 vec3 = Utilities.generatePositionAway(entity.getPosition(partialTicks),4);
-                    attackSpark = new AmbientSparks(vec3, e, entity.lightningHead,20);
+                    attackSpark.clear();
+                    for (int c = 0;c<entity.getRandom().nextInt(2,6);c++){
+                        Vec3 vec3 = Utilities.generatePositionAway(entity.getPosition(partialTicks),4);
+                        attackSpark.add(new AmbientSparks(vec3, e, entity.lightningHead,entity.getRandom().nextInt(20,41)));
+                    }
                 }
-                if (attackSpark != null && attackSpark.life < attackSpark.maxLife){
-                    attackSpark.TickSpark();
-                    renderChain(attackSpark.getConnections(),stack,light,bufferSource,true);
-                }else {
-                    attackSpark = null;
+                if (!attackSpark.isEmpty()){
+                    for (AmbientSparks sparks : attackSpark){
+                        renderChain(sparks.getConnections(),stack,light,bufferSource,true);
+                    }
+                    Iterator<AmbientSparks> it = attackSpark.iterator();
+
+                    while (it.hasNext()) {
+                        AmbientSparks spark = it.next();
+
+                        spark.TickSpark();
+
+                        if (spark.life > spark.maxLife) {
+                            it.remove();
+                        }
+                    }
                 }
             }
         }
