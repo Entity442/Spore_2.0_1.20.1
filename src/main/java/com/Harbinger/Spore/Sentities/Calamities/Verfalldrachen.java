@@ -641,7 +641,7 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
         List<LivingEntity> validTargets = level().getEntitiesOfClass(LivingEntity.class, aabb, entity ->
                 entity != this &&
                         entity.isAlive() &&
-                        !(entity instanceof Player player && player.getAbilities().instabuild) &&
+                        !(entity instanceof Player player && (player.getAbilities().instabuild || player.isSpectator())) &&
                         TARGET_SELECTOR.test(entity) && this.hasLineOfSight(entity)
         );
 
