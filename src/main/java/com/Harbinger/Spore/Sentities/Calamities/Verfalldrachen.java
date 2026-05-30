@@ -478,10 +478,11 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
     public void tick() {
         super.tick();
         if (tickCount % 5 == 0){
-            allocateTargetsForHeads();
-        }
-        if (tickCount % 10 == 0 && getDragonFireCharge()){
-            spewTar();
+            if (getDragonFireCharge()){
+                spewTar();
+            }else {
+                allocateTargetsForHeads();
+            }
         }
         regenerateCharges();
         ikSoundHead.applyIK();
@@ -942,8 +943,8 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
 
         private boolean reachedClimbHeight;
 
-        private static final double TRIGGER_DISTANCE = 25.0D;
-        private static final double OVERSHOOT_DISTANCE = 15.0D;
+        private static final double TRIGGER_DISTANCE = 35.0D;
+        private static final double OVERSHOOT_DISTANCE = 25.0D;
 
         private static final double CLIMB_HEIGHT = 20.0D;
 
@@ -958,7 +959,7 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
         @Override
         public boolean canUse() {
 
-            if (dragon.getTarCharge() < 20
+            if (dragon.getTarCharge() < 30
                     || dragon.getTarHead() <= 0
                     || dragon.getElectricalHead() <= 0) {
                 return false;
@@ -970,7 +971,7 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
                 return false;
             }
 
-            return dragon.distanceTo(target) >= TRIGGER_DISTANCE;
+            return dragon.distanceTo(target) >= TRIGGER_DISTANCE && target.onGround() && dragon.isNoGravity();
         }
 
         @Override
@@ -985,7 +986,7 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
                 return false;
             }
 
-            return dragon.position().distanceTo(flyDestination) > 3.0D;
+            return dragon.position().distanceTo(flyDestination) > 3.0D && dragon.isNoGravity();
         }
 
         @Override
@@ -994,7 +995,10 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
             if (target == null){
                 return;
             }
-            dragon.setTarCharge(dragon.getTarCharge()-20);
+            dragon.getLookControl().setLookAt(
+                    target,360,360
+            );
+            dragon.setTarCharge(dragon.getTarCharge()-30);
             dragon.setDragonFireCharge(true);
 
             Vec3 dragonPos = dragon.position();
@@ -1036,7 +1040,6 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
 
             Vec3 toDestination =
                     flyDestination.subtract(dragon.position());
-
             if (toDestination.lengthSqr() > 0.001D) {
 
                 Vec3 glideMotion =

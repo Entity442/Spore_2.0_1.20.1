@@ -15,6 +15,66 @@
       {
         "model": "spore:block/tar",
         "y": 270
+      },
+      {
+        "model": "spore:block/tar1"
+      },
+      {
+        "model": "spore:block/tar1",
+        "y": 90
+      },
+      {
+        "model": "spore:block/tar1",
+        "y": 180
+      },
+      {
+        "model": "spore:block/tar1",
+        "y": 270
+      },
+      {
+        "model": "spore:block/tar2"
+      },
+      {
+        "model": "spore:block/tar2",
+        "y": 90
+      },
+      {
+        "model": "spore:block/tar2",
+        "y": 180
+      },
+      {
+        "model": "spore:block/tar2",
+        "y": 270
+      },
+      {
+        "model": "spore:block/tar3"
+      },
+      {
+        "model": "spore:block/tar3",
+        "y": 90
+      },
+      {
+        "model": "spore:block/tar3",
+        "y": 180
+      },
+      {
+        "model": "spore:block/tar3",
+        "y": 270
+      },
+      {
+        "model": "spore:block/tar4"
+      },
+      {
+        "model": "spore:block/tar4",
+        "y": 90
+      },
+      {
+        "model": "spore:block/tar4",
+        "y": 180
+      },
+      {
+        "model": "spore:block/tar4",
+        "y": 270
       }
     ]
   }
