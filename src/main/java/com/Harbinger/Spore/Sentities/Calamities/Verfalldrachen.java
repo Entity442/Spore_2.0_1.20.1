@@ -588,9 +588,9 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
             float tarRegen = 1.0f;
             setTarCharge(Math.min(30, getTarCharge() + tarRegen));
         }
-        if (getSonicCharge() < 10 && getSonicHead() > 0) {
+        if (getSonicCharge() < 5 && getSonicHead() > 0) {
             float sonicRegen = 0.5f;
-            setSonicCharge(Math.min(10, getSonicCharge() + sonicRegen));
+            setSonicCharge(Math.min(5, getSonicCharge() + sonicRegen));
         }
     }
 
@@ -983,6 +983,9 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
             }
 
             if (flyDestination == null) {
+                return false;
+            }
+            if (dragon.tickCount % 20 == 0 &&  dragon.horizontalCollision){
                 return false;
             }
 

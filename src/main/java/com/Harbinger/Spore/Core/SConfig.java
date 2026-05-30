@@ -1006,7 +1006,7 @@ public class SConfig {
             this.verfa_hp = builder.comment("Default 300").defineInRange("Sets Verfalldrache Max health", 300, 1, Double.MAX_VALUE);
             this.verfa_damage = builder.comment("Default 10").defineInRange("Sets Verfalldrache Damage", 10, 1, Double.MAX_VALUE);
             this.verfa_elec_damage = builder.comment("Default 15").defineInRange("Sets Verfalldrache Electrical Damage", 15, 1, Double.MAX_VALUE);
-            this.verfa_sound_damage = builder.comment("Default 10").defineInRange("Sets Verfalldrache Sonic Damage", 10, 1, Double.MAX_VALUE);
+            this.verfa_sound_damage = builder.comment("Default 5").defineInRange("Sets Verfalldrache Sonic Damage", 5, 1, Double.MAX_VALUE);
             this.verfa_tar_damage = builder.comment("Default 5").defineInRange("Sets Verfalldrache Tar Damage", 5, 1, Double.MAX_VALUE);
             this.verfa_armor = builder.comment("Default 15").defineInRange("Sets Verfalldrache Armor", 15, 1, Double.MAX_VALUE);
             this.verfa_dpsr = builder.comment("Default 50").defineInRange("Sets Verfalldrache Damage Cap , set to 0 to disable", 50, 0, Double.MAX_VALUE);
