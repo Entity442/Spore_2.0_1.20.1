@@ -677,6 +677,7 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
                 voltageModifier);
         this.level().broadcastEntityEvent(this, (byte)7);
         target.hurt(level().damageSources().lightningBolt(), damage);
+        target.setRemainingFireTicks(100);
         spawnLightningEffect(target);
         beamTicks = 40;
         setCharge(getCharge() - 10);
