@@ -325,6 +325,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.ASSASSIN_BULLET.get(), AcidBulletRenderer::new);
         event.registerEntityRenderer(Sentities.BILE_BULLET.get(), BileBulletRenderer::new);
         event.registerEntityRenderer(Sentities.TAR_BALL.get(), TarRenderer::new);
+        event.registerEntityRenderer(Sentities.VERFALL_HEAD.get(), VerfallHeadRenderer::new);
 
         event.registerBlockEntityRenderer(SblockEntities.OVERGROWN_SPAWNER.get(), new OvergrownSpawnerRenderer());
         event.registerBlockEntityRenderer(SblockEntities.BRAIN_REMNANTS.get(), new BrainRemnantsRenderer());

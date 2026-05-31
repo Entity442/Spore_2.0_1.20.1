@@ -8,10 +8,7 @@ import com.Harbinger.Spore.Sentities.Experiments.Biobloob;
 import com.Harbinger.Spore.Sentities.Experiments.Lacerator;
 import com.Harbinger.Spore.Sentities.Experiments.Plagued;
 import com.Harbinger.Spore.Sentities.Experiments.Saugling;
-import com.Harbinger.Spore.Sentities.FallenMultipart.HowitzerArm;
-import com.Harbinger.Spore.Sentities.FallenMultipart.Licker;
-import com.Harbinger.Spore.Sentities.FallenMultipart.SiegerTail;
-import com.Harbinger.Spore.Sentities.FallenMultipart.StalhArm;
+import com.Harbinger.Spore.Sentities.FallenMultipart.*;
 import com.Harbinger.Spore.Sentities.Hyper.Grober;
 import com.Harbinger.Spore.Sentities.Hyper.*;
 import com.Harbinger.Spore.Sentities.Organoids.*;
@@ -113,6 +110,7 @@ public class Attributes {
         event.put(Sentities.REAPER.get(), Reaper.createAttributes().build());
         event.put(Sentities.GORGON.get(), Gorgon.createAttributes().build());
         event.put(Sentities.VERFALL.get(), Verfalldrachen.createAttributes().build());
+        event.put(Sentities.VERFALL_HEAD.get(), DragonHead.createAttributes().build());
     }
 }
 

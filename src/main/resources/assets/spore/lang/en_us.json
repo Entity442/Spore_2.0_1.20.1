@@ -453,6 +453,7 @@
   "entity.spore.arena_tendril": "Challenge Watcher",
   "entity.spore.gorgon": "Gorgon",
   "entity.spore.verfall": "Verfalldrace",
+  "entity.spore.verfall_head": "Verfalldrace",
 
   "spore.entity.variant.kidnapper" : "Kidnapper Mutation",
   "spore.entity.variant.kamikaze": "Kamikaze Mutation",

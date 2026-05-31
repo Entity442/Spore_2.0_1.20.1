@@ -9,10 +9,7 @@ import com.Harbinger.Spore.Sentities.Experiments.Biobloob;
 import com.Harbinger.Spore.Sentities.Experiments.Lacerator;
 import com.Harbinger.Spore.Sentities.Experiments.Plagued;
 import com.Harbinger.Spore.Sentities.Experiments.Saugling;
-import com.Harbinger.Spore.Sentities.FallenMultipart.HowitzerArm;
-import com.Harbinger.Spore.Sentities.FallenMultipart.Licker;
-import com.Harbinger.Spore.Sentities.FallenMultipart.SiegerTail;
-import com.Harbinger.Spore.Sentities.FallenMultipart.StalhArm;
+import com.Harbinger.Spore.Sentities.FallenMultipart.*;
 import com.Harbinger.Spore.Sentities.Hyper.Grober;
 import com.Harbinger.Spore.Sentities.Hyper.*;
 import com.Harbinger.Spore.Sentities.Organoids.*;
@@ -471,6 +468,9 @@ public class Sentities {
     public static final RegistryObject<EntityType<Verfalldrachen>> VERFALL = SPORE_ENTITIES.register("verfall",
             () -> EntityType.Builder.of(Verfalldrachen::new, INFECTED).sized(4f, 5f)
                     .build(new ResourceLocation(Spore.MODID, "verfall").toString()));
+    public static final RegistryObject<EntityType<DragonHead>> VERFALL_HEAD = SPORE_ENTITIES.register("verfall_head",
+            () -> EntityType.Builder.of(DragonHead::new, INFECTED).sized(1.5f, 1.5f)
+                    .build(new ResourceLocation(Spore.MODID, "verfall_head").toString()));
 
 
     public static final RegistryObject<EntityType<Howitzer>> HOWITZER = SPORE_ENTITIES.register("howitzer",

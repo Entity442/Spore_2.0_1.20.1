@@ -1,9 +1,6 @@
 package com.Harbinger.Spore.Sentities.Calamities;
 
-import com.Harbinger.Spore.Core.SAttributes;
-import com.Harbinger.Spore.Core.SConfig;
-import com.Harbinger.Spore.Core.Sitems;
-import com.Harbinger.Spore.Core.Ssounds;
+import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.CalamityInfectedCommand;
@@ -15,11 +12,13 @@ import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.BaseEntities.IkUtil.IkDragonHead;
 import com.Harbinger.Spore.Sentities.BaseEntities.IkUtil.IkDragonTail;
+import com.Harbinger.Spore.Sentities.FallenMultipart.DragonHead;
 import com.Harbinger.Spore.Sentities.MovementControls.DragonFlightMoveControl;
 import com.Harbinger.Spore.Sentities.MovementControls.ExperimentalGroundMovementController;
 import com.Harbinger.Spore.Sentities.MovementControls.UndergroundPathNavigation;
 import com.Harbinger.Spore.Sentities.Projectile.TarBall;
 import com.Harbinger.Spore.Sentities.TrueCalamity;
+import com.Harbinger.Spore.Sentities.Variants.DragonHeadVariants;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -313,19 +312,6 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
 
 
 
-    @Override
-    public void onAddedToWorld() {
-        super.onAddedToWorld();
-        setRightWing(wingsMaxHp);
-        setLeftWing(wingsMaxHp);
-        setTarHead(headsMaxHp);
-        setSonicHead(headsMaxHp);
-        setElectricalHead(headsMaxHp);
-        setTarHeadSegment(TAR_HEAD_SEGMENT);
-        setSonicHeadSegment(SONIC_HEAD_SEGMENT);
-        setElectricalHeadSegment(ELECTRICAL_SEGMENT);
-    }
-
     public int getWingData(){
         if (getRightWing() <= 0 && getLeftWing() <= 0){
             return 3;
@@ -412,14 +398,27 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
     protected float cutHead(int i){
         if (i == 0){
             setTarHeadSegment(0);
+            summonHead(getIkTarHead(),DragonHeadVariants.TAR);
         }
         if (i == 1){
             setSonicHeadSegment(0);
+            summonHead(getIkSoundHead(),DragonHeadVariants.SONIC);
         }
         if (i == 2){
             setElectricalHeadSegment(0);
+            summonHead(getIkLightningHead(),DragonHeadVariants.ELECTRIC);
         }
         return 0f;
+    }
+    private void summonHead(IkDragonHead head, DragonHeadVariants value){
+        Vec3[] positions = head.getEntities();
+        Vec3 positionHead = positions[positions.length-1];
+        Vec3 positionNeckStart = positions[1];
+        DragonHead dragonHead = new DragonHead(Sentities.VERFALL_HEAD.get(),level());
+        dragonHead.setVariant(value);
+        dragonHead.moveTo(positionHead);
+        dragonHead.getNeck().setSitPosition(positionNeckStart);
+        level().addFreshEntity(dragonHead);
     }
 
     @Override
