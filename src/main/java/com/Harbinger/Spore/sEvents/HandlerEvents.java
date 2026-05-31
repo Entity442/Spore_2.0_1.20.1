@@ -789,6 +789,7 @@ public class HandlerEvents {
             MobEffectInstance instance = victim.getEffect(Seffects.IGNITABLE.get());
             if (instance != null && Math.random() < chance){
                 victim.setRemainingFireTicks(victim.getRemainingFireTicks()+instance.getDuration());
+                victim.removeEffect(Seffects.IGNITABLE.get());
             }
         }
         if(event.getEntity() instanceof Infected victim && !(victim instanceof Protector)) {
