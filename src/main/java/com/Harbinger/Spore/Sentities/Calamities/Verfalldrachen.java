@@ -413,7 +413,7 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
     private void summonHead(IkDragonHead head, DragonHeadVariants value){
         Vec3[] positions = head.getEntities();
         Vec3 positionHead = positions[positions.length-1];
-        Vec3 positionNeckStart = positions[1];
+        Vec3 positionNeckStart = positions[0];
         DragonHead dragonHead = new DragonHead(Sentities.VERFALL_HEAD.get(),level());
         dragonHead.setVariant(value);
         dragonHead.moveTo(positionHead);
@@ -532,6 +532,8 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
         ///Ambient Electricity why am I writing a comment am I a baka ?
         if (tickCount % 5 == 0 && getCharge() > 0){
             this.playSound(Ssounds.ELECTRIC.get());
+            AABB aabb = getBoundingBox().inflate(8);
+            List<TarBall> balls = level().getEntitiesOfClass(TarBall.class,aabb);
             for (int e = 0;e<ikLightningHead.getEntities().length;e++){
                 float range = Math.abs(getCharge() * 0.05f);
                 int charge = (int) range * 3;
@@ -539,8 +541,6 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
                 for (int i = 0;i<random.nextInt(3 + charge);i++){
                     Vec3 vec3 = Utilities.generatePositionAway(entityPositions,2+range);
                     if (getDragonFireCharge()){
-                        AABB aabb = getBoundingBox().inflate(8);
-                        List<TarBall> balls = level().getEntitiesOfClass(TarBall.class,aabb);
                         TarBall tarBall = balls.isEmpty() ? null : balls.get(random.nextInt(balls.size()));
                         if (tarBall != null){
                             tarBall.setIgnited(true);
