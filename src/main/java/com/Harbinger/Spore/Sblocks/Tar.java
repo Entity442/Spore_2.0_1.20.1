@@ -1,8 +1,14 @@
 package com.Harbinger.Spore.Sblocks;
 
+import com.Harbinger.Spore.Core.Seffects;
+import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -19,6 +25,14 @@ public class Tar extends FallingBlock {
         Vec3 offset = state.getOffset(world, pos);
         {
             return box(0, 0, 0, 16, 1, 16).move(offset.x, offset.y, offset.z);
+        }
+    }
+
+    @Override
+    public void entityInside(BlockState p_60495_, Level p_60496_, BlockPos p_60497_, Entity entity) {
+        super.entityInside(p_60495_, p_60496_, p_60497_, entity);
+        if (entity instanceof LivingEntity living && Utilities.TARGET_SELECTOR.Test(living) && !living.hasEffect(Seffects.IGNITABLE.get())){
+            living.addEffect(new MobEffectInstance(Seffects.IGNITABLE.get(),100,0));
         }
     }
 

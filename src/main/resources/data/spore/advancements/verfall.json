@@ -1,0 +1,37 @@
+{
+  "display": {
+    "icon": {
+      "item": "spore:verfall_spawnegg"
+    },
+    "title":{"translate": "advancement.spore.verfall.title"},
+    "description":{"translate": "advancement.spore.verfall.description"}
+  },
+
+  "parent": "spore:reconstructor",
+  "criteria": {
+    "hurt_infected": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "entity": {
+          "type": "spore:verfall"
+        }
+      }
+    },
+    "hurt_by_infected": {
+      "trigger": "minecraft:entity_hurt_player",
+      "conditions": {
+        "damage": {
+          "source_entity": {
+            "type": "spore:verfall"
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "hurt_infected",
+      "hurt_by_infected"
+    ]
+  ]
+}

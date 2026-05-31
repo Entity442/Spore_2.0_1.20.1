@@ -362,6 +362,7 @@
   "item.spore.garg_spawnegg": "Gargoyle",
   "item.spore.reaper_spawnegg": "Reaper",
   "item.spore.gorgon_spawnegg": "Gorgon",
+  "item.spore.verfall_spawnegg": "Verfalldrace",
 
 
   "entity.spore.knight": "Knight",
@@ -451,6 +452,7 @@
   "entity.spore.inf_diseased_villager": "Infected Diseased Villager",
   "entity.spore.arena_tendril": "Challenge Watcher",
   "entity.spore.gorgon": "Gorgon",
+  "entity.spore.verfall": "Verfalldrace",
 
   "spore.entity.variant.kidnapper" : "Kidnapper Mutation",
   "spore.entity.variant.kamikaze": "Kamikaze Mutation",
@@ -593,6 +595,7 @@
   "effect.spore.madness": "Madness",
   "effect.spore.frostbite": "Frostbite",
   "effect.spore.biled": "Biled",
+  "effect.spore.ignitable": "Ignitable",
 
   "item.minecraft.splash_potion.effect.mycelium_potion": "Mycelium Infection Splash Potion",
   "item.minecraft.potion.effect.mycelium_potion": "Mycelium Infection Potion",
@@ -903,6 +906,8 @@
   "advancement.spore.reaper.description" : "Encounter a Reaper.",
   "advancement.spore.gorgon.title" : "Stoned",
   "advancement.spore.gorgon.description" : "Encounter a Gorgon.",
+  "advancement.spore.verfall.title" : "How NOT To Train Your Dragon",
+  "advancement.spore.verfall.description" : "Encounter a Verfalldrace.",
 
   "spore.proto.message.0": "You're gonna need a bigger sword :P",
   "spore.proto.message.1": "Rage quit already you're done",

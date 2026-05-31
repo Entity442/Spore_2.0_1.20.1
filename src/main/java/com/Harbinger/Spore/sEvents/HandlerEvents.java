@@ -2,6 +2,7 @@ package com.Harbinger.Spore.sEvents;
 
 import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.Damage.SdamageTypes;
+import com.Harbinger.Spore.Effect.Ignitable;
 import com.Harbinger.Spore.ExtremelySusThings.*;
 import com.Harbinger.Spore.ExtremelySusThings.Package.SongInitializingPacket;
 import com.Harbinger.Spore.SBlockEntities.CDUBlockEntity;
@@ -774,6 +775,20 @@ public class HandlerEvents {
                 target.addEffect(new MobEffectInstance(Seffects.FROSTBITE.get(),2400,4));
                 player.getCooldowns().addCooldown(pci, (int) Math.ceil(targetHealth / 5f) * 20);
                 pci.playSound(player);
+            }
+        }
+        if (event.getEntity().hasEffect(Seffects.IGNITABLE.get())){
+            LivingEntity victim = event.getEntity();
+            float chance = 0.01f;
+            for (Ignitable.SetAblazeChances chances : Ignitable.SetAblazeChances.values()){
+                if (event.getSource().is(chances.getDamageType())){
+                    chance = chances.getChance();
+                    break;
+                }
+            }
+            MobEffectInstance instance = victim.getEffect(Seffects.IGNITABLE.get());
+            if (instance != null && Math.random() < chance){
+                victim.setRemainingFireTicks(victim.getRemainingFireTicks()+instance.getDuration());
             }
         }
         if(event.getEntity() instanceof Infected victim && !(victim instanceof Protector)) {
