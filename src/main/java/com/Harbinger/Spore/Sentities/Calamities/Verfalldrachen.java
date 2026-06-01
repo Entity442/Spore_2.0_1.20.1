@@ -13,6 +13,7 @@ import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
 import com.Harbinger.Spore.Sentities.BaseEntities.IkUtil.IkDragonHead;
 import com.Harbinger.Spore.Sentities.BaseEntities.IkUtil.IkDragonTail;
 import com.Harbinger.Spore.Sentities.FallenMultipart.DragonHead;
+import com.Harbinger.Spore.Sentities.HitboxesForParts;
 import com.Harbinger.Spore.Sentities.MovementControls.DragonFlightMoveControl;
 import com.Harbinger.Spore.Sentities.MovementControls.ExperimentalGroundMovementController;
 import com.Harbinger.Spore.Sentities.MovementControls.UndergroundPathNavigation;
@@ -390,9 +391,11 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
         ItemStack stack = new ItemStack(Sitems.WING_MEMBRANE.get(),random.nextInt(3,10));
         ItemEntity item = new ItemEntity(level(),this.getX() + vec3.x, this.getY() + vec3i.y, this.getZ() + vec3.z,stack);
         level().addFreshEntity(item);
+        this.playSound(Ssounds.LIMB_SLASH.get());
         return 0f;
     }
     protected float cutHead(int i){
+        this.playSound(Ssounds.LIMB_SLASH.get());
         if (i == 0){
             setTarHeadSegment(0);
             summonHead(getIkTarHead(),DragonHeadVariants.TAR);
@@ -567,6 +570,10 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
             }
         }
     }
+    @Override
+    public List<? extends String> getDropList() {
+        return SConfig.DATAGEN.verfall_loot.get();
+    }
 
     private void regenerateCharges() {
         if ((getElectricalTargetId() != -1 || getDragonFireCharge()) && getElectricalHead() > 0) {
@@ -670,7 +677,7 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
                 .add(Attributes.MOVEMENT_SPEED, 0.25)
                 .add(Attributes.ATTACK_DAMAGE, SConfig.SERVER.verfa_damage.get() * SConfig.SERVER.global_damage.get())
                 .add(Attributes.ARMOR, SConfig.SERVER.verfa_armor.get() * SConfig.SERVER.global_armor.get())
-                .add(Attributes.FOLLOW_RANGE, 64)
+                .add(Attributes.FOLLOW_RANGE, 128)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1)
                 .add(Attributes.ATTACK_KNOCKBACK, 2)
                 .add(Attributes.FLYING_SPEED, 0.3)
@@ -1060,5 +1067,21 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
 
             dragon.setDragonFireCharge(false);
         }
+    }
+
+    private final List<HitboxesForParts> innatePartList = List.of(HitboxesForParts.VERFALL_BODY,
+            HitboxesForParts.VERFALL_LEFT_WING,
+            HitboxesForParts.VERFALL_RIGHT_WING,HitboxesForParts.VERFALL_RIGHT_LEG,
+            HitboxesForParts.VERFALL_LEFT_LEG);
+    @Override
+    public List<HitboxesForParts> parts() {
+        List<HitboxesForParts> values = new ArrayList<>();
+        for (HitboxesForParts hitboxes : innatePartList){
+            HitboxesForParts part = calculateChance(hitboxes,0.85f);
+            if (part != null){
+                values.add(part);
+            }
+        }
+        return values;
     }
 }

@@ -157,6 +157,8 @@ public class DragonHead extends FallenMultipartEntity implements VariantKeeper {
         }
     }
 
+
+
     @Override
     public boolean doHurtTarget(Entity entity) {
         if (entity instanceof LivingEntity living && getTypeVariant() == 0){
@@ -189,7 +191,7 @@ public class DragonHead extends FallenMultipartEntity implements VariantKeeper {
 
     @Override
     public List<? extends String> getDropList() {
-        return SConfig.DATAGEN.gazen_tongue_loot.get();
+        return SConfig.DATAGEN.verfa_head_loot.get();
     }
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()

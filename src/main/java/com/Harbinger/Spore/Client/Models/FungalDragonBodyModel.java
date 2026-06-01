@@ -17,7 +17,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "fungaldragonbodymodel"), "main");
 	private final ModelPart Ribcage;
-	private final ModelPart body;
+	public final ModelPart body;
 	private final ModelPart rib6;
 	private final ModelPart rib5;
 	private final ModelPart body3;
@@ -59,7 +59,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 	private final ModelPart rib9;
 	private final ModelPart MajoTarSack;
 	private final ModelPart MajoTarSack2;
-	private final ModelPart LeftBackLeg;
+	public final ModelPart LeftBackLeg;
 	private final ModelPart LeftBack;
 	private final ModelPart flower14;
 	private final ModelPart body17;
@@ -86,7 +86,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 	private final ModelPart Infectedbody47;
 	private final ModelPart Infectedbody96;
 	private final ModelPart Infectedbody97;
-	private final ModelPart RightBackLeg;
+	public final ModelPart RightBackLeg;
 	private final ModelPart RightBack;
 	private final ModelPart Infectedbody2;
 	private final ModelPart Infectedbody50;
@@ -114,7 +114,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 	private final ModelPart Tumors4;
 	private final ModelPart Tumors5;
 	private final ModelPart Tumors6;
-	private final ModelPart RightWing;
+	public final ModelPart RightWing;
 	private final ModelPart RightWingSeg1;
 	private final ModelPart WingThingie;
 	private final ModelPart WingThingie2;
@@ -164,7 +164,7 @@ public class FungalDragonBodyModel<T extends Verfalldrachen> extends EntityModel
 	private final ModelPart patty;
 	private final ModelPart LLimbJawJoint;
 	private final ModelPart CalciumCorpseLLimb;
-	private final ModelPart LeftWing;
+	public final ModelPart LeftWing;
 	private final ModelPart RightWingSeg;
 	private final ModelPart mass;
 	private final ModelPart mass2;

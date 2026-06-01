@@ -1201,7 +1201,7 @@ public class SConfig {
             this.reconstructor_terrain = builder.defineList("Mobs that are summoned for ground support",
                     Lists.newArrayList("spore:sieger","spore:howitzer","spore:stahl" ) , o -> o instanceof String);
             this.reconstructor_air = builder.defineList("Mobs that are summoned for air support",
-                    Lists.newArrayList("spore:hindenburg" ) , o -> o instanceof String);
+                    Lists.newArrayList("spore:hindenburg","spore:verfall" ) , o -> o instanceof String);
             this.reconstructor_water = builder.defineList("Mobs that are summoned for water support",
                     Lists.newArrayList("spore:gazenbreacher","spore:kraken","spore:leviathan" ) , o -> o instanceof String);
             this.reconstructor_underground = builder.defineList("Mobs that are summoned for underground support",
@@ -1756,6 +1756,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> gastgaber_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sca_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> verfall_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> gazen_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> hindie_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> howit_loot;
@@ -1765,6 +1766,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sieger_tail_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> gazen_tongue_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> sta_blade_loot;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> verfa_head_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> vigil_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> umarmer_loot;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> proto_loot;
@@ -1966,6 +1968,9 @@ public class SConfig {
             this.hindie_loot = builder.defineList("Hindenburg",
                     Lists.newArrayList("spore:mutated_fiber|100|33|75","spore:amalgamated_heart|100|1|1","spore:armor_fragment|100|1|4","spore:mutated_heart|70|3|7","spore:cerebrum|70|1|4","spore:spine_fragment|56|7|15","spore:tumor|100|7|22", "spore:wing_membrane|100|3|11") , o -> o instanceof String);
 
+            this.verfall_loot = builder.defineList("Verfalldrache",
+                    Lists.newArrayList("spore:mutated_fiber|100|33|75","spore:amalgamated_heart|50|1|1","spore:armor_fragment|100|5|20","spore:mutated_heart|70|3|7","spore:tumor|100|2|5","spore:cerebrum|70|2|7","spore:spine_fragment|56|8|17","spore:wing_membrane|100|12|35") , o -> o instanceof String);
+
             this.sieger_tail_loot = builder.defineList("Sieger Tail",
                     Lists.newArrayList("spore:mutated_fiber|100|10|25","spore:armor_fragment|100|3|10","spore:tumor|100|7|22") , o -> o instanceof String);
 
@@ -1977,6 +1982,9 @@ public class SConfig {
 
             this.sta_blade_loot = builder.defineList("Stahlmorder Blade loot",
                     Lists.newArrayList("spore:mutated_fiber|100|5|15","spore:armor_fragment|100|3|14","spore:tumor|100|1|4","spore:tendons|70|6|12","spore:claw|100|3|12","spore:claw_fragment|100|15|45") , o -> o instanceof String);
+
+            this.verfa_head_loot = builder.defineList("Verfalldrache Head loot",
+                    Lists.newArrayList("spore:mutated_fiber|100|5|15","spore:armor_fragment|100|3|14","spore:tendons|70|6|12","spore:fang|100|3|12") , o -> o instanceof String);
 
             this.proto_loot = builder.defineList("Proto Hivemind",
                     Lists.newArrayList("spore:mutated_fiber|100|10|20","spore:armor_fragment|80|4|14","spore:organoid_membrane|80|4|8","spore:mutated_heart|80|1|6","spore:cerebrum|100|2|11","spore:spine_fragment|80|2|8") , o -> o instanceof String);

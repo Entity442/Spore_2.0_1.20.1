@@ -31,6 +31,7 @@ public class CalamityPartsHandeling {
     private static final adaptedwormsegment2<?> worm_ada_seg2Model = new adaptedwormsegment2<>();
     private static final adaptedwormsegment3<?> worm_ada_seg3Model = new adaptedwormsegment3<>();
     private static final adaptedwormtail<?> worm_ada_tailModel = new adaptedwormtail<>();
+    private static final FungalDragonBodyModel<?> dragon = new FungalDragonBodyModel<>();
     private static final ResourceLocation DEFAULT_SIEGER = new ResourceLocation(Spore.MODID,"textures/entity/sieger.png");
     private static final ResourceLocation ADAPTED_SIEGER = new ResourceLocation(Spore.MODID,"textures/entity/war_sieger.png");
     private static final ResourceLocation DEFAULT_GAZEN = new ResourceLocation(Spore.MODID,"textures/entity/gazen.png");
@@ -51,6 +52,7 @@ public class CalamityPartsHandeling {
     private static final ResourceLocation STAHL  = new ResourceLocation(Spore.MODID,"textures/entity/stalh.png");
     private static final ResourceLocation LEVIATHAN  = new ResourceLocation(Spore.MODID,"textures/entity/leviathan.png");
     private static final ResourceLocation LEVIATHAN_TAIL  = new ResourceLocation(Spore.MODID,"textures/entity/leviathan_tail.png");
+    private static final ResourceLocation VERFALL  = new ResourceLocation(Spore.MODID,"textures/entity/dragon/verfalldrache_wings_down.png");
     public record Part(int id, List<ModelPart> parts,float x, float y,float z,float xRot, float yRot,float zRot, ResourceLocation location,ResourceLocation adapted_location){}
 
     public static final Part SIEGER_BODY = new Part(0,List.of(siegerModel.mainbody,siegerModel.mainbody2),0,0,0,0,0,0,DEFAULT_SIEGER,ADAPTED_SIEGER);
@@ -112,9 +114,13 @@ public class CalamityPartsHandeling {
     public static final Part HOHL_ADA_SEG1 = new Part(48,List.of(worm_ada_seg1Model.hohl_seg),0,0.5f,0,0,0,0,HOHL_SEG1_ADA,HOHL_SEG1_ADA);
     public static final Part HOHL_ADA_SEG2 = new Part(49,List.of(worm_ada_seg2Model.hohl_seg),0,0.5f,0,0,0,0,HOHL_SEG2_ADA,HOHL_SEG2_ADA);
     public static final Part HOHL_ADA_SEG3 = new Part(50,List.of(worm_ada_seg3Model.hohl_seg),0,0.5f,0,0,0,0,HOHL_SEG3_ADA,HOHL_SEG3_ADA);
-    public static final Part HOHL_ADA_TAIL = new Part(51,List.of(worm_tailModel.tail),0,0,0.5f,0,0,0,HOHL_SEG1_ADA,HOHL_SEG1_ADA);
+    public static final Part HOHL_ADA_TAIL = new Part(51,List.of(worm_ada_tailModel.tail),0,0,0.5f,0,0,0,HOHL_SEG1_ADA,HOHL_SEG1_ADA);
 
-
+    public static final Part VERFALL_BODY = new Part(52,List.of(dragon.body),-1,-2,0,0,0,0,VERFALL,VERFALL);
+    public static final Part VERFALL_RIGHT_WING = new Part(53,List.of(dragon.RightWing),-1,-2,-3.5f,0,0,0,VERFALL,VERFALL);
+    public static final Part VERFALL_LEFT_WING = new Part(54,List.of(dragon.LeftWing),-1,-2,3.5f,0,0,0,VERFALL,VERFALL);
+    public static final Part VERFALL_RIGHT_LEG = new Part(55,List.of(dragon.RightBackLeg),4.5f,-1,-1.5f,0,0,0,VERFALL,VERFALL);
+    public static final Part VERFALL_LEFT_LEG = new Part(56,List.of(dragon.LeftBackLeg),4.5f,-1,1.5f,0,0,0,VERFALL,VERFALL);
     public static Part getPart(int value){
         return getParts.stream().filter(p -> p.id == value).findFirst().orElse(SIEGER_BODY);
     }
@@ -180,5 +186,11 @@ public class CalamityPartsHandeling {
         add(HOHL_ADA_SEG2);
         add(HOHL_ADA_SEG3);
         add(HOHL_ADA_TAIL);
+
+        add(VERFALL_BODY);
+        add(VERFALL_RIGHT_WING);
+        add(VERFALL_LEFT_WING);
+        add(VERFALL_RIGHT_LEG);
+        add(VERFALL_LEFT_LEG);
     }};
 }
