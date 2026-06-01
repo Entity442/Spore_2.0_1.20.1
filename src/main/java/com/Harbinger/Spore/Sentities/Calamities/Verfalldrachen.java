@@ -28,6 +28,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
@@ -41,6 +42,7 @@ import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -575,6 +577,30 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
         return SConfig.DATAGEN.verfall_loot.get();
     }
 
+    @Override
+    public void playAmbientSound() {
+        if (getTarHead() > 0 && getTarHeadSegment() == TAR_HEAD_SEGMENT && Math.random() < 0.5){
+            playSound(Ssounds.SIEGER_AMBIENT.get());
+        }
+        if (getSonicHead() > 0 && getSonicHeadSegment() == SONIC_HEAD_SEGMENT && Math.random() < 0.5){
+            playSound(Ssounds.SIEGER_AMBIENT.get());
+        }
+        if (getElectricalHead() > 0 && getElectricalHeadSegment() == ELECTRICAL_SEGMENT && Math.random() < 0.5){
+            playSound(Ssounds.SIEGER_AMBIENT.get());
+        }
+        playSound(Ssounds.SIEGER_AMBIENT.get());
+    }
+
+    protected SoundEvent getStepSound() {
+        return SoundEvents.RAVAGER_STEP;
+    }
+
+    protected void playStepSound(BlockPos p_34316_, BlockState p_34317_) {
+        if (!onGround()){
+            return;
+        }
+        this.playSound(this.getStepSound(), 0.15F, 1.0F);
+    }
     private void regenerateCharges() {
         if ((getElectricalTargetId() != -1 || getDragonFireCharge()) && getElectricalHead() > 0) {
             if (getCharge() <= 20) {
