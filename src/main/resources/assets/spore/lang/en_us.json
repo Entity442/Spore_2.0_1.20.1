@@ -362,7 +362,7 @@
   "item.spore.garg_spawnegg": "Gargoyle",
   "item.spore.reaper_spawnegg": "Reaper",
   "item.spore.gorgon_spawnegg": "Gorgon",
-  "item.spore.verfall_spawnegg": "Verfalldrace",
+  "item.spore.verfall_spawnegg": "Verfalldrache",
 
 
   "entity.spore.knight": "Knight",
@@ -452,8 +452,8 @@
   "entity.spore.inf_diseased_villager": "Infected Diseased Villager",
   "entity.spore.arena_tendril": "Challenge Watcher",
   "entity.spore.gorgon": "Gorgon",
-  "entity.spore.verfall": "Verfalldrace",
-  "entity.spore.verfall_head": "Verfalldrace",
+  "entity.spore.verfall": "Verfalldrache",
+  "entity.spore.verfall_head": "Verfalldrache",
 
   "spore.entity.variant.kidnapper" : "Kidnapper Mutation",
   "spore.entity.variant.kamikaze": "Kamikaze Mutation",

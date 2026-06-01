@@ -39,11 +39,8 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
@@ -764,15 +761,15 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
 // ==================== VALIDATION METHODS ====================
 
     private boolean canPerformTarAttack() {
-        return getTarCharge() > 0 && getTarHead() > 0;
+        return getTarCharge() > 0 && getTarHead() > 0 && getTarHeadSegment() == TAR_HEAD_SEGMENT;
     }
 
     private boolean canPerformElectricalAttack() {
-        return getCharge() >= 10 && beamTicks <= 0 && getElectricalHead() > 0;
+        return getCharge() >= 10 && beamTicks <= 0 && getElectricalHead() > 0 && getElectricalHeadSegment() == ELECTRICAL_SEGMENT;
     }
 
     private boolean canPerformSonicAttack() {
-        return getSonicCharge() >= 5 && getSonicHead() > 0;
+        return getSonicCharge() >= 5 && getSonicHead() > 0 && getSonicHeadSegment() == SONIC_HEAD_SEGMENT;
     }
 
 // ==================== UTILITY METHODS ====================

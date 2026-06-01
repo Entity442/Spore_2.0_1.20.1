@@ -24,7 +24,7 @@ public class Ignitable extends MobEffect {
         PLAYER_EXPLOSION(DamageTypes.PLAYER_EXPLOSION,0.6f),
         IN_FIRE(DamageTypes.IN_FIRE,0.2f),
         ON_FIRE(DamageTypes.ON_FIRE,0.1f),
-        FIREWORKS(DamageTypes.ON_FIRE,0.3f);
+        FIREWORKS(DamageTypes.FIREWORKS,0.3f);
 
         private final ResourceKey<DamageType> damageType;
         private final float chance;
