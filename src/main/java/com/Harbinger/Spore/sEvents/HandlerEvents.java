@@ -800,7 +800,7 @@ public class HandlerEvents {
                             livingEntity.setRemainingFireTicks(livingEntity.getRemainingFireTicks()+instance.getDuration());
                         }else {
                             if (Utilities.TARGET_SELECTOR.Test(livingEntity)){
-                                livingEntity.setRemainingFireTicks(livingEntity.getRemainingFireTicks()+instance.getDuration());
+                                livingEntity.setRemainingFireTicks(livingEntity.getRemainingFireTicks()+(instance.getDuration()/2));
                             }
                         }
                     }
