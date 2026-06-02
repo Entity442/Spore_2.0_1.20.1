@@ -772,7 +772,7 @@ public class HandlerEvents {
                 event.setAmount(newDamage);
                 pci.setCharge(weapon, charge - freezeDamage);
                 target.setTicksFrozen(Math.max(target.getTicksFrozen(), 600));
-                target.addEffect(new MobEffectInstance(Seffects.FROSTBITE.get(),2400,4));
+                target.addEffect(new MobEffectInstance(Seffects.FROSTBITE.get(),160,4));
                 player.getCooldowns().addCooldown(pci, (int) Math.ceil(targetHealth / 5f) * 20);
                 pci.playSound(player);
             }
