@@ -580,15 +580,15 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
     @Override
     public void playAmbientSound() {
         if (getTarHead() > 0 && getTarHeadSegment() == TAR_HEAD_SEGMENT && Math.random() < 0.5){
-            playSound(Ssounds.SIEGER_AMBIENT.get());
+            this.tarHead.playSound(Ssounds.VERFALL_TAR_HEAD_AMBIENT.get());
         }
         if (getSonicHead() > 0 && getSonicHeadSegment() == SONIC_HEAD_SEGMENT && Math.random() < 0.5){
-            playSound(Ssounds.SIEGER_AMBIENT.get());
+            this.soundHead.playSound(Ssounds.VERFALL_SONIC_HEAD_AMBIENT.get());
         }
         if (getElectricalHead() > 0 && getElectricalHeadSegment() == ELECTRICAL_SEGMENT && Math.random() < 0.5){
-            playSound(Ssounds.SIEGER_AMBIENT.get());
+            this.lightningHead.playSound(Ssounds.VERFALL_ELEC_HEAD_AMBIENT.get());
         }
-        playSound(Ssounds.SIEGER_AMBIENT.get());
+        playSound(Ssounds.VERFALL_AMBIENT.get());
     }
 
     protected SoundEvent getStepSound() {
@@ -774,7 +774,7 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
         spawnLightningEffect(target);
         beamTicks = 40;
         setCharge(getCharge() - 10);
-        playSound(Ssounds.ELECTRIC_DISCHARGE.get());
+        playSound(Ssounds.VERFALL_ELECTRICITY_ATTACK.get());
         setElectricalTargetId(-1);
     }
 

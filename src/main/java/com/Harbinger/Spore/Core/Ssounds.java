@@ -351,6 +351,20 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> GORGON_SPEW = soundRegistry("gorgon_spew");
 
+    public static final RegistryObject<SoundEvent> VERFALL_AMBIENT = soundRegistry("verfall_ambient");
+
+    public static final RegistryObject<SoundEvent> VERFALL_ELEC_HEAD_AMBIENT = soundRegistry("verfall_elec_head_ambient");
+
+    public static final RegistryObject<SoundEvent> VERFALL_TAR_HEAD_AMBIENT = soundRegistry("verfall_tar_head_ambient");
+
+    public static final RegistryObject<SoundEvent> VERFALL_SONIC_HEAD_AMBIENT = soundRegistry("verfall_sonic_head_ambient");
+
+    public static final RegistryObject<SoundEvent> VERFALL_FLAP = soundRegistry("verfall_flap");
+
+    public static final RegistryObject<SoundEvent> VERFALL_ELECTRICITY_ATTACK = soundRegistry("verfall_electricity_attack");
+
+    public static final RegistryObject<SoundEvent> FIRE_EXPLOSION = soundRegistry("fire_explosion");
+
 
     public static final RegistryObject<SoundEvent> BANE_OF_SETTLEMENT = soundRegistry("bane_of_settlement");
     public static final RegistryObject<SoundEvent> BICENTENNIAL = soundRegistry("bicentennial");

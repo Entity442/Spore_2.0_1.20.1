@@ -15,7 +15,7 @@ import net.minecraft.world.entity.LivingEntity;
 
 public class DragonTailPieceMid1Model<T extends LivingEntity> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("modid", "dragontailpiecemid1model"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Spore.MODID, "dragontailpiecemid1model"), "main");
 	private final ModelPart yuri;
 	private final ModelPart fungus;
 

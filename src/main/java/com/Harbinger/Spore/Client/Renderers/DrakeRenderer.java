@@ -223,7 +223,7 @@ public class DrakeRenderer<Type extends Verfalldrachen> extends CalamityRenderer
             }
             float f = ((float)livingEntity.tickCount + partialTicks);
             VertexConsumer vertexconsumer = buffer.getBuffer(RenderType.energySwirl(POWER_LOCATION, livingEntity.tickCount * 0.01F % 1.0F, f * 0.01F % 1.0F));
-            electricalBrain.getBrain().render(stack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY, -8355712,1,1,1);
+            electricalBrain.getBrain().render(stack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY, 1,1,1,1);
             stack.popPose();
         }
     }

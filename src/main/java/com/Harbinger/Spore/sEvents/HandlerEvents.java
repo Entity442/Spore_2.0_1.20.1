@@ -790,6 +790,21 @@ public class HandlerEvents {
             if (instance != null && Math.random() < chance){
                 victim.setRemainingFireTicks(victim.getRemainingFireTicks()+instance.getDuration());
                 victim.removeEffect(Seffects.IGNITABLE.get());
+                victim.playSound(Ssounds.FIRE_EXPLOSION.get());
+                AABB aabb = victim.getBoundingBox().inflate(3);
+                List<Entity> fireList = victim.level().getEntities(victim,aabb);
+                boolean isInfected = victim.getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES);
+                for(Entity entity : fireList){
+                    if (entity instanceof LivingEntity livingEntity){
+                        if (isInfected && !(livingEntity instanceof Player)){
+                            livingEntity.setRemainingFireTicks(livingEntity.getRemainingFireTicks()+instance.getDuration());
+                        }else {
+                            if (Utilities.TARGET_SELECTOR.Test(livingEntity)){
+                                livingEntity.setRemainingFireTicks(livingEntity.getRemainingFireTicks()+instance.getDuration());
+                            }
+                        }
+                    }
+                }
             }
         }
         if(event.getEntity() instanceof Infected victim && !(victim instanceof Protector)) {

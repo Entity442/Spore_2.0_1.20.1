@@ -120,6 +120,7 @@ public class SpecificClientEvents {
     public static final ResourceLocation CORROSION_OVERLAY =new ResourceLocation(Spore.MODID,"textures/gui/icons/corrosion_overlay.png");
     public static final ResourceLocation MADNESS_OVERLAY =new ResourceLocation(Spore.MODID,"textures/gui/icons/madness_overlay.png");
     public static final ResourceLocation MYCELIUM_INFECTION_OVERLAY =new ResourceLocation(Spore.MODID,"textures/gui/icons/mycelium_infection_overlay.png");
+    public static final ResourceLocation TAR_OVERLAY =new ResourceLocation(Spore.MODID,"textures/gui/icons/tar_overlay.png");
     @SubscribeEvent
     public static void onRenderOverlay(RenderGuiEvent.Pre event) {
         Minecraft mc = Minecraft.getInstance();
@@ -141,6 +142,7 @@ public class SpecificClientEvents {
         MobEffectInstance corroded = player.getEffect(Seffects.CORROSION.get());
         MobEffectInstance madness = player.getEffect(Seffects.MADNESS.get());
         MobEffectInstance mycelium = player.getEffect(Seffects.MYCELIUM.get());
+        MobEffectInstance tar = player.getEffect(Seffects.IGNITABLE.get());
         if (biled != null){
             renderOverlay(event,screenWidth,screenHeight,BILE_OVERLAY,true,biled.getDuration());
         }
@@ -152,6 +154,9 @@ public class SpecificClientEvents {
         }
         if (mycelium != null){
             renderOverlay(event,screenWidth,screenHeight,MYCELIUM_INFECTION_OVERLAY,true,mycelium.getDuration());
+        }
+        if (tar != null){
+            renderOverlay(event,screenWidth,screenHeight,TAR_OVERLAY,true,tar.getDuration());
         }
     }
 
