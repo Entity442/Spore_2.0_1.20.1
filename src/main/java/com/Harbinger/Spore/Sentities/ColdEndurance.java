@@ -5,7 +5,8 @@ public enum ColdEndurance {
     EVOLVED(1,0.075),
     HYPER(2,0.05),
     ABNORMALS(3,0.05),
-    CALAMITY(4,0.025);
+    CALAMITY(4,0.025),
+    ADAPTED_CALAMITY(5,0.025);
 
 
     private final int level;

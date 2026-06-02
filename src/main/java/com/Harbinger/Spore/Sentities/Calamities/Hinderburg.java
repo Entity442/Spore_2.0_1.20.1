@@ -10,6 +10,7 @@ import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SporeBurstSupport;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.SummonScentInCombat;
 import com.Harbinger.Spore.Sentities.AI.FlyingWanderAround;
 import com.Harbinger.Spore.Sentities.BaseEntities.*;
+import com.Harbinger.Spore.Sentities.ColdEndurance;
 import com.Harbinger.Spore.Sentities.FlyingInfected;
 import com.Harbinger.Spore.Sentities.HitboxesForParts;
 import com.Harbinger.Spore.Sentities.Projectile.ThrownTumor;
@@ -66,6 +67,10 @@ public class Hinderburg extends Calamity implements FlyingInfected , TrueCalamit
         this.setId(ENTITY_COUNTER.getAndAdd(this.subEntities.length + 1) + 1);
     }
 
+    @Override
+    public ColdEndurance getEndurance() {
+        return getAdaptation() ? ColdEndurance.ADAPTED_CALAMITY : super.getEndurance();
+    }
     @Override
     public boolean causeFallDamage(float p_147187_, float p_147188_, DamageSource p_147189_) {
         return false;

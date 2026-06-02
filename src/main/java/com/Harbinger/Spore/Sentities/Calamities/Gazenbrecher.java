@@ -8,6 +8,7 @@ import com.Harbinger.Spore.Sentities.AI.AOEMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.AI.CalamitiesAI.*;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
+import com.Harbinger.Spore.Sentities.ColdEndurance;
 import com.Harbinger.Spore.Sentities.FallenMultipart.Licker;
 import com.Harbinger.Spore.Sentities.HitboxesForParts;
 import com.Harbinger.Spore.Sentities.Projectile.BileProjectile;
@@ -55,6 +56,10 @@ public class Gazenbrecher extends Calamity implements WaterInfected , RangedAtta
         this.setId(ENTITY_COUNTER.getAndAdd(this.subEntities.length + 1) + 1);
     }
 
+    @Override
+    public ColdEndurance getEndurance() {
+        return getAdaptation() ? ColdEndurance.ADAPTED_CALAMITY : super.getEndurance();
+    }
     @Override
     public boolean canDrownInFluidType(FluidType type) {
         return false;

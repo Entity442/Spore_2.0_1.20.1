@@ -11,6 +11,7 @@ import com.Harbinger.Spore.Sentities.AI.FloatDiveGoal;
 import com.Harbinger.Spore.Sentities.AI.LeapGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.Calamity;
 import com.Harbinger.Spore.Sentities.BaseEntities.CalamityMultipart;
+import com.Harbinger.Spore.Sentities.ColdEndurance;
 import com.Harbinger.Spore.Sentities.FallenMultipart.HowitzerArm;
 import com.Harbinger.Spore.Sentities.HitboxesForParts;
 import com.Harbinger.Spore.Sentities.Projectile.FleshBomb;
@@ -89,7 +90,10 @@ public class Howitzer extends Calamity implements TrueCalamity, RangedAttackMob 
         for (int i = 0; i < this.subEntities.length; i++)
             this.subEntities[i].setId(p_20235_ + i + 1);
     }
-
+    @Override
+    public ColdEndurance getEndurance() {
+        return getAdaptation() ? ColdEndurance.ADAPTED_CALAMITY : super.getEndurance();
+    }
     @Override
     public double getDamageCap() {
         return SConfig.SERVER.howit_dpsr.get();

@@ -72,7 +72,13 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread, C
         setPersistenceRequired();
         initializeValues();
     }
-    private void fillDefaultTeams(List<String> team ,List<? extends String> CONFIG){
+
+    @Override
+    public ColdEndurance getEndurance() {
+        return ColdEndurance.HYPER;
+    }
+
+    private void fillDefaultTeams(List<String> team , List<? extends String> CONFIG){
         if (CONFIG.size() < 4) {
             throw new IllegalArgumentException("CONFIG must have at least 4 unique entries");
         }
