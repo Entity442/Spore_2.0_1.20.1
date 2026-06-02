@@ -872,14 +872,14 @@ public class SConfig {
 
             builder.push("Inquisitor");
             this.inquisitor_hp = builder.comment("Default 60").defineInRange("Sets Inquisitor Max health", 60, 1, Double.MAX_VALUE);
-            this.inquisitor_damage = builder.comment("Default 20").defineInRange("Sets Inquisitor Damage", 20, 1, Double.MAX_VALUE);
+            this.inquisitor_damage = builder.comment("Default 15").defineInRange("Sets Inquisitor Damage", 15, 1, Double.MAX_VALUE);
             this.inquisitor_armor = builder.comment("Default 7").defineInRange("Sets Inquisitor Armor", 7, 1, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("Groberfub");
-            this.grober_hp = builder.comment("Default 60").defineInRange("Sets Groberfub Max health", 85, 1, Double.MAX_VALUE);
-            this.grober_damage = builder.comment("Default 20").defineInRange("Sets Groberfub Damage", 15, 1, Double.MAX_VALUE);
-            this.grober_armor = builder.comment("Default 7").defineInRange("Sets Groberfub Armor", 8, 1, Double.MAX_VALUE);
+            this.grober_hp = builder.comment("Default 75").defineInRange("Sets Groberfub Max health", 75, 1, Double.MAX_VALUE);
+            this.grober_damage = builder.comment("Default 15").defineInRange("Sets Groberfub Damage", 15, 1, Double.MAX_VALUE);
+            this.grober_armor = builder.comment("Default 8").defineInRange("Sets Groberfub Armor", 8, 1, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("Nuke");
