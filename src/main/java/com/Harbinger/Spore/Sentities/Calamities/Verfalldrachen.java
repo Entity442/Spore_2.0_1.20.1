@@ -586,7 +586,7 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
             this.soundHead.playSound(Ssounds.VERFALL_SONIC_HEAD_AMBIENT.get());
         }
         if (getElectricalHead() > 0 && getElectricalHeadSegment() == ELECTRICAL_SEGMENT && Math.random() < 0.5){
-            this.lightningHead.playSound(Ssounds.ELECTRIC_SPARK.get());
+            this.lightningHead.playSound(Ssounds.ELECTRIC.get());
         }
         playSound(Ssounds.VERFALL_AMBIENT.get());
     }
