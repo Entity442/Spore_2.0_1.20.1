@@ -193,7 +193,7 @@ public class DragonHead extends FallenMultipartEntity implements VariantKeeper {
     @Override
     protected @Nullable SoundEvent getAmbientSound() {
         if (getVariant() == DragonHeadVariants.ELECTRIC){
-            return Ssounds.VERFALL_ELEC_HEAD_AMBIENT.get();
+            return Ssounds.ELECTRIC_SPARK.get();
         }
         if (getVariant() == DragonHeadVariants.SONIC){
             return Ssounds.VERFALL_SONIC_HEAD_AMBIENT.get();

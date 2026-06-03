@@ -353,8 +353,6 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> VERFALL_AMBIENT = soundRegistry("verfall_ambient");
 
-    public static final RegistryObject<SoundEvent> VERFALL_ELEC_HEAD_AMBIENT = soundRegistry("verfall_elec_head_ambient");
-
     public static final RegistryObject<SoundEvent> VERFALL_TAR_HEAD_AMBIENT = soundRegistry("verfall_tar_head_ambient");
 
     public static final RegistryObject<SoundEvent> VERFALL_SONIC_HEAD_AMBIENT = soundRegistry("verfall_sonic_head_ambient");

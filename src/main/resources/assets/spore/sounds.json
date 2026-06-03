@@ -654,12 +654,6 @@
       "spore:verfall_tar_ambient"
     ]
   },
-  "verfall_elec_head_ambient" :{
-    "subtitle": "sounds.spore.growl",
-    "sounds": [
-      "spore:verfall_tar_ambient"
-    ]
-  },
   "verfall_tar_head_ambient" :{
     "subtitle": "sounds.spore.growl",
     "sounds": [

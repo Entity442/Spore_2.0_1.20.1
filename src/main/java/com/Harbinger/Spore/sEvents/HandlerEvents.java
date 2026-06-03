@@ -35,6 +35,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.TagKey;
@@ -790,7 +791,11 @@ public class HandlerEvents {
             if (instance != null && Math.random() < chance){
                 victim.setRemainingFireTicks(victim.getRemainingFireTicks()+instance.getDuration());
                 victim.removeEffect(Seffects.IGNITABLE.get());
-                victim.playSound(Ssounds.FIRE_EXPLOSION.get());
+                if (victim instanceof Player player){
+                    player.playNotifySound(Ssounds.FIRE_EXPLOSION.get(), SoundSource.PLAYERS,1f,1f);
+                }else {
+                    victim.playSound(Ssounds.FIRE_EXPLOSION.get());
+                }
                 AABB aabb = victim.getBoundingBox().inflate(3);
                 List<Entity> fireList = victim.level().getEntities(victim,aabb);
                 boolean isInfected = victim.getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES);
