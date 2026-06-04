@@ -113,10 +113,8 @@ public class IkDragonTail {
         return pivot.add(applyYaw(defaultBodyOffset));
     }
 
-    protected void moveSegmentTowards(int index, Vec3 target, boolean far) {
-        Vec3 currentPos = entities[index];
-        Vec3 newPos = currentPos.lerp(target, 0.35f);
-        entities[index] = (far ? target : newPos);
+    protected void moveSegmentTowards(int index, Vec3 target) {
+        entities[index] = (target);
     }
 
     protected void moveTipTowards(Vec3 target) {
@@ -239,13 +237,12 @@ public class IkDragonTail {
         double rad = angularVelocity * Mth.DEG_TO_RAD;
 
         // Tangential velocity = angular velocity × radius
-        Vec3 velocity = new Vec3(
+
+        return new Vec3(
                 -rad * relativePos.z * strength,
                 0,
                 rad * relativePos.x * strength
         );
-
-        return velocity;
     }
 
     public void applyIK() {
@@ -277,8 +274,7 @@ public class IkDragonTail {
             }
 
             Vec3 solvedPos = nextPos.add(dir);
-            boolean forceSolve = entities[i+1].distanceTo(entities[i]) > segmentLength * 1.5f;
-            moveSegmentTowards(i, solvedPos, forceSolve);
+            moveSegmentTowards(i, solvedPos);
         }
 
         // Ensure root is at correct position
@@ -297,8 +293,7 @@ public class IkDragonTail {
             }
 
             Vec3 solvedPos = prevPos.add(dir);
-            boolean forceSolve = entities[i-1].distanceTo(entities[i]) > segmentLength * 1.5f;
-            moveSegmentTowards(i, solvedPos, forceSolve);
+            moveSegmentTowards(i, solvedPos);
         }
 
         applyIdleWiggle();
