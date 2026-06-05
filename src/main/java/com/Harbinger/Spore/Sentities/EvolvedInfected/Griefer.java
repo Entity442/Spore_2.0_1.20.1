@@ -109,7 +109,7 @@ public class Griefer extends EvolvedInfected implements VariantKeeper {
                                     if (effect != null)
                                         livingEntity.addEffect(new MobEffectInstance(effect,200,0));
                                 }else{
-                                    livingEntity.hurt(SdamageTypes.radiation_damage(this),4);
+                                    livingEntity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS,200,0));
                                 }
                             }
                         }
