@@ -138,9 +138,6 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
         entityData.define(DRAGON_FIRE_CHARGE,false);
     }
     public void setDragonFireCharge(boolean va){
-        if (va){
-            playSound(Ssounds.VERFALL_SPECIAL_ATTACK.get());
-        }
         entityData.set(DRAGON_FIRE_CHARGE,va);
     }
     public boolean getDragonFireCharge(){
@@ -1042,6 +1039,7 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
             if (target == null){
                 return;
             }
+            dragon.level().playSound(dragon,target.blockPosition(),Ssounds.VERFALL_SPECIAL_ATTACK.get(),SoundSource.MASTER,1f,1f);
             dragon.getLookControl().setLookAt(
                     target,360,360
             );
