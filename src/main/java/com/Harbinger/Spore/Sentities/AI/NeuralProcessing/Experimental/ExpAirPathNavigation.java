@@ -1,15 +1,18 @@
 package com.Harbinger.Spore.Sentities.AI.NeuralProcessing.Experimental;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.PathNavigationRegion;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.*;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
+
 public class ExpAirPathNavigation extends FlyingPathNavigation {
 
     static final float EPSILON = 1.0E-8F;
@@ -24,6 +27,7 @@ public class ExpAirPathNavigation extends FlyingPathNavigation {
         this.nodeEvaluator.setCanPassDoors(true);
         return new ExpPathFinder(this.nodeEvaluator, maxVisitedNodes);
     }
+
     @Deprecated
     public void hardStop() {
         this.path = null;
@@ -93,6 +97,20 @@ public class ExpAirPathNavigation extends FlyingPathNavigation {
     }
 
     private boolean sweep(Vec3 vec, Vec3 base, Vec3 max) {
+        // Create a fresh node evaluator for this sweep with a PathNavigationRegion
+        FlyNodeEvaluator sweepEvaluator = new FlyNodeEvaluator();
+        sweepEvaluator.setCanPassDoors(true);
+
+        // Create a PathNavigationRegion from the level and the mob's bounding box
+        int radius = Mth.ceil(Math.max(this.mob.getBbWidth(), this.mob.getBbHeight())) + 1;
+        BlockPos center = this.mob.blockPosition();
+        PathNavigationRegion region = new PathNavigationRegion(
+                this.level,
+                center.offset(-radius, -radius, -radius),
+                center.offset(radius, radius, radius)
+        );
+        sweepEvaluator.prepare(region, this.mob);
+
         float t = 0.0F;
         float max_t = (float) vec.length();
         if (max_t < EPSILON)
@@ -104,6 +122,7 @@ public class ExpAirPathNavigation extends FlyingPathNavigation {
         final float[] tDelta = new float[3];
         final float[] tNext = new float[3];
         final float[] normed = new float[3];
+
         for (int i = 0; i < 3; i++) {
             float value = element(vec, i);
             boolean dir = value >= 0.0F;
@@ -142,19 +161,16 @@ public class ExpAirPathNavigation extends FlyingPathNavigation {
             for (int x = x0; x != x1; x += stepx) {
                 for (int z = z0; z != z1; z += stepz) {
                     for (int y = y0; y != y1; y += stepy) {
-                        BlockState block = this.level.getBlockState(pos.set(x, y, z));
-                        if (!block.isPathfindable(level,new BlockPos(x,y,z),PathComputationType.AIR))
+                        BlockPos blockPos = pos.set(x, y, z);
+                        BlockState block = this.level.getBlockState(blockPos);
+                        if (!block.isPathfindable(this.level, blockPos, PathComputationType.AIR))
                             return false;
                     }
-                    BlockPathTypes below = this.nodeEvaluator.getBlockPathType(
-                            level,
-                            x,
-                            y0 - 1,
-                            z
-                    );
+                    // Use the sweep-specific evaluator
+                    BlockPathTypes below = sweepEvaluator.getBlockPathType(this.level, x, y0 - 1, z);
                     if (below == BlockPathTypes.WATER || below == BlockPathTypes.LAVA || below == BlockPathTypes.OPEN)
                         return false;
-                    BlockPathTypes in = this.nodeEvaluator.getBlockPathType(level, x, y0, z);
+                    BlockPathTypes in = sweepEvaluator.getBlockPathType(this.level, x, y0, z);
                     float priority = this.mob.getPathfindingMalus(in);
                     if (priority < 0.0F || priority >= 8.0F)
                         return false;
