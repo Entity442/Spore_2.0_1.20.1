@@ -651,19 +651,22 @@
   "verfall_ambient" :{
     "subtitle": "sounds.spore.growl",
     "sounds": [
-      "spore:verfall_tar_ambient"
+      "spore:verfall_body_headless",
+      "spore:verfall_body_headless2"
     ]
   },
   "verfall_tar_head_ambient" :{
     "subtitle": "sounds.spore.growl",
     "sounds": [
-      "spore:verfall_tar_ambient"
+      "spore:verfall_tar_ambient",
+      "spore:verfall_tar_ambient2"
     ]
   },
   "verfall_sonic_head_ambient" :{
     "subtitle": "sounds.spore.growl",
     "sounds": [
-      "spore:verfall_sonic_ambient"
+      "spore:verfall_sonic_ambient",
+      "spore:verfall_sonic_ambient2"
     ]
   },
   "verfall_flap" :{
@@ -677,6 +680,37 @@
     "subtitle": "sounds.spore.growl",
     "sounds": [
       "spore:verfall_big_shock"
+    ]
+  },
+  "verfall_special_attack" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:verfall_electric_tar_flame_blast"
+    ]
+  },
+  "verfall_neck_regrow" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:verfall_neck_regrow"
+    ]
+  },
+  "verfall_head_regrow" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:verfall_head_regrow"
+    ]
+  },
+  "verfall_attack" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:verfall_tail_whip"
+    ]
+  },
+  "verfall_tar_attack" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:verfall_tar_spit",
+      "spore:verfall_tar_spit2"
     ]
   },
   "scientist_ambient" :{

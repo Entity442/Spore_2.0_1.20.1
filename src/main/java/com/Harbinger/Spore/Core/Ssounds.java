@@ -361,6 +361,16 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> VERFALL_ELECTRICITY_ATTACK = soundRegistry("verfall_electricity_attack");
 
+    public static final RegistryObject<SoundEvent> VERFALL_TAR_ATTACK = soundRegistry("verfall_tar_attack");
+
+    public static final RegistryObject<SoundEvent> VERFALL_SPECIAL_ATTACK = soundRegistry("verfall_special_attack");
+
+    public static final RegistryObject<SoundEvent> VERFALL_NECK_REGROW = soundRegistry("verfall_neck_regrow");
+
+    public static final RegistryObject<SoundEvent> VERFALL_HEAD_REGROW = soundRegistry("verfall_head_regrow");
+
+    public static final RegistryObject<SoundEvent> VERFALL_ATTACK = soundRegistry("verfall_attack");
+
     public static final RegistryObject<SoundEvent> FIRE_EXPLOSION = soundRegistry("fire_explosion");
 
 
