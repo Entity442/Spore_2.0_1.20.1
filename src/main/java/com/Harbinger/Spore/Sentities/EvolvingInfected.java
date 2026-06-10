@@ -44,7 +44,7 @@ public interface EvolvingInfected {
     default void tickHyperEvolution(EvolvedInfected infected){
         if (infected.tickCount % 20 == 0){
             if (infected.getEvoPoints() >= SConfig.SERVER.min_kills_hyper.get()){
-                if (infected.getEvolutionCoolDown() >= SConfig.SERVER.evolution_age_human.get()){
+                if (infected.getEvolutionCoolDown() >= SConfig.SERVER.evolution_age_hyper.get()){
                     this.HyperEvolve(infected);
                 }else{
                     if (!infected.hasEffect(Seffects.FROSTBITE.get()))

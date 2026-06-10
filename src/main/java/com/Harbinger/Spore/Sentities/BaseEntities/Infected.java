@@ -531,10 +531,11 @@ public class Infected extends Monster implements ColdWeakness {
                 if (Math.random() < 0.3 && this instanceof EvolvingInfected evolvingInfected){
                     if (evolvingInfected instanceof EvolvedInfected){
                         this.setEvoPoints(this.getEvoPoints()+SConfig.SERVER.min_kills_hyper.get());
+                        this.setEvolution(SConfig.SERVER.evolution_age_hyper.get());
                     }else{
                         this.setEvoPoints(this.getEvoPoints()+SConfig.SERVER.min_kills.get());
+                        this.setEvolution(SConfig.SERVER.evolution_age_human.get());
                     }
-                    this.setEvolution(SConfig.SERVER.evolution_age_human.get());
                 }
                 enchantEquipment(this);
             }
