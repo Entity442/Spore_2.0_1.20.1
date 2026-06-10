@@ -4,6 +4,7 @@ import com.Harbinger.Spore.Damage.SdamageTypes;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
+import com.Harbinger.Spore.Sentities.BaseEntities.Infected;
 import com.Harbinger.Spore.Sentities.BaseEntities.UtilityEntity;
 import com.Harbinger.Spore.Sentities.ColdEndurance;
 import com.Harbinger.Spore.Sentities.Projectile.AcidBall;
@@ -158,12 +159,14 @@ public class Chemist extends EvolvedInfected implements VariantKeeper {
         AABB aabb = this.getBoundingBox().inflate(8);
         List<Entity> entities = level().getEntities(this,aabb);
         for (Entity entity : entities){
-            if (entity instanceof UtilityEntity utilityEntity){
-                utilityEntity.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE,600,0));
-            }else {
-                if (entity instanceof LivingEntity living && Utilities.TARGET_SELECTOR.Test(living) && !Utilities.helmetList().contains(living.getItemBySlot(EquipmentSlot.HEAD).getItem())){
-                    living.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),400,1));
-                    living.addEffect(new MobEffectInstance(MobEffects.WEAKNESS,600,0));
+            if (entity instanceof LivingEntity living){
+                if ((entity instanceof UtilityEntity || entity instanceof Infected)){
+                    living.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE,600,0));
+                }else {
+                    if (Utilities.TARGET_SELECTOR.Test(living) && !Utilities.helmetList().contains(living.getItemBySlot(EquipmentSlot.HEAD).getItem())){
+                        living.addEffect(new MobEffectInstance(Seffects.MYCELIUM.get(),400,1));
+                        living.addEffect(new MobEffectInstance(MobEffects.WEAKNESS,600,0));
+                    }
                 }
             }
         }
@@ -230,7 +233,7 @@ public class Chemist extends EvolvedInfected implements VariantKeeper {
         AABB aabb = getBoundingBox().inflate(8,4,8);
         List<Entity> entities = level().getEntities(this,aabb);
         for (Entity entity : entities){
-            if (entity instanceof UtilityEntity && entity.isOnFire()){
+            if ((entity instanceof UtilityEntity || entity instanceof Infected) && entity.isOnFire()){
                 entity.extinguishFire();
             }
         }
