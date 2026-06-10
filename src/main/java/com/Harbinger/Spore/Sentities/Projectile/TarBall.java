@@ -32,7 +32,7 @@ public class TarBall extends AbstractArrow {
     public TarBall(Level level) {
         super(Sentities.TAR_BALL.get(),level);
     }
-
+    private int range = 2;
     public TarBall(EntityType<TarBall> acidBallEntityType, Level level) {
         super(acidBallEntityType, level);
     }
@@ -48,7 +48,13 @@ public class TarBall extends AbstractArrow {
         this.target = predicate;
         this.setBaseDamage(damage);
     }
-
+    public TarBall(LivingEntity entity, Level world, Predicate<LivingEntity> predicate, float damage,int range) {
+        super(Sentities.TAR_BALL.get(),world);
+        this.setOwner(entity);
+        this.target = predicate;
+        this.range = range;
+        this.setBaseDamage(damage);
+    }
     public ItemStack getItem() {
         return ItemStack.EMPTY;
     }
@@ -72,6 +78,9 @@ public class TarBall extends AbstractArrow {
     }
 
     public void spreadTar(BlockPos blockPos,int range){
+        if (level().isClientSide() || range == 0){
+            return;
+        }
         boolean fire = entityData.get(IGNITED);
         for (int x = -range;x<range;x++){
             for (int y = -range;y<range;y++){
@@ -89,7 +98,7 @@ public class TarBall extends AbstractArrow {
     }
 
     protected void onHitBlock(BlockHitResult blockHitResult) {
-        spreadTar(blockHitResult.getBlockPos(),2);
+        spreadTar(blockHitResult.getBlockPos(),range);
         discard();
     }
 
@@ -101,8 +110,12 @@ public class TarBall extends AbstractArrow {
     @Override
     protected void onHitEntity(EntityHitResult hitResult) {
         if (hitResult.getEntity() instanceof LivingEntity living && target.test(living)){
-            spreadTar(living.blockPosition(),2);
-            living.addEffect(new MobEffectInstance(Seffects.IGNITABLE.get(),200,0));
+            spreadTar(living.blockPosition(),range);
+            if (!entityData.get(IGNITED)){
+                living.addEffect(new MobEffectInstance(Seffects.IGNITABLE.get(),200,0));
+            }else {
+                living.setRemainingFireTicks(200);
+            }
             super.onHitEntity(hitResult);
         }
     }

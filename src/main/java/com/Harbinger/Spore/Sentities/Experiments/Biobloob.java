@@ -165,7 +165,6 @@ public class Biobloob extends Experiment implements RangedAttackMob {
                 level().addFreshEntity(bileProjectile);
             }else {
                 AcidBall.shoot(this, livingEntity,(float) (SConfig.SERVER.biobloob__ranged_damage.get() * SConfig.SERVER.global_damage.get()));
-                this.playSound(SoundEvents.SLIME_JUMP, 1, 0.5f);
             }
         }
     }

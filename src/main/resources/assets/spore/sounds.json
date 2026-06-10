@@ -136,6 +136,20 @@
       "spore:scientist_fuse"
     ]
   },
+  "spitter_spit" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:spitter_spit1",
+      "spore:spitter_spit2"
+    ]
+  },
+  "spitter_vomit" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:spitter_minigun",
+      "spore:spitter_minigun2"
+    ]
+  },
   "kraken_growl" :{
   "subtitle": "sounds.spore.growl",
   "sounds": [

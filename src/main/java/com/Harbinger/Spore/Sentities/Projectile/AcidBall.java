@@ -4,9 +4,7 @@ import com.Harbinger.Spore.Core.*;
 import com.Harbinger.Spore.ExtremelySusThings.Utilities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -16,9 +14,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.PlayMessages;
 
 import java.util.Random;
 
@@ -69,7 +64,7 @@ public class AcidBall extends AbstractArrow implements ItemSupplier {
         entityarrow.setBaseDamage(damage);
         entityarrow.setKnockback(1);
         entity.level().addFreshEntity(entityarrow);
-
+        entity.playSound(Ssounds.SPITTER_SPIT.get());
         return entityarrow;
     }
 
@@ -108,7 +103,7 @@ public class AcidBall extends AbstractArrow implements ItemSupplier {
         living.addEffect(new MobEffectInstance(Seffects.CORROSION.get(),300,level));
     }
     protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundEvents.SLIME_JUMP_SMALL;
+        return Ssounds.SPITTER_SPIT.get();
     }
 
     @Override

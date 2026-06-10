@@ -159,7 +159,6 @@ public class Spitter extends EvolvedInfected implements RangedAttackMob, Variant
             float dmg = (float) (SConfig.SERVER.spit_damage_l.get() * SConfig.SERVER.global_damage.get());
             AcidBall.shoot(this, target, dmg);
             if (doubleShot) AcidBall.shoot(this, target, dmg);
-            this.playSound(SoundEvents.SLIME_JUMP, 1, 0.5f);
         }
     }
 

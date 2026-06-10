@@ -373,6 +373,9 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> FIRE_EXPLOSION = soundRegistry("fire_explosion");
 
+    public static final RegistryObject<SoundEvent> SPITTER_SPIT = soundRegistry("spitter_spit");
+
+    public static final RegistryObject<SoundEvent> SPITTER_VOMIT = soundRegistry("spitter_vomit");
 
     public static final RegistryObject<SoundEvent> BANE_OF_SETTLEMENT = soundRegistry("bane_of_settlement");
     public static final RegistryObject<SoundEvent> BICENTENNIAL = soundRegistry("bicentennial");

@@ -67,7 +67,7 @@ public class Vomit extends AbstractArrow implements ItemSupplier {
         entityarrow.setBaseDamage(damage);
         entityarrow.setKnockback(0);
         entity.level().addFreshEntity(entityarrow);
-
+        entity.playSound(Ssounds.SPITTER_VOMIT.get());
         return entityarrow;
     }
 
@@ -93,8 +93,9 @@ public class Vomit extends AbstractArrow implements ItemSupplier {
     }
 
     protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundEvents.SLIME_JUMP_SMALL;
+        return Ssounds.SPITTER_VOMIT.get();
     }
+
 
     @Override
     protected void doPostHurtEffects(LivingEntity entity) {
