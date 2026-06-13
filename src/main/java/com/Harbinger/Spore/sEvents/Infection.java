@@ -45,7 +45,7 @@ import java.util.List;
 public class Infection {
 
     public static void setItemBySlot(Player player, EquipmentSlot slot, Mob entity) {
-        entity.setItemSlot(slot, player.getItemBySlot(slot));
+        entity.setItemSlot(slot, player.getItemBySlot(slot).copy());
         entity.setDropChance(slot, 0);
     }
 

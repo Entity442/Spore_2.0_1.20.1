@@ -7,7 +7,7 @@ public enum ChemistVariants {
     DEFAULT(0,"default"),
     MECHANIC(1,"spore.entity.variant.mechanic"),
     FUMING(2,"spore.entity.variant.fuming"),
-    BURST(3,"spore.entity.variant.burst"),
+    BURST(3,"spore.entity.variant.ember"),
     SPREADER(4,"spore.entity.variant.spreader");
 
     private static final ChemistVariants[] BY_ID = Arrays.stream(values()).sorted(Comparator.

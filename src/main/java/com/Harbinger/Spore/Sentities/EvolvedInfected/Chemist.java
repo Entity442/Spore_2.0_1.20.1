@@ -188,19 +188,8 @@ public class Chemist extends EvolvedInfected implements VariantKeeper {
     public boolean doHurtTarget(Entity entity) {
         this.attackAnimationTick = 10;
         this.level().broadcastEntityEvent(this, (byte)4);
-        if (getVariant() == ChemistVariants.DEFAULT){
-            entity.setRemainingFireTicks(200);
-            this.playSound(SoundEvents.FLINTANDSTEEL_USE);
-        }
-        if (getVariant() == ChemistVariants.BURST){
-            return super.doHurtTarget(entity);
-        }
-        if (getVariant() == ChemistVariants.MECHANIC){
-            if (Math.random() > 0.3){
-                entity.setRemainingFireTicks(100);
-                this.playSound(SoundEvents.FLINTANDSTEEL_USE);
-            }
-        }
+        entity.setRemainingFireTicks(200);
+        this.playSound(SoundEvents.FLINTANDSTEEL_USE);
         return super.doHurtTarget(entity);
     }
     @Override
@@ -222,7 +211,7 @@ public class Chemist extends EvolvedInfected implements VariantKeeper {
                 }
             }
         }
-        if (tickCount % 100 == 0){
+        if (tickCount % 100 == 0 && getVariant() == ChemistVariants.FUMING){
             extinguishTeammates();
         }
         if (getTypeVariant() == 3){

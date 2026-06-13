@@ -497,6 +497,10 @@
   "spore.entity.variant.valkyrie" : "Valkyrie Mutation",
   "spore.entity.variant.madcap" : "Madcap Mutation",
   "spore.entity.variant.ichor" : "Ichor Mutation",
+  "spore.entity.variant.mechanic" : "Mechanic Mutation",
+  "spore.entity.variant.fuming" : "Pyro Mutation",
+  "spore.entity.variant.ember" : "Ember Mutation",
+  "spore.entity.variant.spreader" : "Spreader Mutation",
 
   "spore.scanner.danger.calamity" : "RUN",
   "spore.scanner.danger.hyper" : "Very High",
@@ -908,7 +912,7 @@
   "advancement.spore.gorgon.title" : "Stoned",
   "advancement.spore.gorgon.description" : "Encounter a Gorgon.",
   "advancement.spore.verfall.title" : "How NOT To Train Your Dragon",
-  "advancement.spore.verfall.description" : "Encounter a Verfalldrace.",
+  "advancement.spore.verfall.description" : "Encounter a Verfalldrache.",
 
   "spore.proto.message.0": "You're gonna need a bigger sword :P",
   "spore.proto.message.1": "Rage quit already you're done",
