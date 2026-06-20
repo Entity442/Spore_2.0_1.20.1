@@ -203,6 +203,8 @@ public class ClientModEvents {
         event.registerLayerDefinition(PyroChemistModel.LAYER_LOCATION, PyroChemistModel::createBodyLayer);
         event.registerLayerDefinition(FireChemistModel.LAYER_LOCATION, FireChemistModel::createBodyLayer);
         event.registerLayerDefinition(SpreaderChemistModel.LAYER_LOCATION, SpreaderChemistModel::createBodyLayer);
+        event.registerLayerDefinition(HollenhundModel.LAYER_LOCATION, HollenhundModel::createBodyLayer);
+        event.registerLayerDefinition(HollenhundRangedModel.LAYER_LOCATION, HollenhundRangedModel::createBodyLayer);
 
         event.registerLayerDefinition(BombFunnelModel.LAYER_LOCATION, BombFunnelModel::createBodyLayer);
         event.registerLayerDefinition(MushroomExplosionTop.LAYER_LOCATION, MushroomExplosionTop::createBodyLayer);
@@ -330,6 +332,7 @@ public class ClientModEvents {
         event.registerEntityRenderer(Sentities.BILE_BULLET.get(), BileBulletRenderer::new);
         event.registerEntityRenderer(Sentities.TAR_BALL.get(), TarRenderer::new);
         event.registerEntityRenderer(Sentities.VERFALL_HEAD.get(), VerfallHeadRenderer::new);
+        event.registerEntityRenderer(Sentities.HOLLEN.get(), HollenhundRenderer::new);
 
         event.registerBlockEntityRenderer(SblockEntities.OVERGROWN_SPAWNER.get(), new OvergrownSpawnerRenderer());
         event.registerBlockEntityRenderer(SblockEntities.BRAIN_REMNANTS.get(), new BrainRemnantsRenderer());

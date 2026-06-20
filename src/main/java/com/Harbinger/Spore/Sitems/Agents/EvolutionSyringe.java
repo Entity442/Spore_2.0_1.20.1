@@ -35,12 +35,13 @@ public class EvolutionSyringe extends BaseItem2 {
     @Override
     public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity living, InteractionHand hand) {
         if (living instanceof Infected infected && infected instanceof EvolvingInfected){
-            if (infected instanceof EvolvedInfected){
-                infected.setEvoPoints(infected.getEvoPoints()+ SConfig.SERVER.min_kills_hyper.get());
-            }else{
-                infected.setEvoPoints(infected.getEvoPoints()+SConfig.SERVER.min_kills.get());
+            if (infected instanceof EvolvedInfected) {
+                infected.setEvoPoints(infected.getEvoPoints() + com.Harbinger.Spore.Core.SConfig.SERVER.min_kills_hyper.get());
+                infected.setEvolution(com.Harbinger.Spore.Core.SConfig.SERVER.evolution_age_hyper.get());
+            } else {
+                infected.setEvoPoints(infected.getEvoPoints() + com.Harbinger.Spore.Core.SConfig.SERVER.min_kills.get());
+                infected.setEvolution(com.Harbinger.Spore.Core.SConfig.SERVER.evolution_age_human.get());
             }
-            infected.setEvolution(SConfig.SERVER.evolution_age_human.get());
             return InteractionResult.SUCCESS;
         }
         if (living instanceof Mound mound){

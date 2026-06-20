@@ -662,6 +662,21 @@
       "spore:infected_villager_ambient"
     ]
   },
+  "hollen_ambient" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:hollen_ambient",
+      "spore:hollen_ambient2",
+      "spore:hollen_ambient3"
+    ]
+  },
+  "hollen_spit" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:hollen_spit1",
+      "spore:hollen_spit2"
+    ]
+  },
   "verfall_ambient" :{
     "subtitle": "sounds.spore.growl",
     "sounds": [

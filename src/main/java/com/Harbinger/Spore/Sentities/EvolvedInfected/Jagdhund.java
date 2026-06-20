@@ -1,10 +1,13 @@
 package com.Harbinger.Spore.Sentities.EvolvedInfected;
 
 import com.Harbinger.Spore.Core.SConfig;
+import com.Harbinger.Spore.Core.Sentities;
 import com.Harbinger.Spore.Core.Ssounds;
 import com.Harbinger.Spore.Sentities.AI.CustomMeleeAttackGoal;
 import com.Harbinger.Spore.Sentities.BaseEntities.EvolvedInfected;
 import com.Harbinger.Spore.Sentities.BaseEntities.Organoid;
+import com.Harbinger.Spore.Sentities.EvolvingInfected;
+import com.Harbinger.Spore.Sentities.Hyper.Hollenhund;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -26,6 +29,7 @@ import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -33,9 +37,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fluids.FluidType;
 
+import java.util.Collection;
 import java.util.List;
 
-public class Jagdhund extends EvolvedInfected {
+public class Jagdhund extends EvolvedInfected implements EvolvingInfected {
     private static final EntityDataAccessor<Boolean> UNDERGROUND = SynchedEntityData.defineId(Jagdhund.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Integer> BORROW = SynchedEntityData.defineId(Jagdhund.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Integer> EMERGE = SynchedEntityData.defineId(Jagdhund.class, EntityDataSerializers.INT);
@@ -135,20 +140,38 @@ public class Jagdhund extends EvolvedInfected {
         } else if (this.isBurrowing()){
             this.tickBurrowing();
         }
+        this.tickHyperEvolution(this);
     }
     private void SummonParticles(BlockPos pos){
+        Item item = level().getBlockState(pos).getBlock().asItem();
         for (int l = 0 ;l<this.random.nextInt(3,6);l++){
             if (level() instanceof ServerLevel serverLevel) {
                 int xi = random.nextInt(-1,1);
                 int zi = random.nextInt(-1,1);
-                if (level().getBlockState(pos).getBlock().asItem() != ItemStack.EMPTY.getItem()) {
-                    serverLevel.sendParticles(new ItemParticleOption(ParticleTypes.ITEM, new ItemStack((level().getBlockState(pos)).getBlock())), getX() + xi, getY() - 0.1D, getZ() + zi, 3,
+                if (item != ItemStack.EMPTY.getItem()) {
+                    serverLevel.sendParticles(new ItemParticleOption(ParticleTypes.ITEM, new ItemStack(item)), getX() + xi, getY() - 0.1D, getZ() + zi, 3,
                             ((double) random.nextFloat() - 1D) * 0.08D, ((double) random.nextFloat() - 1D) * 0.08D, ((double) random.nextFloat() - 1D) * 0.08D, 0.15F);
                 }
             }
         }
     }
-
+    @Override
+    public void HyperEvolve(LivingEntity living) {
+        Hollenhund hollenhund = new Hollenhund(Sentities.HOLLEN.get(),this.level());
+        Collection<MobEffectInstance> collection = this.getActiveEffects();
+        for(MobEffectInstance mobeffectinstance : collection) {
+            hollenhund.addEffect(new MobEffectInstance(mobeffectinstance));
+        }
+        hollenhund.setKills(this.getKills());
+        hollenhund.setEvoPoints(this.getEvoPoints()-SConfig.SERVER.min_kills_hyper.get());
+        hollenhund.setCustomName(this.getCustomName());
+        hollenhund.setPos(this.getX(),this.getY(),this.getZ());
+        if (this.level() instanceof ServerLevel serverLevel)
+            hollenhund.finalizeSpawn(serverLevel,serverLevel.getCurrentDifficultyAt(this.getOnPos()), MobSpawnType.CONVERSION,null,null);
+        this.level().addFreshEntity(hollenhund);
+        this.discard();
+        EvolvingInfected.super.HyperEvolve(living);
+    }
     @Override
     public boolean isInvisible() {
         return isUnderground() && !isEmerging();

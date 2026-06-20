@@ -33,10 +33,10 @@ public interface SporeArmorData {
         CompoundTag tag = itemStack.getOrCreateTagElement(BASE_TAG);
         return tag.getDouble(PROTECTION_TAG);
     }
-    default double calculateTrueToughness(ItemStack stack,double defense){
-        double value = getAdditionalProtection(stack) * 0.01;
-        if (value > 0){
-            return defense + (defense * value);
+    default double calculateTrueToughness(ItemStack stack, double defense) {
+        double value = getAdditionalToughness(stack);
+        if (value > 0) {
+            return defense + value;
         }
         return defense;
     }

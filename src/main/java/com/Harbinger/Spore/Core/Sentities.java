@@ -193,6 +193,10 @@ public class Sentities {
             () -> EntityType.Builder.of(Inquisitor::new, INFECTED).sized(1f, 2.8f)
                     .build(new ResourceLocation(Spore.MODID, "inquisitor").toString()));
 
+    public static final Supplier<EntityType<Hollenhund>> HOLLEN = SPORE_ENTITIES.register("hollen",
+            () -> EntityType.Builder.of(Hollenhund::new, INFECTED).sized(2f, 1.1f)
+                    .build(new ResourceLocation(Spore.MODID, "hollen").toString()));
+
     public static final Supplier<EntityType<Grober>> GROBER = SPORE_ENTITIES.register("grober",
             () -> EntityType.Builder.of(Grober::new, INFECTED).sized(1f, 2.5f)
                     .build(new ResourceLocation(Spore.MODID, "grober").toString()));

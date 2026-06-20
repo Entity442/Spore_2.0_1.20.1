@@ -367,6 +367,9 @@ public class Sitems {
     public  static final RegistryObject<Item> GROBERFUB_SPAWNEGG = ITEMS.register("groberfub_spawnegg",
             () -> new SporeSpawnEgg(Sentities.GROBER,-234242315,SpawnEggType.HYPER));
 
+    public  static final RegistryObject<Item> HOLLEN_SPAWNEGG = ITEMS.register("hollen_spawnegg",
+            () -> new SporeSpawnEgg(Sentities.HOLLEN,-124354364,SpawnEggType.HYPER));
+
     public  static final RegistryObject<Item> SIEGER_SPAWNEGG = ITEMS.register("sieger_spawnegg",
             () -> new SporeSpawnEgg(Sentities.SIEGER,244208,SpawnEggType.CALAMITY));
 

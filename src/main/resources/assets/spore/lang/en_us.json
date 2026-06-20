@@ -363,7 +363,7 @@
   "item.spore.reaper_spawnegg": "Reaper",
   "item.spore.gorgon_spawnegg": "Gorgon",
   "item.spore.verfall_spawnegg": "Verfalldrache",
-
+  "item.spore.hollen_spawnegg": "Hollenhund",
 
   "entity.spore.knight": "Knight",
   "entity.spore.griefer": "Griefer",
@@ -454,6 +454,7 @@
   "entity.spore.gorgon": "Gorgon",
   "entity.spore.verfall": "Verfalldrache",
   "entity.spore.verfall_head": "Verfalldrache",
+  "entity.spore.hollen": "Hollenhund",
 
   "spore.entity.variant.kidnapper" : "Kidnapper Mutation",
   "spore.entity.variant.kamikaze": "Kamikaze Mutation",

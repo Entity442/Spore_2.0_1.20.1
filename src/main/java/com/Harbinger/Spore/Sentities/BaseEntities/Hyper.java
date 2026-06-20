@@ -15,6 +15,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
@@ -24,12 +25,14 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
 import java.util.EnumSet;
+import java.util.List;
 
 import static com.Harbinger.Spore.ExtremelySusThings.Utilities.biomass;
 
@@ -183,8 +186,22 @@ public class Hyper extends Infected{
         public void tick() {
             super.tick();
             ++this.tryTicks;
-            if (this.hyper.getNestLocation() != BlockPos.ZERO && shouldRecalculatePath()){
-                this.moveMobToBlock(this.hyper.getNestLocation());
+            BlockPos pos = this.hyper.getNestLocation();
+            if (shouldRecalculatePath() && pos != BlockPos.ZERO && hyper.level() instanceof ServerLevel serverLevel){
+                List<ServerPlayer> serverPlayerList = serverLevel.players();
+                boolean teleportAnyway = false;
+                if (serverPlayerList.isEmpty()){
+                    hyper.teleportTo(pos.getX(),pos.getY(),pos.getZ());
+                }else{
+                    for (Player player : serverPlayerList){
+                        teleportAnyway = !this.hyper.shouldRender(player.getX(), player.getY(), player.getZ());
+                    }
+                }
+                if (teleportAnyway){
+                    hyper.teleportTo(pos.getX(),pos.getY(),pos.getZ());
+                }else {
+                    this.moveMobToBlock(this.hyper.getNestLocation());
+                }
             }
         }
 
