@@ -146,7 +146,7 @@ public class Hollenhund extends Hyper implements RangedAttackMob {
             attackAnimationTick--;
         }
         if (tickCount % 5 == 0 && isUnderground() && !isEmerging() && onGround() && claws.size() < 2){
-            claws.add(new spikeClaw(random.nextInt(-20,21),random.nextInt(360),this,random.nextInt(15,26)));
+            claws.add(new spikeClaw(random.nextInt(-20,21),random.nextInt(360),this,random.nextInt(25,45)));
         }
 
         if (!claws.isEmpty()){

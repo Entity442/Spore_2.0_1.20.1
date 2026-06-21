@@ -79,11 +79,12 @@ public class HollenhundRenderer<Type extends Hollenhund> extends BaseInfectedRen
             for (Hollenhund.spikeClaw claw : claws){
                 stack.pushPose();
                 {
-                    float b =(3.5f / (claw.getMaxLife() - claw.getLife()));
+                    float progress = (float) claw.getLife() / (float) claw.getMaxLife();
+                    float heightOffset = (float) Math.sin(progress * Math.PI) * 3.5f;
                     stack.mulPose(Axis.ZP.rotationDegrees(claw.getZspin()));
                     stack.mulPose(Axis.YP.rotationDegrees(claw.getYspin()));
-                    stack.translate(claw.getOffset().x(), b, claw.getOffset().z());
-                    stack.scale(2f, 2f, 2f);
+                    stack.translate(claw.getOffset().x(), heightOffset, claw.getOffset().z());
+                    stack.scale(1.5f, 1.5f, 1.5f);
                     VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityCutout(SPIKE));
                     spike.renderToBuffer(stack, consumer, light, OverlayTexture.NO_OVERLAY, 1,1,1,1);
                 }
