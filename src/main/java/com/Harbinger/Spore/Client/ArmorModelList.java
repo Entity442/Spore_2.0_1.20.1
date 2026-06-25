@@ -29,9 +29,11 @@ public class ArmorModelList {
     private static final MistmakerModel<LivingEntity> mistmakerModel = new MistmakerModel<>();
     private static final MistmakerModelArm<LivingEntity> mistmakerModelArm = new MistmakerModelArm<>();
     private static final BileBlasterModel<LivingEntity> bileblaster = new BileBlasterModel<>();
+    private static final ToxicTerroriserModel<LivingEntity> terroriserModel = new ToxicTerroriserModel<>();
     private static final AcidicAssasinModel<LivingEntity> acidicAssasinModel = new AcidicAssasinModel<>();
     private static final AcidicAssasinArmModel<LivingEntity> acidicAssasinArmModel = new AcidicAssasinArmModel<>();
     private static final BileBlasterArmModel<LivingEntity> bileblasterarm = new BileBlasterArmModel<>();
+    private static final ToxicTerroriserArmModel<LivingEntity> terroriserArmModel = new ToxicTerroriserArmModel<>();
 
     private static final PCIHandModelItem RIGHT_PCI = new PCIHandModelItem(InteractionHand.MAIN_HAND,pci,pci.PCIBODY,0.95f, -0.7f, -0.35f,1,-90,90,0,psi_glow);
     private static final PCIHandModelItem LEFT_PCI = new PCIHandModelItem(InteractionHand.OFF_HAND,pci,pci.PCIBODY,-1f, -0.7f, -0.35f,1,-90,90,0,psi_glow);
@@ -43,6 +45,8 @@ public class ArmorModelList {
     private static final BileBlasterPart LEFT_BILEBLASTER = new BileBlasterPart(InteractionHand.OFF_HAND,bileblaster,bileblaster.Bile_Blaster,-1f, 0.25f, -2.5f,1f,0,0,180);
     private static final AcidicAssassinPart RIGHT_ACIDASSASIN = new AcidicAssassinPart(InteractionHand.MAIN_HAND,acidicAssasinModel,acidicAssasinModel.Caspian,0.95f, 0.25f, -2.5f,1f,0,0,180);
     private static final AcidicAssassinPart LEFT_ACIDASSASIN = new AcidicAssassinPart(InteractionHand.OFF_HAND,acidicAssasinModel,acidicAssasinModel.Caspian,-1f, 0.25f, -2.5f,1f,0,0,180);
+    private static final TerroriserPart RIGHT_TERRORISER = new TerroriserPart(InteractionHand.MAIN_HAND,terroriserModel,terroriserModel.Terrorrizer,0.95f, 0.25f, -1.25f,1f,0,0,180);
+    private static final TerroriserPart LEFT_TERRORISER = new TerroriserPart(InteractionHand.OFF_HAND,terroriserModel,terroriserModel.Terrorrizer,-1f, 0.25f, -1.25f,1f,0,0,180);
 
     public static final List<ComplexHandModelItem> ITEM_RENDERING_BITS = new ArrayList<>(){{
         add(RIGHT_PCI);
@@ -55,6 +59,8 @@ public class ArmorModelList {
         add(LEFT_BILEBLASTER);
         add(RIGHT_ACIDASSASIN);
         add(LEFT_ACIDASSASIN);
+        add(RIGHT_TERRORISER);
+        add(LEFT_TERRORISER);
     }};
 
 
@@ -121,6 +127,8 @@ public class ArmorModelList {
     public static final LeftLegArmorPartEnchant THORNS_LEFT_LEG_PART = new LeftLegArmorPartEnchant(() ->lacedThornsModel,() ->lacedThornsModel.leftDleg,-0.1f,-0.8f,0,1f, Senchantments.SERRATED_THORNS.get(),laced_thorns_texture,fleshBlackList);
     public static final RightBootArmorPartEnchant THORNS_RIGHT_BOOT_PART = new RightBootArmorPartEnchant(() ->lacedThornsModel,() ->lacedThornsModel.rightDboot,0.1f,-0.8f,0,1.01f, Senchantments.SERRATED_THORNS.get(),laced_thorns_texture,fleshBlackList);
     public static final LeftBootArmorPartEnchant THORNS_LEFT_BOOT_PART = new LeftBootArmorPartEnchant(() ->lacedThornsModel,() ->lacedThornsModel.leftDboot,-0.1f,-0.8f,0,1f, Senchantments.SERRATED_THORNS.get(),laced_thorns_texture,fleshBlackList);
+    private static final TerroriserPartRight TERRORISER_RIGHT = new TerroriserPartRight(() -> terroriserArmModel,() -> terroriserArmModel.Terrorrizer,0.1f, 0.6f, 0f, 0.4f);
+    private static final TerroriserPartLeft TERRORISER_LEFT = new TerroriserPartLeft(() -> terroriserArmModel,() -> terroriserArmModel.Terrorrizer,0.15f, 0.6f, 0f, 0.4f);
 
     public static final List<BaseArmorRenderingBit> ARMOR_RENDERING_BITS = new ArrayList<>(){{
         add(LIVING_HELMET_PART);
@@ -175,6 +183,8 @@ public class ArmorModelList {
         add(BILE_BLASTER_RIGHT);
         add(ACIDIC_ASSASSIN_RIGHT);
         add(ACIDIC_ASSASSIN_LEFT);
+        add(TERRORISER_RIGHT);
+        add(TERRORISER_LEFT);
     }};
 
     public static final List<EnchantingPart> ENCHANTING_RENDERING_BITS = new ArrayList<>(){{

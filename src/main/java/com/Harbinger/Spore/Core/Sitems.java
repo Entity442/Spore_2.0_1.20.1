@@ -7,6 +7,7 @@ import com.Harbinger.Spore.Sitems.BaseWeapons.SporeToolsMutations;
 import com.Harbinger.Spore.Sitems.Guns.AcidicAssasin;
 import com.Harbinger.Spore.Sitems.Guns.BileBlaster;
 import com.Harbinger.Spore.Sitems.Guns.MistMaker;
+import com.Harbinger.Spore.Sitems.Guns.ToxicTerroriser;
 import com.Harbinger.Spore.Spore;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -447,6 +448,8 @@ public class Sitems {
             BileBlaster::new);
     public  static final RegistryObject<Item> ACIDIC_ASSASSIN = ITEMS.register("acidic_assassin",
             AcidicAssasin::new);
+    public  static final RegistryObject<Item> TERRORISER = ITEMS.register("terroriser",
+            ToxicTerroriser::new);
     public  static final RegistryObject<Item> VIGIL_EYE = ITEMS.register("vigil_eye",
             VigilEye::new);
     public  static final RegistryObject<Item> SYMBIOTIC_REAGENT = ITEMS.register("symbiotic_reagent",
@@ -572,6 +575,8 @@ public class Sitems {
     public  static final RegistryObject<Item> BILE_VIAL = ITEMS.register("bile_vial",
             () -> new BaseItem2(new Item.Properties()));
     public  static final RegistryObject<Item> ACID_VIAL = ITEMS.register("acid_vial",
+            () -> new BaseItem2(new Item.Properties()));
+    public  static final RegistryObject<Item> TOXIN_VIAL = ITEMS.register("toxin_vial",
             () -> new BaseItem2(new Item.Properties()));
     public  static final RegistryObject<Item> MUTATION_SYRINGE = ITEMS.register("mutation_syringe",
             MutationSyringe::new);

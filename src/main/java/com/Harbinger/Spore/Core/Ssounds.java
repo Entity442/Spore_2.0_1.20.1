@@ -381,6 +381,8 @@ public class Ssounds {
 
     public static final RegistryObject<SoundEvent> HOLLEN_SPIT = soundRegistry("hollen_spit");
 
+    public static final RegistryObject<SoundEvent> HOLLEN_STAB = soundRegistry("hollen_stab");
+
     public static final RegistryObject<SoundEvent> BANE_OF_SETTLEMENT = soundRegistry("bane_of_settlement");
     public static final RegistryObject<SoundEvent> BICENTENNIAL = soundRegistry("bicentennial");
     public static final RegistryObject<SoundEvent> BROKEN_REFLECTION = soundRegistry("broken_reflection");

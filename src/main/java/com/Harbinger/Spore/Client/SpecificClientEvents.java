@@ -46,6 +46,8 @@ public class SpecificClientEvents {
             BileBlasterReloadAnimationTracker.tickAll();
             AssassinShootAnimationTracker.tickAll();
             AssassinReloadAnimationTracker.tickAll();
+            TerroriserShootAnimationTracker.tickAll();
+            TerroriserReloadAnimationTracker.tickAll();
             Minecraft mc = Minecraft.getInstance();
             if (SConfig.SERVER.disable_vanilla.get()){
                 Minecraft.getInstance().getMusicManager().stopPlaying();

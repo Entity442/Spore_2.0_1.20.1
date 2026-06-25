@@ -249,7 +249,7 @@ public class Hollenhund extends Hyper implements RangedAttackMob {
         }
         this.attackAnimationTick = 10;
         this.level().broadcastEntityEvent(this, (byte)4);
-        this.playSound(Ssounds.REAPER_ATTACK.get());
+        this.playSound(Ssounds.HOLLEN_STAB.get());
         return super.doHurtTarget(entity);
     }
 

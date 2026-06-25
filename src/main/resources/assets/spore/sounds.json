@@ -677,6 +677,13 @@
       "spore:hollen_spit2"
     ]
   },
+  "hollen_stab" :{
+    "subtitle": "sounds.spore.growl",
+    "sounds": [
+      "spore:hollen_stab",
+      "spore:hollen_stab2"
+    ]
+  },
   "verfall_ambient" :{
     "subtitle": "sounds.spore.growl",
     "sounds": [
