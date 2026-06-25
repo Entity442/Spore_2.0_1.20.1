@@ -567,7 +567,7 @@
   "spore.item.desc.assassin": "An extremely powerful sniper rifle. Left clicking shoots an exceedingly fast acid glob that deals 50% true damage and inflicts Corrosion. Right click to reload with a Concentrated Acid Vial. Sneaking lets the wielder utilize the scope and zoom in their screen.",
   "spore.item.desc.mistmaker": "A violent shotgun/chainsaw hybrid that reloads on the flesh of its enemies. Right click to deploy the chainsaw and utilize it to gain more ammo. Left click to fire a mass of gore bits.",
   "spore.item.desc.bileblaster": "Similar to an assault rifle in its structure and fire rate. Left clicking shoots clumps of bile that inflict equally nasty effects. Right click to reload with a Concentrated Bile Vial",
-  "spore.item.desc.toxic_terror": "To be made",
+  "spore.item.desc.toxic_terror": "Excels best against hordes via AoE status effects. Left clicking shoots a chunk of toxic material that, upon coming in contact with the desired target, will spread negative effects to nearby enemies, causing them to rot. Right click to reload with a Concentrated Toxin Vial.",
   "entity.spore.thrown_tumor": "Tumor",
   "entity.spore.thrown_spear": "Infected Spear",
   "entity.spore.acid_ball": "Acid Ball",

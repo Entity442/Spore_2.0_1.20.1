@@ -15,7 +15,6 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ToxinBullet extends AbstractGunProjectile {
