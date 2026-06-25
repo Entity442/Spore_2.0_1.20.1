@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "item": "spore:alveolic_sack"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "item": "spore:toxin_vial"
+  }
+}

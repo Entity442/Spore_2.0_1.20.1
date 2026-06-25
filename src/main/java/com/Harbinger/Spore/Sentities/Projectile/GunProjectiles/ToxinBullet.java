@@ -47,12 +47,12 @@ public class ToxinBullet extends AbstractGunProjectile {
 
     @Override
     public void doHitAfterEffects(LivingEntity living, LivingEntity owner) {
-        AABB aabb = this.getBoundingBox().inflate(8);
+        AABB aabb = this.getBoundingBox().inflate(4);
         List<Entity> entityList = level().getEntities(this,aabb,entity -> {return entity != getOwner() && entity instanceof LivingEntity;});
         SporeToolsMutations mutations = this.getMutationVariant();
         for (Entity entity : entityList){
             if (entity instanceof LivingEntity livingEntity){
-                livingEntity.addEffect(mutations == SporeToolsMutations.ROTTEN ? new MobEffectInstance(MobEffects.POISON,200,3) : new MobEffectInstance(MobEffects.POISON,100,1));
+                livingEntity.addEffect(mutations == SporeToolsMutations.ROTTEN ? new MobEffectInstance(MobEffects.WITHER,200,3) : new MobEffectInstance(MobEffects.WITHER,100,1));
                 livingEntity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS,100,1));
                 if (mutations == SporeToolsMutations.ROTTEN){
                     livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON,100,1));
