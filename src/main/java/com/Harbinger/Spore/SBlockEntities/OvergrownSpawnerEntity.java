@@ -99,7 +99,7 @@ public class OvergrownSpawnerEntity extends BlockEntity implements AnimatedEntit
         for (Entity entity : entities){
             if (entity instanceof Infected infected){
                 infected.setKills(infected.getKills()+1);
-                infected.setEvolution(infected.getEvoPoints()+1);
+                infected.setEvoPoints(infected.getEvoPoints()+1);
             }
             if (entity instanceof Calamity calamity){
                 calamity.setKills(calamity.getKills()+1);

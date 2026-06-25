@@ -97,9 +97,7 @@ public class ExpAirPathNavigation extends FlyingPathNavigation {
     }
 
     private boolean sweep(Vec3 vec, Vec3 base, Vec3 max) {
-        // Create a fresh node evaluator for this sweep with a PathNavigationRegion
-        FlyNodeEvaluator sweepEvaluator = new FlyNodeEvaluator();
-        sweepEvaluator.setCanPassDoors(true);
+        FlyNodeEvaluator sweepEvaluator = (FlyNodeEvaluator)this.nodeEvaluator;
 
         // Create a PathNavigationRegion from the level and the mob's bounding box
         int radius = Mth.ceil(Math.max(this.mob.getBbWidth(), this.mob.getBbHeight())) + 1;
@@ -167,10 +165,10 @@ public class ExpAirPathNavigation extends FlyingPathNavigation {
                             return false;
                     }
                     // Use the sweep-specific evaluator
-                    BlockPathTypes below = sweepEvaluator.getBlockPathType(this.level, x, y0 - 1, z);
+                    BlockPathTypes below = sweepEvaluator.getBlockPathType(this.level, x, y0 - 1, z,mob);
                     if (below == BlockPathTypes.WATER || below == BlockPathTypes.LAVA || below == BlockPathTypes.OPEN)
                         return false;
-                    BlockPathTypes in = sweepEvaluator.getBlockPathType(this.level, x, y0, z);
+                    BlockPathTypes in = sweepEvaluator.getBlockPathType(this.level, x, y0, z,mob);
                     float priority = this.mob.getPathfindingMalus(in);
                     if (priority < 0.0F || priority >= 8.0F)
                         return false;
