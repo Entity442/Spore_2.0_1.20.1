@@ -11,6 +11,7 @@ import com.Harbinger.Spore.Sentities.VariantKeeper;
 import com.Harbinger.Spore.Sentities.Variants.ScamperVariants;
 import com.Harbinger.Spore.Sentities.WaterInfected;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -19,6 +20,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -109,7 +111,26 @@ public class Scamper extends EvolvedInfected implements WaterInfected, VariantKe
             super.travel(vec3);
         }
     }
+    public void teleportToSurface(Level level, Mob entity) {
+        if (level.canSeeSky(entity.blockPosition())){
+            return;
+        }
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(
+                Mth.floor(entity.getX()),
+                level.getMaxBuildHeight(),
+                Mth.floor(entity.getZ())
+        );
 
+        while (pos.getY() > level.getMinBuildHeight()) {
+            pos.move(Direction.DOWN);
+            BlockState state = level.getBlockState(pos);
+            BlockState stateAbove = level.getBlockState(pos.above());
+            if (state.isSolidRender(level, pos) && stateAbove.isAir()) {
+                entity.teleportTo(pos.getX() + 0.5D, pos.getY() + 1.01D, pos.getZ() + 0.5D);
+                return;
+            }
+        }
+    }
     @Override
     public void tick() {
         if (this.isAlive() && deployClock > 0) {deployClock--;}
@@ -163,6 +184,9 @@ public class Scamper extends EvolvedInfected implements WaterInfected, VariantKe
         mound.tickEmerging();
         mound.addEffect(new MobEffectInstance(MobEffects.REGENERATION ,200,0));
         level().addFreshEntity(mound);
+        if (SConfig.SERVER.surface_mound.get()){
+            teleportToSurface(level(),mound);
+        }
     }
     private void SummonScent(){
         ScentEntity scent = new ScentEntity(Sentities.SCENT.get(),level());

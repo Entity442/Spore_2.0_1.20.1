@@ -511,13 +511,11 @@ public class HandlerEvents {
                                     player.displayClientMessage(Component.literal("Buffs " + umarmer.getActiveEffects()),false);
                                     player.displayClientMessage(Component.literal("Shielded? " + umarmer.isShielding()),false);
                                     player.displayClientMessage(Component.literal("Pins? " + umarmer.isPinned()),false);
-                                    player.displayClientMessage(Component.literal("Time until it leaves " + umarmer.getTimer()+"/2400"),false);
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
                             }else if(entity1 instanceof Brauerei brauerei) {
                                     player.displayClientMessage(Component.literal("Entity "+ brauerei.getEncodeId() + " " + brauerei.getCustomName()),false);
                                     player.displayClientMessage(Component.literal("Current Health " + brauerei.getHealth()),false);
                                     player.displayClientMessage(Component.literal("Buffs " + brauerei.getActiveEffects()),false);
-                                    player.displayClientMessage(Component.literal("Time until it leaves " + brauerei.getTimer()+"/300"),false);
                                     player.displayClientMessage(Component.literal("-------------------------"),false);
                             }
                             else if(entity1 instanceof Delusionare delusionare) {

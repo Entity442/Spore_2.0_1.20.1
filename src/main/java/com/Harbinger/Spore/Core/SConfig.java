@@ -411,6 +411,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Double> mound_range_age3;
         public final ForgeConfigSpec.ConfigValue<Double> mound_range_age4;
         public final ForgeConfigSpec.ConfigValue<Boolean> mound_foliage;
+        public final ForgeConfigSpec.ConfigValue<Boolean> surface_mound;
 
         public final ForgeConfigSpec.ConfigValue<Double> delusioner_hp;
         public final ForgeConfigSpec.ConfigValue<Double> delusioner_armor;
@@ -1149,6 +1150,7 @@ public class SConfig {
             this.mound_range_age3 = builder.comment("Default 15").defineInRange("Sets Mound range at the age of 3", 15, 1, Double.MAX_VALUE);
             this.mound_range_age4 = builder.comment("Default 20").defineInRange("Sets Mound range at the age of 4", 20, 1, Double.MAX_VALUE);
             this.mound_foliage = builder.comment("Default true").define("Should the mound spread foliage and infect blocks?",true);
+            this.surface_mound = builder.comment("Default false").define("Should mounds be moved to the surface when summoned by a scamper?",false);
             builder.pop();
 
             builder.push("Proto Hivemind");

@@ -45,6 +45,7 @@ public class Sentities {
 
     public static final MobCategory INFECTED = MobCategory.create("infected","infected",SConfig.SERVER.mob_cap.get(),false,false,128);
     public static final MobCategory ORGANOID = MobCategory.create("organoid","organoid",20,false,false,64);
+    public static final MobCategory EXPERIMENTS = MobCategory.create("experiments","experiments",15,false,false,32);
 
     public static final RegistryObject<EntityType<InfectedHuman>> INF_HUMAN = SPORE_ENTITIES.register("inf_human",
             () -> EntityType.Builder.of((EntityType<InfectedHuman> p_33002_, Level level) -> new InfectedHuman(level), INFECTED).sized(0.6f, 1.9f)
@@ -71,7 +72,7 @@ public class Sentities {
                     .build(new ResourceLocation(Spore.MODID, "inebriater").toString()));
 
     public static final RegistryObject<EntityType<Saugling>> SAUGLING = SPORE_ENTITIES.register("saugling",
-            () -> EntityType.Builder.of(Saugling::new, INFECTED).sized(0.9f, 0.9f)
+            () -> EntityType.Builder.of(Saugling::new, EXPERIMENTS).sized(0.9f, 0.9f)
                     .build(new ResourceLocation(Spore.MODID, "saugling").toString()));
 
     public static final RegistryObject<EntityType<Griefer>> GRIEFER = SPORE_ENTITIES.register("griefer",
@@ -143,15 +144,15 @@ public class Sentities {
                     .build(new ResourceLocation(Spore.MODID, "inf_pillager").toString()));
 
     public static final RegistryObject<EntityType<Plagued>> PLAGUED = SPORE_ENTITIES.register("plagued",
-            () -> EntityType.Builder.of(Plagued::new, INFECTED).sized(0.6f, 1.9f)
+            () -> EntityType.Builder.of(Plagued::new, EXPERIMENTS).sized(0.6f, 1.9f)
                     .build(new ResourceLocation(Spore.MODID, "plagued").toString()));
 
     public static final RegistryObject<EntityType<Lacerator>> LACERATOR = SPORE_ENTITIES.register("lacerator",
-            () -> EntityType.Builder.of(Lacerator::new, INFECTED).sized(0.6f, 1.9f)
+            () -> EntityType.Builder.of(Lacerator::new, EXPERIMENTS).sized(0.6f, 1.9f)
                     .build(new ResourceLocation(Spore.MODID, "lacerator").toString()));
 
     public static final RegistryObject<EntityType<Biobloob>> BIOBLOOB = SPORE_ENTITIES.register("biobloob",
-            () -> EntityType.Builder.of(Biobloob::new, INFECTED).sized(2.6f, 1.9f)
+            () -> EntityType.Builder.of(Biobloob::new, EXPERIMENTS).sized(2.6f, 1.9f)
                     .build(new ResourceLocation(Spore.MODID, "biobloob").toString()));
 
     public static final RegistryObject<EntityType<InfectedHazmat>> INF_HAZMAT = SPORE_ENTITIES.register("inf_hazmat",
