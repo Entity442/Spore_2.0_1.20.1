@@ -504,6 +504,9 @@
   "spore.entity.variant.fuming" : "Pyro Mutation",
   "spore.entity.variant.ember" : "Ember Mutation",
   "spore.entity.variant.spreader" : "Spreader Mutation",
+  "spore.entity.variant.cactus" : "Cactus Mutation",
+  "spore.entity.variant.skewer" : "Skewer Mutation",
+  "spore.entity.variant.roller" : "Roller Mutation",
 
   "spore.scanner.danger.calamity" : "RUN",
   "spore.scanner.danger.hyper" : "Very High",
