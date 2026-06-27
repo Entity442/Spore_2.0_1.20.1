@@ -205,6 +205,10 @@ public class ClientModEvents {
         event.registerLayerDefinition(SpreaderChemistModel.LAYER_LOCATION, SpreaderChemistModel::createBodyLayer);
         event.registerLayerDefinition(HollenhundModel.LAYER_LOCATION, HollenhundModel::createBodyLayer);
         event.registerLayerDefinition(HollenhundRangedModel.LAYER_LOCATION, HollenhundRangedModel::createBodyLayer);
+        event.registerLayerDefinition(CactusVervaModel.LAYER_LOCATION, CactusVervaModel::createBodyLayer);
+        event.registerLayerDefinition(SpikyThornModel.LAYER_LOCATION, SpikyThornModel::createBodyLayer);
+        event.registerLayerDefinition(RollerVervaModel.LAYER_LOCATION, RollerVervaModel::createBodyLayer);
+        event.registerLayerDefinition(RollerRollingVervaModel.LAYER_LOCATION, RollerRollingVervaModel::createBodyLayer);
 
         event.registerLayerDefinition(BombFunnelModel.LAYER_LOCATION, BombFunnelModel::createBodyLayer);
         event.registerLayerDefinition(MushroomExplosionTop.LAYER_LOCATION, MushroomExplosionTop::createBodyLayer);

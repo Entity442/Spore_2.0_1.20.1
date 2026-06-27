@@ -18,7 +18,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class StingerRenderer <T extends StingerProjectile>extends EntityRenderer<T> {
-    public static final ResourceLocation Spear_LOCATION = new ResourceLocation(Spore.MODID,"textures/entity/stinger.png");
+    public static final ResourceLocation LOCATION = new ResourceLocation(Spore.MODID,"textures/entity/stinger.png");
+    public static final ResourceLocation SPIKE = new ResourceLocation(Spore.MODID,"textures/entity/spike.png");
     private final StingerModel<T> model;
 
     public StingerRenderer(EntityRendererProvider.Context context) {
@@ -36,7 +37,7 @@ public class StingerRenderer <T extends StingerProjectile>extends EntityRenderer
         super.render(p_116111_, p_116112_, p_116113_, stack, source, p_116116_);
     }
 
-    public ResourceLocation getTextureLocation(StingerProjectile p_116109_) {
-        return Spear_LOCATION;
+    public ResourceLocation getTextureLocation(StingerProjectile projectile) {
+        return projectile.getPoison() ? LOCATION : SPIKE;
     }
 }
