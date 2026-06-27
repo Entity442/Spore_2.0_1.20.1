@@ -85,15 +85,18 @@ public class HiveTumor extends Organoid implements FoliageSpread {
             }
             if (entityData.get(GROWTH) >= SConfig.SERVER.htumor_timer.get() && level() instanceof ServerLevel serverLevel){
                 List<Proto> protos = SporeSavedData.getHiveminds();
+                boolean Proto = true;
                 if (!protos.isEmpty()) {
                     for (Proto proto : protos){
                         if (proto.distanceTo(this) <= SConfig.SERVER.proto_range.get()){
                             proto.addBiomass(1000);
                             this.discard();
+                            Proto = false;
                             break;
                         }
                     }
-                }else {
+                }
+                if (Proto){
                     SummonProto(serverLevel);
                 }
             }
@@ -209,20 +212,22 @@ public class HiveTumor extends Organoid implements FoliageSpread {
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        compound.putInt("biomass",entityData.get(BIOMASS));
-        compound.putInt("growth",entityData.get(GROWTH));
-        compound.putInt("scarred",entityData.get(SCARED));
-    }
-    public boolean isScared(){return entityData.get(SCARED) > 0;}
-
-    public void setScaredTicks(int i){entityData.set(SCARED,i);}
-    @Override
-    public void addAdditionalSaveData(CompoundTag compound) {
-        super.addAdditionalSaveData(compound);
         entityData.set(BIOMASS, compound.getInt("biomass"));
         entityData.set(GROWTH, compound.getInt("growth"));
         entityData.set(SCARED, compound.getInt("scarred"));
     }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putInt("biomass", entityData.get(BIOMASS));
+        compound.putInt("growth", entityData.get(GROWTH));
+        compound.putInt("scarred", entityData.get(SCARED));
+    }
+    public boolean isScared(){return entityData.get(SCARED) > 0;}
+
+    public void setScaredTicks(int i){entityData.set(SCARED,i);}
+
     protected SoundEvent getAmbientSound() {
         return Ssounds.TUMOR_AMBIENT.get();
     }
