@@ -322,14 +322,12 @@ public class Mound extends Organoid implements FoliageSpread {
                 }
             for (Proto proto : protos) {
                 int y = source.getDirectEntity() != null ? (int)  source.getDirectEntity().getY() :(int)  this.getY();
-                proto.setSignal(new Signal(true,this.getOnPos()));
+                proto.setSignal(new Signal(true,new BlockPos(this.getOnPos().getX(),y,this.getOnPos().getZ())));
                 break;
                 }
             }
         }
-        for (int i = 0;i <= this.getAge(); i++){
-            super.die(source);
-        }
+        super.die(source);
     }
 
     @Nullable
