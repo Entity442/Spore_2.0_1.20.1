@@ -279,8 +279,10 @@
   "item.spore.bile_blaster": "胆汁喷射体",
   "item.spore.acidic_assassin": "强酸刺客",
   "item.spore.mistmaker": "菌丝制造者",
+  "item.spore.terroriser": "劇毒恐嚇者",
   "item.spore.acid_vial": "浓缩酸液瓶",
   "item.spore.bile_vial": "浓缩胆汁瓶",
+  "item.spore.toxin_vial": "濃縮毒藥瓶",
   "item.spore.evo_syringe": "进化注射器",
 
   "item.spore.knight_spawnegg": "菌骑士",
@@ -359,7 +361,8 @@
   "item.spore.garg_spawnegg": "石像鬼",
   "item.spore.reaper_spawnegg": "收割者",
   "item.spore.gorgon_spawnegg": "戈耳工",
-
+  "item.spore.verfall_spawnegg": "維爾法爾德拉赫",
+  "item.spore.hollen_spawnegg": "霍倫洪特",
 
   "entity.spore.knight": "菌骑士",
   "entity.spore.griefer": "侵袭者",
@@ -447,6 +450,9 @@
   "entity.spore.inf_diseased_villager": "菌染僵尸村民",
   "entity.spore.arena_tendril": "竞技场触须",
   "entity.spore.gorgon": "戈耳工",
+  "entity.spore.verfall": "維爾法爾德拉赫",
+  "entity.spore.verfall_head": "維爾法爾德拉赫",
+  "entity.spore.hollen": "霍倫洪特",
 
   "spore.entity.variant.kidnapper" : "绑架者突变",
   "spore.entity.variant.kamikaze": "神风突变",
@@ -491,6 +497,13 @@
   "spore.entity.variant.valkyrie" : "女武神突变体",
   "spore.entity.variant.madcap" : "狂人突变体",
   "spore.entity.variant.ichor" : "灵浆突变体",
+  "spore.entity.variant.mechanic": "機械變異體",
+  "spore.entity.variant.fuming": "火焰變異體",
+  "spore.entity.variant.ember": "餘燼變異體",
+  "spore.entity.variant.spreader": "擴散變異體",
+  "spore.entity.variant.cactus": "仙人掌變異體",
+  "spore.entity.variant.skewer": "穿刺變異體",
+  "spore.entity.variant.roller": "滾動變異體",
 
   "spore.scanner.danger.calamity" : "跑！！！",
   "spore.scanner.danger.hyper" : "极高",
@@ -551,6 +564,10 @@
   "spore.item.desc.shield": "格挡伤害时，盾牌会积蓄能量，释放强大的冲击波攻击。",
   "spore.item.desc.sickle": "可投掷并用作抓钩。对敌人造成伤害时将其拉向使用者。",
   "spore.item.desc.spear": "可投掷攻击敌人。",
+  "spore.item.desc.assassin": "一把极其强大的狙击步枪。左键发射速度极快的酸液团，造成50%真实伤害并施加腐蚀效果。右键使用浓缩酸液瓶装填。潜行时允许使用者使用瞄准镜并拉近屏幕视角。",
+  "spore.item.desc.mistmaker": "一把暴力的霰弹枪与电锯的混合体，以敌人的血肉进行装填。右键启动电锯并利用它来获取更多弹药。左键发射一团血肉碎块。",
+  "spore.item.desc.bileblaster": "结构与射速类似于突击步枪。左键发射胆汁团，施加同样恶心的负面效果。右键使用浓缩胆汁瓶装填。",
+  "spore.item.desc.toxic_terror": "憑藉範圍狀態效果，最適合對抗成群敵人。左鍵發射一團有毒物質，接觸目標後會向附近敵人傳播負面效果，使其腐爛。右鍵使用濃縮毒藥瓶裝填。",
 
   "enchantment.spore.symbiotic_reconstitution.desc": "强化你与装备之间的共生关系，在共生状态下持续修复其损伤",
   "enchantment.spore.cryogenic_aspect.desc": "将寒意直透受击者骨髓，大幅降低其移动速度并造成冰冻伤害",
@@ -584,6 +601,7 @@
   "effect.spore.madness": "疯狂",
   "effect.spore.frostbite": "冻伤",
   "effect.spore.biled": "胆汁",
+  "effect.spore.ignitable": "可燃",
 
   "item.minecraft.splash_potion.effect.mycelium_potion": "菌丝感染喷溅药水",
   "item.minecraft.potion.effect.mycelium_potion": "菌丝感染药水",
@@ -893,6 +911,10 @@
   "advancement.spore.reaper.description": "遭遇收割者",
   "advancement.spore.gorgon.title" : "石化",
   "advancement.spore.gorgon.description" : "遭遇一只戈耳工。",
+  "advancement.spore.verfall.title": "如何錯誤地訓練你的龍",
+  "advancement.spore.verfall.description": "遭遇一隻維爾法爾德拉赫。",
+  "advancement.spore.hollen.title": "把他們的靈魂帶給我",
+  "advancement.spore.hollen.description": "遭遇一隻霍倫洪特。",
 
   "spore.proto.message.0": "去找把村好剑再来",
   "spore.proto.message.1": "退游吧失败者",

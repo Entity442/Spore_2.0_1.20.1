@@ -193,6 +193,8 @@
     "item.spore.ice_canister": "얼음 통",
     "item.spore.circuit_board": "회로판",
     "item.spore.combat_pickaxe": "감염된 전투 곡괭이",
+    "item.spore.toxin_vial": "농축 독극물 병",
+    "item.spore.terroriser": "독성 테러리저",
     "item.spore.scanner": "검사기",
     "item.spore.hardening_agent": "경화 작용제",
     "item.spore.sharpening_agent": "정제 작용제",
@@ -362,6 +364,8 @@
     "item.spore.garg_spawnegg": "가고일 생성",
     "item.spore.reaper_spawnegg": "수확자 생성",
     "item.spore.gorgon_spawnegg": "고르곤 생성",
+    "item.spore.verfall_spawnegg": "베르팔드라헤",
+    "item.spore.hollen_spawnegg": "홀렌훈트",
 
     "entity.spore.knight": "기사",
     "entity.spore.griefer": "방해자",
@@ -450,6 +454,10 @@
     "entity.spore.inf_diseased_villager": "감염된 병든 주민",
     "entity.spore.arena_tendril": "도전 감시자",
     "entity.spore.gorgon": "고르곤",
+    "entity.spore.verfall": "베르팔드라헤",
+    "entity.spore.verfall_head": "베르팔드라헤",
+    "entity.spore.hollen": "홀렌훈트",
+
 
     "spore.entity.variant.kidnapper": "납치자 변이",
     "spore.entity.variant.kamikaze": "카미카제 변이",
@@ -493,6 +501,13 @@
     "spore.entity.variant.valkyrie" : "발키리 변이",
     "spore.entity.variant.madcap" : "미치광이 변이",
     "spore.entity.variant.ichor" : "영액 변이",
+    "spore.entity.variant.mechanic": "기계 변이체",
+    "spore.entity.variant.fuming": "화염 변이체",
+    "spore.entity.variant.ember": "잔불 변이체",
+    "spore.entity.variant.spreader": "확산 변이체",
+    "spore.entity.variant.cactus": "선인장 변이체",
+    "spore.entity.variant.skewer": "꿰뚫기 변이체",
+    "spore.entity.variant.roller": "구르기 변이체",
 
     "spore.scanner.danger.calamity": "튀어",
     "spore.scanner.danger.hyper": "극상",
@@ -556,6 +571,7 @@
     "spore.item.desc.assassin": "매우 강력한 저격 소총입니다. 좌클릭 시 매우 빠른 속도의 산성 구체를 발사하여 50%의 고정 피해를 주고 부식을 적용합니다. 우클릭으로 농축 산성 용기로 재장전합니다. 웅크리면 사용자가 조준경을 활용하고 화면을 확대할 수 있습니다.",
     "spore.item.desc.mistmaker": "적의 살점으로 재장전하는 폭력적인 산탄총/전기톱 하이브리드 무기입니다. 우클릭으로 전기톱을 펼쳐 사용하여 더 많은 탄약을 얻을 수 있습니다. 좌클릭으로 살점 덩어리를 발사합니다.",
     "spore.item.desc.bileblaster": "구조와 발사 속도 면에서 돌격 소총과 유사합니다. 좌클릭으로 담즙 덩어리를 발사하여 동등하게 불쾌한 효과를 줍니다. 우클릭으로 농축 담즙 용기로 재장전합니다.",
+    "spore.item.desc.toxic_terror": "광역 상태 효과로 무리전에 가장 뛰어납니다. 좌클릭으로 독성 물질 덩어리를 발사하여 목표물에 접촉하면 주변 적들에게 부정적 효과를 퍼뜨려 썩게 만듭니다. 우클릭으로 농축 독극물 병을 재장전합니다.",
 
     "entity.spore.thrown_tumor": "종양",
     "entity.spore.thrown_spear": "감염된 창",
@@ -593,6 +609,8 @@
     "effect.spore.madness": "광기",
     "effect.spore.frostbite": "동상",
     "effect.spore.biled": "담즙",
+    "effect.spore.ignitable": "발화성",
+
 
     "item.minecraft.splash_potion.effect.mycelium_potion": "투척용 균사체 감염 물약",
     "item.minecraft.potion.effect.mycelium_potion": "균사체 감염 물약",
@@ -903,7 +921,10 @@
     "advancement.spore.reaper.description": "수확자와 조우하세요.",
     "advancement.spore.gorgon.title" : "돌아이",
     "advancement.spore.gorgon.description" : "고르곤과 조우하세요.",
-
+    "advancement.spore.verfall.title": "용 잘못 키우는 법",
+    "advancement.spore.verfall.description": "베르팔드라헤와 조우하세요.",
+    "advancement.spore.hollen.title": "그들의 영혼을 내게로",
+    "advancement.spore.hollen.description": "홀렌훈트와 조우하세요.",
 
     "spore.proto.message.0": "더 큰 칼이 필요할 것 같아 :P",
     "spore.proto.message.1": "더럽고 추하게 빤쓰런 해야지",

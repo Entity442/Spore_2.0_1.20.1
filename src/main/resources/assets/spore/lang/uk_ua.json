@@ -249,8 +249,10 @@
   "item.spore.bile_blaster": "Жовчний стрілець",
   "item.spore.acidic_assassin": "Кислотний вбивця",
   "item.spore.mistmaker": "Міцеліальний туманотворець",
+  "item.spore.terroriser": "Токсичний жахітник",
   "item.spore.acid_vial": "Концентрована кислота у склянці",
   "item.spore.bile_vial": "Концентрована жовч у склянці",
+  "item.spore.toxin_vial": "Пляшечка концентрованого токсину",
   "item.spore.evo_syringe": "Еволюційний шприц",
   "item.spore.bucket_of_bile": "Відро жовчі",
   "item.spore.documents": "Документи",
@@ -350,6 +352,8 @@
   "item.spore.garg_spawnegg": "Горгулья",
   "item.spore.reaper_spawnegg": "Жнець",
   "item.spore.gorgon_spawnegg": "Горгона",
+  "item.spore.verfall_spawnegg": "Ферфальдрахе",
+  "item.spore.hollen_spawnegg": "Голленгунд",
 
   "entity.spore.knight": "Лицар",
   "entity.spore.griefer": "Грифер",
@@ -435,6 +439,9 @@
   "entity.spore.inf_diseased_villager": "Заражений хворий селянин",
   "entity.spore.arena_tendril": "Наглядач випробування",
   "entity.spore.gorgon": "Горгона",
+  "entity.spore.verfall": "Ферфальдрахе",
+  "entity.spore.verfall_head": "Ферфальдрахе",
+  "entity.spore.hollen": "Голленгунд",
 
   "spore.entity.variant.kidnapper" : "Мутація викрадача",
   "spore.entity.variant.kamikaze": "Камікадзе Мутація",
@@ -478,6 +485,13 @@
   "spore.entity.variant.valkyrie" : "Мутація валькірії",
   "spore.entity.variant.madcap" : "Божевільна мутація",
   "spore.entity.variant.ichor" : "Ікорна мутація",
+  "spore.entity.variant.mechanic": "Механічна мутація",
+  "spore.entity.variant.fuming": "Вогняна мутація",
+  "spore.entity.variant.ember": "Мутація жарини",
+  "spore.entity.variant.spreader": "Поширювальна мутація",
+  "spore.entity.variant.cactus": "Кактусова мутація",
+  "spore.entity.variant.skewer": "Пронзлива мутація",
+  "spore.entity.variant.roller": "Котна мутація",
 
   "spore.scanner.danger.calamity" : "БІГАТИ",
   "spore.scanner.danger.hyper" : "Дуже висока",
@@ -543,6 +557,7 @@
   "spore.item.desc.assassin": "Надзвичайно потужна снайперська гвинтівка. Лівий клік стріляє надшвидкою кислотою грудкою, яка завдає 50% істинної шкоди та викликає Корозію. Правий клік для перезаряджання за допомогою Концентрованої кислоти у склянці. Присідання дозволяє власнику використовувати приціл і наближати зображення на екрані.",
   "spore.item.desc.mistmaker": "Жорстокий гібрид дробовика та бензопили, який перезаряджається на плоті своїх ворогів. Правий клік розгортає бензопилу, використовуючи її для отримання додаткових набоїв. Лівий клік стріляє шматками плоті.",
   "spore.item.desc.bileblaster": "Схожий на штурмову гвинтівку за своєю структурою та скорострільністю. Лівий клік стріляє грудочками жовчі, які завдають однаково неприємних ефектів. Правий клік для перезаряджання за допомогою Концентрованої жовчі у склянці.",
+  "spore.item.desc.toxic_terror": "Найкраще справляється з ордами завдяки ефектам по площі. Лівий клік вистрілює грудкою токсичного матеріалу, який при контакті з ціллю поширює негативні ефекти на найближчих ворогів, змушуючи їх гнити. Правий клік для перезаряджання пляшечкою концентрованого токсину.",
 
   "enchantment.spore.symbiotic_reconstitution.desc": "Зміцнює симбіотичний зв’язок між вами та вашим обладнанням, загоюючи рани під час симбіозу.",
   "enchantment.spore.cryogenic_aspect.desc": "Охолоджує жертву до глибини душі, сповільнюючи швидкість її руху та завдаючи шкоди від замерзання.",
@@ -576,6 +591,7 @@
   "effect.spore.madness": "Безумство",
   "effect.spore.frostbite": "Обмороження",
   "effect.spore.biled": "Жовч",
+  "effect.spore.ignitable": "Займистий",
 
   "item.minecraft.splash_potion.effect.mycelium_potion": "Вибухове зілля міцелієвої інфекції",
   "item.minecraft.potion.effect.mycelium_potion": "Зілля міцелієвої інфекції",
@@ -883,6 +899,11 @@
   "advancement.spore.reaper.description": "Зустріньте Жнеця.",
   "advancement.spore.gorgon.title" : "Кам'яний",
   "advancement.spore.gorgon.description" : "Зустріньте горгону.",
+  "advancement.spore.verfall.title": "Як НЕ приручити дракона",
+  "advancement.spore.verfall.description": "Зустріньте Ферфальдрахе.",
+  "advancement.spore.hollen.title": "Принесіть мені їхні душі",
+  "advancement.spore.hollen.description": "Зустріньте Голленгунда.",
+
 
   "spore.proto.message.0": "Тобі знадобиться більший меч :P",
   "spore.proto.message.1": "Гнів, припини вже, ти закінчив.",

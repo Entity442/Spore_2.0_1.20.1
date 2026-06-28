@@ -199,6 +199,8 @@
   "item.spore.integrating_agent": "統合剤",
   "item.spore.mutation_syringe": "変異の注射器",
   "item.spore.syringe": "注射器",
+  "item.spore.toxin_vial": "濃縮毒薬瓶",
+  "item.spore.terroriser": "有毒テロライザー",
   "item.spore.vampiric_syringe": "吸血の血液サンプル",
   "item.spore.calcified_syringe": "石灰化の血液サンプル",
   "item.spore.bezerk_syringe": "狂暴化の血液サンプル",
@@ -362,7 +364,8 @@
   "item.spore.garg_spawnegg": "ガーゴイル",
   "item.spore.reaper_spawnegg": "リーパー",
   "item.spore.gorgon_spawnegg": "ゴルゴン",
-
+  "item.spore.verfall_spawnegg": "ヴェルファルドラッヘ",
+  "item.spore.hollen_spawnegg": "ホレンフント",
 
   "entity.spore.knight": "ナイト",
   "entity.spore.griefer": "グリーファー",
@@ -451,6 +454,9 @@
   "entity.spore.inf_diseased_villager": "感染した村人ゾンビ",
   "entity.spore.arena_tendril": "チャレンジ・ウォッチャー",
   "entity.spore.gorgon": "ゴルゴン",
+  "entity.spore.verfall": "ヴェルファルドラッヘ",
+  "entity.spore.verfall_head": "ヴェルファルドラッヘ",
+  "entity.spore.hollen": "ホレンフント",
 
   "spore.entity.variant.kidnapper": "誘拐的変異体",
   "spore.entity.variant.kamikaze": "カミカゼ変異体",
@@ -494,7 +500,15 @@
   "spore.entity.variant.valkyrie" : "戦乙女変異体",
   "spore.entity.variant.madcap" : "蛮勇変異体",
   "spore.entity.variant.ichor" : "膿漿変異体",
-  
+  "spore.entity.variant.mechanic": "機械変異体",
+  "spore.entity.variant.fuming": "火炎変異体",
+  "spore.entity.variant.ember": "残火変異体",
+  "spore.entity.variant.spreader": "拡散変異体",
+  "spore.entity.variant.cactus": "サボテン変異体",
+  "spore.entity.variant.skewer": "串刺し変異体",
+  "spore.entity.variant.roller": "回転変異体",
+
+
   "spore.scanner.danger.calamity": "逃　げ　　ろ",
   "spore.scanner.danger.hyper": "高い-危険",
   "spore.scanner.danger.evolved": "低～中",
@@ -557,6 +571,8 @@
   "spore.item.desc.assassin": "極めて強力なスナイパーライフル。左クリックで非常に速い酸の塊を撃ち出し、50%の貫通ダメージと腐食を与える。右クリックで「濃縮された酸の瓶」をリロードする。スニークでスコープを使用し、画面をズームできる。",
   "spore.item.desc.mistmaker": "敵の肉でリロードする、凶悪なショットガンとチェーンソーのハイブリッド。右クリックでチェーンソーを展開し、弾薬を確保するために使用する。左クリックで肉片の塊を発射する。",
   "spore.item.desc.bileblaster": "構造と連射速度はアサルトライフルに似ている。左クリックで腐食胆汁の塊を撃ち出し、同様に厄介な効果を与える。右クリックで「濃縮された腐食胆汁の瓶」をリロードする。",
+  "spore.item.desc.toxic_terror": "範囲効果による状態異常で集団戦に最も優れている。左クリックで有毒物質の塊を発射し、標的との接触時に近くの敵に悪影響を広め、腐敗させる。右クリックで濃縮毒薬瓶を装填する。",
+
   "entity.spore.thrown_tumor": "腫瘍",
   "entity.spore.thrown_spear": "感染した槍",
   "entity.spore.acid_ball": "酸の球",
@@ -593,6 +609,7 @@
   "effect.spore.madness": "狂気",
   "effect.spore.frostbite": "凍傷",
   "effect.spore.biled": "胆汁",
+  "effect.spore.ignitable": "発火性",
 
   "item.minecraft.splash_potion.effect.mycelium_potion": "菌糸感染のスプラッシュポーション",
   "item.minecraft.potion.effect.mycelium_potion": "菌糸感染のポーション",
@@ -903,7 +920,11 @@
   "advancement.spore.reaper.description": "リーパーに遭遇する。",
   "advancement.spore.gorgon.title" : "石化",
   "advancement.spore.gorgon.description" : "ゴルゴンと遭遇する。",
-  
+  "advancement.spore.verfall.title": "ドラゴンの育て方 間違ってる",
+  "advancement.spore.verfall.description": "ヴェルファルドラッヘと遭遇する。",
+  "advancement.spore.hollen.title": "その魂を俺の元へ",
+  "advancement.spore.hollen.description": "ホレンフントと遭遇する。",
+
   "spore.proto.message.0": "そんな装備で      大丈夫か？",
   "spore.proto.message.1": "とっととやめなよ、    もう結末は    俺らのもんだ。",
   "spore.proto.message.2": "新しい…世界？",

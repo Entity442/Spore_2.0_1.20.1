@@ -277,8 +277,10 @@
 	"item.spore.bile_blaster": "Желчный стрелок",
 	"item.spore.acidic_assassin": "Кислотный убийца",
 	"item.spore.mistmaker": "Мицелиальный туманосоздатель",
+	"item.spore.terroriser": "Токсичный ужасатель",
 	"item.spore.acid_vial": "Концентрированная кислота в склянке",
 	"item.spore.bile_vial": "Концентрированная желчь в склянке",
+	"item.spore.toxin_vial": "Флакон концентрированного токсина",
 	"item.spore.evo_syringe": "Эволюционный шприц",
 
 	"item.spore.knight_spawnegg": "Рыцарь",
@@ -357,6 +359,8 @@
 	"item.spore.garg_spawnegg": "Горгулья",
 	"item.spore.reaper_spawnegg": "Жнец",
 	"item.spore.gorgon_spawnegg": "Горгона",
+	"item.spore.verfall_spawnegg": "Ферфальдрахе",
+	"item.spore.hollen_spawnegg": "Холленхунд",
 
 	"entity.spore.knight": "Рыцарь",
 	"entity.spore.griefer": "Грифер",
@@ -445,6 +449,9 @@
 	"entity.spore.inf_diseased_villager": "Зараженный больной житель",
 	"entity.spore.arena_tendril": "Смотритель испытания",
 	"entity.spore.gorgon": "Горгона",
+	"entity.spore.verfall": "Ферфальдрахе",
+	"entity.spore.verfall_head": "Ферфальдрахе",
+	"entity.spore.hollen": "Холленхунд",
 
 	"spore.entity.variant.kidnapper" : "Мутация пленителя",
 	"spore.entity.variant.kamikaze": "Мутация камикадзе",
@@ -488,6 +495,13 @@
 	"spore.entity.variant.valkyrie" : "Мутация валькирии",
 	"spore.entity.variant.madcap" : "Безумная мутация",
 	"spore.entity.variant.ichor" : "Икорная мутация",
+	"spore.entity.variant.mechanic": "Механическая мутация",
+	"spore.entity.variant.fuming": "Огненная мутация",
+	"spore.entity.variant.ember": "Мутация тлеющего угля",
+	"spore.entity.variant.spreader": "Распространяющая мутация",
+	"spore.entity.variant.cactus": "Кактусовая мутация",
+	"spore.entity.variant.skewer": "Пронзающая мутация",
+	"spore.entity.variant.roller": "Катящаяся мутация",
 
 	"spore.scanner.danger.calamity" : "БЕГИ",
 	"spore.scanner.danger.hyper" : "Очень высокая",
@@ -551,6 +565,7 @@
 	"spore.item.desc.assassin": "Чрезвычайно мощная снайперская винтовка. Левый клик стреляет очень быстрым кислотным шаром, который наносит 50% истинного урона и вызывает Коррозию. Правый клик для перезарядки с помощью Концентрированной кислоты в склянке. Приседание позволяет владельцу использовать прицел и приближать изображение на экране.",
 	"spore.item.desc.mistmaker": "Жестокий гибрид дробовика и бензопилы, который перезаряжается на плоти врагов. Правый клик активирует бензопилу, используя её для получения дополнительных патронов. Левый клик стреляет кусками мяса.",
 	"spore.item.desc.bileblaster": "По своей структуре и скорострельности напоминает штурмовую винтовку. Левый клик стреляет комками желчи, которые наносят столь же неприятные эффекты. Правый клик для перезарядки с помощью Концентрированной желчи в склянке.",
+	"spore.item.desc.toxic_terror": "Лучше всего справляется с ордами благодаря эффектам области. Левый клик стреляет сгустком токсичного материала, который при контакте с целью распространяет негативные эффекты на ближайших врагов, заставляя их гнить. Правый клик для перезарядки флаконом концентрированного токсина.",
 
 	"enchantment.spore.symbiotic_reconstitution.desc": "Укрепляет симбиотическую связь между вами и вашим снаряжением, залечивая его раны во время симбиоза",
 	"enchantment.spore.cryogenic_aspect.desc": "Охлаждает жертву до самых костей, замедляя скорость еë передвижения и нанося замораживающий урон.",
@@ -582,6 +597,7 @@
 	"effect.spore.madness": "Безумие",
 	"effect.spore.frostbite": "Обморожение",
 	"effect.spore.biled": "Желчь",
+	"effect.spore.ignitable": "Воспламеняемый",
 
 	"item.minecraft.splash_potion.effect.mycelium_potion": "Взрывное зелье мицелиевой инфекции",
 	"item.minecraft.potion.effect.mycelium_potion": "Зелье мицелиевой инфекции",
@@ -891,6 +907,10 @@
 	"advancement.spore.reaper.description": "Встретьте Жнеца.",
 	"advancement.spore.gorgon.title" : "Окаменевший",
 	"advancement.spore.gorgon.description" : "Встретьте горгону.",
+	"advancement.spore.verfall.title": "Как НЕ приручить дракона",
+	"advancement.spore.verfall.description": "Встретьте Ферфальдрахе.",
+	"advancement.spore.hollen.title": "Принесите мне их души",
+	"advancement.spore.hollen.description": "Встретьте Холленхунда.",
 
 	"spore.proto.message.0": "Тебе бы пригодился меч побольше :P",
 	"spore.proto.message.1": "Ярость стихла, впрочем, как и ты",

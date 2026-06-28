@@ -192,7 +192,8 @@
   "item.spore.hardening_agent": "Agente Indurente",
   "item.spore.sharpening_agent": "Agente Refinente",
   "item.spore.integrating_agent": "Agente Integrante",
-
+  "item.spore.toxin_vial": "Fiala di Tossina Concentrata",
+  "item.spore.terroriser": "Terrorizzatore Tossico",
 
   "item.spore.symbiotic_reagent": "Reagente Symbiotico",
   "item.spore.cryogenic_reagent": "Reagente Criogenico",
@@ -345,6 +346,8 @@
   "item.spore.garg_spawnegg": "Gargoyle",
   "item.spore.reaper_spawnegg": "Mietitore",
   "item.spore.gorgon_spawnegg": "Gorgone",
+  "item.spore.verfall_spawnegg": "Verfalldrache",
+  "item.spore.hollen_spawnegg": "Hollenhund",
 
   "entity.spore.knight": "Cavaliere",
   "entity.spore.griefer": "Artificere",
@@ -431,6 +434,9 @@
   "entity.spore.reaper": "Mietitore",
   "entity.spore.arena_tendril": "Osservatore della Sfida",
   "entity.spore.gorgon": "Gorgone",
+  "entity.spore.verfall": "Verfalldrache",
+  "entity.spore.verfall_head": "Verfalldrache",
+  "entity.spore.hollen": "Hollenhund",
 
   "spore.entity.variant.kidnapper" : "Mutazione Rapitore",
   "spore.entity.variant.kamikaze": "Mutazione Kamikaze",
@@ -474,6 +480,13 @@
   "spore.entity.variant.valkyrie" : "Mutazione Valchiria",
   "spore.entity.variant.madcap" : "Mutazione Pazzoide",
   "spore.entity.variant.ichor" : "Mutazione Icore",
+  "spore.entity.variant.mechanic": "Mutazione Meccanica",
+  "spore.entity.variant.fuming": "Mutazione Piromane",
+  "spore.entity.variant.ember": "Mutazione della Brace",
+  "spore.entity.variant.spreader": "Mutazione Diffondente",
+  "spore.entity.variant.cactus": "Mutazione Cactus",
+  "spore.entity.variant.skewer": "Mutazione Infilzante",
+  "spore.entity.variant.roller": "Mutazione Rotolante",
 
   "spore.scanner.danger.calamity" : "Gerri Scotti",
   "spore.scanner.danger.hyper" : "Molto Alto",
@@ -540,6 +553,7 @@
   "spore.item.desc.assassin": "Un fucile da cecchino estremamente potente. Il clic sinistro spara un globulo acido velocissimo che infligge il 50% di danno vero e infligge Corrosione. Clic destro per ricaricare con una Fiala di Acido Concentrato. Accovacciarsi consente al possessore di utilizzare il mirino e ingrandire lo schermo.",
   "spore.item.desc.mistmaker": "Un violento ibrido tra fucile a pompa e motosega che si ricarica con la carne dei suoi nemici. Clic destro per aprire la motosega e usarla per ottenere più munizioni. Clic sinistro per sparare una massa di pezzi di carne.",
   "spore.item.desc.bileblaster": "Simile a un fucile d'assalto per struttura e cadenza di fuoco. Il clic sinistro spara grumi di bile che infliggono effetti altrettanto sgradevoli. Clic destro per ricaricare con una Fiala di Bile Concentrata.",
+  "spore.item.desc.toxic_terror": "Eccelle contro le orde grazie ai suoi effetti ad area. Con il clic sinistro spara un frammento di materiale tossico che, entrando in contatto con il bersaglio desiderato, diffonde effetti negativi ai nemici vicini, facendoli marcire. Clic destro per ricaricare con una Fiala di Tossina Concentrata.",
 
   "enchantment.spore.symbiotic_reconstitution.desc": "Potenzia il legame tra l'Arma e il Brandente, riparandola mentre sei a riposo.",
   "enchantment.spore.cryogenic_aspect.desc": "Infligge un brivido gelido fin dentro al Cuore, effetivamente Dannegiando Infetti in modo letale.",
@@ -576,6 +590,7 @@
   "effect.spore.madness": "Pazzia",
   "effect.spore.frostbite": "Congelamento",
   "effect.spore.biled": "Bile",
+  "effect.spore.ignitable": "Infiammabile",
 
   "item.minecraft.splash_potion.effect.mycelium_potion": "Pozione da Lanciare di Infezione Micelica",
   "item.minecraft.potion.effect.mycelium_potion": "Pozione di Infezione Micelica",
@@ -883,6 +898,10 @@
   "advancement.spore.reaper.description": "Incontra un Mietitore.",
   "advancement.spore.gorgon.title" : "Pietrificato",
   "advancement.spore.gorgon.description" : "Incontra una Gorgone.",
+  "advancement.spore.verfall.title": "Come NON Addestrare il Tuo Drago",
+  "advancement.spore.verfall.description": "Incontra un Verfalldrache.",
+  "advancement.spore.hollen.title": "Portami Le Loro Anime",
+  "advancement.spore.hollen.description": "Incontra un Hollenhund.",
 
   "spore.proto.message.0": "Ti servirà una spada più grande :P",
   "spore.proto.message.1": "Rabbia, smettila, hai finito",

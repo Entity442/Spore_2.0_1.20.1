@@ -920,6 +920,8 @@
   "advancement.spore.gorgon.description" : "Encounter a Gorgon.",
   "advancement.spore.verfall.title" : "How NOT To Train Your Dragon",
   "advancement.spore.verfall.description" : "Encounter a Verfalldrache.",
+  "advancement.spore.hollen.title" : "Fetch Me Their Souls",
+  "advancement.spore.hollen.description" : "Encounter a Hollenhund.",
 
   "spore.proto.message.0": "You're gonna need a bigger sword :P",
   "spore.proto.message.1": "Rage quit already you're done",

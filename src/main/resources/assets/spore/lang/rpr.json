@@ -196,6 +196,8 @@
   "item.spore.integrating_agent": "Интеграцiонный флаконъ",
   "item.spore.mutation_syringe": "Шприцъ съ мутацiей",
   "item.spore.syringe": "Шприцъ",
+  "item.spore.toxin_vial": "Флакон концентрированного токсина",
+  "item.spore.terroriser": "Токсичный ужасатель",
   "item.spore.vampiric_syringe": "Образецъ вампирической крови",
   "item.spore.calcified_syringe": "Образецъ гиперкальцифицированной крови",
   "item.spore.bezerk_syringe": "Образецъ крови берсерка",
@@ -357,6 +359,8 @@
   "item.spore.garg_spawnegg": "Горгулья",
   "item.spore.reaper_spawnegg": "Жнец",
   "item.spore.gorgon_spawnegg": "Горгона",
+  "item.spore.verfall_spawnegg": "Ферфальдрахе",
+  "item.spore.hollen_spawnegg": "Холленхунд",
 
   "entity.spore.knight": "Рыцарь",
   "entity.spore.griefer": "Вандалъ",
@@ -445,6 +449,10 @@
   "entity.spore.inf_diseased_villager": "Заражённый больной житель",
   "entity.spore.arena_tendril": "Смотритель испытания",
   "entity.spore.gorgon": "Горгона",
+  "entity.spore.verfall": "Ферфальдрахе",
+  "entity.spore.verfall_head": "Ферфальдрахе",
+  "entity.spore.hollen": "Холленхунд",
+
 
   "spore.entity.variant.kidnapper": "Видъ Пленитель",
   "spore.entity.variant.kamikaze": "Видъ Камикадзе",
@@ -488,6 +496,13 @@
   "spore.entity.variant.valkyrie" : "Мутация валькирии",
   "spore.entity.variant.madcap" : "Безумная мутация",
   "spore.entity.variant.ichor" : "Икорная мутация",
+  "spore.entity.variant.mechanic": "Механическая мутация",
+  "spore.entity.variant.fuming": "Огненная мутация",
+  "spore.entity.variant.ember": "Мутация тлеющего угля",
+  "spore.entity.variant.spreader": "Распространяющая мутация",
+  "spore.entity.variant.cactus": "Кактусовая мутация",
+  "spore.entity.variant.skewer": "Пронзающая мутация",
+  "spore.entity.variant.roller": "Катящаяся мутация",
 
   "spore.scanner.danger.calamity": "БѢГИ",
   "spore.scanner.danger.hyper": "Очень высокая",
@@ -560,6 +575,7 @@
   "spore.item.desc.assassin": "Чрезвычайно мощная снайперская винтовка. Левый клик стреляет очень быстрым кислотным шаром, который наносит 50% истинного урона и вызывает Коррозию. Правый клик для перезарядки с помощью Концентрированной кислоты в склянке. Приседание позволяет владельцу использовать прицел и приближать изображение на экране.",
   "spore.item.desc.mistmaker": "Жестокий гибрид дробовика и бензопилы, который перезаряжается на плоти врагов. Правый клик активирует бензопилу, используя её для получения дополнительных патронов. Левый клик стреляет кусками мяса.",
   "spore.item.desc.bileblaster": "По своей структуре и скорострельности напоминает штурмовую винтовку. Левый клик стреляет комками желчи, которые наносят столь же неприятные эффекты. Правый клик для перезарядки с помощью Концентрированной желчи в склянке.",
+  "spore.item.desc.toxic_terror": "Лучше всего справляется с ордами благодаря эффектам области. Левый клик стреляет сгустком токсичного материала, который при контакте с целью распространяет негативные эффекты на ближайших врагов, заставляя их гнить. Правый клик для перезарядки флаконом концентрированного токсина.",
 
   "entity.spore.thrown_tumor": "Опухоль",
   "entity.spore.thrown_spear": "Заражённое копье",
@@ -585,6 +601,7 @@
   "effect.spore.madness": "Безуміе",
   "effect.spore.frostbite": "Обморожение",
   "effect.spore.biled": "Желчь",
+  "effect.spore.ignitable": "Воспламеняемый",
 
   "item.minecraft.splash_potion.effect.mycelium_potion": "Взрывное снадобье мицеліевой инфекціи",
   "item.minecraft.potion.effect.mycelium_potion": "Снадобье мицеліевой инфекціи",
@@ -894,6 +911,10 @@
   "advancement.spore.reaper.description": "Встретьте Жнеца.",
   "advancement.spore.gorgon.title" : "Окаменевший",
   "advancement.spore.gorgon.description" : "Встретьте горгону.",
+  "advancement.spore.verfall.title": "Как НЕ приручить дракона",
+  "advancement.spore.verfall.description": "Встретьте Ферфальдрахе.",
+  "advancement.spore.hollen.title": "Принесите мне их души",
+  "advancement.spore.hollen.description": "Встретьте Холленхунда.",
 
   "spore.proto.message.0": "И с мечомъ ты дуракъ :P",
   "spore.proto.message.1": "Ярость стихла, впрочемъ, какъ и ты",
