@@ -1134,6 +1134,11 @@
     "spore:assassin_bullet_block",
     "spore:assassin_bullet_block2"
   ]
+},"terroriser_shot" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:terroriser_shot"
+  ]
 },"assassin_bullet_entity" :{
   "subtitle": "sounds.spore.weapon_use",
   "sounds": [

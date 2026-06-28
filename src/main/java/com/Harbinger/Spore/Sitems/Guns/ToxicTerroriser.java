@@ -70,7 +70,7 @@ public class ToxicTerroriser extends AbstractSporeGun implements CustomModelArmo
         bullet.shootFrom(player,2.5f,2,(float) calculateTrueDamage(stack,SConfig.SERVER.terroriser_damage.get()));
         player.level().addFreshEntity(bullet);
         player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
-                Ssounds.BILE_BLASTER_SHOT.get(), SoundSource.PLAYERS, 1.0f, 1.0f);
+                Ssounds.TERRORISER_SHOT.get(), SoundSource.PLAYERS, 1.0f, 1.0f);
     }
 
     @Override
