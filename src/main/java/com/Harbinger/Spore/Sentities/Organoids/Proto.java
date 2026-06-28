@@ -80,7 +80,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread, C
 
     private void fillDefaultTeams(List<String> team , List<? extends String> CONFIG){
         if (CONFIG.size() < 4) {
-            throw new IllegalArgumentException("CONFIG must have at least 4 unique entries");
+            CONFIG = List.of("spore:usurper","spore:usurper","spore:usurper","spore:usurper");
         }
         List<String> shuffledConfig = new ArrayList<>(CONFIG);
         Collections.shuffle(shuffledConfig, random);
@@ -502,7 +502,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread, C
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if(amount > SConfig.SERVER.proto_dpsr.get() && SConfig.SERVER.proto_dpsr.get() > 0){
+        if(amount < 1000 && amount > SConfig.SERVER.proto_dpsr.get() && SConfig.SERVER.proto_dpsr.get() > 0){
             return super.hurt(source, (float) (SConfig.SERVER.proto_dpsr.get() * 1F));
         }
         if (source.getEntity() != null && Math.random() < 0.2f && summonDefense <= 0){
