@@ -307,7 +307,7 @@ public class Womb extends Organoid implements MenuProvider {
         Vec3 origin = new Vec3(this.getLocation().getX(),this.getLocation().getY(),this.getLocation().getZ());
         Vec3 current = this.position();
         double maxDistance = 200.0;
-        if (origin.distanceTo(current) > maxDistance) {
+        if (!origin.equals(Vec3.ZERO) && origin.distanceTo(current) > maxDistance) {
             Vec3 newPos = Utilities.generatePositionAway(origin, 100);
             spawnedEntity.teleportRelative(newPos.x, newPos.y, newPos.z);
         }else {
