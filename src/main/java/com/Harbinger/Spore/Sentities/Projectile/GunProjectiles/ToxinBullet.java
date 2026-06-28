@@ -14,6 +14,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.List;
 
@@ -46,6 +47,16 @@ public class ToxinBullet extends AbstractGunProjectile {
 
     @Override
     public void doHitAfterEffects(LivingEntity living, LivingEntity owner) {
+        spreadGas();
+    }
+
+    @Override
+    protected void onHitBlock(BlockHitResult result) {
+        super.onHitBlock(result);
+        spreadGas();
+    }
+
+    public void spreadGas(){
         AABB aabb = this.getBoundingBox().inflate(4);
         List<Entity> entityList = level().getEntities(this,aabb,entity -> {return entity != getOwner() && entity instanceof LivingEntity;});
         SporeToolsMutations mutations = this.getMutationVariant();
@@ -56,6 +67,7 @@ public class ToxinBullet extends AbstractGunProjectile {
                 if (mutations == SporeToolsMutations.ROTTEN){
                     livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON,100,1));
                 }
+                livingEntity.hurt(level().damageSources().generic(),getDamage()*0.5f);
             }
         }
         if (level().isClientSide){

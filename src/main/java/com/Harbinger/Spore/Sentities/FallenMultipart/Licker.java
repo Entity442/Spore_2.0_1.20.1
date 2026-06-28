@@ -61,13 +61,13 @@ public class Licker extends FallenMultipartEntity implements RangedAttackMob {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, (SConfig.SERVER.gazen_hp.get()/6) * SConfig.SERVER.global_health.get())
                 .add(Attributes.ARMOR, (SConfig.SERVER.gazen_armor.get()/4) * SConfig.SERVER.global_armor.get())
-                .add(Attributes.KNOCKBACK_RESISTANCE, 1).add(Attributes.FOLLOW_RANGE, 32);
+                .add(Attributes.KNOCKBACK_RESISTANCE, 1).add(Attributes.MOVEMENT_SPEED,0.05).add(Attributes.FOLLOW_RANGE, 32);
     }
 
     @Override
     protected void registerGoals() {
         addTargettingGoals();
-        this.goalSelector.addGoal(3, new ScatterShotRangedGoal(this,1.3,60,32,1,3));
+        this.goalSelector.addGoal(3, new ScatterShotRangedGoal(this,0,60,32,1,3));
     }
 
     @Override

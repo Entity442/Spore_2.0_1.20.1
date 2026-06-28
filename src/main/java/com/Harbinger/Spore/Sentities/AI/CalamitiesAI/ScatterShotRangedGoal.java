@@ -32,7 +32,7 @@ public class ScatterShotRangedGoal extends Goal {
         this.attackRadius = range;
         this.attackRadiusSqr = range * range;
         this.minShots = min;
-        this.maxShots = max;
+        this.maxShots = max+1;
     }
 
     public boolean canUse() {

@@ -288,7 +288,7 @@ public class Calamity extends UtilityEntity implements Enemy, ArmorPersentageByp
         if (this.getRandom().nextInt(20) == 0){
             this.grief(this.getBoundingBox().inflate(this.setInflation(),0.0,this.setInflation()));
         }
-        if(amount < 1000 && amount > getDamageCap() && getDamageCap() > 0){
+        if(amount < 10000 && amount > getDamageCap() && getDamageCap() > 0){
             return super.hurt(source, (float) getDamageCap());
         }
         if (source.is(DamageTypes.FREEZE) && Math.random() < 0.2f){

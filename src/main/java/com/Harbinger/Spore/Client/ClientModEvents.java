@@ -424,7 +424,7 @@ public class ClientModEvents {
         Minecraft.getInstance().particleEngine.register(Sparticles.TAR.get(),
                 VomitParticle.Provider::new);
         Minecraft.getInstance().particleEngine.register(Sparticles.TOXIN_BULLET.get(),
-                VomitParticle.Provider::new);
+                ReverseVomitParticle.Provider::new);
         Minecraft.getInstance().particleEngine.register(Sparticles.ACID_BULLET.get(),
                 AcidBulletParticle.Provider::new);
         Minecraft.getInstance().particleEngine.register(Sparticles.GORE_BULLET.get(),

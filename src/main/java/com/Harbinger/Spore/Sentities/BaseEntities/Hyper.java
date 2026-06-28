@@ -98,7 +98,7 @@ public class Hyper extends Infected{
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if(this.level().getDifficulty() == Difficulty.HARD && amount < 1000 && amount > getDamageCap() && SConfig.SERVER.damagecap.get()){
+        if(this.level().getDifficulty() == Difficulty.HARD && amount < 10000 && amount > getDamageCap() && SConfig.SERVER.damagecap.get()){
             return super.hurt(source, (float) getDamageCap());
         }
         return super.hurt(source, amount);

@@ -502,7 +502,7 @@ public class Proto extends Organoid implements CasingGenerator, FoliageSpread, C
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if(amount < 1000 && amount > SConfig.SERVER.proto_dpsr.get() && SConfig.SERVER.proto_dpsr.get() > 0){
+        if(amount < 10000 && amount > SConfig.SERVER.proto_dpsr.get() && SConfig.SERVER.proto_dpsr.get() > 0){
             return super.hurt(source, (float) (SConfig.SERVER.proto_dpsr.get() * 1F));
         }
         if (source.getEntity() != null && Math.random() < 0.2f && summonDefense <= 0){

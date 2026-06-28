@@ -13,7 +13,7 @@ public class TerroriserReloadAnimationTracker {
     private static final Map<UUID, Integer> animationTicks = new HashMap<>();
 
     public static void trigger(Player player) {
-        animationTicks.put(player.getUUID(), 80);
+        animationTicks.put(player.getUUID(), 40);
     }
 
     public static float getProgress(Player player, float partialTicks) {

@@ -201,7 +201,7 @@ public class InfectionTendril extends UtilityEntity {
         if (entityData.get(LIFE) == 0){
             this.discard();
         }
-        if (this.random.nextInt(0,10) == 0){
+        if (this.tickCount % 10 == 0 && !level().isClientSide()){
         Spread(this,this.level(),0.3);
         }
         super.aiStep();
