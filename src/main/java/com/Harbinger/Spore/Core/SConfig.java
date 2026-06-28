@@ -39,6 +39,7 @@ public class SConfig {
         public final ForgeConfigSpec.ConfigValue<Integer> max_hyper_cap;
         public final ForgeConfigSpec.ConfigValue<Integer> max_organoid_cap;
         public final ForgeConfigSpec.ConfigValue<Integer> max_scent_cap;
+        public final ForgeConfigSpec.ConfigValue<Boolean> dissableDespawnSystem;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> despawn_blacklist;
 
         public final ForgeConfigSpec.ConfigValue<Boolean> faw_target;
@@ -665,6 +666,7 @@ public class SConfig {
 
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> mycelium;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> corrosion;
+        public final ForgeConfigSpec.ConfigValue<Boolean> activeOverlays;
 
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> scent_effects_buff;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> inf_human_conv;
@@ -687,6 +689,7 @@ public class SConfig {
             this.max_hyper_cap = builder.define("Maximum number of hyper infected",20);
             this.max_organoid_cap = builder.define("Maximum number of organoids",40);
             this.max_scent_cap = builder.define("Maximum number of scents",30);
+            this.dissableDespawnSystem = builder.define("Dissable despawn system?",false);
             this.despawn_blacklist = builder.defineList("Mobs that will not be despawned by the system",
                     Lists.newArrayList("spore:proto","spore:reconstructor","spore:gastgaber","spore:vanguard","spore:reaper","spore:specter","spore:inf_construct","spore:scamper") , o -> o instanceof String);
             builder.pop();
@@ -838,6 +841,7 @@ public class SConfig {
 
             this.corrosion = builder.defineList("Mobs that are damaged by corrosion",
                     Lists.newArrayList("minecraft:iron_golem" ) , o -> o instanceof String);
+            this.activeOverlays = builder.define("Should the effect overlays be active ?",true);
             builder.pop();
 
             builder.push("Mobs");

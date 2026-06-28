@@ -127,7 +127,7 @@ public class SpecificClientEvents {
     public static void onRenderOverlay(RenderGuiEvent.Pre event) {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
-        if (player == null){
+        if (player == null || !SConfig.SERVER.activeOverlays.get()){
             return;
         }
         GuiGraphics guiGraphics = event.getGuiGraphics();

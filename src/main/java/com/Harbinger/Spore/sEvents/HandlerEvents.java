@@ -95,7 +95,7 @@ public class HandlerEvents {
         tickCounter++;
         if (tickCounter >= CHECK_INTERVAL) {
             MinecraftServer server = event.getServer();
-            if (server != null) {
+            if (server != null && !SConfig.SERVER.dissableDespawnSystem.get()) {
                 for (ServerLevel level : server.getAllLevels()) {
                     cleanUpMobs(level);
                 }
