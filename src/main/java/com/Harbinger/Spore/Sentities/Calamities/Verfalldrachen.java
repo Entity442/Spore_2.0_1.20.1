@@ -766,7 +766,12 @@ public class Verfalldrachen extends Calamity implements TrueCalamity, RangedAtta
         }
     }
 
-// ==================== INDIVIDUAL HEAD ATTACKS ====================
+    @Override
+    public boolean canDrownInFluidType(FluidType type) {
+        return false;
+    }
+
+    // ==================== INDIVIDUAL HEAD ATTACKS ====================
 
     private void performTarHeadAttack(LivingEntity target) {
         if (!canPerformTarAttack()) return;

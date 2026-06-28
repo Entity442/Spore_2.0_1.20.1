@@ -26,12 +26,12 @@ public class ToxinBullet extends AbstractGunProjectile {
 
     @Override
     public SoundEvent blockImpactSound() {
-        return Ssounds.BILE_BLASTER_BULLET_BLOCK.get();
+        return Ssounds.TERRORISER_PROJECTILE.get();
     }
 
     @Override
     public SoundEvent entityImpactSound() {
-        return Ssounds.BILE_BLASTER_BULLET_ENTITY.get();
+        return Ssounds.TERRORISER_PROJECTILE.get();
     }
 
     @Override

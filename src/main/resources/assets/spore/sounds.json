@@ -1122,6 +1122,18 @@
     "spore:bile_blaster_bullet_entity",
     "spore:bile_blaster_bullet_entity2"
   ]
+},"terroriser_shot" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:terroriser_shot_1",
+    "spore:terroriser_shot_2"
+  ]
+},"terroriser_projectile" :{
+  "subtitle": "sounds.spore.weapon_use",
+  "sounds": [
+    "spore:terroriser_projectile1",
+    "spore:terroriser_projectile2"
+  ]
 },"assassin_shot" :{
   "subtitle": "sounds.spore.weapon_use",
   "sounds": [
@@ -1133,11 +1145,6 @@
   "sounds": [
     "spore:assassin_bullet_block",
     "spore:assassin_bullet_block2"
-  ]
-},"terroriser_shot" :{
-  "subtitle": "sounds.spore.weapon_use",
-  "sounds": [
-    "spore:terroriser_shot"
   ]
 },"assassin_bullet_entity" :{
   "subtitle": "sounds.spore.weapon_use",
@@ -1271,7 +1278,7 @@
 },"repurposed" :{
   "subtitle": "sounds.spore.song",
   "sounds": [
-    "spore:post_proto/repurposed"
+    "spore:post_proto/repurpose"
   ]
 },"restless_reach" :{
   "subtitle": "sounds.spore.song",
