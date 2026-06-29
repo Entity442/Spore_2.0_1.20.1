@@ -28,6 +28,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -50,7 +51,7 @@ public class SporeToolsBaseItem extends BaseItem implements IForgeItem ,SporeWea
     protected final UUID BONUS_RECHARGE_MODIFIER_UUID = UUID.fromString("6dee499d-60f9-4f91-9ae9-fa62f285cc24");
     public SporeToolsBaseItem(double meleeDamage, double meleeReach, double meleeRecharge, int durability, int miningLevel, String desc) {
         super(new Item.Properties().stacksTo(1).durability(durability));
-        this.meleeDamage = meleeDamage;
+        this.meleeDamage = meleeDamage-1;
         this.meleeReach = meleeReach;
         this.meleeRecharge = meleeRecharge;
         this.miningLevel = miningLevel;
@@ -140,6 +141,11 @@ public class SporeToolsBaseItem extends BaseItem implements IForgeItem ,SporeWea
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level p_41422_, List<Component> components, TooltipFlag p_41424_) {
         super.appendHoverText(stack, p_41422_, components, p_41424_);
+        int level = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SHARPNESS,stack);
+        if (level > 0){
+            float sharpness = level * 0.5f + 0.5f;
+            components.add(Component.literal(Component.translatable("spore.item.damage_increase").getString() + sharpness).withStyle(ChatFormatting.GRAY));
+        }
         if (!tooHurt(stack)){
             components.add(Component.translatable("spore.item.hurt").withStyle(ChatFormatting.RED));
         }
