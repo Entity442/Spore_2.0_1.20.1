@@ -1053,10 +1053,10 @@ public class SConfig {
             this.sta_armor = builder.comment("Default 10").defineInRange("Sets Stahlmorder Armor", 10, 1, Double.MAX_VALUE);
             this.sta_dpsr = builder.comment("Default 50").defineInRange("Sets Stahlmorder Damage Cap , set to 0 to disable", 50, 0, Double.MAX_VALUE);
 
-            this.sta_buffs = builder.comment("Default values: minecraft:speed|600|0 ,minecraft:strength|600|0 ,minecraft:jump_boost|600|1").defineList("Sieger buffs",
+            this.sta_buffs = builder.comment("Default values: minecraft:speed|600|0 ,minecraft:strength|600|0 ,minecraft:jump_boost|600|1").defineList("Stahlmorder buffs",
                     Lists.newArrayList("minecraft:speed|600|0" , "minecraft:strength|600|0","minecraft:jump_boost|600|1") , o -> o instanceof String);
 
-            this.sta_debuffs = builder.comment("Default values: minecraft:weakness|600|1 ,spore:mycelium|600|1 ,minecraft:slowness|600|1").defineList("Sieger debuffs",
+            this.sta_debuffs = builder.comment("Default values: minecraft:weakness|600|1 ,spore:mycelium|600|1 ,minecraft:slowness|600|1").defineList("Stahlmorder debuffs",
                     Lists.newArrayList("minecraft:weakness|600|1" , "spore:mycelium_ef|600|1","minecraft:slowness|600|1") , o -> o instanceof String);
             builder.pop();
 
@@ -1067,9 +1067,9 @@ public class SConfig {
             this.hohl_armor = builder.comment("Default 25").defineInRange("Sets Hohlfresser Armor", 25, 1, Double.MAX_VALUE);
             this.hohl_dpsr = builder.comment("Default 70").defineInRange("Sets Hohlfresser Damage Cap , set to 0 to disable", 50, 0, Double.MAX_VALUE);
 
-            this.hohl_buffs = builder.comment("Default values: minecraft:speed|600|0 ,minecraft:strength|600|0 ,minecraft:resistance|600|1").defineList("Sieger buffs",
+            this.hohl_buffs = builder.comment("Default values: minecraft:speed|600|0 ,minecraft:strength|600|0 ,minecraft:resistance|600|1").defineList("Hohlfresser buffs",
                     Lists.newArrayList("minecraft:speed|600|0" , "minecraft:strength|600|0","minecraft:resistance|600|1") , o -> o instanceof String);
-            this.hohl_debuffs = builder.comment("Default values: minecraft:weakness|600|1 ,spore:mycelium|600|1 ,minecraft:slowness|600|1").defineList("Sieger debuffs",
+            this.hohl_debuffs = builder.comment("Default values: minecraft:weakness|600|1 ,spore:mycelium|600|1 ,minecraft:slowness|600|1").defineList("Hohlfresser debuffs",
                     Lists.newArrayList("minecraft:weakness|600|0" , "minecraft:mining_fatigue|600|0","spore:mycelium_ef|600|1") , o -> o instanceof String);
             builder.pop();
 
@@ -1093,10 +1093,10 @@ public class SConfig {
             this.graken_armor = builder.comment("Default 15").defineInRange("Sets Grakensenker Armor", 15, 1, Double.MAX_VALUE);
             this.graken_dpsr = builder.comment("Default 100").defineInRange("Sets Grakensenker Damage Cap , set to 0 to disable", 100, 0, Double.MAX_VALUE);
 
-            this.graken_buffs = builder.comment("Default values: minecraft:strength|600|0, minecraft:conduit_power|600|0, minecraft:resistance|600|1").defineList("Gazenbreacher buffs",
+            this.graken_buffs = builder.comment("Default values: minecraft:strength|600|0, minecraft:conduit_power|600|0, minecraft:resistance|600|1").defineList("Grakensenker buffs",
                     Lists.newArrayList("minecraft:strength|600|0", "minecraft:conduit_power|600|0", "minecraft:resistance|600|1") , o -> o instanceof String);
 
-            this.graken_debuffs = builder.comment("Default values: minecraft:darkness|600|0, spore:mycelium|600|1, minecraft:mining_fatigue|600|0").defineList("Gazenbreacher debuffs",
+            this.graken_debuffs = builder.comment("Default values: minecraft:darkness|600|0, spore:mycelium|600|1, minecraft:mining_fatigue|600|0").defineList("Grakensenker debuffs",
                     Lists.newArrayList("minecraft:darkness|600|0", "spore:mycelium_ef|600|1", "minecraft:mining_fatigue|600|0") , o -> o instanceof String);
             builder.pop();
 
@@ -1121,10 +1121,10 @@ public class SConfig {
             this.howit_armor = builder.comment("Default 10").defineInRange("Sets Howitzer Armor", 10, 1, Double.MAX_VALUE);
             this.howit_dpsr = builder.comment("Default 100").defineInRange("Sets Howitzer Damage Cap , set to 0 to disable", 100, 0, Double.MAX_VALUE);
             this.howit_ranged_damage = builder.comment("Default 10").defineInRange("Sets Howitzer Ranged Damage", 10, 1, Double.MAX_VALUE);
-            this.howit_buffs = builder.comment("Default values: minecraft:speed|600|0, minecraft:strength|600|0, minecraft:resistance|600|1").defineList("Gazenbreacher buffs",
+            this.howit_buffs = builder.comment("Default values: minecraft:speed|600|0, minecraft:strength|600|0, minecraft:resistance|600|1").defineList("Howitzer buffs",
                     Lists.newArrayList("minecraft:speed|600|0", "minecraft:strength|600|0", "minecraft:resistance|600|1") , o -> o instanceof String);
 
-            this.howit_debuffs = builder.comment("Default values: minecraft:blindness|600|0, spore:mycelium|600|1, minecraft:slowness|600|1").defineList("Gazenbreacher debuffs",
+            this.howit_debuffs = builder.comment("Default values: minecraft:blindness|600|0, spore:mycelium|600|1, minecraft:slowness|600|1").defineList("Howitzer debuffs",
                     Lists.newArrayList("minecraft:blindness|600|0", "spore:mycelium_ef|600|1", "minecraft:slowness|600|1") , o -> o instanceof String);
             this.howit_summmons = builder.defineList("Mobs that may spawn out of its dropped bombs",
                     Lists.newArrayList("spore:inf_vindicator", "spore:busser", "spore:brute",
