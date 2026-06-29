@@ -80,7 +80,7 @@ public class ToxicTerroriser extends AbstractSporeGun implements CustomModelArmo
     }
     @Override
     public Component extraTips() {
-        return Component.translatable("spore.item.desc.toxic_terror").withStyle(ChatFormatting.YELLOW);
+        return Component.translatable("spore.item.desc.toxic_terror").withStyle(ChatFormatting.DARK_PURPLE);
     }
     @Override
     public ResourceLocation getTextureLocation() {
